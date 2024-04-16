@@ -1,0 +1,1 @@
+export type Task = (...args: never[]) => () => Promise<void>;

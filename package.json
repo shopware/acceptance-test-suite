@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "@shopware-ag/acceptance-test-suite",
+  "version": "1.0.0",
+  "description": "Shopware Acceptance Test Suite",
+  "author": "shopware AG",
+  "license": "MIT",
+  "keywords": [
+    "shopware",
+    "testing",
+    "playwright",
+    "integration",
+    "fixtures",
+    "test-data"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint --fix",
+    "build": "npx unbuild",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@playwright/test": "1.44.0",
+    "@shopware/api-client": "0.5.0",
+    "image-js": "0.35.5",
+    "uuid": "9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "9.0.8",
+    "@typescript-eslint/eslint-plugin": "7.8.0",
+    "@typescript-eslint/parser": "7.8.0",
+    "eslint": "8.56.0",
+    "eslint-plugin-playwright": "1.6.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.4.5",
+    "unbuild": "2.0.0"
+  }
+}

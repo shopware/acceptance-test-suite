@@ -1,0 +1,13 @@
+node_modules/
+test-results/
+lib/
+dist/
+playwright-report
+summary.json
+
+# IDE - VSCode
+.vscode/*
+
+# System Files
+.DS_Store
+Thumbs.db
