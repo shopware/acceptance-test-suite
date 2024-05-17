@@ -5,6 +5,10 @@
   "description": "Shopware Acceptance Test Suite",
   "author": "shopware AG",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shopware/acceptance-test-suite.git"
+  },
   "keywords": [
     "shopware",
     "testing",

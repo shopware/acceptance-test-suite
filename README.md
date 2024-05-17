@@ -202,7 +202,7 @@ test('Storefront cart test scenario', async ({ StorefrontCheckoutCart }) => {
 });
 ```
 
-You can get an overview of all available page objects in the repository of this test suite.
+You can get an overview of all available page objects in the [repository](https://github.com/shopware/acceptance-test-suite/tree/trunk/src/page-objects) of this test suite.
 
 ## Actor Pattern
 The actor pattern is a very simple concept that we added to our test suite. It is something that is not related to Playwright, but similar concepts exist in other testing frameworks. We implemented it, because we want to have reusable test logic that can be used in a human-readable form, without abstracting away Playwright as a framework. So you are totally free to use it or not. Any normal Playwright functionality will still be usable in your tests.
