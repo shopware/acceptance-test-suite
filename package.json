@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@shopware-ag/acceptance-test-suite",
   "version": "1.0.0",
   "description": "Shopware Acceptance Test Suite",
