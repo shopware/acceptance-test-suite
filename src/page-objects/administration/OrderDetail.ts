@@ -6,7 +6,7 @@ export class OrderDetail implements PageObject {
     public readonly dataGridContextButton: Locator;
     public readonly orderTag: Locator;
 
-    private readonly orderData: components['schemas']['Order'];
+    public readonly orderData: components['schemas']['Order'];
 
     constructor(public readonly page: Page, orderData: components['schemas']['Order']) {
         this.orderData = orderData;
