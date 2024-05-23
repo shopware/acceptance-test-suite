@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/shopware/acceptance-test-suite/compare/v1.1.1...v1.1.2) (2024-05-23)
+
+
+### Bug Fixes
+
+* refactor getFlowId helper method ([b76e2cf](https://github.com/shopware/acceptance-test-suite/commit/b76e2cf107fb8c86ac3c11db19681f496a887690))
+
 ## [1.1.1](https://github.com/shopware/acceptance-test-suite/compare/v1.1.0...v1.1.1) (2024-05-22)
 
 
