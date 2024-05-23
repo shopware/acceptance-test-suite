@@ -45,7 +45,7 @@ export class AdminApiContext {
             contextOptions['access_token'] = await this.authenticateWithUserPassword(tmpContext, contextOptions);
 
             const userContext = await this.createApiRequestContext(contextOptions);
-            const accessKeyData = await (await userContext.get('_action/access-key/integration')).json() as { accessKey: string, secretAccessKey: string};
+            const accessKeyData = await (await userContext.get('_action/access-key/intergration')).json() as { accessKey: string, secretAccessKey: string };
 
             const integrationData = {
                 admin: true,
