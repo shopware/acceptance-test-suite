@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/shopware/acceptance-test-suite/compare/v1.1.3...v1.1.4) (2024-05-23)
+
+
+### Bug Fixes
+
+* use correct api route to generate access keys ([8d588ed](https://github.com/shopware/acceptance-test-suite/commit/8d588edaf5cb0cee4283bf5e3ff887dda8d9b87f))
+
 ## [1.1.3](https://github.com/shopware/acceptance-test-suite/compare/v1.1.2...v1.1.3) (2024-05-23)
 
 
