@@ -1,1 +1,2 @@
-export type Task = (...args: never[]) => () => Promise<void>;
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+export type Task = (...args: any[]) => () => Promise<void>;
