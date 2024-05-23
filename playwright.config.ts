@@ -27,7 +27,7 @@ export default defineConfig({
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: 'sleep 1d',
+    command: 'docker compose up',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
   },

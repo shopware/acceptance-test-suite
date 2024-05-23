@@ -3,13 +3,59 @@ import type { FixtureTypes } from '../../types/FixtureTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
 
 export const DigitalProductData = base.extend<FixtureTypes>({
-    DigitalProductData: async ({ IdProvider, AdminApiContext, ProductData }, use) => {
+    DigitalProductData: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, DefaultSalesChannel }, use) => {
+
+        // Generate unique IDs
+        const { id: productId, uuid: productUuid } = IdProvider.getIdPair();
+        const productName = `Digital_Product_test_${productId}`;
+
+        // Create product
+        const productResponse = await AdminApiContext.post('./product?_response', {
+            data: {
+                active: true,
+                stock: 10,
+                taxId: SalesChannelBaseConfig.taxId,
+                id: productUuid,
+                name: productName,
+                productNumber: 'Product-' + productId,
+                price: [
+                    {
+                        currencyId: SalesChannelBaseConfig.eurCurrencyId,
+                        gross: 10,
+                        linked: false,
+                        net: 8.4,
+                    },
+                ],
+                purchasePrices: [
+                    {
+                        currencyId: SalesChannelBaseConfig.eurCurrencyId,
+                        gross: 8,
+                        linked: false,
+                        net: 6.7,
+                    },
+                ],
+                visibilities: [
+                    {
+                        salesChannelId: DefaultSalesChannel.salesChannel.id,
+                        visibility: 30,
+                    },
+                ],
+                categories: [
+                    {
+                        id: DefaultSalesChannel.salesChannel.navigationCategoryId,
+                    },
+                ],
+            },
+        });
+        expect(productResponse.ok()).toBeTruthy();
+
+        const { data: productData } = (await productResponse.json()) as { data: components['schemas']['Product'] };
 
         // Create new Media resource in the default folder for digital product media
         const newMediaResource = await AdminApiContext.post('./media?_response', {
             data: {
                 private: false,
-            }, 
+            },
         });
 
         expect(newMediaResource.ok()).toBeTruthy();
@@ -20,16 +66,16 @@ export const DigitalProductData = base.extend<FixtureTypes>({
         const filename = 'testfile_' + IdProvider.getUniqueName();
         const fileContent = 'This is a test file to test digital product download';
         const newMediaUpload = await AdminApiContext.post(`./_action/media/${newMediaId}/upload?extension=txt&fileName=${filename}&_response`, {
-            headers:{
+            headers: {
                 'content-type': 'application/octet-stream',
             },
             data: fileContent,
-        }); 
+        });
         expect(newMediaUpload.ok()).toBeTruthy();
 
         const productDownloadResponse = await AdminApiContext.post(`./product-download?_response`, {
             data: {
-                productId: ProductData.id,
+                productId: productData.id,
                 mediaId: newMediaId,
             },
         });
@@ -38,9 +84,10 @@ export const DigitalProductData = base.extend<FixtureTypes>({
         const { data: productDownload } = await productDownloadResponse.json();
 
         const returnData = {
-            product: ProductData,
+            product: productData,
             fileContent,
-        }  
+        }
+
         // Use product data in the test
         await use(returnData);
 
@@ -52,20 +99,20 @@ export const DigitalProductData = base.extend<FixtureTypes>({
                     {
                         type: 'equals',
                         field: 'lineItems.productId',
-                        value: ProductData.id,
+                        value: productData.id,
                     },
                 ],
             },
         });
         expect(orderSearchResponse.ok()).toBeTruthy();
 
-        const { data: ordersWithDigitalProduct } = (await orderSearchResponse.json()) as { data: components['schemas']['Order'][]};
+        const { data: ordersWithDigitalProduct } = (await orderSearchResponse.json()) as { data: components['schemas']['Order'][] };
 
         // Delete Orders using the digital product, to be able to delete the uploaded media file
-        for (const order of ordersWithDigitalProduct) { 
+        for (const order of ordersWithDigitalProduct) {
             const deleteOrderResponse = await AdminApiContext.delete(`./order/${order.id}`);
             expect(deleteOrderResponse.ok()).toBeTruthy();
-        } 
+        }
 
         // Unlink the media file from the product by deleting the product-download
         const unlinkMediaResponse = await AdminApiContext.delete(`./product-download/${productDownload.id}`);
@@ -75,6 +122,8 @@ export const DigitalProductData = base.extend<FixtureTypes>({
         const cleanupMediaResponse = await AdminApiContext.delete(`./media/${newMediaId}`);
         expect(cleanupMediaResponse.ok()).toBeTruthy();
 
-        // Deletion of product is done in Product.data.ts
+        // Delete product after the test is done
+        const cleanupResponse = await AdminApiContext.delete(`./product/${productUuid}`);
+        expect(cleanupResponse.ok()).toBeTruthy();
     },
 });
