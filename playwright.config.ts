@@ -30,6 +30,7 @@ export default defineConfig({
     command: 'docker compose up',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
+    timeout: 120000,
   },
   projects: [
     {

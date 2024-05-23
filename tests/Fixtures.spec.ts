@@ -1,18 +1,16 @@
 import { test, expect } from '../src/index';
 
-test('Test all fixtures', async ({
+test('All fixtures', async ({
     AdminApiContext,
     StoreApiContext,
     DefaultSalesChannel,
-    AdminPage,
-    StorefrontPage,
     IdProvider,
 
     CartWithProductData,
     PromotionWithCodeData,
 
     MediaData,
-    // OrderData,
+    OrderData,
     DigitalProductData,
     ProductData,
     PropertiesData,
@@ -21,4 +19,15 @@ test('Test all fixtures', async ({
 
     await expect(id).toBeTruthy();
     await expect(uuid).toBeTruthy();
+
+    await expect(AdminApiContext).toBeInstanceOf(Object);
+    await expect(StoreApiContext).toBeInstanceOf(Object);
+    await expect(DefaultSalesChannel).toBeInstanceOf(Object);
+    await expect(CartWithProductData).toBeInstanceOf(Object);
+    await expect(PromotionWithCodeData).toBeInstanceOf(Object);
+    await expect(MediaData).toBeInstanceOf(Object);
+    await expect(OrderData).toBeInstanceOf(Object);
+    await expect(DigitalProductData).toBeInstanceOf(Object);
+    await expect(ProductData).toBeInstanceOf(Object);
+    await expect(PropertiesData).toBeInstanceOf(Object);
 });

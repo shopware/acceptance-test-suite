@@ -25,7 +25,7 @@ x-service: &service
 services:
     database:
         <<: *service
-        image: mysql:8
+        image: mysql:8.0
         entrypoint:
             [
                 "sh",
@@ -48,7 +48,7 @@ services:
     shopware:
         <<: *service
         # TODO: build trunk tag
-        image: gitlab.shopware.com:5005/shopware/6/product/commercial/ci-e2e:512390 
+        image: ghcr.io/shopware/shopware/ci-e2e:trunk
         depends_on: [ database ]
         ports:
             - '8000:8000'
