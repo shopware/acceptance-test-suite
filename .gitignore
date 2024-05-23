@@ -17,3 +17,12 @@ tsconfig.tsbuildinfo
 .DS_Store?
 ehthumbs.db
 Thumbs.db
+dist
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
