@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/shopware/acceptance-test-suite/compare/v1.1.2...v1.1.3) (2024-05-23)
+
+
+### Bug Fixes
+
+* refactor task interface ([ac19c91](https://github.com/shopware/acceptance-test-suite/commit/ac19c917f759f588008ba2c3bd2f8ee62596cc58))
+
 ## [1.1.2](https://github.com/shopware/acceptance-test-suite/compare/v1.1.1...v1.1.2) (2024-05-23)
 
 
