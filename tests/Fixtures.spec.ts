@@ -1,6 +1,6 @@
 import { test, expect } from '../src/index';
 
-test('All fixtures', async ({
+test('All data fixtures', async ({
     AdminApiContext,
     StoreApiContext,
     DefaultSalesChannel,
@@ -13,21 +13,23 @@ test('All fixtures', async ({
     OrderData,
     DigitalProductData,
     ProductData,
+    CategoryData,
     PropertiesData,
 }) => {
     const { id, uuid } = IdProvider.getIdPair();
 
-    await expect(id).toBeTruthy();
-    await expect(uuid).toBeTruthy();
+    expect(id).toBeTruthy();
+    expect(uuid).toBeTruthy();
 
-    await expect(AdminApiContext).toBeInstanceOf(Object);
-    await expect(StoreApiContext).toBeInstanceOf(Object);
-    await expect(DefaultSalesChannel).toBeInstanceOf(Object);
-    await expect(CartWithProductData).toBeInstanceOf(Object);
-    await expect(PromotionWithCodeData).toBeInstanceOf(Object);
-    await expect(MediaData).toBeInstanceOf(Object);
-    await expect(OrderData).toBeInstanceOf(Object);
-    await expect(DigitalProductData).toBeInstanceOf(Object);
-    await expect(ProductData).toBeInstanceOf(Object);
-    await expect(PropertiesData).toBeInstanceOf(Object);
+    expect(AdminApiContext).toBeInstanceOf(Object);
+    expect(StoreApiContext).toBeInstanceOf(Object);
+    expect(DefaultSalesChannel).toBeInstanceOf(Object);
+    expect(CartWithProductData).toBeInstanceOf(Object);
+    expect(PromotionWithCodeData).toBeInstanceOf(Object);
+    expect(MediaData).toBeInstanceOf(Object);
+    expect(OrderData).toBeInstanceOf(Object);
+    expect(DigitalProductData).toBeInstanceOf(Object);
+    expect(ProductData).toBeInstanceOf(Object);
+    expect(CategoryData).toBeInstanceOf(Object);
+    expect(PropertiesData).toBeInstanceOf(Object);
 });

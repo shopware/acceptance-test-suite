@@ -1,6 +1,7 @@
 import { mergeTests } from '@playwright/test';
 import type { components } from '@shopware/api-client/admin-api-types';
 import { ProductData } from './Product/Product';
+import { CategoryData } from './Category/Category';
 import { DigitalProductData } from './Product/DigitalProduct';
 import { PropertiesData } from './Product/Properties';
 import { CartWithProductData } from './Checkout/CartWithProduct';
@@ -11,6 +12,7 @@ import { TagData } from './Tag/Tag';
 
 export interface DataFixtureTypes {
     ProductData: components['schemas']['Product'],
+    CategoryData: components['schemas']['Category'],
     DigitalProductData: {
         product: components['schemas']['Product'],
         fileContent: string
@@ -28,6 +30,7 @@ export interface DataFixtureTypes {
 
 export const test = mergeTests(
     ProductData,
+    CategoryData,
     DigitalProductData,
     CartWithProductData,
     PromotionWithCodeData,
