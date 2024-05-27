@@ -1,5 +1,20 @@
+[![NPM Version](https://img.shields.io/npm/v/%40shopware-ag%2Facceptance-test-suite)](https://www.npmjs.com/package/@shopware-ag/acceptance-test-suite)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+[![License](https://img.shields.io/github/license/shopware/acceptance-test-suite.svg)](https://github.com/shopware/acceptance-test-suite/blob/trunk/LICENSE)  
+
 # Shopware Acceptance Test Suite
 This test suite is an extension to [Playwright](https://playwright.dev/) to easily create end-to-end and API acceptance tests for [Shopware](https://github.com/shopware/shopware). It provides several useful Playwright [fixtures](https://playwright.dev/docs/test-fixtures) to start testing with Shopware right away, including page contexts and [page objects](https://playwright.dev/docs/pom) for Storefront and Administration, API clients, test data creation and reusable test logic.
+
+## Table of contents
+
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Usage](#usage)
+* [General Fixtures](#general-fixtures)
+* [Page Objects](#page-objects)
+* [Actor Pattern](#actor-pattern)
+* [Data Fixtures](#data-fixtures)
+* [Code Contribution](#code-contribution)
 
 ## Installation
 Start by creating your own [Playwright](https://playwright.dev/docs/intro) project.
@@ -355,3 +370,8 @@ test('Property group test scenario', async ({ PropertiesData }) => {
 ```
 
 If you create your own data fixtures make sure to import and merge them in your base test file with other fixtures you created.
+
+## Code Contribution
+You can contribute to this project via its [official repository](https://github.com/shopware/acceptance-test-suite/) on GitHub.  
+
+This project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please make sure to form your commits accordingly to the spec.
