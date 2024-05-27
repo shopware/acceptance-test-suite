@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/shopware/acceptance-test-suite/compare/v1.1.4...v1.2.0) (2024-05-27)
+
+
+### Features
+
+* Add additional page objects for storefront account ([77a1698](https://github.com/shopware/acceptance-test-suite/commit/77a1698652a0f7fa7b0c1e39b935921ce5476947))
+* Add page object and data fixture for category ([40eddaf](https://github.com/shopware/acceptance-test-suite/commit/40eddafb3a3319c6257b39d93067ce2b918c5950))
+
+
+### Bug Fixes
+
+* data dependency between fixtures ([43474ee](https://github.com/shopware/acceptance-test-suite/commit/43474ee170766029f798dba9fc0d653207c40df1))
+
 ## [1.1.4](https://github.com/shopware/acceptance-test-suite/compare/v1.1.3...v1.1.4) (2024-05-23)
 
 
