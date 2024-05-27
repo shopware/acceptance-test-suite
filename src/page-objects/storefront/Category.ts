@@ -18,7 +18,7 @@ export class Category implements PageObject {
     }
 
     async goTo() {
-        const url= `${this.categoryData.name}`;
+        const url = `${this.categoryData.name}`;
         await this.page.goto(url);
     }
 }
