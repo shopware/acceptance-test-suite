@@ -34,40 +34,22 @@ export const ProductData = base.extend<FixtureTypes>({
                         net: 6.7,
                     },
                 ],
+                visibilities: [
+                    {
+                        salesChannelId: DefaultSalesChannel.salesChannel.id,
+                        visibility: 30,
+                    },
+                ],
+                categories: [
+                    {
+                        id: DefaultSalesChannel.salesChannel.navigationCategoryId,
+                    },
+                ],
             },
         });
         expect(productResponse.ok()).toBeTruthy();
 
         const { data: product } = (await productResponse.json()) as { data: components['schemas']['Product'] };
-
-        // Assign product to sales channel
-        const syncResp = await AdminApiContext.post('./_action/sync', {
-            data: {
-                'add product to sales channel': {
-                    entity: 'product_visibility',
-                    action: 'upsert',
-                    payload: [
-                        {
-                            productId: product.id,
-                            salesChannelId: DefaultSalesChannel.salesChannel.id,
-                            visibility: 30,
-                        },
-                    ],
-                },
-                'add product to root navigation': {
-                    entity: 'product_category',
-                    action: 'upsert',
-                    payload: [
-                        {
-                            productId: product.id,
-                            categoryId: DefaultSalesChannel.salesChannel.navigationCategoryId,
-                        },
-                    ],
-                },
-            },
-        });
-
-        expect(syncResp.ok()).toBeTruthy();
 
         // Use product data in the test
         await use(product);
