@@ -3,6 +3,7 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 
 import { Home } from './storefront/Home';
 import { ProductDetail } from './storefront/ProductDetail';
+import { Category } from './storefront/Category';
 import { CheckoutCart } from './storefront/CheckoutCart';
 import { CheckoutConfirm } from './storefront/CheckoutConfirm';
 import { CheckoutFinish } from './storefront/CheckoutFinish';
@@ -16,6 +17,7 @@ import { SearchSuggest } from './storefront/SearchSuggest';
 export interface StorefrontPageTypes {
     StorefrontHome: Home;
     StorefrontProductDetail: ProductDetail;
+    StorefrontCategory: Category;
     StorefrontCheckoutCart: CheckoutCart;
     StorefrontCheckoutConfirm: CheckoutConfirm;
     StorefrontCheckoutFinish: CheckoutFinish;
@@ -30,6 +32,7 @@ export interface StorefrontPageTypes {
 export const StorefrontPageObjects = {
     Home,
     ProductDetail,
+    Category,
     CheckoutCart,
     CheckoutConfirm,
     CheckoutFinish,
@@ -49,6 +52,10 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontProductDetail: async ({ StorefrontPage, ProductData }, use) => {
         await use(new ProductDetail(StorefrontPage, ProductData));
+    },
+
+    StorefrontCategory: async ({ StorefrontPage, CategoryData }, use) => {
+        await use(new Category(StorefrontPage, CategoryData));
     },
 
     StorefrontCheckoutCart: async ({ StorefrontPage }, use) => {
