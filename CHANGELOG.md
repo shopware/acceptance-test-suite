@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/shopware/acceptance-test-suite/compare/v1.2.0...v1.3.0) (2024-05-28)
+
+
+### Features
+
+* Add task for accessibility testing with axe core ([55cf6ec](https://github.com/shopware/acceptance-test-suite/commit/55cf6ec45c6c3f9fc41e466457269779e9381bde))
+
 ## [1.2.0](https://github.com/shopware/acceptance-test-suite/compare/v1.1.4...v1.2.0) (2024-05-27)
 
 
