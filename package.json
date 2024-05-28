@@ -38,6 +38,8 @@
   "dependencies": {
     "@playwright/test": "1.44.0",
     "@shopware/api-client": "0.5.0",
+    "@axe-core/playwright": "4.9.1",
+    "axe-html-reporter": "2.2.3",
     "image-js": "0.35.5",
     "uuid": "9.0.1"
   },

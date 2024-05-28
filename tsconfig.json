@@ -23,6 +23,10 @@
   "exclude": [
     "node_modules",
     "dist",
+    "test-results",
+    "playwright-report",
+    "blob-report",
+    "playwright/.cache",
   ],
   "files": [
     "src/index.ts",

@@ -6,6 +6,8 @@ export default defineBuildConfig({
     externals: [
         '@playwright/test',
         '@shopware/api-client',
+        '@axe-core/playwright',
+        'axe-html-reporter',
         'image-js',
         'uuid',
     ],
