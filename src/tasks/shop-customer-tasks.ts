@@ -19,6 +19,8 @@ import { SubmitOrder } from './shop-customer/Checkout/SubmitOrder';
 import { OpenSearchResultPage } from './shop-customer/Search/OpenSearchResultPage';
 import { OpenSearchSuggestPage } from './shop-customer/Search/OpenSearchSuggestPage';
 
+import { ValidateAccessibility } from './shop-customer/Accessibility/ValidateAccessibility';
+
 export const test = mergeTests(
     Login,
     Logout,
@@ -35,4 +37,5 @@ export const test = mergeTests(
     SubmitOrder,
     OpenSearchResultPage,
     OpenSearchSuggestPage,
+    ValidateAccessibility,
 );
