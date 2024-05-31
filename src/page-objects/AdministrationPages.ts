@@ -7,6 +7,7 @@ import { CustomerDetail } from './administration/CustomerDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
+import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -15,6 +16,7 @@ export interface AdministrationPageTypes {
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
+    AdminFlowBuilderDetail: FlowBuilderDetail;
 }
 
 export const AdminPageObjects = {
@@ -24,6 +26,7 @@ export const AdminPageObjects = {
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
+    FlowBuilderDetail,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -51,4 +54,8 @@ export const test = base.extend<FixtureTypes>({
     AdminFlowBuilderListing: async ({ AdminPage }, use) => {
         await use(new FlowBuilderListing(AdminPage));
     },
+    AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
+        await use(new FlowBuilderDetail(AdminPage));
+    },
+    
 });
