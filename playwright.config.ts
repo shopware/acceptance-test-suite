@@ -27,7 +27,7 @@ export default defineConfig({
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: 'docker compose up',
+    command: 'docker compose up --pull=always --quiet-pull shopware',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
     timeout: 120000,
