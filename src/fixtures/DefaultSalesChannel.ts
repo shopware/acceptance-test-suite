@@ -279,12 +279,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 defaultPaymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
             };
 
-            const customerRespPromise = AdminApiContext.post('./customer?_response', {
+            const customerResp = await AdminApiContext.post('./customer?_response', {
                 data: customerData,
             });
 
-            const [customerResp, themeAssignResp, salesChannelResp] = await Promise.all([
-                customerRespPromise,
+            const [themeAssignResp, salesChannelResp] = await Promise.all([
                 themeAssignPromise as Promise<APIResponse>,
                 salesChannelPromise,
             ]);
