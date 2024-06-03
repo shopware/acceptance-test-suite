@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/shopware/acceptance-test-suite/compare/v1.3.0...v1.3.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* Refactor digital product and order fixture ([c277755](https://github.com/shopware/acceptance-test-suite/commit/c27775523b816d4b98905772e2bac0c47c47d7d4))
+* use sales channel language id for default customer ([1b1bdf1](https://github.com/shopware/acceptance-test-suite/commit/1b1bdf130399155ad1975cc5cc2fb1c9bfc1d99a))
+
 ## [1.3.0](https://github.com/shopware/acceptance-test-suite/compare/v1.2.0...v1.3.0) (2024-05-28)
 
 
