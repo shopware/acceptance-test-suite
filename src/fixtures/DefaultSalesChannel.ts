@@ -249,6 +249,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 email: `customer_${id}@example.com`,
                 password: 'shopware',
                 salutationId: salutations.data[0].id,
+                languageId: SalesChannelBaseConfig.enGBLanguageId,
 
                 defaultShippingAddress: {
                     firstName: `${id} admin`,

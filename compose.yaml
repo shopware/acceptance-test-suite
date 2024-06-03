@@ -30,7 +30,7 @@ services:
             [
                 "sh",
                 "-c",
-                "docker-entrypoint.sh mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password --sql-require-primary-key=ON"
+                "docker-entrypoint.sh mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-require-primary-key=ON"
             ]
 
         ports:
