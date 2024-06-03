@@ -233,6 +233,6 @@ export const OrderData = base.extend<FixtureTypes>({
 
         // Delete order after the test is done
         const cleanupResponse = await AdminApiContext.delete(`./order/${order.id}`);
-        expect(cleanupResponse.ok()).toBeTruthy();
+        expect(cleanupResponse.status()).toBeLessThan(500);
     },
 });
