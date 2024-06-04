@@ -54,6 +54,7 @@ export const test = base.extend<FixtureTypes>({
     AdminFlowBuilderListing: async ({ AdminPage }, use) => {
         await use(new FlowBuilderListing(AdminPage));
     },
+    
     AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
         await use(new FlowBuilderDetail(AdminPage));
     },
