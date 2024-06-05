@@ -36,7 +36,7 @@ export const test = base.extend<FixtureTypes>({
 
         await page.goto('#/login');
 
-        await page.getByLabel('Username').fill(adminUser.username);
+        await page.getByLabel(/Username|Email address/).fill(adminUser.username);
         await page.getByLabel('Password').fill(adminUser.password);
 
         await page.getByRole('button', { name: 'Log in' }).click();
