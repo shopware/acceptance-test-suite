@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/shopware/acceptance-test-suite/compare/v1.3.2...v1.4.0) (2024-06-05)
+
+
+### Features
+
+* add isSaaSInstance helper function ([43e08cd](https://github.com/shopware/acceptance-test-suite/commit/43e08cdcc65ee1759987bf6fbef2c77825d30d4c))
+
+
+### Bug Fixes
+
+* fix login on saas instances ([4af4ce4](https://github.com/shopware/acceptance-test-suite/commit/4af4ce48dad633493db82b68471ff50d490f735e))
+
 ## [1.3.2](https://github.com/shopware/acceptance-test-suite/compare/v1.3.1...v1.3.2) (2024-06-05)
 
 
