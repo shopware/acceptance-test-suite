@@ -18,6 +18,8 @@ x-service: &service
         # SW_RECOVERY_NEXT_VERSION: 6.6.9999999.9999999
         # SW_RECOVERY_NEXT_BRANCH: dev-trunk
         # SW_RECOVERY_REPOSITORY: '{"type": "path", "url": "custom/packages/*", "options": { "symlink": true } }'
+        INSTALL_LOCALE: en-US
+        INSTALL_CURRENCY: USD
         PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
     networks:
         - local

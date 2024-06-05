@@ -18,6 +18,7 @@ interface StoreBaseConfig {
     enGBLocaleId: string;
     enGBLanguageId: string;
     eurCurrencyId: string;
+    defaultCurrencyId: string;
     invoicePaymentMethodId: string;
     defaultShippingMethod: string;
     taxId: string;
@@ -61,6 +62,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 enGBLanguageId: lang.id,
                 storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
                 eurCurrencyId: currency.id,
+                defaultCurrencyId: 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
                 invoicePaymentMethodId: await requests.invoicePaymentMethodId,
                 defaultShippingMethod: await requests.defaultShippingMethod,
                 taxId: await requests.getTaxId,
