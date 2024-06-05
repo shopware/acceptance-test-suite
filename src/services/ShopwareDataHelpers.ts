@@ -1,3 +1,4 @@
+import { APIResponse } from '@playwright/test';
 import { AdminApiContext } from './AdminApiContext';
 
 export const getLanguageData = async (
@@ -236,6 +237,6 @@ export function extractIdFromUrl(url: string): string | null {
 }
 
 type OrderStatus = 'cancel' | 'complete' | 'reopen' | 'process';
-export const setOrderStatus = async (orderId: string, orderStatus: OrderStatus , adminApiContext: AdminApiContext): Promise<void> => {
-    await adminApiContext.post(`./_action/order/${orderId}/state/${orderStatus}`);
+export const setOrderStatus = async (orderId: string, orderStatus: OrderStatus , adminApiContext: AdminApiContext): Promise<APIResponse> => {
+    return await adminApiContext.post(`./_action/order/${orderId}/state/${orderStatus}`);
 };
