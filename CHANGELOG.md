@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/shopware/acceptance-test-suite/compare/v1.3.1...v1.3.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* product fixture with non-standard currency ([bfca54d](https://github.com/shopware/acceptance-test-suite/commit/bfca54d77e1cfc6bcc243593b03ccf039144c3d6))
+
 ## [1.3.1](https://github.com/shopware/acceptance-test-suite/compare/v1.3.0...v1.3.1) (2024-06-03)
 
 
