@@ -12,6 +12,7 @@ import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
 
 export * from '@playwright/test';
 export * from './services/ShopwareDataHelpers';
+export * from './services/ShopInfo';
 export * from './services/ImageHelper';
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
