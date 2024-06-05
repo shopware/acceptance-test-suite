@@ -25,10 +25,22 @@ export const ProductData = base.extend<FixtureTypes>({
                         linked: false,
                         net: 8.4,
                     },
+                    {
+                        currencyId: SalesChannelBaseConfig.defaultCurrencyId,
+                        gross: 10,
+                        linked: false,
+                        net: 8.4,
+                    },
                 ],
                 purchasePrices: [
                     {
                         currencyId: SalesChannelBaseConfig.eurCurrencyId,
+                        gross: 8,
+                        linked: false,
+                        net: 6.7,
+                    },
+                    {
+                        currencyId: SalesChannelBaseConfig.defaultCurrencyId,
                         gross: 8,
                         linked: false,
                         net: 6.7,
