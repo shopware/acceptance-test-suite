@@ -7,6 +7,8 @@ import { CustomerDetail } from './administration/CustomerDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
+import { DataSharing } from './administration/DataSharing';
+import { Dashboard } from './administration/Dashboard';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -15,6 +17,8 @@ export interface AdministrationPageTypes {
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
+    AdminDataSharing: DataSharing;
+    AdminDashboard: Dashboard;
 }
 
 export const AdminPageObjects = {
@@ -24,6 +28,8 @@ export const AdminPageObjects = {
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
+    Dashboard,
+    DataSharing,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -50,5 +56,13 @@ export const test = base.extend<FixtureTypes>({
 
     AdminFlowBuilderListing: async ({ AdminPage }, use) => {
         await use(new FlowBuilderListing(AdminPage));
+    },
+
+    AdminDataSharing: async ({ AdminPage }, use) => {
+        await use(new DataSharing(AdminPage));
+    },
+
+    AdminDashboard: async ({ AdminPage }, use) => {
+        await use(new Dashboard(AdminPage));
     },
 });
