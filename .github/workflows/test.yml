@@ -12,6 +12,20 @@ jobs:
             registry-url: "https://registry.npmjs.org"
         - run: npm ci
         - run: npm run lint
+    commit-lint:
+      runs-on: ubuntu-latest
+      name: Validate all commits
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - name: Conventional Commits Checker
+          uses: netodevel/convetional-commits-checker@v1.0.1
+          id: commits-check
+          with: # do not change the order of params
+            target-branch: ${{ github.event.pull_request.base.ref }}  #required
+            current-branch: ${{ github.event.pull_request.head.ref }} #required
+            pattern: '^\s*(feat|fix|ci|chore|docs|test|style|refactor)(\(.{1,}\))?: .{1,}$' #optional custom validation commit
     test:
       timeout-minutes: 15
       runs-on: ubuntu-latest
