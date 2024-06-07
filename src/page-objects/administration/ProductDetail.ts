@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import type { components } from '@shopware/api-client/admin-api-types';
+import type { ProductType } from '../../data-fixtures/DataFixtures';
 
 export class ProductDetail implements PageObject {
 
@@ -46,9 +46,9 @@ export class ProductDetail implements PageObject {
     public readonly propertyOptionSizeMedium: Locator;
     public readonly propertyOptionSizeLarge: Locator;
 
-    public readonly productData: components['schemas']['Product'];
+    public readonly productData: ProductType;
 
-    constructor(public readonly page: Page, productData: components['schemas']['Product']) {
+    constructor(public readonly page: Page, productData: ProductType) {
         this.productData = productData;
 
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
@@ -77,10 +77,9 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeSmall = this.propertyOptionGrid.getByLabel('Small');
         this.propertyOptionSizeMedium = this.propertyOptionGrid.getByLabel('Medium');
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
-
     }
 
-    async goTo() {
+    async goTo({ orderId }: Record<string, unknown>) {
         await this.page.goto(`#/sw/product/detail/${this.productData.id}/base`);
     }
 

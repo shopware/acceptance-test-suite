@@ -18,11 +18,11 @@ export class Actor {
         await test.step(stepTitle, async () => await task());
     }
 
-    async goesTo(pageObject: PageObject) {
+    async goesTo(pageObject: PageObject, params?: Record<string, unknown>) {
         const stepTitle = `${this.name} navigates to ${this.camelCaseToLowerCase(pageObject.constructor.name)}`;
 
         await test.step(stepTitle, async () => {
-            await pageObject.goTo();
+            await pageObject.goTo(params);
 
             await this.page.addStyleTag({
                 content: `

@@ -3,5 +3,5 @@ import type { Page } from '@playwright/test';
 export interface PageObject {
     readonly page: Page;
 
-    goTo(): Promise<void>;
+    goTo(params?: Record<string, unknown>): Promise<void>;
 }

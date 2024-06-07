@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
+import type { ProductType } from '../DataFixtures';
 
 export const ProductData = base.extend<FixtureTypes>({
     ProductData: async ({ IdProvider, SalesChannelBaseConfig, AdminApiContext, DefaultSalesChannel }, use) => {
@@ -61,7 +61,7 @@ export const ProductData = base.extend<FixtureTypes>({
         });
         expect(productResponse.ok()).toBeTruthy();
 
-        const { data: product } = (await productResponse.json()) as { data: components['schemas']['Product'] };
+        const { data: product } = (await productResponse.json()) as { data: ProductType };
 
         // Use product data in the test
         await use(product);

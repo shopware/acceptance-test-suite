@@ -1,11 +1,11 @@
 import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes} from '../../../types/FixtureTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
+import type { ProductType } from '../../../data-fixtures/DataFixtures';
 
 export const AddProductToCart = base.extend<{ AddProductToCart: Task }, FixtureTypes>({
     AddProductToCart: async ({ ShopCustomer, StorefrontProductDetail }, use)=> {
-        const task = (ProductData: components['schemas']['Product'], quantity = '1') => {
+        const task = (ProductData: ProductType, quantity = '1') => {
             return async function AddProductToCart() {
                 await StorefrontProductDetail.quantitySelect.fill(quantity);
 

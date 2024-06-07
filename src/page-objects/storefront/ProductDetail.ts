@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import type { components } from '@shopware/api-client/admin-api-types';
+import type { ProductType } from '../../data-fixtures/DataFixtures';
 
 export class ProductDetail implements PageObject {
     public readonly addToCartButton: Locator;
@@ -16,7 +16,7 @@ export class ProductDetail implements PageObject {
 
     constructor(
         public readonly page: Page,
-        public readonly productData: components['schemas']['Product']
+        public readonly productData: ProductType
     ) {
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
         this.offCanvasCartTitle = page.getByText('Shopping cart', { exact: true });
@@ -30,7 +30,7 @@ export class ProductDetail implements PageObject {
         this.productSingleImage = page.locator('.gallery-slider-single-image');
     }
 
-    async goTo(productData: components['schemas']['Product'] = this.productData) {
+    async goTo(productData: ProductType = this.productData) {
         let namePath = '';
         if (productData.translated && productData.translated.name) {
             namePath = productData.translated.name.replaceAll('_', '-');

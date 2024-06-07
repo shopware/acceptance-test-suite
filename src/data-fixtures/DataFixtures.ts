@@ -10,11 +10,20 @@ import { MediaData } from './Media/Media';
 import { OrderData } from './Order/Order';
 import { TagData } from './Tag/Tag';
 
+export type ProductType = components['schemas']['Product'] & {
+    price: {
+        gross: number,
+        net: number,
+        linked: boolean,
+        currencyId: string,
+    }[]
+}
+
 export interface DataFixtureTypes {
-    ProductData: components['schemas']['Product'],
+    ProductData: ProductType,
     CategoryData: components['schemas']['Category'],
     DigitalProductData: {
-        product: components['schemas']['Product'],
+        product: ProductType,
         fileContent: string
     },
     PromotionWithCodeData: components['schemas']['Promotion'],
