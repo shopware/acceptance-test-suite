@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/shopware/acceptance-test-suite/compare/v1.4.0...v1.5.0) (2024-06-07)
+
+
+### Features
+
+* add dashboard and data sharing fixture ([8f140f8](https://github.com/shopware/acceptance-test-suite/commit/8f140f8001b90a1dc35723ba419e0447d3dddf09))
+* Add order status helper method ([565c355](https://github.com/shopware/acceptance-test-suite/commit/565c355f3ac832a5a3389207c81685c910f2c58f))
+
 ## [1.4.0](https://github.com/shopware/acceptance-test-suite/compare/v1.3.2...v1.4.0) (2024-06-05)
 
 
