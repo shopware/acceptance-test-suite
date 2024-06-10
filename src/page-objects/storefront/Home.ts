@@ -9,7 +9,7 @@ export class Home implements PageObject {
         this.productImages = page.locator('.product-image-link');
     }
 
-    async goTo() {
-        await this.page.goto('./');
+    url() {
+        return '/';
     }
 }

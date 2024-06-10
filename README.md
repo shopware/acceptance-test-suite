@@ -210,9 +210,9 @@ There are several page objects to navigate the different pages of the Administra
 ```TypeScript
 import { test, expect } from './../BaseTestFile';
 
-test('Storefront cart test scenario', async ({ StorefrontCheckoutCart }) => {
+test('Storefront cart test scenario', async ({ StorefrontPage, StorefrontCheckoutCart }) => {
 
-    await StorefrontCheckoutCart.goTo();
+    await StorefrontPage.goto(StorefrontCheckoutCart.url());
     await expect(StorefrontCheckoutCart.grandTotalPrice).toHaveText('€100.00*');
 });
 ```
@@ -236,7 +236,7 @@ The actor class is just a lightweight solution to simplify the execution of reus
 * `page`: A Playwright page context the actor is navigating.
 
 **Methods**  
-* `goesTo`: Accepts a page object the actor should be navigating to.
+* `goesTo`: Accepts an url of a page the actor should navigate to.
 * `attemptsTo`: Accepts a "task" function with reusable test logic the actor should perform.
 * `expects`: A one-to-one export of the Playwright `expect` method to use it in the actor pattern.
 
@@ -257,7 +257,7 @@ test('Product detail test scenario', async ({
     ProductData 
 }) => {
 
-    await ShopCustomer.goesTo(StorefrontProductDetail);
+    await ShopCustomer.goesTo(StorefrontProductDetail.url(ProductData));
     await ShopCustomer.attemptsTo(AddProductToCart(ProductData));
     await ShopCustomer.expects(StorefrontProductDetail.offCanvasSummaryTotalPrice).toHaveText('€99.99*');
 });
@@ -289,7 +289,7 @@ export const Login = base.extend<{ Login: Task }, FixtureTypes>({
             return async function Login() {
                 const { customer } = DefaultSalesChannel;
 
-                await ShopCustomer.goesTo(StorefrontAccountLogin);
+                await ShopCustomer.goesTo(StorefrontAccountLogin.url());
 
                 await StorefrontAccountLogin.emailInput.fill(customer.email);
                 await StorefrontAccountLogin.passwordInput.fill(customer.password);

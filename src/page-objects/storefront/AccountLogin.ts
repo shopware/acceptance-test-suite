@@ -40,7 +40,7 @@ export class AccountLogin implements PageObject {
         this.successAlert = page.getByText('Successfully logged out.');
     }
 
-    async goTo() {
-        await this.page.goto('account/login');
+    url() {
+        return 'account/login';
     }
 }

@@ -22,7 +22,7 @@ export class CheckoutCart implements PageObject {
         this.unitPriceInfo = page.locator('.line-item-unit-price-value');
     }
 
-    async goTo() {
-        await this.page.goto('checkout/cart');
+    url() {
+        return 'checkout/cart';
     }
 }

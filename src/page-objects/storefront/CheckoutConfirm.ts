@@ -43,7 +43,7 @@ export class CheckoutConfirm implements PageObject {
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }
 
-    async goTo() {
-        await this.page.goto('checkout/confirm');
+    url() {
+        return 'checkout/confirm';
     }
 }

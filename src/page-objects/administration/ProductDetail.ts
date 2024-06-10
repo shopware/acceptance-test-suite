@@ -1,6 +1,5 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import type { ProductType } from '../../data-fixtures/DataFixtures';
 
 export class ProductDetail implements PageObject {
 
@@ -46,10 +45,7 @@ export class ProductDetail implements PageObject {
     public readonly propertyOptionSizeMedium: Locator;
     public readonly propertyOptionSizeLarge: Locator;
 
-    public readonly productData: ProductType;
-
-    constructor(public readonly page: Page, productData: ProductType) {
-        this.productData = productData;
+    constructor(public readonly page: Page) {
 
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
@@ -79,11 +75,7 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
     }
 
-    async goTo({ orderId }: Record<string, unknown>) {
-        await this.page.goto(`#/sw/product/detail/${this.productData.id}/base`);
-    }
-
-    getProductId(){
-        return this.productData.id;
+    url(productId: string) {
+        return `#/sw/product/detail/${productId}/base`
     }
 }

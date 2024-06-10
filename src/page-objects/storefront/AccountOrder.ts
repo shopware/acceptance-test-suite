@@ -13,7 +13,7 @@ export class AccountOrder implements PageObject {
         this.digitalProductDownloadButton = page.getByRole('link', { name: 'Download' }).first();
     }
 
-    async goTo() {
-        await this.page.goto('account/order');
+    url() {
+        return 'account/order';
     }
 }

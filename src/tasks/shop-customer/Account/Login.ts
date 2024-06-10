@@ -8,7 +8,7 @@ export const Login = base.extend<{ Login: Task }, FixtureTypes>({
             return async function Login() {
                 const { customer } = DefaultSalesChannel;
 
-                await ShopCustomer.goesTo(StorefrontAccountLogin);
+                await ShopCustomer.goesTo(StorefrontAccountLogin.url());
 
                 await StorefrontAccountLogin.emailInput.fill(customer.email);
                 await StorefrontAccountLogin.passwordInput.fill(customer.password);

@@ -38,7 +38,7 @@ export class AccountProfile implements PageObject {
         this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: 'Save changes' });
     }
 
-    async goTo() {
-        await this.page.goto('account/profile');
+    url() {
+        return 'account/profile';
     }
 }

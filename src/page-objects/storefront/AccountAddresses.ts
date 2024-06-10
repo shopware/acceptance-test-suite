@@ -16,7 +16,7 @@ export class AccountAddresses implements PageObject {
         this.useDefaultShippingAddressButton = page.getByRole('button', { name: 'Use as default shipping address' });
     }
 
-    async goTo() {
-        await this.page.goto('account/address');
+    url() {
+        return 'account/address';
     }
 }

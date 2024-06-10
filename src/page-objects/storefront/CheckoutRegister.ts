@@ -9,7 +9,7 @@ export class CheckoutRegister implements PageObject {
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }
 
-    async goTo() {
-        await this.page.goto('checkout/register');
+    url() {
+        return 'checkout/register';
     }
 }
