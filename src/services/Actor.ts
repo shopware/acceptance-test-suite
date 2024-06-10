@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
-import type { PageObject } from '../types/PageObject';
 
 export class Actor {
     public page: Page;
@@ -18,11 +17,11 @@ export class Actor {
         await test.step(stepTitle, async () => await task());
     }
 
-    async goesTo(pageObject: PageObject, params?: Record<string, unknown>) {
-        const stepTitle = `${this.name} navigates to ${this.camelCaseToLowerCase(pageObject.constructor.name)}`;
+    async goesTo(url: string) {
+        const stepTitle = `${this.name} navigates to "${url}"`;
 
         await test.step(stepTitle, async () => {
-            await pageObject.goTo(params);
+            await this.page.goto(url);
 
             await this.page.addStyleTag({
                 content: `

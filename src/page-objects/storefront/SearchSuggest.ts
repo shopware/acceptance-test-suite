@@ -9,8 +9,7 @@ export class SearchSuggest implements PageObject {
         this.searchSuggestLineItemImages = page.locator('.search-suggest-product-image-container');
     }
 
-    async goTo() {
-        const url = `suggest?search`;
-        await this.page.goto(url);
+    url(searchTerm: string) {
+        return `suggest?search=${searchTerm}`;
     }
 }

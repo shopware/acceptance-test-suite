@@ -16,8 +16,8 @@ export class CheckoutFinish implements PageObject {
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }
 
-    async goTo() {
-        console.error('The checkout finish page should only be navigated to via checkout action.')
+    url() {
+        return 'checkout/finish';
     }
 
     async getOrderNumber(): Promise<string | null> {

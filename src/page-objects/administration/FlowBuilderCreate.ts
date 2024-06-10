@@ -11,7 +11,7 @@ export class FlowBuilderCreate implements PageObject {
         this.header = page.locator('h2');
     }
 
-    async goTo() {
-        await this.page.goto(`#/sw/flow/create/general`);
+    url() {
+        return '#/sw/flow/create/general';
     }
 }

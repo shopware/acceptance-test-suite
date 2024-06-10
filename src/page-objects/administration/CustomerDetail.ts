@@ -12,7 +12,7 @@ export class CustomerDetail implements PageObject {
         this.accountCard = page.locator('.sw-customer-card')
     }
 
-    async goTo({ customerId }: Record<string, unknown>) {
-        await this.page.goto(`#/sw/customer/detail/${customerId}/base`);
+    url(customerId: string | undefined) {
+        return `#/sw/customer/detail/${customerId}/base`
     }
 }

@@ -14,7 +14,7 @@ export class AccountPayment implements PageObject {
         this.changeDefaultPaymentButton = page.getByRole('button', { name: 'Change' });
     }
 
-    async goTo() {
-        await this.page.goto('account/payment');
+    url() {
+        return 'account/payment';
     }
 }

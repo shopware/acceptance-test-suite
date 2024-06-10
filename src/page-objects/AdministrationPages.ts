@@ -7,6 +7,7 @@ import { CustomerDetail } from './administration/CustomerDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
+import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
 
@@ -17,6 +18,7 @@ export interface AdministrationPageTypes {
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
+    AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
 }
@@ -28,22 +30,23 @@ export const AdminPageObjects = {
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
+    FlowBuilderDetail,
     Dashboard,
     DataSharing,
 }
 
 export const test = base.extend<FixtureTypes>({
 
-    AdminProductDetail: async ({ AdminPage, ProductData }, use) => {
-        await use(new ProductDetail(AdminPage, ProductData));
+    AdminProductDetail: async ({ AdminPage }, use) => {
+        await use(new ProductDetail(AdminPage));
     },
 
-    AdminOrderDetail: async ({ AdminPage, OrderData }, use) => {
-        await use(new OrderDetail(AdminPage, OrderData));
+    AdminOrderDetail: async ({ AdminPage }, use) => {
+        await use(new OrderDetail(AdminPage));
     },
 
-    AdminCustomerDetail: async ({ AdminPage, DefaultSalesChannel}, use) => {
-        await use(new CustomerDetail(AdminPage, DefaultSalesChannel.customer));
+    AdminCustomerDetail: async ({ AdminPage }, use) => {
+        await use(new CustomerDetail(AdminPage));
     },
 
     AdminFirstRunWizard: async ({ AdminPage }, use) => {
@@ -56,6 +59,10 @@ export const test = base.extend<FixtureTypes>({
 
     AdminFlowBuilderListing: async ({ AdminPage }, use) => {
         await use(new FlowBuilderListing(AdminPage));
+    },
+
+    AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
+        await use(new FlowBuilderDetail(AdminPage));
     },
 
     AdminDataSharing: async ({ AdminPage }, use) => {

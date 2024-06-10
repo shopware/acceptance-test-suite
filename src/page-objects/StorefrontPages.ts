@@ -59,12 +59,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new Home(StorefrontPage));
     },
 
-    StorefrontProductDetail: async ({ StorefrontPage, ProductData }, use) => {
-        await use(new ProductDetail(StorefrontPage, ProductData));
+    StorefrontProductDetail: async ({ StorefrontPage }, use) => {
+        await use(new ProductDetail(StorefrontPage));
     },
 
-    StorefrontCategory: async ({ StorefrontPage, CategoryData }, use) => {
-        await use(new Category(StorefrontPage, CategoryData));
+    StorefrontCategory: async ({ StorefrontPage }, use) => {
+        await use(new Category(StorefrontPage));
     },
 
     StorefrontCheckoutCart: async ({ StorefrontPage }, use) => {

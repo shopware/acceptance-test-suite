@@ -11,6 +11,7 @@ import { OrderData } from './Order/Order';
 import { TagData } from './Tag/Tag';
 
 export type ProductType = components['schemas']['Product'] & {
+    id: string,
     price: {
         gross: number,
         net: number,

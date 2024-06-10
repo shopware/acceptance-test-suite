@@ -3,6 +3,8 @@ import type { PageObject } from '../../types/PageObject';
 
 export class Dashboard implements PageObject {
 
+    public readonly welcomeHeadline: Locator;
+
     public readonly dataSharingConsentBanner: Locator;
     public readonly dataSharingAgreeButton: Locator;
     public readonly dataSharingNotAtTheMomentButton: Locator;
@@ -12,6 +14,7 @@ export class Dashboard implements PageObject {
     public readonly dataSharingNotAtTheMomentMessageText: Locator;
 
     constructor(public readonly page: Page) {
+        this.welcomeHeadline = page.locator('h1.sw-dashboard-index__welcome-title');
         this.dataSharingConsentBanner = page.locator('.sw-usage-data-consent-banner');
         this.dataSharingAgreeButton = page.getByRole('button', { name: 'Agree' });
         this.dataSharingNotAtTheMomentButton = page.getByRole('button', { name: 'Not at the moment' });
@@ -21,7 +24,7 @@ export class Dashboard implements PageObject {
         this.dataSharingTermsAgreementLabel = page.getByText('By clicking "Agree", you confirm that you are authorized to enter into this agreement on behalf of your company.');
     }
 
-    async goTo() {
-        await this.page.goto('#/sw/dashboard/index');
+    url() {
+        return '#/sw/dashboard/index';
     }
 }

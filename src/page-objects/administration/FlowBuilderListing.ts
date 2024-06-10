@@ -3,6 +3,7 @@ import type { PageObject } from '../../types/PageObject';
 
 export class FlowBuilderListing implements PageObject {
 
+    public readonly createFlowButton: Locator;
     public readonly firstFlowName: Locator;
     public readonly firstFlowContextButton: Locator;
     public readonly flowContextMenu: Locator;
@@ -13,6 +14,7 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlertMessage: Locator;
 
     constructor(public readonly page: Page) {
+        this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
         this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
         this.flowContextMenu = page.locator('.sw-context-menu__content');
@@ -23,7 +25,7 @@ export class FlowBuilderListing implements PageObject {
         this.successAlertMessage = page.locator('.sw-alert__message');
     }
 
-    async goTo() {
-        await this.page.goto(`#/sw/flow/index/`);
+    url() {
+        return '#/sw/flow/index/';
     }
 }

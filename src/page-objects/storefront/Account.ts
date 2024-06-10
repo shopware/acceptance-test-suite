@@ -20,7 +20,7 @@ export class Account implements PageObject {
         this.newsletterRegistrationSuccessMessage = page.getByText('You have successfully subscribed to the newsletter.');
     }
 
-    async goTo() {
-        await this.page.goto('account');
+    url() {
+        return 'account';
     }
 }

@@ -99,9 +99,9 @@ export class FirstRunWizard implements PageObject {
         this.documentationLink = page.locator('[href*="https://docs.shopware.com/en"]');
         this.forumLink = page.locator('[href*="https://forum.shopware.com/"]');
         this.roadmapLink = page.locator('[href*="https://www.shopware.com/en/roadmap/"]');
-
     }
-    async goTo() {
-        await this.page.goto(`#/sw/first/run/wizard/index/`);
+
+    url() {
+        return '#/sw/first/run/wizard/index/';
     }
 }
