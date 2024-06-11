@@ -1,5 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
+import type { Order } from '../../types/ShopwareTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
 
 export const DigitalProductData = base.extend<FixtureTypes>({
@@ -58,7 +59,7 @@ export const DigitalProductData = base.extend<FixtureTypes>({
         });
         expect(orderSearchResponse.ok()).toBeTruthy();
 
-        const { data: ordersWithDigitalProduct } = (await orderSearchResponse.json()) as { data: components['schemas']['Order'][] };
+        const { data: ordersWithDigitalProduct } = (await orderSearchResponse.json()) as { data: Order[] };
 
         // Delete Orders using the digital product, to be able to delete the uploaded media file
         for (const order of ordersWithDigitalProduct) {

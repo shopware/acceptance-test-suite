@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
+import type { Category } from '../../types/ShopwareTypes';
 
 export const CategoryData = base.extend<FixtureTypes>({
     CategoryData: async ({ IdProvider, AdminApiContext, DefaultSalesChannel, ProductData }, use) => {
@@ -26,7 +26,7 @@ export const CategoryData = base.extend<FixtureTypes>({
 
         expect(categoryResponse.ok()).toBeTruthy();
 
-        const { data: category } = (await categoryResponse.json()) as { data: components['schemas']['Category'] };
+        const { data: category } = (await categoryResponse.json()) as { data: Category };
 
         await use(category);
 

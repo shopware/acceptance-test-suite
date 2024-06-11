@@ -12,7 +12,7 @@ export class CustomerDetail implements PageObject {
         this.accountCard = page.locator('.sw-customer-card')
     }
 
-    url(customerId: string | undefined) {
+    url(customerId: string) {
         return `#/sw/customer/detail/${customerId}/base`
     }
 }

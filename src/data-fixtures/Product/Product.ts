@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { ProductType } from '../DataFixtures';
+import type { Product } from '../../types/ShopwareTypes';
 
 export const ProductData = base.extend<FixtureTypes>({
     ProductData: async ({ IdProvider, SalesChannelBaseConfig, AdminApiContext, DefaultSalesChannel }, use) => {
@@ -61,7 +61,7 @@ export const ProductData = base.extend<FixtureTypes>({
         });
         expect(productResponse.ok()).toBeTruthy();
 
-        const { data: product } = (await productResponse.json()) as { data: ProductType };
+        const { data: product } = (await productResponse.json()) as { data: Product };
 
         // Use product data in the test
         await use(product);

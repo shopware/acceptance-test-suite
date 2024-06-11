@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import type { ProductType } from '../../data-fixtures/DataFixtures';
+import type { Product } from '../../types/ShopwareTypes';
 
 export class ProductDetail implements PageObject {
 
@@ -29,7 +29,7 @@ export class ProductDetail implements PageObject {
         this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
     }
 
-    url(productData: ProductType) {
+    url(productData: Product) {
         let namePath = '';
         if (productData.translated && productData.translated.name) {
             namePath = productData.translated.name.replaceAll('_', '-');
