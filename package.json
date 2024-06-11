@@ -36,7 +36,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@playwright/test": "1.44.0",
+    "@playwright/test": "^1.44.1",
     "@shopware/api-client": "0.5.0",
     "@axe-core/playwright": "4.9.1",
     "axe-html-reporter": "2.2.3",
