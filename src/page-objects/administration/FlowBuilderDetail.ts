@@ -13,7 +13,7 @@ export class FlowBuilderDetail implements PageObject {
         this.flowTab = page.locator('.sw-flow-detail__tab-flow');
     }
 
-    url(flowId: string, tabName? = 'general') {
+    url(flowId: string, tabName = 'general') {
         return `#/sw/flow/detail/${flowId}/${tabName}`
     }
 }
