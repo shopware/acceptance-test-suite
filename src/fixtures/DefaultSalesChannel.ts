@@ -1,5 +1,6 @@
 import { test as base, expect, APIResponse } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
+import type { Customer } from '../types/ShopwareTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
 import { createHash } from 'crypto';
 import {
@@ -33,7 +34,7 @@ export interface DefaultSalesChannelTypes {
     SalesChannelBaseConfig: StoreBaseConfig;
     DefaultSalesChannel: {
         salesChannel: components['schemas']['SalesChannel'];
-        customer: components['schemas']['Customer'] & { password: string };
+        customer: Customer;
         url: string;
     }
 }
@@ -295,7 +296,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             expect(themeAssignResp.ok()).toBeTruthy();
             expect(salesChannelResp.ok()).toBeTruthy();
 
-            const customer = (await customerResp.json()) as { data: components['schemas']['Customer'] };
+            const customer = (await customerResp.json()) as { data: Customer };
             const salesChannel = (await salesChannelResp.json()) as { data: components['schemas']['SalesChannel'] };
 
             await use({

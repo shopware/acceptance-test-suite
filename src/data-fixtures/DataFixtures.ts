@@ -1,5 +1,6 @@
 import { mergeTests } from '@playwright/test';
 import type { components } from '@shopware/api-client/admin-api-types';
+import type { Product, Category, Order } from '../types/ShopwareTypes';
 import { ProductData } from './Product/Product';
 import { CategoryData } from './Category/Category';
 import { DigitalProductData } from './Product/DigitalProduct';
@@ -10,21 +11,11 @@ import { MediaData } from './Media/Media';
 import { OrderData } from './Order/Order';
 import { TagData } from './Tag/Tag';
 
-export type ProductType = components['schemas']['Product'] & {
-    id: string,
-    price: {
-        gross: number,
-        net: number,
-        linked: boolean,
-        currencyId: string,
-    }[]
-}
-
 export interface DataFixtureTypes {
-    ProductData: ProductType,
-    CategoryData: components['schemas']['Category'],
+    ProductData: Product,
+    CategoryData: Category,
     DigitalProductData: {
-        product: ProductType,
+        product: Product,
         fileContent: string
     },
     PromotionWithCodeData: components['schemas']['Promotion'],
@@ -34,7 +25,7 @@ export interface DataFixtureTypes {
         propertyGroupSize: components['schemas']['PropertyGroup']
     },
     MediaData: components['schemas']['Media'],
-    OrderData: components['schemas']['Order'],
+    OrderData: Order,
     TagData: components['schemas']['Tag'],
 }
 

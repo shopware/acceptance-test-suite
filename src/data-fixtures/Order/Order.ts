@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
+import type { Order } from '../../types/ShopwareTypes';
 import {
     getCurrency,
     getSalutationId,
@@ -226,7 +226,7 @@ export const OrderData = base.extend<FixtureTypes>({
 
         expect(orderResponse.ok()).toBeTruthy();
 
-        const { data: order } = (await orderResponse.json()) as { data: components['schemas']['Order'] };
+        const { data: order } = (await orderResponse.json()) as { data: Order };
 
         // Use order data in the test
         await use(order);

@@ -12,7 +12,7 @@ export class OrderDetail implements PageObject {
         this.orderTag = page.locator('.sw-select-selection-list__item');
     }
 
-    url(orderId: string | undefined) {
+    url(orderId: string) {
         return `#/sw/order/detail/${orderId}/general`;
     }
 }
