@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.0.0](https://github.com/shopware/acceptance-test-suite/compare/v1.5.0...v2.0.0) (2024-06-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed dependency between data fixtures and page objects.
+
+### Bug Fixes
+
+* Add local type overrides ([870931c](https://github.com/shopware/acceptance-test-suite/commit/870931cac9cb02b1fb4838d1d0e4ae1c5fca6d8f))
+* Improve product type definition ([4c20b9b](https://github.com/shopware/acceptance-test-suite/commit/4c20b9b461b34165269adcc4731394c327c7078a))
+* Update playwright and use compatible version prefix ([11ffd1b](https://github.com/shopware/acceptance-test-suite/commit/11ffd1be649706f24d00216ac25f894734c8966b))
+
+
+### Code Refactoring
+
+* Removed dependency between data fixtures and page objects. ([7879c5a](https://github.com/shopware/acceptance-test-suite/commit/7879c5a5c9c15701da86f9ee5afe9fad25a32578))
+
 ## [1.5.0](https://github.com/shopware/acceptance-test-suite/compare/v1.4.0...v1.5.0) (2024-06-07)
 
 
