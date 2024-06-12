@@ -10,6 +10,6 @@ export class Home implements PageObject {
     }
 
     url() {
-        return '/';
+        return './';
     }
 }
