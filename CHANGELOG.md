@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/shopware/acceptance-test-suite/compare/v2.0.0...v2.0.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* Home page object url ([8330e78](https://github.com/shopware/acceptance-test-suite/commit/8330e7888c72dc67980a3a66374f6996274d0cbc))
+
 ## [2.0.0](https://github.com/shopware/acceptance-test-suite/compare/v1.5.0...v2.0.0) (2024-06-11)
 
 
