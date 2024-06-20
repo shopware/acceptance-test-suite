@@ -1,6 +1,9 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
 
+/**
+ * @deprecated - Use TestDataService.createColorPropertyGroup() or TestDataService.createTextPropertyGroup() instead.
+ */
 export const PropertiesData = base.extend<FixtureTypes>({
     PropertiesData: async ({ AdminApiContext }, use) => {
 

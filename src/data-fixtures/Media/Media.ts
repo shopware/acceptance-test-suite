@@ -4,6 +4,9 @@ import { createRandomImage } from '../../services/ImageHelper';
 import type { components } from '@shopware/api-client/admin-api-types';
 import fs from 'fs';
 
+/**
+ * @deprecated - Use TestDataService.createMediaPNG() instead.
+ */
 export const MediaData = base.extend<FixtureTypes>({
     MediaData: async ({ AdminApiContext, IdProvider }, use) => {
 

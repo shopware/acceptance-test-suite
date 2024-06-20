@@ -3,6 +3,9 @@ import type { FixtureTypes } from '../../types/FixtureTypes';
 import type { Order } from '../../types/ShopwareTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
 
+/**
+ * @deprecated - Use TestDataService.createDigitalProduct() instead.
+ */
 export const DigitalProductData = base.extend<FixtureTypes>({
     DigitalProductData: async ({ ProductData, IdProvider, AdminApiContext }, use) => {
 

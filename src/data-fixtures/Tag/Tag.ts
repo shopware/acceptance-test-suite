@@ -2,6 +2,9 @@ import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
 
+/**
+ * @deprecated - Use TestDataService.createTag() instead.
+ */
 export const TagData = base.extend<FixtureTypes>({
     TagData: async ({ IdProvider, AdminApiContext }, use) => {
 
