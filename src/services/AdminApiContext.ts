@@ -19,8 +19,8 @@ export interface AdminApiContextOptions {
 
 export class AdminApiContext {
 
-    private context: APIRequestContext;
-    private readonly options: AdminApiContextOptions;
+    public context: APIRequestContext;
+    public readonly options: AdminApiContextOptions;
 
     private static readonly defaultOptions: AdminApiContextOptions = {
         app_url: process.env['APP_URL'],

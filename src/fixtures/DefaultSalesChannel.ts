@@ -1,8 +1,7 @@
-import { test as base, expect, APIResponse } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import type { Customer, SalesChannel } from '../types/ShopwareTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
-import { createHash } from 'crypto';
 import {
     getLanguageData,
     getCurrency,
@@ -13,6 +12,7 @@ import {
     getSnippetSetId,
     getThemeId,
 } from '../services/ShopwareDataHelpers';
+import { isSaaSInstance } from '../services/ShopInfo';
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
@@ -36,7 +36,13 @@ export interface DefaultSalesChannelTypes {
         salesChannel: SalesChannel;
         customer: Customer;
         url: string;
-    }
+        themeSeed: string | null;
+    },
+    DefaultStorefront: {
+        salesChannel: components['schemas']['SalesChannel'];
+        customer: Customer;
+        url: string;
+    },
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -90,8 +96,26 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             const baseUrl = `${SalesChannelBaseConfig.appUrl}test-${uuid}/`;
 
-            const currentConfigResponse = await AdminApiContext.get(`./_action/system-config?domain=storefront&salesChannelId=${uuid}`);
-            const currentConfig = (await currentConfigResponse.json()) as { 'storefront.themeSeed': string } | null;
+            const response = await AdminApiContext.post(`./search/system-config`, {
+                data: {
+                    page: 1,
+                    limit: 1,
+                    filter: [
+                        {
+                            type: 'equals',
+                            field: 'salesChannelId',
+                            value: uuid,
+                        },
+                        {
+                            type: 'equals',
+                            field: 'configurationKey',
+                            value: 'storefront.themeSeed',
+                        },
+                    ],
+                },
+            });
+            const currentConfig = await response.json() as { total: number, data: [{ configurationKey: 'storefront.themeSeed', configurationValue: string }] };
+            const themeSeed = currentConfig.total > 0 ? currentConfig.data[0].configurationValue : null;
 
             await AdminApiContext.delete(`./customer/${customerUuid}`);
 
@@ -204,46 +228,22 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                             },
                         ],
                     },
-                    'theme-assignment': {
-                        entity: 'theme_sales_channel',
-                        action: 'upsert',
-                        payload: [{
-                            salesChannelId: uuid,
-                            themeId: SalesChannelBaseConfig.defaultThemeId,
-                        }],
-                    },
                 },
             });
             expect(syncResp.ok()).toBeTruthy();
 
+            if (themeSeed) {
+                await AdminApiContext.post('./system-config', {
+                    data: {
+                        id: uuid,
+                        salesChannelId: uuid,
+                        configurationKey: 'storefront.themeSeed',
+                        configurationValue: themeSeed,
+                    },
+                });
+            }
+
             const salesChannelPromise = AdminApiContext.get(`./sales-channel/${uuid}`);
-
-            let themeAssignPromise;
-
-            if (currentConfig && currentConfig['storefront.themeSeed']) {
-                // check if theme folder exists
-                const md5 = (data: string) => createHash('md5').update(data).digest('hex');
-
-                const md5Str = md5(`${SalesChannelBaseConfig.defaultThemeId}${uuid}${currentConfig['storefront.themeSeed']}`);
-
-                const themeCssResp = await AdminApiContext.head(`${SalesChannelBaseConfig.appUrl}theme/${md5Str}/css/all.css`);
-
-                // if theme all.css exists reuse the seed/theme
-                if (themeCssResp.status() === 200) {
-                    themeAssignPromise = AdminApiContext.post(`./_action/system-config?salesChannelId=${uuid}`, {
-                        data: {
-                            'storefront.themeSeed': currentConfig['storefront.themeSeed'],
-                        },
-                    });
-                }
-            }
-
-            if (!themeAssignPromise) {
-                themeAssignPromise = AdminApiContext.post(
-                    `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${uuid}`
-                );
-            }
-
             const salutationResponse = await AdminApiContext.get(`./salutation`);
             const salutations = (await salutationResponse.json()) as { data: components['schemas']['Salutation'][] };
 
@@ -286,14 +286,12 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 data: customerData,
             });
 
-            const [customerResp, themeAssignResp, salesChannelResp] = await Promise.all([
+            const [customerResp, salesChannelResp] = await Promise.all([
                 customerRespPromise,
-                themeAssignPromise as Promise<APIResponse>,
                 salesChannelPromise,
             ]);
 
             expect(customerResp.ok()).toBeTruthy();
-            expect(themeAssignResp.ok()).toBeTruthy();
             expect(salesChannelResp.ok()).toBeTruthy();
 
             const customer = (await customerResp.json()) as { data: Customer };
@@ -303,6 +301,51 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 salesChannel: salesChannel.data,
                 customer: { ...customer.data, password: customerData.password },
                 url: baseUrl,
+                themeSeed,
+            });
+        },
+        { scope: 'worker' },
+    ],
+
+    DefaultStorefront: [
+        async ({ browser, AdminApiContext, DefaultSalesChannel, SalesChannelBaseConfig }, use) => {
+            const { id: uuid } = DefaultSalesChannel.salesChannel;
+            const isSaasInstance = await isSaaSInstance(AdminApiContext);
+
+            await AdminApiContext.post(
+                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${uuid}`
+            );
+
+            base.slow();
+
+            if (isSaasInstance) {
+
+                const tmpContext = await browser.newContext();
+                const tmpPage = await tmpContext.newPage();
+
+                for (let i = 0; i < 100; ++i) {
+                    let latestTimestamp = new Date().toISOString();
+                    const response = await AdminApiContext.get(`./notification/message?limit=10&latestTimestamp=${latestTimestamp}`);
+                    const json = await response.json() as { notifications: [{ message: string }], timestamp: string };
+
+                    if (json.timestamp) {
+                        latestTimestamp = json.timestamp;
+                    }
+
+                    if (json.notifications.find(n => n.message.includes(`Compilation for sales channel ${DefaultSalesChannel.salesChannel.name} completed`))) {
+                        tmpPage.close();
+                        tmpContext.close();
+
+                        break;
+                    }
+
+                    // eslint-disable-next-line playwright/no-wait-for-timeout
+                    await tmpPage.waitForTimeout(1000);
+                }
+            }
+
+            await use({
+                ...DefaultSalesChannel,
             });
         },
         { scope: 'worker' },

@@ -43,7 +43,7 @@ export const getSnippetSetId = async (languageCode: string, adminApiContext: Adm
     return result.data[0].id;
 };
 
-export const getCurrency = async (isoCode: 'EUR', adminApiContext: AdminApiContext) => {
+export const getCurrency = async (isoCode: string, adminApiContext: AdminApiContext) => {
     const resp = await adminApiContext.post('search/currency', {
         data: {
             limit: 1,
@@ -207,7 +207,7 @@ export const getFlowId = async (flowName: string, adminApiContext: AdminApiConte
     return result.data[0].id;
 };
 
-export const getOrderTransactionId = async (orderId: string, adminApiContext: AdminApiContext): Promise<{ id: string }> =>{
+export const getOrderTransactionId = async (orderId: string, adminApiContext: AdminApiContext): Promise<{ id: string }> => {
     const orderTransactionResponse = await adminApiContext.get(`order/${orderId}/transactions?_response`);
 
     const { data: orderTransaction } = await orderTransactionResponse.json();
@@ -237,6 +237,6 @@ export function extractIdFromUrl(url: string): string | null {
 }
 
 type OrderStatus = 'cancel' | 'complete' | 'reopen' | 'process';
-export const setOrderStatus = async (orderId: string, orderStatus: OrderStatus , adminApiContext: AdminApiContext): Promise<APIResponse> => {
+export const setOrderStatus = async (orderId: string, orderStatus: OrderStatus, adminApiContext: AdminApiContext): Promise<APIResponse> => {
     return await adminApiContext.post(`./_action/order/${orderId}/state/${orderStatus}`);
 };
