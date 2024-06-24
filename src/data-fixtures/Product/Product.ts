@@ -2,6 +2,9 @@ import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
 import type { Product } from '../../types/ShopwareTypes';
 
+/**
+ * @deprecated - Use TestDataService.createBasicProduct() instead.
+ */
 export const ProductData = base.extend<FixtureTypes>({
     ProductData: async ({ IdProvider, SalesChannelBaseConfig, AdminApiContext, DefaultSalesChannel }, use) => {
 

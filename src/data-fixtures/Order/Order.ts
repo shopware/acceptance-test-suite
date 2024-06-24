@@ -8,6 +8,9 @@ import {
     getStateMachineStateId,
 } from '../../services/ShopwareDataHelpers';
 
+/**
+ * @deprecated - Use TestDataService.createOrder() instead.
+ */
 export const OrderData = base.extend<FixtureTypes>({
     OrderData: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, DefaultSalesChannel, ProductData }, use) => {
 
