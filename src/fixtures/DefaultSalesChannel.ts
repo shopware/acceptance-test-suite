@@ -39,7 +39,7 @@ export interface DefaultSalesChannelTypes {
         themeSeed: string | null;
     },
     DefaultStorefront: {
-        salesChannel: components['schemas']['SalesChannel'];
+        salesChannel: SalesChannel;
         customer: Customer;
         url: string;
     },

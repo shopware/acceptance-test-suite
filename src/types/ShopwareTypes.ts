@@ -71,7 +71,14 @@ export type Order = components['schemas']['Order'] & {
         firstName: string,
         lastName: string,
         email: string,
-    }
+    },
+    price: {
+        netPrice: number;
+        positionPrice: number;
+        rawTotal: number;
+        taxStatus: string;
+        totalPrice: number;
+    };
 }
 
 export type ShippingMethod = components['schemas']['ShippingMethod'] & {
