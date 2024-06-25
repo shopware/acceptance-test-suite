@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/shopware/acceptance-test-suite/compare/v2.0.1...v2.1.0) (2024-06-25)
+
+
+### Features
+
+* First iteration of a new Test Data Service ([abf72ed](https://github.com/shopware/acceptance-test-suite/commit/abf72edafd2aeeba7a03cb676dbb1cfada3fbbe5))
+* make theme compilation compatible with SaaS instances ([3b6fcf9](https://github.com/shopware/acceptance-test-suite/commit/3b6fcf902ae9bf7b4e622a0db001ddc3f163a1eb))
+
 ## [2.0.1](https://github.com/shopware/acceptance-test-suite/compare/v2.0.0...v2.0.1) (2024-06-12)
 
 
