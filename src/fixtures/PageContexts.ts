@@ -1,5 +1,6 @@
 import { test as base, expect, Page } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
+import { mockApiCalls } from '../services/ApiMocks';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -11,8 +12,11 @@ export const test = base.extend<FixtureTypes>({
     AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
         const context = await browser.newContext({
             baseURL: SalesChannelBaseConfig.adminUrl,
+            serviceWorkers: 'block',
         });
         const page = await context.newPage();
+
+        await mockApiCalls(page);
 
         const { id, uuid } = IdProvider.getIdPair();
 
@@ -36,6 +40,17 @@ export const test = base.extend<FixtureTypes>({
 
         await page.goto('#/login');
 
+        await page.addStyleTag({
+            content: `
+                .sf-toolbar {
+                    width: 0 !important;
+                    height: 0 !important;
+                    display: none !important;
+                    pointer-events: none !important;
+                }
+                `.trim(),
+        });
+
         await page.getByLabel(/Username|Email address/).fill(adminUser.username);
         await page.getByLabel('Password').fill(adminUser.password);
 
@@ -54,17 +69,6 @@ export const test = base.extend<FixtureTypes>({
             timeout: 10000,
         });
 
-        await page.addStyleTag({
-            content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-        });
-
         // Run the test
         await use(page);
 
@@ -76,15 +80,15 @@ export const test = base.extend<FixtureTypes>({
         expect(cleanupResponse.ok()).toBeTruthy();
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, browser }, use) => {
-        const { url } = DefaultSalesChannel;
+    StorefrontPage: async ({ DefaultStorefront, browser }, use) => {
+        const { url } = DefaultStorefront;
 
         const context = await browser.newContext({
             baseURL: url,
         });
         const page = await context.newPage();
 
-        await page.goto('./');
+        await page.goto('./', { waitUntil: 'load' });
 
         await use(page);
 
