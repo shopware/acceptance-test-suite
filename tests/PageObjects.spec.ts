@@ -1,4 +1,4 @@
-import { test, getFlowId } from '../src/index';
+import { test, getFlowId, isSaaSInstance } from '../src/index';
 
 test('Storefront page objects.', async ({
     ShopCustomer,
@@ -80,8 +80,12 @@ test('Administration page objects.', async ({
     AdminDashboard,
 }) => {
 
-    await ShopAdmin.goesTo(AdminFirstRunWizard.url());
-    await ShopAdmin.expects(AdminFirstRunWizard.nextButton).toBeVisible();
+
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (!await isSaaSInstance(AdminApiContext)) {
+        await ShopAdmin.goesTo(AdminFirstRunWizard.url());
+        await ShopAdmin.expects(AdminFirstRunWizard.nextButton).toBeVisible();
+    }
 
     await ShopAdmin.goesTo(AdminProductDetail.url(ProductData.id));
     await ShopAdmin.expects(AdminProductDetail.savePhysicalProductButton).toBeVisible();
@@ -102,9 +106,13 @@ test('Administration page objects.', async ({
     await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
 
-    await ShopAdmin.goesTo(AdminDashboard.url());
-    await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
 
-    await ShopAdmin.goesTo(AdminDataSharing.url());
-    await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (!await isSaaSInstance(AdminApiContext)) {
+        await ShopAdmin.goesTo(AdminDashboard.url());
+        await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
+
+        await ShopAdmin.goesTo(AdminDataSharing.url());
+        await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
+    }
 });
