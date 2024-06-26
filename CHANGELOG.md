@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/shopware/acceptance-test-suite/compare/v2.2.0...v2.3.0) (2024-06-26)
+
+
+### Features
+
+* cache theme compile and make async theme compile more reliable ([5d1a49e](https://github.com/shopware/acceptance-test-suite/commit/5d1a49e8e663c5080bf760c0df3f520741f0e3c2))
+
 ## [2.2.0](https://github.com/shopware/acceptance-test-suite/compare/v2.1.0...v2.2.0) (2024-06-25)
 
 
