@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/shopware/acceptance-test-suite/compare/v2.3.0...v2.3.1) (2024-06-27)
+
+
+### Bug Fixes
+
+* Improved data cleanup of TestDataService ([b7c2d3c](https://github.com/shopware/acceptance-test-suite/commit/b7c2d3c838fee0015f1485b5cc88b6883a7ef9e3))
+
 ## [2.3.0](https://github.com/shopware/acceptance-test-suite/compare/v2.2.0...v2.3.0) (2024-06-26)
 
 
