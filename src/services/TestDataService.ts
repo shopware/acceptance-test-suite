@@ -22,7 +22,7 @@ import type {
 
 export interface CreatedRecord {
     resource: string;
-    id: string;
+    payload: Record<string, string>;
 }
 
 export interface SimpleLineItem {
@@ -65,9 +65,29 @@ export class TestDataService {
     public readonly defaultCountryId: string;
     public readonly defaultCustomerGroupId: string;
 
+    /**
+     * Configures if an automated cleanup of the data should be executed.
+     *
+     * @private
+     */
     private shouldCleanUp = true;
 
+    /**
+     * Configuration of higher priority entities for the cleanup operation.
+     * These entities will be deleted before others.
+     * This will prevent restricted delete operations of associated entities.
+     *
+     * @private
+     */
+    private highPriorityEntities = ['order', 'product'];
+
+    /**
+     * A registry of all created records.
+     *
+     * @private
+     */
     private createdRecords: CreatedRecord[] = [];
+
 
     constructor(AdminApiClient: AdminApiContext, IdProvider: IdProvider, options: DataServiceOptions) {
         this.AdminApiClient = AdminApiClient;
@@ -166,9 +186,7 @@ export class TestDataService {
         const product = await this.createBasicProduct(overrides, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
-        const productDownload = await this.assignProductDownload(product.id, media.id);
-
-        this.addCreatedRecord('product-download', productDownload.id);
+        await this.assignProductDownload(product.id, media.id);
 
         return product;
     }
@@ -323,7 +341,7 @@ export class TestDataService {
 
         const { data: propertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
 
-        this.addCreatedRecord('property-group', propertyGroup.id);
+        this.addCreatedRecord('property_group', propertyGroup.id);
 
         return propertyGroup;
     }
@@ -358,7 +376,7 @@ export class TestDataService {
 
         const { data: propertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
 
-        this.addCreatedRecord('property-group', propertyGroup.id);
+        this.addCreatedRecord('property_group', propertyGroup.id);
 
         return propertyGroup;
     }
@@ -785,10 +803,19 @@ export class TestDataService {
      * All entities added to the registry will be deleted by the cleanup call.
      *
      * @param resource - The resource name of the entity.
-     * @param id - The uuid of the entity.
+     * @param payload - You can pass a payload object for the delete operation or simply pass the uuid of the entity.
      */
-    addCreatedRecord(resource: string, id: string) {
-        this.createdRecords.push({ resource, id });
+    addCreatedRecord(resource: string, payload: string | Record<string, string>) {
+        const res = resource.replace('-', '_');
+
+        if (typeof payload === 'string') {
+            this.createdRecords.push({
+                resource: res,
+                payload: { id: payload },
+            });
+        } else {
+            this.createdRecords.push({ resource: res, payload });
+        }
     }
 
     /**
@@ -809,23 +836,41 @@ export class TestDataService {
             return Promise.reject();
         }
 
+        const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
         const deleteOperations: Record<string, SyncApiOperation> = {};
 
         this.createdRecords.forEach((record) => {
-            if (!deleteOperations[`delete-${record.resource}`]) {
-                deleteOperations[`delete-${record.resource}`] = {
-                    entity: record.resource,
-                    action: 'delete',
-                    payload: [],
-                };
-            }
+            if (this.highPriorityEntities.includes(record.resource)) {
+                if (!priorityDeleteOperations[`delete-${record.resource}`]) {
+                    priorityDeleteOperations[`delete-${record.resource}`] = {
+                        entity: record.resource,
+                        action: 'delete',
+                        payload: [],
+                    };
+                }
 
-            deleteOperations[`delete-${record.resource}`].payload.push({ id: record.id });
+                priorityDeleteOperations[`delete-${record.resource}`].payload.push(record.payload);
+
+            } else {
+                if (!deleteOperations[`delete-${record.resource}`]) {
+                    deleteOperations[`delete-${record.resource}`] = {
+                        entity: record.resource,
+                        action: 'delete',
+                        payload: [],
+                    };
+                }
+
+                deleteOperations[`delete-${record.resource}`].payload.push(record.payload);
+            }
+        });
+
+        await this.AdminApiClient.post('_action/sync', {
+            data: priorityDeleteOperations,
         });
 
         return await this.AdminApiClient.post('_action/sync', {
             data: deleteOperations,
-        })
+        });
     }
 
     /**

@@ -3,6 +3,7 @@ import { test as DefaultSalesChannel } from './fixtures/DefaultSalesChannel';
 import { test as ApiContexts } from './fixtures/ApiContexts';
 import { test as PageContexts } from './fixtures/PageContexts';
 import { test as Actors } from './fixtures/Actors';
+import { test as TestData } from './fixtures/TestData';
 import { test as HelperFixtures } from './fixtures/HelperFixtures';
 import { test as StorefrontPages } from './page-objects/StorefrontPages';
 import { test as AdministrationPages } from './page-objects/AdministrationPages';
@@ -30,6 +31,7 @@ export const test = mergeTests(
     ApiContexts,
     PageContexts,
     Actors,
+    TestData,
     StorefrontPages,
     AdministrationPages,
     DataFixtures,
