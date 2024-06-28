@@ -1,11 +1,11 @@
-import { test as base, expect } from '@playwright/test';
+import { Page, test as base, expect } from '@playwright/test';
 import { IdProvider } from '../services/IdProvider';
 import { isSaaSInstance } from '../services/ShopInfo';
 import type { FixtureTypes } from '../types/FixtureTypes';
 
 export interface HelperFixtureTypes {
     IdProvider: IdProvider;
-    SaaSInstanceSetup: () => Promise<void>,
+    SaaSInstanceSetup: (page: Page) => Promise<void>,
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -20,8 +20,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     SaaSInstanceSetup: [
-        async ({ AdminApiContext, browser }, use) => {
-            const SetupInstance = async function SetupInstance() {
+        async ({ AdminApiContext }, use) => {
+            const SetupInstance = async function SetupInstance(page: Page) {
                 // eslint-disable-next-line playwright/no-skipped-test
                 await test.skip(!(await isSaaSInstance(AdminApiContext)), 'Skipping SaaS setup, could not detect SaaS instance');
 
@@ -34,9 +34,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 // eslint-disable-next-line playwright/no-skipped-test
                 await test.skip((await AdminApiContext.get(`${process.env.APP_URL}constructionmode`, { maxRedirects: 0 })).status() > 204, 'Instance already setup');
 
-                const page = await browser.newPage({ baseURL: process.env.ADMIN_URL });
-
-                await page.goto('./set-up-shop');
+                await page.goto(`${process.env.ADMIN_URL}set-up-shop`);
                 await page.getByRole('button', { name: 'Next' }).click();
 
                 await expect(page.getByRole('heading', { name: 'Everything finished!' })).toBeVisible();
@@ -48,6 +46,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 await page.getByRole('button', { name: 'Log in' }).click();
 
                 await page.getByRole('button', { name: 'Launch your business' }).click();
+
+                await expect(page.getByRole('button', { name: 'Launch your business' })).toBeHidden();
             };
 
             await use(SetupInstance);

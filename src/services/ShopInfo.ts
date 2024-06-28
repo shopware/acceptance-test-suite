@@ -1,4 +1,3 @@
-import { Page, Request } from 'playwright-core';
 import { type AdminApiContext } from './AdminApiContext';
 
 export const isSaaSInstance = async (adminApiContext: AdminApiContext): Promise<boolean> => {
@@ -6,22 +5,19 @@ export const isSaaSInstance = async (adminApiContext: AdminApiContext): Promise<
     return instanceFeatures.ok();
 };
 
-export const isThemeCompiled = async (page: Page): Promise<boolean> => {
-    let allCSSFound = false;
+export const isThemeCompiled = async (context: AdminApiContext, storefrontUrl: string): Promise<boolean> => {
+    const response = await context.get(storefrontUrl);
 
-    const listener = (request: Request) => {
-        if (request.url().includes('all.css')) {
-            allCSSFound = true;
-        }
-    };
+    const body = (await response.body()).toString();
 
-    /**
-     * We request the storefront index and see if a all.css is loaded. 
-     * If that does not happen, the theme is not assigned/compiled
-     */
-    page.on('request', listener);
-    await page.goto('./', { waitUntil: 'load' });
-    page.off('request', listener);
+    const matches = body.match(/.*"(https:\/\/.*all\.css[^"]*)".*/);
+    if (matches && matches?.length > 1) {
+        const allCssUrl = matches[1];
 
-    return allCSSFound;
+        const allCssResponse = await context.get(allCssUrl);
+
+        return allCssResponse.status() < 400;
+    }
+
+    return false;
 };
