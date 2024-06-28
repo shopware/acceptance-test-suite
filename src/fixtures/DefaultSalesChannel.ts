@@ -12,7 +12,6 @@ import {
     getSnippetSetId,
     getThemeId,
 } from '../services/ShopwareDataHelpers';
-import { isSaaSInstance, isThemeCompiled } from '../services/ShopInfo';
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
@@ -154,6 +153,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 }
             }
 
+            // await AdminApiContext.delete(`./sales-channel/${uuid}`);
+
             const syncResp = await AdminApiContext.post('./_action/sync', {
                 data: {
                     'write-sales-channel': {
@@ -266,38 +267,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 salesChannel: salesChannel.data,
                 customer: { ...customer.data, password: customerData.password },
                 url: baseUrl,
-            });
-        },
-        { scope: 'worker' },
-    ],
-
-    DefaultStorefront: [
-        async ({ browser, AdminApiContext, DefaultSalesChannel, SalesChannelBaseConfig }, use) => {
-            const { id: uuid } = DefaultSalesChannel.salesChannel;
-            const isSaasInstance = await isSaaSInstance(AdminApiContext);
-
-            const tmpContext = await browser.newContext({
-                baseURL: DefaultSalesChannel.url,
-            });
-            const tmpPage = await tmpContext.newPage();
-
-            if (!await isThemeCompiled(tmpPage)) {
-                base.slow();
-
-                await AdminApiContext.post(
-                    `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${uuid}`
-                );
-
-                if (isSaasInstance) {
-                    while (!await isThemeCompiled(tmpPage)) {
-                        // eslint-disable-next-line playwright/no-wait-for-timeout
-                        await tmpPage.waitForTimeout(2000);
-                    }
-                }
-            }
-
-            await use({
-                ...DefaultSalesChannel,
             });
         },
         { scope: 'worker' },
