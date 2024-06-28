@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/shopware/acceptance-test-suite/compare/v2.3.1...v2.3.2) (2024-06-28)
+
+
+### Bug Fixes
+
+* move the theme compilation into the StorefrontPage fixture ([89470a0](https://github.com/shopware/acceptance-test-suite/commit/89470a008ddf19f32896dce396cd938c946a41ac))
+
 ## [2.3.1](https://github.com/shopware/acceptance-test-suite/compare/v2.3.0...v2.3.1) (2024-06-27)
 
 
