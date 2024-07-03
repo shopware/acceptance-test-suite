@@ -27,7 +27,7 @@ test('Verify sign-up email', { tag: '@Email' }, async ({
 
     // Verify email content
     await page.goto(url);
-    await expect(page.locator('#from')).toContainText('acceptance test');
+    await expect(page.locator('#from')).toContainText('doNotReply@localhost.com');
     await expect(page.locator('#to')).toContainText(email);
     await expect(page.locator('#subject')).toContainText('Your sign-up');
     await expect(page.locator('p').last()).toContainText(email);
