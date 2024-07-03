@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 process.env['SHOPWARE_ADMIN_USERNAME'] = process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin';
 process.env['SHOPWARE_ADMIN_PASSWORD'] = process.env['SHOPWARE_ADMIN_PASSWORD'] || 'shopware';
+process.env['MAILPIT_BASE_URL'] = process.env['MAILPIT_BASE_URL'] || 'http://localhost:8013';
 
 const defaultAppUrl = 'http://localhost:8011/';
 process.env['APP_URL'] = process.env['APP_URL'] ?? defaultAppUrl;
