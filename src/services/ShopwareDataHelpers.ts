@@ -4,6 +4,7 @@ import type { components } from '@shopware/api-client/admin-api-types';
 
 type Language = components['schemas']['Currency'] & {
     id: string,
+    translationCode: components['schemas']['Locale'] & { id: string },
 }
 
 export const getLanguageData = async (
@@ -23,16 +24,13 @@ export const getLanguageData = async (
         },
     });
 
-    const result = (await resp.json()) as { data: { id: string; translationCode: { id: string } }[]; total: number };
+    const result = await resp.json();
 
     if (result.data.length === 0) {
         throw new Error(`Language ${languageCode} not found`);
     }
 
-    return {
-        id: result.data[0].id,
-        localeId: result.data[0].translationCode.id,
-    };
+    return result.data[0];
 };
 
 export const getSnippetSetId = async (languageCode: string, adminApiContext: AdminApiContext): Promise<string> => {
