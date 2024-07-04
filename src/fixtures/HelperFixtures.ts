@@ -1,11 +1,13 @@
-import { Page, test as base, expect } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import { IdProvider } from '../services/IdProvider';
 import { isSaaSInstance } from '../services/ShopInfo';
 import type { FixtureTypes } from '../types/FixtureTypes';
+import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
+import { AdminApiContext } from '../services/AdminApiContext';
 
 export interface HelperFixtureTypes {
     IdProvider: IdProvider;
-    SaaSInstanceSetup: (page: Page) => Promise<void>,
+    SaaSInstanceSetup: () => Promise<void>,
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -20,34 +22,30 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     SaaSInstanceSetup: [
-        async ({ AdminApiContext }, use) => {
-            const SetupInstance = async function SetupInstance(page: Page) {
+        async ({ AdminApiContext: context }, use) => {
+            const SetupInstance = async function SetupInstance() {
                 // eslint-disable-next-line playwright/no-skipped-test
-                await test.skip(!(await isSaaSInstance(AdminApiContext)), 'Skipping SaaS setup, could not detect SaaS instance');
+                await test.skip(!(await isSaaSInstance(context)), 'Skipping SaaS setup, could not detect SaaS instance');
+
+                expect(context.options.admin_username, 'setup requires admin user credentials').toEqual(expect.any(String));
+                expect(context.options.admin_password, 'setup requires admin user credentials').toEqual(expect.any(String));
 
                 // check tags
-                const instanceStatusResponse = await AdminApiContext.get('./instance/status');
+                const instanceStatusResponse = await context.get('./instance/status');
                 const instanceStatus = await instanceStatusResponse.json() as { name: string, inStatusSince: string, tags: [string] };
 
                 await expect(instanceStatus.tags, 'expect instance to have "ci" tag').toContain('ci');
 
-                // eslint-disable-next-line playwright/no-skipped-test
-                await test.skip((await AdminApiContext.get(`${process.env.APP_URL}constructionmode`, { maxRedirects: 0 })).status() > 204, 'Instance already setup');
+                const currency = await getCurrency('USD', context);
+                const language = await getLanguageData('en-US', context);
 
-                await page.goto(`${process.env.ADMIN_URL}set-up-shop`);
-                await page.getByRole('button', { name: 'Next' }).click();
+                await context.post('./_actions/set-default-entities',
+                    { data: { currencyId: currency.id, languageId: language.id } }
+                );
 
-                await expect(page.getByRole('heading', { name: 'Everything finished!' })).toBeVisible();
-
-                await page.getByRole('button', { name: 'Open your shop' }).click();
-                await page.goto(`${process.env.ADMIN_URL}`);
-                await page.getByLabel(/Username|Email address/).fill(AdminApiContext.options.admin_username ?? 'admin');
-                await page.getByLabel('Password').fill(AdminApiContext.options.admin_password ?? 'shopware');
-                await page.getByRole('button', { name: 'Log in' }).click();
-
-                await page.getByRole('button', { name: 'Launch your business' }).click();
-
-                await expect(page.getByRole('button', { name: 'Launch your business' })).toBeHidden();
+                // we need to be authenticated with an sbp user
+                const token = await AdminApiContext.authenticateWithUserPassword(context.context, context.options);
+                await context.post('./sbp/request-live-status', { headers: { Authorization: `Bearer ${token}` } });
             };
 
             await use(SetupInstance);

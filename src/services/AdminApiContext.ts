@@ -83,7 +83,7 @@ export class AdminApiContext {
         });
     }
 
-    private static async authenticateWithClientCredentials(context: APIRequestContext, options: AdminApiContextOptions) {
+    static async authenticateWithClientCredentials(context: APIRequestContext, options: AdminApiContextOptions) {
         const authResponse: APIResponse = await context.post('oauth/token', {
             data: {
                 grant_type: 'client_credentials',
@@ -102,7 +102,7 @@ export class AdminApiContext {
         return authData['access_token'];
     }
 
-    private static async authenticateWithUserPassword(context: APIRequestContext, options: AdminApiContextOptions) {
+    static async authenticateWithUserPassword(context: APIRequestContext, options: AdminApiContextOptions) {
         const authResponse: APIResponse = await context.post('oauth/token', {
             data: {
                 client_id: 'administration',
