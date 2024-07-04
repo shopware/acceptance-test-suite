@@ -1,11 +1,11 @@
 import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
-import type { ProductType } from '../../../data-fixtures/DataFixtures';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
+import { Product } from '../../../types/ShopwareTypes';
 
 export const AddProductToCart = base.extend<{ AddProductToCart: Task }, FixtureTypes>({
-    AddProductToCart: async ({ ShopCustomer, StorefrontProductDetail }, use)=> {
-        const task = (ProductData: ProductType, quantity = '1') => {
+    AddProductToCart: async ({ ShopCustomer, StorefrontProductDetail }, use) => {
+        const task = (ProductData: Product, quantity = '1') => {
             return async function AddProductToCart() {
                 await StorefrontProductDetail.quantitySelect.fill(quantity);
 

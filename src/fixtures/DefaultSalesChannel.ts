@@ -63,7 +63,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const currency = await requests.currencyEUR;
 
             await use({
-                enGBLocaleId: lang.localeId,
+                enGBLocaleId: lang.translationCode.id,
                 enGBLanguageId: lang.id,
                 storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
                 eurCurrencyId: currency.id,
