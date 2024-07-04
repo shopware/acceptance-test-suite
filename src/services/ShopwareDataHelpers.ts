@@ -1,10 +1,15 @@
 import { APIResponse } from '@playwright/test';
 import { AdminApiContext } from './AdminApiContext';
+import type { components } from '@shopware/api-client/admin-api-types';
+
+type Language = components['schemas']['Currency'] & {
+    id: string,
+}
 
 export const getLanguageData = async (
     languageCode: string,
     adminApiContext: AdminApiContext
-): Promise<{ id: string; localeId: string }> => {
+): Promise<Language> => {
 
     const resp = await adminApiContext.post('search/language', {
         data: {
@@ -19,6 +24,10 @@ export const getLanguageData = async (
     });
 
     const result = (await resp.json()) as { data: { id: string; translationCode: { id: string } }[]; total: number };
+
+    if (result.data.length === 0) {
+        throw new Error(`Language ${languageCode} not found`);
+    }
 
     return {
         id: result.data[0].id,
@@ -43,7 +52,11 @@ export const getSnippetSetId = async (languageCode: string, adminApiContext: Adm
     return result.data[0].id;
 };
 
-export const getCurrency = async (isoCode: string, adminApiContext: AdminApiContext) => {
+type Currency = components['schemas']['Currency'] & {
+    id: string,
+}
+
+export const getCurrency = async (isoCode: string, adminApiContext: AdminApiContext): Promise<Currency> => {
     const resp = await adminApiContext.post('search/currency', {
         data: {
             limit: 1,
@@ -56,6 +69,10 @@ export const getCurrency = async (isoCode: string, adminApiContext: AdminApiCont
     });
 
     const result = await resp.json();
+
+    if (result.data.length === 0) {
+        throw new Error(`Currency ${isoCode} not found`);
+    }
 
     return result.data[0];
 };
