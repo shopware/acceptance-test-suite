@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.4](https://github.com/shopware/acceptance-test-suite/compare/v2.3.3...v2.3.4) (2024-07-04)
+
+
+### Bug Fixes
+
+* fix type errors ([beca984](https://github.com/shopware/acceptance-test-suite/commit/beca9849121e9454a0469958fcc16ba8fb35cd2f))
+
 ## [2.3.3](https://github.com/shopware/acceptance-test-suite/compare/v2.3.2...v2.3.3) (2024-07-04)
 
 
