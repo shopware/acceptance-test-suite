@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.3](https://github.com/shopware/acceptance-test-suite/compare/v2.3.2...v2.3.3) (2024-07-04)
+
+
+### Bug Fixes
+
+* fix saas instance setup ([d5d3e74](https://github.com/shopware/acceptance-test-suite/commit/d5d3e7465db0945d3ad5d4988af45e62c63f81d6))
+
 ## [2.3.2](https://github.com/shopware/acceptance-test-suite/compare/v2.3.1...v2.3.2) (2024-06-28)
 
 
