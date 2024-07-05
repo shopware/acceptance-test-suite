@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.5](https://github.com/shopware/acceptance-test-suite/compare/v2.3.4...v2.3.5) (2024-07-05)
+
+
+### Bug Fixes
+
+* always set prices with the defaul sales channel currency ([cda11fc](https://github.com/shopware/acceptance-test-suite/commit/cda11fc621c5b4628be990b1c0bfcdd62c9f71fc))
+
 ## [2.3.4](https://github.com/shopware/acceptance-test-suite/compare/v2.3.3...v2.3.4) (2024-07-04)
 
 
