@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.7](https://github.com/shopware/acceptance-test-suite/compare/v2.3.6...v2.3.7) (2024-07-05)
+
+
+### Bug Fixes
+
+* always add default language to sales channel to avoid issues ([2cfa199](https://github.com/shopware/acceptance-test-suite/commit/2cfa19986a8d3d1d389f3a3f47e6ba1f5dd7d3f5))
+
 ## [2.3.6](https://github.com/shopware/acceptance-test-suite/compare/v2.3.5...v2.3.6) (2024-07-05)
 
 
