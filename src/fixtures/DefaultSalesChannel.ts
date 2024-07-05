@@ -19,6 +19,7 @@ interface StoreBaseConfig {
     enGBLanguageId: string;
     eurCurrencyId: string;
     defaultCurrencyId: string;
+    defaultLanguageId: string;
     invoicePaymentMethodId: string;
     defaultShippingMethod: string;
     taxId: string;
@@ -68,6 +69,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
                 eurCurrencyId: currency.id,
                 defaultCurrencyId: 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
+                defaultLanguageId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b',
                 invoicePaymentMethodId: await requests.invoicePaymentMethodId,
                 defaultShippingMethod: await requests.defaultShippingMethod,
                 taxId: await requests.getTaxId,
@@ -197,7 +199,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                     name: `${id} Acceptance test`,
                                 },
 
-                                languages: [{ id: SalesChannelBaseConfig.enGBLanguageId }],
+                                languages: [{ id: SalesChannelBaseConfig.enGBLanguageId }, { id: SalesChannelBaseConfig.defaultLanguageId }],
                                 countries: [{ id: SalesChannelBaseConfig.deCountryId }],
                                 shippingMethods: [{ id: SalesChannelBaseConfig.defaultShippingMethod }],
                                 paymentMethods: [{ id: SalesChannelBaseConfig.invoicePaymentMethodId }],
