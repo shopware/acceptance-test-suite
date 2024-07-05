@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.6](https://github.com/shopware/acceptance-test-suite/compare/v2.3.5...v2.3.6) (2024-07-05)
+
+
+### Miscellaneous Chores
+
+* release 2.3.6 ([275c568](https://github.com/shopware/acceptance-test-suite/commit/275c5689214094ecaa2ab76457ab8baf1d58a6a3))
+
 ## [2.3.5](https://github.com/shopware/acceptance-test-suite/compare/v2.3.4...v2.3.5) (2024-07-05)
 
 
