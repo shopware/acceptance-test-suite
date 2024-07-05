@@ -898,6 +898,21 @@ export class TestDataService {
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
             At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`.trim();
 
+        const prices = [
+            {
+                currencyId: this.defaultSalesChannel.currencyId,
+                gross: 10,
+                linked: false,
+                net: 8.4,
+            },
+            {
+                currencyId: currencyId,
+                gross: 10,
+                linked: false,
+                net: 8.4,
+            },
+        ];
+
         let basicProduct = {
             id: productUuid,
             name: productName,
@@ -906,18 +921,8 @@ export class TestDataService {
             taxId: taxId,
             active: true,
             stock: 10,
-            price: [{
-                currencyId: currencyId,
-                gross: 10,
-                linked: false,
-                net: 8.4,
-            }],
-            purchasePrices: [{
-                currencyId: currencyId,
-                gross: 8,
-                linked: false,
-                net: 6.7,
-            }],
+            price: prices,
+            purchasePrices: prices,
         };
 
         if (this.defaultCategoryId) {
@@ -944,41 +949,36 @@ export class TestDataService {
         currencyId: string,
         ruleId: string,
     ): Partial<Product> {
-        return {
-            price: [{
-                currencyId: currencyId,
-                gross: 100,
-                net: 84.03,
+        const p = (gross: number, net: number,) => [
+            {
+                currencyId: this.defaultSalesChannel.currencyId,
+                gross,
+                net,
                 linked: false,
-            }],
+            },
+            {
+                currencyId: currencyId,
+                gross,
+                net,
+                linked: false,
+            },
+        ];
+
+        return {
+            price: p(100, 84.03),
             prices: [{
                 ruleId: ruleId,
-                price: [{
-                    currencyId: currencyId,
-                    gross: 100,
-                    net: 84.03,
-                    linked: false,
-                }],
+                price: p(100, 84.03),
                 quantityStart: 1,
                 quantityEnd: 10,
             }, {
                 ruleId: ruleId,
-                price: [{
-                    currencyId: currencyId,
-                    gross: 90,
-                    net: 75.63,
-                    linked: false,
-                }],
+                price: p(90, 75.63),
                 quantityStart: 11,
                 quantityEnd: 20,
             }, {
                 ruleId: ruleId,
-                price: [{
-                    currencyId: currencyId,
-                    gross: 80,
-                    net: 67.23,
-                    linked: false,
-                }],
+                price: p(80, 67.23),
                 quantityStart: 21,
                 quantityEnd: 50,
             }],

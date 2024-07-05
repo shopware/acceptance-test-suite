@@ -12,6 +12,21 @@ export const ProductData = base.extend<FixtureTypes>({
         const { id: productId, uuid: productUuid } = IdProvider.getIdPair();
         const productName = `Product_test_${productId}`;
 
+        const price = [
+            {
+                currencyId: DefaultSalesChannel.salesChannel.currencyId,
+                gross: 10,
+                linked: false,
+                net: 8.4,
+            },
+            {
+                currencyId: SalesChannelBaseConfig.defaultCurrencyId,
+                gross: 10,
+                linked: false,
+                net: 8.4,
+            },
+        ];
+
         // Create product
         const productResponse = await AdminApiContext.post('./product?_response', {
             data: {
@@ -21,34 +36,8 @@ export const ProductData = base.extend<FixtureTypes>({
                 id: productUuid,
                 name: productName,
                 productNumber: 'Product-' + productId,
-                price: [
-                    {
-                        currencyId: SalesChannelBaseConfig.eurCurrencyId,
-                        gross: 10,
-                        linked: false,
-                        net: 8.4,
-                    },
-                    {
-                        currencyId: SalesChannelBaseConfig.defaultCurrencyId,
-                        gross: 10,
-                        linked: false,
-                        net: 8.4,
-                    },
-                ],
-                purchasePrices: [
-                    {
-                        currencyId: SalesChannelBaseConfig.eurCurrencyId,
-                        gross: 8,
-                        linked: false,
-                        net: 6.7,
-                    },
-                    {
-                        currencyId: SalesChannelBaseConfig.defaultCurrencyId,
-                        gross: 8,
-                        linked: false,
-                        net: 6.7,
-                    },
-                ],
+                price,
+                purchasePrices: price,
                 visibilities: [
                     {
                         salesChannelId: DefaultSalesChannel.salesChannel.id,
