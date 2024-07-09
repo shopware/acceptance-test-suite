@@ -37,4 +37,10 @@ export async function mockApiCalls(page: Page) {
         contentType: 'application/json',
         body: process.env.SBP_BOOKABLE_PLANS_JSON ?? '{}',
     }));
+
+    await page.route('**/api/sbp/nps/active-trigger', route => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: '{"prompt":false,"trigger":["gone-live"]}',
+    }));
 }
