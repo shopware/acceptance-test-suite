@@ -2,7 +2,7 @@ import { APIResponse } from '@playwright/test';
 import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
 
-type Language = components['schemas']['Currency'] & {
+type Language = components['schemas']['Language'] & {
     id: string,
     translationCode: components['schemas']['Locale'] & { id: string },
 }
