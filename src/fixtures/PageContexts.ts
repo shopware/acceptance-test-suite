@@ -55,20 +55,17 @@ export const test = base.extend<FixtureTypes>({
         await page.getByLabel(/Username|Email address/).fill(adminUser.username);
         await page.getByLabel('Password').fill(adminUser.password);
 
+        const configResponsePromise = page.waitForResponse('**/_info/config');
+
         await page.getByRole('button', { name: 'Log in' }).click();
 
-        // Wait until the page is loaded
-        await expect(page.locator('css=.sw-admin-menu__header-logo').first()).toBeVisible({
-            timeout: 20000,
-        });
-
-        await expect(page.locator('.sw-skeleton')).toHaveCount(0, {
-            timeout: 10000,
-        });
-
-        await expect(page.locator('.sw-loader')).toHaveCount(0, {
-            timeout: 10000,
-        });
+        // wait for all js to be loaded
+        const config = await (await configResponsePromise).json();
+        const keys = Object.keys(config.bundles);
+        if (keys.length > 0) {
+            const last = config.bundles[keys[keys.length - 1]] as { js: string[] };
+            await Promise.all(last.js.map(url => page.waitForResponse(url)));
+        }
 
         // Run the test
         await use(page);
