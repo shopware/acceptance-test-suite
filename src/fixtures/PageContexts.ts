@@ -60,11 +60,18 @@ export const test = base.extend<FixtureTypes>({
         await page.getByRole('button', { name: 'Log in' }).click();
 
         // wait for all js to be loaded
-        const config = await (await configResponsePromise).json();
-        const keys = Object.keys(config.bundles);
-        if (keys.length > 0) {
-            const last = config.bundles[keys[keys.length - 1]] as { js: string[] };
-            await Promise.all(last.js.map(url => page.waitForResponse(url)));
+        const config = await (await configResponsePromise).json() as { bundles: Record<string, { js: string[] | undefined }> };
+
+        let lastPlugin;
+
+        for (const i in config.bundles) {
+            if (config.bundles[i]?.js && config.bundles[i]?.js?.length) {
+                lastPlugin = config.bundles[i] as { js: string[] };
+            }
+        }
+
+        if (lastPlugin) {
+            await Promise.all(lastPlugin.js.map(url => page.waitForResponse(url)));
         }
 
         // Run the test
