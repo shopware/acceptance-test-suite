@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.8](https://github.com/shopware/acceptance-test-suite/compare/v2.3.7...v2.3.8) (2024-07-15)
+
+
+### Bug Fixes
+
+* disable feedback prompt by mocking nps/active-trigger ([44963d1](https://github.com/shopware/acceptance-test-suite/commit/44963d18e9b7c7276ba410b2e09332386969288e))
+* wait for js scripts to load in admin ([02525bd](https://github.com/shopware/acceptance-test-suite/commit/02525bd3053dcfeef0b2ba9d24b0f5c8a2f17437))
+
 ## [2.3.7](https://github.com/shopware/acceptance-test-suite/compare/v2.3.6...v2.3.7) (2024-07-05)
 
 

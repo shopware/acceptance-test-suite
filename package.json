@@ -1,6 +1,6 @@
 {
   "name": "@shopware-ag/acceptance-test-suite",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "description": "Shopware Acceptance Test Suite",
   "author": "shopware AG",
   "license": "MIT",
