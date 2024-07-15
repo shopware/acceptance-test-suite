@@ -18,20 +18,20 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   timeout: 60000,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : 1,
+  retries: 0,
+  workers: process.env.CI ? 2 : 1,
   reporter: process.env.CI ? [
     ['html'],
     ['github'],
   ] : 'html',
   use: {
     baseURL: process.env['APP_URL'],
-    trace: 'on',
+    trace: 'retain-on-failure',
     video: 'off',
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: process.env['APP_URL'] === 'http://localhost:8000/' ? 'docker compose up --pull=always --quiet-pull shopware' : 'sleep 1h',
+    command: process.env['APP_URL'] === 'http://localhost:8000/' ? 'docker compose up --pull=always --quiet-pull shopware > /dev/null' : 'sleep 1h',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
     timeout: 120000,

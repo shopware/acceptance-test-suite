@@ -52,27 +52,25 @@ export const test = base.extend<FixtureTypes>({
                 `.trim(),
         });
 
+        await expect(page.url()).toContain('login');
+
         await page.getByLabel(/Username|Email address/).fill(adminUser.username);
         await page.getByLabel('Password').fill(adminUser.password);
 
-        const configResponsePromise = page.waitForResponse('**/_info/config');
+        const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
 
-        await page.getByRole('button', { name: 'Log in' }).click();
-
-        // wait for all js to be loaded
-        const config = await (await configResponsePromise).json() as { bundles: Record<string, { js: string[] | undefined }> };
-
-        let lastPlugin;
-
+        const jsLoadingPromises = [];
         for (const i in config.bundles) {
             if (config.bundles[i]?.js && config.bundles[i]?.js?.length) {
-                lastPlugin = config.bundles[i] as { js: string[] };
+                const js = config?.bundles[i]?.js ?? [];
+                jsLoadingPromises.push(...js.map(url => page.waitForResponse(url)));
             }
         }
 
-        if (lastPlugin) {
-            await Promise.all(lastPlugin.js.map(url => page.waitForResponse(url)));
-        }
+        await page.getByRole('button', { name: 'Log in' }).click();
+
+        // wait for all plugin js to be loaded
+        await Promise.all(jsLoadingPromises);
 
         // Run the test
         await use(page);
