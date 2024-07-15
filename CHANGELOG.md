@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.9](https://github.com/shopware/acceptance-test-suite/compare/v2.3.8...v2.3.9) (2024-07-15)
+
+
+### Bug Fixes
+
+* wait for plugins/apps that actually have js ([ab9b732](https://github.com/shopware/acceptance-test-suite/commit/ab9b7327cdfe29df1e7c7aa41db0a9e325a4825f))
+
 ## [2.3.8](https://github.com/shopware/acceptance-test-suite/compare/v2.3.7...v2.3.8) (2024-07-15)
 
 
