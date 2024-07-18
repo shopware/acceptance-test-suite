@@ -833,7 +833,7 @@ export class TestDataService {
      */
     async cleanUp() {
         if (!this.shouldCleanUp) {
-            return Promise.reject();
+            return null;
         }
 
         const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
