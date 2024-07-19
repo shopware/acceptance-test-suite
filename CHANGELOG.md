@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.11](https://github.com/shopware/acceptance-test-suite/compare/v2.3.10...v2.3.11) (2024-07-19)
+
+
+### Bug Fixes
+
+* return value leads to aborts of test projects ([b0322d6](https://github.com/shopware/acceptance-test-suite/commit/b0322d64ec47b7213ad515b3136ccba52a182b15))
+
 ## [2.3.10](https://github.com/shopware/acceptance-test-suite/compare/v2.3.9...v2.3.10) (2024-07-16)
 
 
