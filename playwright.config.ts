@@ -3,7 +3,8 @@ import { defineConfig, devices } from '@playwright/test';
 process.env['SHOPWARE_ADMIN_USERNAME'] = process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin';
 process.env['SHOPWARE_ADMIN_PASSWORD'] = process.env['SHOPWARE_ADMIN_PASSWORD'] || 'shopware';
 
-process.env['APP_URL'] = process.env['APP_URL'] ?? 'http://localhost:8000';
+const defaultAppUrl = 'http://localhost:8011/';
+process.env['APP_URL'] = process.env['APP_URL'] ?? defaultAppUrl;
 
 // make sure APP_URL ends with a slash
 process.env['APP_URL'] = (process.env['APP_URL'] ?? '').replace(/\/+$/, '') + '/';
@@ -31,10 +32,10 @@ export default defineConfig({
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: process.env['APP_URL'] === 'http://localhost:8000/' ? 'docker compose up --pull=always --quiet-pull shopware > /dev/null' : 'sleep 1h',
+    command: process.env['APP_URL'] === defaultAppUrl ? 'docker compose up --pull=always --quiet-pull shopware' : 'sleep 1h',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
-    timeout: 120000,
+    timeout: 180000,
   },
   projects: [
     {
