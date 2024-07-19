@@ -15,6 +15,7 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Actor Pattern](#actor-pattern)
 * [Data Fixtures](#data-fixtures)
 * [Code Contribution](#code-contribution)
+* [Best practices](#best-practices)
 
 ## Installation
 Start by creating your own [Playwright](https://playwright.dev/docs/intro) project.
@@ -375,3 +376,31 @@ If you create your own data fixtures make sure to import and merge them in your 
 You can contribute to this project via its [official repository](https://github.com/shopware/acceptance-test-suite/) on GitHub.  
 
 This project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please make sure to form your commits accordingly to the spec.
+
+## Best practices
+
+A good first read about this is the official [playwright best practices page](https://playwright.dev/docs/best-practices). It describes the most important practices which should also be followed when writing acceptance tests for Shopware.
+
+The most important part is [test isolation](https://playwright.dev/docs/best-practices#make-tests-as-isolated-as-possible) which helps to prevent flaky behavior and enables the test to be run in parallel and on systems with an unknown state.
+
+
+### Dos
+
+- use fixtures or the [`TestDataService`](./src/services/TestDataService.ts)
+- create all the data that is required for your test case. That includes sales channels, customers and users (the page fixtures handle most of the common use cases)
+- if you need specific settings for your test, set it explicitly for the user/customer/sales channel
+- directly jump to detail pages with the id of the entities you've created
+    - if that's no possible, use the search with a unique name to filter lists to just that single entity
+
+### Don'ts
+
+- do not expect lists/tables to only contain one item, leverage unique ids/names to open or find your entity instead
+- same with helper functions, do not except to only get item back from the API. Always a unique criteria to the API call
+- avoid unused fixtures: if you request a fixture but don't use any data from the fixture, the test or fixture should be refactored
+- do not depend on implicit configuration and existing data. Examples:
+    - rules
+    - flows
+    - categories
+- do not expect the shop to have the defaults en_GB and EUR
+- do not change global settings (sales channel is ok, because it's created by us)
+  - basically everything in Settings that is not specific to a sales channel (tax, search, etc.)
