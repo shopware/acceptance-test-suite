@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.0](https://github.com/shopware/acceptance-test-suite/compare/v2.3.11...v2.4.0) (2024-07-29)
+
+
+### Features
+
+* Add EmailApiContext ([aa20749](https://github.com/shopware/acceptance-test-suite/commit/aa20749991c5abc2710cb770920bd18c0094611b))
+* Add EmailApiContext ([c3a6092](https://github.com/shopware/acceptance-test-suite/commit/c3a6092faf27aaa1f4f40dcb321c86e3a06750c5))
+
 ## [2.3.11](https://github.com/shopware/acceptance-test-suite/compare/v2.3.10...v2.3.11) (2024-07-19)
 
 
