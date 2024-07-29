@@ -41,6 +41,10 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices'>
     }
 }
 
+export type Manufacturer = components['schemas']['ProductManufacturer'] & {
+    id: string,
+}
+
 export type PropertyGroup = components['schemas']['PropertyGroup'] & {
     id: string,
 }

@@ -31,6 +31,15 @@ test('Data Service', async ({
     expect(order.orderCustomer.firstName).toEqual('Luke');
     expect(order.price.totalPrice).toEqual(58.99);
 
+    const manufacturer = await TestDataService.createBasicManufacturer({ description: 'Test Description Manufacturer' });
+    expect(manufacturer.description).toEqual('Test Description Manufacturer');
+
+    const manufacturerWithImage = await TestDataService.createManufacturerWithImage();
+    expect(manufacturerWithImage.media).toBeDefined();
+
+    await TestDataService.assignManufacturerProduct(manufacturer.id, product.id)
+    expect(product.manufacturerId).toBeDefined();
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();

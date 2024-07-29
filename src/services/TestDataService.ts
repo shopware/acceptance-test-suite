@@ -18,6 +18,7 @@ import type {
     StateMachineState,
     Promotion,
     SalesChannel,
+    Manufacturer,
 } from '../types/ShopwareTypes';
 
 export interface CreatedRecord {
@@ -215,6 +216,44 @@ export class TestDataService {
         const productOverrides = Object.assign({}, priceRange, overrides);
 
         return this.createBasicProduct(productOverrides, taxId, currencyId);
+    }
+
+    /**
+     * Creates a basic manufacturer without images or other special configuration.
+     *
+     * @param overrides - Specific data overrides that will be applied to the manufacturer data struct.
+     */
+    async createBasicManufacturer(
+        overrides: Partial<Manufacturer> = {},
+    ): Promise<Manufacturer> {
+        const basicManufacturer = this.getBasicManufacturerStruct(overrides);
+
+        const manufacturerResponse = await this.AdminApiClient.post('./product-manufacturer?_response=detail', {
+            data: basicManufacturer,
+        });
+
+        const { data: manufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
+
+        this.addCreatedRecord('product-manufacturer', manufacturer.id);
+
+        return manufacturer;
+    }
+
+    /**
+     * Creates a basic manufacturer with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the manufacturer data struct.
+     */
+    async createManufacturerWithImage(
+        overrides: Partial<Manufacturer> = {},
+    ): Promise<Manufacturer> {
+
+        const manufacturer = await this.createBasicManufacturer(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignManufacturerMedia(manufacturer.id, media.id);
+
+        return manufacturer;
     }
 
     /**
@@ -566,6 +605,40 @@ export class TestDataService {
         const { data: productMedia } = await mediaResponse.json();
 
         return productMedia;
+    }
+
+    /**
+     * Assigns a media resource to a manufacturer as a logo.
+     *
+     * @param manufacturerId - The uuid of the manufacturer.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignManufacturerMedia(manufacturerId: string, mediaId: string) {
+
+        const mediaResponse = await this.AdminApiClient.patch(`product-manufacturer/${manufacturerId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+
+        const { data: manufacturerMedia } = await mediaResponse.json();
+
+        return manufacturerMedia;
+    }
+
+    /**
+     * Assigns a manufacturer to a product.
+     *
+     * @param manufacturerId - The uuid of the manufacturer.
+     * @param productId - The uuid of the product.
+     */
+    async assignManufacturerProduct(manufacturerId: string, productId: string) {
+
+        return await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+            data: {
+                manufacturerId: manufacturerId,
+            },
+        });
     }
 
     /**
@@ -983,6 +1056,28 @@ export class TestDataService {
                 quantityEnd: 50,
             }],
         }
+    }
+
+    getBasicManufacturerStruct(
+        overrides: Partial<Manufacturer> = {},
+    ): Partial<Manufacturer> {
+
+        const { id: manufacturerId, uuid: manufacturerUuid } = this.IdProvider.getIdPair();
+        const manufacturerName = `${this.namePrefix}Manufacturer-${manufacturerId}${this.nameSuffix}`;
+
+        const description = `
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`.trim();
+
+        const basicManufacturer = {
+            id: manufacturerUuid,
+            name: manufacturerName,
+            description: description,
+        };
+
+        return Object.assign({}, basicManufacturer, overrides);
     }
 
     getBasicCategoryStruct(
