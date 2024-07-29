@@ -10,6 +10,8 @@ x-service: &service
         DATABASE_URL: mysql://root:app@database:3306/install_test
         APP_SECRET: secret
         APP_URL: http://localhost:8011
+        MAILER_DSN: smtp://mailpit:1025
+        MAILPIT_BASE_URL: http://localhost:8013
         # TEST_WEB_INSTALLER: 1
         # SHOPWARE_SKIP_WEBINSTALLER: 0
         # SHOPWARE_DISABLE_UPDATE_CHECK: '0'
@@ -42,11 +44,17 @@ services:
         ports:
             - '8012:8080'
 
+    mailpit:
+        <<: *service
+        image: axllent/mailpit
+        ports:
+            - 8013:8025
+
     shopware:
         <<: *service
         # TODO: build trunk tag
         image: ghcr.io/shopware/shopware/ci-e2e:trunk
-        depends_on: [ database ]
+        depends_on: [ database, mailpit ]
         ports:
             - '8011:8000'
         # mount platform
