@@ -41,6 +41,18 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices'>
     }
 }
 
+export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts' > & {
+    id: string,
+    shippingOrderAddress: Partial<components['schemas']['OrderAddress']>
+    shippingCosts: {
+        unitPrice: number,
+        totalPrice: number,
+        quantity: number,
+        calculatedTaxes: CalculatedTaxes[],
+        taxRules: TaxRules[],
+    }
+}
+
 export type Manufacturer = components['schemas']['ProductManufacturer'] & {
     id: string,
 }
@@ -69,7 +81,18 @@ export type Currency = components['schemas']['Currency'] & {
     id: string,
 }
 
-export type Order = components['schemas']['Order'] & {
+export interface CalculatedTaxes {
+    tax: number,
+    taxRate: number,
+    price: number,
+}
+
+export interface TaxRules {
+    taxRate: number,
+    percentage: number,
+}
+
+export type Order = Omit<components['schemas']['Order'], 'deliveries' | 'price' > & {
     id: string,
     orderCustomer: {
         firstName: string,
@@ -77,12 +100,16 @@ export type Order = components['schemas']['Order'] & {
         email: string,
     },
     price: {
-        netPrice: number;
-        positionPrice: number;
-        rawTotal: number;
-        taxStatus: string;
-        totalPrice: number;
-    };
+        netPrice: number,
+        positionPrice: number,
+        rawTotal: number,
+        taxStatus: string,
+        totalPrice: number,
+        calculatedTaxes: CalculatedTaxes[],
+        taxRules: TaxRules[],
+
+    },
+    deliveries: Record<string, unknown>[],
 }
 
 export type ShippingMethod = components['schemas']['ShippingMethod'] & {
@@ -101,10 +128,10 @@ export type StateMachineState = components['schemas']['StateMachineState'] & {
     id: string,
 };
 
-export type Promotion = components['schemas']['Promotion'] & {
+export type Promotion = Omit<components['schemas']['Promotion'], 'discounts'> & {
     id: string,
     discounts: [{
-        id: string,
+        id?: string,
         scope: string,
         type: string,
         value: number,
