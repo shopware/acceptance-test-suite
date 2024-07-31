@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.0](https://github.com/shopware/acceptance-test-suite/compare/v2.4.0...v2.5.0) (2024-07-31)
+
+
+### Features
+
+* create manufacturer test data ([#70](https://github.com/shopware/acceptance-test-suite/issues/70)) ([6aef819](https://github.com/shopware/acceptance-test-suite/commit/6aef81909a3a2ed9f1dd85946d7c1d98d2185930))
+* Improved accessibility testing ([984e787](https://github.com/shopware/acceptance-test-suite/commit/984e78729fd4cb7494f62961f890a0ad28a5b4d2))
+
 ## [2.4.0](https://github.com/shopware/acceptance-test-suite/compare/v2.3.11...v2.4.0) (2024-07-29)
 
 
