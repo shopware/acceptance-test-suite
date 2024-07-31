@@ -9,6 +9,7 @@ export default defineBuildConfig({
         '@shopware/api-client',
         '@axe-core/playwright',
         'axe-html-reporter',
+        'axe-core',
         'image-js',
         'uuid',
     ],
