@@ -103,4 +103,15 @@ export type StateMachineState = components['schemas']['StateMachineState'] & {
 
 export type Promotion = components['schemas']['Promotion'] & {
     id: string,
-}
+    discounts: [{
+        id: string,
+        scope: string,
+        type: string,
+        value: number,
+        considerAdvancedRules: boolean,
+    }],
+};
+
+export type PromotionDiscount = components['schemas']['PromotionDiscount'] & {
+    id: string,
+};
