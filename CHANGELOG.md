@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.6.0](https://github.com/shopware/acceptance-test-suite/compare/v2.5.0...v2.6.0) (2024-08-02)
+
+
+### Features
+
+* add basic delivery struct to use it for overriding ([#73](https://github.com/shopware/acceptance-test-suite/issues/73)) ([1a1340b](https://github.com/shopware/acceptance-test-suite/commit/1a1340b1501c96456d3d725f06c70d88bba15100))
+* add promotion to order ([#75](https://github.com/shopware/acceptance-test-suite/issues/75)) ([50fa05d](https://github.com/shopware/acceptance-test-suite/commit/50fa05d38584adcdc538e3b7ff788e3e3582ad45))
+
+
+### Bug Fixes
+
+* Remove the order deletion after each DefaultSalesChannel fixture initialization ([#76](https://github.com/shopware/acceptance-test-suite/issues/76)) ([b3f450a](https://github.com/shopware/acceptance-test-suite/commit/b3f450a9098da2f5a75e991278d4bc79d14ad0b4))
+
 ## [2.5.0](https://github.com/shopware/acceptance-test-suite/compare/v2.4.0...v2.5.0) (2024-07-31)
 
 
