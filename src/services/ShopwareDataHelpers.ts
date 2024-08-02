@@ -1,6 +1,7 @@
 import { APIResponse } from '@playwright/test';
 import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
+import { Promotion } from '../types/ShopwareTypes';
 
 type Language = components['schemas']['Language'] & {
     id: string,
@@ -254,4 +255,31 @@ export function extractIdFromUrl(url: string): string | null {
 type OrderStatus = 'cancel' | 'complete' | 'reopen' | 'process';
 export const setOrderStatus = async (orderId: string, orderStatus: OrderStatus, adminApiContext: AdminApiContext): Promise<APIResponse> => {
     return await adminApiContext.post(`./_action/order/${orderId}/state/${orderStatus}`);
+};
+
+/**
+ * Return a single promotion entity with a fetched single discount entity
+ */
+export const getPromotionWithDiscount = async (promotionId: string, adminApiContext: AdminApiContext): Promise<Promotion> => {
+    const resp = await adminApiContext.post('search/promotion', {
+        data: {
+            limit: 1,
+            associations: {
+              discounts: {
+                  limit: 10,
+                  type: 'equals',
+                  field: 'promotionId',
+                  value: promotionId,
+              },
+            },
+            filter: [{
+                type: 'equals',
+                field: 'id',
+                value: promotionId,
+            }],
+        },
+    });
+
+    const { data: promotion } = (await resp.json()) as { data: Promotion[] };
+    return promotion[0];
 };

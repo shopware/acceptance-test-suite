@@ -1,4 +1,5 @@
 import { createRandomImage } from './ImageHelper';
+import { getPromotionWithDiscount } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
@@ -27,7 +28,7 @@ export interface CreatedRecord {
 }
 
 export interface SimpleLineItem {
-    product: Product;
+    product: Product | Promotion;
     quantity?: number;
     position?: number;
 }
@@ -483,8 +484,8 @@ export class TestDataService {
      *
      * @param lineItems - Products that should be added to the order.
      * @param customer - The customer to which the order should be assigned.
-     * @param salesChannel - The sales channel in which the order should be created.
      * @param overrides - Specific data overrides that will be applied to the order data struct.
+     * @param salesChannel - The sales channel in which the order should be created.
      */
     async createOrder(
         lineItems: SimpleLineItem[],
@@ -534,7 +535,7 @@ export class TestDataService {
     }
 
     /**
-     * Creates a new promotion with a promotion code.
+     * Creates a new promotion with a promotion code and only single discount option.
      *
      * @param overrides - Specific data overrides that will be applied to the promotion data struct.
      * @param salesChannelId - The uuid of the sales channel in which the promotion should be active.
@@ -553,9 +554,11 @@ export class TestDataService {
 
         const { data: promotion } = (await promotionResponse.json()) as { data: Promotion };
 
+        const promotionWithDiscount = await getPromotionWithDiscount(promotion.id, this.AdminApiClient);
+
         this.addCreatedRecord('promotion', promotion.id);
 
-        return promotion;
+        return promotionWithDiscount;
     }
 
     /**
@@ -1153,6 +1156,14 @@ export class TestDataService {
         return Object.assign({}, basicCustomer, overrides);
     }
 
+    isProduct(item: Product | Promotion): item is Product {
+        return (item as Product).productNumber !== undefined;
+    }
+
+    isPromotion(item: Product | Promotion): item is Promotion {
+        return (item as Promotion).code !== undefined;
+    }
+
     getBasicOrderStruct(
         lineItems: SimpleLineItem[],
         languageId: string,
@@ -1174,10 +1185,28 @@ export class TestDataService {
         const shippingDateTime = this.convertDateTime(shippingDate);
 
         let totalPrice = 0;
-        const lineItemProducts: Record<string, unknown>[] = [];
+        const orderLineItems: Record<string, unknown>[] = [];
         lineItems.forEach((lineItem) => {
-            lineItemProducts.push(this.getBasicProductLineItemStruct(lineItem));
-            totalPrice += lineItem.product.price[0].gross * (lineItem.quantity || 1);
+            if (this.isProduct(lineItem.product)) {
+                const product = lineItem.product;
+                orderLineItems.push(this.getBasicProductLineItemStruct(lineItem));
+                totalPrice += product.price[0].gross * (lineItem.quantity || 1);
+            }
+
+            if (this.isPromotion(lineItem.product)) {
+                const promotion = lineItem.product;
+                orderLineItems.push(this.getBasicPromotionLineItemStruct(lineItem));
+                const promotionDiscountValue = promotion.discounts[0].value;
+                const promotionDiscountType = promotion.discounts[0].type;
+
+                if (promotionDiscountType === 'absolute') {
+                    totalPrice -= (promotionDiscountValue || 10) * (lineItem.quantity || 1);
+                } else if (promotionDiscountType === 'percentage') {
+                    totalPrice -= (((promotionDiscountValue)*totalPrice)/100) * (lineItem.quantity || 1);
+                } else if (promotionDiscountType === 'fixed_unit') {
+                    totalPrice = (promotionDiscountValue || 10) * (lineItem.quantity || 1);
+                }
+            }
         });
 
         const shippingCosts = 8.99;
@@ -1239,7 +1268,7 @@ export class TestDataService {
                     percentage: 100,
                 }],
             },
-            lineItems: lineItemProducts,
+            lineItems: orderLineItems,
             deliveries: [
                 {
                     stateId: deliveryState.id,
@@ -1301,24 +1330,29 @@ export class TestDataService {
                     },
                 },
             ],
-        }
+        };
 
         return Object.assign({}, basicOrder, overrides);
     }
 
-    getBasicProductLineItemStruct(lineItem: SimpleLineItem) {
-        const unitPrice = lineItem.product.price[0].gross || 10;
+    getBasicProductLineItemStruct(lineItem: SimpleLineItem ) {
+        if (!this.isProduct(lineItem.product)) {
+            console.error('Error: Object is not of type Product');
+        }
+
+        const product = lineItem.product as Product;
+        const unitPrice = product.price[0].gross || 10;
         const totalPrice = unitPrice * (lineItem.quantity || 1);
 
         return {
-            productId: lineItem.product.id,
-            referencedId: lineItem.product.id,
+            productId: product.id,
+            referencedId: product.id,
             payload: {
-                productNumber: lineItem.product.productNumber,
+                productNumber: product.productNumber,
             },
-            identifier: lineItem.product.id,
+            identifier: product.id,
             type: 'product',
-            label: lineItem.product.name,
+            label: product.name,
             quantity: lineItem.quantity || 1,
             position: lineItem.position || 1,
             price: {
@@ -1346,6 +1380,51 @@ export class TestDataService {
                 listPrice: 8.00,
                 isCalculated: true,
                 referencePriceDefinition: null,
+            },
+        };
+    }
+
+    getBasicPromotionLineItemStruct(lineItem: SimpleLineItem) {
+        if (!this.isPromotion(lineItem.product)) {
+            console.error('Error: Object is not of type Promotion');
+        }
+
+        const promotion = lineItem.product as Promotion;
+        const promotionDiscountValue = promotion.discounts[0].value;
+        const promotionDiscountType = promotion.discounts[0].type;
+        const promotionDiscountId = promotion.discounts[0].id;
+
+        const unitPrice = -Math.abs(promotionDiscountValue || 10);
+        const totalPrice = unitPrice * (lineItem.quantity || 1);
+
+        return {
+            payload: {
+                code: promotion.code,
+            },
+            identifier: promotionDiscountId,
+            type: 'promotion',
+            label: promotion.name,
+            description: promotion.name,
+            quantity: lineItem.quantity || 1,
+            position: lineItem.position || 1,
+            price: {
+                unitPrice: unitPrice,
+                totalPrice: totalPrice,
+                quantity: lineItem.quantity,
+                calculatedTaxes: [{
+                    tax: 0,
+                    taxRate: 0,
+                    price: totalPrice,
+                }],
+                taxRules: [{
+                    taxRate: 0,
+                    percentage: 100,
+                }],
+            },
+            priceDefinition: {
+                type: promotionDiscountType,
+                price: totalPrice,
+                percentage: (promotionDiscountType === 'percentage') ? promotionDiscountValue : null,
             },
         };
     }
@@ -1381,7 +1460,7 @@ export class TestDataService {
                 salesChannelId: salesChannelId,
                 priority: 1,
             }],
-        }
+        };
 
         return Object.assign({}, basicPromotion, overrides);
     }

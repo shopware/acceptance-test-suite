@@ -23,13 +23,16 @@ test('Data Service', async ({
     expect(customer.firstName).toEqual('Luke');
     expect(customer.lastName).toEqual('Skywalker');
 
+    const promotion = await TestDataService.createPromotionWithCode({ code: 'myCode' });
+    expect(promotion.code).toEqual('myCode');
+
     const order = await TestDataService.createOrder(
-        [{ product, quantity: 5 }],
+        [{ product: product, quantity: 5 }, { product: promotion, quantity: 1 }],
         customer,
         { orderNumber: '123456789' });
     expect(order.orderNumber).toEqual('123456789');
     expect(order.orderCustomer.firstName).toEqual('Luke');
-    expect(order.price.totalPrice).toEqual(58.99);
+    expect(order.price.totalPrice).toEqual(53.99);
 
     const manufacturer = await TestDataService.createBasicManufacturer({ description: 'Test Description Manufacturer' });
     expect(manufacturer.description).toEqual('Test Description Manufacturer');
