@@ -20,6 +20,7 @@ import type {
     Promotion,
     SalesChannel,
     Manufacturer,
+    OrderDelivery,
 } from '../types/ShopwareTypes';
 
 export interface CreatedRecord {
@@ -1156,6 +1157,54 @@ export class TestDataService {
         return Object.assign({}, basicCustomer, overrides);
     }
 
+    getBasicOrderDeliveryStruct(
+        deliveryState: StateMachineState,
+        shippingMethod: ShippingMethod,
+        customerAddress: CustomerAddress,
+    ): Partial<OrderDelivery> {
+        const date = new Date();
+        const shippingDate = new Date(date);
+        shippingDate.setDate((shippingDate.getDate()+3))
+        const shippingDateTime = this.convertDateTime(shippingDate);
+        const shippingCosts = 8.99;
+
+        return {
+            stateId: deliveryState.id,
+            shippingMethodId: shippingMethod.id,
+            shippingOrderAddress: {
+                id: customerAddress.id,
+                salutationId: customerAddress.salutationId,
+                firstName: customerAddress.firstName,
+                lastName: customerAddress.lastName,
+                street: customerAddress.street,
+                zipcode: customerAddress.zipcode,
+                city: customerAddress.city,
+                countryId: customerAddress.countryId,
+                phoneNumber: customerAddress.phoneNumber,
+            },
+            shippingDateEarliest: shippingDateTime,
+            shippingDateLatest: shippingDateTime,
+            shippingCosts: {
+                unitPrice: shippingCosts,
+                totalPrice: shippingCosts,
+                quantity: 1,
+                calculatedTaxes: [
+                    {
+                        tax: 0,
+                        taxRate: 0,
+                        price: shippingCosts,
+                    },
+                ],
+                taxRules: [
+                    {
+                        taxRate: 0,
+                        percentage: 100,
+                    },
+                ],
+            },
+        };
+    }
+
     isProduct(item: Product | Promotion): item is Product {
         return (item as Product).productNumber !== undefined;
     }
@@ -1181,8 +1230,6 @@ export class TestDataService {
 
         const date = new Date();
         const orderDateTime = this.convertDateTime(date);
-        const shippingDate = new Date(date.getDate() + 3);
-        const shippingDateTime = this.convertDateTime(shippingDate);
 
         let totalPrice = 0;
         const orderLineItems: Record<string, unknown>[] = [];
@@ -1208,8 +1255,11 @@ export class TestDataService {
                 }
             }
         });
-
-        const shippingCosts = 8.99;
+        const orderDelivery = this.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress)
+        let shippingCosts = 0;
+        if (orderDelivery.shippingCosts != null) {
+            shippingCosts = orderDelivery.shippingCosts.totalPrice;
+        }
         totalPrice += shippingCosts;
 
         const basicOrder = {
@@ -1269,43 +1319,7 @@ export class TestDataService {
                 }],
             },
             lineItems: orderLineItems,
-            deliveries: [
-                {
-                    stateId: deliveryState.id,
-                    shippingMethodId: shippingMethod.id,
-                    shippingOrderAddress: {
-                        id: customerAddress.id,
-                        salutationId: customerAddress.salutationId,
-                        firstName: customerAddress.firstName,
-                        lastName: customerAddress.lastName,
-                        street: customerAddress.street,
-                        zipcode: customerAddress.zipcode,
-                        city: customerAddress.city,
-                        countryId: customerAddress.countryId,
-                        phoneNumber: customerAddress.phoneNumber,
-                    },
-                    shippingDateEarliest: shippingDateTime,
-                    shippingDateLatest: shippingDateTime,
-                    shippingCosts: {
-                        unitPrice: shippingCosts,
-                        totalPrice: shippingCosts,
-                        quantity: 1,
-                        calculatedTaxes: [
-                            {
-                                tax: 0,
-                                taxRate: 0,
-                                price: shippingCosts,
-                            },
-                        ],
-                        taxRules: [
-                            {
-                                taxRate: 0,
-                                percentage: 100,
-                            },
-                        ],
-                    },
-                },
-            ],
+            deliveries: [ orderDelivery ],
             transactions: [
                 {
                     paymentMethodId: paymentMethod.id,
@@ -1335,7 +1349,7 @@ export class TestDataService {
         return Object.assign({}, basicOrder, overrides);
     }
 
-    getBasicProductLineItemStruct(lineItem: SimpleLineItem ) {
+    getBasicProductLineItemStruct(lineItem: SimpleLineItem) {
         if (!this.isProduct(lineItem.product)) {
             console.error('Error: Object is not of type Product');
         }

@@ -23,16 +23,59 @@ test('Data Service', async ({
     expect(customer.firstName).toEqual('Luke');
     expect(customer.lastName).toEqual('Skywalker');
 
-    const promotion = await TestDataService.createPromotionWithCode({ code: 'myCode' });
+    const customerAddress = await TestDataService.getCustomerAddress(customer.defaultBillingAddressId);
+    const deliveryStateMachine = await TestDataService.getDeliveryStateMachine();
+    const deliveryState = await TestDataService.getStateMachineState(deliveryStateMachine.id);
+    const shippingMethod = await TestDataService.getShippingMethod();
+    const deliveryStruct = TestDataService.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress);
+
+    const shippingCosts = 5;
+    const totalPrice = 50 + shippingCosts;
+
+    if (deliveryStruct.shippingCosts != null) {
+        deliveryStruct.shippingCosts.unitPrice = shippingCosts;
+        deliveryStruct.shippingCosts.totalPrice = shippingCosts;
+    }
+
+    const customShippingCosts = {
+        price: {
+            totalPrice: totalPrice,
+            positionPrice: totalPrice,
+            rawTotal: totalPrice,
+            netPrice: totalPrice,
+            taxStatus: 'gross',
+            calculatedTaxes: [{
+                tax: 0,
+                taxRate: 0,
+                price: totalPrice,
+            }],
+            taxRules: [{
+                taxRate: 0,
+                percentage: 100,
+            }],
+        },
+        deliveries: [deliveryStruct],
+    };
+
+    const orderWithCustomShippingCosts = await TestDataService.createOrder(
+        [{ product, quantity: 5 }],
+        customer,
+        customShippingCosts,
+        );
+    expect(orderWithCustomShippingCosts.price.totalPrice).toEqual(55);
+
+    const promotion = await TestDataService.createPromotionWithCode({ code: 'myCode', discounts: [{ scope: 'cart', type: 'absolute', value: 10, considerAdvancedRules: false }] });
     expect(promotion.code).toEqual('myCode');
+    expect(promotion.discounts[0].type).toEqual('absolute');
 
     const order = await TestDataService.createOrder(
         [{ product: product, quantity: 5 }, { product: promotion, quantity: 1 }],
         customer,
-        { orderNumber: '123456789' });
+        { orderNumber: '123456789' },
+    );
     expect(order.orderNumber).toEqual('123456789');
     expect(order.orderCustomer.firstName).toEqual('Luke');
-    expect(order.price.totalPrice).toEqual(53.99);
+    expect(order.price.totalPrice).toEqual(48.99);
 
     const manufacturer = await TestDataService.createBasicManufacturer({ description: 'Test Description Manufacturer' });
     expect(manufacturer.description).toEqual('Test Description Manufacturer');
