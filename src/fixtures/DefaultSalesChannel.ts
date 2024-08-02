@@ -98,63 +98,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             await AdminApiContext.delete(`./customer/${customerUuid}`);
 
-            const ordersResp = await AdminApiContext.post(`./search/order`, {
-                data: {
-                    filter: [{
-                        type: 'equals',
-                        field: 'salesChannelId',
-                        value: uuid,
-                    }],
-                },
-            });
-
-            const orders = (await ordersResp.json()) as { data: { id: string }[] };
-
-            if (orders.data) {
-                for (const order of orders.data) {
-                    // delete orders
-                    const deleteOrderResp = await AdminApiContext.delete(`./order/${order.id}`);
-                    expect(deleteOrderResp.ok()).toBeTruthy();
-                }
-            }
-
-            // fetch all versions
-            // delete orders for each version
-            const versionsResp = await AdminApiContext.post(`./search/version`);
-            expect(versionsResp.ok()).toBeTruthy();
-
-            const versions = (await versionsResp.json()) as { data: { id: string }[] };
-            const versionIds = versions.data.map((v) => v.id);
-
-            for (const versionId of versionIds) {
-                const ordersResp = await AdminApiContext.post(`./search/order`, {
-                    data: {
-                        filter: [
-                            {
-                                type: 'equals',
-                                field: 'salesChannelId',
-                                value: uuid,
-                            },
-                        ],
-                    },
-                    headers: {
-                        'sw-version-id': versionId,
-                    },
-                });
-
-                const orders = (await ordersResp.json()) as { data: { id: string }[] };
-
-                if (orders.data) {
-                    for (const order of orders.data) {
-                        // delete orders
-                        const deleteOrderResp = await AdminApiContext.post(
-                            `./_action/version/${versionId}/order/${order.id}`
-                        );
-                        expect(deleteOrderResp.ok()).toBeTruthy();
-                    }
-                }
-            }
-
             // await AdminApiContext.delete(`./sales-channel/${uuid}`);
 
             const syncResp = await AdminApiContext.post('./_action/sync', {
