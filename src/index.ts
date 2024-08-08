@@ -10,6 +10,8 @@ import { test as AdministrationPages } from './page-objects/AdministrationPages'
 import { test as DataFixtures } from './data-fixtures/DataFixtures';
 import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
+import { test as BusinessPartner } from './tasks/shop-customer-tasks';
+import { test as EmployeeTasks } from './tasks/shop-customer-tasks';
 
 export * from '@playwright/test';
 export * from './services/ShopwareDataHelpers';
@@ -37,4 +39,6 @@ export const test = mergeTests(
     DataFixtures,
     ShopAdminTasks,
     ShopCustomerTasks,
+    BusinessPartner,
+    EmployeeTasks,
 );

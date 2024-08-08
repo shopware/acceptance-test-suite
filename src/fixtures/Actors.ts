@@ -5,6 +5,8 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 export interface ActorFixtureTypes {
     ShopCustomer: Actor;
     ShopAdmin: Actor;
+    BusinessPartner: Actor;
+    Employee: Actor;
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -18,5 +20,17 @@ export const test = base.extend<FixtureTypes>({
         const shopAdmin = new Actor('Shop administrator', AdminPage);
 
         await use(shopAdmin);
+    },
+
+    BusinessPartner: async ({ StorefrontPage }, use) => {
+        const businessPartner = new Actor('Business partner', StorefrontPage);
+
+        await use(businessPartner);
+    },
+
+    Employee: async ({ StorefrontPage }, use) => {
+        const employee = new Actor('Employee', StorefrontPage);
+
+        await use(employee);
     },
 });
