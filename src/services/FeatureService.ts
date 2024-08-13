@@ -106,7 +106,7 @@ export class FeatureService {
     }
 
     private async loadFeatures(): Promise<void> {
-        if (Object.keys(this.features).length >= 0) {
+        if (Object.keys(this.features).length > 0) {
             return;
         }
 
