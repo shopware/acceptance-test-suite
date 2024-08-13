@@ -10,6 +10,7 @@ import { test as AdministrationPages } from './page-objects/AdministrationPages'
 import { test as DataFixtures } from './data-fixtures/DataFixtures';
 import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
+import { test as FeatureService } from './fixtures/Feature';
 
 export * from '@playwright/test';
 export * from './services/ShopwareDataHelpers';
@@ -32,6 +33,7 @@ export const test = mergeTests(
     PageContexts,
     Actors,
     TestData,
+    FeatureService,
     StorefrontPages,
     AdministrationPages,
     DataFixtures,
