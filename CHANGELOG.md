@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.0](https://github.com/shopware/acceptance-test-suite/compare/v2.7.0...v2.8.0) (2024-08-13)
+
+
+### Features
+
+* add feature service ([0d7b80f](https://github.com/shopware/acceptance-test-suite/commit/0d7b80ff7528d1b63e6f663ef1d3ebf82a7aeffc))
+* admin - add notification await ([8dc0f56](https://github.com/shopware/acceptance-test-suite/commit/8dc0f56192653dceb8ff687971606c7e71105715))
+
 ## [2.7.0](https://github.com/shopware/acceptance-test-suite/compare/v2.6.0...v2.7.0) (2024-08-13)
 
 
