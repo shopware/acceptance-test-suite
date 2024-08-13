@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.0](https://github.com/shopware/acceptance-test-suite/compare/v2.6.0...v2.7.0) (2024-08-13)
+
+
+### Features
+
+* Add Single Price Locator on PDP ([#82](https://github.com/shopware/acceptance-test-suite/issues/82)) ([a223d67](https://github.com/shopware/acceptance-test-suite/commit/a223d67d6dc43bfe96261ecd20758012591d9b92))
+* admin - hide symfony toolbar on page reload ([bb4ec9a](https://github.com/shopware/acceptance-test-suite/commit/bb4ec9a164db3ecad34fad189ce4ea4d2dbfc609))
+
 ## [2.6.0](https://github.com/shopware/acceptance-test-suite/compare/v2.5.0...v2.6.0) (2024-08-02)
 
 
