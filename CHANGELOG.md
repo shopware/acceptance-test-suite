@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/shopware/acceptance-test-suite/compare/v2.8.0...v2.8.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* feature service ([1986b8c](https://github.com/shopware/acceptance-test-suite/commit/1986b8c2f952611ef37e9d9925743868f1e8a860))
+
 ## [2.8.0](https://github.com/shopware/acceptance-test-suite/compare/v2.7.0...v2.8.0) (2024-08-13)
 
 
