@@ -7,6 +7,7 @@ import { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
 import { StorefrontPageTypes } from '../page-objects/StorefrontPages';
 import { AdministrationPageTypes } from '../page-objects/AdministrationPages';
 import { DataFixtureTypes } from '../data-fixtures/DataFixtures';
+import { FeatureFixtureTypes } from '../fixtures/Feature';
 
 export interface FixtureTypes extends
     ApiContextTypes,
@@ -14,6 +15,7 @@ export interface FixtureTypes extends
     ActorFixtureTypes,
     TestDataFixtureTypes,
     HelperFixtureTypes,
+    FeatureFixtureTypes,
     DefaultSalesChannelTypes,
     StorefrontPageTypes,
     AdministrationPageTypes,

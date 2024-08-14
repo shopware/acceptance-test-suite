@@ -72,6 +72,23 @@ export const test = base.extend<FixtureTypes>({
         // wait for all plugin js to be loaded
         await Promise.all(jsLoadingPromises);
 
+        // Override page reload to also remove the Symfony toolbar
+        const originalReload = page.reload.bind(page);
+        page.reload = async () => {
+            const res = await originalReload();
+            await page.addStyleTag({
+                content: `
+                .sf-toolbar {
+                    width: 0 !important;
+                    height: 0 !important;
+                    display: none !important;
+                    pointer-events: none !important;
+                }
+                `.trim(),
+            });
+            return res;
+        };
+
         // Run the test
         await use(page);
 

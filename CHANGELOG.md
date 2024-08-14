@@ -1,5 +1,39 @@
 # Changelog
 
+## [3.0.0](https://github.com/shopware/acceptance-test-suite/compare/v2.8.1...v3.0.0) (2024-08-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* `email` parameter is required in `getRenderMessageTxt()`,`getLinkFromMail()` and `getEmailBody()`
+
+### Features
+
+* Improve MailpitApiContext ([#79](https://github.com/shopware/acceptance-test-suite/issues/79)) ([9e99e7c](https://github.com/shopware/acceptance-test-suite/commit/9e99e7c4cdc1ce3d307aa823d9b3a0d26a3f309d))
+
+## [2.8.1](https://github.com/shopware/acceptance-test-suite/compare/v2.8.0...v2.8.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* feature service ([1986b8c](https://github.com/shopware/acceptance-test-suite/commit/1986b8c2f952611ef37e9d9925743868f1e8a860))
+
+## [2.8.0](https://github.com/shopware/acceptance-test-suite/compare/v2.7.0...v2.8.0) (2024-08-13)
+
+
+### Features
+
+* add feature service ([0d7b80f](https://github.com/shopware/acceptance-test-suite/commit/0d7b80ff7528d1b63e6f663ef1d3ebf82a7aeffc))
+* admin - add notification await ([8dc0f56](https://github.com/shopware/acceptance-test-suite/commit/8dc0f56192653dceb8ff687971606c7e71105715))
+
+## [2.7.0](https://github.com/shopware/acceptance-test-suite/compare/v2.6.0...v2.7.0) (2024-08-13)
+
+
+### Features
+
+* Add Single Price Locator on PDP ([#82](https://github.com/shopware/acceptance-test-suite/issues/82)) ([a223d67](https://github.com/shopware/acceptance-test-suite/commit/a223d67d6dc43bfe96261ecd20758012591d9b92))
+* admin - hide symfony toolbar on page reload ([bb4ec9a](https://github.com/shopware/acceptance-test-suite/commit/bb4ec9a164db3ecad34fad189ce4ea4d2dbfc609))
+
 ## [2.6.0](https://github.com/shopware/acceptance-test-suite/compare/v2.5.0...v2.6.0) (2024-08-02)
 
 
