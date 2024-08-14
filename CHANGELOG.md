@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/shopware/acceptance-test-suite/compare/v2.8.1...v3.0.0) (2024-08-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* `email` parameter is required in `getRenderMessageTxt()`,`getLinkFromMail()` and `getEmailBody()`
+
+### Features
+
+* Improve MailpitApiContext ([#79](https://github.com/shopware/acceptance-test-suite/issues/79)) ([9e99e7c](https://github.com/shopware/acceptance-test-suite/commit/9e99e7c4cdc1ce3d307aa823d9b3a0d26a3f309d))
+
 ## [2.8.1](https://github.com/shopware/acceptance-test-suite/compare/v2.8.0...v2.8.1) (2024-08-14)
 
 
