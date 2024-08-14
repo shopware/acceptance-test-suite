@@ -21,6 +21,7 @@ import type {
     SalesChannel,
     Manufacturer,
     OrderDelivery,
+    OrderLineItem,
 } from '../types/ShopwareTypes';
 
 export interface CreatedRecord {
@@ -32,6 +33,7 @@ export interface SimpleLineItem {
     product: Product | Promotion;
     quantity?: number;
     position?: number;
+    overrides?: Partial<OrderLineItem>;
 }
 
 export interface SyncApiOperation {
@@ -1358,7 +1360,7 @@ export class TestDataService {
         const unitPrice = product.price[0].gross || 10;
         const totalPrice = unitPrice * (lineItem.quantity || 1);
 
-        return {
+        const basicProductLineItemStruct = {
             productId: product.id,
             referencedId: product.id,
             payload: {
@@ -1396,6 +1398,8 @@ export class TestDataService {
                 referencePriceDefinition: null,
             },
         };
+
+        return Object.assign({}, basicProductLineItemStruct, lineItem.overrides);
     }
 
     getBasicPromotionLineItemStruct(lineItem: SimpleLineItem) {
@@ -1411,7 +1415,7 @@ export class TestDataService {
         const unitPrice = -Math.abs(promotionDiscountValue || 10);
         const totalPrice = unitPrice * (lineItem.quantity || 1);
 
-        return {
+        const basicPromotionLineItemStruct = {
             payload: {
                 code: promotion.code,
             },
@@ -1441,6 +1445,8 @@ export class TestDataService {
                 percentage: (promotionDiscountType === 'percentage') ? promotionDiscountValue : null,
             },
         };
+
+        return Object.assign({}, basicPromotionLineItemStruct, lineItem.overrides);
     }
 
     getBasicPromotionStruct(
