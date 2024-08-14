@@ -142,3 +142,7 @@ export type Promotion = Omit<components['schemas']['Promotion'], 'discounts'> & 
 export type PromotionDiscount = components['schemas']['PromotionDiscount'] & {
     id: string,
 };
+
+export type OrderLineItem = components['schemas']['OrderLineItem'] & {
+    id: string,
+};
