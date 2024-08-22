@@ -475,7 +475,15 @@ export class TestDataService {
             data: basicCustomerStruct,
         });
 
-        const { data: customer } = (await response.json()) as { data: Customer };
+        const customerData = (await response.json()) as { data: Customer };
+
+        let customer: Customer;
+
+        if (typeof basicCustomerStruct.password !== 'string') {
+            customer = { ...customerData.data };
+        } else {
+            customer = { ...customerData.data, password: basicCustomerStruct.password };
+        }
 
         this.addCreatedRecord('customer', customer.id);
 
