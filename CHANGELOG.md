@@ -1,12 +1,5 @@
 # Changelog
 
-## [3.1.0](https://github.com/shopware/acceptance-test-suite/compare/v3.0.0...v3.1.0) (2024-08-14)
-
-
-### Features
-
-* extend SimpleLineItem interface to use overrides in lineItem ([#91](https://github.com/shopware/acceptance-test-suite/issues/91)) ([409614d](https://github.com/shopware/acceptance-test-suite/commit/409614d125430621243c4d8d26e7cca89dc80ec2))
-
 ## [3.0.0](https://github.com/shopware/acceptance-test-suite/compare/v2.8.1...v3.0.0) (2024-08-14)
 
 
