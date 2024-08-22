@@ -238,7 +238,7 @@ export class TestDataService {
 
         const { data: manufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
 
-        this.addCreatedRecord('product-manufacturer', manufacturer.id);
+        this.addCreatedRecord('product_manufacturer', manufacturer.id);
 
         return manufacturer;
     }
@@ -570,6 +570,64 @@ export class TestDataService {
         this.addCreatedRecord('promotion', promotion.id);
 
         return promotionWithDiscount;
+    }
+
+    /**
+     * Creates a new basic payment method.
+     *
+     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     */
+    async createBasicPaymentMethod(
+        overrides: Partial<PaymentMethod> = {}
+    ): Promise<PaymentMethod> {
+
+        const basicPaymentMethod = this.getBasicPaymentMethodStruct(overrides);
+
+        const paymentMethodResponse = await this.AdminApiClient.post('payment-method?_response=detail', {
+            data: basicPaymentMethod,
+        });
+
+        const { data: paymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
+
+        this.addCreatedRecord('payment_method', paymentMethod.id);
+
+        return paymentMethod;
+    }
+
+    /**
+     * Creates a payment method with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     */
+    async createPaymentMethodWithImage(
+        overrides: Partial<PaymentMethod> = {},
+    ): Promise<PaymentMethod> {
+
+        const paymentMethod = await this.createBasicPaymentMethod(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignPaymentMethodMedia(paymentMethod.id, media.id);
+
+        return paymentMethod;
+    }
+
+    /**
+     * Assigns a media resource to a payment method as a logo.
+     *
+     * @param paymentMethodId - The uuid of the payment method.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignPaymentMethodMedia(paymentMethodId: string, mediaId: string) {
+
+        const paymentMethodResponse = await this.AdminApiClient.patch(`payment-method/${paymentMethodId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+
+        const { data: paymentMethodMedia } = await paymentMethodResponse.json();
+
+        return paymentMethodMedia;
     }
 
     /**
@@ -1094,6 +1152,22 @@ export class TestDataService {
         return Object.assign({}, basicManufacturer, overrides);
     }
 
+    getBasicPaymentMethodStruct(
+        overrides: Partial<PaymentMethod> = {}
+    ) {
+        const { id: paymentMethodId, uuid: paymentMethodUuid } = this.IdProvider.getIdPair();
+        const paymentMethodName = `${this.namePrefix}PaymentMethod-${paymentMethodId}${this.nameSuffix}`;
+
+        const basicPaymentMethod = {
+            id: paymentMethodUuid,
+            name: paymentMethodName,
+            technicalName: paymentMethodName.toLowerCase(),
+            active: true,
+        };
+
+        return Object.assign({}, basicPaymentMethod, overrides);
+    }
+
     getBasicCategoryStruct(
         overrides: Partial<Category> = {},
         parentId = this.defaultCategoryId,
@@ -1265,11 +1339,9 @@ export class TestDataService {
                 }
             }
         });
-        const orderDelivery = this.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress)
-        let shippingCosts = 0;
-        if (orderDelivery.shippingCosts != null) {
-            shippingCosts = orderDelivery.shippingCosts.totalPrice;
-        }
+        const orderDelivery = this.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress);
+        const shippingCosts = orderDelivery.shippingCosts?.totalPrice ?? 0;
+
         totalPrice += shippingCosts;
 
         const basicOrder = {
@@ -1330,30 +1402,28 @@ export class TestDataService {
             },
             lineItems: orderLineItems,
             deliveries: [ orderDelivery ],
-            transactions: [
-                {
-                    paymentMethodId: paymentMethod.id,
-                    stateId: transactionState.id,
-                    amount: {
-                        unitPrice: totalPrice,
-                        totalPrice: totalPrice,
-                        quantity: 1,
-                        calculatedTaxes: [
-                            {
-                                tax: 0,
-                                taxRate: 0,
-                                price: 0,
-                            },
-                        ],
-                        taxRules: [
-                            {
-                                taxRate: 0,
-                                percentage: 100,
-                            },
-                        ],
-                    },
+            transactions: [{
+                paymentMethodId: paymentMethod.id,
+                stateId: transactionState.id,
+                amount: {
+                    unitPrice: totalPrice,
+                    totalPrice: totalPrice,
+                    quantity: 1,
+                    calculatedTaxes: [
+                        {
+                            tax: 0,
+                            taxRate: 0,
+                            price: 0,
+                        },
+                    ],
+                    taxRules: [
+                        {
+                            taxRate: 0,
+                            percentage: 100,
+                        },
+                    ],
                 },
-            ],
+            }],
         };
 
         return Object.assign({}, basicOrder, overrides);
@@ -1424,6 +1494,8 @@ export class TestDataService {
         const totalPrice = unitPrice * (lineItem.quantity || 1);
 
         const basicPromotionLineItemStruct = {
+            promotionId: promotion.id,
+            referencedId: promotion.code,
             payload: {
                 code: promotion.code,
             },
