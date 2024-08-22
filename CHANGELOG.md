@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.0](https://github.com/shopware/acceptance-test-suite/compare/v3.1.0...v3.2.0) (2024-08-22)
+
+
+### Features
+
+* add payment method creation possibility and small refactorings ([#95](https://github.com/shopware/acceptance-test-suite/issues/95)) ([ad4633e](https://github.com/shopware/acceptance-test-suite/commit/ad4633e19066af75c726ca1e30517762fdb3daf5))
+* Add possibility to use custom customer for Login task ([#78](https://github.com/shopware/acceptance-test-suite/issues/78)) ([4d99053](https://github.com/shopware/acceptance-test-suite/commit/4d99053ed0c5b7f899996dd6d3944f3b2b0c875b))
+
 ## [3.0.0](https://github.com/shopware/acceptance-test-suite/compare/v2.8.1...v3.0.0) (2024-08-14)
 
 
