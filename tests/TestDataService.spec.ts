@@ -1,4 +1,4 @@
-import { test, expect, type Product, Category, PropertyGroup, Customer, Order } from '../src/index';
+import { test, expect, type Product, Category, PropertyGroup, Customer, Order, Manufacturer, PaymentMethod } from '../src/index';
 
 test('Data Service', async ({
     TestDataService,
@@ -29,7 +29,7 @@ test('Data Service', async ({
     const shippingMethod = await TestDataService.getShippingMethod();
     const deliveryStruct = TestDataService.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress);
 
-    const shippingCosts = 5;
+    const shippingCosts = 12.99;
     const totalPrice = 50 + shippingCosts;
 
     if (deliveryStruct.shippingCosts != null) {
@@ -62,7 +62,7 @@ test('Data Service', async ({
         customer,
         customShippingCosts,
         );
-    expect(orderWithCustomShippingCosts.price.totalPrice).toEqual(55);
+    expect(orderWithCustomShippingCosts.price.totalPrice).toEqual(62.99);
 
     const promotion = await TestDataService.createPromotionWithCode({ code: 'myCode', discounts: [{ scope: 'cart', type: 'absolute', value: 10, considerAdvancedRules: false }] });
     expect(promotion.code).toEqual('myCode');
@@ -76,6 +76,12 @@ test('Data Service', async ({
     expect(order.orderNumber).toEqual('123456789');
     expect(order.orderCustomer.firstName).toEqual('Luke');
     expect(order.price.totalPrice).toEqual(48.99);
+
+    const paymentMethod = await TestDataService.createBasicPaymentMethod( {name: 'Custom payment method'} );
+    expect(paymentMethod.name).toEqual('Custom payment method');
+
+    const paymentMethodWithImage = await TestDataService.createPaymentMethodWithImage();
+    expect(paymentMethodWithImage.media).toBeDefined();
 
     const manufacturer = await TestDataService.createBasicManufacturer({ description: 'Test Description Manufacturer' });
     expect(manufacturer.description).toEqual('Test Description Manufacturer');
@@ -115,6 +121,14 @@ test('Data Service', async ({
     const { data: databaseOrder } = (await orderResponse.json()) as { data: Order };
     expect(databaseOrder.id).toBe(order.id);
 
+    const manufacturerResponse = await AdminApiContext.get(`./product-manufacturer/${manufacturer.id}?_response=detail`);
+    const { data: databaseManufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
+    expect(databaseManufacturer.id).toBe(manufacturer.id);
+
+    const paymentMethodResponse = await AdminApiContext.get(`./payment-method/${paymentMethod.id}?_response=detail`);
+    const { data: databasePaymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
+    expect(databasePaymentMethod.id).toBe(paymentMethod.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpResponse = await TestDataService.cleanUp();
@@ -130,5 +144,10 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['category']).toBeDefined();
     expect(cleanUp['deleted']['media']).toBeDefined();
     expect(cleanUp['deleted']['property_group']).toBeDefined();
+    expect(cleanUp['deleted']['property_group_option']).toBeDefined();
     expect(cleanUp['deleted']['customer']).toBeDefined();
+    expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
+    expect(cleanUp['deleted']['payment_method']).toBeDefined();
+    expect(cleanUp['deleted']['promotion']).toBeDefined();
+    expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
 });
