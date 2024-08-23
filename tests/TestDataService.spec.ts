@@ -1,4 +1,4 @@
-import { test, expect, type Product, Category, PropertyGroup, Customer, Order, Manufacturer, PaymentMethod } from '../src/index';
+import { test, expect, type Product, Category, PropertyGroup, Customer, Order, Manufacturer, PaymentMethod, Rule } from '../src/index';
 
 test('Data Service', async ({
     TestDataService,
@@ -92,6 +92,9 @@ test('Data Service', async ({
     await TestDataService.assignManufacturerProduct(manufacturer.id, product.id)
     expect(product.manufacturerId).toBeDefined();
 
+    const rule = await TestDataService.createBasicRule({ description: 'Rule description' });
+    expect(rule.description).toEqual('Rule description');
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -129,6 +132,10 @@ test('Data Service', async ({
     const { data: databasePaymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
     expect(databasePaymentMethod.id).toBe(paymentMethod.id);
 
+    const ruleResponse = await AdminApiContext.get(`./rule/${rule.id}?_response=detail`);
+    const { data: databaseRule } = (await ruleResponse.json()) as { data: Rule };
+    expect(databaseRule.id).toBe(rule.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpResponse = await TestDataService.cleanUp();
@@ -150,4 +157,5 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['payment_method']).toBeDefined();
     expect(cleanUp['deleted']['promotion']).toBeDefined();
     expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
+    expect(cleanUp['deleted']['rule']).toBeDefined();
 });
