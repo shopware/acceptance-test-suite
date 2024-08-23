@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/shopware/acceptance-test-suite/compare/v3.2.0...v3.3.0) (2024-08-23)
+
+
+### Features
+
+* add possibility to add a basic rule with predefined container ([#96](https://github.com/shopware/acceptance-test-suite/issues/96)) ([b9aef01](https://github.com/shopware/acceptance-test-suite/commit/b9aef01c0b23d5bce2ec4cdb785b3a60a4c5e951))
+
 ## [3.2.0](https://github.com/shopware/acceptance-test-suite/compare/v3.1.0...v3.2.0) (2024-08-22)
 
 
