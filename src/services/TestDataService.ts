@@ -595,6 +595,28 @@ export class TestDataService {
     }
 
     /**
+     * Creates a new basic rule with the condition cart amount >= 1.
+     *
+     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     */
+    async createBasicRule(
+        overrides: Partial<Rule> = {}
+    ): Promise<Rule> {
+
+        const basicRule = this.getBasicRuleStruct(overrides);
+
+        const ruleResponse = await this.AdminApiClient.post('rule?_response=detail', {
+            data: basicRule,
+        });
+
+        const { data: rule } = (await ruleResponse.json()) as { data: Rule };
+
+        this.addCreatedRecord('rule', rule.id);
+
+        return rule;
+    }
+
+    /**
      * Creates a payment method with one randomly generated image.
      *
      * @param overrides - Specific data overrides that will be applied to the payment method data struct.
@@ -1088,6 +1110,50 @@ export class TestDataService {
         }
 
         return Object.assign({}, basicProduct, overrides);
+    }
+
+    getBasicRuleStruct(
+        overrides: Partial<Rule> = {},
+        conditionType = 'cartCartAmount',
+        operator = '>=',
+        amount = 1,
+    ): Partial<Rule> {
+
+        const { id: ruleId, uuid: ruleUuid } = this.IdProvider.getIdPair();
+        const ruleName = `${this.namePrefix}Rule-${ruleId}${this.nameSuffix}`;
+
+        const description = `
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`.trim();
+
+        const basicRuleStruct = {
+            id: ruleUuid,
+            name: ruleName,
+            priority: 1,
+            description: description,
+            conditions: [
+            {
+                type: 'orContainer',
+                children: [
+                    {
+                        type: 'andContainer',
+                        children: [
+                            {
+                                type: conditionType,
+                                value: {
+                                    operator: operator,
+                                    amount: amount,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            }],
+        };
+
+        return Object.assign({}, basicRuleStruct, overrides);
     }
 
     getProductPriceRangeStruct(
