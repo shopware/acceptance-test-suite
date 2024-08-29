@@ -14,6 +14,7 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             street: 'Ebbinghof 10',
             city: 'Schöppingen',
             country: 'Germany',
+            postalCode: '48624',
         }
 
         const task = (email: string) => {
@@ -30,7 +31,8 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await StorefrontAccountLogin.streetAddressInput.fill(registrationData.street);
                 await StorefrontAccountLogin.cityInput.fill(registrationData.city);
                 await StorefrontAccountLogin.countryInput.selectOption(registrationData.country);
-
+                await StorefrontAccountLogin.postalCodeInput.fill(registrationData.postalCode);
+                
                 await StorefrontAccountLogin.registerButton.click();
             }
         };
