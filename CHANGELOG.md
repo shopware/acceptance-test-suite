@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/shopware/acceptance-test-suite/compare/v3.3.0...v3.4.0) (2024-08-29)
+
+
+### Features
+
+* Add the postal code on registratio ([5e3f39c](https://github.com/shopware/acceptance-test-suite/commit/5e3f39cf847e77e8b3abe80b5a741790d8e1f715))
+
 ## [3.3.0](https://github.com/shopware/acceptance-test-suite/compare/v3.2.0...v3.3.0) (2024-08-23)
 
 
