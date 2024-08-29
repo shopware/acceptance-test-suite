@@ -18,6 +18,7 @@ export class AccountLogin implements PageObject {
     public readonly streetAddressInput: Locator;
     public readonly cityInput: Locator;
     public readonly countryInput: Locator;
+    public readonly postalCodeInput: Locator;
     public readonly registerButton: Locator;
 
     constructor(public readonly page: Page) {
@@ -35,6 +36,7 @@ export class AccountLogin implements PageObject {
         this.streetAddressInput = this.billingAddressFormArea.getByLabel('Street address*');
         this.cityInput = this.billingAddressFormArea.getByLabel('City*');
         this.countryInput = this.billingAddressFormArea.getByLabel('Country*');
+        this.postalCodeInput = this.billingAddressFormArea.getByLabel('Postal code');
         this.registerButton = page.getByRole('button', { name: 'Continue' });
         this.logoutLink = page.getByRole('link', { name: 'Log out'});
         this.successAlert = page.getByText('Successfully logged out.');
