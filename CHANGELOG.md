@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.0](https://github.com/shopware/acceptance-test-suite/compare/v3.5.0...v3.6.0) (2024-08-30)
+
+
+### Features
+
+* add locators to home and product detail page ([#103](https://github.com/shopware/acceptance-test-suite/issues/103)) ([d58e786](https://github.com/shopware/acceptance-test-suite/commit/d58e7860cabecd3d79791955c115114b519be743))
+
 ## [3.5.0](https://github.com/shopware/acceptance-test-suite/compare/v3.4.0...v3.5.0) (2024-08-30)
 
 
