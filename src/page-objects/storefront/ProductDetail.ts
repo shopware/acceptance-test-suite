@@ -8,6 +8,7 @@ export class ProductDetail implements PageObject {
     public readonly quantitySelect: Locator;
     public readonly productSingleImage: Locator;
     public readonly productSinglePrice: Locator;
+    public readonly productPriceRangesRow: Locator;
 
     public readonly offCanvasCartTitle: Locator;
     public readonly offCanvasCart: Locator;
@@ -22,6 +23,7 @@ export class ProductDetail implements PageObject {
         this.quantitySelect = page.getByLabel('Quantity', { exact: true });
         this.productSingleImage = page.locator('.gallery-slider-single-image');
         this.productSinglePrice = page.locator('.product-detail-price');
+        this.productPriceRangesRow = page.locator('.product-block-prices-row > th');
 
         this.offCanvas = page.locator('offcanvas-body');
         this.offCanvasCartTitle = page.getByText('Shopping cart', { exact: true });
