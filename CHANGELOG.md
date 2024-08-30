@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/shopware/acceptance-test-suite/compare/v3.4.0...v3.5.0) (2024-08-30)
+
+
+### Features
+
+* add quantity task in cart and new cart locator ([#101](https://github.com/shopware/acceptance-test-suite/issues/101)) ([45f4a8d](https://github.com/shopware/acceptance-test-suite/commit/45f4a8deebd972cd8e124146511e73b088c1c401))
+
 ## [3.4.0](https://github.com/shopware/acceptance-test-suite/compare/v3.3.0...v3.4.0) (2024-08-29)
 
 
