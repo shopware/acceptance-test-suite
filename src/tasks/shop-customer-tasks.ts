@@ -8,6 +8,7 @@ import { AddProductToCart } from './shop-customer/Product/AddProductToCart';
 import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFromProductToCheckout';
 
 import { ProceedFromCartToCheckout } from './shop-customer/Cart/ProceedFromCartToCheckout.ts';
+import { ChangeProductQuantity } from './shop-customer/Cart/ChangeProductQuantity';
 import { ConfirmTermsAndConditions } from './shop-customer/Checkout/ConfirmTermsAndConditions';
 import { SelectCashOnDeliveryPaymentOption } from './shop-customer/Checkout/SelectCashOnDeliveryPaymentOption';
 import { SelectInvoicePaymentOption } from './shop-customer/Checkout/SelectInvoicePaymentOption';
@@ -26,6 +27,7 @@ export const test = mergeTests(
     Logout,
     Register,
     AddProductToCart,
+    ChangeProductQuantity,
     ProceedFromProductToCheckout,
     ProceedFromCartToCheckout,
     ConfirmTermsAndConditions,
