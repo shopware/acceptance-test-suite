@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.1](https://github.com/shopware/acceptance-test-suite/compare/v3.6.0...v3.6.1) (2024-09-02)
+
+
+### Bug Fixes
+
+* add last price range with infinity validity ([#105](https://github.com/shopware/acceptance-test-suite/issues/105)) ([e547f50](https://github.com/shopware/acceptance-test-suite/commit/e547f5050fd144d6b86f3a5ff8758fc211882c3e))
+
 ## [3.6.0](https://github.com/shopware/acceptance-test-suite/compare/v3.5.0...v3.6.0) (2024-08-30)
 
 
