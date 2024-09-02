@@ -252,7 +252,7 @@ export function extractIdFromUrl(url: string): string | null {
     return segments.length > 0 ? segments[segments.length - 1] : null;
 }
 
-type OrderStatus = 'cancel' | 'complete' | 'reopen' | 'process';
+export type OrderStatus = 'cancel' | 'complete' | 'reopen' | 'process';
 export const setOrderStatus = async (orderId: string, orderStatus: OrderStatus, adminApiContext: AdminApiContext): Promise<APIResponse> => {
     return await adminApiContext.post(`./_action/order/${orderId}/state/${orderStatus}`);
 };

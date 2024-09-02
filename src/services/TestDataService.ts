@@ -1192,6 +1192,11 @@ export class TestDataService {
                 price: p(80, 67.23),
                 quantityStart: 21,
                 quantityEnd: 50,
+            }, {
+                ruleId: ruleId,
+                price: p(70, 58.82),
+                quantityStart: 51,
+                quantityEnd: null,
             }],
         }
     }

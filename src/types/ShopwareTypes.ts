@@ -29,7 +29,7 @@ export interface ProductPrice {
     ruleId: string;
     price: Price[];
     quantityStart: number;
-    quantityEnd: number;
+    quantityEnd: number | null;
 }
 
 export type Product = Omit<components['schemas']['Product'], 'price' | 'prices'> & {
