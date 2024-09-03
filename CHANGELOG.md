@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.2](https://github.com/shopware/acceptance-test-suite/compare/v3.6.1...v3.6.2) (2024-09-03)
+
+
+### Bug Fixes
+
+* delete th from price range locator ([#107](https://github.com/shopware/acceptance-test-suite/issues/107)) ([9ca0945](https://github.com/shopware/acceptance-test-suite/commit/9ca0945a2151560f7f119772eb84edaa43846b43))
+
 ## [3.6.1](https://github.com/shopware/acceptance-test-suite/compare/v3.6.0...v3.6.1) (2024-09-02)
 
 
