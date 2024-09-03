@@ -23,7 +23,7 @@ export class ProductDetail implements PageObject {
         this.quantitySelect = page.getByLabel('Quantity', { exact: true });
         this.productSingleImage = page.locator('.gallery-slider-single-image');
         this.productSinglePrice = page.locator('.product-detail-price');
-        this.productPriceRangesRow = page.locator('.product-block-prices-row > th');
+        this.productPriceRangesRow = page.locator('.product-block-prices-row');
 
         this.offCanvas = page.locator('offcanvas-body');
         this.offCanvasCartTitle = page.getByText('Shopping cart', { exact: true });
