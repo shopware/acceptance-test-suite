@@ -27,4 +27,23 @@ export class CheckoutCart implements PageObject {
     url() {
         return 'checkout/cart';
     }
+
+    async getLineItemByProductNumber(productNumber: string): Promise<Record<string, Locator>> {
+        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber })
+        const productNameLabel = lineItem.locator('.line-item-label');
+        const productNumberLabel = lineItem.locator('.line-item-product-number');
+        const productQuantityMinusButton = lineItem.locator('.btn-minus');
+        const productQuantityPlusButton = lineItem.locator('.btn-plus');
+        const productQuantityInput = lineItem.locator('.quantity-selector-group-input');
+        const removeButton = lineItem.locator('.line-item-remove-button');
+
+        return {
+            productNameLabel: productNameLabel,
+            productNumberLabel: productNumberLabel,
+            productQuantityMinusButton: productQuantityMinusButton,
+            productQuantityPlusButton: productQuantityPlusButton,
+            productQuantityInput: productQuantityInput,
+            removeButton: removeButton
+        } 
+    } 
 }
