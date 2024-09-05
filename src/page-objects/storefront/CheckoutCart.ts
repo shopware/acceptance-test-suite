@@ -43,7 +43,7 @@ export class CheckoutCart implements PageObject {
             productQuantityMinusButton: productQuantityMinusButton,
             productQuantityPlusButton: productQuantityPlusButton,
             productQuantityInput: productQuantityInput,
-            removeButton: removeButton
+            removeButton: removeButton,
         } 
     } 
 }
