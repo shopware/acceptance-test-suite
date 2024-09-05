@@ -95,6 +95,17 @@ test('Data Service', async ({
     const rule = await TestDataService.createBasicRule({ description: 'Rule description' });
     expect(rule.description).toEqual('Rule description');
 
+    const parentProduct = await TestDataService.createBasicProduct();
+    const propertyGroups: PropertyGroup[] = [];
+    const propertyGroupColor = await TestDataService.createColorPropertyGroup();
+    const propertyGroupText = await TestDataService.createTextPropertyGroup();
+    propertyGroups.push(propertyGroupColor);
+    propertyGroups.push(propertyGroupText);
+
+    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description'});
+    expect(variantProducts.length).toEqual(9);
+    expect(variantProducts[0].description).toEqual('Variant description');
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();

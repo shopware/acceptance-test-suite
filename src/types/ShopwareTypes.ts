@@ -32,13 +32,14 @@ export interface ProductPrice {
     quantityEnd: number | null;
 }
 
-export type Product = Omit<components['schemas']['Product'], 'price' | 'prices'> & {
+export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options'> & {
     id: string,
     price: Price[],
     prices?: ProductPrice[],
     translated: {
         name: string,
     }
+    options?: Record<string, string>[],
 }
 
 export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts' > & {
@@ -144,5 +145,9 @@ export type PromotionDiscount = components['schemas']['PromotionDiscount'] & {
 };
 
 export type OrderLineItem = components['schemas']['OrderLineItem'] & {
+    id: string,
+};
+
+export type PropertyGroupOption = components['schemas']['PropertyGroupOption'] & {
     id: string,
 };
