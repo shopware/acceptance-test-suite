@@ -22,6 +22,7 @@ import type {
     Manufacturer,
     OrderDelivery,
     OrderLineItem,
+    PropertyGroupOption,
 } from '../types/ShopwareTypes';
 
 export interface CreatedRecord {
@@ -634,6 +635,68 @@ export class TestDataService {
     }
 
     /**
+     * Creates basic variant products based on property group.
+     *
+     * @param overrides - Specific data overrides that will be applied to the variant data struct.
+     */
+    async createVariantProducts(
+        parentProduct: Product,
+        propertyGroups: PropertyGroup[],
+        overrides: Partial<Product> = {},
+    ): Promise<Partial<Product>[]> {
+
+        const productVariantCandidates: Record<string, string>[][] = [];
+
+        for (const propertyGroup of propertyGroups) {
+            const propertyGroupOptions = await this.getPropertyGroupOptions(propertyGroup.id);
+            const propertyGroupOptionsCollection: Record<string, string>[] = [];
+            for (const propertyGroupOption of propertyGroupOptions) {
+                propertyGroupOptionsCollection.push({ id: propertyGroupOption.id })
+            }
+            productVariantCandidates.push(propertyGroupOptionsCollection);
+        }
+
+        const productVariantCombinations = this.combineAll(productVariantCandidates);
+        const variantProducts: Partial<Product>[] = [];
+        let index = 1;
+
+        for (const productVariantCombination of productVariantCombinations) {
+            const variantOverrides = {
+                parentId: parentProduct.id,
+                productNumber: parentProduct.productNumber+'.'+index,
+                options: productVariantCombination,
+            };
+
+            const overrideCollection = Object.assign({}, overrides, variantOverrides);
+            variantProducts.push(await this.createBasicProduct(overrideCollection));
+            index++;
+        }
+        return variantProducts;
+    }
+
+    /**
+     * Function that generates combinations from n number of arrays
+     * with m number of elements in them.
+     * @param array
+     */
+    combineAll = (array: Record<string, string>[][]) => {
+        const result: Record<string, string>[][] = [];
+        const max = array.length-1;
+        const helper = (tmpArray: Record<string, string>[], i: number) => {
+            for (let j=0, l=array[i].length; j<l; j++) {
+                const copy = tmpArray.slice(0);
+                copy.push(array[i][j]);
+                if (i==max)
+                    result.push(copy);
+                else
+                    helper(copy, i+1);
+            }
+        };
+        helper([], 0);
+        return result;
+    };
+
+    /**
      * Assigns a media resource to a payment method as a logo.
      *
      * @param paymentMethodId - The uuid of the payment method.
@@ -963,6 +1026,30 @@ export class TestDataService {
         const { data: result } = (await response.json()) as { data: StateMachineState[] };
 
         return result[0];
+    }
+
+    /**
+     * Retrieves all corresponding property group options.
+     *
+     * @param propertyGroupId - The uuid of the property group.
+     */
+    async getPropertyGroupOptions(
+        propertyGroupId: string,
+    ): Promise<PropertyGroupOption[]> {
+        const response = await this.AdminApiClient.post('search/property-group-option', {
+            data: {
+                limit: 50,
+                filter: [{
+                    type: 'equals',
+                    field: 'groupId',
+                    value: propertyGroupId,
+                }],
+            },
+        });
+
+        const { data: result } = (await response.json()) as { data: PropertyGroupOption[] };
+
+        return result;
     }
 
     /**
