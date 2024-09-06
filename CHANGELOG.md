@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.7.0](https://github.com/shopware/acceptance-test-suite/compare/v3.6.2...v3.7.0) (2024-09-06)
+
+
+### Features
+
+* add function to get the line items on the checkout cart page ([#109](https://github.com/shopware/acceptance-test-suite/issues/109)) ([4b32baa](https://github.com/shopware/acceptance-test-suite/commit/4b32baa24cbce3d596bd735b16ce97ae2e40aa3b))
+* add possibility to create variants out of property groups ([#110](https://github.com/shopware/acceptance-test-suite/issues/110)) ([ee8ee43](https://github.com/shopware/acceptance-test-suite/commit/ee8ee43e34d46424f0fdebeb180e8d53bdc3ce7c))
+
+
+### Bug Fixes
+
+* return type of variant product function to product ([#112](https://github.com/shopware/acceptance-test-suite/issues/112)) ([9da5607](https://github.com/shopware/acceptance-test-suite/commit/9da5607e243249f1df24f82e13f5fe8ee81dfad2))
+
 ## [3.6.2](https://github.com/shopware/acceptance-test-suite/compare/v3.6.1...v3.6.2) (2024-09-03)
 
 
