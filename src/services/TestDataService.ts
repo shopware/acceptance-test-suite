@@ -643,7 +643,7 @@ export class TestDataService {
         parentProduct: Product,
         propertyGroups: PropertyGroup[],
         overrides: Partial<Product> = {},
-    ): Promise<Partial<Product>[]> {
+    ): Promise<Product[]> {
 
         const productVariantCandidates: Record<string, string>[][] = [];
 
@@ -657,7 +657,7 @@ export class TestDataService {
         }
 
         const productVariantCombinations = this.combineAll(productVariantCandidates);
-        const variantProducts: Partial<Product>[] = [];
+        const variantProducts: Product[] = [];
         let index = 1;
 
         for (const productVariantCombination of productVariantCombinations) {
