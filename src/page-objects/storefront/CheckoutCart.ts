@@ -27,4 +27,31 @@ export class CheckoutCart implements PageObject {
     url() {
         return 'checkout/cart';
     }
+
+    async getLineItemByProductNumber(productNumber: string): Promise<Record<string, Locator>> {
+        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber })
+        const lineItemImage = lineItem.locator('line-item-img-container');
+        const productNameLabel = lineItem.locator('.line-item-label');
+        const productNumberLabel = lineItem.locator('.line-item-product-number');
+        const productDeliveryDateLabel = lineItem.locator('.line-item-delivery-date');
+        const productQuantityMinusButton = lineItem.locator('.btn-minus');
+        const productQuantityPlusButton = lineItem.locator('.btn-plus');
+        const productQuantityInput = lineItem.locator('.quantity-selector-group-input');
+        const productUnitPriceValue = lineItem.locator('.line-item-unit-price-value');
+        const productTotalPriceValue = lineItem.locator('.line-item-total-price-value');
+        const removeButton = lineItem.locator('.line-item-remove-button');
+
+        return {
+            lineItemImage: lineItemImage,
+            productNameLabel: productNameLabel,
+            productNumberLabel: productNumberLabel,
+            productDeliveryDateLabel: productDeliveryDateLabel,
+            productQuantityMinusButton: productQuantityMinusButton,
+            productQuantityPlusButton: productQuantityPlusButton,
+            productQuantityInput: productQuantityInput,
+            productUnitPriceValue: productUnitPriceValue,
+            productTotalPriceValue: productTotalPriceValue,
+            removeButton: removeButton,
+        } 
+    } 
 }
