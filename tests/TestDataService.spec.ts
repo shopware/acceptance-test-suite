@@ -1,4 +1,16 @@
-import { test, expect, type Product, Category, PropertyGroup, Customer, Order, Manufacturer, PaymentMethod, Rule } from '../src/index';
+import {
+    test,
+    expect,
+    type Product,
+    Category,
+    PropertyGroup,
+    Customer,
+    Order,
+    Manufacturer,
+    PaymentMethod,
+    Rule,
+    ShippingMethod
+} from '../src/index';
 
 test('Data Service', async ({
     TestDataService,
@@ -106,6 +118,12 @@ test('Data Service', async ({
     expect(variantProducts.length).toEqual(9);
     expect(variantProducts[0].description).toEqual('Variant description');
 
+    const basicShippingMethod = await TestDataService.createBasicShippingMethod( {name: 'Custom shipping method'} );
+    expect(basicShippingMethod.name).toEqual('Custom shipping method');
+
+    const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
+    expect(shippingMethodWithImage.media).toBeDefined();
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -143,6 +161,10 @@ test('Data Service', async ({
     const { data: databasePaymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
     expect(databasePaymentMethod.id).toBe(paymentMethod.id);
 
+    const shippingMethodResponse = await AdminApiContext.get(`./shipping-method/${basicShippingMethod.id}?_response=detail`);
+    const { data: databaseShippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
+    expect(databaseShippingMethod.id).toBe(basicShippingMethod.id);
+
     const ruleResponse = await AdminApiContext.get(`./rule/${rule.id}?_response=detail`);
     const { data: databaseRule } = (await ruleResponse.json()) as { data: Rule };
     expect(databaseRule.id).toBe(rule.id);
@@ -166,6 +188,7 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['customer']).toBeDefined();
     expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUp['deleted']['payment_method']).toBeDefined();
+    expect(cleanUp['deleted']['shipping_method']).toBeDefined();
     expect(cleanUp['deleted']['promotion']).toBeDefined();
     expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
     expect(cleanUp['deleted']['rule']).toBeDefined();
