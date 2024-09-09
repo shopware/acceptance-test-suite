@@ -23,7 +23,7 @@ export interface StorefrontPageTypes {
     StorefrontProductDetail: ProductDetail;
     StorefrontCategory: Category;
     StorefrontCheckoutCart: CheckoutCart;
-    StorefrontOffCanvasCart: CheckoutCart;
+    StorefrontOffCanvasCart: OffCanvasCart;
     StorefrontCheckoutConfirm: CheckoutConfirm;
     StorefrontCheckoutFinish: CheckoutFinish;
     StorefrontCheckoutRegister: CheckoutRegister;
