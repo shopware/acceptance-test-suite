@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.0](https://github.com/shopware/acceptance-test-suite/compare/v3.7.0...v3.8.0) (2024-09-09)
+
+
+### Features
+
+* add a page object for the off canvas cart ([#115](https://github.com/shopware/acceptance-test-suite/issues/115)) ([5a8f163](https://github.com/shopware/acceptance-test-suite/commit/5a8f163968f771f8c4a7628af094b4b29ef4907e))
+
 ## [3.7.0](https://github.com/shopware/acceptance-test-suite/compare/v3.6.2...v3.7.0) (2024-09-06)
 
 
