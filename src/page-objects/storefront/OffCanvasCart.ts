@@ -18,11 +18,11 @@ export class OffCanvasCart implements PageObject {
         this.itemCount = page.locator('.offcanvas-cart-header-count');
         this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
         this.goToCartButton = page.getByRole('link', { name: 'Display shopping cart' });
-        this.goToCheckoutButton = page.getByRole('button', { name: 'Continue shopping' });
+        this.continueShoppingButton = page.getByRole('button', { name: 'Continue shopping' });
         this.enterDiscountInput = page.getByPlaceholder('Enter discount code...');
         this.submitDiscountButton = page.locator('#addPromotionOffcanvasCart');
         this.subTotalPrice = page.locator('dt:has-text("Subtotal") + dd:visible');
-        this.subTotalPrice = page.locator('dt:has-text("Shipping costs") + dd:visible');
+        this.shippingCosts = page.locator('dt:has-text("Shipping costs") + dd:visible');
         this.cartQuantityNumber = page.getByLabel('Quantity', { exact: true });
     }
 
