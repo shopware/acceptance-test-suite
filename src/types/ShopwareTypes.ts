@@ -151,3 +151,7 @@ export type OrderLineItem = components['schemas']['OrderLineItem'] & {
 export type PropertyGroupOption = components['schemas']['PropertyGroupOption'] & {
     id: string,
 };
+
+export type DeliveryTime = components['schemas']['DeliveryTime'] & {
+    id: string,
+};

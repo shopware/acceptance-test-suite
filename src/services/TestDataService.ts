@@ -23,6 +23,7 @@ import type {
     OrderDelivery,
     OrderLineItem,
     PropertyGroupOption,
+    DeliveryTime,
 } from '../types/ShopwareTypes';
 
 export interface CreatedRecord {
@@ -637,6 +638,8 @@ export class TestDataService {
     /**
      * Creates basic variant products based on property group.
      *
+     * @param parentProduct Parent product of the variants
+     * @param propertyGroups Property group collection which contain options
      * @param overrides - Specific data overrides that will be applied to the variant data struct.
      */
     async createVariantProducts(
@@ -672,6 +675,49 @@ export class TestDataService {
             index++;
         }
         return variantProducts;
+    }
+
+    /**
+     * Creates a shipping method with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
+     */
+    async createShippingMethodWithImage(
+        overrides: Partial<ShippingMethod> = {},
+    ): Promise<ShippingMethod> {
+
+        const shippingMethod = await this.createBasicShippingMethod(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignShippingMethodMedia(shippingMethod.id, media.id);
+
+        return shippingMethod;
+    }
+
+    /**
+     * Creates a new basic shipping method with random delivery time.
+     *
+     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
+     */
+    async createBasicShippingMethod(
+        overrides: Partial<ShippingMethod> = {},
+    ): Promise<ShippingMethod> {
+
+        const deliveryTime = await this.getAllDeliveryTimeResources();
+
+        const basicShippingMethod = this.getBasicShippingMethodStruct(
+            deliveryTime[0].id,
+            overrides);
+
+        const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
+            data: basicShippingMethod,
+        });
+
+        const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
+
+        this.addCreatedRecord('shipping_method', shippingMethod.id);
+
+        return shippingMethod;
     }
 
     /**
@@ -896,6 +942,36 @@ export class TestDataService {
         const { data: result } = (await response.json()) as { data: ShippingMethod[] };
 
         return result[0];
+    }
+
+    /**
+     * Assigns a media resource to a shipping method as a logo.
+     *
+     * @param shippingMethodId - The uuid of the shipping method.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignShippingMethodMedia(shippingMethodId: string, mediaId: string) {
+
+        const shippingMethodResponse = await this.AdminApiClient.patch(`shipping-method/${shippingMethodId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+
+        const { data: shippingMethodMedia } = await shippingMethodResponse.json();
+
+        return shippingMethodMedia;
+    }
+
+    /**
+     * Retrieves all delivery time resources.
+     */
+    async getAllDeliveryTimeResources(): Promise<DeliveryTime[]> {
+        const response = await this.AdminApiClient.get('delivery-time');
+
+        const { data: deliveryTimeResources } = (await response.json()) as { data: DeliveryTime[] };
+
+        return deliveryTimeResources;
     }
 
     /**
@@ -1445,6 +1521,24 @@ export class TestDataService {
                 ],
             },
         };
+    }
+
+    getBasicShippingMethodStruct(
+        deliveryTimeId: string,
+        overrides: Partial<ShippingMethod> = {}
+    ) {
+        const { id: shippingMethodId, uuid: shippingMethodUuid } = this.IdProvider.getIdPair();
+        const shippingMethodName = `${this.namePrefix}ShippingMethod-${shippingMethodId}${this.nameSuffix}`;
+
+        const basicShippingMethod = {
+            id: shippingMethodUuid,
+            name: shippingMethodName,
+            technicalName: shippingMethodName.toLowerCase(),
+            deliveryTimeId: deliveryTimeId,
+            active: true,
+        };
+
+        return Object.assign({}, basicShippingMethod, overrides);
     }
 
     isProduct(item: Product | Promotion): item is Product {
