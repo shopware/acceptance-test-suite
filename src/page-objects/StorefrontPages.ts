@@ -5,6 +5,7 @@ import { Home } from './storefront/Home';
 import { ProductDetail } from './storefront/ProductDetail';
 import { Category } from './storefront/Category';
 import { CheckoutCart } from './storefront/CheckoutCart';
+import { OffCanvasCart } from './storefront/OffCanvasCart';
 import { CheckoutConfirm } from './storefront/CheckoutConfirm';
 import { CheckoutFinish } from './storefront/CheckoutFinish';
 import { CheckoutRegister } from './storefront/CheckoutRegister';
@@ -22,6 +23,7 @@ export interface StorefrontPageTypes {
     StorefrontProductDetail: ProductDetail;
     StorefrontCategory: Category;
     StorefrontCheckoutCart: CheckoutCart;
+    StorefrontOffCanvasCart: CheckoutCart;
     StorefrontCheckoutConfirm: CheckoutConfirm;
     StorefrontCheckoutFinish: CheckoutFinish;
     StorefrontCheckoutRegister: CheckoutRegister;
@@ -40,6 +42,7 @@ export const StorefrontPageObjects = {
     ProductDetail,
     Category,
     CheckoutCart,
+    OffCanvasCart,
     CheckoutConfirm,
     CheckoutFinish,
     CheckoutRegister,
@@ -69,6 +72,10 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontCheckoutCart: async ({ StorefrontPage }, use) => {
         await use(new CheckoutCart(StorefrontPage));
+    },
+
+    StorefrontOffCanvasCart: async ({ StorefrontPage }, use) => {
+        await use(new OffCanvasCart(StorefrontPage));
     },
 
     StorefrontCheckoutConfirm: async ({ StorefrontPage }, use) => {
