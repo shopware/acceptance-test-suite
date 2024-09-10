@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.1](https://github.com/shopware/acceptance-test-suite/compare/v3.8.0...v3.8.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* add shipping method creation within test data service ([#114](https://github.com/shopware/acceptance-test-suite/issues/114)) ([5265dff](https://github.com/shopware/acceptance-test-suite/commit/5265dffc1a4e730079a78d6b5021be0b1cd18ebe))
+
 ## [3.8.0](https://github.com/shopware/acceptance-test-suite/compare/v3.7.0...v3.8.0) (2024-09-09)
 
 
