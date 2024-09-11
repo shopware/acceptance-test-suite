@@ -42,7 +42,7 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' 
     options?: Record<string, string>[],
 }
 
-export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts' > & {
+export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts'> & {
     id: string,
     shippingOrderAddress: Partial<components['schemas']['OrderAddress']>
     shippingCosts: {
@@ -93,7 +93,7 @@ export interface TaxRules {
     percentage: number,
 }
 
-export type Order = Omit<components['schemas']['Order'], 'deliveries' | 'price' > & {
+export type Order = Omit<components['schemas']['Order'], 'deliveries' | 'price'> & {
     id: string,
     orderCustomer: {
         firstName: string,

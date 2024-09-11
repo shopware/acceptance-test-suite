@@ -98,7 +98,22 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             await AdminApiContext.delete(`./customer/${customerUuid}`);
 
-            // await AdminApiContext.delete(`./sales-channel/${uuid}`);
+            // get the missing languages ids or all if the sales channel does not exist. This is required for 6.5.x support
+            const wantedLanguages = new Set([SalesChannelBaseConfig.enGBLanguageId, SalesChannelBaseConfig.defaultLanguageId]);
+            const languages: { id: string }[] = [];
+            const result = await AdminApiContext.get(`./sales-channel/${uuid}/languages`);
+            if (result.ok()) {
+                const salesChannelLanguages = await result.json() as { data: { id: string }[] };
+                wantedLanguages.forEach(l => {
+                    if (!salesChannelLanguages.data.find(i => i.id === l)) {
+                        languages.push({ id: l });
+                    }
+                });
+            } else {
+                wantedLanguages.forEach(l => {
+                    languages.push({ id: l });
+                });
+            }
 
             const syncResp = await AdminApiContext.post('./_action/sync', {
                 data: {
@@ -142,7 +157,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                     name: `${id} Acceptance test`,
                                 },
 
-                                languages: [{ id: SalesChannelBaseConfig.enGBLanguageId }, { id: SalesChannelBaseConfig.defaultLanguageId }],
+                                languages,
                                 countries: [{ id: SalesChannelBaseConfig.deCountryId }],
                                 shippingMethods: [{ id: SalesChannelBaseConfig.defaultShippingMethod }],
                                 paymentMethods: [{ id: SalesChannelBaseConfig.invoicePaymentMethodId }],

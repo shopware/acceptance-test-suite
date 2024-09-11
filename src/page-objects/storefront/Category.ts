@@ -13,6 +13,6 @@ export class Category implements PageObject {
     }
 
     url(categoryName: string): string {
-        return `${categoryName}`;
+        return `${categoryName}/`;
     }
 }

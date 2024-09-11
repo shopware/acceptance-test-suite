@@ -64,6 +64,7 @@ test('Storefront page objects.', async ({
 });
 
 test('Administration page objects.', async ({
+    InstanceMeta,
     AdminApiContext,
     ShopAdmin,
     ProductData,
@@ -79,8 +80,6 @@ test('Administration page objects.', async ({
     AdminDataSharing,
     AdminDashboard,
 }) => {
-
-
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
         await ShopAdmin.goesTo(AdminFirstRunWizard.url());
@@ -106,13 +105,15 @@ test('Administration page objects.', async ({
     await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
 
-
     // eslint-disable-next-line playwright/no-conditional-in-test
-    if (!await isSaaSInstance(AdminApiContext)) {
+    if (!InstanceMeta.isSaaS) {
         await ShopAdmin.goesTo(AdminDashboard.url());
         await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
 
-        await ShopAdmin.goesTo(AdminDataSharing.url());
-        await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
+        // eslint-disable-next-line playwright/no-conditional-in-test
+        if (!InstanceMeta.version.match(/6\.5\.*/)) {
+            await ShopAdmin.goesTo(AdminDataSharing.url());
+            await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
+        }
     }
 });
