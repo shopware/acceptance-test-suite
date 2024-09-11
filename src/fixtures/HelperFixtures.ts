@@ -8,6 +8,10 @@ import { AdminApiContext } from '../services/AdminApiContext';
 export interface HelperFixtureTypes {
     IdProvider: IdProvider;
     SaaSInstanceSetup: () => Promise<void>,
+    InstanceMeta: {
+        version: string,
+        isSaaS: boolean,
+    },
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -49,6 +53,20 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             };
 
             await use(SetupInstance);
+        },
+        { scope: 'worker' },
+    ],
+
+    InstanceMeta: [
+        async ({ AdminApiContext: context }, use) => {
+            const response = await context.get('./_info/config');
+            expect(response.ok(), '/_info/config request failed').toBeTruthy();
+
+            const config = (await response.json()) as { version: string };
+            use({
+                version: config.version,
+                isSaaS: await isSaaSInstance(context),
+            });
         },
         { scope: 'worker' },
     ],

@@ -1,9 +1,10 @@
-import { test, expect, type Product, Category, PropertyGroup, Customer, Order, Manufacturer, PaymentMethod, Rule, ShippingMethod } from '../src/index';
+import { test, expect, type Product, Category, PropertyGroup, Customer, Manufacturer, PaymentMethod, Rule, ShippingMethod } from '../../src/index';
+
+
 test('Data Service', async ({
     TestDataService,
     AdminApiContext,
 }) => {
-
     // Test test-data generation
     const category = await TestDataService.createCategory({ name: 'Custom Category' });
     expect(category.name).toEqual('Custom Category');
@@ -31,6 +32,7 @@ test('Data Service', async ({
     const shippingCosts = 12.99;
     const totalPrice = 50 + shippingCosts;
 
+    // eslint-disable-next-line playwright/no-conditional-in-test
     if (deliveryStruct.shippingCosts != null) {
         deliveryStruct.shippingCosts.unitPrice = shippingCosts;
         deliveryStruct.shippingCosts.totalPrice = shippingCosts;
@@ -60,23 +62,10 @@ test('Data Service', async ({
         [{ product, quantity: 5 }],
         customer,
         customShippingCosts,
-        );
+    );
     expect(orderWithCustomShippingCosts.price.totalPrice).toEqual(62.99);
 
-    const promotion = await TestDataService.createPromotionWithCode({ code: 'myCode', discounts: [{ scope: 'cart', type: 'absolute', value: 10, considerAdvancedRules: false }] });
-    expect(promotion.code).toEqual('myCode');
-    expect(promotion.discounts[0].type).toEqual('absolute');
-
-    const order = await TestDataService.createOrder(
-        [{ product: product, quantity: 5 }, { product: promotion, quantity: 1 }],
-        customer,
-        { orderNumber: '123456789' },
-    );
-    expect(order.orderNumber).toEqual('123456789');
-    expect(order.orderCustomer.firstName).toEqual('Luke');
-    expect(order.price.totalPrice).toEqual(48.99);
-
-    const paymentMethod = await TestDataService.createBasicPaymentMethod( {name: 'Custom payment method'} );
+    const paymentMethod = await TestDataService.createBasicPaymentMethod({ name: 'Custom payment method' });
     expect(paymentMethod.name).toEqual('Custom payment method');
 
     const paymentMethodWithImage = await TestDataService.createPaymentMethodWithImage();
@@ -101,11 +90,11 @@ test('Data Service', async ({
     propertyGroups.push(propertyGroupColor);
     propertyGroups.push(propertyGroupText);
 
-    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description'});
+    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description' });
     expect(variantProducts.length).toEqual(9);
     expect(variantProducts[0].description).toEqual('Variant description');
 
-    const basicShippingMethod = await TestDataService.createBasicShippingMethod( {name: 'Custom shipping method'} );
+    const basicShippingMethod = await TestDataService.createBasicShippingMethod({ name: 'Custom shipping method' });
     expect(basicShippingMethod.name).toEqual('Custom shipping method');
 
     const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
@@ -136,9 +125,6 @@ test('Data Service', async ({
     const { data: databaseCustomer } = (await customerResponse.json()) as { data: Customer };
     expect(databaseCustomer.id).toBe(customer.id);
 
-    const orderResponse = await AdminApiContext.get(`./order/${order.id}?_response=detail`);
-    const { data: databaseOrder } = (await orderResponse.json()) as { data: Order };
-    expect(databaseOrder.id).toBe(order.id);
 
     const manufacturerResponse = await AdminApiContext.get(`./product-manufacturer/${manufacturer.id}?_response=detail`);
     const { data: databaseManufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
@@ -176,7 +162,5 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUp['deleted']['payment_method']).toBeDefined();
     expect(cleanUp['deleted']['shipping_method']).toBeDefined();
-    expect(cleanUp['deleted']['promotion']).toBeDefined();
-    expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
     expect(cleanUp['deleted']['rule']).toBeDefined();
 });

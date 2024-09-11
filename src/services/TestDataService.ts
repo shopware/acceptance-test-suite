@@ -25,6 +25,7 @@ import type {
     PropertyGroupOption,
     DeliveryTime,
 } from '../types/ShopwareTypes';
+import { expect } from '@playwright/test';
 
 export interface CreatedRecord {
     resource: string;
@@ -144,6 +145,7 @@ export class TestDataService {
         const productResponse = await this.AdminApiClient.post('./product?_response=detail', {
             data: basicProduct,
         });
+        expect(productResponse.ok()).toBeTruthy();
 
         const { data: product } = (await productResponse.json()) as { data: Product };
 
@@ -237,6 +239,7 @@ export class TestDataService {
         const manufacturerResponse = await this.AdminApiClient.post('./product-manufacturer?_response=detail', {
             data: basicManufacturer,
         });
+        expect(manufacturerResponse.ok()).toBeTruthy();
 
         const { data: manufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
 
@@ -277,6 +280,7 @@ export class TestDataService {
         const response = await this.AdminApiClient.post('category?_response=detail', {
             data: basicCategory,
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: category } = (await response.json()) as { data: Category };
 
@@ -300,10 +304,11 @@ export class TestDataService {
         const media = await this.createMediaResource();
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
-        await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
+        const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
             data: Buffer.from(image.toBuffer()),
             headers: { 'content-type': 'image/png' },
         });
+        expect(response.ok()).toBeTruthy();
 
         this.addCreatedRecord('media', media.id);
 
@@ -322,10 +327,11 @@ export class TestDataService {
         const media = await this.createMediaResource();
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
-        await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=txt&fileName=${filename}`, {
+        const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=txt&fileName=${filename}`, {
             data: content,
             headers: { 'content-type': 'application/octet-stream' },
         });
+        expect(response.ok()).toBeTruthy();
 
         this.addCreatedRecord('media', media.id);
 
@@ -347,6 +353,7 @@ export class TestDataService {
                 title: `Title-${id}`,
             },
         });
+        expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: media } = (await mediaResponse.json()) as { data: Media };
 
@@ -383,6 +390,7 @@ export class TestDataService {
         const propertyGroupResponse = await this.AdminApiClient.post('property-group?_response=detail', {
             data: Object.assign({}, colorPropertyGroup, overrides),
         });
+        expect(propertyGroupResponse.ok()).toBeTruthy();
 
         const { data: propertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
 
@@ -418,6 +426,7 @@ export class TestDataService {
         const propertyGroupResponse = await this.AdminApiClient.post('property-group?_response=detail', {
             data: Object.assign({}, textPropertyGroup, overrides),
         });
+        expect(propertyGroupResponse.ok()).toBeTruthy();
 
         const { data: propertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
 
@@ -441,6 +450,7 @@ export class TestDataService {
                 name: tagName,
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: tag } = (await response.json()) as { data: Tag };
 
@@ -476,6 +486,7 @@ export class TestDataService {
         const response = await this.AdminApiClient.post('customer?_response=detail', {
             data: basicCustomerStruct,
         });
+        expect(response.ok()).toBeTruthy();
 
         const customerData = (await response.json()) as { data: Customer };
 
@@ -539,6 +550,7 @@ export class TestDataService {
         const orderResponse = await this.AdminApiClient.post('order?_response=detail', {
             data: basicOrder,
         });
+        expect(orderResponse.ok()).toBeTruthy();
 
         const { data: order } = (await orderResponse.json()) as { data: Order };
 
@@ -564,6 +576,7 @@ export class TestDataService {
         const promotionResponse = await this.AdminApiClient.post('promotion?_response=detail', {
             data: basicPromotion,
         });
+        expect(promotionResponse.ok()).toBeTruthy();
 
         const { data: promotion } = (await promotionResponse.json()) as { data: Promotion };
 
@@ -588,6 +601,7 @@ export class TestDataService {
         const paymentMethodResponse = await this.AdminApiClient.post('payment-method?_response=detail', {
             data: basicPaymentMethod,
         });
+        expect(paymentMethodResponse.ok()).toBeTruthy();
 
         const { data: paymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
 
@@ -610,6 +624,7 @@ export class TestDataService {
         const ruleResponse = await this.AdminApiClient.post('rule?_response=detail', {
             data: basicRule,
         });
+        expect(ruleResponse.ok()).toBeTruthy();
 
         const { data: rule } = (await ruleResponse.json()) as { data: Rule };
 
@@ -666,7 +681,7 @@ export class TestDataService {
         for (const productVariantCombination of productVariantCombinations) {
             const variantOverrides = {
                 parentId: parentProduct.id,
-                productNumber: parentProduct.productNumber+'.'+index,
+                productNumber: parentProduct.productNumber + '.' + index,
                 options: productVariantCombination,
             };
 
@@ -702,16 +717,18 @@ export class TestDataService {
     async createBasicShippingMethod(
         overrides: Partial<ShippingMethod> = {},
     ): Promise<ShippingMethod> {
+        const deliveryTime = await this.getAllDeliveryTimeResources()
 
-        const deliveryTime = await this.getAllDeliveryTimeResources();
-
+        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id
         const basicShippingMethod = this.getBasicShippingMethodStruct(
             deliveryTime[0].id,
-            overrides);
+            overrides
+        );
 
         const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
             data: basicShippingMethod,
         });
+        expect(shippingMethodResponse.ok()).toBeTruthy();
 
         const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
 
@@ -727,15 +744,15 @@ export class TestDataService {
      */
     combineAll = (array: Record<string, string>[][]) => {
         const result: Record<string, string>[][] = [];
-        const max = array.length-1;
+        const max = array.length - 1;
         const helper = (tmpArray: Record<string, string>[], i: number) => {
-            for (let j=0, l=array[i].length; j<l; j++) {
+            for (let j = 0, l = array[i].length; j < l; j++) {
                 const copy = tmpArray.slice(0);
                 copy.push(array[i][j]);
-                if (i==max)
+                if (i == max)
                     result.push(copy);
                 else
-                    helper(copy, i+1);
+                    helper(copy, i + 1);
             }
         };
         helper([], 0);
@@ -755,6 +772,7 @@ export class TestDataService {
                 mediaId: mediaId,
             },
         });
+        expect(paymentMethodResponse.ok()).toBeTruthy();
 
         const { data: paymentMethodMedia } = await paymentMethodResponse.json();
 
@@ -775,6 +793,7 @@ export class TestDataService {
                 mediaId: mediaId,
             },
         });
+        expect(downloadResponse.ok()).toBeTruthy();
 
         const { data: productDownload } = await downloadResponse.json();
 
@@ -804,6 +823,7 @@ export class TestDataService {
                 ],
             },
         });
+        expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: productMedia } = await mediaResponse.json();
 
@@ -823,6 +843,7 @@ export class TestDataService {
                 mediaId: mediaId,
             },
         });
+        expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: manufacturerMedia } = await mediaResponse.json();
 
@@ -837,7 +858,7 @@ export class TestDataService {
      */
     async assignManufacturerProduct(manufacturerId: string, productId: string) {
 
-        return await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 manufacturerId: manufacturerId,
             },
@@ -894,6 +915,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(currencyResponse.ok()).toBeTruthy();
 
         const { data: result } = (await currencyResponse.json()) as { data: Currency[] };
 
@@ -916,6 +938,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = (await response.json()) as { data: Rule[] };
 
@@ -938,6 +961,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = (await response.json()) as { data: ShippingMethod[] };
 
@@ -957,6 +981,7 @@ export class TestDataService {
                 mediaId: mediaId,
             },
         });
+        expect(shippingMethodResponse.ok()).toBeTruthy();
 
         const { data: shippingMethodMedia } = await shippingMethodResponse.json();
 
@@ -968,6 +993,7 @@ export class TestDataService {
      */
     async getAllDeliveryTimeResources(): Promise<DeliveryTime[]> {
         const response = await this.AdminApiClient.get('delivery-time');
+        expect(response.ok()).toBeTruthy();
 
         const { data: deliveryTimeResources } = (await response.json()) as { data: DeliveryTime[] };
 
@@ -990,6 +1016,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = (await response.json()) as { data: PaymentMethod[] };
 
@@ -1003,6 +1030,7 @@ export class TestDataService {
      */
     async getCustomerAddress(addressId: string): Promise<CustomerAddress> {
         const response = await this.AdminApiClient.get(`customer-address/${addressId}`);
+        expect(response.ok()).toBeTruthy();
 
         const { data: address } = (await response.json()) as { data: CustomerAddress };
 
@@ -1025,6 +1053,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = await response.json();
 
@@ -1068,6 +1097,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = (await response.json()) as { data: StateMachine[] };
 
@@ -1098,6 +1128,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = (await response.json()) as { data: StateMachineState[] };
 
@@ -1122,6 +1153,7 @@ export class TestDataService {
                 }],
             },
         });
+        expect(response.ok()).toBeTruthy();
 
         const { data: result } = (await response.json()) as { data: PropertyGroupOption[] };
 
@@ -1297,23 +1329,23 @@ export class TestDataService {
             priority: 1,
             description: description,
             conditions: [
-            {
-                type: 'orContainer',
-                children: [
-                    {
-                        type: 'andContainer',
-                        children: [
-                            {
-                                type: conditionType,
-                                value: {
-                                    operator: operator,
-                                    amount: amount,
+                {
+                    type: 'orContainer',
+                    children: [
+                        {
+                            type: 'andContainer',
+                            children: [
+                                {
+                                    type: conditionType,
+                                    value: {
+                                        operator: operator,
+                                        amount: amount,
+                                    },
                                 },
-                            },
-                        ],
-                    },
-                ],
-            }],
+                            ],
+                        },
+                    ],
+                }],
         };
 
         return Object.assign({}, basicRuleStruct, overrides);
@@ -1482,7 +1514,7 @@ export class TestDataService {
     ): Partial<OrderDelivery> {
         const date = new Date();
         const shippingDate = new Date(date);
-        shippingDate.setDate((shippingDate.getDate()+3))
+        shippingDate.setDate((shippingDate.getDate() + 3))
         const shippingDateTime = this.convertDateTime(shippingDate);
         const shippingCosts = 8.99;
 
@@ -1585,7 +1617,7 @@ export class TestDataService {
                 if (promotionDiscountType === 'absolute') {
                     totalPrice -= (promotionDiscountValue || 10) * (lineItem.quantity || 1);
                 } else if (promotionDiscountType === 'percentage') {
-                    totalPrice -= (((promotionDiscountValue)*totalPrice)/100) * (lineItem.quantity || 1);
+                    totalPrice -= (((promotionDiscountValue) * totalPrice) / 100) * (lineItem.quantity || 1);
                 } else if (promotionDiscountType === 'fixed_unit') {
                     totalPrice = (promotionDiscountValue || 10) * (lineItem.quantity || 1);
                 }
@@ -1654,7 +1686,7 @@ export class TestDataService {
                 }],
             },
             lineItems: orderLineItems,
-            deliveries: [ orderDelivery ],
+            deliveries: [orderDelivery],
             transactions: [
                 {
                     paymentMethodId: paymentMethod.id,
