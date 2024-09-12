@@ -699,6 +699,12 @@ export class TestDataService {
             index++;
         }
 
+        await this.AdminApiClient.post('_action/indexing/product.indexer?_response=detail', {
+            data: {
+                offset: 0,
+            },
+        });
+
         return variantProducts;
     }
 
