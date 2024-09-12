@@ -1,28 +1,48 @@
+x-env: &env
+    APP_ENV: prod
+    APP_DEBUG: 1
+    PROJECT_ROOT: /var/www/html
+    MYSQL_ROOT_PASSWORD: app
+    MYSQL_DATABASE: shopware
+    ADMINER_DEFAULT_SERVER: database
+    SHOPWARE_HTTP_CACHE_ENABLED: 0
+    DATABASE_URL: mysql://root:app@database:3306/shopware
+    APP_SECRET: secret
+    APP_URL: http://localhost:8011
+    MAILER_DSN: smtp://mailpit:1025
+    MAILPIT_BASE_URL: http://localhost:8013
+    # TEST_WEB_INSTALLER: 1
+    # SHOPWARE_SKIP_WEBINSTALLER: 0
+    # SHOPWARE_DISABLE_UPDATE_CHECK: '0'
+    # SW_RECOVERY_NEXT_VERSION: 6.6.9999999.9999999
+    # SW_RECOVERY_NEXT_BRANCH: dev-trunk
+    # SW_RECOVERY_REPOSITORY: '{"type": "path", "url": "custom/packages/*", "options": { "symlink": true } }'
+    INSTALL_LOCALE: en-US
+    INSTALL_CURRENCY: USD
+    PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
+
 x-service: &service
     environment:
-        APP_ENV: prod
-        APP_DEBUG: 1
-        PROJECT_ROOT: /var/www/html
-        MYSQL_ROOT_PASSWORD: app
-        MYSQL_DATABASE: root
-        ADMINER_DEFAULT_SERVER: database
-        SHOPWARE_HTTP_CACHE_ENABLED: 0
-        DATABASE_URL: mysql://root:app@database:3306/install_test
-        APP_SECRET: secret
-        APP_URL: http://localhost:8011
-        MAILER_DSN: smtp://mailpit:1025
-        MAILPIT_BASE_URL: http://localhost:8013
-        # TEST_WEB_INSTALLER: 1
-        # SHOPWARE_SKIP_WEBINSTALLER: 0
-        # SHOPWARE_DISABLE_UPDATE_CHECK: '0'
-        # SW_RECOVERY_NEXT_VERSION: 6.6.9999999.9999999
-        # SW_RECOVERY_NEXT_BRANCH: dev-trunk
-        # SW_RECOVERY_REPOSITORY: '{"type": "path", "url": "custom/packages/*", "options": { "symlink": true } }'
-        INSTALL_LOCALE: en-US
-        INSTALL_CURRENCY: USD
-        PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
+        <<: *env
     networks:
         - local
+
+x-shopware: &shopware-65
+    environment:
+        <<: *env
+        DATABASE_URL: mysql://root:app@database:3306/shopware_65
+        MYSQL_DATABASE: shopware_65
+        APP_URL: http://localhost:8021
+    networks:
+        - local
+    image: ghcr.io/shopware/shopware/ci-e2e:v6.5.x
+    volumes:
+    - jwt:/var/www/html/config/jwt
+    - media:/var/www/html/public/media
+    - theme:/var/www/html/public/theme
+    - bundles:/var/www/html/public/bundles
+    - thumbnail:/var/www/html/public/thumbnail
+    - cache:/var/www/html/var/cache
 
 services:
     database:
@@ -49,17 +69,34 @@ services:
         image: axllent/mailpit
         ports:
             - 8013:8025
-
     shopware:
         <<: *service
-        # TODO: build trunk tag
         image: ghcr.io/shopware/shopware/ci-e2e:trunk
         depends_on: [ database, mailpit ]
         ports:
             - '8011:8000'
-        # mount platform
-        # volumes:
-        # - ../../:/var/www/html/custom/platform
+
+    init-65:
+        <<: *shopware-65
+        depends_on: [ database, mailpit ]
+        entrypoint: ['sh', '/init.sh']
+        user: root
+
+    shopware-65:
+        <<: *shopware-65
+        depends_on:
+            init-65:
+                condition: service_completed_successfully
+        ports:
+            - '8021:8000'
+
+volumes:
+  jwt:
+  media:
+  theme:
+  bundles:
+  thumbnail:
+  cache:
 
 networks:
     local:

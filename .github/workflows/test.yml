@@ -39,8 +39,20 @@ jobs:
     test:
       timeout-minutes: 15
       runs-on: ubuntu-latest
+      strategy:
+        fail-fast: false
+        matrix:
+          instance:
+            - compose-service: shopware
+              APP_URL: http://localhost:8011
+            - compose-service: shopware-65
+              APP_URL: http://localhost:8021
+      env:
+        APP_URL: ${{ matrix.instance.APP_URL }}
       steps:
       - uses: actions/checkout@v4
+      - name: Compose up ${{ matrix.instance.compose-service }} 
+        run: docker compose up -d --pull=always --quiet-pull ${{ matrix.instance.compose-service }} 
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -48,13 +60,11 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: |
-          echo $APP_URL
-          npx playwright test --repeat-each 4
+      - name: Run Playwright tests ${{ matrix.instance.compose-service }} 
+        run: npx playwright test --repeat-each 4
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.instance.compose-service }} 
           path: test-results/
           retention-days: 7
