@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.8.2](https://github.com/shopware/acceptance-test-suite/compare/v3.8.1...v3.8.2) (2024-09-12)
+
+
+### Bug Fixes
+
+* add product configuration entity creation to variants operation ([#120](https://github.com/shopware/acceptance-test-suite/issues/120)) ([f47e1e7](https://github.com/shopware/acceptance-test-suite/commit/f47e1e78fae1b10794beb3e8d2cdc36c93b90572))
+* make ATS compatible with 6.5.x ([1b9cc9e](https://github.com/shopware/acceptance-test-suite/commit/1b9cc9e3e74f84f152cd3ccde48d204c74796c6d))
+
 ## [3.8.1](https://github.com/shopware/acceptance-test-suite/compare/v3.8.0...v3.8.1) (2024-09-10)
 
 
