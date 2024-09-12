@@ -670,6 +670,15 @@ export class TestDataService {
             const propertyGroupOptionsCollection: Record<string, string>[] = [];
             for (const propertyGroupOption of propertyGroupOptions) {
                 propertyGroupOptionsCollection.push({ id: propertyGroupOption.id })
+
+                const productConfiguratorResponse = await this.AdminApiClient.post('product-configurator-setting?_response=detail', {
+                    data: {
+                        id: this.IdProvider.getIdPair().uuid,
+                        productId: parentProduct.id,
+                        optionId: propertyGroupOption.id,
+                    },
+                });
+                expect(productConfiguratorResponse.ok()).toBeTruthy();
             }
             productVariantCandidates.push(propertyGroupOptionsCollection);
         }
@@ -689,6 +698,7 @@ export class TestDataService {
             variantProducts.push(await this.createBasicProduct(overrideCollection));
             index++;
         }
+
         return variantProducts;
     }
 
