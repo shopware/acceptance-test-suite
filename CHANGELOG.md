@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.3](https://github.com/shopware/acceptance-test-suite/compare/v3.8.2...v3.8.3) (2024-09-12)
+
+
+### Bug Fixes
+
+* run product indexer after generating variants ([cc928ec](https://github.com/shopware/acceptance-test-suite/commit/cc928ec035bdb0ba41c90eec39709e26781732cc))
+
 ## [3.8.2](https://github.com/shopware/acceptance-test-suite/compare/v3.8.1...v3.8.2) (2024-09-12)
 
 
