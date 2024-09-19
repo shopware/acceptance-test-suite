@@ -8,7 +8,7 @@ export class AccountOrder implements PageObject {
     public readonly digitalProductDownloadButton: Locator;
 
     constructor(public readonly page: Page) {
-        this.orderExpandButton = page.locator('.order-hide-btn').first();
+        this.orderExpandButton = page.getByRole('button', {name: /Expand|Show details/}).first();
         this.cartLineItemImages = page.locator('.line-item-img-link');
         this.digitalProductDownloadButton = page.getByRole('link', { name: 'Download' }).first();
     }
