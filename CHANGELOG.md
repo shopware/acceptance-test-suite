@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.8.4](https://github.com/shopware/acceptance-test-suite/compare/v3.8.3...v3.8.4) (2024-09-19)
+
+
+### Bug Fixes
+
+* Change AccountOrder orderExpandButton to locator ([c4facc9](https://github.com/shopware/acceptance-test-suite/commit/c4facc9958974447e8452bafe38f2ba85eedc071))
+* Use regex for button content instead of class selector ([2f1eec4](https://github.com/shopware/acceptance-test-suite/commit/2f1eec4ab333743a74c111dd631e35ce09cc1173))
+
 ## [3.8.3](https://github.com/shopware/acceptance-test-suite/compare/v3.8.2...v3.8.3) (2024-09-12)
 
 
