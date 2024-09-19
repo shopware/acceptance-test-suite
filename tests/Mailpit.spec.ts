@@ -7,7 +7,11 @@ test('Verify sign-up email', { tag: '@Email' }, async ({
     page,
     MailpitApiContext,
     TestDataService,
+    InstanceMeta,
 }) => {
+    // eslint-disable-next-line playwright/no-skipped-test
+    test.skip(InstanceMeta.isSaaS, 'Skipping test because it requires a local mailpit instance.');
+
     // Login with a new customer
     const email = IdProvider.getIdPair().id + '@test.com';
     const password = 'shopware';
@@ -31,5 +35,4 @@ test('Verify sign-up email', { tag: '@Email' }, async ({
     await expect(page.locator('#to')).toContainText(email);
     await expect(page.locator('#subject')).toContainText('Your sign-up');
     await expect(page.locator('p').last()).toContainText(email);
-
 });
