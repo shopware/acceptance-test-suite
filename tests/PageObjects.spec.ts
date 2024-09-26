@@ -1,4 +1,4 @@
-import { test, getFlowId, isSaaSInstance } from '../src/index';
+import { test, getFlowId, isSaaSInstance, expect } from '../src/index';
 
 test('Storefront page objects.', async ({
     ShopCustomer,
@@ -116,4 +116,16 @@ test('Administration page objects.', async ({
             await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
         }
     }
+});
+
+test('page is the same as AdminPage', async ({
+    page, AdminPage,
+}) => {
+    expect(page).toBe(AdminPage);
+});
+
+test('context is the same as AdminPage.context()', async ({
+    context, AdminPage,
+}) => {
+    expect(context).toBe(AdminPage.context());
 });

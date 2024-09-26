@@ -1,4 +1,4 @@
-import { test as base, expect, Page } from '@playwright/test';
+import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isSaaSInstance, isThemeCompiled } from '../services/ShopInfo';
@@ -6,6 +6,8 @@ import { isSaaSInstance, isThemeCompiled } from '../services/ShopInfo';
 export interface PageContextTypes {
     AdminPage: Page;
     StorefrontPage: Page;
+    page: Page;
+    context: BrowserContext;
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -130,5 +132,13 @@ export const test = base.extend<FixtureTypes>({
 
         await page.close();
         await context.close();
+    },
+
+    page: async ({ AdminPage }, use) => {
+        await use(AdminPage);
+    },
+
+    context: async ({ AdminPage }, use) => {
+        await use(AdminPage.context());
     },
 });
