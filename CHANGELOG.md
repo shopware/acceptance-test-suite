@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/shopware/acceptance-test-suite/compare/v3.8.4...v3.9.0) (2024-10-15)
+
+
+### Features
+
+* define page and context from AdminPage ([cbe6e57](https://github.com/shopware/acceptance-test-suite/commit/cbe6e57a05c2ec4719bbb3b666e9e6d009a9b512))
+
 ## [3.8.4](https://github.com/shopware/acceptance-test-suite/compare/v3.8.3...v3.8.4) (2024-09-19)
 
 
