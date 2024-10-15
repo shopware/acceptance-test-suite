@@ -73,6 +73,8 @@ For more information about how to configure your Playwright project, have a look
 ## Usage
 The test suite uses the [extension system](https://playwright.dev/docs/extensibility) of Playwright and can be used as a full drop-in for Playwright. But, as you might also want to add your own extensions, the best way to use it is to create your own base test file and use it as the central reference for your test files. Add it to your project root or a specific fixture directory and name it whatever you like.
 
+Make sure to set `"type": "module",` in your `package.json`.
+
 ```TypeScript
 // BaseTestFile.ts
 
