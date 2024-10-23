@@ -24,6 +24,7 @@ import type {
     OrderLineItem,
     PropertyGroupOption,
     DeliveryTime,
+    CmsPage,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -631,6 +632,27 @@ export class TestDataService {
         this.addCreatedRecord('rule', rule.id);
 
         return rule;
+    }
+
+    /**
+     * Creates a new basic landing page layout.
+     *
+     * @param cmsPageType - The type of the cms page layout (page/landingpage/product_detail...).
+     * @param overrides - Specific data overrides that will be applied to the cms page layout data struct.
+     */
+    async createBasicLandingPageLayout(cmsPageType: string, overrides: Partial<CmsPage> = {}): Promise<CmsPage> {
+        const basicLayout = this.getBasicCmsStruct(cmsPageType, overrides);
+
+        const layoutResponse = await this.AdminApiClient.post('cms-page?_response=detail', {
+            data: basicLayout,
+        });
+        expect(layoutResponse.ok()).toBeTruthy();
+
+        const { data: layout } = (await layoutResponse.json()) as { data: CmsPage };
+
+        this.addCreatedRecord('cms_page', layout.id);
+
+        return layout;
     }
 
     /**
@@ -1866,5 +1888,18 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicPromotion, overrides);
+    }
+
+    getBasicCmsStruct(cmsType:string, overrides: Partial<CmsPage>): Partial<CmsPage> {
+        const cmsPageUuid = this.IdProvider.getIdPair().uuid;
+        const cmsPageName = `${this.namePrefix}Cms-${cmsPageUuid}${this.nameSuffix}`;
+
+        const basicCmsPage = {
+            id: cmsPageUuid,
+            type: cmsType,
+            name: cmsPageName,
+        };
+
+        return Object.assign({}, basicCmsPage, overrides);
     }
 }
