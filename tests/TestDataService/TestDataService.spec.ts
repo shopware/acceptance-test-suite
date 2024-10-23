@@ -100,6 +100,12 @@ test('Data Service', async ({
     const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
     expect(shippingMethodWithImage.media).toBeDefined();
 
+    const cmsType = 'product_detail';
+    const cmsPageName = 'Custom product detail page';
+    const cmsPage = await TestDataService.createBasicLandingPageLayout(cmsType, { name: cmsPageName });
+    expect(cmsPage.name).toEqual(cmsPageName);
+    expect(cmsPage.type).toEqual(cmsType);
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -163,4 +169,5 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['payment_method']).toBeDefined();
     expect(cleanUp['deleted']['shipping_method']).toBeDefined();
     expect(cleanUp['deleted']['rule']).toBeDefined();
+    expect(cleanUp['deleted']['cms_page']).toBeDefined();
 });
