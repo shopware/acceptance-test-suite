@@ -10,6 +10,7 @@ import { FlowBuilderListing } from './administration/FlowBuilderListing';
 import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
+import { ShippingListing } from './administration/ShippingListing';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -21,6 +22,7 @@ export interface AdministrationPageTypes {
     AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
+    AdminShippingListing: ShippingListing;
 }
 
 export const AdminPageObjects = {
@@ -33,6 +35,8 @@ export const AdminPageObjects = {
     FlowBuilderDetail,
     Dashboard,
     DataSharing,
+    ShippingListing,
+    
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -71,5 +75,9 @@ export const test = base.extend<FixtureTypes>({
 
     AdminDashboard: async ({ AdminPage }, use) => {
         await use(new Dashboard(AdminPage));
+    },
+
+    AdminShippingListing: async ({ AdminPage }, use) => {
+        await use(new ShippingListing(AdminPage));
     },
 });
