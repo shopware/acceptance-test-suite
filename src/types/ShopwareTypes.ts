@@ -155,3 +155,7 @@ export type PropertyGroupOption = components['schemas']['PropertyGroupOption'] &
 export type DeliveryTime = components['schemas']['DeliveryTime'] & {
     id: string,
 };
+
+export type CmsPage = components['schemas']['CmsPage'] & {
+    id: string,
+};

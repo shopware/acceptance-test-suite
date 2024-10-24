@@ -10,6 +10,9 @@ import { FlowBuilderListing } from './administration/FlowBuilderListing';
 import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
+import { AdminLandingPageCreate } from './administration/AdminLandingPageCreate';
+import { AdminLandingPageDetail } from './administration/AdminLandingPageDetail';
+import { AdminCategories } from './administration/AdminCategories';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -21,6 +24,9 @@ export interface AdministrationPageTypes {
     AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
+    AdminCategories: AdminCategories;
+    AdminLandingPageCreate: AdminLandingPageCreate;
+    AdminLandingPageDetail: AdminLandingPageDetail;
 }
 
 export const AdminPageObjects = {
@@ -33,6 +39,9 @@ export const AdminPageObjects = {
     FlowBuilderDetail,
     Dashboard,
     DataSharing,
+    AdminCategories,
+    AdminLandingPageCreate,
+    AdminLandingPageDetail,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -71,5 +80,17 @@ export const test = base.extend<FixtureTypes>({
 
     AdminDashboard: async ({ AdminPage }, use) => {
         await use(new Dashboard(AdminPage));
+    },
+
+    AdminCategories: async ({ AdminPage }, use) => {
+        await use(new AdminCategories(AdminPage));
+    },
+
+    AdminLandingPageDetail: async ({ AdminPage }, use) => {
+        await use(new AdminLandingPageDetail(AdminPage));
+    },
+
+    AdminLandingPageCreate: async ({ AdminPage }, use) => {
+        await use(new AdminLandingPageCreate(AdminPage));
     },
 });
