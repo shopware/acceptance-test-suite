@@ -635,12 +635,12 @@ export class TestDataService {
     }
 
     /**
-     * Creates a new basic landing page layout.
+     * Creates a new basic page layout.
      *
-     * @param cmsPageType - The type of the cms page layout (page/landingpage/product_detail...).
+     * @param cmsPageType - The type of the cms page layout (page/landingpage/product_detail/product_list).
      * @param overrides - Specific data overrides that will be applied to the cms page layout data struct.
      */
-    async createBasicLandingPageLayout(cmsPageType: string, overrides: Partial<CmsPage> = {}): Promise<CmsPage> {
+    async createBasicPageLayout(cmsPageType: string, overrides: Partial<CmsPage> = {}): Promise<CmsPage> {
         const basicLayout = this.getBasicCmsStruct(cmsPageType, overrides);
 
         const layoutResponse = await this.AdminApiClient.post('cms-page?_response=detail', {

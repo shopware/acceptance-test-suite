@@ -102,7 +102,7 @@ test('Data Service', async ({
 
     const cmsType = 'product_detail';
     const cmsPageName = 'Custom product detail page';
-    const cmsPage = await TestDataService.createBasicLandingPageLayout(cmsType, { name: cmsPageName });
+    const cmsPage = await TestDataService.createBasicPageLayout(cmsType, { name: cmsPageName });
     expect(cmsPage.name).toEqual(cmsPageName);
     expect(cmsPage.type).toEqual(cmsType);
 

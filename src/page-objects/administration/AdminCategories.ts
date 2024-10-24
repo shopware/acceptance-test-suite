@@ -1,7 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
-export class Categories implements PageObject {
+export class AdminCategories implements PageObject {
 
     /**
      * Landing pages
@@ -14,9 +14,9 @@ export class Categories implements PageObject {
     constructor(public readonly page: Page) {
 
         this.landingPageArea = page.locator('.sw-category-detail__landing-page-collapse');
-        this.landingPageHeadline = this.landingPageArea.locator('.sw-category-detail__collapse-headline');
-        this.addLandingPageButton = this.landingPageArea.locator('.sw-landing-page-tree__add-button-button');
-        this.landingPageItems = this.landingPageArea.locator('.sw-landing-page-tree .sw-tree-item__label');
+        this.landingPageHeadline = this.landingPageArea.getByRole('heading', { name: 'Landing pages' });
+        this.addLandingPageButton = this.landingPageArea.getByText('Add landing page');
+        this.landingPageItems = this.landingPageArea.locator('.sw-tree-item__label');
     }
 
     url() {
