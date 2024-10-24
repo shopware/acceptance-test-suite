@@ -4,8 +4,6 @@ import type { PageObject } from '../../types/PageObject';
 export class ShippingListing implements PageObject {
     public readonly header: Locator;
     public readonly addShippingMethod: Locator;
-    public readonly firstShippigMethodName: Locator;
-    public readonly firstShippingMethodContextButton: Locator;
     public readonly contextMenu: Locator;
     public readonly editButton: Locator;
     public readonly deleteButton: Locator;
@@ -17,23 +15,20 @@ export class ShippingListing implements PageObject {
     public readonly modalDeleteButton: Locator;
 
     constructor(public readonly page: Page) {
-        this.header = page.locator('.smart-bar__header')
+        this.header = page.locator('.smart-bar__header');
         this.addShippingMethod = page.getByText('Add shipping method', { exact: true });
-        this.firstShippigMethodName = page.locator('.sw-data-grid__cell--name a').first();
-        this.firstShippingMethodContextButton = page.locator('.sw-data-grid__actions-menu').first();
         this.contextMenu = page.locator('.sw-data-grid-settings__trigger');
         this.editButton = page.locator('.sw-settings-shipping-list__edit-action');
         this.deleteButton = page.locator('.sw-context-menu-item--danger');
 
         //warning modal
-        this.modal = page.locator('.sw-modal__dialog');
-        this.modalHeader = page.getByText('Warning', { exact: true });
-        this.modalCancelButton = page.getByText('Cancel', { exact: true });
-        this.modalDeleteButton = page.locator('.sw-button--danger');
+        this.modal = page.getByRole('dialog', { name: 'Warning' });
+        this.modalHeader = page.getByRole('heading', { name: 'Warning' });
+        this.modalCancelButton = page.getByRole('button', {name: 'Cancel' });
+        this.modalDeleteButton = page.getByRole('button', {name: 'Delete' });
     }
 
     url() {
         return '#/sw/settings/shipping/index/';
     }
 }
-
