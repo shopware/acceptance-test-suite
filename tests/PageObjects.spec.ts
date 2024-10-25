@@ -79,6 +79,8 @@ test('Administration page objects.', async ({
     AdminFlowBuilderDetail,
     AdminDataSharing,
     AdminDashboard,
+    AdminCategories,
+    AdminLandingPageCreate,
 }) => {
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
@@ -104,6 +106,12 @@ test('Administration page objects.', async ({
     const flowId = await getFlowId('Order enters status unconfirmed', AdminApiContext);
     await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCategories.url());
+    await ShopAdmin.expects(AdminCategories.landingPageHeadline).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminLandingPageCreate.url());
+    await ShopAdmin.expects(AdminLandingPageCreate.saveLandingPageButton).toBeVisible();
 
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {

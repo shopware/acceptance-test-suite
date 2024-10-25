@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.10.0](https://github.com/shopware/acceptance-test-suite/compare/v3.9.0...v3.10.0) (2024-10-24)
+
+
+### Features
+
+* add flowbuilder properties ([#131](https://github.com/shopware/acceptance-test-suite/issues/131)) ([92df111](https://github.com/shopware/acceptance-test-suite/commit/92df111d41e7cf4530fe12cb142edf329ed916f3))
+* adjust the shipping method documenation ([#136](https://github.com/shopware/acceptance-test-suite/issues/136)) ([70e7c94](https://github.com/shopware/acceptance-test-suite/commit/70e7c94e18c4c77ca8060d67f7b7ca293b8adeb5))
+
 ## [3.9.0](https://github.com/shopware/acceptance-test-suite/compare/v3.8.4...v3.9.0) (2024-10-15)
 
 
