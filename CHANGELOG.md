@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.11.0](https://github.com/shopware/acceptance-test-suite/compare/v3.10.0...v3.11.0) (2024-10-25)
+
+
+### Features
+
+* add shipping listing page ([#133](https://github.com/shopware/acceptance-test-suite/issues/133)) ([fcf9e55](https://github.com/shopware/acceptance-test-suite/commit/fcf9e5548090f3c8b64f1ee546d30f6b6499fcc8))
+
+
+### Bug Fixes
+
+* hold class name - add admin prefix to reference only ([0594e0a](https://github.com/shopware/acceptance-test-suite/commit/0594e0a2b15002f292a4f50d73bd471567821788))
+
 ## [3.10.0](https://github.com/shopware/acceptance-test-suite/compare/v3.9.0...v3.10.0) (2024-10-24)
 
 
