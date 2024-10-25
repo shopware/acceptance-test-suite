@@ -23,9 +23,9 @@ export class ShippingListing implements PageObject {
 
         //warning modal
         this.modal = page.getByRole('dialog', { name: 'Warning' });
-        this.modalHeader = page.getByRole('heading', { name: 'Warning' });
-        this.modalCancelButton = page.getByRole('button', {name: 'Cancel' });
-        this.modalDeleteButton = page.getByRole('button', {name: 'Delete' });
+        this.modalHeader = this.modal.getByRole('heading', { name: 'Warning' });
+        this.modalCancelButton = this.modal.getByRole('button', {name: 'Cancel' });
+        this.modalDeleteButton = this.modal.getByRole('button', {name: 'Delete' });
     }
 
     url() {
