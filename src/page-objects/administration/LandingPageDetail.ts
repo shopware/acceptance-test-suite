@@ -1,7 +1,7 @@
-import type { Page, Locator } from '@playwright/test';
-import type { PageObject } from '../../types/PageObject';
+import type {Page, Locator} from '@playwright/test';
+import type {PageObject} from '../../types/PageObject';
 
-export class AdminLandingPageDetail implements PageObject {
+export class LandingPageDetail implements PageObject {
 
     /**
      * General
@@ -29,19 +29,19 @@ export class AdminLandingPageDetail implements PageObject {
     constructor(public readonly page: Page) {
         //Common
         this.loadingSpinner = page.locator('.sw-loader');
-        this.saveLandingPageButton = page.getByRole('button', { name: 'Save' });
+        this.saveLandingPageButton = page.getByRole('button', {name: 'Save'});
         //General
         this.nameInput = page.getByLabel('Name');
-        this.landingPageStatus = page.getByRole('checkbox', { name: 'Active' });
+        this.landingPageStatus = page.getByRole('checkbox', {name: 'Active'});
         this.salesChannelSelectionList = page.locator('.sw-select')
-            .filter({ hasText: 'Sales Channels' })
+            .filter({hasText: 'Sales Channels'})
             .locator('.sw-select-selection-list');
         this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
         this.seoUrlInput = page.getByLabel('SEO URL');
         //Layout
-        this.layoutTab = page.getByRole('link', { name: 'Layout' });
-        this.changeLayoutButton = page.getByRole('button', { name: 'Change layout' });
-        this.editInDesignerButton = page.getByRole('button', { name: 'Edit in designer' });
+        this.layoutTab = page.getByRole('link', {name: 'Layout'});
+        this.changeLayoutButton = page.getByRole('button', {name: 'Change layout'});
+        this.editInDesignerButton = page.getByRole('button', {name: 'Edit in designer'});
         const layoutAssignmentCard = page.locator('.sw-category-layout-card');
         this.layoutAssignmentCardHeadline = layoutAssignmentCard.locator('.sw-category-layout-card__desc-headline');
         this.layoutResetButton = layoutAssignmentCard.locator('.sw-category-detail-layout__layout-reset');

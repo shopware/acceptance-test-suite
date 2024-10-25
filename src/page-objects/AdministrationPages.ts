@@ -10,9 +10,9 @@ import { FlowBuilderListing } from './administration/FlowBuilderListing';
 import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
-import { AdminLandingPageCreate } from './administration/AdminLandingPageCreate';
-import { AdminLandingPageDetail } from './administration/AdminLandingPageDetail';
-import { AdminCategories } from './administration/AdminCategories';
+import { LandingPageCreate } from './administration/LandingPageCreate';
+import { LandingPageDetail } from './administration/LandingPageDetail';
+import { Categories } from './administration/Categories';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -24,9 +24,9 @@ export interface AdministrationPageTypes {
     AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
-    AdminCategories: AdminCategories;
-    AdminLandingPageCreate: AdminLandingPageCreate;
-    AdminLandingPageDetail: AdminLandingPageDetail;
+    AdminCategories: Categories;
+    AdminLandingPageCreate: LandingPageCreate;
+    AdminLandingPageDetail: LandingPageDetail;
 }
 
 export const AdminPageObjects = {
@@ -39,9 +39,9 @@ export const AdminPageObjects = {
     FlowBuilderDetail,
     Dashboard,
     DataSharing,
-    AdminCategories,
-    AdminLandingPageCreate,
-    AdminLandingPageDetail,
+    Categories,
+    LandingPageCreate,
+    LandingPageDetail,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -83,14 +83,14 @@ export const test = base.extend<FixtureTypes>({
     },
 
     AdminCategories: async ({ AdminPage }, use) => {
-        await use(new AdminCategories(AdminPage));
+        await use(new Categories(AdminPage));
     },
 
     AdminLandingPageDetail: async ({ AdminPage }, use) => {
-        await use(new AdminLandingPageDetail(AdminPage));
+        await use(new LandingPageDetail(AdminPage));
     },
 
     AdminLandingPageCreate: async ({ AdminPage }, use) => {
-        await use(new AdminLandingPageCreate(AdminPage));
+        await use(new LandingPageCreate(AdminPage));
     },
 });
