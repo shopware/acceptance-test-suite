@@ -135,15 +135,12 @@ export const test = base.extend<FixtureTypes>({
         await context.close();
     },
 
-    InstallPage: async ({ DefaultSalesChannel, browser }, use) => {
-        const { url } = DefaultSalesChannel;
+    InstallPage: async ({ browser }, use) => {
 
         const context = await browser.newContext({
-            baseURL: url,
+            baseURL: process.env['APP_URL'],
         });
         const page = await context.newPage();
-
-        await page.goto(url, { waitUntil: 'load' });
 
         await use(page);
 
