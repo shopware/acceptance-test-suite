@@ -8,6 +8,7 @@ export interface ApiContextTypes {
     AdminApiContext: AdminApiContext;
     StoreApiContext: StoreApiContext;
     MailpitApiContext: MailpitApiContext;
+    NewContext: MailpitApiContext;
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
