@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.1](https://github.com/shopware/acceptance-test-suite/compare/v3.11.0...v3.11.1) (2024-10-31)
+
+
+### Bug Fixes
+
+* missing installer page context for installer test ([bddb8ab](https://github.com/shopware/acceptance-test-suite/commit/bddb8ab4446503d10318184d0e84926cb62d4251))
+
 ## [3.11.0](https://github.com/shopware/acceptance-test-suite/compare/v3.10.0...v3.11.0) (2024-10-25)
 
 
