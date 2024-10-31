@@ -6,6 +6,7 @@ import { isSaaSInstance, isThemeCompiled } from '../services/ShopInfo';
 export interface PageContextTypes {
     AdminPage: Page;
     StorefrontPage: Page;
+    InstallPage: Page;
     page: Page;
     context: BrowserContext;
 }
@@ -127,6 +128,19 @@ export const test = base.extend<FixtureTypes>({
         }
 
         await page.goto('./', { waitUntil: 'load' });
+
+        await use(page);
+
+        await page.close();
+        await context.close();
+    },
+
+    InstallPage: async ({ browser }, use) => {
+
+        const context = await browser.newContext({
+            baseURL: process.env['APP_URL'],
+        });
+        const page = await context.newPage();
 
         await use(page);
 
