@@ -100,7 +100,7 @@ test('Data Service', async ({
     const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
     expect(shippingMethodWithImage.media).toBeDefined();
 
-    const cmsType = 'product_detail';
+    const cmsType = 'product_detail_test';
     const cmsPageName = 'Custom product detail page';
     const cmsPage = await TestDataService.createBasicPageLayout(cmsType, { name: cmsPageName });
     expect(cmsPage.name).toEqual(cmsPageName);
