@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.2](https://github.com/shopware/acceptance-test-suite/compare/v3.11.1...v3.11.2) (2024-11-06)
+
+
+### Bug Fixes
+
+* discount text to promo text ([2bfa648](https://github.com/shopware/acceptance-test-suite/commit/2bfa64808cb10e8168502e86792accdb0c73d1b2))
+
 ## [3.11.1](https://github.com/shopware/acceptance-test-suite/compare/v3.11.0...v3.11.1) (2024-10-31)
 
 
