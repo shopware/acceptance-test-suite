@@ -1890,7 +1890,7 @@ export class TestDataService {
         return Object.assign({}, basicPromotion, overrides);
     }
 
-    getBasicCmsStruct(cmsType:string, overrides: Partial<CmsPage>): Partial<CmsPage> {
+    getBasicCmsStruct(cmsType: string, overrides: Partial<CmsPage>): Partial<CmsPage> {
         const cmsPageUuid = this.IdProvider.getIdPair().uuid;
         const cmsPageName = `${this.namePrefix}Cms-${cmsPageUuid}${this.nameSuffix}`;
 
@@ -1898,6 +1898,30 @@ export class TestDataService {
             id: cmsPageUuid,
             type: cmsType,
             name: cmsPageName,
+            sections: [
+                {
+                    id: this.IdProvider.getIdPair().uuid,
+                    pageId: this.IdProvider.getIdPair().uuid,
+                    position: 0,
+                    type: 'full_width',
+                    blocks: [
+                        {
+                            id: this.IdProvider.getIdPair().uuid,
+                            sectionId: this.IdProvider.getIdPair().uuid,
+                            type: 'text',
+                            position: 0,
+                            slots: [
+                                {
+                                    id: this.IdProvider.getIdPair().uuid,
+                                    type: 'text',
+                                    blockId: this.IdProvider.getIdPair().uuid,
+                                    slot: 'content',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         };
 
         return Object.assign({}, basicCmsPage, overrides);
