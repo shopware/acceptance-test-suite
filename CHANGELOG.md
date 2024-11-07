@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.11.3](https://github.com/shopware/acceptance-test-suite/compare/v3.11.2...v3.11.3) (2024-11-07)
+
+
+### Bug Fixes
+
+* Cart quantity select locator ([366d148](https://github.com/shopware/acceptance-test-suite/commit/366d1486ceb1844608e1286e8773e4c5f70eb5cb))
+* revert breaking change as 3.11.3 ([c2dda17](https://github.com/shopware/acceptance-test-suite/commit/c2dda1746ed12d21298e899cb8d6633e40a8ebbe))
+
+## [3.11.2](https://github.com/shopware/acceptance-test-suite/compare/v3.11.1...v3.11.2) (2024-11-06)
+
+
+### Bug Fixes
+
+* discount text to promo text ([2bfa648](https://github.com/shopware/acceptance-test-suite/commit/2bfa64808cb10e8168502e86792accdb0c73d1b2))
+
 ## [3.11.1](https://github.com/shopware/acceptance-test-suite/compare/v3.11.0...v3.11.1) (2024-10-31)
 
 
