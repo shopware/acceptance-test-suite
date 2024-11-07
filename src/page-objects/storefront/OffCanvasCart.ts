@@ -7,7 +7,7 @@ export class OffCanvasCart implements PageObject {
     public readonly goToCheckoutButton: Locator;
     public readonly goToCartButton: Locator;
     public readonly continueShoppingButton: Locator;
-    public readonly enterPromoInput: Locator;
+    public readonly enterDiscountInput: Locator;
     public readonly submitDiscountButton: Locator;
     public readonly subTotalPrice: Locator;
     public readonly shippingCosts: Locator;
@@ -19,7 +19,7 @@ export class OffCanvasCart implements PageObject {
         this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
         this.goToCartButton = page.getByRole('link', { name: 'Display shopping cart' });
         this.continueShoppingButton = page.getByRole('button', { name: 'Continue shopping' });
-        this.enterPromoInput = page.getByPlaceholder('Enter promo code...');
+        this.enterDiscountInput = page.getByPlaceholder('Enter discount code...');
         this.submitDiscountButton = page.locator('#addPromotionOffcanvasCart');
         this.subTotalPrice = page.locator('dt:has-text("Subtotal") + dd:visible');
         this.shippingCosts = page.locator('dt:has-text("Shipping costs") + dd:visible');
@@ -56,6 +56,6 @@ export class OffCanvasCart implements PageObject {
             productUnitPriceValue: productUnitPriceValue,
             productTotalPriceValue: productTotalPriceValue,
             removeButton: removeButton,
-        }
-    }
+        } 
+    } 
 }
