@@ -21,7 +21,7 @@ export class CheckoutCart implements PageObject {
         this.stockReachedAlert = page.getByText('only available 1 times');
         this.cartLineItemImages = page.locator('.line-item-img-link');
         this.unitPriceInfo = page.locator('.line-item-unit-price-value');
-        this.cartQuantityNumber = page.getByLabel('Quantity', { exact: true });
+        this.cartQuantityNumber = page.locator('input[name="quantity"]');
     }
 
     url() {
