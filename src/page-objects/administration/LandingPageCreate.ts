@@ -52,4 +52,5 @@ export class LandingPageCreate implements PageObject {
     url() {
         return `#/sw/category/landingPage/create/base`;
     }
+
 }
