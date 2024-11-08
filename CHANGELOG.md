@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [4.0.0](https://github.com/shopware/acceptance-test-suite/compare/v3.11.4...v4.0.0) (2024-11-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Changed page object definition to promo ([#167](https://github.com/shopware/acceptance-test-suite/issues/167))
+
+### Bug Fixes
+
+* Changed page object definition to promo ([#167](https://github.com/shopware/acceptance-test-suite/issues/167)) ([6b87458](https://github.com/shopware/acceptance-test-suite/commit/6b8745813a1f0646d52c3c690fd5049f9d6e1755))
+
 ## [3.11.4](https://github.com/shopware/acceptance-test-suite/compare/v3.11.4...v3.11.4) (2024-11-08)
 
 ### Notes
