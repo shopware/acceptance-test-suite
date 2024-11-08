@@ -4,7 +4,7 @@
 ## [3.11.4](https://github.com/shopware/acceptance-test-suite/compare/v3.11.4...v3.11.4) (2024-11-08)
 
 ### Notes
-* publish a new minor with no changes
+* publish a new patch version with no changes
 
 
 ## [3.11.3](https://github.com/shopware/acceptance-test-suite/compare/v3.11.2...v3.11.3) (2024-11-07)
