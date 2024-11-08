@@ -61,6 +61,7 @@ test('Storefront page objects.', async ({
     const searchTerm = 'product';
     await ShopCustomer.goesTo(StorefrontSearch.url(searchTerm));
     await ShopCustomer.expects(StorefrontSearch.headline).toBeVisible();
+
 });
 
 test('Administration page objects.', async ({
