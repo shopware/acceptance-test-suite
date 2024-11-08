@@ -2,7 +2,7 @@
 
 
 ## [3.11.3](https://github.com/shopware/acceptance-test-suite/compare/v3.11.2...v3.11.3) (2024-11-07)
-    
+        
 
 ### Bug Fixes
 
