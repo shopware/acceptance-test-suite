@@ -21,9 +21,10 @@ export class LandingPageCreate implements PageObject {
     public readonly assignLayoutButton: Locator;
     public readonly searchLayoutInput: Locator;
     public readonly layoutItems: Locator;
-    public readonly layoutSaveButton: Locator;
+    public readonly layoutAddButton: Locator;
     public readonly layoutEmptyState: Locator;
     public readonly createNewLayoutButton: Locator;
+    public readonly layoutCheckboxes: Locator;
 
     constructor(public readonly page: Page) {
         //Common
@@ -46,7 +47,9 @@ export class LandingPageCreate implements PageObject {
         const layoutModal = page.getByRole('dialog', {name: 'Select layout'});
         this.searchLayoutInput = layoutModal.getByPlaceholder('Search layouts...');
         this.layoutItems = layoutModal.locator('.sw-cms-list-item');
-        this.layoutSaveButton = layoutModal.getByRole('button', {name: 'Save'});
+        const layoutTable = layoutModal.locator('.sw-data-grid__body');
+        this.layoutCheckboxes = layoutTable.locator('.sw-field--checkbox__content');
+        this.layoutAddButton = layoutModal.getByRole('button', {name: 'Add'});
     }
 
     url() {
