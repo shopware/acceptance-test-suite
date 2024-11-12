@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [4.1.0](https://github.com/shopware/acceptance-test-suite/compare/v4.0.0...v4.1.0) (2024-11-12)
+
+
+### Features
+
+* Add Rule Detail page object ([#156](https://github.com/shopware/acceptance-test-suite/issues/156)) ([689baaf](https://github.com/shopware/acceptance-test-suite/commit/689baaf63f08d4ceced04fb9256db2444c5a0f50))
+
 ## [4.0.0](https://github.com/shopware/acceptance-test-suite/compare/v3.11.4...v4.0.0) (2024-11-08)
 
 
