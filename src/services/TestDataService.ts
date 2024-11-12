@@ -617,10 +617,13 @@ export class TestDataService {
      * @param overrides - Specific data overrides that will be applied to the payment method data struct.
      */
     async createBasicRule(
-        overrides: Partial<Rule> = {}
+        overrides: Partial<Rule> = {},
+        conditionType = 'cartCartAmount',
+        operator = '>=',
+        amount = 1,
     ): Promise<Rule> {
 
-        const basicRule = this.getBasicRuleStruct(overrides);
+        const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
 
         const ruleResponse = await this.AdminApiClient.post('rule?_response=detail', {
             data: basicRule,
@@ -1347,9 +1350,9 @@ export class TestDataService {
 
     getBasicRuleStruct(
         overrides: Partial<Rule> = {},
-        conditionType = 'cartCartAmount',
-        operator = '>=',
-        amount = 1,
+        conditionType: string,
+        operator: string,
+        amount: number,
     ): Partial<Rule> {
 
         const { id: ruleId, uuid: ruleUuid } = this.IdProvider.getIdPair();
