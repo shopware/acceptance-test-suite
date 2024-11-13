@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [5.0.0](https://github.com/shopware/acceptance-test-suite/compare/v4.1.0...v5.0.0) (2024-11-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Changed page object definition from save to add button ([#170](https://github.com/shopware/acceptance-test-suite/issues/170))
+
 ## [4.1.0](https://github.com/shopware/acceptance-test-suite/compare/v4.0.0...v4.1.0) (2024-11-12)
 
 
