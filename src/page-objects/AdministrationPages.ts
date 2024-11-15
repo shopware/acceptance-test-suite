@@ -15,6 +15,8 @@ import { LandingPageCreate } from './administration/LandingPageCreate';
 import { LandingPageDetail } from './administration/LandingPageDetail';
 import { Categories } from './administration/Categories';
 import { RuleDetail } from './administration/RuleDetail';
+import { ProductListing } from './administration/ProductListing';
+import { ProductBulkEdit } from './administration/ProductBulkEdit';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -31,6 +33,8 @@ export interface AdministrationPageTypes {
     AdminLandingPageCreate: LandingPageCreate;
     AdminLandingPageDetail: LandingPageDetail;
     AdminRuleDetail: RuleDetail;
+    AdminProductListing: ProductListing;
+    AdminProductBulkEdit: ProductBulkEdit;
 }
 
 export const AdminPageObjects = {
@@ -48,6 +52,8 @@ export const AdminPageObjects = {
     LandingPageCreate,
     LandingPageDetail,
     RuleDetail,
+    ProductListing,
+    ProductBulkEdit,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -103,7 +109,17 @@ export const test = base.extend<FixtureTypes>({
     AdminLandingPageCreate: async ({ AdminPage }, use) => {
         await use(new LandingPageCreate(AdminPage));
     },
+
     AdminRuleDetail: async ({ AdminPage }, use) => {
         await use(new RuleDetail(AdminPage));
     },
+
+    AdminProductListing: async ({ AdminPage }, use) => {
+        await use(new ProductListing(AdminPage));
+
+    },
+    AdminProductBulkEdit: async ({ AdminPage }, use) => {
+        await use(new ProductBulkEdit(AdminPage));
+    },
+
 });
