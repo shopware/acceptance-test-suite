@@ -32,7 +32,7 @@ export class ProductListing implements PageObject {
     /**
      * Returns the table row containing the product with the given product number.
      *
-     * @param productNumber - Id of the product you are looking for.
+     * @param productNumber - Product number you are looking for.
      */
     async getProductRow(productNumber: string): Promise<Record<string, Locator>> {
         const productTableRow = this.productsTable.locator('.sw-data-grid__row', { hasText: productNumber });
