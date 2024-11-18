@@ -88,7 +88,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product'];
+    private highPriorityEntities = ['order', 'product', 'landing_page'];
 
     /**
      * A registry of all created records.
