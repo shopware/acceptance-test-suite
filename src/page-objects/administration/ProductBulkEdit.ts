@@ -6,9 +6,19 @@ export class ProductBulkEdit implements PageObject {
     /**
      * Bulk edit values
      */
+    
+    public readonly changeManufacturerRow: Locator;
+    public readonly changeManufacturerCheckbox: Locator;
+    public readonly manufacturerDropdown: Locator;
+
+    public readonly changeActiveRow: Locator;
+    public readonly changeActiveCheckbox: Locator;
+    public readonly activeToggle: Locator;
+    
     public readonly changePriceRow: Locator;
     public readonly changePriceCheckbox: Locator;
     public readonly grossPriceInput: Locator;
+
     public readonly applyChangesButton: Locator;
 
     /**
@@ -21,15 +31,24 @@ export class ProductBulkEdit implements PageObject {
 
     constructor(public readonly page: Page) {
 
+        this.changeManufacturerRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
+        this.changeManufacturerCheckbox = this.changeManufacturerRow.getByRole('checkbox');
+        this.manufacturerDropdown = this.changeManufacturerRow.locator('.sw-select__selection');
+
+        this.changeActiveRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
+        this.changeActiveCheckbox = this.changeActiveRow.getByRole('checkbox').first();
+        this.activeToggle = this.changeActiveRow.getByRole('checkbox').last();
+
         this.changePriceRow = page.locator('.sw-bulk-edit-change-field-price');
         this.changePriceCheckbox = this.changePriceRow.getByRole('checkbox');
-        this.grossPriceInput = this.changePriceRow.getByRole('textbox', {name: 'price-gross'});
+        this.grossPriceInput = this.changePriceRow.getByPlaceholder('Enter gross price...');
+
         this.applyChangesButton = page.getByRole('button', {name: 'Apply changes'});
 
         this.confirmModal = page.locator('.sw-bulk-edit-save-modal');
         this.confirmModalApplyChangesButton = this.confirmModal.getByRole('button', {name: 'Apply changes'});
         this.confirmModalSuccessHeader = this.confirmModal.getByRole('heading', {name: 'Bulk edit - Success'});
-        this.confirmModalSuccessCloseButton = this.confirmModal.getByRole('button', {name: 'Close'});
+        this.confirmModalSuccessCloseButton = this.confirmModal.getByRole('button', {name: 'Close'}).first();
     }
 
     url() {

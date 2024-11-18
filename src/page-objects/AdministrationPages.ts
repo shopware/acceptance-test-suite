@@ -109,7 +109,7 @@ export const test = base.extend<FixtureTypes>({
     AdminLandingPageCreate: async ({ AdminPage }, use) => {
         await use(new LandingPageCreate(AdminPage));
     },
-    
+
     AdminRuleDetail: async ({ AdminPage }, use) => {
         await use(new RuleDetail(AdminPage));
     },
