@@ -35,7 +35,7 @@ export class ProductBulkEdit implements PageObject {
         this.changeManufacturerCheckbox = this.changeManufacturerRow.getByRole('checkbox');
         this.manufacturerDropdown = this.changeManufacturerRow.locator('.sw-select__selection');
 
-        this.changeActiveRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
+        this.changeActiveRow = page.locator('.sw-bulk-edit-change-field-active');
         this.changeActiveCheckbox = this.changeActiveRow.getByRole('checkbox').first();
         this.activeToggle = this.changeActiveRow.getByRole('checkbox').last();
 
