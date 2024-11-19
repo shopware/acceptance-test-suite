@@ -42,7 +42,8 @@ export class ProductListing implements PageObject {
         const productNameSelector = '.sw-data-grid__cell--name';
         const productNumberSelector = '.sw-data-grid__cell--productNumber';
         const productManufacturerSelector = '.sw-data-grid__cell--manufacturer-name';
-        const productActiveSelector = '.sw-data-grid__cell--active';
+        const productActiveSelector = 'sw-icon__regular-checkmark-xs';
+        const productInactiveSelector = 'sw-icon__regular-times-s';
         const productPriceSelector = '.sw-data-grid__cell--price-EUR';
         
         return {
@@ -50,8 +51,11 @@ export class ProductListing implements PageObject {
             productName: productTableRow.locator(productNameSelector),
             productNumber: productTableRow.locator(productNumberSelector),
             productManufacturer: productTableRow.locator(productManufacturerSelector),
-            productActive: productTableRow.locator(productActiveSelector),
+            productActive: productTableRow.getByTestId(productActiveSelector),
+            productInactive: productTableRow.getByTestId(productInactiveSelector),
             productPrice: productTableRow.locator(productPriceSelector),
+
+
         };
     }
 }

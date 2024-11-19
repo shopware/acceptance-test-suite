@@ -10,6 +10,7 @@ export class ProductBulkEdit implements PageObject {
     public readonly changeManufacturerRow: Locator;
     public readonly changeManufacturerCheckbox: Locator;
     public readonly manufacturerDropdown: Locator;
+    public readonly manufacturerDropdownInput: Locator;
 
     public readonly changeActiveRow: Locator;
     public readonly changeActiveCheckbox: Locator;
@@ -34,8 +35,9 @@ export class ProductBulkEdit implements PageObject {
         this.changeManufacturerRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
         this.changeManufacturerCheckbox = this.changeManufacturerRow.getByRole('checkbox');
         this.manufacturerDropdown = this.changeManufacturerRow.locator('.sw-select__selection');
+        this.manufacturerDropdownInput = this.changeManufacturerRow.getByPlaceholder('Select manufacturer...');
 
-        this.changeActiveRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
+        this.changeActiveRow = page.locator('.sw-bulk-edit-change-field-active');
         this.changeActiveCheckbox = this.changeActiveRow.getByRole('checkbox').first();
         this.activeToggle = this.changeActiveRow.getByRole('checkbox').last();
 
