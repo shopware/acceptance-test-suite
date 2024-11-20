@@ -24,6 +24,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                 if (changes['active'] != '') {
                     if (changes['active'] == 'false') {
                         await AdminProductBulkEdit.changeActiveCheckbox.click();
+                        await AdminProductBulkEdit.changeActiveCheckbox.click();
                     } else {
                         await AdminProductBulkEdit.changeActiveCheckbox.click();
                         await AdminProductBulkEdit.activeToggle.click();
