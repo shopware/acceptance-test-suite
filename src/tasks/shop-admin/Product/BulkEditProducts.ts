@@ -33,8 +33,19 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                 if (changes['manufacturer'] != '') {
                     await AdminProductBulkEdit.changeManufacturerCheckbox.click();
                     await AdminProductBulkEdit.manufacturerDropdown.click();
+                    const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
+                        response.url().includes(`product-manufacturer`) && response.status() === 200 && response.request().method() === 'POST'
+                    );
+
                     await AdminProductBulkEdit.manufacturerDropdownInput.fill(changes['manufacturer']);
-                    await AdminProductBulkEdit.manufacturerDropdownInput.press('Enter');
+
+                    // Wait for the search call to be completed
+                    const response = await responsePromise;
+                    expect(response.ok()).toBeTruthy();
+
+                    //await AdminProductBulkEdit.manufacturerDropdownInput.press('Enter');
+                    const searchResult = await AdminProductBulkEdit.getManufacturerSearchResult(changes['manufacturer']);
+                    await searchResult.click();
                 } 
 
                 await AdminProductBulkEdit.applyChangesButton.click();

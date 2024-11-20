@@ -11,6 +11,7 @@ export class ProductBulkEdit implements PageObject {
     public readonly changeManufacturerCheckbox: Locator;
     public readonly manufacturerDropdown: Locator;
     public readonly manufacturerDropdownInput: Locator;
+    public readonly manufacturerListResult: Locator;
 
     public readonly changeActiveRow: Locator;
     public readonly changeActiveCheckbox: Locator;
@@ -36,6 +37,8 @@ export class ProductBulkEdit implements PageObject {
         this.changeManufacturerCheckbox = this.changeManufacturerRow.getByRole('checkbox');
         this.manufacturerDropdown = this.changeManufacturerRow.locator('.sw-select__selection');
         this.manufacturerDropdownInput = this.changeManufacturerRow.getByPlaceholder('Select manufacturer...');
+        this.manufacturerListResult = this.changeManufacturerRow.getByRole('list');
+
 
         this.changeActiveRow = page.locator('.sw-bulk-edit-change-field-active');
         this.changeActiveCheckbox = this.changeActiveRow.getByRole('checkbox').first();
@@ -58,4 +61,8 @@ export class ProductBulkEdit implements PageObject {
         throw new Error('Bulk edit page does not have a callable URL.');
         return '';
     }
+
+    async getManufacturerSearchResult(manufacturer: string): Promise<Locator> {
+        return this.page.locator('.sw-select-result', { hasText: manufacturer });
+    } 
 }
