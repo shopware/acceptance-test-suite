@@ -11,6 +11,21 @@ export class ProductDetail implements PageObject {
     public readonly saveButtonCheckMark: Locator;
 
     /**
+     * General Info
+     */
+    public readonly manufacturerDropdownText: Locator;
+
+    /**
+     * Prices
+     */
+    public readonly priceGrossInput: Locator;
+
+    /**
+     * Visibility
+     */
+    public readonly activeForAllSalesChannelsToggle: Locator;
+
+    /**
      * Media Upload interactions
      */
     public readonly uploadMediaButton: Locator;
@@ -50,6 +65,12 @@ export class ProductDetail implements PageObject {
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
         this.saveButtonLoadingSpinner = page.locator('sw-loader');
+
+        this.manufacturerDropdownText = page.locator('.sw-select-product__select_manufacturer');
+
+        this.priceGrossInput = page.locator('#sw-price-field-gross').first();
+
+        this.activeForAllSalesChannelsToggle = page.locator('.sw-field--product-active').getByRole('checkbox');
 
         this.uploadMediaButton = page.getByRole('button', { name: 'Upload file' });
         this.coverImage = page.locator('.sw-product-media-form__cover-image');

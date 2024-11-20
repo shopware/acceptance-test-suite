@@ -4,7 +4,7 @@ import type { FixtureTypes} from '../../../types/FixtureTypes';
 import { Product } from 'src/types/ShopwareTypes';
 
 export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureTypes>({
-    BulkEditProducts: async ({ ShopAdmin, AdminProductBulkEdit, AdminProductListing }, use ) => {
+    BulkEditProducts: async ({ AdminProductBulkEdit, AdminProductListing }, use ) => {
         const task = (products: Product[], changes: Record<string, string> ) => {
             return async function BulkEditProducts() {
 
@@ -24,7 +24,6 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                 if (changes['active'] != '') {
                     if (changes['active'] == 'false') {
                         await AdminProductBulkEdit.changeActiveCheckbox.click();
-                        await AdminProductBulkEdit.changeActiveCheckbox.click();
                     } else {
                         await AdminProductBulkEdit.changeActiveCheckbox.click();
                         await AdminProductBulkEdit.activeToggle.click();
@@ -40,7 +39,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
 
                 await AdminProductBulkEdit.applyChangesButton.click();
                 await AdminProductBulkEdit.confirmModalApplyChangesButton.click();
-                await ShopAdmin.expects(AdminProductBulkEdit.confirmModalSuccessHeader).toBeVisible();
+                await expect(AdminProductBulkEdit.confirmModalSuccessHeader).toBeVisible();
                 await AdminProductBulkEdit.confirmModalSuccessCloseButton.click();
             };
         };
