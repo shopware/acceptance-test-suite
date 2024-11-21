@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
 export class Categories implements PageObject {
@@ -83,6 +83,10 @@ export class Categories implements PageObject {
     this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
     this.filterResultPopoverTreeCheckboxItemList = page.locator('.sw-tree__content').getByRole('checkbox');
     this.openInNewTabCheckbox = page.getByRole('checkbox', { name: 'Open in new tab' });
+  }
+
+  async getLandingPageByName(landingPageName: string) : Promise<Locator> {
+    return this.landingPageItems.locator(`text="${landingPageName}"`);
   }
 
   url() {
