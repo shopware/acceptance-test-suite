@@ -6,6 +6,7 @@ export class CheckoutConfirm implements PageObject {
     public readonly termsAndConditionsCheckbox: Locator;
     public readonly immediateAccessToDigitalProductCheckbox: Locator;
     public readonly grandTotalPrice: Locator;
+    public readonly taxPrice: Locator;
     public readonly submitOrderButton: Locator;
 
     /**
@@ -31,6 +32,7 @@ export class CheckoutConfirm implements PageObject {
         this.termsAndConditionsCheckbox = page.getByLabel('I have read and accepted the general terms and conditions.');
         this.immediateAccessToDigitalProductCheckbox = page.getByLabel('I want immediate access to the digital content and I acknowledge that thereby I waive my right to cancel.');
         this.grandTotalPrice = page.locator(`dt:has-text('Grand total') + dd`);
+        this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
         this.submitOrderButton = page.getByRole('button', { name: 'Submit order' });
 
         this.paymentCashOnDelivery = page.getByLabel('Cash on delivery');
