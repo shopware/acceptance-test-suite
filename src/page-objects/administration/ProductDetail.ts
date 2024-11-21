@@ -21,9 +21,20 @@ export class ProductDetail implements PageObject {
     public readonly priceGrossInput: Locator;
 
     /**
+     * Deliverability
+     */
+    public readonly stockInput: Locator;
+    public readonly restockTimeInput: Locator;
+
+    /**
      * Visibility
      */
     public readonly activeForAllSalesChannelsToggle: Locator;
+
+    /**
+     * Labelling
+     */
+    public readonly releaseDateInput: Locator;
 
     /**
      * Media Upload interactions
@@ -70,7 +81,12 @@ export class ProductDetail implements PageObject {
 
         this.priceGrossInput = page.locator('#sw-price-field-gross').first();
 
+        this.stockInput = page.getByPlaceholder('Enter quantity in stock...');
+        this.restockTimeInput = page.getByPlaceholder('Enter restock time in days...');
+
         this.activeForAllSalesChannelsToggle = page.locator('.sw-field--product-active').getByRole('checkbox');
+        
+        this.releaseDateInput = page.locator('.sw-block-field', { hasText: 'Release Date' } ).getByPlaceholder('Enter release date...').last();
 
         this.uploadMediaButton = page.getByRole('button', { name: 'Upload file' });
         this.coverImage = page.locator('.sw-product-media-form__cover-image');
