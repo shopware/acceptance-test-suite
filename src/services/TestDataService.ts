@@ -228,6 +228,64 @@ export class TestDataService {
     }
 
     /**
+     * Creates basic variant products based on property group.
+     *
+     * @param parentProduct Parent product of the variants
+     * @param propertyGroups Property group collection which contain options
+     * @param overrides - Specific data overrides that will be applied to the variant data struct.
+     */
+    async createVariantProducts(
+        parentProduct: Product,
+        propertyGroups: PropertyGroup[],
+        overrides: Partial<Product> = {},
+    ): Promise<Product[]> {
+
+        const productVariantCandidates: Record<string, string>[][] = [];
+
+        for (const propertyGroup of propertyGroups) {
+            const propertyGroupOptions = await this.getPropertyGroupOptions(propertyGroup.id);
+            const propertyGroupOptionsCollection: Record<string, string>[] = [];
+            for (const propertyGroupOption of propertyGroupOptions) {
+                propertyGroupOptionsCollection.push({ id: propertyGroupOption.id })
+
+                const productConfiguratorResponse = await this.AdminApiClient.post('product-configurator-setting?_response=detail', {
+                    data: {
+                        id: this.IdProvider.getIdPair().uuid,
+                        productId: parentProduct.id,
+                        optionId: propertyGroupOption.id,
+                    },
+                });
+                expect(productConfiguratorResponse.ok()).toBeTruthy();
+            }
+            productVariantCandidates.push(propertyGroupOptionsCollection);
+        }
+
+        const productVariantCombinations = this.combineAll(productVariantCandidates);
+        const variantProducts: Product[] = [];
+        let index = 1;
+
+        for (const productVariantCombination of productVariantCombinations) {
+            const variantOverrides = {
+                parentId: parentProduct.id,
+                productNumber: parentProduct.productNumber + '.' + index,
+                options: productVariantCombination,
+            };
+
+            const overrideCollection = Object.assign({}, overrides, variantOverrides);
+            variantProducts.push(await this.createBasicProduct(overrideCollection));
+            index++;
+        }
+
+        await this.AdminApiClient.post('_action/indexing/product.indexer?_response=detail', {
+            data: {
+                offset: 0,
+            },
+        });
+
+        return variantProducts;
+    }
+
+    /**
      * Creates a basic manufacturer without images or other special configuration.
      *
      * @param overrides - Specific data overrides that will be applied to the manufacturer data struct.
@@ -612,6 +670,68 @@ export class TestDataService {
     }
 
     /**
+     * Creates a payment method with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     */
+    async createPaymentMethodWithImage(
+        overrides: Partial<PaymentMethod> = {},
+    ): Promise<PaymentMethod> {
+
+        const paymentMethod = await this.createBasicPaymentMethod(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignPaymentMethodMedia(paymentMethod.id, media.id);
+
+        return paymentMethod;
+    }
+
+    /**
+     * Creates a new basic shipping method with random delivery time.
+     *
+     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
+     */
+    async createBasicShippingMethod(
+        overrides: Partial<ShippingMethod> = {},
+    ): Promise<ShippingMethod> {
+        const deliveryTime = await this.getAllDeliveryTimeResources()
+
+        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id
+        const basicShippingMethod = this.getBasicShippingMethodStruct(
+            deliveryTime[0].id,
+            overrides
+        );
+
+        const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
+            data: basicShippingMethod,
+        });
+        expect(shippingMethodResponse.ok()).toBeTruthy();
+
+        const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
+
+        this.addCreatedRecord('shipping_method', shippingMethod.id);
+
+        return shippingMethod;
+    }
+
+    /**
+     * Creates a shipping method with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
+     */
+    async createShippingMethodWithImage(
+        overrides: Partial<ShippingMethod> = {},
+    ): Promise<ShippingMethod> {
+
+        const shippingMethod = await this.createBasicShippingMethod(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignShippingMethodMedia(shippingMethod.id, media.id);
+
+        return shippingMethod;
+    }
+
+    /**
      * Creates a new basic rule with the condition cart amount >= 1.
      *
      * @param overrides - Specific data overrides that will be applied to the payment method data struct.
@@ -656,168 +776,6 @@ export class TestDataService {
         this.addCreatedRecord('cms_page', layout.id);
 
         return layout;
-    }
-
-    /**
-     * Creates a payment method with one randomly generated image.
-     *
-     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
-     */
-    async createPaymentMethodWithImage(
-        overrides: Partial<PaymentMethod> = {},
-    ): Promise<PaymentMethod> {
-
-        const paymentMethod = await this.createBasicPaymentMethod(overrides);
-        const media = await this.createMediaPNG();
-
-        await this.assignPaymentMethodMedia(paymentMethod.id, media.id);
-
-        return paymentMethod;
-    }
-
-    /**
-     * Creates basic variant products based on property group.
-     *
-     * @param parentProduct Parent product of the variants
-     * @param propertyGroups Property group collection which contain options
-     * @param overrides - Specific data overrides that will be applied to the variant data struct.
-     */
-    async createVariantProducts(
-        parentProduct: Product,
-        propertyGroups: PropertyGroup[],
-        overrides: Partial<Product> = {},
-    ): Promise<Product[]> {
-
-        const productVariantCandidates: Record<string, string>[][] = [];
-
-        for (const propertyGroup of propertyGroups) {
-            const propertyGroupOptions = await this.getPropertyGroupOptions(propertyGroup.id);
-            const propertyGroupOptionsCollection: Record<string, string>[] = [];
-            for (const propertyGroupOption of propertyGroupOptions) {
-                propertyGroupOptionsCollection.push({ id: propertyGroupOption.id })
-
-                const productConfiguratorResponse = await this.AdminApiClient.post('product-configurator-setting?_response=detail', {
-                    data: {
-                        id: this.IdProvider.getIdPair().uuid,
-                        productId: parentProduct.id,
-                        optionId: propertyGroupOption.id,
-                    },
-                });
-                expect(productConfiguratorResponse.ok()).toBeTruthy();
-            }
-            productVariantCandidates.push(propertyGroupOptionsCollection);
-        }
-
-        const productVariantCombinations = this.combineAll(productVariantCandidates);
-        const variantProducts: Product[] = [];
-        let index = 1;
-
-        for (const productVariantCombination of productVariantCombinations) {
-            const variantOverrides = {
-                parentId: parentProduct.id,
-                productNumber: parentProduct.productNumber + '.' + index,
-                options: productVariantCombination,
-            };
-
-            const overrideCollection = Object.assign({}, overrides, variantOverrides);
-            variantProducts.push(await this.createBasicProduct(overrideCollection));
-            index++;
-        }
-
-        await this.AdminApiClient.post('_action/indexing/product.indexer?_response=detail', {
-            data: {
-                offset: 0,
-            },
-        });
-
-        return variantProducts;
-    }
-
-    /**
-     * Creates a shipping method with one randomly generated image.
-     *
-     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
-     */
-    async createShippingMethodWithImage(
-        overrides: Partial<ShippingMethod> = {},
-    ): Promise<ShippingMethod> {
-
-        const shippingMethod = await this.createBasicShippingMethod(overrides);
-        const media = await this.createMediaPNG();
-
-        await this.assignShippingMethodMedia(shippingMethod.id, media.id);
-
-        return shippingMethod;
-    }
-
-    /**
-     * Creates a new basic shipping method with random delivery time.
-     *
-     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
-     */
-    async createBasicShippingMethod(
-        overrides: Partial<ShippingMethod> = {},
-    ): Promise<ShippingMethod> {
-        const deliveryTime = await this.getAllDeliveryTimeResources()
-
-        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id
-        const basicShippingMethod = this.getBasicShippingMethodStruct(
-            deliveryTime[0].id,
-            overrides
-        );
-
-        const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
-            data: basicShippingMethod,
-        });
-        expect(shippingMethodResponse.ok()).toBeTruthy();
-
-        const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
-
-        this.addCreatedRecord('shipping_method', shippingMethod.id);
-
-        return shippingMethod;
-    }
-
-    /**
-     * Function that generates combinations from n number of arrays
-     * with m number of elements in them.
-     * @param array
-     */
-    combineAll = (array: Record<string, string>[][]) => {
-        const result: Record<string, string>[][] = [];
-        const max = array.length - 1;
-        const helper = (tmpArray: Record<string, string>[], i: number) => {
-            for (let j = 0, l = array[i].length; j < l; j++) {
-                const copy = tmpArray.slice(0);
-                copy.push(array[i][j]);
-                if (i == max)
-                    result.push(copy);
-                else
-                    helper(copy, i + 1);
-            }
-        };
-        helper([], 0);
-        return result;
-    };
-
-    /**
-     * Assigns a media resource to a payment method as a logo.
-     *
-     * @param paymentMethodId - The uuid of the payment method.
-     * @param mediaId - The uuid of the media resource.
-     */
-    async assignPaymentMethodMedia(paymentMethodId: string, mediaId: string) {
-
-        const paymentMethodResponse = await this.AdminApiClient.patch(`payment-method/${paymentMethodId}?_response=basic`, {
-            data: {
-                mediaId: mediaId,
-            },
-        });
-        expect(paymentMethodResponse.ok()).toBeTruthy();
-
-        const { data: paymentMethodMedia } = await paymentMethodResponse.json();
-
-        return paymentMethodMedia;
     }
 
     /**
@@ -872,33 +830,12 @@ export class TestDataService {
     }
 
     /**
-     * Assigns a media resource to a manufacturer as a logo.
-     *
-     * @param manufacturerId - The uuid of the manufacturer.
-     * @param mediaId - The uuid of the media resource.
-     */
-    async assignManufacturerMedia(manufacturerId: string, mediaId: string) {
-
-        const mediaResponse = await this.AdminApiClient.patch(`product-manufacturer/${manufacturerId}?_response=basic`, {
-            data: {
-                mediaId: mediaId,
-            },
-        });
-        expect(mediaResponse.ok()).toBeTruthy();
-
-        const { data: manufacturerMedia } = await mediaResponse.json();
-
-        return manufacturerMedia;
-    }
-
-    /**
      * Assigns a manufacturer to a product.
      *
-     * @param manufacturerId - The uuid of the manufacturer.
      * @param productId - The uuid of the product.
+     * @param manufacturerId - The uuid of the manufacturer.
      */
-    async assignManufacturerProduct(manufacturerId: string, productId: string) {
-
+    async assignProductManufacturer(productId: string, manufacturerId: string) {
         await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 manufacturerId: manufacturerId,
@@ -938,6 +875,78 @@ export class TestDataService {
                 }],
             },
         });
+    }
+
+    /**
+     * Assigns a media resource to a manufacturer as a logo.
+     *
+     * @param manufacturerId - The uuid of the manufacturer.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignManufacturerMedia(manufacturerId: string, mediaId: string) {
+
+        const mediaResponse = await this.AdminApiClient.patch(`product-manufacturer/${manufacturerId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+        expect(mediaResponse.ok()).toBeTruthy();
+
+        const { data: manufacturerMedia } = await mediaResponse.json();
+
+        return manufacturerMedia;
+    }
+
+    /**
+     * Assigns a manufacturer to a product.
+     *
+     * @deprecated - Use `assignProductManufacturer` instead.
+     *
+     * @param manufacturerId - The uuid of the manufacturer.
+     * @param productId - The uuid of the product.
+     */
+    async assignManufacturerProduct(manufacturerId: string, productId: string) {
+        await this.assignProductManufacturer(productId, manufacturerId);
+    }
+
+    /**
+     * Assigns a media resource to a payment method as a logo.
+     *
+     * @param paymentMethodId - The uuid of the payment method.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignPaymentMethodMedia(paymentMethodId: string, mediaId: string) {
+
+        const paymentMethodResponse = await this.AdminApiClient.patch(`payment-method/${paymentMethodId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+        expect(paymentMethodResponse.ok()).toBeTruthy();
+
+        const { data: paymentMethodMedia } = await paymentMethodResponse.json();
+
+        return paymentMethodMedia;
+    }
+
+    /**
+     * Assigns a media resource to a shipping method as a logo.
+     *
+     * @param shippingMethodId - The uuid of the shipping method.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignShippingMethodMedia(shippingMethodId: string, mediaId: string) {
+
+        const shippingMethodResponse = await this.AdminApiClient.patch(`shipping-method/${shippingMethodId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+        expect(shippingMethodResponse.ok()).toBeTruthy();
+
+        const { data: shippingMethodMedia } = await shippingMethodResponse.json();
+
+        return shippingMethodMedia;
     }
 
     /**
@@ -1007,26 +1016,6 @@ export class TestDataService {
         const { data: result } = (await response.json()) as { data: ShippingMethod[] };
 
         return result[0];
-    }
-
-    /**
-     * Assigns a media resource to a shipping method as a logo.
-     *
-     * @param shippingMethodId - The uuid of the shipping method.
-     * @param mediaId - The uuid of the media resource.
-     */
-    async assignShippingMethodMedia(shippingMethodId: string, mediaId: string) {
-
-        const shippingMethodResponse = await this.AdminApiClient.patch(`shipping-method/${shippingMethodId}?_response=basic`, {
-            data: {
-                mediaId: mediaId,
-            },
-        });
-        expect(shippingMethodResponse.ok()).toBeTruthy();
-
-        const { data: shippingMethodMedia } = await shippingMethodResponse.json();
-
-        return shippingMethodMedia;
     }
 
     /**
@@ -1276,6 +1265,14 @@ export class TestDataService {
         });
     }
 
+    isProduct(item: Product | Promotion): item is Product {
+        return (item as Product).productNumber !== undefined;
+    }
+
+    isPromotion(item: Product | Promotion): item is Promotion {
+        return (item as Promotion).code !== undefined;
+    }
+
     /**
      * Convert a JS date object into a date-time compatible string.
      *
@@ -1284,6 +1281,28 @@ export class TestDataService {
     convertDateTime(date: Date) {
         return date.toISOString().slice(0, 19).replace('T', ' ');
     }
+
+    /**
+     * Function that generates combinations from n number of arrays
+     * with m number of elements in them.
+     * @param array
+     */
+    combineAll = (array: Record<string, string>[][]) => {
+        const result: Record<string, string>[][] = [];
+        const max = array.length - 1;
+        const helper = (tmpArray: Record<string, string>[], i: number) => {
+            for (let j = 0, l = array[i].length; j < l; j++) {
+                const copy = tmpArray.slice(0);
+                copy.push(array[i][j]);
+                if (i == max)
+                    result.push(copy);
+                else
+                    helper(copy, i + 1);
+            }
+        };
+        helper([], 0);
+        return result;
+    };
 
     getBasicProductStruct(
         taxId = this.defaultTaxId,
@@ -1612,14 +1631,6 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicShippingMethod, overrides);
-    }
-
-    isProduct(item: Product | Promotion): item is Product {
-        return (item as Product).productNumber !== undefined;
-    }
-
-    isPromotion(item: Product | Promotion): item is Promotion {
-        return (item as Promotion).code !== undefined;
     }
 
     getBasicOrderStruct(

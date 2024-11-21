@@ -82,6 +82,9 @@ test('Administration page objects.', async ({
     AdminDashboard,
     AdminCategories,
     AdminLandingPageCreate,
+    AdminCustomFieldListing,
+    AdminCustomFieldCreate,
+    AdminRuleCreate,
 }) => {
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
@@ -113,6 +116,15 @@ test('Administration page objects.', async ({
 
     await ShopAdmin.goesTo(AdminLandingPageCreate.url());
     await ShopAdmin.expects(AdminLandingPageCreate.saveLandingPageButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomFieldListing.url());
+    await ShopAdmin.expects(AdminCustomFieldListing.addNewSetButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomFieldCreate.url());
+    await ShopAdmin.expects(AdminCustomFieldCreate.saveButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminRuleCreate.url());
+    await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
 
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {
