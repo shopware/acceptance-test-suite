@@ -9,6 +9,7 @@ export class Account implements PageObject {
     public readonly shippingAddressCardTitle: Locator;
     public readonly newsletterCheckbox: Locator;
     public readonly newsletterRegistrationSuccessMessage: Locator;
+    public readonly customerGroupRequestMessage: Locator;
 
     constructor(public readonly page: Page) {
         this.headline = page.getByRole('heading', { name: 'Overview' });
@@ -18,7 +19,12 @@ export class Account implements PageObject {
         this.shippingAddressCardTitle = page.getByRole('heading', { name: 'Default shipping address' });
         this.newsletterCheckbox = page.getByLabel('Yes, I would like to');
         this.newsletterRegistrationSuccessMessage = page.getByText('You have successfully subscribed to the newsletter.');
+        this.customerGroupRequestMessage = page.locator('.alert-content');
     }
+
+    async getCustomerGroupAlert(customerGroup: string) : Promise<Locator> {
+        return this.customerGroupRequestMessage.getByText(`Access to customer group "${customerGroup}" requested.`);
+      }
 
     url() {
         return 'account';
