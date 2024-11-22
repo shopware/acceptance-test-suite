@@ -29,6 +29,7 @@ export class Categories implements PageObject {
   public readonly categoryTypeSelectionList: Locator;
   public readonly filtersResultPopoverItemList: Locator;
   public readonly saveButton: Locator;
+  public readonly loadingSpinner: Locator;
 
   /**
    * Customisable link
@@ -40,6 +41,7 @@ export class Categories implements PageObject {
   public readonly landingPageSelectionList: Locator;
   public readonly filterResultPopoverTreeCheckboxItemList: Locator;
   public readonly openInNewTabCheckbox: Locator;
+  public readonly popoverCategoryTree: Locator;
 
   constructor(public readonly page: Page) {
     this.landingPageArea = page.locator('.sw-category-detail__landing-page-collapse');
@@ -69,24 +71,24 @@ export class Categories implements PageObject {
       .filter({ hasText: 'Entity' })
       .locator('.sw-select__selection');
     this.categorySelectionList = page
-      .locator('.sw-select')
-      .filter({ hasText: 'Category' })
-      .locator('.sw-select__selection');
+      .locator('.sw-category-link-settings__selection-category');
     this.productSelectionList = page
-      .locator('.sw-select')
-      .filter({ hasText: 'Product' })
-      .locator('.sw-select__selection');
+      .locator('.sw-category-link-settings__selection-product');
     this.landingPageSelectionList = page
-      .locator('.sw-select')
-      .filter({ hasText: 'Landing page' })
-      .locator('.sw-select__selection');
+      .locator('.sw-category-link-settings__selection-landing-page');
     this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
-    this.filterResultPopoverTreeCheckboxItemList = page.locator('.sw-tree__content').getByRole('checkbox');
+    this.popoverCategoryTree = page.locator('.sw-category-tree-field__results_popover');
+    this.filterResultPopoverTreeCheckboxItemList = this.popoverCategoryTree.locator('.sw-tree__content').locator('.sw-tree-item');
     this.openInNewTabCheckbox = page.getByRole('checkbox', { name: 'Open in new tab' });
+    this.loadingSpinner = page.locator('.sw-loader');
   }
 
   async getLandingPageByName(landingPageName: string) : Promise<Locator> {
     return this.landingPageItems.locator(`text="${landingPageName}"`);
+  }
+
+  async getPopOverCategoryByName(categoryName: string) : Promise<Locator> {
+    return  this.popoverCategoryTree.locator('.sw-tree-item__element').filter({ hasText: `${categoryName}` });
   }
 
   url() {
