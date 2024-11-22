@@ -73,7 +73,11 @@ test('Administration page objects.', async ({
     DefaultSalesChannel,
     AdminProductDetail,
     AdminOrderDetail,
+    AdminCustomers,
     AdminCustomerDetail,
+    AdminCustomerGroup,
+    AdminCustomerGroupCreate,
+    AdminCustomerGroupDetail,
     AdminFirstRunWizard,
     AdminFlowBuilderCreate,
     AdminFlowBuilderListing,
@@ -98,8 +102,20 @@ test('Administration page objects.', async ({
     await ShopAdmin.goesTo(AdminOrderDetail.url(OrderData.id));
     await ShopAdmin.expects(AdminOrderDetail.saveButton).toBeVisible();
 
+    await ShopAdmin.goesTo(AdminCustomers.url());
+    await ShopAdmin.expects(AdminCustomers.addCustomerButton).toBeVisible();
+
     await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
     await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerGroup.url());
+    await ShopAdmin.expects(AdminCustomerGroup.addCustomerGroupButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerGroupCreate.url());
+    await ShopAdmin.expects(AdminCustomerGroupCreate.saveButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerGroupDetail.url(DefaultSalesChannel.salesChannel.customerGroupId));
+    await ShopAdmin.expects(AdminCustomerGroupDetail.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminFlowBuilderCreate.url());
     await ShopAdmin.expects(AdminFlowBuilderCreate.saveButton).toBeVisible();

@@ -3,7 +3,11 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 
 import { ProductDetail } from './administration/ProductDetail';
 import { OrderDetail } from './administration/OrderDetail';
+import { Customers } from './administration/Customers';
 import { CustomerDetail } from './administration/CustomerDetail';
+import { CustomerGroup } from './administration/CustomerGroup';
+import { CustomerGroupCreate } from './administration/CustomerGroupCreate';
+import { CustomerGroupDetail } from './administration/CustomerGroupDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
@@ -24,7 +28,11 @@ import { RuleCreate } from './administration/RuleCreate';
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
+    AdminCustomers: Customers;
     AdminCustomerDetail: CustomerDetail;
+    AdminCustomerGroup: CustomerGroup;
+    AdminCustomerGroupCreate: CustomerGroupCreate;
+    AdminCustomerGroupDetail: CustomerGroupDetail;
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
@@ -46,7 +54,11 @@ export interface AdministrationPageTypes {
 export const AdminPageObjects = {
     ProductDetail,
     OrderDetail,
+    Customers,
     CustomerDetail,
+    CustomerGroup,
+    CustomerGroupCreate,
+    CustomerGroupDetail,
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
@@ -75,8 +87,24 @@ export const test = base.extend<FixtureTypes>({
         await use(new OrderDetail(AdminPage));
     },
 
+    AdminCustomers: async ({ AdminPage }, use) => {
+        await use(new Customers(AdminPage));
+    },
+
     AdminCustomerDetail: async ({ AdminPage }, use) => {
         await use(new CustomerDetail(AdminPage));
+    },
+
+    AdminCustomerGroup: async ({ AdminPage }, use) => {
+        await use(new CustomerGroup(AdminPage));
+    },
+
+    AdminCustomerGroupCreate: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupCreate(AdminPage));
+    },
+
+    AdminCustomerGroupDetail: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupDetail(AdminPage));
     },
 
     AdminFirstRunWizard: async ({ AdminPage }, use) => {

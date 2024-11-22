@@ -17,6 +17,7 @@ import { AccountAddresses } from './storefront/AccountAddresses';
 import { AccountPayment } from './storefront/AccountPayment';
 import { Search } from './storefront/Search';
 import { SearchSuggest } from './storefront/SearchSuggest';
+import { CustomRegister } from './storefront/CustomRegister';
 
 export interface StorefrontPageTypes {
     StorefrontHome: Home;
@@ -35,6 +36,7 @@ export interface StorefrontPageTypes {
     StorefrontAccountPayment: AccountPayment;
     StorefrontSearch: Search;
     StorefrontSearchSuggest: SearchSuggest;
+    StorefrontCustomRegister: CustomRegister;
 }
 
 export const StorefrontPageObjects = {
@@ -54,6 +56,7 @@ export const StorefrontPageObjects = {
     AccountPayment,
     Search,
     SearchSuggest,
+    CustomRegister,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -120,5 +123,9 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontSearchSuggest: async ({ StorefrontPage }, use) => {
         await use(new SearchSuggest(StorefrontPage));
+    },
+
+    StorefrontCustomRegister: async ({ StorefrontPage }, use) => {
+        await use(new CustomRegister(StorefrontPage));
     },
 });

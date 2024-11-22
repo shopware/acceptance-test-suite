@@ -106,6 +106,9 @@ test('Data Service', async ({
     expect(cmsPage.name).toEqual(cmsPageName);
     expect(cmsPage.type).toEqual(cmsType);
 
+    const customerGroup = await TestDataService.createCustomerGroup({ name: 'Custom customer group'});
+    expect(customerGroup.name).toEqual('Custom customer group');
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -170,4 +173,5 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['shipping_method']).toBeDefined();
     expect(cleanUp['deleted']['rule']).toBeDefined();
     expect(cleanUp['deleted']['cms_page']).toBeDefined();
+    expect(cleanUp['deleted']['customer_group']).toBeDefined();
 });

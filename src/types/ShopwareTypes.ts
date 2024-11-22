@@ -159,3 +159,7 @@ export type DeliveryTime = components['schemas']['DeliveryTime'] & {
 export type CmsPage = components['schemas']['CmsPage'] & {
     id: string,
 };
+
+export type CustomerGroup = components['schemas']['CustomerGroup'] & {
+    id: string,
+};
