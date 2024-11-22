@@ -17,6 +17,11 @@ import { Categories } from './administration/Categories';
 import { RuleDetail } from './administration/RuleDetail';
 import { OrderListing } from './administration/OrderListing';
 import { OrderBulkEdit } from './administration/OrderBulkEdit';
+import { CustomFieldListing } from './administration/CustomFieldListing';
+import { CustomFieldCreate } from './administration/CustomFieldCreate';
+import { CustomFieldDetail } from './administration/CustomFieldDetail';
+import { CategoryDetail } from './administration/CategoryDetail';
+import { RuleCreate } from './administration/RuleCreate';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -30,11 +35,16 @@ export interface AdministrationPageTypes {
     AdminDashboard: Dashboard;
     AdminShippingListing: ShippingListing;
     AdminCategories: Categories;
+    AdminCategoryDetail: CategoryDetail;
     AdminLandingPageCreate: LandingPageCreate;
     AdminLandingPageDetail: LandingPageDetail;
     AdminRuleDetail: RuleDetail;
     AdminOrderListing: OrderListing;
     AdminOrderBulkEdit: OrderBulkEdit;
+    AdminRuleCreate: RuleCreate;
+    AdminCustomFieldListing: CustomFieldListing;
+    AdminCustomFieldCreate: CustomFieldCreate;
+    AdminCustomFieldDetail: CustomFieldDetail;
 }
 
 export const AdminPageObjects = {
@@ -49,11 +59,16 @@ export const AdminPageObjects = {
     DataSharing,
     ShippingListing,
     Categories,
+    CategoryDetail,
     LandingPageCreate,
     LandingPageDetail,
     RuleDetail,
     OrderListing,
     OrderBulkEdit,
+    RuleCreate,
+    CustomFieldListing,
+    CustomFieldCreate,
+    CustomFieldDetail,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -102,6 +117,10 @@ export const test = base.extend<FixtureTypes>({
         await use(new Categories(AdminPage));
     },
 
+    AdminCategoryDetail: async ({ AdminPage }, use) => {
+        await use(new CategoryDetail(AdminPage));
+    },
+
     AdminLandingPageDetail: async ({ AdminPage }, use) => {
         await use(new LandingPageDetail(AdminPage));
     },
@@ -109,7 +128,7 @@ export const test = base.extend<FixtureTypes>({
     AdminLandingPageCreate: async ({ AdminPage }, use) => {
         await use(new LandingPageCreate(AdminPage));
     },
-    
+
     AdminRuleDetail: async ({ AdminPage }, use) => {
         await use(new RuleDetail(AdminPage));
     },
@@ -120,5 +139,21 @@ export const test = base.extend<FixtureTypes>({
 
     AdminOrderBulkEdit: async ({ AdminPage }, use) => {
         await use(new OrderBulkEdit(AdminPage));
+    },
+  
+    AdminRuleCreate: async ({ AdminPage }, use) => {
+        await use(new RuleCreate(AdminPage));
+    },
+
+    AdminCustomFieldListing: async ({ AdminPage }, use) => {
+        await use(new CustomFieldListing(AdminPage));
+    },
+
+    AdminCustomFieldCreate: async ({ AdminPage }, use) => {
+        await use(new CustomFieldCreate(AdminPage));
+    },
+
+    AdminCustomFieldDetail: async ({ AdminPage }, use) => {
+        await use(new CustomFieldDetail(AdminPage));
     },
 });

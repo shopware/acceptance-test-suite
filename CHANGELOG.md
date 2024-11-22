@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [5.1.0](https://github.com/shopware/acceptance-test-suite/compare/v5.0.1...v5.1.0) (2024-11-21)
+
+
+### Features
+
+* add custom field page objects ([#174](https://github.com/shopware/acceptance-test-suite/issues/174)) ([cb0477c](https://github.com/shopware/acceptance-test-suite/commit/cb0477cb6926811850b55cd9dd6cfe560a906598))
+
+
+### Bug Fixes
+
+* add getLandingPageByName ([#179](https://github.com/shopware/acceptance-test-suite/issues/179)) ([f079431](https://github.com/shopware/acceptance-test-suite/commit/f079431044175f416ca1457d0a9fda91f79d2d27))
+
+## [5.0.1](https://github.com/shopware/acceptance-test-suite/compare/v5.0.0...v5.0.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* update category and landing page objects, make landing_page higher priority to be deleted ([acdc7aa](https://github.com/shopware/acceptance-test-suite/commit/acdc7aad8943667c97680250f7ae7d989b3d2cb0))
+
 ## [5.0.0](https://github.com/shopware/acceptance-test-suite/compare/v4.1.0...v5.0.0) (2024-11-13)
 
 

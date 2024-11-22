@@ -21,6 +21,7 @@ export class ProductDetail implements PageObject {
      * Tabs
      */
     public readonly variantsTabLink: Locator;
+    public readonly specificationsTabLink: Locator;
 
     /**
      * Variants Generation
@@ -44,6 +45,11 @@ export class ProductDetail implements PageObject {
     public readonly propertyOptionSizeSmall: Locator;
     public readonly propertyOptionSizeMedium: Locator;
     public readonly propertyOptionSizeLarge: Locator;
+
+    /**
+     * Cards
+     */
+    public readonly customFieldCard: Locator;
 
     constructor(public readonly page: Page) {
 
@@ -73,6 +79,21 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeSmall = this.propertyOptionGrid.getByLabel('Small');
         this.propertyOptionSizeMedium = this.propertyOptionGrid.getByLabel('Medium');
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
+
+        this.specificationsTabLink = page.getByRole('link', { name: 'Specifications' });
+        this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+    }
+
+    async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
+
+        const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
+        const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
+        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
+
+        return {
+            customFieldSetTab: customFieldSetTab,
+            customFieldSetTabCustomContent: customFieldSetTabCustomContent,
+        }
     }
 
     url(productId: string) {
