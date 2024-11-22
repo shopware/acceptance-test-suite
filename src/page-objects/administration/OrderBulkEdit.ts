@@ -5,6 +5,7 @@ export class OrderBulkEdit implements PageObject {
     public readonly header: Locator;
     public readonly statusCard: Locator;
     public readonly changePaymentStatus: Locator;
+    public readonly changeOrderStatus: Locator;
 
 
 
@@ -14,6 +15,7 @@ export class OrderBulkEdit implements PageObject {
         //Status Card
         this.statusCard = page.locator('.sw-bulk-edit-order-base__status');
         this.changePaymentStatus = page.getByText('Change: Payment status');
+        this.changeOrderStatus = page.getByText('Change: Order status')
 
 
         
