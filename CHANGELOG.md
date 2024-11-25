@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [5.3.0](https://github.com/shopware/acceptance-test-suite/compare/v5.2.0...v5.3.0) (2024-11-25)
+
+
+### Features
+
+* add manufacturer page objects ([#187](https://github.com/shopware/acceptance-test-suite/issues/187)) ([e609663](https://github.com/shopware/acceptance-test-suite/commit/e6096631b99d557130ea13bb7e452af5a9a39517))
+
 ## [5.2.0](https://github.com/shopware/acceptance-test-suite/compare/v5.1.0...v5.2.0) (2024-11-25)
 
 
