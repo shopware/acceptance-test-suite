@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [5.2.0](https://github.com/shopware/acceptance-test-suite/compare/v5.1.0...v5.2.0) (2024-11-25)
+
+
+### Features
+
+* add create currency to TestDataService ([#181](https://github.com/shopware/acceptance-test-suite/issues/181)) ([72aaf6f](https://github.com/shopware/acceptance-test-suite/commit/72aaf6f46ab8efdc1f920270d7a19a0271d312e8))
+
+
+### Bug Fixes
+
+* update category page objects ([9fcc20f](https://github.com/shopware/acceptance-test-suite/commit/9fcc20fc3fc35a833048e8e78a843b621cea5862))
+* update Category page objects ([9fcc20f](https://github.com/shopware/acceptance-test-suite/commit/9fcc20fc3fc35a833048e8e78a843b621cea5862))
+
 ## [5.1.0](https://github.com/shopware/acceptance-test-suite/compare/v5.0.1...v5.1.0) (2024-11-21)
 
 
