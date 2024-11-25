@@ -3,7 +3,7 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 
 import { ProductDetail } from './administration/ProductDetail';
 import { OrderDetail } from './administration/OrderDetail';
-import { Customers } from './administration/Customers';
+import { CustomerListing } from './administration/CustomerListing';
 import { CustomerDetail } from './administration/CustomerDetail';
 import { CustomerGroup } from './administration/CustomerGroup';
 import { CustomerGroupCreate } from './administration/CustomerGroupCreate';
@@ -28,7 +28,7 @@ import { RuleCreate } from './administration/RuleCreate';
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
-    AdminCustomers: Customers;
+    AdminCustomerListing: CustomerListing;
     AdminCustomerDetail: CustomerDetail;
     AdminCustomerGroup: CustomerGroup;
     AdminCustomerGroupCreate: CustomerGroupCreate;
@@ -54,7 +54,7 @@ export interface AdministrationPageTypes {
 export const AdminPageObjects = {
     ProductDetail,
     OrderDetail,
-    Customers,
+    CustomerListing,
     CustomerDetail,
     CustomerGroup,
     CustomerGroupCreate,
@@ -87,8 +87,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new OrderDetail(AdminPage));
     },
 
-    AdminCustomers: async ({ AdminPage }, use) => {
-        await use(new Customers(AdminPage));
+    AdminCustomerListing: async ({ AdminPage }, use) => {
+        await use(new CustomerListing(AdminPage));
     },
 
     AdminCustomerDetail: async ({ AdminPage }, use) => {

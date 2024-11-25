@@ -1,7 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
-export class Customers implements PageObject {
+export class CustomerListing implements PageObject {
     public readonly headline: Locator;
     public readonly addCustomerButton: Locator;
 

@@ -73,7 +73,7 @@ test('Administration page objects.', async ({
     DefaultSalesChannel,
     AdminProductDetail,
     AdminOrderDetail,
-    AdminCustomers,
+    AdminCustomerListing,
     AdminCustomerDetail,
     AdminCustomerGroup,
     AdminCustomerGroupCreate,
@@ -90,6 +90,7 @@ test('Administration page objects.', async ({
     AdminCustomFieldCreate,
     AdminRuleCreate,
 }) => {
+    test.slow();
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
         await ShopAdmin.goesTo(AdminFirstRunWizard.url());
@@ -102,8 +103,8 @@ test('Administration page objects.', async ({
     await ShopAdmin.goesTo(AdminOrderDetail.url(OrderData.id));
     await ShopAdmin.expects(AdminOrderDetail.saveButton).toBeVisible();
 
-    await ShopAdmin.goesTo(AdminCustomers.url());
-    await ShopAdmin.expects(AdminCustomers.addCustomerButton).toBeVisible();
+    await ShopAdmin.goesTo(AdminCustomerListing.url());
+    await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
     await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible();
@@ -145,12 +146,12 @@ test('Administration page objects.', async ({
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {
         await ShopAdmin.goesTo(AdminDashboard.url());
-        // await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
+        await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
 
         // eslint-disable-next-line playwright/no-conditional-in-test
         if (!InstanceMeta.version.match(/6\.5\.*/)) {
             await ShopAdmin.goesTo(AdminDataSharing.url());
-            // await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
+            await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
         }
     }
 });
