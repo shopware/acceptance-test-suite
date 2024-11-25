@@ -20,6 +20,9 @@ import { CustomFieldCreate } from './administration/CustomFieldCreate';
 import { CustomFieldDetail } from './administration/CustomFieldDetail';
 import { CategoryDetail } from './administration/CategoryDetail';
 import { RuleCreate } from './administration/RuleCreate';
+import { ManufacturerCreate } from './administration/ManufacturerCreate';
+import { ManufacturerListing } from './administration/ManufacturerListing';
+import { ManufacturerDetail } from './administration/ManufacturerDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -41,6 +44,9 @@ export interface AdministrationPageTypes {
     AdminCustomFieldListing: CustomFieldListing;
     AdminCustomFieldCreate: CustomFieldCreate;
     AdminCustomFieldDetail: CustomFieldDetail;
+    AdminManufacturerCreate: ManufacturerCreate,
+    AdminManufacturerListing: ManufacturerListing,
+    AdminManufacturerDetail: ManufacturerDetail,
 }
 
 export const AdminPageObjects = {
@@ -63,6 +69,9 @@ export const AdminPageObjects = {
     CustomFieldListing,
     CustomFieldCreate,
     CustomFieldDetail,
+    ManufacturerCreate,
+    ManufacturerDetail,
+    ManufacturerListing,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -141,5 +150,17 @@ export const test = base.extend<FixtureTypes>({
 
     AdminCustomFieldDetail: async ({ AdminPage }, use) => {
         await use(new CustomFieldDetail(AdminPage));
+    },
+
+    AdminManufacturerListing: async ({ AdminPage }, use) => {
+        await use(new ManufacturerListing(AdminPage));
+    },
+
+    AdminManufacturerCreate: async ({ AdminPage }, use) => {
+        await use(new ManufacturerCreate(AdminPage));
+    },
+
+    AdminManufacturerDetail: async ({ AdminPage }, use) => {
+        await use(new ManufacturerDetail(AdminPage));
     },
 });

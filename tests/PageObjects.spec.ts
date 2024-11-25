@@ -85,6 +85,8 @@ test('Administration page objects.', async ({
     AdminCustomFieldListing,
     AdminCustomFieldCreate,
     AdminRuleCreate,
+    AdminManufacturerCreate,
+    AdminManufacturerListing,
 }) => {
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
@@ -122,6 +124,12 @@ test('Administration page objects.', async ({
 
     await ShopAdmin.goesTo(AdminCustomFieldCreate.url());
     await ShopAdmin.expects(AdminCustomFieldCreate.saveButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminManufacturerListing.url());
+    await ShopAdmin.expects(AdminManufacturerListing.addManufacturerButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminManufacturerCreate.url());
+    await ShopAdmin.expects(AdminManufacturerCreate.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminRuleCreate.url());
     await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
