@@ -15,9 +15,12 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             city: 'Schöppingen',
             country: 'Germany',
             postalCode: '48624',
+            company: 'shopware', 
+            department: 'Operations', 
+            vatRegNo: 'DE1234567890',
         }
 
-        const task = (email: string) => {
+        const task = (email: string, isCommercial?: boolean) => {
             return async function Register() {
 
                 registrationData.email = email;
@@ -32,6 +35,13 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await StorefrontAccountLogin.cityInput.fill(registrationData.city);
                 await StorefrontAccountLogin.countryInput.selectOption(registrationData.country);
                 await StorefrontAccountLogin.postalCodeInput.fill(registrationData.postalCode);
+
+                // Fill commercial fields if applicable
+                if (isCommercial) {
+                    await StorefrontAccountLogin.companyInput.fill(registrationData.company);
+                    await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
+                    await StorefrontAccountLogin.vatRegNoInput.fill(registrationData.vatRegNo);
+                }
                 
                 await StorefrontAccountLogin.registerButton.click();
             }

@@ -26,6 +26,7 @@ import type {
     DeliveryTime,
     CmsPage,
     Country,
+    CustomerGroup,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -2156,5 +2157,45 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicCmsPage, overrides);
+    }
+
+    getBasicCustomerGroup(overrides: Partial<CustomerGroup>): Partial<CustomerGroup> {
+        const customerGroupUuid = this.IdProvider.getIdPair().uuid;
+        const customerGroupName = `${this.namePrefix}CustomerGroup-${customerGroupUuid}${this.nameSuffix}`;
+
+        const basicCustomerGroup = {
+            id: customerGroupUuid,
+            name: customerGroupName,
+            displayGross: true,
+            registrationActive: true,
+            registrationTitle: customerGroupName,
+            registrationIntroduction: `${customerGroupName}-Introduction`,
+            registrationSeoMetaDescription: `${customerGroupName}-SEO-Description`,
+            registrationOnlyCompanyRegistration: false,
+            customFields: {},
+            registrationSalesChannels: [{
+                id: this.defaultSalesChannel.id,
+            }],
+
+        };
+
+        return Object.assign({}, basicCustomerGroup, overrides);
+    }
+
+    async createCustomerGroup(overrides: Partial<CustomerGroup>): Promise<CustomerGroup> {
+        
+        const basicCustomerGroup = this.getBasicCustomerGroup(overrides);
+
+        const response = await this.AdminApiClient.post('customer-group?_response=detail', {
+            data: basicCustomerGroup,
+        });
+
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customerGroup } = (await response.json()) as { data: CustomerGroup };
+
+        this.addCreatedRecord('customer_group', customerGroup.id);
+
+        return customerGroup;
     }
 }
