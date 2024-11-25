@@ -25,6 +25,7 @@ import type {
     PropertyGroupOption,
     DeliveryTime,
     CmsPage,
+    Country,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -779,6 +780,52 @@ export class TestDataService {
     }
 
     /**
+     * Creates a random country
+     *
+     * @param overrides - Specific data overrides that will be applied to the country data struct.
+     */
+    async createCountry(
+        overrides: Partial<Country> = {},
+    ): Promise<Country> {
+        const basicCountry = this.getCountryStruct(overrides);
+
+        const countryResponse = await this.AdminApiClient.post('country?_response=detail', {
+            data: basicCountry,
+        });
+        expect(countryResponse.ok()).toBeTruthy();
+
+        const { data: country } = (await countryResponse.json()) as { data: Country };
+
+        this.addCreatedRecord('country', country.id);
+
+        return country;
+    }
+
+    /**
+     * Creates a random currency with default rounding of 2 decimals
+     *
+     * @param roundingDecimals - Decimals of the rounding shown in Storefront, default value 2
+     * @param overrides - Specific data overrides that will be applied to the currency data struct.
+     */
+    async createCurrency(
+        overrides: Partial<Currency> = {},
+        roundingDecimals = 2,
+    ): Promise<Currency> {
+        const basicCurrency = this.getCurrencyStruct(overrides, roundingDecimals);
+
+        const currencyResponse = await this.AdminApiClient.post('currency?_response=detail', {
+            data: basicCurrency,
+        });
+        expect(currencyResponse.ok()).toBeTruthy();
+
+        const { data: currency } = (await currencyResponse.json()) as { data: Currency };
+
+        this.addCreatedRecord('currency', currency.id);
+
+        return currency;
+    }
+
+    /**
      * Assigns a media resource as the download of a digital product.
      *
      * @param productId - The uuid of the product.
@@ -841,6 +888,48 @@ export class TestDataService {
                 manufacturerId: manufacturerId,
             },
         });
+    }
+
+    /**
+     * Assigns a country to a currency with default roundings of 2.
+     *
+     * @param currencyId - The uuid of currency.
+     * @param countryId - The uuid of country.
+     * @param roundingDecimals - The roundings of item and total values in storefront, default 2 decimals
+     */
+    async assignCurrencyCountryRounding(currencyId: string, countryId: string, roundingDecimals = 2) {
+
+        const syncCurrencyCountryRoundingResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-currency-country-rounding': {
+                    entity: 'currency_country_rounding',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            id: this.IdProvider.getIdPair().uuid,
+                            currencyId: currencyId,
+                            countryId: countryId,
+                            itemRounding: {
+                                decimals: roundingDecimals,
+                                interval: 0.01,
+                                roundForNet: true,
+                            },
+                            totalRounding: {
+                                decimals: roundingDecimals,
+                                interval: 0.01,
+                                roundForNet: true,
+                            },
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncCurrencyCountryRoundingResponse.ok()).toBeTruthy();
+
+        const { data: currencyCountry } = await syncCurrencyCountryRoundingResponse.json();
+
+        return currencyCountry;
+
     }
 
     /**
@@ -907,6 +996,64 @@ export class TestDataService {
      */
     async assignManufacturerProduct(manufacturerId: string, productId: string) {
         await this.assignProductManufacturer(productId, manufacturerId);
+    }
+
+    /**
+     * Assigns a currency to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param currencyId - The uuid of the currency.
+     */
+    async assignSalesChannelCurrency(salesChannelId: string, currencyId: string) {
+
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel': {
+                    entity: 'sales_channel',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            id: salesChannelId,
+                            currencies: [{ id: currencyId }],
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        return salesChannel;
+    }
+
+    /**
+     * Assigns a country to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param countryId - The uuid of the country.
+     */
+    async assignSalesChannelCountry(salesChannelId: string, countryId: string) {
+
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel': {
+                    entity: 'sales_channel',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            id: salesChannelId,
+                            countries: [{ id: countryId }],
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        return salesChannel;
     }
 
     /**
@@ -1303,6 +1450,76 @@ export class TestDataService {
         helper([], 0);
         return result;
     };
+
+    /**
+     * Retrieves a country Id based on its iso2 code.
+     *
+     * @param iso2 - The iso2 code of the country, for example "DE".
+     */
+    async getCountryId(iso2: string): Promise<Country> {
+        const countryResponse = await this.AdminApiClient.post('search/country', {
+            data: {
+                limit: 1,
+                filter: [{
+                    type: 'equals',
+                    field: 'iso',
+                    value: iso2,
+                }],
+            },
+        });
+
+        const { data: result } = (await countryResponse.json()) as { data: Country[] };
+
+        return result[0];
+    }
+
+    getCountryStruct(
+        overrides: Partial<Country> = {},
+    ): Partial<Country> {
+
+        const { uuid: countryUuid, id: countryId } = this.IdProvider.getIdPair();
+
+        const basicCountry = {
+            id: countryUuid,
+            name: 'Country-'+countryId,
+            iso: ''+countryId.substring(0,2),
+            iso3: ''+countryId.substring(0,3),
+            active: true,
+            shippingAvailable: true,
+        };
+
+        return Object.assign({}, basicCountry, overrides);
+    }
+
+    getCurrencyStruct(
+        overrides: Partial<Currency> = {},
+        roundingDecimals: number,
+    ): Partial<Currency> {
+
+        const { uuid: currencyUuid, id: currencyId } = this.IdProvider.getIdPair();
+
+        const basicCurrency = {
+            id: currencyUuid,
+            name: 'Currency-'+currencyId,
+            shortName: 'CUR'+currencyId,
+            isoCode: ''+currencyId.substring(0,3),
+            symbol: 'C$',
+            factor: 2.40,
+            itemRounding: {
+                decimals: roundingDecimals,
+                interval: 0.01,
+                roundForNet: true,
+            },
+            totalRounding: {
+                decimals: roundingDecimals,
+                interval: 0.01,
+                roundForNet: true,
+            },
+            taxFreeFrom: 0,
+        };
+
+        return Object.assign({}, basicCurrency, overrides);
+    }
 
     getBasicProductStruct(
         taxId = this.defaultTaxId,

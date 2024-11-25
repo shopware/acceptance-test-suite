@@ -4,9 +4,27 @@ export type SalesChannel = components['schemas']['SalesChannel'] & {
     id: string,
 }
 
-export type Customer = components['schemas']['Customer'] & {
+export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingAddress' | 'defaultBillingAddress'> & {
     id: string,
     password: string,
+    defaultShippingAddress: {
+        firstName: string,
+        lastName: string,
+        city: string,
+        street: string,
+        zipcode: string,
+        countryId: string,
+        salutationId: string,
+    },
+    defaultBillingAddress: {
+        firstName: string,
+        lastName: string,
+        city: string,
+        street: string,
+        zipcode: string,
+        countryId: string,
+        salutationId: string,
+    }
 }
 
 export type CustomerAddress = components['schemas']['CustomerAddress'] & {
@@ -79,6 +97,10 @@ export type Rule = components['schemas']['Rule'] & {
 }
 
 export type Currency = components['schemas']['Currency'] & {
+    id: string,
+}
+
+export type Country = components['schemas']['Country'] & {
     id: string,
 }
 

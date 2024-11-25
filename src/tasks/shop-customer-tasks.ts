@@ -3,6 +3,9 @@ import { mergeTests } from '@playwright/test';
 import { Login } from './shop-customer/Account/Login';
 import { Logout } from './shop-customer/Account/Logout';
 import { Register } from './shop-customer/Account/Register';
+import { RegisterGuest } from './shop-customer/Account/RegisterGuest';
+import { ChangeStorefrontCurrency } from './shop-customer/Account/ChangeStorefrontCurrency';
+
 
 import { AddProductToCart } from './shop-customer/Product/AddProductToCart';
 import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFromProductToCheckout';
@@ -26,6 +29,8 @@ export const test = mergeTests(
     Login,
     Logout,
     Register,
+    RegisterGuest,
+    ChangeStorefrontCurrency,
     AddProductToCart,
     ChangeProductQuantity,
     ProceedFromProductToCheckout,

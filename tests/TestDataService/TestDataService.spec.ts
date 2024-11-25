@@ -1,5 +1,4 @@
-import { test, expect, type Product, Category, PropertyGroup, Customer, Manufacturer, PaymentMethod, Rule, ShippingMethod } from '../../src/index';
-
+import { test, expect, type Product, Category, PropertyGroup, Customer, Manufacturer, PaymentMethod, Rule, ShippingMethod, Currency, Country } from '../../src/index';
 
 test('Data Service', async ({
     TestDataService,
@@ -106,6 +105,12 @@ test('Data Service', async ({
     expect(cmsPage.name).toEqual(cmsPageName);
     expect(cmsPage.type).toEqual(cmsType);
 
+    const currency = await TestDataService.createCurrency({ taxFreeFrom: 10 });
+    expect(currency.taxFreeFrom).toEqual(10);
+
+    const country = await TestDataService.createCountry();
+    expect(country.name).toBeDefined();
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -131,7 +136,6 @@ test('Data Service', async ({
     const { data: databaseCustomer } = (await customerResponse.json()) as { data: Customer };
     expect(databaseCustomer.id).toBe(customer.id);
 
-
     const manufacturerResponse = await AdminApiContext.get(`./product-manufacturer/${manufacturer.id}?_response=detail`);
     const { data: databaseManufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
     expect(databaseManufacturer.id).toBe(manufacturer.id);
@@ -147,6 +151,14 @@ test('Data Service', async ({
     const ruleResponse = await AdminApiContext.get(`./rule/${rule.id}?_response=detail`);
     const { data: databaseRule } = (await ruleResponse.json()) as { data: Rule };
     expect(databaseRule.id).toBe(rule.id);
+
+    const currencyResponse = await AdminApiContext.get(`./currency/${currency.id}?_response=detail`);
+    const { data: databaseCurrency } = (await currencyResponse.json()) as { data: Currency };
+    expect(databaseCurrency.id).toBe(currency.id);
+
+    const countryResponse = await AdminApiContext.get(`./country/${country.id}?_response=detail`);
+    const { data: databaseCountry } = (await countryResponse.json()) as { data: Country };
+    expect(databaseCountry.id).toBe(country.id);
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
@@ -170,4 +182,6 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['shipping_method']).toBeDefined();
     expect(cleanUp['deleted']['rule']).toBeDefined();
     expect(cleanUp['deleted']['cms_page']).toBeDefined();
+    expect(cleanUp['deleted']['currency']).toBeDefined();
+    expect(cleanUp['deleted']['country']).toBeDefined();
 });
