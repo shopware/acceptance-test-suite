@@ -43,6 +43,12 @@ export class ProductBulkEdit implements PageObject {
     public readonly tagsChangeMethodInput: Locator;
     public readonly tagsInput: Locator;
 
+    public readonly changeSalesChannelRow: Locator;
+    public readonly changeSalesChannelCheckbox: Locator;
+    public readonly salesChannelChangeMethodDropdown: Locator;
+    public readonly salesChannelChangeMethodInput: Locator;
+    public readonly salesChannelInput: Locator;
+
     public readonly applyChangesButton: Locator;
 
     /**
@@ -98,6 +104,13 @@ export class ProductBulkEdit implements PageObject {
         this.tagsChangeMethodInput = this.changeTagsRow.locator('.sw-single-select__selection-input');
         this.tagsInput = this.changeTagsRow.getByPlaceholder('Enter tags...');
 
+        // Sales Channel
+        this.changeSalesChannelRow = page.locator('.sw-bulk-edit-change-field-visibilities');
+        this.changeSalesChannelCheckbox = this.changeSalesChannelRow.getByRole('checkbox');
+        this.salesChannelChangeMethodDropdown = this.changeSalesChannelRow.locator('.sw-single-select__selection-text');
+        this.salesChannelChangeMethodInput = this.changeSalesChannelRow.locator('.sw-single-select__selection-input');
+        this.salesChannelInput = this.changeSalesChannelRow.getByRole('textbox');
+
         this.applyChangesButton = page.getByRole('button', {name: 'Apply changes'});
 
         this.confirmModal = page.locator('.sw-bulk-edit-save-modal');
@@ -112,11 +125,7 @@ export class ProductBulkEdit implements PageObject {
         return '';
     }
 
-    async getManufacturerSearchResult(manufacturer: string): Promise<Locator> {
-        return this.page.locator('.sw-select-result', { hasText: manufacturer });
-    }
-    
-    async getTagsSearchResult(tagName: string): Promise<Locator> {
-        return this.page.locator('.sw-select-result', { hasText: tagName });
-    }
+    async getDropdownEntry(entry: string): Promise<Locator> {
+        return this.page.locator(`.sw-select-result`, { hasText: entry } );
+    } 
 }

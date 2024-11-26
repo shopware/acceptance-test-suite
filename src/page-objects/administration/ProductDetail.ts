@@ -31,6 +31,7 @@ export class ProductDetail implements PageObject {
      */
     public readonly activeForAllSalesChannelsToggle: Locator;
     public readonly tagsInput: Locator;
+    public readonly saleChannelsInput: Locator;
 
     /**
      * Labelling
@@ -87,6 +88,7 @@ export class ProductDetail implements PageObject {
 
         this.activeForAllSalesChannelsToggle = page.locator('.sw-field--product-active').getByRole('checkbox');
         this.tagsInput = page.locator('.sw-product-category-form__tag-field');
+        this.saleChannelsInput = page.locator('.sw-product-detail__select-visibility');
         
         this.releaseDateInput = page.locator('.sw-block-field', { hasText: 'Release Date' } ).getByPlaceholder('Enter release date...').last();
 

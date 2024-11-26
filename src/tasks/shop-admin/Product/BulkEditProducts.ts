@@ -46,7 +46,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     // Wait for the search call to be completed
                     const response = await responsePromise;
                     expect(response.ok()).toBeTruthy();
-                    const searchResult = await AdminProductBulkEdit.getManufacturerSearchResult(changes['manufacturer'].value);
+                    const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes['manufacturer'].value);
                     await searchResult.click();
                 } 
 
@@ -58,34 +58,57 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                 if (changes['stock'] != null) {
                     await AdminProductBulkEdit.changeStockCheckbox.click();
                     await AdminProductBulkEdit.stockChangeMethodDropdown.click();
-                    await AdminProductBulkEdit.stockChangeMethodInput.fill(changes['stock'].method);
-                    await AdminProductBulkEdit.stockInput.fill(changes['stock'].value);
+                    await (await AdminProductBulkEdit.getDropdownEntry(changes['stock'].method)).click();
+                    if (changes['stock'].method != 'Clear') {
+                        await AdminProductBulkEdit.stockInput.fill(changes['stock'].value);
+                    } 
                 }
 
                 if (changes['restockTime'] != null) {
                     await AdminProductBulkEdit.changeRestockTimeCheckbox.click();
                     await AdminProductBulkEdit.restockTimeChangeMethodDropdown.click();
-                    await AdminProductBulkEdit.restockTimeChangeMethodInput.fill(changes['restockTime'].method);
-                    await AdminProductBulkEdit.restockTimeChangeMethodInput.press('Enter');
-                    await AdminProductBulkEdit.restockTimeInput.fill(changes['restockTime'].value);
+                    await (await AdminProductBulkEdit.getDropdownEntry(changes['restockTime'].method)).click();
+                    if (changes['restockTime'].method != 'Clear') {
+                        await AdminProductBulkEdit.restockTimeInput.fill(changes['restockTime'].value);
+                    } 
                 }
 
                 if (changes['tags'] != null) {
                     await AdminProductBulkEdit.changeTagsCheckbox.click();
                     await AdminProductBulkEdit.tagsChangeMethodDropdown.click();
-                    await AdminProductBulkEdit.tagsChangeMethodInput.fill(changes['tags'].method);
-                    await AdminProductBulkEdit.tagsChangeMethodInput.press('Enter');
-                    await AdminProductBulkEdit.tagsInput.click();
-                    const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
-                        response.url().includes(`search/tag`) && response.status() === 200 && response.request().method() === 'POST'
-                    );
-                    await AdminProductBulkEdit.tagsInput.fill(changes['tags'].value);
+                    await (await AdminProductBulkEdit.getDropdownEntry(changes['tags'].method)).click();
+                    if (changes['tags'].method != 'Clear') {
+                        await AdminProductBulkEdit.tagsInput.click();
+                        const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
+                            response.url().includes(`search/tag`) && response.status() === 200 && response.request().method() === 'POST'
+                        );
+                        await AdminProductBulkEdit.tagsInput.fill(changes['tags'].value);
 
-                    // Wait for the search call to be completed
-                    const response = await responsePromise;
-                    expect(response.ok()).toBeTruthy();
-                    const searchResult = await AdminProductBulkEdit.getTagsSearchResult(changes['tags'].value);
-                    await searchResult.click();
+                        // Wait for the search call to be completed
+                        const response = await responsePromise;
+                        expect(response.ok()).toBeTruthy();
+                        const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes['tags'].value);
+                        await searchResult.click();
+                    } 
+                }
+
+                if (changes['saleschannel'] != null) {
+                    await AdminProductBulkEdit.changeSalesChannelCheckbox.click();
+                    await AdminProductBulkEdit.salesChannelChangeMethodDropdown.click();
+                    await (await AdminProductBulkEdit.getDropdownEntry(changes['saleschannel'].method)).click();
+                    if (changes['saleschannel'].method != 'Clear') {
+                        await AdminProductBulkEdit.salesChannelInput.click();
+                        const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
+                            response.url().includes(`search/sales-channel`) && response.status() === 200 && response.request().method() === 'POST'
+                        );
+                        await AdminProductBulkEdit.salesChannelInput.fill(changes['saleschannel'].value);
+
+                        // Wait for the search call to be completed
+                        const response = await responsePromise;
+                        expect(response.ok()).toBeTruthy();
+                        const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes['saleschannel'].value);
+                        await searchResult.click();
+                    } 
                 }
 
                 await AdminProductBulkEdit.applyChangesButton.click();
