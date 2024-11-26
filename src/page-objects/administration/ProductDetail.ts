@@ -30,6 +30,7 @@ export class ProductDetail implements PageObject {
      * Visibility
      */
     public readonly activeForAllSalesChannelsToggle: Locator;
+    public readonly tagsInput: Locator;
 
     /**
      * Labelling
@@ -85,6 +86,7 @@ export class ProductDetail implements PageObject {
         this.restockTimeInput = page.getByPlaceholder('Enter restock time in days...');
 
         this.activeForAllSalesChannelsToggle = page.locator('.sw-field--product-active').getByRole('checkbox');
+        this.tagsInput = page.locator('.sw-product-category-form__tag-field');
         
         this.releaseDateInput = page.locator('.sw-block-field', { hasText: 'Release Date' } ).getByPlaceholder('Enter release date...').last();
 

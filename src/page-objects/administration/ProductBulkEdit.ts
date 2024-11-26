@@ -37,6 +37,12 @@ export class ProductBulkEdit implements PageObject {
     public readonly restockTimeChangeMethodInput: Locator;
     public readonly restockTimeInput: Locator;
 
+    public readonly changeTagsRow: Locator;
+    public readonly changeTagsCheckbox: Locator;
+    public readonly tagsChangeMethodDropdown: Locator;
+    public readonly tagsChangeMethodInput: Locator;
+    public readonly tagsInput: Locator;
+
     public readonly applyChangesButton: Locator;
 
     /**
@@ -85,6 +91,13 @@ export class ProductBulkEdit implements PageObject {
         this.restockTimeChangeMethodInput = this.changeRestockTimeRow.locator('.sw-single-select__selection-input');
         this.restockTimeInput = this.changeRestockTimeRow.getByPlaceholder('Enter restock time in days...');
 
+        // Tags
+        this.changeTagsRow = page.locator('.sw-bulk-edit-change-field-tags');
+        this.changeTagsCheckbox = this.changeTagsRow.getByRole('checkbox');
+        this.tagsChangeMethodDropdown = this.changeTagsRow.locator('.sw-single-select__selection-text');
+        this.tagsChangeMethodInput = this.changeTagsRow.locator('.sw-single-select__selection-input');
+        this.tagsInput = this.changeTagsRow.getByPlaceholder('Enter tags...');
+
         this.applyChangesButton = page.getByRole('button', {name: 'Apply changes'});
 
         this.confirmModal = page.locator('.sw-bulk-edit-save-modal');
@@ -101,5 +114,9 @@ export class ProductBulkEdit implements PageObject {
 
     async getManufacturerSearchResult(manufacturer: string): Promise<Locator> {
         return this.page.locator('.sw-select-result', { hasText: manufacturer });
-    } 
+    }
+    
+    async getTagsSearchResult(tagName: string): Promise<Locator> {
+        return this.page.locator('.sw-select-result', { hasText: tagName });
+    }
 }

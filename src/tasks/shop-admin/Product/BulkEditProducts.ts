@@ -66,6 +66,26 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     await AdminProductBulkEdit.changeRestockTimeCheckbox.click();
                     await AdminProductBulkEdit.restockTimeChangeMethodDropdown.click();
                     await AdminProductBulkEdit.restockTimeChangeMethodInput.fill(changes['restockTime'].method);
+                    await AdminProductBulkEdit.restockTimeChangeMethodInput.press('Enter');
+                    await AdminProductBulkEdit.restockTimeInput.fill(changes['restockTime'].value);
+                }
+
+                if (changes['tags'] != null) {
+                    await AdminProductBulkEdit.changeTagsCheckbox.click();
+                    await AdminProductBulkEdit.tagsChangeMethodDropdown.click();
+                    await AdminProductBulkEdit.tagsChangeMethodInput.fill(changes['tags'].method);
+                    await AdminProductBulkEdit.tagsChangeMethodInput.press('Enter');
+                    await AdminProductBulkEdit.tagsInput.click();
+                    const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
+                        response.url().includes(`search/tag`) && response.status() === 200 && response.request().method() === 'POST'
+                    );
+                    await AdminProductBulkEdit.tagsInput.fill(changes['tags'].value);
+
+                    // Wait for the search call to be completed
+                    const response = await responsePromise;
+                    expect(response.ok()).toBeTruthy();
+                    const searchResult = await AdminProductBulkEdit.getTagsSearchResult(changes['tags'].value);
+                    await searchResult.click();
                 }
 
                 await AdminProductBulkEdit.applyChangesButton.click();
