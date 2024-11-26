@@ -73,7 +73,11 @@ test('Administration page objects.', async ({
     DefaultSalesChannel,
     AdminProductDetail,
     AdminOrderDetail,
+    AdminCustomerListing,
     AdminCustomerDetail,
+    AdminCustomerGroupListing,
+    AdminCustomerGroupCreate,
+    AdminCustomerGroupDetail,
     AdminFirstRunWizard,
     AdminFlowBuilderCreate,
     AdminFlowBuilderListing,
@@ -88,6 +92,7 @@ test('Administration page objects.', async ({
     AdminManufacturerCreate,
     AdminManufacturerListing,
 }) => {
+    test.slow();
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
         await ShopAdmin.goesTo(AdminFirstRunWizard.url());
@@ -100,8 +105,20 @@ test('Administration page objects.', async ({
     await ShopAdmin.goesTo(AdminOrderDetail.url(OrderData.id));
     await ShopAdmin.expects(AdminOrderDetail.saveButton).toBeVisible();
 
+    await ShopAdmin.goesTo(AdminCustomerListing.url());
+    await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
+
     await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
     await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
+    await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerGroupCreate.url());
+    await ShopAdmin.expects(AdminCustomerGroupCreate.saveButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerGroupDetail.url(DefaultSalesChannel.salesChannel.customerGroupId));
+    await ShopAdmin.expects(AdminCustomerGroupDetail.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminFlowBuilderCreate.url());
     await ShopAdmin.expects(AdminFlowBuilderCreate.saveButton).toBeVisible();

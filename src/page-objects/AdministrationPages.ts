@@ -3,7 +3,11 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 
 import { ProductDetail } from './administration/ProductDetail';
 import { OrderDetail } from './administration/OrderDetail';
+import { CustomerListing } from './administration/CustomerListing';
 import { CustomerDetail } from './administration/CustomerDetail';
+import { CustomerGroupListing } from './administration/CustomerGroupListing';
+import { CustomerGroupCreate } from './administration/CustomerGroupCreate';
+import { CustomerGroupDetail } from './administration/CustomerGroupDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
@@ -27,7 +31,11 @@ import { ManufacturerDetail } from './administration/ManufacturerDetail';
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
+    AdminCustomerListing: CustomerListing;
     AdminCustomerDetail: CustomerDetail;
+    AdminCustomerGroupListing: CustomerGroupListing;
+    AdminCustomerGroupCreate: CustomerGroupCreate;
+    AdminCustomerGroupDetail: CustomerGroupDetail;
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
@@ -52,7 +60,11 @@ export interface AdministrationPageTypes {
 export const AdminPageObjects = {
     ProductDetail,
     OrderDetail,
+    CustomerListing,
     CustomerDetail,
+    CustomerGroupListing,
+    CustomerGroupCreate,
+    CustomerGroupDetail,
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
@@ -84,8 +96,24 @@ export const test = base.extend<FixtureTypes>({
         await use(new OrderDetail(AdminPage));
     },
 
+    AdminCustomerListing: async ({ AdminPage }, use) => {
+        await use(new CustomerListing(AdminPage));
+    },
+
     AdminCustomerDetail: async ({ AdminPage }, use) => {
         await use(new CustomerDetail(AdminPage));
+    },
+
+    AdminCustomerGroupListing: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupListing(AdminPage));
+    },
+
+    AdminCustomerGroupCreate: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupCreate(AdminPage));
+    },
+
+    AdminCustomerGroupDetail: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupDetail(AdminPage));
     },
 
     AdminFirstRunWizard: async ({ AdminPage }, use) => {
