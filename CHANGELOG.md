@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [5.4.0](https://github.com/shopware/acceptance-test-suite/compare/v5.3.0...v5.4.0) (2024-11-26)
+
+
+### Features
+
+* add CustomerGroup page objects and CustomerGroup creation via TestDataService ([#185](https://github.com/shopware/acceptance-test-suite/issues/185))
+
+
+
 ## [5.3.0](https://github.com/shopware/acceptance-test-suite/compare/v5.2.0...v5.3.0) (2024-11-25)
 
 
