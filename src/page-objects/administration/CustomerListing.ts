@@ -33,6 +33,6 @@ export class CustomerListing implements PageObject {
     }
 
     url() {
-        return '#/sw/customer/index'
+        return '#/sw/customer/index';
     }
 }

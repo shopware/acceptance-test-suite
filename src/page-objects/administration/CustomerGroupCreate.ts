@@ -35,6 +35,6 @@ export class CustomerGroupCreate implements PageObject {
     }
 
     url() {
-        return '#/sw/settings/customer/group/create'
+        return '#/sw/settings/customer/group/create';
     }
 }

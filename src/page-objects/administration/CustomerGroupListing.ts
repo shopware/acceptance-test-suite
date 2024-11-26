@@ -1,7 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
-export class CustomerGroup implements PageObject {
+export class CustomerGroupListing implements PageObject {
     public readonly headline: Locator;
     public readonly addCustomerGroupButton: Locator;
 
@@ -27,6 +27,6 @@ export class CustomerGroup implements PageObject {
     }
 
     url() {
-        return '#/sw/settings/customer/group/index'
+        return '#/sw/settings/customer/group/index';
     }
 }

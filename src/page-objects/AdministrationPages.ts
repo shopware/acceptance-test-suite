@@ -5,7 +5,7 @@ import { ProductDetail } from './administration/ProductDetail';
 import { OrderDetail } from './administration/OrderDetail';
 import { CustomerListing } from './administration/CustomerListing';
 import { CustomerDetail } from './administration/CustomerDetail';
-import { CustomerGroup } from './administration/CustomerGroup';
+import { CustomerGroupListing } from './administration/CustomerGroupListing';
 import { CustomerGroupCreate } from './administration/CustomerGroupCreate';
 import { CustomerGroupDetail } from './administration/CustomerGroupDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
@@ -24,13 +24,16 @@ import { CustomFieldCreate } from './administration/CustomFieldCreate';
 import { CustomFieldDetail } from './administration/CustomFieldDetail';
 import { CategoryDetail } from './administration/CategoryDetail';
 import { RuleCreate } from './administration/RuleCreate';
+import { ManufacturerCreate } from './administration/ManufacturerCreate';
+import { ManufacturerListing } from './administration/ManufacturerListing';
+import { ManufacturerDetail } from './administration/ManufacturerDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
     AdminCustomerListing: CustomerListing;
     AdminCustomerDetail: CustomerDetail;
-    AdminCustomerGroup: CustomerGroup;
+    AdminCustomerGroupListing: CustomerGroupListing;
     AdminCustomerGroupCreate: CustomerGroupCreate;
     AdminCustomerGroupDetail: CustomerGroupDetail;
     AdminFirstRunWizard: FirstRunWizard;
@@ -49,6 +52,9 @@ export interface AdministrationPageTypes {
     AdminCustomFieldListing: CustomFieldListing;
     AdminCustomFieldCreate: CustomFieldCreate;
     AdminCustomFieldDetail: CustomFieldDetail;
+    AdminManufacturerCreate: ManufacturerCreate,
+    AdminManufacturerListing: ManufacturerListing,
+    AdminManufacturerDetail: ManufacturerDetail,
 }
 
 export const AdminPageObjects = {
@@ -56,7 +62,7 @@ export const AdminPageObjects = {
     OrderDetail,
     CustomerListing,
     CustomerDetail,
-    CustomerGroup,
+    CustomerGroupListing,
     CustomerGroupCreate,
     CustomerGroupDetail,
     FirstRunWizard,
@@ -75,6 +81,9 @@ export const AdminPageObjects = {
     CustomFieldListing,
     CustomFieldCreate,
     CustomFieldDetail,
+    ManufacturerCreate,
+    ManufacturerDetail,
+    ManufacturerListing,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -95,8 +104,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomerDetail(AdminPage));
     },
 
-    AdminCustomerGroup: async ({ AdminPage }, use) => {
-        await use(new CustomerGroup(AdminPage));
+    AdminCustomerGroupListing: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupListing(AdminPage));
     },
 
     AdminCustomerGroupCreate: async ({ AdminPage }, use) => {
@@ -169,5 +178,17 @@ export const test = base.extend<FixtureTypes>({
 
     AdminCustomFieldDetail: async ({ AdminPage }, use) => {
         await use(new CustomFieldDetail(AdminPage));
+    },
+
+    AdminManufacturerListing: async ({ AdminPage }, use) => {
+        await use(new ManufacturerListing(AdminPage));
+    },
+
+    AdminManufacturerCreate: async ({ AdminPage }, use) => {
+        await use(new ManufacturerCreate(AdminPage));
+    },
+
+    AdminManufacturerDetail: async ({ AdminPage }, use) => {
+        await use(new ManufacturerDetail(AdminPage));
     },
 });

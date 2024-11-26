@@ -42,6 +42,6 @@ export class CustomerDetail implements PageObject {
       }
 
     url(customerId: string) {
-        return `#/sw/customer/detail/${customerId}/base`
+        return `#/sw/customer/detail/${customerId}/base`;
     }
 }

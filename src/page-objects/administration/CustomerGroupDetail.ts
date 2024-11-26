@@ -14,10 +14,9 @@ export class CustomerGroupDetail extends CustomerGroupCreate implements PageObje
         this.selectedSalesChannel = page.locator('.sw-select-selection-list');
         this.technicalUrl = page.getByLabel('Technical URL');
         this.saleschannelUrl = page.getByLabel(/.*URL/).last();
-
     }
 
     url(customerGroupId?: string) {
-        return `#/sw/settings/customer/group/detail/${customerGroupId}`
+        return `#/sw/settings/customer/group/detail/${customerGroupId}`;
     }
 }
