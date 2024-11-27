@@ -15,7 +15,6 @@ export class ProductListing implements PageObject {
     public readonly bulkEditModal: Locator;
     public readonly startBulkEditButton: Locator;
 
-
     constructor(public readonly page: Page) {
         this.productsTable = page.locator('.sw-data-grid__table');
         this.bulkEditButton = page.getByRole('button', {name: 'Bulk edit'});
@@ -24,6 +23,11 @@ export class ProductListing implements PageObject {
         this.startBulkEditButton = this.bulkEditModal.getByRole('button', {name: 'Start bulk edit'});
     }
 
+    /**
+     * Returns the url to the listing page.
+     *
+     * @param searchTerm - Includes a search term for filtering of the product list.
+     */
     url(searchTerm = '') {
         let url = '#/sw/product/index';
         if (searchTerm != ''){
@@ -54,8 +58,6 @@ export class ProductListing implements PageObject {
             productActive: productTableRow.getByTestId(productActiveSelector),
             productInactive: productTableRow.getByTestId(productInactiveSelector),
             productPrice: productTableRow.locator(productPriceSelector),
-
-
         };
     }
 }

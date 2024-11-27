@@ -116,6 +116,8 @@ export class ProductBulkEdit implements PageObject {
         this.confirmModal = page.locator('.sw-bulk-edit-save-modal');
         this.confirmModalApplyChangesButton = this.confirmModal.getByRole('button', {name: 'Apply changes'});
         this.confirmModalSuccessHeader = this.confirmModal.getByRole('heading', {name: 'Bulk edit - Success'});
+        
+        // There are two close buttons, the button itself and the X, we use the X here
         this.confirmModalSuccessCloseButton = this.confirmModal.getByRole('button', {name: 'Close'}).first();
     }
 
