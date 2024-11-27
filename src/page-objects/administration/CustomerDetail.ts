@@ -22,6 +22,7 @@ export class CustomerDetail implements PageObject {
         this.customerGroupRequestMessage = page.locator('.sw-alert__message');
         this.customerGroupAcceptButton = page.getByRole('button', { name: 'Accept' });
         this.customerGroupDeclineButton = page.getByRole('button', { name: 'Decline' });
+
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
