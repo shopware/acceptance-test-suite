@@ -19,6 +19,7 @@ export class Categories implements PageObject {
   public readonly categoryMenuItemList: Locator;
   public readonly createCategoryInput: Locator;
   public readonly confirmCategoryCreationButton: Locator;
+  public readonly confirmCategoryCancelButton: Locator;
   public readonly categoryItems: Locator;
 
   /**
@@ -30,6 +31,7 @@ export class Categories implements PageObject {
   public readonly filtersResultPopoverItemList: Locator;
   public readonly saveButton: Locator;
   public readonly loadingSpinner: Locator;
+  public readonly fadingBar: Locator;
 
   /**
    * Customisable link
@@ -54,7 +56,8 @@ export class Categories implements PageObject {
     this.categoryMenuItemList = page.locator('.sw-context-button__menu-popover').locator('.sw-context-menu-item');
     this.createCategoryInput = page.getByPlaceholder('Create category').getByRole('textbox');
     this.confirmCategoryCreationButton = page.locator('.sw-confirm-field').locator('.sw-button--primary');
-    this.categoryItems = this.categoryTree.locator('.sw-tree-item__label');
+    this.confirmCategoryCancelButton = page.locator('.sw-confirm-field').locator('.sw-confirm-field__button--cancel');
+    this.categoryItems = this.categoryTree.locator('.tree-link');
     this.nameInput = page.getByLabel('Name');
     this.activeCheckbox = page.getByRole('checkbox', { name: 'Active' });
     this.saveButton = page.getByRole('button', { name: 'Save' });
@@ -81,6 +84,7 @@ export class Categories implements PageObject {
     this.filterResultPopoverTreeCheckboxItemList = this.popoverCategoryTree.locator('.sw-tree__content').locator('.sw-tree-item');
     this.openInNewTabCheckbox = page.getByRole('checkbox', { name: 'Open in new tab' });
     this.loadingSpinner = page.locator('.sw-loader');
+    this.fadingBar = page.locator('.fade-leave-active');
   }
 
   async getLandingPageByName(landingPageName: string) : Promise<Locator> {
