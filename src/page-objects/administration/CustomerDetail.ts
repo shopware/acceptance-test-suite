@@ -23,6 +23,7 @@ export class CustomerDetail implements PageObject {
         this.customerGroupAcceptButton = page.getByRole('button', { name: 'Accept' });
         this.customerGroupDeclineButton = page.getByRole('button', { name: 'Decline' });
 
+
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
