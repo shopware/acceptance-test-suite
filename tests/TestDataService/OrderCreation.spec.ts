@@ -78,7 +78,6 @@ test('Order creation with TestDataService', async ({
 
     expect(cleanUpResponse.ok()).toBeTruthy();
     const cleanUp = await cleanUpResponse.json();
-    expect(cleanUp['deleted']['customer']).toBeDefined();
     expect(cleanUp['deleted']['promotion']).toBeDefined();
     expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
 });

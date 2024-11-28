@@ -5,6 +5,7 @@ import { ExpectNotification } from './shop-admin/ExpectNotification';
 import { CreateLinkTypeCategory } from './shop-admin/Category/CreateLinkTypeCategory';
 import { SetSystemConfigValues } from './shop-admin/Settings/SetSystemConfigValues';
 import { BulkEditProducts } from './shop-admin/Product/BulkEditProducts';
+import { BulkEditCustomers } from './shop-admin/Customers/BulkEditCustomers';
 
 export const test = mergeTests(
     SaveProduct,
@@ -12,4 +13,5 @@ export const test = mergeTests(
     CreateLinkTypeCategory,
     SetSystemConfigValues,
     BulkEditProducts,
+    BulkEditCustomers,
 );

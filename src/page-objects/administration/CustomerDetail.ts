@@ -11,6 +11,8 @@ export class CustomerDetail implements PageObject {
     public readonly customerGroupRequestMessage: Locator;
     public readonly customerGroupAcceptButton: Locator;
     public readonly customerGroupDeclineButton: Locator;
+    public readonly tagList: Locator;
+    public readonly tagItems: Locator;
 
     constructor(public readonly page: Page) {
         this.editButton = page.getByRole('button', { name: 'Edit' });
@@ -22,6 +24,8 @@ export class CustomerDetail implements PageObject {
         this.customerGroupRequestMessage = page.locator('.sw-alert__message');
         this.customerGroupAcceptButton = page.getByRole('button', { name: 'Accept' });
         this.customerGroupDeclineButton = page.getByRole('button', { name: 'Decline' });
+        this.tagList = page.locator('.sw-customer-card__tag-select').locator('.sw-select-selection-list');
+        this.tagItems = this.tagList.locator('.sw-select-selection-list__item');
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
@@ -40,6 +44,27 @@ export class CustomerDetail implements PageObject {
     async getCustomerGroupAlert(customerGroup: string) : Promise<Locator> {
         return this.customerGroupRequestMessage.getByText(`Access to customer group "${customerGroup}" requested.`);
       }
+
+    async getCustomerGroup() : Promise<Locator> {
+        const dlElement = this.page.locator('dl').filter({
+            has: this.page.locator('dt', { hasText: 'Customer group' }),
+        });
+        return dlElement.locator('dd');
+    }
+
+    async getAccountStatus() : Promise<Locator> {
+        const dlElement = this.page.locator('dl').filter({
+            has: this.page.locator('dt', { hasText: 'Account status' }),
+        });
+        return dlElement.locator('dd');
+    }
+
+    async getLanguage() : Promise<Locator> {
+        const dlElement = this.page.locator('dl').filter({
+            has: this.page.locator('dt', { hasText: 'Language' }),
+        });
+        return dlElement.locator('dd');
+    }
 
     url(customerId: string) {
         return `#/sw/customer/detail/${customerId}/base`;
