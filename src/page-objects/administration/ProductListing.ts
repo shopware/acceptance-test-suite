@@ -26,13 +26,20 @@ export class ProductListing implements PageObject {
     /**
      * Returns the url to the listing page.
      *
-     * @param searchTerm - Includes a search term for filtering of the product list.
+     * @param searchTerms - Includes search terms for filtering of the product list.
      */
-    url(searchTerm = '') {
+    url(searchTerms: string[] = []) {
         let url = '#/sw/product/index';
-        if (searchTerm != ''){
-            url += `?limit=25&page=1&term=${searchTerm}`;
-        }
+        if (searchTerms.length > 0) {
+            let tempTerm = '';
+            for (const searchTerm of searchTerms) {
+                if (tempTerm != '') {
+                    tempTerm += '+';
+                } 
+                tempTerm += searchTerm;
+            } 
+            url += `?limit=25&page=1&term=${tempTerm}`;
+        } 
         return url;
     }
 
