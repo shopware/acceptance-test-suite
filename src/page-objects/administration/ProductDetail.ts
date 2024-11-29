@@ -66,7 +66,7 @@ export class ProductDetail implements PageObject {
         this.generateVariantsButton = page.getByRole('button', { name: 'Generate variants' });
         this.variantsModal = page.getByRole('dialog', { name: 'Generate variants' });
         this.variantsModalHeadline = this.variantsModal.getByRole('heading', { name: 'Generate variants' });
-        this.variantsNextButton = this.variantsModal.getByRole('button', { name: 'Next' });
+        this.variantsNextButton = this.variantsModal.getByRole('button', { name: 'Next', exact: true });
         this.variantsSaveButton = this.variantsModal.getByRole('button', { name: 'Save variants' });
 
         this.propertyGroupColor = this.variantsModal.getByText('Color').first();
