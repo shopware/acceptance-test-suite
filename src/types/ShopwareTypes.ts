@@ -104,6 +104,10 @@ export type Country = components['schemas']['Country'] & {
     id: string,
 }
 
+export type SystemConfig = components['schemas']['SystemConfig'] & {
+    id: string,
+}
+
 export interface CalculatedTaxes {
     tax: number,
     taxRate: number,

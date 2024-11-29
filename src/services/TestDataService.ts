@@ -27,6 +27,7 @@ import type {
     CmsPage,
     Country,
     CustomerGroup,
+    SystemConfig,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -845,6 +846,38 @@ export class TestDataService {
         this.addCreatedRecord('customer_group', customerGroup.id);
 
         return customerGroup;
+    }
+
+    /**
+     * Creates a system config entry
+     *
+     * @param configurationKey - Config key for shop configurations.
+     * @param configurationValue - Config value as object for shop configurations (see {@link https://shopware.stoplight.io/docs/admin-api/9174d032146f8-create-a-new-system-config-resources|AdminApi Stoplight}).
+     * @param salesChannelId - Unique identity of sales channel.
+     */
+    async createSystemConfigEntry(
+        configurationKey: string,
+        configurationValue = {},
+        salesChannelId = '',
+    ): Promise<SystemConfig> {
+
+        const systemConfigStruct = {
+            id: this.IdProvider.getIdPair().uuid,
+            configurationKey: configurationKey,
+            configurationValue: configurationValue,
+            salesChannelId: salesChannelId || null,
+        }
+
+        const response = await this.AdminApiClient.post('system-config?_response=detail', {
+            data: systemConfigStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: systemConfigEntry } = (await response.json()) as { data: SystemConfig };
+
+        this.addCreatedRecord('system_config', systemConfigEntry.id);
+
+        return systemConfigEntry;
     }
 
     /**
