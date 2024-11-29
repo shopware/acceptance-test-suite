@@ -12,6 +12,7 @@ import {
     Manufacturer,
     Category,
     APIResponse,
+    SystemConfig,
 } from '../../src';
 
 test('Data Service', async ({
@@ -85,6 +86,10 @@ test('Data Service', async ({
     expect(variantProducts.length).toEqual(9);
     expect(variantProducts[0].description).toEqual('Variant description');
 
+    const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', true);
+    expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
+    expect(systemConfigEntry.configurationValue).toEqual(true);
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -134,6 +139,10 @@ test('Data Service', async ({
     const { data: databaseCategory } = (await categoryResponse.json()) as { data: Category };
     expect(databaseCategory.id).toBe(category.id);
 
+    const systemConfigEntryResponse = await AdminApiContext.get(`./system-config/${systemConfigEntry.id}?_response=detail`);
+    const { data: databaseSystemConfigEntry } = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
+    expect(databaseSystemConfigEntry.id).toBe(systemConfigEntry.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpResponse = await TestDataService.cleanUp() as APIResponse;
@@ -154,4 +163,5 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['property_group_option']).toBeDefined();
     expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUp['deleted']['cms_page']).toBeDefined();
+    expect(cleanUp['deleted']['system_config']).toBeDefined();
 });
