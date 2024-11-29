@@ -15,15 +15,17 @@ import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
 import { ShippingListing } from './administration/ShippingListing';
+import { ShippingDetail } from './administration/ShippingDetail';
 import { LandingPageCreate } from './administration/LandingPageCreate';
 import { LandingPageDetail } from './administration/LandingPageDetail';
 import { Categories } from './administration/Categories';
-import { RuleDetail } from './administration/RuleDetail';
 import { CustomFieldListing } from './administration/CustomFieldListing';
 import { CustomFieldCreate } from './administration/CustomFieldCreate';
 import { CustomFieldDetail } from './administration/CustomFieldDetail';
 import { CategoryDetail } from './administration/CategoryDetail';
 import { RuleCreate } from './administration/RuleCreate';
+import { RuleDetail } from './administration/RuleDetail';
+import { RuleListing } from './administration/RuleListing';
 import { ManufacturerCreate } from './administration/ManufacturerCreate';
 import { ManufacturerListing } from './administration/ManufacturerListing';
 import { ManufacturerDetail } from './administration/ManufacturerDetail';
@@ -46,15 +48,17 @@ export interface AdministrationPageTypes {
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
     AdminShippingListing: ShippingListing;
+    AdminShippingDetail: ShippingDetail;
     AdminCategories: Categories;
     AdminCategoryDetail: CategoryDetail;
     AdminLandingPageCreate: LandingPageCreate;
     AdminLandingPageDetail: LandingPageDetail;
-    AdminRuleDetail: RuleDetail;
-    AdminRuleCreate: RuleCreate;
     AdminCustomFieldListing: CustomFieldListing;
     AdminCustomFieldCreate: CustomFieldCreate;
     AdminCustomFieldDetail: CustomFieldDetail;
+    AdminRuleDetail: RuleDetail;
+    AdminRuleCreate: RuleCreate;
+    AdminRuleListing: RuleListing;
     AdminManufacturerCreate: ManufacturerCreate,
     AdminManufacturerListing: ManufacturerListing,
     AdminManufacturerDetail: ManufacturerDetail,
@@ -78,15 +82,17 @@ export const AdminPageObjects = {
     Dashboard,
     DataSharing,
     ShippingListing,
+    ShippingDetail,
     Categories,
     CategoryDetail,
     LandingPageCreate,
     LandingPageDetail,
-    RuleDetail,
-    RuleCreate,
     CustomFieldListing,
     CustomFieldCreate,
     CustomFieldDetail,
+    RuleCreate,
+    RuleDetail,
+    RuleListing,
     ManufacturerCreate,
     ManufacturerDetail,
     ManufacturerListing,
@@ -153,6 +159,10 @@ export const test = base.extend<FixtureTypes>({
         await use(new ShippingListing(AdminPage));
     },
 
+    AdminShippingDetail: async ({ AdminPage }, use) => {
+        await use(new ShippingDetail(AdminPage));
+    },
+
     AdminCategories: async ({ AdminPage }, use) => {
         await use(new Categories(AdminPage));
     },
@@ -169,14 +179,6 @@ export const test = base.extend<FixtureTypes>({
         await use(new LandingPageCreate(AdminPage));
     },
 
-    AdminRuleDetail: async ({ AdminPage }, use) => {
-        await use(new RuleDetail(AdminPage));
-    },
-
-    AdminRuleCreate: async ({ AdminPage }, use) => {
-        await use(new RuleCreate(AdminPage));
-    },
-
     AdminCustomFieldListing: async ({ AdminPage }, use) => {
         await use(new CustomFieldListing(AdminPage));
     },
@@ -187,6 +189,18 @@ export const test = base.extend<FixtureTypes>({
 
     AdminCustomFieldDetail: async ({ AdminPage }, use) => {
         await use(new CustomFieldDetail(AdminPage));
+    },
+
+    AdminRuleCreate: async ({ AdminPage }, use) => {
+        await use(new RuleCreate(AdminPage));
+    },
+
+    AdminRuleDetail: async ({ AdminPage }, use) => {
+        await use(new RuleDetail(AdminPage));
+    },
+
+    AdminRuleListing: async ({ AdminPage }, use) => {
+        await use(new RuleListing(AdminPage));
     },
 
     AdminManufacturerListing: async ({ AdminPage }, use) => {

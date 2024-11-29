@@ -6,6 +6,7 @@ import { CreateLinkTypeCategory } from './shop-admin/Category/CreateLinkTypeCate
 import { SetSystemConfigValues } from './shop-admin/Settings/SetSystemConfigValues';
 import { BulkEditProducts } from './shop-admin/Product/BulkEditProducts';
 import { BulkEditCustomers } from './shop-admin/Customers/BulkEditCustomers';
+import { AssignEntityToRule } from './shop-admin/Rule/AssignEntityToRule';
 
 export const test = mergeTests(
     SaveProduct,
@@ -14,4 +15,5 @@ export const test = mergeTests(
     SetSystemConfigValues,
     BulkEditProducts,
     BulkEditCustomers,
+    AssignEntityToRule,
 );
