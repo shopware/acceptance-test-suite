@@ -1,13 +1,13 @@
-import { test, expect } from '../src/index';
+import { test, expect } from '../src';
 
 test('Verify sign-up email', { tag: '@Email' }, async ({
+    IdProvider,
+    MailpitApiContext,
+    InstanceMeta,
+    TestDataService,
     ShopCustomer,
     StorefrontAccountLogin,
-    StorefrontAccount, IdProvider,
-    page,
-    MailpitApiContext,
-    TestDataService,
-    InstanceMeta,
+    StorefrontAccount,
 }) => {
     // eslint-disable-next-line playwright/no-skipped-test
     test.skip(InstanceMeta.isSaaS, 'Skipping test because it requires a local mailpit instance.');
@@ -25,14 +25,15 @@ test('Verify sign-up email', { tag: '@Email' }, async ({
     // Create email page
     const emailContent = await MailpitApiContext.generateEmailContent(email);
     const url = 'http://email';
-    await page.route(url, route => {
-        route.fulfill({ body: emailContent })
-    })
+    const emailVerificationPage = StorefrontAccount.page;
+    await emailVerificationPage.route(url, route => {
+        route.fulfill({ body: emailContent });
+    });
 
     // Verify email content
-    await page.goto(url);
-    await expect(page.locator('#from')).toContainText('doNotReply@localhost.com');
-    await expect(page.locator('#to')).toContainText(email);
-    await expect(page.locator('#subject')).toContainText('Your sign-up');
-    await expect(page.locator('p').last()).toContainText(email);
+    await emailVerificationPage.goto(url);
+    await expect(emailVerificationPage.locator('#from')).toContainText('doNotReply@localhost.com');
+    await expect(emailVerificationPage.locator('#to')).toContainText(email);
+    await expect(emailVerificationPage.locator('#subject')).toContainText('Your sign-up');
+    await expect(emailVerificationPage.locator('p').last()).toContainText(email);
 });
