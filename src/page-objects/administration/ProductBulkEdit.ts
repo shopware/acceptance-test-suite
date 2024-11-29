@@ -56,6 +56,7 @@ export class ProductBulkEdit implements PageObject {
      */
     public readonly confirmModal: Locator;
     public readonly confirmModalApplyChangesButton: Locator;
+    public readonly confirmModalLoadingSpinner: Locator;
     public readonly confirmModalSuccessHeader: Locator;
     public readonly confirmModalSuccessCloseButton: Locator;
 
@@ -115,6 +116,7 @@ export class ProductBulkEdit implements PageObject {
 
         this.confirmModal = page.locator('.sw-bulk-edit-save-modal');
         this.confirmModalApplyChangesButton = this.confirmModal.getByRole('button', {name: 'Apply changes'});
+        this.confirmModalLoadingSpinner = this.confirmModal.locator('.sw-bulk-edit-save-modal__loading-icon');
         this.confirmModalSuccessHeader = this.confirmModal.getByRole('heading', {name: 'Bulk edit - Success'});
         
         // There are two close buttons, the button itself and the X, we use the X here

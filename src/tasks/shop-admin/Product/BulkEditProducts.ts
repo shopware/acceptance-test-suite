@@ -113,6 +113,8 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
 
                 await AdminProductBulkEdit.applyChangesButton.click();
                 await AdminProductBulkEdit.confirmModalApplyChangesButton.click();
+                await AdminProductBulkEdit.confirmModalLoadingSpinner.waitFor( { state: 'visible' } );
+                await AdminProductBulkEdit.confirmModalLoadingSpinner.waitFor( { state: 'hidden' } );
                 await expect(AdminProductBulkEdit.confirmModalSuccessHeader).toBeVisible();
                 await AdminProductBulkEdit.confirmModalSuccessCloseButton.click();
             };
