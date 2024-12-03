@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [5.5.0](https://github.com/shopware/acceptance-test-suite/compare/v5.4.0...v5.5.0) (2024-12-03)
+
+
+### Features
+
+* split test into several test files ([#191](https://github.com/shopware/acceptance-test-suite/issues/191)) ([6654c0c](https://github.com/shopware/acceptance-test-suite/commit/6654c0c181356fd10c041c6ad1d33b5d58708316))
+* system config service in TestDataService and page object improvements ([#196](https://github.com/shopware/acceptance-test-suite/issues/196)) ([5274819](https://github.com/shopware/acceptance-test-suite/commit/5274819629f54051970601b62592dc75c9500173))
+
+
+### Bug Fixes
+
+* move and stabilize CreateLinkTypeCategory task ([#197](https://github.com/shopware/acceptance-test-suite/issues/197)) ([8117273](https://github.com/shopware/acceptance-test-suite/commit/811727333a48bb51cb01671ccf7af5e102849f1d))
+* selector in variant generation test ([6482fea](https://github.com/shopware/acceptance-test-suite/commit/6482feabe5e2f96e621c627707acc7e99288c264))
+
 ## [5.4.0](https://github.com/shopware/acceptance-test-suite/compare/v5.3.0...v5.4.0) (2024-11-26)
 
 
