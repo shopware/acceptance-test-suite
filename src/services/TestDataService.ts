@@ -101,7 +101,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
 
     /**
      * A registry of all created records.
@@ -971,7 +971,7 @@ export class TestDataService {
 
     /**
      * Creates a new domain for a sales channel.
-     * 
+     *
      * @param overrides - Specific data overrides that will be applied to the sales channel domain data struct.
      */
     async createSalesChannelDomain(overrides: Partial<SalesChannelDomain> = {}): Promise<SalesChannelDomain>  {
@@ -1260,7 +1260,7 @@ export class TestDataService {
 
         return salesChannel;
     }
-    
+
     /**
      * Assigns a language to a sales channel.
      *
@@ -2555,7 +2555,7 @@ export class TestDataService {
     }
 
     getSalesChannelDomainStruct(
-        salesChannelId: string, 
+        salesChannelId: string,
         currencyId: string,
         languageId: string,
         snippetSetId: string,
@@ -2567,7 +2567,7 @@ export class TestDataService {
 
         const basicSalesChannelDomain = {
             url: baseUrl,
-            salesChannelId: salesChannelId, 
+            salesChannelId: salesChannelId,
             currencyId: currencyId,
             languageId: languageId,
             snippetSetId: snippetSetId,

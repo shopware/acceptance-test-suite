@@ -1,14 +1,8 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { RuleCreate } from './RuleCreate';
 
-export class RuleDetail implements PageObject {
-
-    // General tab
-    public readonly nameInput: Locator;
-    public readonly priorityInput: Locator;
-    public readonly conditionTypeSelectionInput: Locator;
-    public readonly conditionValueSelectionInput: Locator;
-    public readonly filtersResultPopoverSelectionList: Locator;
+export class RuleDetail extends RuleCreate implements PageObject {
 
     // Assignments tab
     public readonly shippingMethodCard: Locator;
@@ -19,11 +13,7 @@ export class RuleDetail implements PageObject {
     public readonly promotionCartRuleCard: Locator;
 
     constructor(public readonly page: Page) {
-        this.nameInput = page.getByLabel('Name');
-        this.priorityInput = page.getByLabel('Priority');
-        this.conditionTypeSelectionInput = page.locator('.sw-condition-type-select').locator('.sw-single-select__selection');
-        this.conditionValueSelectionInput = page.locator('.sw-condition__value-content').locator('.sw-entity-single-select__selection');
-        this.filtersResultPopoverSelectionList = page.locator('.sw-select-result-list__content').getByRole('listitem');
+        super(page);
         this.shippingMethodCard = page.locator('.sw-settings-rule-detail-assignments__card-shipping_method_availability_rule');
         this.taxProviderCard = page.locator('.sw-settings-rule-detail-assignments__card-tax_provider');
         this.paymentMethodCard = page.locator('.sw-settings-rule-detail-assignments__card-payment_method');
@@ -38,7 +28,7 @@ export class RuleDetail implements PageObject {
         }
     }
 
-    url(ruleId: string, tabName = 'base') {
+    url(ruleId?: string, tabName = 'base') {
         return `#/sw/settings/rule/detail/${ruleId}/${tabName}`
     }
 
