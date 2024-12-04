@@ -86,9 +86,9 @@ test('Data Service', async ({
     expect(variantProducts.length).toEqual(9);
     expect(variantProducts[0].description).toEqual('Variant description');
 
-    const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', true);
+    const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', {_value: true});
     expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
-    expect(systemConfigEntry.configurationValue).toEqual(true);
+    expect(systemConfigEntry.configurationValue).toEqual({_value: true});
 
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
