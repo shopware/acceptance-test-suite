@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [6.0.0](https://github.com/shopware/acceptance-test-suite/compare/v5.5.0...v6.0.0) (2024-12-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* NEXT-39858 - make settings menu more accesible
+
+### Bug Fixes
+
+* add additional page objects properties to storefront home ([#199](https://github.com/shopware/acceptance-test-suite/issues/199)) ([99b74a9](https://github.com/shopware/acceptance-test-suite/commit/99b74a9c8f77cc5579f2a172b0e8bf7ad40c890c))
+* NEXT-39858 - make settings menu more accesible ([67c2f35](https://github.com/shopware/acceptance-test-suite/commit/67c2f35172653b5125f3db594b099938d98ff423))
+
 ## [5.5.0](https://github.com/shopware/acceptance-test-suite/compare/v5.4.0...v5.5.0) (2024-12-03)
 
 
