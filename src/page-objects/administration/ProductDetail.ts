@@ -61,7 +61,7 @@ export class ProductDetail implements PageObject {
         this.coverImage = page.locator('.sw-product-media-form__cover-image');
         this.productImage = page.locator('.sw-media-preview-v2__item');
 
-        this.variantsTabLink = page.getByRole('link', { name: 'Variants' });
+        this.variantsTabLink = page.getByRole('tab', { name: 'Variants' });
 
         this.generateVariantsButton = page.getByRole('button', { name: 'Generate variants' });
         this.variantsModal = page.getByRole('dialog', { name: 'Generate variants' });
@@ -80,7 +80,7 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeMedium = this.propertyOptionGrid.getByLabel('Medium');
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
 
-        this.specificationsTabLink = page.getByRole('link', { name: 'Specifications' });
+        this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
         this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
     }
 

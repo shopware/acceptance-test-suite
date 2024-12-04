@@ -39,7 +39,7 @@ export class LandingPageDetail implements PageObject {
         this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
         this.seoUrlInput = page.getByLabel('SEO URL');
         //Layout
-        this.layoutTab = page.getByRole('link', {name: 'Layout'});
+        this.layoutTab = page.getByRole('tab', {name: 'Layout'});
         this.changeLayoutButton = page.getByRole('button', {name: 'Change layout'});
         this.editInDesignerButton = page.getByRole('button', {name: 'Edit in designer'});
         const layoutAssignmentCard = page.locator('.sw-category-layout-card');
