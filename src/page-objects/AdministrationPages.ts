@@ -90,7 +90,7 @@ export const AdminPageObjects = {
     ManufacturerDetail,
     ManufacturerListing,
     ProductListing,
-    ProductBulkEdit
+    ProductBulkEdit,
 }
 
 export const test = base.extend<FixtureTypes>({
