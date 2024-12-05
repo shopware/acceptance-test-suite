@@ -32,7 +32,7 @@ export interface ProductPrice {
     quantityEnd: number | null;
 }
 
-export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options'> & {
+export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options' | 'tags' | 'visibilities' > & {
     id: string,
     price: Price[],
     prices?: ProductPrice[],
@@ -40,6 +40,8 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' 
         name: string,
     }
     options?: Record<string, string>[],
+    tags?: Record<string, string>[], 
+    visibilities?: Record<string, unknown>[],
 }
 
 export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts'> & {
@@ -71,7 +73,7 @@ export type Media = components['schemas']['Media'] & {
 }
 
 export type Tag = components['schemas']['Tag'] & {
-    id: string,
+    id: string;
 };
 
 export type Rule = components['schemas']['Rule'] & {
