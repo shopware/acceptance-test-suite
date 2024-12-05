@@ -877,6 +877,8 @@ export class TestDataService {
 
         this.addCreatedRecord('system_config', systemConfigEntry.id);
 
+        await this.clearCaches();
+
         return systemConfigEntry;
     }
 
@@ -2233,6 +2235,10 @@ export class TestDataService {
 
         };
         return Object.assign({}, basicCustomerGroup, overrides);
+    }
+
+    async clearCaches() {
+        await this.AdminApiClient.delete('_action/cache');
     }
 
 }
