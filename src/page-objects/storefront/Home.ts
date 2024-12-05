@@ -17,6 +17,7 @@ export class Home implements PageObject {
     public readonly consentDialogAcceptAllCookiesButton: Locator;
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
+    public readonly offcanvasBackdrop: Locator;
 
     constructor(public readonly page: Page) {
         this.productImages = page.locator('.product-image-link');
@@ -33,6 +34,7 @@ export class Home implements PageObject {
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Technically required' });
         this.consentDialogSaveButton = this.consentDialog.getByRole('button', { name: 'Save' });
         this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', { name: 'Accept all cookies' });
+        this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
 
     }
 
