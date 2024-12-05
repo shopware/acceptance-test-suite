@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [8.0.0](https://github.com/shopware/acceptance-test-suite/compare/v7.0.0...v8.0.0) (2024-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Next-39285 - Remove account type selection from registration ([#206](https://github.com/shopware/acceptance-test-suite/issues/206))
+
+### Features
+
+* Next-39285 - Remove account type selection from registration ([#206](https://github.com/shopware/acceptance-test-suite/issues/206)) ([d233452](https://github.com/shopware/acceptance-test-suite/commit/d23345247b33272d9df30e52aa1d2e78c54da353))
+
+
+### Bug Fixes
+
+* add offcanvas backdrop property to home page object ([#207](https://github.com/shopware/acceptance-test-suite/issues/207)) ([e51ad51](https://github.com/shopware/acceptance-test-suite/commit/e51ad51107eda4a4b91b27caae04a97f9af72e8e))
+
 ## [7.0.0](https://github.com/shopware/acceptance-test-suite/compare/v6.0.0...v7.0.0) (2024-12-05)
 
 
