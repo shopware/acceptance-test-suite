@@ -8,5 +8,8 @@ import { BulkEditProducts } from './shop-admin/Product/BulkEditProducts';
 
 export const test = mergeTests(
     SaveProduct,
-    ExpectNotification
+    ExpectNotification,
+    CreateLinkTypeCategory,
+    SetSystemConfigValues,
+    BulkEditProducts,
 );
