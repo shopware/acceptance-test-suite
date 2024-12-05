@@ -25,6 +25,9 @@ import type {
     PropertyGroupOption,
     DeliveryTime,
     CmsPage,
+    Country,
+    CustomerGroup,
+    SystemConfig,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -88,7 +91,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product'];
+    private highPriorityEntities = ['order', 'product', 'landing_page'];
 
     /**
      * A registry of all created records.
@@ -225,6 +228,64 @@ export class TestDataService {
         const productOverrides = Object.assign({}, priceRange, overrides);
 
         return this.createBasicProduct(productOverrides, taxId, currencyId);
+    }
+
+    /**
+     * Creates basic variant products based on property group.
+     *
+     * @param parentProduct Parent product of the variants
+     * @param propertyGroups Property group collection which contain options
+     * @param overrides - Specific data overrides that will be applied to the variant data struct.
+     */
+    async createVariantProducts(
+        parentProduct: Product,
+        propertyGroups: PropertyGroup[],
+        overrides: Partial<Product> = {},
+    ): Promise<Product[]> {
+
+        const productVariantCandidates: Record<string, string>[][] = [];
+
+        for (const propertyGroup of propertyGroups) {
+            const propertyGroupOptions = await this.getPropertyGroupOptions(propertyGroup.id);
+            const propertyGroupOptionsCollection: Record<string, string>[] = [];
+            for (const propertyGroupOption of propertyGroupOptions) {
+                propertyGroupOptionsCollection.push({ id: propertyGroupOption.id })
+
+                const productConfiguratorResponse = await this.AdminApiClient.post('product-configurator-setting?_response=detail', {
+                    data: {
+                        id: this.IdProvider.getIdPair().uuid,
+                        productId: parentProduct.id,
+                        optionId: propertyGroupOption.id,
+                    },
+                });
+                expect(productConfiguratorResponse.ok()).toBeTruthy();
+            }
+            productVariantCandidates.push(propertyGroupOptionsCollection);
+        }
+
+        const productVariantCombinations = this.combineAll(productVariantCandidates);
+        const variantProducts: Product[] = [];
+        let index = 1;
+
+        for (const productVariantCombination of productVariantCombinations) {
+            const variantOverrides = {
+                parentId: parentProduct.id,
+                productNumber: parentProduct.productNumber + '.' + index,
+                options: productVariantCombination,
+            };
+
+            const overrideCollection = Object.assign({}, overrides, variantOverrides);
+            variantProducts.push(await this.createBasicProduct(overrideCollection));
+            index++;
+        }
+
+        await this.AdminApiClient.post('_action/indexing/product.indexer?_response=detail', {
+            data: {
+                offset: 0,
+            },
+        });
+
+        return variantProducts;
     }
 
     /**
@@ -612,6 +673,68 @@ export class TestDataService {
     }
 
     /**
+     * Creates a payment method with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     */
+    async createPaymentMethodWithImage(
+        overrides: Partial<PaymentMethod> = {},
+    ): Promise<PaymentMethod> {
+
+        const paymentMethod = await this.createBasicPaymentMethod(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignPaymentMethodMedia(paymentMethod.id, media.id);
+
+        return paymentMethod;
+    }
+
+    /**
+     * Creates a new basic shipping method with random delivery time.
+     *
+     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
+     */
+    async createBasicShippingMethod(
+        overrides: Partial<ShippingMethod> = {},
+    ): Promise<ShippingMethod> {
+        const deliveryTime = await this.getAllDeliveryTimeResources()
+
+        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id
+        const basicShippingMethod = this.getBasicShippingMethodStruct(
+            deliveryTime[0].id,
+            overrides
+        );
+
+        const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
+            data: basicShippingMethod,
+        });
+        expect(shippingMethodResponse.ok()).toBeTruthy();
+
+        const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
+
+        this.addCreatedRecord('shipping_method', shippingMethod.id);
+
+        return shippingMethod;
+    }
+
+    /**
+     * Creates a shipping method with one randomly generated image.
+     *
+     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
+     */
+    async createShippingMethodWithImage(
+        overrides: Partial<ShippingMethod> = {},
+    ): Promise<ShippingMethod> {
+
+        const shippingMethod = await this.createBasicShippingMethod(overrides);
+        const media = await this.createMediaPNG();
+
+        await this.assignShippingMethodMedia(shippingMethod.id, media.id);
+
+        return shippingMethod;
+    }
+
+    /**
      * Creates a new basic rule with the condition cart amount >= 1.
      *
      * @param overrides - Specific data overrides that will be applied to the payment method data struct.
@@ -659,165 +782,104 @@ export class TestDataService {
     }
 
     /**
-     * Creates a payment method with one randomly generated image.
+     * Creates a random country
      *
-     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     * @param overrides - Specific data overrides that will be applied to the country data struct.
      */
-    async createPaymentMethodWithImage(
-        overrides: Partial<PaymentMethod> = {},
-    ): Promise<PaymentMethod> {
+    async createCountry(
+        overrides: Partial<Country> = {},
+    ): Promise<Country> {
+        const basicCountry = this.getCountryStruct(overrides);
 
-        const paymentMethod = await this.createBasicPaymentMethod(overrides);
-        const media = await this.createMediaPNG();
+        const countryResponse = await this.AdminApiClient.post('country?_response=detail', {
+            data: basicCountry,
+        });
+        expect(countryResponse.ok()).toBeTruthy();
 
-        await this.assignPaymentMethodMedia(paymentMethod.id, media.id);
+        const { data: country } = (await countryResponse.json()) as { data: Country };
 
-        return paymentMethod;
+        this.addCreatedRecord('country', country.id);
+
+        return country;
     }
 
     /**
-     * Creates basic variant products based on property group.
+     * Creates a random currency with default rounding of 2 decimals
      *
-     * @param parentProduct Parent product of the variants
-     * @param propertyGroups Property group collection which contain options
-     * @param overrides - Specific data overrides that will be applied to the variant data struct.
+     * @param roundingDecimals - Decimals of the rounding shown in Storefront, default value 2
+     * @param overrides - Specific data overrides that will be applied to the currency data struct.
      */
-    async createVariantProducts(
-        parentProduct: Product,
-        propertyGroups: PropertyGroup[],
-        overrides: Partial<Product> = {},
-    ): Promise<Product[]> {
+    async createCurrency(
+        overrides: Partial<Currency> = {},
+        roundingDecimals = 2,
+    ): Promise<Currency> {
+        const basicCurrency = this.getCurrencyStruct(overrides, roundingDecimals);
 
-        const productVariantCandidates: Record<string, string>[][] = [];
+        const currencyResponse = await this.AdminApiClient.post('currency?_response=detail', {
+            data: basicCurrency,
+        });
+        expect(currencyResponse.ok()).toBeTruthy();
 
-        for (const propertyGroup of propertyGroups) {
-            const propertyGroupOptions = await this.getPropertyGroupOptions(propertyGroup.id);
-            const propertyGroupOptionsCollection: Record<string, string>[] = [];
-            for (const propertyGroupOption of propertyGroupOptions) {
-                propertyGroupOptionsCollection.push({ id: propertyGroupOption.id })
+        const { data: currency } = (await currencyResponse.json()) as { data: Currency };
 
-                const productConfiguratorResponse = await this.AdminApiClient.post('product-configurator-setting?_response=detail', {
-                    data: {
-                        id: this.IdProvider.getIdPair().uuid,
-                        productId: parentProduct.id,
-                        optionId: propertyGroupOption.id,
-                    },
-                });
-                expect(productConfiguratorResponse.ok()).toBeTruthy();
-            }
-            productVariantCandidates.push(propertyGroupOptionsCollection);
+        this.addCreatedRecord('currency', currency.id);
+
+        return currency;
+    }
+
+    /**
+     * Creates a random customer group
+     *
+     * @param overrides - Specific data overrides that will be applied to the customer group data struct.
+     */
+    async createCustomerGroup(overrides: Partial<CustomerGroup> = {}): Promise<CustomerGroup> {
+        
+        const basicCustomerGroup = this.getBasicCustomerGroupStruct(overrides);
+
+        const response = await this.AdminApiClient.post('customer-group?_response=detail', {
+            data: basicCustomerGroup,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customerGroup } = (await response.json()) as { data: CustomerGroup };
+
+        this.addCreatedRecord('customer_group', customerGroup.id);
+
+        return customerGroup;
+    }
+
+    /**
+     * Creates a system config entry
+     *
+     * @param configurationKey - Config key for shop configurations.
+     * @param configurationValue - Config value as object for shop configurations (see {@link https://shopware.stoplight.io/docs/admin-api/9174d032146f8-create-a-new-system-config-resources|AdminApi Stoplight}).
+     * @param salesChannelId - Unique identity of sales channel.
+     */
+    async createSystemConfigEntry(
+        configurationKey: string,
+        configurationValue = {},
+        salesChannelId = '',
+    ): Promise<SystemConfig> {
+
+        const systemConfigStruct = {
+            id: this.IdProvider.getIdPair().uuid,
+            configurationKey: configurationKey,
+            configurationValue: configurationValue,
+            salesChannelId: salesChannelId || null,
         }
 
-        const productVariantCombinations = this.combineAll(productVariantCandidates);
-        const variantProducts: Product[] = [];
-        let index = 1;
-
-        for (const productVariantCombination of productVariantCombinations) {
-            const variantOverrides = {
-                parentId: parentProduct.id,
-                productNumber: parentProduct.productNumber + '.' + index,
-                options: productVariantCombination,
-            };
-
-            const overrideCollection = Object.assign({}, overrides, variantOverrides);
-            variantProducts.push(await this.createBasicProduct(overrideCollection));
-            index++;
-        }
-
-        await this.AdminApiClient.post('_action/indexing/product.indexer?_response=detail', {
-            data: {
-                offset: 0,
-            },
+        const response = await this.AdminApiClient.post('system-config?_response=detail', {
+            data: systemConfigStruct,
         });
+        expect(response.ok()).toBeTruthy();
 
-        return variantProducts;
-    }
+        const { data: systemConfigEntry } = (await response.json()) as { data: SystemConfig };
 
-    /**
-     * Creates a shipping method with one randomly generated image.
-     *
-     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
-     */
-    async createShippingMethodWithImage(
-        overrides: Partial<ShippingMethod> = {},
-    ): Promise<ShippingMethod> {
+        this.addCreatedRecord('system_config', systemConfigEntry.id);
 
-        const shippingMethod = await this.createBasicShippingMethod(overrides);
-        const media = await this.createMediaPNG();
+        await this.clearCaches();
 
-        await this.assignShippingMethodMedia(shippingMethod.id, media.id);
-
-        return shippingMethod;
-    }
-
-    /**
-     * Creates a new basic shipping method with random delivery time.
-     *
-     * @param overrides - Specific data overrides that will be applied to the shipping method data struct.
-     */
-    async createBasicShippingMethod(
-        overrides: Partial<ShippingMethod> = {},
-    ): Promise<ShippingMethod> {
-        const deliveryTime = await this.getAllDeliveryTimeResources()
-
-        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id
-        const basicShippingMethod = this.getBasicShippingMethodStruct(
-            deliveryTime[0].id,
-            overrides
-        );
-
-        const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
-            data: basicShippingMethod,
-        });
-        expect(shippingMethodResponse.ok()).toBeTruthy();
-
-        const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
-
-        this.addCreatedRecord('shipping_method', shippingMethod.id);
-
-        return shippingMethod;
-    }
-
-    /**
-     * Function that generates combinations from n number of arrays
-     * with m number of elements in them.
-     * @param array
-     */
-    combineAll = (array: Record<string, string>[][]) => {
-        const result: Record<string, string>[][] = [];
-        const max = array.length - 1;
-        const helper = (tmpArray: Record<string, string>[], i: number) => {
-            for (let j = 0, l = array[i].length; j < l; j++) {
-                const copy = tmpArray.slice(0);
-                copy.push(array[i][j]);
-                if (i == max)
-                    result.push(copy);
-                else
-                    helper(copy, i + 1);
-            }
-        };
-        helper([], 0);
-        return result;
-    };
-
-    /**
-     * Assigns a media resource to a payment method as a logo.
-     *
-     * @param paymentMethodId - The uuid of the payment method.
-     * @param mediaId - The uuid of the media resource.
-     */
-    async assignPaymentMethodMedia(paymentMethodId: string, mediaId: string) {
-
-        const paymentMethodResponse = await this.AdminApiClient.patch(`payment-method/${paymentMethodId}?_response=basic`, {
-            data: {
-                mediaId: mediaId,
-            },
-        });
-        expect(paymentMethodResponse.ok()).toBeTruthy();
-
-        const { data: paymentMethodMedia } = await paymentMethodResponse.json();
-
-        return paymentMethodMedia;
+        return systemConfigEntry;
     }
 
     /**
@@ -872,38 +934,59 @@ export class TestDataService {
     }
 
     /**
-     * Assigns a media resource to a manufacturer as a logo.
-     *
-     * @param manufacturerId - The uuid of the manufacturer.
-     * @param mediaId - The uuid of the media resource.
-     */
-    async assignManufacturerMedia(manufacturerId: string, mediaId: string) {
-
-        const mediaResponse = await this.AdminApiClient.patch(`product-manufacturer/${manufacturerId}?_response=basic`, {
-            data: {
-                mediaId: mediaId,
-            },
-        });
-        expect(mediaResponse.ok()).toBeTruthy();
-
-        const { data: manufacturerMedia } = await mediaResponse.json();
-
-        return manufacturerMedia;
-    }
-
-    /**
      * Assigns a manufacturer to a product.
      *
-     * @param manufacturerId - The uuid of the manufacturer.
      * @param productId - The uuid of the product.
+     * @param manufacturerId - The uuid of the manufacturer.
      */
-    async assignManufacturerProduct(manufacturerId: string, productId: string) {
-
+    async assignProductManufacturer(productId: string, manufacturerId: string) {
         await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 manufacturerId: manufacturerId,
             },
         });
+    }
+
+    /**
+     * Assigns a country to a currency with default roundings of 2.
+     *
+     * @param currencyId - The uuid of currency.
+     * @param countryId - The uuid of country.
+     * @param roundingDecimals - The roundings of item and total values in storefront, default 2 decimals
+     */
+    async assignCurrencyCountryRounding(currencyId: string, countryId: string, roundingDecimals = 2) {
+
+        const syncCurrencyCountryRoundingResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-currency-country-rounding': {
+                    entity: 'currency_country_rounding',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            id: this.IdProvider.getIdPair().uuid,
+                            currencyId: currencyId,
+                            countryId: countryId,
+                            itemRounding: {
+                                decimals: roundingDecimals,
+                                interval: 0.01,
+                                roundForNet: true,
+                            },
+                            totalRounding: {
+                                decimals: roundingDecimals,
+                                interval: 0.01,
+                                roundForNet: true,
+                            },
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncCurrencyCountryRoundingResponse.ok()).toBeTruthy();
+
+        const { data: currencyCountry } = await syncCurrencyCountryRoundingResponse.json();
+
+        return currencyCountry;
+
     }
 
     /**
@@ -938,6 +1021,136 @@ export class TestDataService {
                 }],
             },
         });
+    }
+
+    /**
+     * Assigns a media resource to a manufacturer as a logo.
+     *
+     * @param manufacturerId - The uuid of the manufacturer.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignManufacturerMedia(manufacturerId: string, mediaId: string) {
+
+        const mediaResponse = await this.AdminApiClient.patch(`product-manufacturer/${manufacturerId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+        expect(mediaResponse.ok()).toBeTruthy();
+
+        const { data: manufacturerMedia } = await mediaResponse.json();
+
+        return manufacturerMedia;
+    }
+
+    /**
+     * Assigns a manufacturer to a product.
+     *
+     * @deprecated - Use `assignProductManufacturer` instead.
+     *
+     * @param manufacturerId - The uuid of the manufacturer.
+     * @param productId - The uuid of the product.
+     */
+    async assignManufacturerProduct(manufacturerId: string, productId: string) {
+        await this.assignProductManufacturer(productId, manufacturerId);
+    }
+
+    /**
+     * Assigns a currency to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param currencyId - The uuid of the currency.
+     */
+    async assignSalesChannelCurrency(salesChannelId: string, currencyId: string) {
+
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel': {
+                    entity: 'sales_channel',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            id: salesChannelId,
+                            currencies: [{ id: currencyId }],
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        return salesChannel;
+    }
+
+    /**
+     * Assigns a country to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param countryId - The uuid of the country.
+     */
+    async assignSalesChannelCountry(salesChannelId: string, countryId: string) {
+
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel': {
+                    entity: 'sales_channel',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            id: salesChannelId,
+                            countries: [{ id: countryId }],
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        return salesChannel;
+    }
+
+    /**
+     * Assigns a media resource to a payment method as a logo.
+     *
+     * @param paymentMethodId - The uuid of the payment method.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignPaymentMethodMedia(paymentMethodId: string, mediaId: string) {
+
+        const paymentMethodResponse = await this.AdminApiClient.patch(`payment-method/${paymentMethodId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+        expect(paymentMethodResponse.ok()).toBeTruthy();
+
+        const { data: paymentMethodMedia } = await paymentMethodResponse.json();
+
+        return paymentMethodMedia;
+    }
+
+    /**
+     * Assigns a media resource to a shipping method as a logo.
+     *
+     * @param shippingMethodId - The uuid of the shipping method.
+     * @param mediaId - The uuid of the media resource.
+     */
+    async assignShippingMethodMedia(shippingMethodId: string, mediaId: string) {
+
+        const shippingMethodResponse = await this.AdminApiClient.patch(`shipping-method/${shippingMethodId}?_response=basic`, {
+            data: {
+                mediaId: mediaId,
+            },
+        });
+        expect(shippingMethodResponse.ok()).toBeTruthy();
+
+        const { data: shippingMethodMedia } = await shippingMethodResponse.json();
+
+        return shippingMethodMedia;
     }
 
     /**
@@ -1007,26 +1220,6 @@ export class TestDataService {
         const { data: result } = (await response.json()) as { data: ShippingMethod[] };
 
         return result[0];
-    }
-
-    /**
-     * Assigns a media resource to a shipping method as a logo.
-     *
-     * @param shippingMethodId - The uuid of the shipping method.
-     * @param mediaId - The uuid of the media resource.
-     */
-    async assignShippingMethodMedia(shippingMethodId: string, mediaId: string) {
-
-        const shippingMethodResponse = await this.AdminApiClient.patch(`shipping-method/${shippingMethodId}?_response=basic`, {
-            data: {
-                mediaId: mediaId,
-            },
-        });
-        expect(shippingMethodResponse.ok()).toBeTruthy();
-
-        const { data: shippingMethodMedia } = await shippingMethodResponse.json();
-
-        return shippingMethodMedia;
     }
 
     /**
@@ -1276,6 +1469,14 @@ export class TestDataService {
         });
     }
 
+    isProduct(item: Product | Promotion): item is Product {
+        return (item as Product).productNumber !== undefined;
+    }
+
+    isPromotion(item: Product | Promotion): item is Promotion {
+        return (item as Promotion).code !== undefined;
+    }
+
     /**
      * Convert a JS date object into a date-time compatible string.
      *
@@ -1283,6 +1484,98 @@ export class TestDataService {
      */
     convertDateTime(date: Date) {
         return date.toISOString().slice(0, 19).replace('T', ' ');
+    }
+
+    /**
+     * Function that generates combinations from n number of arrays
+     * with m number of elements in them.
+     * @param array
+     */
+    combineAll = (array: Record<string, string>[][]) => {
+        const result: Record<string, string>[][] = [];
+        const max = array.length - 1;
+        const helper = (tmpArray: Record<string, string>[], i: number) => {
+            for (let j = 0, l = array[i].length; j < l; j++) {
+                const copy = tmpArray.slice(0);
+                copy.push(array[i][j]);
+                if (i == max)
+                    result.push(copy);
+                else
+                    helper(copy, i + 1);
+            }
+        };
+        helper([], 0);
+        return result;
+    };
+
+    /**
+     * Retrieves a country Id based on its iso2 code.
+     *
+     * @param iso2 - The iso2 code of the country, for example "DE".
+     */
+    async getCountryId(iso2: string): Promise<Country> {
+        const countryResponse = await this.AdminApiClient.post('search/country', {
+            data: {
+                limit: 1,
+                filter: [{
+                    type: 'equals',
+                    field: 'iso',
+                    value: iso2,
+                }],
+            },
+        });
+
+        const { data: result } = (await countryResponse.json()) as { data: Country[] };
+
+        return result[0];
+    }
+
+    getCountryStruct(
+        overrides: Partial<Country> = {},
+    ): Partial<Country> {
+
+        const { uuid: countryUuid, id: countryId } = this.IdProvider.getIdPair();
+
+        const basicCountry = {
+            id: countryUuid,
+            name: 'Country-'+countryId,
+            iso: ''+countryId.substring(0,2),
+            iso3: ''+countryId.substring(0,3),
+            active: true,
+            shippingAvailable: true,
+        };
+
+        return Object.assign({}, basicCountry, overrides);
+    }
+
+    getCurrencyStruct(
+        overrides: Partial<Currency> = {},
+        roundingDecimals: number,
+    ): Partial<Currency> {
+
+        const { uuid: currencyUuid, id: currencyId } = this.IdProvider.getIdPair();
+
+        const basicCurrency = {
+            id: currencyUuid,
+            name: 'Currency-'+currencyId,
+            shortName: 'CUR'+currencyId,
+            isoCode: ''+currencyId.substring(0,3),
+            symbol: 'C$',
+            factor: 2.40,
+            itemRounding: {
+                decimals: roundingDecimals,
+                interval: 0.01,
+                roundForNet: true,
+            },
+            totalRounding: {
+                decimals: roundingDecimals,
+                interval: 0.01,
+                roundForNet: true,
+            },
+            taxFreeFrom: 0,
+        };
+
+        return Object.assign({}, basicCurrency, overrides);
     }
 
     getBasicProductStruct(
@@ -1614,14 +1907,6 @@ export class TestDataService {
         return Object.assign({}, basicShippingMethod, overrides);
     }
 
-    isProduct(item: Product | Promotion): item is Product {
-        return (item as Product).productNumber !== undefined;
-    }
-
-    isPromotion(item: Product | Promotion): item is Promotion {
-        return (item as Promotion).code !== undefined;
-    }
-
     getBasicOrderStruct(
         lineItems: SimpleLineItem[],
         languageId: string,
@@ -1929,4 +2214,31 @@ export class TestDataService {
 
         return Object.assign({}, basicCmsPage, overrides);
     }
+
+    getBasicCustomerGroupStruct(overrides: Partial<CustomerGroup> = {}): Partial<CustomerGroup> {
+        const customerGroupUuid = this.IdProvider.getIdPair().uuid;
+        const customerGroupName = `${this.namePrefix}CustomerGroup-${customerGroupUuid}${this.nameSuffix}`;
+
+        const basicCustomerGroup = {
+            id: customerGroupUuid,
+            name: customerGroupName,
+            displayGross: true,
+            registrationActive: true,
+            registrationTitle: customerGroupName,
+            registrationIntroduction: `${customerGroupName}-Introduction`,
+            registrationSeoMetaDescription: `${customerGroupName}-SEO-Description`,
+            registrationOnlyCompanyRegistration: false,
+            customFields: {},
+            registrationSalesChannels: [{
+                id: this.defaultSalesChannel.id,
+            }],
+
+        };
+        return Object.assign({}, basicCustomerGroup, overrides);
+    }
+
+    async clearCaches() {
+        await this.AdminApiClient.delete('_action/cache');
+    }
+
 }

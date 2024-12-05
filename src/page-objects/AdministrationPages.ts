@@ -3,7 +3,11 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 
 import { ProductDetail } from './administration/ProductDetail';
 import { OrderDetail } from './administration/OrderDetail';
+import { CustomerListing } from './administration/CustomerListing';
 import { CustomerDetail } from './administration/CustomerDetail';
+import { CustomerGroupListing } from './administration/CustomerGroupListing';
+import { CustomerGroupCreate } from './administration/CustomerGroupCreate';
+import { CustomerGroupDetail } from './administration/CustomerGroupDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
@@ -15,13 +19,25 @@ import { LandingPageCreate } from './administration/LandingPageCreate';
 import { LandingPageDetail } from './administration/LandingPageDetail';
 import { Categories } from './administration/Categories';
 import { RuleDetail } from './administration/RuleDetail';
+import { CustomFieldListing } from './administration/CustomFieldListing';
+import { CustomFieldCreate } from './administration/CustomFieldCreate';
+import { CustomFieldDetail } from './administration/CustomFieldDetail';
+import { CategoryDetail } from './administration/CategoryDetail';
+import { RuleCreate } from './administration/RuleCreate';
+import { ManufacturerCreate } from './administration/ManufacturerCreate';
+import { ManufacturerListing } from './administration/ManufacturerListing';
+import { ManufacturerDetail } from './administration/ManufacturerDetail';
 import { ProductListing } from './administration/ProductListing';
 import { ProductBulkEdit } from './administration/ProductBulkEdit';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
+    AdminCustomerListing: CustomerListing;
     AdminCustomerDetail: CustomerDetail;
+    AdminCustomerGroupListing: CustomerGroupListing;
+    AdminCustomerGroupCreate: CustomerGroupCreate;
+    AdminCustomerGroupDetail: CustomerGroupDetail;
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
@@ -30,9 +46,17 @@ export interface AdministrationPageTypes {
     AdminDashboard: Dashboard;
     AdminShippingListing: ShippingListing;
     AdminCategories: Categories;
+    AdminCategoryDetail: CategoryDetail;
     AdminLandingPageCreate: LandingPageCreate;
     AdminLandingPageDetail: LandingPageDetail;
     AdminRuleDetail: RuleDetail;
+    AdminRuleCreate: RuleCreate;
+    AdminCustomFieldListing: CustomFieldListing;
+    AdminCustomFieldCreate: CustomFieldCreate;
+    AdminCustomFieldDetail: CustomFieldDetail;
+    AdminManufacturerCreate: ManufacturerCreate,
+    AdminManufacturerListing: ManufacturerListing,
+    AdminManufacturerDetail: ManufacturerDetail,
     AdminProductListing: ProductListing;
     AdminProductBulkEdit: ProductBulkEdit;
 }
@@ -40,7 +64,11 @@ export interface AdministrationPageTypes {
 export const AdminPageObjects = {
     ProductDetail,
     OrderDetail,
+    CustomerListing,
     CustomerDetail,
+    CustomerGroupListing,
+    CustomerGroupCreate,
+    CustomerGroupDetail,
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
@@ -49,11 +77,10 @@ export const AdminPageObjects = {
     DataSharing,
     ShippingListing,
     Categories,
+    CategoryDetail,
     LandingPageCreate,
     LandingPageDetail,
     RuleDetail,
-    ProductListing,
-    ProductBulkEdit,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -66,8 +93,24 @@ export const test = base.extend<FixtureTypes>({
         await use(new OrderDetail(AdminPage));
     },
 
+    AdminCustomerListing: async ({ AdminPage }, use) => {
+        await use(new CustomerListing(AdminPage));
+    },
+
     AdminCustomerDetail: async ({ AdminPage }, use) => {
         await use(new CustomerDetail(AdminPage));
+    },
+
+    AdminCustomerGroupListing: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupListing(AdminPage));
+    },
+
+    AdminCustomerGroupCreate: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupCreate(AdminPage));
+    },
+
+    AdminCustomerGroupDetail: async ({ AdminPage }, use) => {
+        await use(new CustomerGroupDetail(AdminPage));
     },
 
     AdminFirstRunWizard: async ({ AdminPage }, use) => {
@@ -102,6 +145,10 @@ export const test = base.extend<FixtureTypes>({
         await use(new Categories(AdminPage));
     },
 
+    AdminCategoryDetail: async ({ AdminPage }, use) => {
+        await use(new CategoryDetail(AdminPage));
+    },
+
     AdminLandingPageDetail: async ({ AdminPage }, use) => {
         await use(new LandingPageDetail(AdminPage));
     },
@@ -113,13 +160,4 @@ export const test = base.extend<FixtureTypes>({
     AdminRuleDetail: async ({ AdminPage }, use) => {
         await use(new RuleDetail(AdminPage));
     },
-
-    AdminProductListing: async ({ AdminPage }, use) => {
-        await use(new ProductListing(AdminPage));
-
-    },
-    AdminProductBulkEdit: async ({ AdminPage }, use) => {
-        await use(new ProductBulkEdit(AdminPage));
-    },
-
 });

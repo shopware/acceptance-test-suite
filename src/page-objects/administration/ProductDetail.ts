@@ -49,6 +49,7 @@ export class ProductDetail implements PageObject {
      * Tabs
      */
     public readonly variantsTabLink: Locator;
+    public readonly specificationsTabLink: Locator;
 
     /**
      * Variants Generation
@@ -72,6 +73,11 @@ export class ProductDetail implements PageObject {
     public readonly propertyOptionSizeSmall: Locator;
     public readonly propertyOptionSizeMedium: Locator;
     public readonly propertyOptionSizeLarge: Locator;
+
+    /**
+     * Cards
+     */
+    public readonly customFieldCard: Locator;
 
     constructor(public readonly page: Page) {
 
@@ -102,12 +108,12 @@ export class ProductDetail implements PageObject {
         this.coverImage = page.locator('.sw-product-media-form__cover-image');
         this.productImage = page.locator('.sw-media-preview-v2__item');
 
-        // Variant generation
-        this.variantsTabLink = page.getByRole('link', { name: 'Variants' });
+        this.variantsTabLink = page.getByRole('tab', { name: 'Variants' });
+
         this.generateVariantsButton = page.getByRole('button', { name: 'Generate variants' });
         this.variantsModal = page.getByRole('dialog', { name: 'Generate variants' });
         this.variantsModalHeadline = this.variantsModal.getByRole('heading', { name: 'Generate variants' });
-        this.variantsNextButton = this.variantsModal.getByRole('button', { name: 'Next' });
+        this.variantsNextButton = this.variantsModal.getByRole('button', { name: 'Next', exact: true });
         this.variantsSaveButton = this.variantsModal.getByRole('button', { name: 'Save variants' });
 
         // Property selection
@@ -120,6 +126,21 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeSmall = this.propertyOptionGrid.getByLabel('Small');
         this.propertyOptionSizeMedium = this.propertyOptionGrid.getByLabel('Medium');
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
+
+        this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
+        this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+    }
+
+    async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
+
+        const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
+        const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
+        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
+
+        return {
+            customFieldSetTab: customFieldSetTab,
+            customFieldSetTabCustomContent: customFieldSetTabCustomContent,
+        }
     }
 
     url(productId: string) {

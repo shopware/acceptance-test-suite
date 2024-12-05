@@ -1,6 +1,108 @@
 # Changelog
 
 
+## [8.0.0](https://github.com/shopware/acceptance-test-suite/compare/v7.0.0...v8.0.0) (2024-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Next-39285 - Remove account type selection from registration ([#206](https://github.com/shopware/acceptance-test-suite/issues/206))
+
+### Features
+
+* Next-39285 - Remove account type selection from registration ([#206](https://github.com/shopware/acceptance-test-suite/issues/206)) ([d233452](https://github.com/shopware/acceptance-test-suite/commit/d23345247b33272d9df30e52aa1d2e78c54da353))
+
+
+### Bug Fixes
+
+* add offcanvas backdrop property to home page object ([#207](https://github.com/shopware/acceptance-test-suite/issues/207)) ([e51ad51](https://github.com/shopware/acceptance-test-suite/commit/e51ad51107eda4a4b91b27caae04a97f9af72e8e))
+
+## [7.0.0](https://github.com/shopware/acceptance-test-suite/compare/v6.0.0...v7.0.0) (2024-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* NEXT-39285 - allow overriding register task by passing an object ([#202](https://github.com/shopware/acceptance-test-suite/issues/202))
+
+### Features
+
+* add page object checkout order edit ([#204](https://github.com/shopware/acceptance-test-suite/issues/204)) ([a82c8ab](https://github.com/shopware/acceptance-test-suite/commit/a82c8ab61cca132e2c8310b870309c72963dcadb))
+* NEXT-39285 - allow overriding register task by passing an object ([#202](https://github.com/shopware/acceptance-test-suite/issues/202)) ([2375723](https://github.com/shopware/acceptance-test-suite/commit/237572302c2e2d71c29a0d4f37a2533b97c18e54))
+
+## [6.0.0](https://github.com/shopware/acceptance-test-suite/compare/v5.5.0...v6.0.0) (2024-12-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* NEXT-39858 - make settings menu more accesible
+
+### Bug Fixes
+
+* add additional page objects properties to storefront home ([#199](https://github.com/shopware/acceptance-test-suite/issues/199)) ([99b74a9](https://github.com/shopware/acceptance-test-suite/commit/99b74a9c8f77cc5579f2a172b0e8bf7ad40c890c))
+* NEXT-39858 - make settings menu more accesible ([67c2f35](https://github.com/shopware/acceptance-test-suite/commit/67c2f35172653b5125f3db594b099938d98ff423))
+
+## [5.5.0](https://github.com/shopware/acceptance-test-suite/compare/v5.4.0...v5.5.0) (2024-12-03)
+
+
+### Features
+
+* split test into several test files ([#191](https://github.com/shopware/acceptance-test-suite/issues/191)) ([6654c0c](https://github.com/shopware/acceptance-test-suite/commit/6654c0c181356fd10c041c6ad1d33b5d58708316))
+* system config service in TestDataService and page object improvements ([#196](https://github.com/shopware/acceptance-test-suite/issues/196)) ([5274819](https://github.com/shopware/acceptance-test-suite/commit/5274819629f54051970601b62592dc75c9500173))
+
+
+### Bug Fixes
+
+* move and stabilize CreateLinkTypeCategory task ([#197](https://github.com/shopware/acceptance-test-suite/issues/197)) ([8117273](https://github.com/shopware/acceptance-test-suite/commit/811727333a48bb51cb01671ccf7af5e102849f1d))
+* selector in variant generation test ([6482fea](https://github.com/shopware/acceptance-test-suite/commit/6482feabe5e2f96e621c627707acc7e99288c264))
+
+## [5.4.0](https://github.com/shopware/acceptance-test-suite/compare/v5.3.0...v5.4.0) (2024-11-26)
+
+
+### Features
+
+* add CustomerGroup page objects and CustomerGroup creation via TestDataService ([#185](https://github.com/shopware/acceptance-test-suite/issues/185))
+
+
+
+## [5.3.0](https://github.com/shopware/acceptance-test-suite/compare/v5.2.0...v5.3.0) (2024-11-25)
+
+
+### Features
+
+* add manufacturer page objects ([#187](https://github.com/shopware/acceptance-test-suite/issues/187)) ([e609663](https://github.com/shopware/acceptance-test-suite/commit/e6096631b99d557130ea13bb7e452af5a9a39517))
+
+## [5.2.0](https://github.com/shopware/acceptance-test-suite/compare/v5.1.0...v5.2.0) (2024-11-25)
+
+
+### Features
+
+* add create currency to TestDataService ([#181](https://github.com/shopware/acceptance-test-suite/issues/181)) ([72aaf6f](https://github.com/shopware/acceptance-test-suite/commit/72aaf6f46ab8efdc1f920270d7a19a0271d312e8))
+
+
+### Bug Fixes
+
+* update category page objects ([9fcc20f](https://github.com/shopware/acceptance-test-suite/commit/9fcc20fc3fc35a833048e8e78a843b621cea5862))
+* update Category page objects ([9fcc20f](https://github.com/shopware/acceptance-test-suite/commit/9fcc20fc3fc35a833048e8e78a843b621cea5862))
+
+## [5.1.0](https://github.com/shopware/acceptance-test-suite/compare/v5.0.1...v5.1.0) (2024-11-21)
+
+
+### Features
+
+* add custom field page objects ([#174](https://github.com/shopware/acceptance-test-suite/issues/174)) ([cb0477c](https://github.com/shopware/acceptance-test-suite/commit/cb0477cb6926811850b55cd9dd6cfe560a906598))
+
+
+### Bug Fixes
+
+* add getLandingPageByName ([#179](https://github.com/shopware/acceptance-test-suite/issues/179)) ([f079431](https://github.com/shopware/acceptance-test-suite/commit/f079431044175f416ca1457d0a9fda91f79d2d27))
+
+## [5.0.1](https://github.com/shopware/acceptance-test-suite/compare/v5.0.0...v5.0.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* update category and landing page objects, make landing_page higher priority to be deleted ([acdc7aa](https://github.com/shopware/acceptance-test-suite/commit/acdc7aad8943667c97680250f7ae7d989b3d2cb0))
+
 ## [5.0.0](https://github.com/shopware/acceptance-test-suite/compare/v4.1.0...v5.0.0) (2024-11-13)
 
 

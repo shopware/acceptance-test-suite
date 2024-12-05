@@ -4,9 +4,27 @@ export type SalesChannel = components['schemas']['SalesChannel'] & {
     id: string,
 }
 
-export type Customer = components['schemas']['Customer'] & {
+export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingAddress' | 'defaultBillingAddress'> & {
     id: string,
     password: string,
+    defaultShippingAddress: {
+        firstName: string,
+        lastName: string,
+        city: string,
+        street: string,
+        zipcode: string,
+        countryId: string,
+        salutationId: string,
+    },
+    defaultBillingAddress: {
+        firstName: string,
+        lastName: string,
+        city: string,
+        street: string,
+        zipcode: string,
+        countryId: string,
+        salutationId: string,
+    }
 }
 
 export type CustomerAddress = components['schemas']['CustomerAddress'] & {
@@ -81,6 +99,14 @@ export type Rule = components['schemas']['Rule'] & {
 }
 
 export type Currency = components['schemas']['Currency'] & {
+    id: string,
+}
+
+export type Country = components['schemas']['Country'] & {
+    id: string,
+}
+
+export type SystemConfig = components['schemas']['SystemConfig'] & {
     id: string,
 }
 
@@ -161,3 +187,22 @@ export type DeliveryTime = components['schemas']['DeliveryTime'] & {
 export type CmsPage = components['schemas']['CmsPage'] & {
     id: string,
 };
+
+export type CustomerGroup = components['schemas']['CustomerGroup'] & {
+    id: string,
+};
+
+export interface RegistrationData {
+    salutation: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    street: string;
+    city: string;
+    country: string;
+    postalCode: string;
+    company: string;
+    department: string;
+    vatRegNo: string;
+}

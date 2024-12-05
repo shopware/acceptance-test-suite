@@ -14,6 +14,7 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Page Objects](#page-objects)
 * [Actor Pattern](#actor-pattern)
 * [Data Fixtures](#data-fixtures)
+* [Test Data Service](#test-data-service)
 * [Code Contribution](#code-contribution)
 * [Best practices](#best-practices)
 
@@ -321,6 +322,12 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension.
 
 ## Data Fixtures
+
+---
+**Deprecated:** Use the [Test Data Service](#test-data-service) instead.  
+
+---
+
 We already covered a lot of interesting fixtures you can use to create your test scenario. One topic which is missing is test data. Most test scenarios will need some predefined state within the system under test to validate a certain behaviour. Within this test suite we use Playwright fixtures also to create necessary test data via API. The goal is to have no direct system dependencies like a database connection to the system under test.
 
 **Example**  
@@ -374,6 +381,58 @@ test('Property group test scenario', async ({ PropertiesData }) => {
 
 If you create your own data fixtures make sure to import and merge them in your base test file with other fixtures you created.
 
+## Test Data Service
+This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the service class or simply use the auto-completion of your IDE. Here is a list of available methods:
+
+### Creating Data
+* `createBasicProduct()`
+* `createProductWithImage()`
+* `createDigitalProduct()`
+* `createProductWithPriceRange()`
+* `createBasicManufacturer()`
+* `createManufacturerWithImage()`
+* `createCategory()`
+* `createMediaPNG()`
+* `createMediaTXT()`
+* `createColorPropertyGroup()`
+* `createTextPropertyGroup()`
+* `createTag()`
+* `createCustomer()`
+* `createOrder()`
+* `createPromotionWithCode()`
+* `createBasicPaymentMethod()`
+* `createPaymentMethodWithImage()`
+* `createBasicShippingMethod()`
+* `createShippingMethodWithImage()`
+* `createBasicRule()`
+* `createBasicPageLayout()`
+
+### Relations
+* `assignProductDownload()`
+* `assignProductMedia()`
+* `assignProductManufacturer()`
+* `assignProductCategory()`
+* `assignProductTag()`
+* `assignManufacturerMedia()`
+* `assignPaymentMethodMedia()`
+* `assignShippingMethodMedia()`
+
+### Retrieving Basic Data
+* `getCurrency()`
+* `getRule()`
+* `getShippingMethod()`
+* `getPaymentMethod()`
+* `getAllDeliveryTimeResources()`
+* `getCustomerAddress()`
+* `getSalutation()`
+* `getOrderStateMachine()`
+* `getDeliveryStateMachine()`
+* `getTransactionStateMachine()`
+* `getTransactionStateMachine()`
+* `getStateMachine()`
+* `getStateMachineState()`
+* `getPropertyGroupOptions()`
+
 ## Code Contribution
 You can contribute to this project via its [official repository](https://github.com/shopware/acceptance-test-suite/) on GitHub.  
 
@@ -406,3 +465,22 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 - do not expect the shop to have the defaults en_GB and EUR
 - do not change global settings (sales channel is ok, because it's created by us)
   - basically everything in Settings that is not specific to a sales channel (tax, search, etc.)
+
+## Running Tests in the Test Suite
+If you want to work on the test suite and try to execute tests from within this repository, you have to run a corresponding docker image for a specific Shopware version.
+
+Shopware 6.6  
+```
+docker compose up -d shopware
+```
+
+Shopware 6.5  
+```
+docker compose up -d shopware-65
+```
+
+When the docker container is running you can execute the normal playwright commands.
+
+```
+npx playwright test
+```

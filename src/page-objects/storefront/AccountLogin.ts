@@ -11,8 +11,13 @@ export class AccountLogin implements PageObject {
     // Inputs for registration
     public readonly personalFormArea: Locator;
     public readonly billingAddressFormArea: Locator;
+    public readonly accountTypeSelect: Locator;
+    public readonly salutationSelect: Locator;
     public readonly firstNameInput: Locator;
     public readonly lastNameInput: Locator;
+    public readonly companyInput: Locator;
+    public readonly departmentInput: Locator;
+    public readonly vatRegNoInput: Locator;
     public readonly registerEmailInput: Locator;
     public readonly registerPasswordInput: Locator;
     public readonly streetAddressInput: Locator;
@@ -29,8 +34,13 @@ export class AccountLogin implements PageObject {
 
         this.personalFormArea = page.locator('.register-personal');
         this.billingAddressFormArea = page.locator('.register-billing');
+        this.accountTypeSelect = this.personalFormArea.locator('#accountType');
+        this.salutationSelect = this.personalFormArea.locator('#personalSalutation'); 
         this.firstNameInput = this.personalFormArea.getByLabel('First name*');
         this.lastNameInput = this.personalFormArea.getByLabel('Last name*');
+        this.companyInput = this.personalFormArea.getByPlaceholder('Enter company...');
+        this.departmentInput = this.personalFormArea.getByPlaceholder('Enter department...');
+        this.vatRegNoInput = this.personalFormArea.getByPlaceholder('VAT Reg.No.');
         this.registerEmailInput = this.personalFormArea.getByLabel('Email address*');
         this.registerPasswordInput = this.personalFormArea.getByLabel('Password*');
         this.streetAddressInput = this.billingAddressFormArea.getByLabel('Street address*');
