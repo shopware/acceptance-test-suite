@@ -30,10 +30,6 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 const registrationData = { ...defaultRegistrationData, ...overrides };
                 registeredEmail = registrationData.email;
                 
-                if (isCommercial) {
-                    await StorefrontAccountLogin.accountTypeSelect.selectOption('Commercial');
-                }
-
                 await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
                 await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
                 await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
