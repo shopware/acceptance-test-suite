@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [7.0.0](https://github.com/shopware/acceptance-test-suite/compare/v6.0.0...v7.0.0) (2024-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* NEXT-39285 - allow overriding register task by passing an object ([#202](https://github.com/shopware/acceptance-test-suite/issues/202))
+
+### Features
+
+* add page object checkout order edit ([#204](https://github.com/shopware/acceptance-test-suite/issues/204)) ([a82c8ab](https://github.com/shopware/acceptance-test-suite/commit/a82c8ab61cca132e2c8310b870309c72963dcadb))
+* NEXT-39285 - allow overriding register task by passing an object ([#202](https://github.com/shopware/acceptance-test-suite/issues/202)) ([2375723](https://github.com/shopware/acceptance-test-suite/commit/237572302c2e2d71c29a0d4f37a2533b97c18e54))
+
 ## [6.0.0](https://github.com/shopware/acceptance-test-suite/compare/v5.5.0...v6.0.0) (2024-12-04)
 
 
