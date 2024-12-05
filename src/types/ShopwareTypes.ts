@@ -189,3 +189,18 @@ export type CmsPage = components['schemas']['CmsPage'] & {
 export type CustomerGroup = components['schemas']['CustomerGroup'] & {
     id: string,
 };
+
+export interface RegistrationData {
+    salutation: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    street: string;
+    city: string;
+    country: string;
+    postalCode: string;
+    company: string;
+    department: string;
+    vatRegNo: string;
+}
