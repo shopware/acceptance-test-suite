@@ -91,7 +91,7 @@ export type Media = components['schemas']['Media'] & {
 }
 
 export type Tag = components['schemas']['Tag'] & {
-    id: string;
+    id: string,
 };
 
 export type Rule = components['schemas']['Rule'] & {
