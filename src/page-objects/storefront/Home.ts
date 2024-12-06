@@ -14,6 +14,8 @@ export class Home implements PageObject {
     public readonly consentCookiePermissionContent: Locator;
     public readonly consentDialog: Locator;
     public readonly consentDialogTechnicallyRequiredCheckbox: Locator;
+    public readonly consentDialogStatisticsCheckbox: Locator;
+    public readonly consentDialogMarketingdCheckbox: Locator
     public readonly consentDialogAcceptAllCookiesButton: Locator;
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
@@ -32,6 +34,8 @@ export class Home implements PageObject {
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
         this.consentDialog = page.getByRole('dialog').filter( { hasText: 'Cookie preferences' });
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Technically required' });
+        this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Statistics' });
+        this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing' });
         this.consentDialogSaveButton = this.consentDialog.getByRole('button', { name: 'Save' });
         this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', { name: 'Accept all cookies' });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
