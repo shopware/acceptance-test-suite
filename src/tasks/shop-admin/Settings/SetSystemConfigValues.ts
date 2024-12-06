@@ -3,7 +3,7 @@ import type { Task } from '../../../types/Task';
 import type { FixtureTypes} from '../../../types/FixtureTypes';
 
 export const SetSystemConfigValues = base.extend<{ SetSystemConfigValues: Task }, FixtureTypes>({
-    SetSystemConfigValues: async ({ AdminApiContext, DefaultSalesChannel }, use) => {
+    SetSystemConfigValues: async ({ AdminApiContext, DefaultSalesChannel, TestDataService }, use) => {
         let defaultSettings;
         const task = (newValues: object, defaultValues: object) => {
             return async function LoginRegistration() {
@@ -16,6 +16,8 @@ export const SetSystemConfigValues = base.extend<{ SetSystemConfigValues: Task }
                     },
                 });
                 expect(newSettings.ok()).toBeTruthy();
+
+                await TestDataService.clearCaches();
             }
         };
 
