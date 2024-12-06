@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [8.1.0](https://github.com/shopware/acceptance-test-suite/compare/v8.0.1...v8.1.0) (2024-12-06)
+
+
+### Features
+
+* Pages and tasks for product bulk edit ([#192](https://github.com/shopware/acceptance-test-suite/issues/192)) ([c0a381a](https://github.com/shopware/acceptance-test-suite/commit/c0a381a9b0f14a32d1172a60da46a8b92518065f))
+
 ## [8.0.1](https://github.com/shopware/acceptance-test-suite/compare/v8.0.0...v8.0.1) (2024-12-06)
 
 
