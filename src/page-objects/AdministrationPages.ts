@@ -16,6 +16,7 @@ import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
 import { ShippingListing } from './administration/ShippingListing';
 import { ShippingDetail } from './administration/ShippingDetail';
+import { PaymentDetail } from './administration/PaymentDetail';
 import { LandingPageCreate } from './administration/LandingPageCreate';
 import { LandingPageDetail } from './administration/LandingPageDetail';
 import { Categories } from './administration/Categories';
@@ -49,6 +50,7 @@ export interface AdministrationPageTypes {
     AdminDashboard: Dashboard;
     AdminShippingListing: ShippingListing;
     AdminShippingDetail: ShippingDetail;
+    AdminPaymentDetail: PaymentDetail;
     AdminCategories: Categories;
     AdminCategoryDetail: CategoryDetail;
     AdminLandingPageCreate: LandingPageCreate;
@@ -83,6 +85,7 @@ export const AdminPageObjects = {
     DataSharing,
     ShippingListing,
     ShippingDetail,
+    PaymentDetail,
     Categories,
     CategoryDetail,
     LandingPageCreate,
@@ -161,6 +164,10 @@ export const test = base.extend<FixtureTypes>({
 
     AdminShippingDetail: async ({ AdminPage }, use) => {
         await use(new ShippingDetail(AdminPage));
+    },
+
+    AdminPaymentDetail: async ({ AdminPage }, use) => {
+        await use(new PaymentDetail(AdminPage));
     },
 
     AdminCategories: async ({ AdminPage }, use) => {
