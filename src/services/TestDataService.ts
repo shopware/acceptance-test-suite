@@ -28,8 +28,14 @@ import type {
     Country,
     CustomerGroup,
     SystemConfig,
+    SalesChannelAnalytics,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
+
+export interface SalesChannelRecord {
+    salesChannelId: string;
+    field: string;
+}
 
 export interface CreatedRecord {
     resource: string;
@@ -91,7 +97,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_currency', 'sales_channel_country'];
 
     /**
      * A registry of all created records.
@@ -99,6 +105,13 @@ export class TestDataService {
      * @private
      */
     private createdRecords: CreatedRecord[] = [];
+
+    /**
+     * A registry of all created sales channel records.
+     *
+     * @private
+     */
+    private createdSalesChannelRecords: SalesChannelRecord[] = [];
 
 
     constructor(AdminApiClient: AdminApiContext, IdProvider: IdProvider, options: DataServiceOptions) {
@@ -883,6 +896,30 @@ export class TestDataService {
     }
 
     /**
+     * Creates a random sales channel analytics entity
+     *
+     * @param overrides - Specific data overrides that will be applied to the sales channel analytics data struct.
+     */
+    async createSalesChannelAnalytics(
+        overrides: Partial<SalesChannelAnalytics> = {},
+    ): Promise<SalesChannelAnalytics> {
+
+        const basicSalesChannelAnalyticsStruct = this.getSalesChannelAnalyticsStruct(overrides);
+
+
+        const response = await this.AdminApiClient.post('sales-channel-analytics?_response=detail', {
+            data: basicSalesChannelAnalyticsStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: salesChannelAnalytics } = (await response.json()) as { data: SalesChannelAnalytics };
+
+        this.addCreatedRecord('sales_channel_analytics', salesChannelAnalytics.id);
+
+        return salesChannelAnalytics;
+    }
+
+    /**
      * Assigns a media resource as the download of a digital product.
      *
      * @param productId - The uuid of the product.
@@ -1065,13 +1102,13 @@ export class TestDataService {
 
         const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
             data: {
-                'write-sales-channel': {
-                    entity: 'sales_channel',
+                'write-sales-channel-currency': {
+                    entity: 'sales_channel_currency',
                     action: 'upsert',
                     payload: [
                         {
-                            id: salesChannelId,
-                            currencies: [{ id: currencyId }],
+                            salesChannelId: salesChannelId,
+                            currencyId: currencyId,
                         },
                     ],
                 },
@@ -1080,6 +1117,39 @@ export class TestDataService {
         expect(syncSalesChannelResponse.ok()).toBeTruthy();
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        this.addCreatedRecord('sales_channel_currency', {salesChannelId: salesChannelId, currencyId: currencyId})
+
+        return salesChannel;
+    }
+
+    /**
+     * Assigns a sales channel analytics entity to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param salesChannelAnalyticsId - The uuid of the sales channel analytics entity.
+     */
+    async assignSalesChannelAnalytics(salesChannelId: string, salesChannelAnalyticsId: string) {
+
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel-analytics': {
+                    entity: 'sales_channel_analytics',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            salesChannel: { id: salesChannelId },
+                            id: salesChannelAnalyticsId,
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = (await syncSalesChannelResponse.json()) as { data: SalesChannel};
+
+        this.addCreatedSalesChannelRecord(salesChannelId, 'analyticsId');
 
         return salesChannel;
     }
@@ -1094,13 +1164,13 @@ export class TestDataService {
 
         const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
             data: {
-                'write-sales-channel': {
-                    entity: 'sales_channel',
+                'write-sales-channel-country': {
+                    entity: 'sales_channel_country',
                     action: 'upsert',
                     payload: [
                         {
-                            id: salesChannelId,
-                            countries: [{ id: countryId }],
+                            salesChannelId: salesChannelId,
+                            countryId: countryId,
                         },
                     ],
                 },
@@ -1109,6 +1179,8 @@ export class TestDataService {
         expect(syncSalesChannelResponse.ok()).toBeTruthy();
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        this.addCreatedRecord('sales_channel_country', { salesChannelId: salesChannelId, countryId: countryId });
 
         return salesChannel;
     }
@@ -1415,6 +1487,17 @@ export class TestDataService {
     }
 
     /**
+     * Adds a sales channel related property to the registry of created sales channel records.
+     * The property added to the registry will be overridden with null value by the cleanup call.
+     *
+     * @param salesChannelId - The sales channel id where the property pair is located
+     * @param field - The database field which has to be overridden
+     */
+    addCreatedSalesChannelRecord(salesChannelId: string, field: string) {
+        this.createdSalesChannelRecords.push({ salesChannelId: salesChannelId, field: field });
+    }
+
+    /**
      * Set the configuration of automated data clean up.
      * If set to "true" the data service will delete all entities created by it.
      *
@@ -1432,8 +1515,20 @@ export class TestDataService {
             return null;
         }
 
-        const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
         const deleteOperations: Record<string, SyncApiOperation> = {};
+        const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
+
+        if(this.createdSalesChannelRecords) {
+            for (const salesChannelRecord of this.createdSalesChannelRecords) {
+                const salesChannelResponse = await this.AdminApiClient.patch(`sales-channel/${salesChannelRecord.salesChannelId}`, {
+                    data: {
+                        [salesChannelRecord.field]: null,
+                    },
+                });
+                expect(salesChannelResponse.ok()).toBeTruthy();
+            }
+        }
+
 
         this.createdRecords.forEach((record) => {
             if (this.highPriorityEntities.includes(record.resource)) {
@@ -2235,6 +2330,20 @@ export class TestDataService {
 
         };
         return Object.assign({}, basicCustomerGroup, overrides);
+    }
+
+    getSalesChannelAnalyticsStruct(overrides: Partial<SalesChannelAnalytics> = {}): Partial<SalesChannelAnalytics> {
+        const salesChannelAnalyticsUuid = this.IdProvider.getIdPair().uuid;
+        const trackingId =  this.IdProvider.getIdPair().id;
+
+        const basicSalesChannelAnalyticsStruct = {
+            id: salesChannelAnalyticsUuid,
+            trackingId: trackingId,
+            active: true,
+            trackOrders: false,
+            anonymizeIp: true,
+        };
+        return Object.assign({}, basicSalesChannelAnalyticsStruct, overrides);
     }
 
     async clearCaches() {

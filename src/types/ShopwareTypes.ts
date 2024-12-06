@@ -190,6 +190,10 @@ export type CustomerGroup = components['schemas']['CustomerGroup'] & {
     id: string,
 };
 
+export type SalesChannelAnalytics = components['schemas']['SalesChannelAnalytics'] & {
+    id: string,
+};
+
 export interface RegistrationData {
     salutation: string;
     firstName: string;
