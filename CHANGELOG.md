@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [8.0.1](https://github.com/shopware/acceptance-test-suite/compare/v8.0.0...v8.0.1) (2024-12-06)
+
+
+### Bug Fixes
+
+* add additional page objects properties to storefront home for sales channel analytics ([#209](https://github.com/shopware/acceptance-test-suite/issues/209)) ([cfca2d4](https://github.com/shopware/acceptance-test-suite/commit/cfca2d45ccd00171ba2de669a5556b23bee63bc7))
+* add clear cache to SetSystemConfigValues task ([#210](https://github.com/shopware/acceptance-test-suite/issues/210)) ([3ab153f](https://github.com/shopware/acceptance-test-suite/commit/3ab153fd996d92d61a64f5742724c15a0ab0460e))
+
 ## [8.0.0](https://github.com/shopware/acceptance-test-suite/compare/v7.0.0...v8.0.0) (2024-12-05)
 
 
