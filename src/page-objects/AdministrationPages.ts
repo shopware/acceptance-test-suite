@@ -27,6 +27,9 @@ import { RuleCreate } from './administration/RuleCreate';
 import { ManufacturerCreate } from './administration/ManufacturerCreate';
 import { ManufacturerListing } from './administration/ManufacturerListing';
 import { ManufacturerDetail } from './administration/ManufacturerDetail';
+import { ProductListing } from './administration/ProductListing';
+import { ProductBulkEdit } from './administration/ProductBulkEdit';
+
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -55,6 +58,8 @@ export interface AdministrationPageTypes {
     AdminManufacturerCreate: ManufacturerCreate,
     AdminManufacturerListing: ManufacturerListing,
     AdminManufacturerDetail: ManufacturerDetail,
+    AdminProductListing: ProductListing;
+    AdminProductBulkEdit: ProductBulkEdit;
 }
 
 export const AdminPageObjects = {
@@ -84,6 +89,8 @@ export const AdminPageObjects = {
     ManufacturerCreate,
     ManufacturerDetail,
     ManufacturerListing,
+    ProductListing,
+    ProductBulkEdit,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -163,7 +170,6 @@ export const test = base.extend<FixtureTypes>({
     AdminRuleDetail: async ({ AdminPage }, use) => {
         await use(new RuleDetail(AdminPage));
     },
-
     AdminRuleCreate: async ({ AdminPage }, use) => {
         await use(new RuleCreate(AdminPage));
     },
@@ -190,5 +196,13 @@ export const test = base.extend<FixtureTypes>({
 
     AdminManufacturerDetail: async ({ AdminPage }, use) => {
         await use(new ManufacturerDetail(AdminPage));
+    },
+
+    AdminProductListing: async ({ AdminPage }, use) => {
+        await use(new ProductListing(AdminPage));
+    },
+
+    AdminProductBulkEdit: async ({ AdminPage }, use) => {
+        await use(new ProductBulkEdit(AdminPage));
     },
 });
