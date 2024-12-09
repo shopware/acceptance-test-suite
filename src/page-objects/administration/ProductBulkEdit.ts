@@ -82,7 +82,7 @@ export class ProductBulkEdit implements PageObject {
         // Release date
         this.changeReleaseDateRow = page.locator('.sw-bulk-edit-change-field-releaseDate');
         this.changeReleaseDateCheckbox = this.changeReleaseDateRow.getByRole('checkbox');
-        this.releaseDateInput = this.changeReleaseDateRow.getByPlaceholder('Y-m-d H:i').last();
+        this.releaseDateInput = this.changeReleaseDateRow.getByRole('textbox').last();
 
         // Stock
         this.changeStockRow = page.locator('.sw-bulk-edit-change-field-stock');
