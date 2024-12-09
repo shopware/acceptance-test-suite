@@ -11,6 +11,6 @@ export class RuleListing implements PageObject {
     }
 
     url() {
-        return `#/sw/settings/rule/index`
+        return `#/sw/settings/rule/index`;
     }
 }

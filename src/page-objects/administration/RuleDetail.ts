@@ -18,7 +18,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly promotionCartRulesCard: Locator;
 
     constructor(public readonly page: Page) {
-        super(page)
+        super(page);
         this.shippingMethodAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-shipping_method_availability_rule');
         this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole('link');
         this.shippingMethodAvailabilityRulesCardTable = page.locator('.sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule');
