@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [8.2.2](https://github.com/shopware/acceptance-test-suite/compare/v8.2.1...v8.2.2) (2024-12-09)
+
+
+### Bug Fixes
+
+* Another fix for the product bulk edit page object ([#218](https://github.com/shopware/acceptance-test-suite/issues/218)) ([c0475f8](https://github.com/shopware/acceptance-test-suite/commit/c0475f8f1c9f179291d520e9f5dadd87e6700227))
+
 ## [8.2.1](https://github.com/shopware/acceptance-test-suite/compare/v8.2.0...v8.2.1) (2024-12-09)
 
 
