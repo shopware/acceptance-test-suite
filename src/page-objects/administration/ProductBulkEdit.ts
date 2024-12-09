@@ -110,7 +110,7 @@ export class ProductBulkEdit implements PageObject {
         this.changeSalesChannelCheckbox = this.changeSalesChannelRow.getByRole('checkbox');
         this.salesChannelChangeMethodDropdown = this.changeSalesChannelRow.locator('.sw-single-select__selection-text');
         this.salesChannelChangeMethodInput = this.changeSalesChannelRow.locator('.sw-single-select__selection-input');
-        this.salesChannelInput = this.changeSalesChannelRow.getByRole('textbox');
+        this.salesChannelInput = this.changeSalesChannelRow.getByRole('combobox');
 
         this.applyChangesButton = page.getByRole('button', {name: 'Apply changes'});
 
