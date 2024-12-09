@@ -13,6 +13,7 @@ import {
     Category,
     APIResponse,
     SystemConfig,
+    SalesChannelAnalytics,
 } from '../../src';
 
 test('Data Service', async ({
@@ -90,6 +91,9 @@ test('Data Service', async ({
     expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
     expect(systemConfigEntry.configurationValue).toEqual(true);
 
+    const salesChannelAnalytics = await TestDataService.createSalesChannelAnalytics({ active: false });
+    expect(salesChannelAnalytics.active).toEqual(false);
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -143,6 +147,10 @@ test('Data Service', async ({
     const { data: databaseSystemConfigEntry } = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
     expect(databaseSystemConfigEntry.id).toBe(systemConfigEntry.id);
 
+    const salesChannelAnalyticsResponse = await AdminApiContext.get(`./sales-channel-analytics/${salesChannelAnalytics.id}?_response=detail`);
+    const { data: databaseSalesChannelAnalytics } = (await salesChannelAnalyticsResponse.json()) as { data: SalesChannelAnalytics };
+    expect(databaseSalesChannelAnalytics.id).toBe(salesChannelAnalytics.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpResponse = await TestDataService.cleanUp() as APIResponse;
@@ -164,4 +172,5 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUp['deleted']['cms_page']).toBeDefined();
     expect(cleanUp['deleted']['system_config']).toBeDefined();
+    expect(cleanUp['deleted']['sales_channel_analytics']).toBeDefined();
 });
