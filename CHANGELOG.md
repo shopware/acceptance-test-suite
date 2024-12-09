@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [8.2.1](https://github.com/shopware/acceptance-test-suite/compare/v8.2.0...v8.2.1) (2024-12-09)
+
+
+### Bug Fixes
+
+* Fixed locator for date field in product bulk edit ([#216](https://github.com/shopware/acceptance-test-suite/issues/216)) ([00a8ba6](https://github.com/shopware/acceptance-test-suite/commit/00a8ba668a1e553e9845d4616ddcf1d82234eb47))
+
 ## [8.2.0](https://github.com/shopware/acceptance-test-suite/compare/v8.1.0...v8.2.0) (2024-12-09)
 
 
