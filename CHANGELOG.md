@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [8.2.0](https://github.com/shopware/acceptance-test-suite/compare/v8.1.0...v8.2.0) (2024-12-09)
+
+
+### Features
+
+* add analytics assignment and creation of sales channel analytics ([#212](https://github.com/shopware/acceptance-test-suite/issues/212)) ([8ba3a10](https://github.com/shopware/acceptance-test-suite/commit/8ba3a10654849f3d0a08e1e43d632840f2aa0c97))
+
 ## [8.1.0](https://github.com/shopware/acceptance-test-suite/compare/v8.0.1...v8.1.0) (2024-12-06)
 
 
