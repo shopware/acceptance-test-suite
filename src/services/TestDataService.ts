@@ -1,7 +1,7 @@
 import { createRandomImage } from './ImageHelper';
-import { getLanguageData, getPromotionWithDiscount } from './ShopwareDataHelpers';
+import { getLanguageData, getSnippetSetId, getPromotionWithDiscount } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
-import type { IdProvider } from './IdProvider';
+import { IdProvider } from './IdProvider';
 import type {
     Product,
     PropertyGroup,
@@ -29,6 +29,7 @@ import type {
     CustomerGroup,
     SystemConfig,
     SalesChannelAnalytics,
+    SalesChannelDomain,
     Language,
     CustomFieldSet,
     CustomField,
@@ -100,7 +101,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
 
     /**
      * A registry of all created records.
@@ -1234,6 +1235,29 @@ export class TestDataService {
         return salesChannel;
     }
 
+    /**
+     * Creates a new domain for a sales channel.
+     *
+     * @param domainUrl - The url for the new domain.
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param languageId - The uuid of the default language.
+     * @param currencyId - The uuid of the currency.
+     * @param snippetSetId - The uuid of the snippet set.
+     */
+    async createSalesChannelDomain(domainUrl: string, salesChannelId: string, currencyId: string, languageId: string, snippetLanguageCode: string) {
+        const snippetSetId = await getSnippetSetId(snippetLanguageCode, this.AdminApiClient);
+        const response = await this.AdminApiClient.post(`sales-channel-domain`, {
+            data: {
+                url: domainUrl,
+                salesChannelId: salesChannelId, 
+                currencyId: currencyId,
+                languageId: languageId,
+                snippetSetId: snippetSetId,
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+    }
+    
     /**
      * Assigns a language to a sales channel.
      *
