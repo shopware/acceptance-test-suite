@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [8.3.0](https://github.com/shopware/acceptance-test-suite/compare/v8.2.2...v8.3.0) (2024-12-10)
+
+
+### Features
+
+* customer bulk edit ([9682cd3](https://github.com/shopware/acceptance-test-suite/commit/9682cd308aea8cb21d134b9e8c0dd31587dd6acc))
+
 ## [8.2.2](https://github.com/shopware/acceptance-test-suite/compare/v8.2.1...v8.2.2) (2024-12-09)
 
 
