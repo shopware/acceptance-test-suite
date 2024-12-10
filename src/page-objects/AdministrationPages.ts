@@ -29,7 +29,7 @@ import { ManufacturerListing } from './administration/ManufacturerListing';
 import { ManufacturerDetail } from './administration/ManufacturerDetail';
 import { ProductListing } from './administration/ProductListing';
 import { ProductBulkEdit } from './administration/ProductBulkEdit';
-
+import { CustomerBulkEdit } from './administration/CustomerBulkEdit';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -60,6 +60,7 @@ export interface AdministrationPageTypes {
     AdminManufacturerDetail: ManufacturerDetail,
     AdminProductListing: ProductListing;
     AdminProductBulkEdit: ProductBulkEdit;
+    AdminCustomerBulkEdit: CustomerBulkEdit;
 }
 
 export const AdminPageObjects = {
@@ -91,6 +92,7 @@ export const AdminPageObjects = {
     ManufacturerListing,
     ProductListing,
     ProductBulkEdit,
+    CustomerBulkEdit,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -170,6 +172,7 @@ export const test = base.extend<FixtureTypes>({
     AdminRuleDetail: async ({ AdminPage }, use) => {
         await use(new RuleDetail(AdminPage));
     },
+
     AdminRuleCreate: async ({ AdminPage }, use) => {
         await use(new RuleCreate(AdminPage));
     },
@@ -204,5 +207,9 @@ export const test = base.extend<FixtureTypes>({
 
     AdminProductBulkEdit: async ({ AdminPage }, use) => {
         await use(new ProductBulkEdit(AdminPage));
+    },
+
+    AdminCustomerBulkEdit: async ({ AdminPage }, use) => {
+        await use(new CustomerBulkEdit(AdminPage));
     },
 });

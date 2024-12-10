@@ -159,7 +159,6 @@ test('Data Service', async ({
     const cleanUp = await cleanUpResponse.json();
     expect(cleanUp['notFound'].length).toBe(0);
     expect(cleanUp['deleted']['media']).toBeDefined();
-    expect(cleanUp['deleted']['customer']).toBeDefined();
     expect(cleanUp['deleted']['payment_method']).toBeDefined();
     expect(cleanUp['deleted']['shipping_method']).toBeDefined();
     expect(cleanUp['deleted']['rule']).toBeDefined();

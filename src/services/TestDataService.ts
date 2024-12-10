@@ -1,5 +1,5 @@
 import { createRandomImage } from './ImageHelper';
-import { getPromotionWithDiscount } from './ShopwareDataHelpers';
+import { getLanguageData, getPromotionWithDiscount } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
@@ -29,6 +29,9 @@ import type {
     CustomerGroup,
     SystemConfig,
     SalesChannelAnalytics,
+    Language,
+    CustomFieldSet,
+    CustomField,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -97,7 +100,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_currency', 'sales_channel_country'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_currency', 'sales_channel_country', 'customer'];
 
     /**
      * A registry of all created records.
@@ -920,6 +923,52 @@ export class TestDataService {
     }
 
     /**
+     * Creates a custom field
+     *
+     * @param customFieldSetId - The uuid of the custom field set.
+     * @param overrides - Specific data overrides that will be applied to the custom field data struct.
+     */
+    async createCustomField(
+      customFieldSetId: string,
+      overrides: Partial<CustomField> = {}
+    ): Promise<CustomField> {
+        const customFieldStruct = this.getBasicCustomFieldStruct(overrides);
+
+        const response = await this.AdminApiClient.post(`custom-field-set/${customFieldSetId}/custom-fields?_response=detail`, {
+            data: customFieldStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customField } = (await response.json()) as { data: CustomField };
+
+        this.addCreatedRecord('custom_field', customField.id);
+
+        return customField;
+    }
+
+    /**
+     * Creates a custom field set
+     *
+     * @param overrides - Specific data overrides that will be applied to the custom field set data struct.
+     */
+    async createCustomFieldSet(
+      overrides: Partial<CustomFieldSet> = {}
+    ): Promise<CustomFieldSet> {
+        const customFieldSetStruct = this.getBasicCustomFieldSetStruct(overrides);
+
+        const response = await this.AdminApiClient.post('custom-field-set?_response=detail', {
+            data: customFieldSetStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customFieldSet } = (await response.json()) as { data: CustomFieldSet };
+
+        this.addCreatedRecord('custom_field_set', customFieldSet.id);
+
+        return customFieldSet;
+    }
+
+    /**
      * Assigns a media resource as the download of a digital product.
      *
      * @param productId - The uuid of the product.
@@ -1186,6 +1235,36 @@ export class TestDataService {
     }
 
     /**
+     * Assigns a language to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param languageId - The uuid of the language.
+     */
+    async assignSalesChannelLanguage(salesChannelId: string, languageId: string) {
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel-language': {
+                    entity: 'sales_channel_language',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            salesChannelId: salesChannelId,
+                            languageId: languageId,
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        this.addCreatedRecord('sales_channel_language', {salesChannelId: salesChannelId, languageId: languageId})
+
+        return salesChannel;
+    }
+
+    /**
      * Assigns a media resource to a payment method as a logo.
      *
      * @param paymentMethodId - The uuid of the payment method.
@@ -1223,6 +1302,14 @@ export class TestDataService {
         const { data: shippingMethodMedia } = await shippingMethodResponse.json();
 
         return shippingMethodMedia;
+    }
+
+    /**
+     * Retrieves a language based on its code.
+     * @param languageCode
+     */
+    async getLanguageData(languageCode: string): Promise<Language> {
+        return await getLanguageData(languageCode, this.AdminApiClient);
     }
 
     /**
@@ -1464,6 +1551,46 @@ export class TestDataService {
         const { data: result } = (await response.json()) as { data: PropertyGroupOption[] };
 
         return result;
+    }
+
+    /**
+     * Retrieves a customer group by its id.
+     *
+     * @param customerGroupId - The id of the property group.
+     */
+    async getCustomerGroupById(customerGroupId: string): Promise<CustomerGroup> {
+        const response = await this.AdminApiClient.get(`customer-group/${customerGroupId}`);
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customerGroup } = (await response.json()) as { data: CustomerGroup };
+
+        return customerGroup;
+    }
+
+    /**
+     * Retrieves list of customer groups
+     */
+    async getCustomerGroups(): Promise<CustomerGroup[]> {
+        const response = await this.AdminApiClient.get('customer-group');
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customerGroups } = (await response.json()) as { data: CustomerGroup[] };
+
+        return customerGroups;
+    }
+
+    /**
+     * Retrieves a language by its id.
+     *
+     * @param languageId - The id of the property group.
+     */
+    async getLanguageById(languageId: string): Promise<Language> {
+        const response = await this.AdminApiClient.get(`language/${languageId}`);
+        expect(response.ok()).toBeTruthy();
+
+        const { data: language } = (await response.json()) as { data: Language };
+
+        return language;
     }
 
     /**
@@ -2348,6 +2475,56 @@ export class TestDataService {
 
     async clearCaches() {
         await this.AdminApiClient.delete('_action/cache');
+    }
+
+    getBasicCustomFieldSetStruct(overrides: Partial<CustomFieldSet> = {}): Partial<CustomFieldSet> {
+        const customFieldSetUuid = this.IdProvider.getIdPair().uuid;
+        const customFieldSetName = `${this.namePrefix}CustomFieldSet-${customFieldSetUuid}${this.nameSuffix}`;
+
+        const basicCustomFieldSet = {
+            id: customFieldSetUuid,
+            name: customFieldSetName,
+            config: {
+                label: {
+                    'en-GB': null,
+                },
+            },
+            position: 1,
+              relations: [
+                {
+                    id: this.IdProvider.getIdPair().uuid,
+                    entityName: 'customer',
+                },
+            ],
+        };
+        return Object.assign({}, basicCustomFieldSet, overrides);
+    }
+
+    getBasicCustomFieldStruct(overrides: Partial<CustomField> = {}): Partial<CustomField> {
+        const customFieldUuid = this.IdProvider.getIdPair().uuid;
+        const customFieldName = `${this.namePrefix}CustomField-${customFieldUuid}${this.nameSuffix}`;
+
+        const basicCustomField = {
+            id: customFieldUuid,
+            name: customFieldName,
+            type: 'text',
+            config: {
+                componentName: 'sw-field',
+                type: 'text',
+                customFieldType: 'text',
+                customFieldPosition: 1,
+                label: {
+                    'en-GB': null,
+                },
+                placeholder: {
+                    'en-GB': null,
+                },
+                helpText: {
+                    'en-GB': null,
+                },
+            },
+        };
+        return Object.assign({}, basicCustomField, overrides);
     }
 
 }

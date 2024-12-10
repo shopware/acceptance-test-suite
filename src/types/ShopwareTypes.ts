@@ -58,7 +58,7 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' 
         name: string,
     }
     options?: Record<string, string>[],
-    tags?: Record<string, string>[], 
+    tags?: Record<string, string>[],
     visibilities?: Record<string, unknown>[],
 }
 
@@ -210,3 +210,15 @@ export interface RegistrationData {
     department: string;
     vatRegNo: string;
 }
+
+export type Language = components['schemas']['Language'] & {
+    id: string,
+};
+
+export type CustomFieldSet = components['schemas']['CustomFieldSet'] & {
+    id: string,
+};
+
+export type CustomField = components['schemas']['CustomField'] & {
+    id: string,
+};
