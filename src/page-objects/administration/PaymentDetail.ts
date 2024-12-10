@@ -11,7 +11,7 @@ export class PaymentDetail implements PageObject {
 
     constructor(public readonly page: Page) {
         this.header = page.locator('.smart-bar__header');
-        this.nameField = page.locator('.sw-settings-payment-detail__field-name').getByLabel('Name');
+        this.nameField = page.getByLabel('Name',{exact: true});
         this.availabilityRuleField = page.locator('.sw-settings-payment-detail__field-availability-rule').locator('.sw-entity-single-select__selection-text');
         this.availabilityRuleListItem = page.locator('.sw-select-result-list__content').getByRole('listitem');
     }
