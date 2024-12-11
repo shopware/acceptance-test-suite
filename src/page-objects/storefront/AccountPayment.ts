@@ -11,7 +11,7 @@ export class AccountPayment implements PageObject {
         this.cashOnDeliveryOption = page.getByLabel('Cash on delivery');
         this.paidInAdvanceOption = page.getByLabel('Paid in advance');
         this.invoiceOption = page.getByLabel('Invoice');
-        this.changeDefaultPaymentButton = page.getByRole('button', { name: 'Change' });
+        this.changeDefaultPaymentButton = page.getByRole('button', { name: 'Change', exact: true });
     }
 
     url() {

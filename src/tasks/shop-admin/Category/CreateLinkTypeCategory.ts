@@ -1,13 +1,14 @@
 import { test as base, Locator } from '@playwright/test';
 import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
 
 export const CreateLinkTypeCategory = base.extend<{ CreateLinkTypeCategory: Task }, FixtureTypes>({
   CreateLinkTypeCategory: async ({ AdminCategories, AdminCategoryDetail, TestDataService }, use) => {
 
-    const task = (categoryData, categoryCustomizableLinkData) => {
+    const task = (categoryData, categoryCustomizableLinkData, parentCategoryName: string) => {
       return async function CreateLinkTypeCategory() {
-        await AdminCategories.homeCategoryContextButton.click();
+        await AdminCategories.getTreeItemContextButton(parentCategoryName).click();
+
         await AdminCategories.categoryMenuItemList.filter({ hasText: 'New category after' }).click();
         await AdminCategories.createCategoryInput.fill(categoryData.name);
         await AdminCategories.confirmCategoryCreationButton.click();
