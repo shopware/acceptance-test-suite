@@ -1,7 +1,7 @@
 import { createRandomImage } from './ImageHelper';
 import { getLanguageData, getSnippetSetId, getPromotionWithDiscount } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
-import { IdProvider } from './IdProvider';
+import type { IdProvider } from './IdProvider';
 import type {
     Product,
     PropertyGroup,
@@ -1237,25 +1237,50 @@ export class TestDataService {
 
     /**
      * Creates a new domain for a sales channel.
-     *
-     * @param domainUrl - The url for the new domain.
-     * @param salesChannelId - The uuid of the sales channel.
-     * @param languageId - The uuid of the default language.
-     * @param currencyId - The uuid of the currency.
-     * @param snippetSetId - The uuid of the snippet set.
+     * 
+     * @param overrides - Specific data overrides that will be applied to the sales channel domain data struct.
      */
-    async createSalesChannelDomain(domainUrl: string, salesChannelId: string, currencyId: string, languageId: string, snippetLanguageCode: string) {
-        const snippetSetId = await getSnippetSetId(snippetLanguageCode, this.AdminApiClient);
-        const response = await this.AdminApiClient.post(`sales-channel-domain`, {
-            data: {
-                url: domainUrl,
-                salesChannelId: salesChannelId, 
-                currencyId: currencyId,
-                languageId: languageId,
-                snippetSetId: snippetSetId,
-            },
+    async createSalesChannelDomain(overrides: Partial<SalesChannelDomain> = {}): Promise<SalesChannelDomain>  {
+        const salesChannelId = this.defaultSalesChannel.id;
+        const currencyId = this.defaultCurrencyId;
+        const languageId = this.defaultLanguageId;
+        const snippetSetId = await getSnippetSetId('en-GB', this.AdminApiClient);
+
+        const salesChannelDomainStruct = this.getSalesChannelDomainStruct(salesChannelId, currencyId, languageId, snippetSetId, overrides);
+
+        const response = await this.AdminApiClient.post(`sales-channel-domain?_response=detail`, {
+            data: salesChannelDomainStruct,
         });
+
         expect(response.ok()).toBeTruthy();
+
+        const { data: salesChannelDomain } = (await response.json()) as { data: SalesChannelDomain };
+
+        this.addCreatedRecord('sales_channel_domain', salesChannelDomain.id);
+
+        return salesChannelDomain;
+    }   
+
+    getSalesChannelDomainStruct(
+        salesChannelId: string, 
+        currencyId: string,
+        languageId: string,
+        snippetSetId: string,
+        overrides:Partial<SalesChannelDomain> = {},
+    ): Partial<SalesChannelDomain> {
+
+        const appUrl = process.env['APP_URL'];
+        const baseUrl = `${appUrl}test-${this.IdProvider.getIdPair().uuid}/`;
+
+        const basicSalesChannelDomain = {
+            baseUrl: baseUrl,
+            salesChannelId: salesChannelId, 
+            currencyId: currencyId,
+            languageId: languageId,
+            snippetSetId: snippetSetId,
+        };
+
+        return Object.assign({}, basicSalesChannelDomain, overrides);
     }
     
     /**
