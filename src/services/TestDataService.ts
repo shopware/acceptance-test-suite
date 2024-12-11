@@ -1273,7 +1273,7 @@ export class TestDataService {
         const baseUrl = `${appUrl}test-${this.IdProvider.getIdPair().uuid}/`;
 
         const basicSalesChannelDomain = {
-            baseUrl: baseUrl,
+            url: baseUrl,
             salesChannelId: salesChannelId, 
             currencyId: currencyId,
             languageId: languageId,
