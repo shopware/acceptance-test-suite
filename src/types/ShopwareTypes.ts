@@ -219,6 +219,11 @@ export type CustomFieldSet = components['schemas']['CustomFieldSet'] & {
     id: string,
 };
 
-export type CustomField = components['schemas']['CustomField'] & {
+export type CustomField = Omit<components['schemas']['CustomField'], 'config'> & {
     id: string,
+    config: {
+        label: {
+            'en-GB': string,
+        }
+    };
 };
