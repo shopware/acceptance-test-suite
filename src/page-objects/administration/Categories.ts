@@ -14,8 +14,6 @@ export class Categories implements PageObject {
    * Category tree
    */
   public readonly categoryTree: Locator;
-  public readonly homeCategory: Locator;
-  public readonly homeCategoryContextButton: Locator;
   public readonly categoryMenuItemList: Locator;
   public readonly createCategoryInput: Locator;
   public readonly confirmCategoryCreationButton: Locator;
@@ -51,8 +49,7 @@ export class Categories implements PageObject {
     this.addLandingPageButton = this.landingPageArea.getByText('Add landing page');
     this.landingPageItems = this.landingPageArea.locator('.sw-tree-item__label');
     this.categoryTree = page.locator('.sw-category-tree');
-    this.homeCategory = this.categoryTree.locator('.sw-tree-item__element').filter({ hasText: 'Home' });
-    this.homeCategoryContextButton = this.homeCategory.locator('.sw-context-button__button');
+
     this.categoryMenuItemList = page.locator('.sw-context-button__menu-popover').locator('.sw-context-menu-item');
     this.createCategoryInput = page.getByPlaceholder('Create category').getByRole('textbox');
     this.confirmCategoryCreationButton = page.locator('.sw-confirm-field').locator('.sw-button--primary');
@@ -87,12 +84,19 @@ export class Categories implements PageObject {
     this.fadingBar = page.locator('.fade-leave-active');
   }
 
-  async getLandingPageByName(landingPageName: string) : Promise<Locator> {
+  async getLandingPageByName(landingPageName: string): Promise<Locator> {
     return this.landingPageItems.locator(`text="${landingPageName}"`);
   }
 
-  async getPopOverCategoryByName(categoryName: string) : Promise<Locator> {
-    return  this.popoverCategoryTree.locator('.sw-tree-item__element').filter({ hasText: `${categoryName}` });
+  async getPopOverCategoryByName(categoryName: string): Promise<Locator> {
+    return this.popoverCategoryTree.locator('.sw-tree-item__element').filter({ hasText: `${categoryName}` });
+  }
+
+  getTreeItemContextButton(name: string): Locator {
+    return this.categoryTree
+      .locator('.sw-tree-item__element')
+      .filter({ hasText: name })
+      .locator('.sw-context-button__button');
   }
 
   url() {

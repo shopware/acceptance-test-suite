@@ -1,3 +1,4 @@
+/* eslint-disable playwright/no-conditional-expect */
 import {
     test,
     expect,
@@ -14,6 +15,7 @@ import {
     APIResponse,
     SystemConfig,
     SalesChannelAnalytics,
+    isSaaSInstance,
 } from '../../src';
 
 test('Data Service', async ({
@@ -46,7 +48,7 @@ test('Data Service', async ({
     const country = await TestDataService.createCountry();
     expect(country.name).toBeDefined();
 
-    const customerGroup = await TestDataService.createCustomerGroup({ name: 'Custom customer group'});
+    const customerGroup = await TestDataService.createCustomerGroup({ name: 'Custom customer group' });
     expect(customerGroup.name).toEqual('Custom customer group');
 
     const category = await TestDataService.createCategory({ name: 'Custom Category' });
@@ -86,10 +88,6 @@ test('Data Service', async ({
     const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description' });
     expect(variantProducts.length).toEqual(9);
     expect(variantProducts[0].description).toEqual('Variant description');
-
-    const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', true);
-    expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
-    expect(systemConfigEntry.configurationValue).toEqual(true);
 
     const salesChannelAnalytics = await TestDataService.createSalesChannelAnalytics({ active: false });
     expect(salesChannelAnalytics.active).toEqual(false);
@@ -143,9 +141,16 @@ test('Data Service', async ({
     const { data: databaseCategory } = (await categoryResponse.json()) as { data: Category };
     expect(databaseCategory.id).toBe(category.id);
 
-    const systemConfigEntryResponse = await AdminApiContext.get(`./system-config/${systemConfigEntry.id}?_response=detail`);
-    const { data: databaseSystemConfigEntry } = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
-    expect(databaseSystemConfigEntry.id).toBe(systemConfigEntry.id);
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (!isSaaSInstance(AdminApiContext)) {
+        const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', true);
+        expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
+        expect(systemConfigEntry.configurationValue).toEqual(true);
+
+        const systemConfigEntryResponse = await AdminApiContext.get(`./system-config/${systemConfigEntry.id}?_response=detail`);
+        const { data: databaseSystemConfigEntry } = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
+        expect(databaseSystemConfigEntry.id).toBe(systemConfigEntry.id);
+    }
 
     const salesChannelAnalyticsResponse = await AdminApiContext.get(`./sales-channel-analytics/${salesChannelAnalytics.id}?_response=detail`);
     const { data: databaseSalesChannelAnalytics } = (await salesChannelAnalyticsResponse.json()) as { data: SalesChannelAnalytics };
@@ -170,6 +175,9 @@ test('Data Service', async ({
     expect(cleanUp['deleted']['property_group_option']).toBeDefined();
     expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUp['deleted']['cms_page']).toBeDefined();
-    expect(cleanUp['deleted']['system_config']).toBeDefined();
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (!isSaaSInstance(AdminApiContext)) {
+        expect(cleanUp['deleted']['system_config']).toBeDefined();
+    }
     expect(cleanUp['deleted']['sales_channel_analytics']).toBeDefined();
 });
