@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [9.0.0](https://github.com/shopware/acceptance-test-suite/compare/v8.3.0...v9.0.0) (2024-12-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* fix saas related issues ([#225](https://github.com/shopware/acceptance-test-suite/issues/225))
+
+### Bug Fixes
+
+* adjust account type selection locator for 6.7 compat ([#223](https://github.com/shopware/acceptance-test-suite/issues/223)) ([8c493b9](https://github.com/shopware/acceptance-test-suite/commit/8c493b970ba7f3c6e28f9049bd6702924219f94d))
+* fix saas related issues ([#225](https://github.com/shopware/acceptance-test-suite/issues/225)) ([8860e1b](https://github.com/shopware/acceptance-test-suite/commit/8860e1b83ce85dd8541155fad6907bc66a903a5e))
+* replace config property with new structure ([#221](https://github.com/shopware/acceptance-test-suite/issues/221)) ([3cdddd9](https://github.com/shopware/acceptance-test-suite/commit/3cdddd9470a7a8a83b46dded5aa280007c70ae37))
+
 ## [8.3.0](https://github.com/shopware/acceptance-test-suite/compare/v8.2.2...v8.3.0) (2024-12-10)
 
 
