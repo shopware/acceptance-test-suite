@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [10.0.0](https://github.com/shopware/acceptance-test-suite/compare/v9.0.0...v10.0.0) (2024-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade playwright/test to 1.49.1 ([#226](https://github.com/shopware/acceptance-test-suite/issues/226))
+
+### Bug Fixes
+
+* adjust salutation selection locator for 6.7 compat ([#229](https://github.com/shopware/acceptance-test-suite/issues/229)) ([4caa643](https://github.com/shopware/acceptance-test-suite/commit/4caa64354592ec26b4fcfbf013274a3cea15e4ad))
+* upgrade playwright/test to 1.49.1 ([#226](https://github.com/shopware/acceptance-test-suite/issues/226)) ([16e68d1](https://github.com/shopware/acceptance-test-suite/commit/16e68d17f1896a276caac7394ef239adf3a45190))
+
 ## [9.0.0](https://github.com/shopware/acceptance-test-suite/compare/v8.3.0...v9.0.0) (2024-12-11)
 
 
