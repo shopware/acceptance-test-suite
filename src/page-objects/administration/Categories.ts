@@ -50,7 +50,7 @@ export class Categories implements PageObject {
     this.landingPageItems = this.landingPageArea.locator('.sw-tree-item__label');
     this.categoryTree = page.locator('.sw-category-tree');
 
-    this.categoryMenuItemList = page.locator('.sw-context-button__menu-popover').locator('.sw-context-menu-item');
+    this.categoryMenuItemList = page.locator('.sw-context-menu-item');
     this.createCategoryInput = page.getByPlaceholder('Create category').getByRole('textbox');
     this.confirmCategoryCreationButton = page.locator('.sw-confirm-field').locator('.sw-button--primary');
     this.categoryItems = this.categoryTree.locator('.tree-link');

@@ -1,10 +1,11 @@
 import { test as base } from '@playwright/test';
 import { Task } from '../../../types/Task';
 import { FixtureTypes } from '../../../types/FixtureTypes';
+import { AccountData, Customer, CustomFieldData, TagData } from '../../../types/ShopwareTypes';
 
 export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, FixtureTypes>({
     BulkEditCustomers: async ({ ShopAdmin, AdminCustomerListing, AdminCustomerBulkEdit  }, use ) => {
-        const task = (customers, accountData?, tagData?, customFieldData?) => {
+        const task = (customers: Customer[], accountData?: AccountData, tagData?: TagData, customFieldData?: CustomFieldData) => {
             return async function BulkEditCustomers() {
                 const customerCount = customers.length;
                 for (const customer of customers) {

@@ -248,3 +248,34 @@ export interface RuleAssignmentEntity {
     ruleType: RuleType;
 }
 
+export interface CategoryData {
+    name: string;
+    categoryType: 'Link' | 'Page / List' | 'Structuring element / Entry point';
+    status: boolean;
+}
+
+export interface CategoryCustomizableLinkData {
+    linkType: 'Internal' | 'External';
+    entity: 'Category' | 'Product' | 'Landing page'; // Restrict entity values
+    category?: string;
+    product?: string;
+    landingPage?: string;
+    openInNewTab: boolean;
+}
+
+export interface AccountData {
+    customerGroup?: string;
+    accountStatus?: boolean;
+    language?: string;
+    replyToCustomerGroupRequest?: string;
+}
+
+export interface TagData {
+    changeType: 'Overwrite' | 'Clear' | 'Add' | 'Remove';
+    tags: string[];
+}
+
+export interface CustomFieldData {
+    customFieldSetName: string;
+    customFieldValue: string;
+}
