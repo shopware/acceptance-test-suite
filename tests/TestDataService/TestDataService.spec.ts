@@ -22,7 +22,6 @@ test('Data Service', async ({
     TestDataService,
     AdminApiContext,
 }) => {
-
     const customer = await TestDataService.createCustomer({ firstName: 'Luke', lastName: 'Skywalker' })
     expect(customer.firstName).toEqual('Luke');
     expect(customer.lastName).toEqual('Skywalker');
@@ -141,16 +140,10 @@ test('Data Service', async ({
     const { data: databaseCategory } = (await categoryResponse.json()) as { data: Category };
     expect(databaseCategory.id).toBe(category.id);
 
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (!isSaaSInstance(AdminApiContext)) {
-        const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', true);
-        expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
-        expect(systemConfigEntry.configurationValue).toEqual(true);
-
-        const systemConfigEntryResponse = await AdminApiContext.get(`./system-config/${systemConfigEntry.id}?_response=detail`);
-        const { data: databaseSystemConfigEntry } = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
-        expect(databaseSystemConfigEntry.id).toBe(systemConfigEntry.id);
-    }
+    await TestDataService.setSystemConfig({ 'test.random.foo': true });
+    const systemConfigEntryResponse = await AdminApiContext.get(`_action/system-config?domain=test.random`);
+    const databaseSystemConfigEntry = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
+    expect(databaseSystemConfigEntry).toStrictEqual({ 'test.random.foo': true });
 
     const salesChannelAnalyticsResponse = await AdminApiContext.get(`./sales-channel-analytics/${salesChannelAnalytics.id}?_response=detail`);
     const { data: databaseSalesChannelAnalytics } = (await salesChannelAnalyticsResponse.json()) as { data: SalesChannelAnalytics };
@@ -160,6 +153,10 @@ test('Data Service', async ({
     TestDataService.setCleanUp(true);
     const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
     expect(cleanUpDeleteOperationsResponse.ok()).toBeTruthy();
+
+    const systemConfigEntryResponse2 = await AdminApiContext.get(`_action/system-config?domain=test.random`);
+    const databaseSystemConfigEntry2 = (await systemConfigEntryResponse2.json()) as { data: SystemConfig };
+    expect(databaseSystemConfigEntry2).toStrictEqual([]);
 
     const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();
     expect(cleanUpDeleteOperations['notFound'].length).toBe(0);

@@ -27,7 +27,6 @@ import type {
     CmsPage,
     Country,
     CustomerGroup,
-    SystemConfig,
     SalesChannelAnalytics,
     SalesChannelDomain,
     Language,
@@ -109,6 +108,9 @@ export class TestDataService {
      * @private
      */
     private createdRecords: CreatedRecord[] = [];
+
+
+    private restoreSystemConfig: Record<string, unknown> = {};
 
     /**
      * A registry of all created sales channel records.
@@ -850,7 +852,7 @@ export class TestDataService {
      * @param overrides - Specific data overrides that will be applied to the customer group data struct.
      */
     async createCustomerGroup(overrides: Partial<CustomerGroup> = {}): Promise<CustomerGroup> {
-        
+
         const basicCustomerGroup = this.getBasicCustomerGroupStruct(overrides);
 
         const response = await this.AdminApiClient.post('customer-group?_response=detail', {
@@ -866,37 +868,23 @@ export class TestDataService {
     }
 
     /**
-     * Creates a system config entry
+     * Set system config for default sales channel
      *
-     * @param configurationKey - Config key for shop configurations.
-     * @param configurationValue - Config value as object for shop configurations (see {@link https://shopware.stoplight.io/docs/admin-api/9174d032146f8-create-a-new-system-config-resources|AdminApi Stoplight}).
-     * @param salesChannelId - Unique identity of sales channel.
+     * @param configs - Key value pairs to set
      */
-    async createSystemConfigEntry(
-        configurationKey: string,
-        configurationValue = {},
-        salesChannelId = '',
-    ): Promise<SystemConfig> {
-
-        const systemConfigStruct = {
-            id: this.IdProvider.getIdPair().uuid,
-            configurationKey: configurationKey,
-            configurationValue: configurationValue,
-            salesChannelId: salesChannelId || null,
-        }
-
-        const response = await this.AdminApiClient.post('system-config?_response=detail', {
-            data: systemConfigStruct,
+    async setSystemConfig(configs: Record<string, unknown>): Promise<void> {
+        const response = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChanneldId=${this.defaultSalesChannel.id}`, {
+            data: configs,
         });
         expect(response.ok()).toBeTruthy();
 
-        const { data: systemConfigEntry } = (await response.json()) as { data: SystemConfig };
-
-        this.addCreatedRecord('system_config', systemConfigEntry.id);
+        // we just unset all configs with this.defaultSalesChannel.id
+        // the defaults should take effect again
+        for (const key of Object.keys(configs)) {
+            this.restoreSystemConfig[key] = null;
+        }
 
         await this.clearCaches();
-
-        return systemConfigEntry;
     }
 
     /**
@@ -930,8 +918,8 @@ export class TestDataService {
      * @param overrides - Specific data overrides that will be applied to the custom field data struct.
      */
     async createCustomField(
-      customFieldSetId: string,
-      overrides: Partial<CustomField> = {}
+        customFieldSetId: string,
+        overrides: Partial<CustomField> = {}
     ): Promise<CustomField> {
         const customFieldStruct = this.getBasicCustomFieldStruct(overrides);
 
@@ -953,7 +941,7 @@ export class TestDataService {
      * @param overrides - Specific data overrides that will be applied to the custom field set data struct.
      */
     async createCustomFieldSet(
-      overrides: Partial<CustomFieldSet> = {}
+        overrides: Partial<CustomFieldSet> = {}
     ): Promise<CustomFieldSet> {
         const customFieldSetStruct = this.getBasicCustomFieldSetStruct(overrides);
 
@@ -1194,7 +1182,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_currency', {salesChannelId: salesChannelId, currencyId: currencyId})
+        this.addCreatedRecord('sales_channel_currency', { salesChannelId: salesChannelId, currencyId: currencyId })
 
         return salesChannel;
     }
@@ -1223,7 +1211,7 @@ export class TestDataService {
         });
         expect(syncSalesChannelResponse.ok()).toBeTruthy();
 
-        const { data: salesChannel } = (await syncSalesChannelResponse.json()) as { data: SalesChannel};
+        const { data: salesChannel } = (await syncSalesChannelResponse.json()) as { data: SalesChannel };
 
         this.addCreatedSalesChannelRecord(salesChannelId, 'analyticsId');
 
@@ -1286,7 +1274,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_language', {salesChannelId: salesChannelId, languageId: languageId})
+        this.addCreatedRecord('sales_channel_language', { salesChannelId: salesChannelId, languageId: languageId })
 
         return salesChannel;
     }
@@ -1672,7 +1660,7 @@ export class TestDataService {
         const deleteOperations: Record<string, SyncApiOperation> = {};
         const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
 
-        if(this.createdSalesChannelRecords) {
+        if (this.createdSalesChannelRecords) {
             for (const salesChannelRecord of this.createdSalesChannelRecords) {
                 const salesChannelResponse = await this.AdminApiClient.patch(`sales-channel/${salesChannelRecord.salesChannelId}`, {
                     data: {
@@ -1713,7 +1701,11 @@ export class TestDataService {
             data: priorityDeleteOperations,
         });
 
-        return await this.AdminApiClient.post('_action/sync', {
+        await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChanneldId=${this.defaultSalesChannel.id}`, {
+            data: this.restoreSystemConfig,
+        });
+
+        return this.AdminApiClient.post('_action/sync', {
             data: deleteOperations,
         });
     }
@@ -1787,9 +1779,9 @@ export class TestDataService {
 
         const basicCountry = {
             id: countryUuid,
-            name: 'Country-'+countryId,
-            iso: ''+countryId.substring(0,2),
-            iso3: ''+countryId.substring(0,3),
+            name: 'Country-' + countryId,
+            iso: '' + countryId.substring(0, 2),
+            iso3: '' + countryId.substring(0, 3),
             active: true,
             shippingAvailable: true,
         };
@@ -1806,9 +1798,9 @@ export class TestDataService {
 
         const basicCurrency = {
             id: currencyUuid,
-            name: 'Currency-'+currencyId,
-            shortName: 'CUR'+currencyId,
-            isoCode: ''+currencyId.substring(0,3),
+            name: 'Currency-' + currencyId,
+            shortName: 'CUR' + currencyId,
+            isoCode: '' + currencyId.substring(0, 3),
             symbol: 'C$',
             factor: 2.40,
             itemRounding: {
@@ -2488,7 +2480,7 @@ export class TestDataService {
 
     getSalesChannelAnalyticsStruct(overrides: Partial<SalesChannelAnalytics> = {}): Partial<SalesChannelAnalytics> {
         const salesChannelAnalyticsUuid = this.IdProvider.getIdPair().uuid;
-        const trackingId =  this.IdProvider.getIdPair().id;
+        const trackingId = this.IdProvider.getIdPair().id;
 
         const basicSalesChannelAnalyticsStruct = {
             id: salesChannelAnalyticsUuid,
@@ -2517,7 +2509,7 @@ export class TestDataService {
                 },
             },
             position: 1,
-              relations: [
+            relations: [
                 {
                     id: this.IdProvider.getIdPair().uuid,
                     entityName: 'customer',
