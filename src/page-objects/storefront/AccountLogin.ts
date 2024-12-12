@@ -35,7 +35,7 @@ export class AccountLogin implements PageObject {
         this.personalFormArea = page.locator('.register-personal');
         this.billingAddressFormArea = page.locator('.register-billing');
         this.accountTypeSelect = this.personalFormArea.locator('.contact-select');
-        this.salutationSelect = this.personalFormArea.locator('#personalSalutation'); 
+        this.salutationSelect = this.personalFormArea.locator('.form-group').filter({ has: page.getByLabel('Salutation') }).locator('.form-select');
         this.firstNameInput = this.personalFormArea.getByLabel('First name*');
         this.lastNameInput = this.personalFormArea.getByLabel('Last name*');
         this.companyInput = this.personalFormArea.getByPlaceholder('Enter company...');
