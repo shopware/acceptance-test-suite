@@ -18,6 +18,10 @@ export class AccountProfile implements PageObject {
     public readonly newPasswordConfirmInput: Locator;
     public readonly currentPasswordInput: Locator;
     public readonly saveNewPasswordButton: Locator;
+    public readonly loginDataEmailAddress: Locator;
+
+    public readonly emailUpdateMessage: Locator;
+    public readonly passwordUpdateMessage: Locator;
 
     constructor(public readonly page: Page) {
         this.salutationSelect = page.getByLabel('Salutation');
@@ -36,6 +40,10 @@ export class AccountProfile implements PageObject {
         this.newPasswordConfirmInput = page.getByPlaceholder('Enter your new password once again...');
         this.currentPasswordInput = page.getByPlaceholder('Enter current password...');
         this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: 'Save changes' });
+        this.loginDataEmailAddress = page.locator('.account-profile-mail');
+
+        this.emailUpdateMessage = page.getByText('Your email address has been updated.');
+        this.passwordUpdateMessage = page.getByText('Your password has been updated.');
     }
 
     url() {
