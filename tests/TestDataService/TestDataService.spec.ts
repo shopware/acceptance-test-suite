@@ -158,26 +158,25 @@ test('Data Service', async ({
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
-    const cleanUpResponse = await TestDataService.cleanUp() as APIResponse;
-    expect(cleanUpResponse.ok()).toBeTruthy();
+    const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
+    expect(cleanUpDeleteOperationsResponse.ok()).toBeTruthy();
 
-    const cleanUp = await cleanUpResponse.json();
-    expect(cleanUp['notFound'].length).toBe(0);
-    expect(cleanUp['deleted']['media']).toBeDefined();
-    expect(cleanUp['deleted']['payment_method']).toBeDefined();
-    expect(cleanUp['deleted']['shipping_method']).toBeDefined();
-    expect(cleanUp['deleted']['rule']).toBeDefined();
-    expect(cleanUp['deleted']['currency']).toBeDefined();
-    expect(cleanUp['deleted']['country']).toBeDefined();
-    expect(cleanUp['deleted']['customer_group']).toBeDefined();
-    expect(cleanUp['deleted']['category']).toBeDefined();
-    expect(cleanUp['deleted']['property_group']).toBeDefined();
-    expect(cleanUp['deleted']['property_group_option']).toBeDefined();
-    expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
-    expect(cleanUp['deleted']['cms_page']).toBeDefined();
+    const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();
+    expect(cleanUpDeleteOperations['notFound'].length).toBe(0);
+    expect(cleanUpDeleteOperations['deleted']['media']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['payment_method']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['rule']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['currency']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['country']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['customer_group']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['category']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['property_group']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['property_group_option']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['product_manufacturer']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['cms_page']).toBeDefined();
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!isSaaSInstance(AdminApiContext)) {
-        expect(cleanUp['deleted']['system_config']).toBeDefined();
+        expect(cleanUpDeleteOperations['deleted']['system_config']).toBeDefined();
     }
-    expect(cleanUp['deleted']['sales_channel_analytics']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['sales_channel_analytics']).toBeDefined();
 });

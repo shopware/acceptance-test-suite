@@ -231,3 +231,20 @@ export type CustomField = Omit<components['schemas']['CustomField'], 'config'> &
         }
     };
 };
+
+// custom types below
+
+export enum RuleType {
+    shippingAvailability = 'shippingMethodAvailabilityRule',
+    taxAvailability = 'taxProviderAvailabilityRule',
+    paymentAvailability = 'paymentMethodAvailabilityRule',
+    promotionOrder = 'promotionOrderRule',
+    promotionCustomer = 'promotionCustomerRule',
+    promotionCart = 'promotionCartRule',
+}
+export interface RuleAssignmentEntity {
+    id: string;
+    name: string;
+    ruleType: RuleType;
+}
+
