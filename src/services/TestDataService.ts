@@ -714,9 +714,9 @@ export class TestDataService {
     async createBasicShippingMethod(
         overrides: Partial<ShippingMethod> = {},
     ): Promise<ShippingMethod> {
-        const deliveryTime = await this.getAllDeliveryTimeResources()
+        const deliveryTime = await this.getAllDeliveryTimeResources();
 
-        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id
+        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id;
         const basicShippingMethod = this.getBasicShippingMethodStruct(
             deliveryTime[0].id,
             overrides
