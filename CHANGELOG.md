@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.1.0](https://github.com/shopware/acceptance-test-suite/compare/v10.0.1...v10.1.0) (2024-12-13)
+
+
+### Features
+
+* add pageObject and task for RuleAssignment tests and TestDataService refactoring ([3ec2ef8](https://github.com/shopware/acceptance-test-suite/commit/3ec2ef8664a622c8f9a74bde3d337173cd1a1f61))
+
 ## [10.0.1](https://github.com/shopware/acceptance-test-suite/compare/v10.0.0...v10.0.1) (2024-12-13)
 
 ### Bug Fixes
