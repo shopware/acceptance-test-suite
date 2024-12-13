@@ -6,6 +6,7 @@
 ### Features
 
 * add account recover page ([#235](https://github.com/shopware/acceptance-test-suite/issues/235)) ([c70ae47](https://github.com/shopware/acceptance-test-suite/commit/c70ae474205d4afbcabdb8f686e1ed860f36652d))
+* add some locators to AccountProfile ([bbfc459](https://github.com/shopware/acceptance-test-suite/pull/232/commits/bbfc459a24fb4cc53acfe44790071a4afcfcf2ce))
 
 
 ### Bug Fixes
