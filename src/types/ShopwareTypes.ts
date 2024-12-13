@@ -4,6 +4,10 @@ export type SalesChannel = components['schemas']['SalesChannel'] & {
     id: string,
 }
 
+export type SalesChannelDomain = components['schemas']['SalesChannelDomain'] & {
+    id: string,
+};
+
 export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingAddress' | 'defaultBillingAddress'> & {
     id: string,
     password: string,

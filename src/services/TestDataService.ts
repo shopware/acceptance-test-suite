@@ -1,5 +1,5 @@
 import { createRandomImage } from './ImageHelper';
-import { getLanguageData, getPromotionWithDiscount } from './ShopwareDataHelpers';
+import { getLanguageData, getSnippetSetId, getPromotionWithDiscount } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
@@ -29,6 +29,7 @@ import type {
     CustomerGroup,
     SystemConfig,
     SalesChannelAnalytics,
+    SalesChannelDomain,
     Language,
     CustomFieldSet,
     CustomField,
@@ -100,7 +101,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
 
     /**
      * A registry of all created records.
@@ -969,6 +970,32 @@ export class TestDataService {
     }
 
     /**
+     * Creates a new domain for a sales channel.
+     * 
+     * @param overrides - Specific data overrides that will be applied to the sales channel domain data struct.
+     */
+    async createSalesChannelDomain(overrides: Partial<SalesChannelDomain> = {}): Promise<SalesChannelDomain>  {
+        const salesChannelId = this.defaultSalesChannel.id;
+        const currencyId = this.defaultCurrencyId;
+        const languageId = this.defaultLanguageId;
+        const snippetSetId = await getSnippetSetId('en-GB', this.AdminApiClient);
+
+        const salesChannelDomainStruct = this.getSalesChannelDomainStruct(salesChannelId, currencyId, languageId, snippetSetId, overrides);
+
+        const response = await this.AdminApiClient.post(`sales-channel-domain?_response=detail`, {
+            data: salesChannelDomainStruct,
+        });
+
+        expect(response.ok()).toBeTruthy();
+
+        const { data: salesChannelDomain } = (await response.json()) as { data: SalesChannelDomain };
+
+        this.addCreatedRecord('sales_channel_domain', salesChannelDomain.id);
+
+        return salesChannelDomain;
+    }
+
+    /**
      * Assigns a media resource as the download of a digital product.
      *
      * @param productId - The uuid of the product.
@@ -1233,7 +1260,7 @@ export class TestDataService {
 
         return salesChannel;
     }
-
+    
     /**
      * Assigns a language to a sales channel.
      *
@@ -2527,4 +2554,25 @@ export class TestDataService {
         return Object.assign({}, basicCustomField, overrides);
     }
 
+    getSalesChannelDomainStruct(
+        salesChannelId: string, 
+        currencyId: string,
+        languageId: string,
+        snippetSetId: string,
+        overrides:Partial<SalesChannelDomain> = {},
+    ): Partial<SalesChannelDomain> {
+
+        const appUrl = process.env['APP_URL'];
+        const baseUrl = `${appUrl}test-${this.IdProvider.getIdPair().uuid}/`;
+
+        const basicSalesChannelDomain = {
+            url: baseUrl,
+            salesChannelId: salesChannelId, 
+            currencyId: currencyId,
+            languageId: languageId,
+            snippetSetId: snippetSetId,
+        };
+
+        return Object.assign({}, basicSalesChannelDomain, overrides);
+    }
 }

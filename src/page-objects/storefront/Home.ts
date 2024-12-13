@@ -6,7 +6,9 @@ export class Home implements PageObject {
     public readonly productImages: Locator;
     public readonly productListItems: Locator;
     public readonly languagesDropdown: Locator;
+    public readonly languagesMenuOptions: Locator;
     public readonly currenciesDropdown: Locator;
+    public readonly currenciesMenuOptions: Locator;
     public readonly consentOnlyTechnicallyRequiredButton: Locator;
     public readonly consentConfigureButton: Locator;
     public readonly consentAcceptAllCookiesButton: Locator;
@@ -24,8 +26,10 @@ export class Home implements PageObject {
     constructor(public readonly page: Page) {
         this.productImages = page.locator('.product-image-link');
         this.productListItems = page.getByRole('listitem');
-        this.languagesDropdown = page.getByLabel('Shop settings').locator('.languages-menu');
-        this.currenciesDropdown = page.getByLabel('Shop settings').locator('.currencies-menu');
+        this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
+        this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
+        this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
+        this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
         this.consentCookieBannerContainer = page.locator('.cookie-permission-container');
         this.consentOnlyTechnicallyRequiredButton = page.getByRole('button', { name: 'Only technically required' });
         this.consentConfigureButton = page.getByRole('button', { name: 'Configure' });
