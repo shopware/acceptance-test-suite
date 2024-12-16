@@ -1,5 +1,22 @@
 # Changelog
 
+## [10.2.0](https://github.com/shopware/acceptance-test-suite/compare/v10.1.0...v10.2.0) (2024-12-16)
+
+
+### Features
+
+* add account recover page ([#235](https://github.com/shopware/acceptance-test-suite/issues/235)) ([c70ae47](https://github.com/shopware/acceptance-test-suite/commit/c70ae474205d4afbcabdb8f686e1ed860f36652d))
+
+
+### Bug Fixes
+
+* type check to stop IDE complaint ([#228](https://github.com/shopware/acceptance-test-suite/issues/228)) ([4eab21c](https://github.com/shopware/acceptance-test-suite/commit/4eab21c21236b652618789b982cf608b14f8533f))
+
+
+### Miscellaneous Chores
+
+* release 10.2.0 ([1a60727](https://github.com/shopware/acceptance-test-suite/commit/1a60727110063843e5f504bc96ff635e06c074fe))
+
 ## [10.1.0](https://github.com/shopware/acceptance-test-suite/compare/v10.0.1...v10.1.0) (2024-12-13)
 
 
