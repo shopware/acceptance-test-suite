@@ -242,9 +242,12 @@ export enum RuleType {
     promotionCustomer = 'promotionCustomerRule',
     promotionCart = 'promotionCartRule',
 }
-export interface RuleAssignmentEntity {
+
+export interface RuleAssignmentEntities {
+    entity: {
     id: string;
     name: string;
-    ruleType: RuleType;
+}
+    ruleType: RuleType
 }
 
