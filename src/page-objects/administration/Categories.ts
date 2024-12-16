@@ -100,6 +100,6 @@ export class Categories implements PageObject {
   }
 
   url() {
-    return `#/sw/category/index`;
+    return "#/sw/category/index";
   }
 }
