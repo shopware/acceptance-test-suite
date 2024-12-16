@@ -11,6 +11,7 @@ import { CheckoutFinish } from './storefront/CheckoutFinish';
 import { CheckoutRegister } from './storefront/CheckoutRegister';
 import { Account } from './storefront/Account';
 import { AccountLogin } from './storefront/AccountLogin';
+import { AccountRecover } from './storefront/AccountRecover';
 import { AccountProfile } from './storefront/AccountProfile';
 import { AccountOrder } from './storefront/AccountOrder';
 import { AccountAddresses } from './storefront/AccountAddresses';
@@ -31,6 +32,7 @@ export interface StorefrontPageTypes {
     StorefrontCheckoutRegister: CheckoutRegister;
     StorefrontAccount: Account;
     StorefrontAccountLogin: AccountLogin;
+    StorefrontAccountRecover: AccountRecover;
     StorefrontAccountProfile: AccountProfile;
     StorefrontAccountOrder: AccountOrder;
     StorefrontAccountAddresses: AccountAddresses;
@@ -52,6 +54,7 @@ export const StorefrontPageObjects = {
     CheckoutRegister,
     Account,
     AccountLogin,
+    AccountRecover,
     AccountProfile,
     AccountOrder,
     AccountAddresses,
@@ -102,6 +105,10 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontAccountLogin: async ({ StorefrontPage }, use) => {
         await use(new AccountLogin(StorefrontPage));
+    },
+
+    StorefrontAccountRecover: async ({ StorefrontPage }, use) => {
+        await use(new AccountRecover(StorefrontPage));
     },
 
     StorefrontAccountProfile: async ({ StorefrontPage }, use) => {

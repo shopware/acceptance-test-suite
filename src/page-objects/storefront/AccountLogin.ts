@@ -4,6 +4,7 @@ import type { PageObject } from '../../types/PageObject';
 export class AccountLogin implements PageObject {
     public readonly emailInput: Locator;
     public readonly passwordInput: Locator;
+    public readonly forgotPasswordLink: Locator;
     public readonly loginButton: Locator;
     public readonly logoutLink: Locator;
     public readonly successAlert: Locator;
@@ -30,6 +31,7 @@ export class AccountLogin implements PageObject {
         this.emailInput = page.getByLabel('Your email address');
         this.passwordInput = page.getByLabel('Your password');
         this.loginButton = page.getByRole('button', { name: 'Log in' });
+        this.forgotPasswordLink = page.getByRole('link', { name: 'I have forgotten my password.' });
         this.logoutLink = page.getByRole('link', { name: 'Log out'});
 
         this.personalFormArea = page.locator('.register-personal');
