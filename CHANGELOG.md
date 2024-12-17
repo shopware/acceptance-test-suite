@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.2.1](https://github.com/shopware/acceptance-test-suite/compare/v10.2.0...v10.2.1) (2024-12-17)
+
+
+### Bug Fixes
+
+* Refactor form locators ([#238](https://github.com/shopware/acceptance-test-suite/issues/238)) ([2c3e650](https://github.com/shopware/acceptance-test-suite/commit/2c3e6509bb0e33133164dc32e768fe75102796cc)) 
+
 ## [10.2.0](https://github.com/shopware/acceptance-test-suite/compare/v10.1.0...v10.2.0) (2024-12-16)
 
 
