@@ -25,20 +25,20 @@ export class AccountProfile implements PageObject {
 
     constructor(public readonly page: Page) {
         this.salutationSelect = page.getByLabel('Salutation');
-        this.firstNameInput = page.getByPlaceholder('Enter first name...');
-        this.lastNameInput = page.getByPlaceholder('Enter last name...');
+        this.firstNameInput = page.getByLabel('First name');
+        this.lastNameInput = page.getByLabel('Last name');
         this.saveProfileButton = page.locator('#profilePersonalForm').getByRole('button', { name: 'Save changes' })
 
         this.changeEmailButton = page.getByRole('button', { name: 'Change email address' });
-        this.emailAddressInput = page.getByPlaceholder('Enter email address...');
-        this.emailAddressConfirmInput = page.getByPlaceholder('Enter your email address once again...');
-        this.emailConfirmPasswordInput = page.getByPlaceholder('Enter password...');
+        this.emailAddressInput = page.getByLabel('Email address');
+        this.emailAddressConfirmInput = page.getByLabel('Email address confirmation');
+        this.emailConfirmPasswordInput = page.locator('input[id="personalMailPasswordCurrent"]');
         this.saveEmailAddressButton = page.locator('#profileMailForm').getByRole('button', { name: 'Save changes' });
 
         this.changePasswordButton = page.getByRole('button', { name: 'Change password' });
-        this.newPasswordInput = page.getByPlaceholder('Enter new password...');
-        this.newPasswordConfirmInput = page.getByPlaceholder('Enter your new password once again...');
-        this.currentPasswordInput = page.getByPlaceholder('Enter current password...');
+        this.newPasswordInput = page.locator('input[id="newPassword"]');
+        this.newPasswordConfirmInput = page.locator('input[id="newPasswordConfirmation"]');
+        this.currentPasswordInput = page.locator('input[id="passwordCurrent"]');
         this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: 'Save changes' });
         this.loginDataEmailAddress = page.locator('.account-profile-mail');
 
