@@ -8,7 +8,7 @@ import { AdminApiContext } from 'src/services/AdminApiContext';
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
     Register: async ({ StorefrontAccountLogin, AdminApiContext, IdProvider }, use) => {
         let registeredEmail = '';
-        
+
         const defaultRegistrationData: RegistrationData = {
             salutation: 'Mr.',
             firstName: 'Jeff',
