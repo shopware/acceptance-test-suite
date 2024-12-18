@@ -31,17 +31,17 @@ export class Home implements PageObject {
         this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
         this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
         this.consentCookieBannerContainer = page.locator('.cookie-permission-container');
-        this.consentOnlyTechnicallyRequiredButton = page.getByRole('button', { name: 'Only technically required' });
-        this.consentConfigureButton = page.getByRole('button', { name: 'Configure' });
-        this.consentAcceptAllCookiesButton = page.getByRole('button', { name: 'Accept all cookies' });
+        this.consentOnlyTechnicallyRequiredButton = page.getByRole('button', { name: 'Only technically required', exact: true });
+        this.consentConfigureButton = page.getByRole('button', { name: 'Configure', exact: true });
+        this.consentAcceptAllCookiesButton = page.getByRole('button', { name: 'Accept all cookies', exact: true });
         this.consentCookiePreferences = page.getByLabel('Cookie preferences');
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
         this.consentDialog = page.getByRole('dialog').filter( { hasText: 'Cookie preferences' });
-        this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Technically required' });
-        this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Statistics' });
-        this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing' });
-        this.consentDialogSaveButton = this.consentDialog.getByRole('button', { name: 'Save' });
-        this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', { name: 'Accept all cookies' });
+        this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Technically required', exact: true });
+        this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Statistics', exact: true });
+        this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing', exact: true });
+        this.consentDialogSaveButton = this.consentDialog.getByRole('button', { name: 'Save', exact: true });
+        this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', { name: 'Accept all cookies', exact: true });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
 
     }
