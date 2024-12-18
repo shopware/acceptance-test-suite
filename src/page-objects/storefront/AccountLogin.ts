@@ -9,6 +9,7 @@ export class AccountLogin implements PageObject {
     public readonly logoutLink: Locator;
     public readonly successAlert: Locator;
     public readonly invalidCredentialsAlert: Locator;
+    public readonly passwordUpdatedAlert: Locator;
 
     // Inputs for registration
     public readonly personalFormArea: Locator;
@@ -54,6 +55,7 @@ export class AccountLogin implements PageObject {
         this.registerButton = page.getByRole('button', { name: 'Continue' });
         this.logoutLink = page.getByRole('link', { name: 'Log out'});
         this.successAlert = page.getByText('Successfully logged out.');
+        this.passwordUpdatedAlert = page.getByText('Your password has been updated.');
     }
 
     url() {

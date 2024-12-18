@@ -9,6 +9,10 @@ export class AccountRecover implements PageObject {
     public readonly requestEmailButton: Locator;
     public readonly backButton: Locator;
     public readonly passwordResetEmailSentMessage: Locator;
+    public readonly newPasswordInput: Locator;
+    public readonly newPasswordConfirmInput: Locator;
+    public readonly changePasswordButton: Locator;
+    public readonly invalidLinkMessage: Locator;
 
     constructor(public readonly page: Page) {
         this.passwordRecoveryForm = page.locator('.account-recover-password-form');
@@ -19,9 +23,16 @@ export class AccountRecover implements PageObject {
         this.requestEmailButton = this.passwordRecoveryForm.getByRole('button', { name: 'Request email' });
         this.backButton = this.passwordRecoveryForm.getByRole('link', { name: 'Back' });
         this.passwordResetEmailSentMessage = page.getByText('If the provided email address is registered, a confirmation email including a password reset link has been sent.');
+        this.newPasswordInput = page.getByLabel('New password');
+        this.newPasswordConfirmInput = page.getByLabel('Password confirmation');
+        this.changePasswordButton = page.getByRole('button', { name: 'Change password' });
+        this.invalidLinkMessage = page.getByText('The password reset link seems to be invalid.');
     }
 
-    url() {
+    url(recoverLink?: string) {
+        if (recoverLink) {
+            return recoverLink;
+        }
         return 'account/recover';
     }
 }
