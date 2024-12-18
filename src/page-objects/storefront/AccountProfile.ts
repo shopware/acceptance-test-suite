@@ -22,6 +22,9 @@ export class AccountProfile implements PageObject {
 
     public readonly emailUpdateMessage: Locator;
     public readonly passwordUpdateMessage: Locator;
+    public readonly emailValidationAlert: Locator;
+    public readonly emailUpdateFailureAlert: Locator;
+    public readonly passwordUpdateFailureAlert: Locator;
 
     constructor(public readonly page: Page) {
         this.salutationSelect = page.getByLabel('Salutation');
@@ -30,20 +33,23 @@ export class AccountProfile implements PageObject {
         this.saveProfileButton = page.locator('#profilePersonalForm').getByRole('button', { name: 'Save changes' })
 
         this.changeEmailButton = page.getByRole('button', { name: 'Change email address' });
-        this.emailAddressInput = page.getByLabel('Email address');
+        this.emailAddressInput = page.locator('input[id="personalMail"]');
         this.emailAddressConfirmInput = page.getByLabel('Email address confirmation');
         this.emailConfirmPasswordInput = page.locator('input[id="personalMailPasswordCurrent"]');
         this.saveEmailAddressButton = page.locator('#profileMailForm').getByRole('button', { name: 'Save changes' });
 
         this.changePasswordButton = page.getByRole('button', { name: 'Change password' });
         this.newPasswordInput = page.locator('input[id="newPassword"]');
-        this.newPasswordConfirmInput = page.locator('input[id="newPasswordConfirmation"]');
-        this.currentPasswordInput = page.locator('input[id="passwordCurrent"]');
+        this.newPasswordConfirmInput = page.locator('input[id="passwordConfirmation"]');
+        this.currentPasswordInput = page.locator('input[id="password"]');
         this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: 'Save changes' });
         this.loginDataEmailAddress = page.locator('.account-profile-mail');
 
         this.emailUpdateMessage = page.getByText('Your email address has been updated.');
         this.passwordUpdateMessage = page.getByText('Your password has been updated.');
+        this.emailValidationAlert = page.locator('.was-validated');
+        this.emailUpdateFailureAlert = page.getByText('Email address could not be changed.');
+        this.passwordUpdateFailureAlert = page.getByText('Password could not be changed.');
     }
 
     url() {

@@ -8,6 +8,7 @@ export class AccountLogin implements PageObject {
     public readonly loginButton: Locator;
     public readonly logoutLink: Locator;
     public readonly successAlert: Locator;
+    public readonly invalidCredentialsAlert: Locator;
 
     // Inputs for registration
     public readonly personalFormArea: Locator;
@@ -33,6 +34,7 @@ export class AccountLogin implements PageObject {
         this.loginButton = page.getByRole('button', { name: 'Log in' });
         this.forgotPasswordLink = page.getByRole('link', { name: 'I have forgotten my password.' });
         this.logoutLink = page.getByRole('link', { name: 'Log out'});
+        this.invalidCredentialsAlert = page.getByText('Could not find an account that matches the given credentials.');
 
         this.personalFormArea = page.locator('.register-personal');
         this.billingAddressFormArea = page.locator('.register-billing');
