@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.2.3](https://github.com/shopware/acceptance-test-suite/compare/v10.2.2...v10.2.3) (2024-12-18)
+
+
+### Bug Fixes
+
+* NEXT-39784 - fix review feedback ([6217445](https://github.com/shopware/acceptance-test-suite/commit/621744514cd05eda6af4795ed6ca5382a937a201))
+
 ## [10.2.2](https://github.com/shopware/acceptance-test-suite/compare/v10.2.1...v10.2.2) (2024-12-18)
 
 
