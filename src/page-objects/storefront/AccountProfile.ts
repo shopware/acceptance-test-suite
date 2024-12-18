@@ -26,8 +26,6 @@ export class AccountProfile implements PageObject {
     public readonly emailUpdateFailureAlert: Locator;
     public readonly passwordUpdateFailureAlert: Locator;
 
-
-
     constructor(public readonly page: Page) {
         this.salutationSelect = page.getByLabel('Salutation');
         this.firstNameInput = page.getByLabel('First name');
