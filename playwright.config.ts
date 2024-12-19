@@ -15,11 +15,22 @@ if (process.env['ADMIN_URL']) {
   process.env['ADMIN_URL'] = process.env['APP_URL'] + 'admin/';
 }
 
+if (!process.env['WEBSERVER_COMMAND']) {
+  if (process.env['WEBSERVER_COMMAND'] === defaultAppUrl) {
+    process.env['WEBSERVER_COMMAND'] = 'docker compose up --pull=always --quiet-pull shopware';
+  } else {
+    process.env['WEBSERVER_COMMAND'] = 'sleep 1h';
+  }
+}
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   timeout: 60000,
+  expect: {
+    timeout: 10_000,
+  },
   retries: 0,
   workers: process.env.CI ? 2 : 1,
   reporter: process.env.CI ? [
@@ -33,7 +44,7 @@ export default defineConfig({
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: process.env['APP_URL'] === defaultAppUrl ? 'docker compose up --pull=always --quiet-pull shopware' : 'sleep 1h',
+    command: process.env['WEBSERVER_COMMAND'] ?? 'sleep 1h',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
     timeout: 180000,

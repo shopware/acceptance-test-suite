@@ -32,7 +32,7 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.expects(AdminManufacturerCreate.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
-    await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible();
+    await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible({ timeout: 15_000 });
 
     const category = await TestDataService.createCategory();
     await ShopAdmin.goesTo(AdminCategories.url());

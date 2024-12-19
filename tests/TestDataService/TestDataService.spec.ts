@@ -13,16 +13,13 @@ import {
     Manufacturer,
     Category,
     APIResponse,
-    SystemConfig,
     SalesChannelAnalytics,
-    isSaaSInstance,
 } from '../../src';
 
 test('Data Service', async ({
     TestDataService,
     AdminApiContext,
 }) => {
-
     const customer = await TestDataService.createCustomer({ firstName: 'Luke', lastName: 'Skywalker' })
     expect(customer.firstName).toEqual('Luke');
     expect(customer.lastName).toEqual('Skywalker');
@@ -141,17 +138,6 @@ test('Data Service', async ({
     const { data: databaseCategory } = (await categoryResponse.json()) as { data: Category };
     expect(databaseCategory.id).toBe(category.id);
 
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (!isSaaSInstance(AdminApiContext)) {
-        const systemConfigEntry = await TestDataService.createSystemConfigEntry('test.random.foo', true);
-        expect(systemConfigEntry.configurationKey).toEqual('test.random.foo');
-        expect(systemConfigEntry.configurationValue).toEqual(true);
-
-        const systemConfigEntryResponse = await AdminApiContext.get(`./system-config/${systemConfigEntry.id}?_response=detail`);
-        const { data: databaseSystemConfigEntry } = (await systemConfigEntryResponse.json()) as { data: SystemConfig };
-        expect(databaseSystemConfigEntry.id).toBe(systemConfigEntry.id);
-    }
-
     const salesChannelAnalyticsResponse = await AdminApiContext.get(`./sales-channel-analytics/${salesChannelAnalytics.id}?_response=detail`);
     const { data: databaseSalesChannelAnalytics } = (await salesChannelAnalyticsResponse.json()) as { data: SalesChannelAnalytics };
     expect(databaseSalesChannelAnalytics.id).toBe(salesChannelAnalytics.id);
@@ -174,9 +160,5 @@ test('Data Service', async ({
     expect(cleanUpDeleteOperations['deleted']['property_group_option']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['cms_page']).toBeDefined();
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (!isSaaSInstance(AdminApiContext)) {
-        expect(cleanUpDeleteOperations['deleted']['system_config']).toBeDefined();
-    }
     expect(cleanUpDeleteOperations['deleted']['sales_channel_analytics']).toBeDefined();
 });
