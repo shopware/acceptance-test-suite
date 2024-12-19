@@ -51,6 +51,7 @@ jobs:
               APP_URL: http://localhost:8021
       env:
         APP_URL: ${{ matrix.instance.APP_URL }}
+        WEBSERVER_COMMAND: '' # this will disable the log output 
       steps:
       - uses: actions/checkout@v4
       - name: Compose up ${{ matrix.instance.compose-service }} 

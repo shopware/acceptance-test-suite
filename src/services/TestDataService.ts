@@ -873,7 +873,7 @@ export class TestDataService {
      * @param configs - Key value pairs to set
      */
     async setSystemConfig(configs: Record<string, unknown>): Promise<void> {
-        const response = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChanneldId=${this.defaultSalesChannel.id}`, {
+        const response = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
             data: configs,
         });
         expect(response.ok()).toBeTruthy();
@@ -962,7 +962,7 @@ export class TestDataService {
      *
      * @param overrides - Specific data overrides that will be applied to the sales channel domain data struct.
      */
-    async createSalesChannelDomain(overrides: Partial<SalesChannelDomain> = {}): Promise<SalesChannelDomain>  {
+    async createSalesChannelDomain(overrides: Partial<SalesChannelDomain> = {}): Promise<SalesChannelDomain> {
         const salesChannelId = this.defaultSalesChannel.id;
         const currencyId = this.defaultCurrencyId;
         const languageId = this.defaultLanguageId;
@@ -1701,9 +1701,11 @@ export class TestDataService {
             data: priorityDeleteOperations,
         });
 
-        await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChanneldId=${this.defaultSalesChannel.id}`, {
+        await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
             data: this.restoreSystemConfig,
         });
+
+        await this.clearCaches();
 
         return this.AdminApiClient.post('_action/sync', {
             data: deleteOperations,
@@ -2551,7 +2553,7 @@ export class TestDataService {
         currencyId: string,
         languageId: string,
         snippetSetId: string,
-        overrides:Partial<SalesChannelDomain> = {},
+        overrides: Partial<SalesChannelDomain> = {},
     ): Partial<SalesChannelDomain> {
 
         const appUrl = process.env['APP_URL'];
