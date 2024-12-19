@@ -1,5 +1,24 @@
 # Changelog
 
+## [11.0.0](https://github.com/shopware/acceptance-test-suite/compare/v10.2.3...v11.0.0) (2024-12-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove SetSystemConfigValues use TestDataService.setSystemConfig instead
+* fix system config api usage
+
+### Bug Fixes
+
+* add AccountRecover and AccountLogin objects for forgot password ([cf65ffe](https://github.com/shopware/acceptance-test-suite/commit/cf65ffe76e09871742089b32307d70ca29d17808))
+* fix system config api usage ([6352f54](https://github.com/shopware/acceptance-test-suite/commit/6352f54c6dfb0a5c83b5a9a61acb1cea33183901))
+* Refactor Rule assignment task and types ([#237](https://github.com/shopware/acceptance-test-suite/issues/237)) ([49a585f](https://github.com/shopware/acceptance-test-suite/commit/49a585f6088da7825f0bd65f99b9ee68b876dd8e))
+
+
+### Code Refactoring
+
+* remove SetSystemConfigValues use TestDataService.setSystemConfig instead ([52fc176](https://github.com/shopware/acceptance-test-suite/commit/52fc176cfc57405271a6a00ee3effa7993859e39))
+
 ## [10.2.3](https://github.com/shopware/acceptance-test-suite/compare/v10.2.2...v10.2.3) (2024-12-18)
 
 
