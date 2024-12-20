@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { satisfies } from 'compare-versions';
 
 export class CustomerListing implements PageObject {
     public readonly headline: Locator;
@@ -13,10 +15,16 @@ export class CustomerListing implements PageObject {
     public readonly cancelButton: Locator;
     public readonly modalHeaderCheckbox: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.headline = page.getByRole('heading', { name: 'Customers' });
         this.addCustomerButton = page.locator('.sw-customer-list__button-create');
         this.bulkEditButton = page.getByRole('button', { name: 'Bulk edit' });
+
+        // Locator available in versions < 6.7
+        if(satisfies(instanceMeta.version, '<6.7')){
+            this.deleteButton = page.getByRole('button', { name: 'Deletion' });
+        }
+        // by default compatible with 6.7
         this.deleteButton = page.getByRole('button', { name: 'Delete' });
 
         //Customer Bulk Edit Modal

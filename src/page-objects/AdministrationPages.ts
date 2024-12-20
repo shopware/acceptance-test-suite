@@ -114,8 +114,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new OrderDetail(AdminPage));
     },
 
-    AdminCustomerListing: async ({ AdminPage }, use) => {
-        await use(new CustomerListing(AdminPage));
+    AdminCustomerListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomerListing(AdminPage, InstanceMeta));
     },
 
     AdminCustomerDetail: async ({ AdminPage }, use) => {
