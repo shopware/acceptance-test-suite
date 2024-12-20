@@ -4,6 +4,9 @@ import { isSaaSInstance } from '../services/ShopInfo';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
+import { satisfies } from 'compare-versions';
+
+type FeaturesType = Record<string, boolean>;
 
 export interface HelperFixtureTypes {
     IdProvider: IdProvider;
@@ -11,6 +14,7 @@ export interface HelperFixtureTypes {
     InstanceMeta: {
         version: string,
         isSaaS: boolean,
+        features: FeaturesType,
     },
 }
 
@@ -61,11 +65,22 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ AdminApiContext: context }, use) => {
             const response = await context.get('./_info/config');
             expect(response.ok(), '/_info/config request failed').toBeTruthy();
-
             const config = (await response.json()) as { version: string };
+
+            const features: FeaturesType = {};
+            if (satisfies(config.version, '>=6.6.0.0')) {
+                const featuresResponse = await context.get('./_action/feature-flag');
+                expect(featuresResponse.ok(), '/_action/feature-flag request failed').toBeTruthy();
+                const data = (await featuresResponse.json()) as Record<string, { major: boolean, active: boolean }>;
+                for (const k in data) {
+                    features[k] = data[k].active;
+                }
+            }
+
             use({
                 version: config.version,
                 isSaaS: await isSaaSInstance(context),
+                features,
             });
         },
         { scope: 'worker' },

@@ -1,4 +1,7 @@
+/* eslint-disable playwright/no-conditional-in-test */
+/* eslint-disable playwright/no-conditional-expect */
 import { test, expect } from '../src/index';
+import { satisfies } from 'compare-versions';
 
 test('All data fixtures', async ({
     AdminApiContext,
@@ -15,6 +18,8 @@ test('All data fixtures', async ({
     ProductData,
     CategoryData,
     PropertiesData,
+
+    InstanceMeta,
 }) => {
     const { id, uuid } = IdProvider.getIdPair();
 
@@ -32,4 +37,10 @@ test('All data fixtures', async ({
     expect(ProductData).toBeInstanceOf(Object);
     expect(CategoryData).toBeInstanceOf(Object);
     expect(PropertiesData).toBeInstanceOf(Object);
+
+    expect(InstanceMeta).toBeInstanceOf(Object);
+    if (satisfies(InstanceMeta.version, '>=6.6')) {
+        expect(InstanceMeta.features['V6_6_0_0']).toBeDefined();
+        expect(InstanceMeta.features['V6_6_0_0']).toBeTruthy();
+    }
 });
