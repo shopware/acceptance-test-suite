@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.1.0](https://github.com/shopware/acceptance-test-suite/compare/v11.0.0...v11.1.0) (2024-12-20)
+
+
+### Features
+
+* add features data to InstanceMeta fixture ([e6d4392](https://github.com/shopware/acceptance-test-suite/commit/e6d4392ec0e504d3b61e609f6c79c3ec2fa7b793))
+
 ## [11.0.0](https://github.com/shopware/acceptance-test-suite/compare/v10.2.3...v11.0.0) (2024-12-19)
 
 
