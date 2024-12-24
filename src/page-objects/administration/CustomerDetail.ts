@@ -3,7 +3,6 @@ import type { PageObject } from '../../types/PageObject';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
-
 export class CustomerDetail implements PageObject {
     public readonly editButton: Locator;
     public readonly generalTab: Locator;
