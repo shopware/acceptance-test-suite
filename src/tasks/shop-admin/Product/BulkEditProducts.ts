@@ -1,16 +1,16 @@
 import { test as base, expect } from '@playwright/test';
 import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
 import { Product } from 'src/types/ShopwareTypes';
 
 interface Change {
     value: string;
     method: string;
-} 
+}
 
 export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureTypes>({
-    BulkEditProducts: async ({ AdminProductBulkEdit, AdminProductListing }, use ) => {
-        const task = (products: Product[], changes: Record<string, Change> ) => {
+    BulkEditProducts: async ({ AdminProductBulkEdit, AdminProductListing }, use) => {
+        const task = (products: Product[], changes: Record<string, Change>) => {
             return async function BulkEditProducts() {
 
                 for (const product of products) {
@@ -48,20 +48,21 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     expect(response.ok()).toBeTruthy();
                     const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes['manufacturer'].value);
                     await searchResult.click();
-                } 
+                }
 
                 if (changes['releaseDate'] != null) {
                     await AdminProductBulkEdit.changeReleaseDateCheckbox.click();
                     await AdminProductBulkEdit.releaseDateInput.fill(changes['releaseDate'].value);
+                    await AdminProductBulkEdit.releaseDateInput.press('Enter');
                 }
-                
+
                 if (changes['stock'] != null) {
                     await AdminProductBulkEdit.changeStockCheckbox.click();
                     await AdminProductBulkEdit.stockChangeMethodDropdown.click();
                     await (await AdminProductBulkEdit.getDropdownEntry(changes['stock'].method)).click();
                     if (changes['stock'].method != 'Clear') {
                         await AdminProductBulkEdit.stockInput.fill(changes['stock'].value);
-                    } 
+                    }
                 }
 
                 if (changes['restockTime'] != null) {
@@ -70,7 +71,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     await (await AdminProductBulkEdit.getDropdownEntry(changes['restockTime'].method)).click();
                     if (changes['restockTime'].method != 'Clear') {
                         await AdminProductBulkEdit.restockTimeInput.fill(changes['restockTime'].value);
-                    } 
+                    }
                 }
 
                 if (changes['tags'] != null) {
@@ -89,7 +90,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                         expect(response.ok()).toBeTruthy();
                         const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes['tags'].value);
                         await searchResult.click();
-                    } 
+                    }
                 }
 
                 if (changes['saleschannel'] != null) {
@@ -108,13 +109,13 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                         expect(response.ok()).toBeTruthy();
                         const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes['saleschannel'].value);
                         await searchResult.click();
-                    } 
+                    }
                 }
 
                 await AdminProductBulkEdit.applyChangesButton.click();
                 await AdminProductBulkEdit.confirmModalApplyChangesButton.click();
-                await AdminProductBulkEdit.confirmModalLoadingSpinner.waitFor( { state: 'visible' } );
-                await AdminProductBulkEdit.confirmModalLoadingSpinner.waitFor( { state: 'hidden' } );
+                await AdminProductBulkEdit.confirmModalLoadingSpinner.waitFor({ state: 'visible' });
+                await AdminProductBulkEdit.confirmModalLoadingSpinner.waitFor({ state: 'hidden' });
                 await expect(AdminProductBulkEdit.confirmModalSuccessHeader).toBeVisible();
                 await AdminProductBulkEdit.confirmModalSuccessCloseButton.click();
             };
