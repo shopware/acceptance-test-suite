@@ -23,9 +23,10 @@ export class CustomerListing implements PageObject {
         // Locator available in versions < 6.7
         if(satisfies(instanceMeta.version, '<6.7')){
             this.deleteButton = page.getByRole('button', { name: 'Deletion' });
-        }
+        } else {
         // by default compatible with 6.7
         this.deleteButton = page.getByRole('button', { name: 'Delete' });
+        }
 
         //Customer Bulk Edit Modal
         this.bulkEditModal = page.locator('.sw-customer-bulk-edit-modal').getByRole('dialog');
