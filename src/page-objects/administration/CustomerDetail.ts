@@ -23,14 +23,13 @@ export class CustomerDetail implements PageObject {
         this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
         this.customFieldSetTabs = this.customFieldCard.locator('.sw-tabs-item');
         this.customFieldSetTabCustomContent = this.customFieldCard.locator('.sw-tabs__custom-content');
-        
-        // Locator available in versions < 6.7
-        if(satisfies(instanceMeta.version, '<6.7')){
-            this.customerGroupRequestMessage = page.locator('.alert-content-container');
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.customerGroupRequestMessage = page.locator('.sw-alert__message');
+        } else {
+            this.customerGroupRequestMessage = page.locator('.mt-banner__message');
         }
-        // by default compatible with 6.7
-        this.customerGroupRequestMessage = page.locator('.sw-customer-detail__customer-registration-alert-text');
-        
+
         this.customerGroupAcceptButton = page.getByRole('button', { name: 'Accept' });
         this.customerGroupDeclineButton = page.getByRole('button', { name: 'Decline' });
         this.tagList = page.locator('.sw-customer-card__tag-select').locator('.sw-select-selection-list');
@@ -42,33 +41,33 @@ export class CustomerDetail implements PageObject {
         const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
         const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
-    
+
         return {
             customFieldSetTab: customFieldSetTab,
             customFieldSetTabCustomContent: customFieldSetTabCustomContent,
         }
-        
+
     }
 
-    async getCustomerGroupAlert(customerGroup: string) : Promise<Locator> {
+    async getCustomerGroupAlert(customerGroup: string): Promise<Locator> {
         return this.customerGroupRequestMessage.getByText(`Access to customer group "${customerGroup}" requested.`);
-      }
+    }
 
-    async getCustomerGroup() : Promise<Locator> {
+    async getCustomerGroup(): Promise<Locator> {
         const dlElement = this.page.locator('dl').filter({
             has: this.page.locator('dt', { hasText: 'Customer group' }),
         });
         return dlElement.locator('dd');
     }
 
-    async getAccountStatus() : Promise<Locator> {
+    async getAccountStatus(): Promise<Locator> {
         const dlElement = this.page.locator('dl').filter({
             has: this.page.locator('dt', { hasText: 'Account status' }),
         });
         return dlElement.locator('dd');
     }
 
-    async getLanguage() : Promise<Locator> {
+    async getLanguage(): Promise<Locator> {
         const dlElement = this.page.locator('dl').filter({
             has: this.page.locator('dt', { hasText: 'Language' }),
         });
