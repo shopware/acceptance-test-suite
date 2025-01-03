@@ -1,5 +1,14 @@
 # Changelog
 
+## [11.1.1](https://github.com/shopware/acceptance-test-suite/compare/v11.1.0...v11.1.1) (2025-01-03)
+
+
+### Bug Fixes
+
+* locator compatibility for bulk edit products ([#251](https://github.com/shopware/acceptance-test-suite/issues/251)) ([42e6b11](https://github.com/shopware/acceptance-test-suite/commit/42e6b118f16b1ca544618b1c97a5e306020ac9a7))
+* locator compatibility for customer group registration ([#250](https://github.com/shopware/acceptance-test-suite/issues/250)) ([53cf2ab](https://github.com/shopware/acceptance-test-suite/commit/53cf2ab8abea05592a2bddfa2570a47bda469c96))
+* make first run wizard locator 6.7 compatible ([#252](https://github.com/shopware/acceptance-test-suite/issues/252)) ([324c821](https://github.com/shopware/acceptance-test-suite/commit/324c8211991e80d0933c850ee31ccae249c8f476))
+
 ## [11.1.0](https://github.com/shopware/acceptance-test-suite/compare/v11.0.0...v11.1.0) (2024-12-20)
 
 
