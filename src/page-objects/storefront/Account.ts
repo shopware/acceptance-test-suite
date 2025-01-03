@@ -27,6 +27,7 @@ export class Account implements PageObject {
         } else {
             this.customerGroupRequestMessage = page.locator('.alert-content-container');
         }
+        
     }
 
     async getCustomerGroupAlert(customerGroup: string): Promise<Locator> {
