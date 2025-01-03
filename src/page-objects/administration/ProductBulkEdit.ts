@@ -66,7 +66,7 @@ export class ProductBulkEdit implements PageObject {
         this.changeManufacturerRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
         this.changeManufacturerCheckbox = this.changeManufacturerRow.getByRole('checkbox');
         this.manufacturerDropdown = this.changeManufacturerRow.locator('.sw-select__selection');
-        this.manufacturerDropdownInput = this.changeManufacturerRow.getByPlaceholder('Select manufacturer...');
+        this.manufacturerDropdownInput = this.changeManufacturerRow.locator('.sw-entity-single-select__selection-input');
         this.manufacturerListResult = this.changeManufacturerRow.getByRole('list');
 
         // Active
@@ -77,7 +77,7 @@ export class ProductBulkEdit implements PageObject {
         // Price
         this.changePriceRow = page.locator('.sw-bulk-edit-change-field-price');
         this.changePriceCheckbox = this.changePriceRow.getByRole('checkbox');
-        this.grossPriceInput = this.changePriceRow.getByPlaceholder('Enter gross price...');
+        this.grossPriceInput = this.changePriceRow.locator('#price-gross');
 
         // Release date
         this.changeReleaseDateRow = page.locator('.sw-bulk-edit-change-field-releaseDate');
@@ -89,21 +89,21 @@ export class ProductBulkEdit implements PageObject {
         this.changeStockCheckbox = this.changeStockRow.getByRole('checkbox');
         this.stockChangeMethodDropdown = this.changeStockRow.locator('.sw-single-select__selection-text');
         this.stockChangeMethodInput = this.changeStockRow.locator('.sw-single-select__selection-input');
-        this.stockInput = this.changeStockRow.getByPlaceholder('Enter quantity in stock...');
+        this.stockInput = this.changeStockRow.locator('#stock');
 
         // Restock time
         this.changeRestockTimeRow = page.locator('.sw-bulk-edit-change-field-restockTime');
         this.changeRestockTimeCheckbox = this.changeRestockTimeRow.getByRole('checkbox');
         this.restockTimeChangeMethodDropdown = this.changeRestockTimeRow.locator('.sw-single-select__selection-text');
         this.restockTimeChangeMethodInput = this.changeRestockTimeRow.locator('.sw-single-select__selection-input');
-        this.restockTimeInput = this.changeRestockTimeRow.getByPlaceholder('Enter restock time in days...');
+        this.restockTimeInput = this.changeRestockTimeRow.locator('#restock-time');
 
         // Tags
         this.changeTagsRow = page.locator('.sw-bulk-edit-change-field-tags');
         this.changeTagsCheckbox = this.changeTagsRow.getByRole('checkbox');
         this.tagsChangeMethodDropdown = this.changeTagsRow.locator('.sw-single-select__selection-text');
         this.tagsChangeMethodInput = this.changeTagsRow.locator('.sw-single-select__selection-input');
-        this.tagsInput = this.changeTagsRow.getByPlaceholder('Enter tags...');
+        this.tagsInput = this.changeTagsRow.locator('.sw-select-selection-list__input');
 
         // Sales Channel
         this.changeSalesChannelRow = page.locator('.sw-bulk-edit-change-field-visibilities');
