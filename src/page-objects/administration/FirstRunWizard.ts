@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class FirstRunWizard implements PageObject {
 
@@ -42,7 +44,7 @@ export class FirstRunWizard implements PageObject {
     public readonly recommendationHeader: Locator;
     public readonly toolsRecommendedPlugin: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
 
         // Generic buttons
         this.nextButton = page.getByText('Next', { exact: true });
@@ -65,7 +67,12 @@ export class FirstRunWizard implements PageObject {
         // Default values part
         this.defaultValuesHeader = page.locator('.sw-modal__title', { hasText: 'Setup default values'});
         this.salesChannelSelectionMultiSelect = page.getByPlaceholder('Select Sales Channels...');
-        this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
+        } else {
+            this.salesChannelSelectionList = page.locator('.sw-select-result-list-popover').getByRole('listitem');
+        }
 
         // Mailer configuration part
         this.mailerConfigurationHeader = page.locator('.sw-modal__title', { hasText: 'Mailer configuration'});

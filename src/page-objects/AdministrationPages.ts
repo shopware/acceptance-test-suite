@@ -134,8 +134,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomerGroupDetail(AdminPage));
     },
 
-    AdminFirstRunWizard: async ({ AdminPage }, use) => {
-        await use(new FirstRunWizard(AdminPage));
+    AdminFirstRunWizard: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FirstRunWizard(AdminPage, InstanceMeta));
     },
 
     AdminFlowBuilderCreate: async ({ AdminPage }, use) => {
