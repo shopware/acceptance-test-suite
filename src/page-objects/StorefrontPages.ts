@@ -99,8 +99,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new CheckoutRegister(StorefrontPage));
     },
 
-    StorefrontAccount: async ({ StorefrontPage }, use) => {
-        await use(new Account(StorefrontPage));
+    StorefrontAccount: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new Account(StorefrontPage, InstanceMeta));
     },
 
     StorefrontAccountLogin: async ({ StorefrontPage }, use) => {

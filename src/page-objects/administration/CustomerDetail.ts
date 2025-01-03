@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { satisfies } from 'compare-versions';
 
 export class CustomerDetail implements PageObject {
     public readonly editButton: Locator;
@@ -14,14 +16,20 @@ export class CustomerDetail implements PageObject {
     public readonly tagList: Locator;
     public readonly tagItems: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.editButton = page.getByRole('button', { name: 'Edit' });
         this.generalTab = page.getByRole('link', { name: 'General' });
         this.accountCard = page.locator('.sw-customer-card');
         this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
         this.customFieldSetTabs = this.customFieldCard.locator('.sw-tabs-item');
         this.customFieldSetTabCustomContent = this.customFieldCard.locator('.sw-tabs__custom-content');
-        this.customerGroupRequestMessage = page.locator('.sw-alert__message');
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.customerGroupRequestMessage = page.locator('.sw-alert__message');
+        } else {
+            this.customerGroupRequestMessage = page.locator('.mt-banner__message');
+        }
+
         this.customerGroupAcceptButton = page.getByRole('button', { name: 'Accept' });
         this.customerGroupDeclineButton = page.getByRole('button', { name: 'Decline' });
         this.tagList = page.locator('.sw-customer-card__tag-select').locator('.sw-select-selection-list');
@@ -33,33 +41,33 @@ export class CustomerDetail implements PageObject {
         const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
         const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
-    
+
         return {
             customFieldSetTab: customFieldSetTab,
             customFieldSetTabCustomContent: customFieldSetTabCustomContent,
         }
-        
+
     }
 
-    async getCustomerGroupAlert(customerGroup: string) : Promise<Locator> {
+    async getCustomerGroupAlert(customerGroup: string): Promise<Locator> {
         return this.customerGroupRequestMessage.getByText(`Access to customer group "${customerGroup}" requested.`);
-      }
+    }
 
-    async getCustomerGroup() : Promise<Locator> {
+    async getCustomerGroup(): Promise<Locator> {
         const dlElement = this.page.locator('dl').filter({
             has: this.page.locator('dt', { hasText: 'Customer group' }),
         });
         return dlElement.locator('dd');
     }
 
-    async getAccountStatus() : Promise<Locator> {
+    async getAccountStatus(): Promise<Locator> {
         const dlElement = this.page.locator('dl').filter({
             has: this.page.locator('dt', { hasText: 'Account status' }),
         });
         return dlElement.locator('dd');
     }
 
-    async getLanguage() : Promise<Locator> {
+    async getLanguage(): Promise<Locator> {
         const dlElement = this.page.locator('dl').filter({
             has: this.page.locator('dt', { hasText: 'Language' }),
         });
