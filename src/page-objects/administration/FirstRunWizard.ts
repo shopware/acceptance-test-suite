@@ -30,6 +30,7 @@ export class FirstRunWizard implements PageObject {
     public readonly salesChannelSelectionMultiSelect: Locator;
     public readonly smtpServerTitle: Locator;
     public readonly smtpServerFields: Locator;
+    public readonly smtpServerFieldInputs: Locator;
     public readonly payPalPaymethods: Locator;
     public readonly payPalInfoCard: Locator;
     public readonly emailAddressInputField: Locator;
@@ -79,6 +80,7 @@ export class FirstRunWizard implements PageObject {
         this.smtpServerButton = page.getByText('Configure own SMTP server', { exact: true });
         this.smtpServerTitle = page.getByText('SMTP server', { exact: true });
         this.smtpServerFields = page.locator('.sw-field');
+        this.smtpServerFieldInputs = page.locator('.mt-field');
 
         // PayPal part
         this.payPalSetupHeader = page.locator('.sw-modal__title', { hasText: 'Setup PayPal'});
