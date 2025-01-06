@@ -21,6 +21,6 @@ export class ShippingDetail implements PageObject {
     }
 
     getRuleSelectionCheckmark(ruleName: string) {
-        return this.availabilityRuleListItem.filter({hasText: ruleName}).getByTestId('sw-icon__regular-checkmark-xs');
+        return this.availabilityRuleListItem.filter({hasText: ruleName}).locator('.sw-select-result__result-item-checkmark');
     }
 }
