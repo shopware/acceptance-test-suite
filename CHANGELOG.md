@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.1.3](https://github.com/shopware/acceptance-test-suite/compare/v11.1.2...v11.1.3) (2025-01-06)
+
+
+### Bug Fixes
+
+* add additional locator for smtp input fields within first run wizard page object ([#257](https://github.com/shopware/acceptance-test-suite/issues/257)) ([c7a3bd6](https://github.com/shopware/acceptance-test-suite/commit/c7a3bd634a397b76b8f97a317e1c4eb206988921))
+* Update checkmark icon locator ([#256](https://github.com/shopware/acceptance-test-suite/issues/256)) ([605396f](https://github.com/shopware/acceptance-test-suite/commit/605396f390b6811be38d706bc5b27348341b16b2))
+
 ## [11.1.2](https://github.com/shopware/acceptance-test-suite/compare/v11.1.1...v11.1.2) (2025-01-06)
 
 
