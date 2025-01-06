@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.1.2](https://github.com/shopware/acceptance-test-suite/compare/v11.1.1...v11.1.2) (2025-01-06)
+
+
+### Bug Fixes
+
+* add additional locator for smtp input fields within FRW page object ([#254](https://github.com/shopware/acceptance-test-suite/issues/254)) ([e51af38](https://github.com/shopware/acceptance-test-suite/commit/e51af38d56db936cec8fb79322d74546e30032f4))
+
 ## [11.1.1](https://github.com/shopware/acceptance-test-suite/compare/v11.1.0...v11.1.1) (2025-01-03)
 
 
