@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.1.4](https://github.com/shopware/acceptance-test-suite/compare/v11.1.3...v11.1.4) (2025-01-08)
+
+
+### Bug Fixes
+
+* locator compatibility of product image on the home page ([#259](https://github.com/shopware/acceptance-test-suite/issues/259)) ([e82ae37](https://github.com/shopware/acceptance-test-suite/commit/e82ae379b37bbbc15f79e90c8f883acb853e03fc))
+
 ## [11.1.3](https://github.com/shopware/acceptance-test-suite/compare/v11.1.2...v11.1.3) (2025-01-06)
 
 
