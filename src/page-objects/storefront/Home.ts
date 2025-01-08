@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { satisfies } from 'compare-versions';
 
 export class Home implements PageObject {
 
@@ -23,8 +25,14 @@ export class Home implements PageObject {
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
 
-    constructor(public readonly page: Page) {
-        this.productImages = page.locator('.product-image-link');
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.productImages = page.locator('.product-image-link');
+        } else {
+            this.productImages = page.locator('.product-image');
+        }
+
         this.productListItems = page.getByRole('listitem');
         this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
         this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
@@ -36,7 +44,7 @@ export class Home implements PageObject {
         this.consentAcceptAllCookiesButton = page.getByRole('button', { name: 'Accept all cookies', exact: true });
         this.consentCookiePreferences = page.getByLabel('Cookie preferences');
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
-        this.consentDialog = page.getByRole('dialog').filter( { hasText: 'Cookie preferences' });
+        this.consentDialog = page.getByRole('dialog').filter({ hasText: 'Cookie preferences' });
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Technically required', exact: true });
         this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Statistics', exact: true });
         this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing', exact: true });
