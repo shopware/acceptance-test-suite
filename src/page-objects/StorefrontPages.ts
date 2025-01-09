@@ -67,8 +67,8 @@ export const StorefrontPageObjects = {
 
 export const test = base.extend<FixtureTypes>({
 
-    StorefrontHome: async ({ StorefrontPage, InstanceMeta }, use) => {
-        await use(new Home(StorefrontPage, InstanceMeta));
+    StorefrontHome: async ({ StorefrontPage }, use) => {
+        await use(new Home(StorefrontPage));
     },
 
     StorefrontProductDetail: async ({ StorefrontPage }, use) => {

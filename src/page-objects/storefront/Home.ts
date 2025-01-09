@@ -1,7 +1,5 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
-import { satisfies } from 'compare-versions';
 
 export class Home implements PageObject {
 
@@ -25,14 +23,9 @@ export class Home implements PageObject {
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(public readonly page: Page) {
 
-        if (satisfies(instanceMeta.version, '<6.7')) {
-            this.productImages = page.locator('.product-image-link');
-        } else {
-            this.productImages = page.locator('.product-image');
-        }
-
+        this.productImages = page.locator('.product-image-wrapper');
         this.productListItems = page.getByRole('listitem');
         this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
         this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
