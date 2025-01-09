@@ -8,7 +8,7 @@ export class Search implements PageObject {
 
     constructor(public readonly page: Page) {
         this.headline = page.locator('h1.search-headline');
-        this.productImages = page.locator('.product-image-link');
+        this.productImages = page.locator('.product-image-wrapper');
     }
 
     url(searchTerm: string) {
