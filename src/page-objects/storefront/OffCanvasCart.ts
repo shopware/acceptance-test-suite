@@ -12,6 +12,11 @@ export class OffCanvasCart implements PageObject {
     public readonly subTotalPrice: Locator;
     public readonly shippingCosts: Locator;
     public readonly cartQuantityNumber: Locator;
+    public readonly promotionSuccessMessage: Locator;
+    public readonly promotionErrorMessage: Locator;
+    public readonly promotionLineItems: Locator;
+    public readonly promotionLineItemLabel: Locator;
+    public readonly promotionLineItemDiscount: Locator;
 
     constructor(public readonly page: Page) {
         this.headline = page.getByRole('heading', { name: 'Shopping cart' });
@@ -24,6 +29,14 @@ export class OffCanvasCart implements PageObject {
         this.subTotalPrice = page.locator('dt:has-text("Subtotal") + dd:visible');
         this.shippingCosts = page.locator('dt:has-text("Shipping costs") + dd:visible');
         this.cartQuantityNumber = page.getByLabel('Quantity', { exact: true });
+        const offcanvasCart = page.locator('.offcanvas-cart');
+        this.promotionSuccessMessage = offcanvasCart.locator('.alert-success');
+        this.promotionErrorMessage = offcanvasCart.locator('.alert-danger');
+        this.promotionLineItems = offcanvasCart.locator('.line-item-promotion');
+        this.promotionLineItemLabel = this.promotionLineItems.locator('.line-item-label');
+        this.promotionLineItemDiscount = this.promotionLineItems.locator('.line-item-total-price-value');
+        const shippingCostValues = page.locator('.shipping-value');
+
     }
 
     url() {
@@ -56,6 +69,23 @@ export class OffCanvasCart implements PageObject {
             productUnitPriceValue: productUnitPriceValue,
             productTotalPriceValue: productTotalPriceValue,
             removeButton: removeButton,
+        }
+    }
+
+    async getPromotionLineItemByNameAndDiscount(discount: string, label: string): Promise<Record<string, Locator>> {
+        const offCanvasCart = this.page.locator('.offcanvas-cart');
+        const promotionLineItem = offCanvasCart.locator('.line-item-promotion', { hasText: discount });
+        const promotionLineItemLabel = promotionLineItem.locator('.line-item-label', { hasText: label });
+        const promotionIcon = promotionLineItem.locator('.icon-marketing');
+        const promotionRemoveButton = promotionLineItem.getByRole('button', { name: 'Remove' });
+        const promotionLineItemDiscount = promotionLineItem.locator('.line-item-total-price-value');
+
+        return {
+            promotionLineItem: promotionLineItem,
+            promotionLineItemLabel: promotionLineItemLabel,
+            promotionIcon: promotionIcon,
+            promotionRemoveButton: promotionRemoveButton,
+            promotionLineItemDiscount: promotionLineItemDiscount,
         }
     }
 }

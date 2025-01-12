@@ -33,7 +33,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "build": "npx unbuild",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "copy": "cp -r ./dist /Users/vndanlap-0154/sw67/tests/acceptance/node_modules/@shopware-ag/acceptance-test-suite"
   },
   "dependencies": {
     "@axe-core/playwright": "4.9.1",

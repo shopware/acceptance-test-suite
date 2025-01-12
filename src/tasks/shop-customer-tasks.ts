@@ -8,6 +8,7 @@ import { ChangeStorefrontCurrency } from './shop-customer/Account/ChangeStorefro
 
 
 import { AddProductToCart } from './shop-customer/Product/AddProductToCart';
+import { ApplyPromotion } from './shop-customer/Product/ApplyPromotion';
 import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFromProductToCheckout';
 
 import { ProceedFromCartToCheckout } from './shop-customer/Cart/ProceedFromCartToCheckout.ts';
@@ -32,6 +33,7 @@ export const test = mergeTests(
     RegisterGuest,
     ChangeStorefrontCurrency,
     AddProductToCart,
+    ApplyPromotion,
     ChangeProductQuantity,
     ProceedFromProductToCheckout,
     ProceedFromCartToCheckout,

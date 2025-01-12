@@ -282,3 +282,18 @@ export interface CustomFieldData {
     customFieldSetName: string;
     customFieldValue: string;
 }
+
+export interface PromotionData {
+    name: string;
+    cartDiscount: string;
+    shippingDiscount: string;
+    entireSetDiscount: string;
+    setGroups:[
+        {
+            name: string;
+            discount: string;
+        }
+    ];
+    promotionCode: string;
+    isValid: boolean;
+}
