@@ -32,6 +32,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole('link');
         this.shippingMethodAvailabilityRulesCardTable = page.locator('.sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule');
         this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole('alert');
+        this.shippingMethodAvailabilityRulesCardSearchField = this.shippingMethodAvailabilityRulesCard.getByRole('textbox');
         this.taxProviderRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-tax_provider');
         this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole('alert');
         this.paymentMethodsAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-payment_method');
@@ -43,14 +44,11 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('alert');
         this.promotionCartRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_cart_rule');
         this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
+        this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByRole('textbox');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByPlaceholder('Search...');
             this.assignmentModalAddButton = page.locator('.sw-button--primary').getByText('Add');
-            this.shippingMethodAvailabilityRulesCardSearchField = this.shippingMethodAvailabilityRulesCard.getByPlaceholder('Search...');
         } else {
-            this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByRole('textbox');
             this.assignmentModalAddButton = page.locator('.mt-button--primary').getByText('Add');
-            this.shippingMethodAvailabilityRulesCardSearchField = this.shippingMethodAvailabilityRulesCard.getByRole('textbox');
         }
     }
 
