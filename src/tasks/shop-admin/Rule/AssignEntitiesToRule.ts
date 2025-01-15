@@ -11,9 +11,9 @@ export const AssignEntitiesToRule = base.extend<{ AssignEntitiesToRule: Task }, 
                 async function entityAssignment(entityName: string, card: Locator) {
                         const entityCard = await AdminRuleDetail.getEntityCard(card);
                         await entityCard.addAssignmentButton.click();
-                        await AdminRuleDetail.page.locator('.sw-settings-rule-add-assignment-modal').getByPlaceholder('Search...').fill(entityName);
+                        await AdminRuleDetail.assignmentModalSearchField.fill(entityName);
                         await AdminRuleDetail.page.locator('.sw-data-grid__row').filter({hasText: entityName}).getByRole('checkbox').click();
-                        await AdminRuleDetail.page.locator('.sw-button--primary').getByText('Add').click();
+                        await AdminRuleDetail.assignmentModalAddButton.click();
                 }
                 for (const assignableEntity of assignableEntities) {
                     switch (assignableEntity.ruleType) {
