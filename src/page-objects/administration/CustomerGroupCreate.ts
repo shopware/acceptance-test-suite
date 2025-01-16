@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from 'src/fixtures/HelperFixtures';
 
 export class CustomerGroupCreate implements PageObject {
     public readonly headline: Locator;
@@ -17,7 +19,7 @@ export class CustomerGroupCreate implements PageObject {
     public readonly customerGroupSaleschannelSelection: Locator;
     public readonly customerGroupSaleschannelResultList: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.headline = page.getByRole('heading', { name: 'New customer group' });
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
@@ -27,7 +29,11 @@ export class CustomerGroupCreate implements PageObject {
         this.customerGroupNetTaxDisplay = page.locator('#sw-field--castedValue-1');
         this.customSignupFormToggle = page.getByLabel('Custom signup form');
         this.signupFormTitle = page.locator('#sw-field--customerGroup-registrationTitle');
-        this.signupFormIntroduction = page.locator('.sw-text-editor__content-editor');
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.signupFormIntroduction = page.locator('.sw-text-editor__content-editor');
+        } else {
+            this.signupFormIntroduction = page.locator('.mt-text-editor__content-editor');
+        }
         this.signupFormSeoDescription = page.locator('#sw-field--customerGroup-registrationSeoMetaDescription');
         this.signupFormCompanySignupToggle = page.getByLabel('Company signup form');
         this.customerGroupSaleschannelSelection = page.locator('input[class=sw-select-selection-list__input]');
