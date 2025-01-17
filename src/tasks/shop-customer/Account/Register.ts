@@ -26,12 +26,18 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             vatRegNo: 'DE1234567890',
         };
 
-        const task = (overrides?: Partial<RegistrationData>, isCommercial?: boolean) => {
+        const task = (overrides?: Partial<RegistrationData>,
+                    /**
+                      * @deprecated The 'isCommercial' argument is deprecated and will be removed in a future version. 
+                      * Please avoid using it and rely on the `isCommercial` field in `RegistrationData` instead.
+                      */
+            isCommercial?: boolean) => {
             return async function Register() {
                 const registrationData = { ...defaultRegistrationData, ...overrides };
 
                 registeredEmail = registrationData.email;
 
+                // Deprecation warning for the 'isCommercial' argument
                 if (registrationData.isCommercial || isCommercial) {
                     await StorefrontAccountLogin.accountTypeSelect.selectOption('Commercial');
                     await StorefrontAccountLogin.companyInput.fill(registrationData.company);
