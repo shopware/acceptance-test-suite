@@ -26,13 +26,13 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             vatRegNo: 'DE1234567890',
         };
 
-        const task = (overrides?: Partial<RegistrationData>) => {
+        const task = (overrides?: Partial<RegistrationData>, isCommercial?: boolean) => {
             return async function Register() {
                 const registrationData = { ...defaultRegistrationData, ...overrides };
 
                 registeredEmail = registrationData.email;
 
-                if (registrationData.isCommercial) {
+                if (registrationData.isCommercial || isCommercial) {
                     await StorefrontAccountLogin.accountTypeSelect.selectOption('Commercial');
                     await StorefrontAccountLogin.companyInput.fill(registrationData.company);
                     await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
