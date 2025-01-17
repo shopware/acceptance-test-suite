@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.1.6](https://github.com/shopware/acceptance-test-suite/compare/v11.1.5...v11.1.6) (2025-01-17)
+
+
+### Bug Fixes
+
+* add 6.7 locators ([#263](https://github.com/shopware/acceptance-test-suite/issues/263)) ([03d2dc4](https://github.com/shopware/acceptance-test-suite/commit/03d2dc4a00780d9be9d85cb90495969e01c815fc))
+* add new selectors for mt-text-editor ([a531b12](https://github.com/shopware/acceptance-test-suite/commit/a531b12e2400012c8791ced7a2b8c94d8d99c2df))
+
 ## [11.1.5](https://github.com/shopware/acceptance-test-suite/compare/v11.1.4...v11.1.5) (2025-01-09)
 
 
