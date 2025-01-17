@@ -1,7 +1,11 @@
 import { test as base, expect } from '@playwright/test';
 import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
+
+/**
+ * @deprecated - Use `Register.ts` instead.
+ */
 
 export const RegisterGuest = base.extend<{ RegisterGuest: Task }, FixtureTypes>({
     RegisterGuest: async ({ StorefrontAccountLogin, AdminApiContext }, use) => {
@@ -29,7 +33,7 @@ export const RegisterGuest = base.extend<{ RegisterGuest: Task }, FixtureTypes>(
 
                 await StorefrontAccountLogin.streetAddressInput.fill(registrationData.street);
                 await StorefrontAccountLogin.cityInput.fill(registrationData.city);
-                if(country != 'Germany') {
+                if (country != 'Germany') {
                     await StorefrontAccountLogin.countryInput.selectOption(country);
 
                 } else {

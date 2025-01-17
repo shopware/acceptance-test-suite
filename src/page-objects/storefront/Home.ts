@@ -3,6 +3,8 @@ import type { PageObject } from '../../types/PageObject';
 
 export class Home implements PageObject {
 
+    public readonly accountMenuButton: Locator;
+    public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
     public readonly productListItems: Locator;
     public readonly languagesDropdown: Locator;
@@ -25,6 +27,8 @@ export class Home implements PageObject {
 
     constructor(public readonly page: Page) {
 
+        this.accountMenuButton = page.getByLabel('Your account');
+        this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
         this.productListItems = page.getByRole('listitem');
         this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
