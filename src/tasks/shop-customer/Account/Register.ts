@@ -5,17 +5,13 @@ import type { components } from '@shopware/api-client/admin-api-types';
 import type { RegistrationData } from '../../../types/ShopwareTypes';
 import { AdminApiContext } from 'src/services/AdminApiContext';
 
-interface RegistrationOptions {
-    overrides?: Partial<RegistrationData>; // Overrides for default registration data
-    isCommercial?: boolean; // Indicates if the user is commercial
-    isGuest?: boolean; // Indicates if the user is a guest
-}
-
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
     Register: async ({ StorefrontAccountLogin, AdminApiContext, IdProvider }, use) => {
         let registeredEmail = '';
 
         const defaultRegistrationData: RegistrationData = {
+            isCommercial: false,
+            isGuest: false,
             salutation: 'Mr.',
             firstName: 'Jeff',
             lastName: 'Goldblum',
@@ -30,47 +26,39 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             vatRegNo: 'DE1234567890',
         };
 
-        const task = (options: RegistrationOptions) => {
+        const task = (overrides?: Partial<RegistrationData>) => {
             return async function Register() {
-                const { overrides, isCommercial = false, isGuest = false } = options;
-
-                // Merge registration data with overrides
                 const registrationData = { ...defaultRegistrationData, ...overrides };
+
                 registeredEmail = registrationData.email;
 
-                // Handle commercial user specifics
-                if (isCommercial) {
+                if (registrationData.isCommercial) {
                     await StorefrontAccountLogin.accountTypeSelect.selectOption('Commercial');
                     await StorefrontAccountLogin.companyInput.fill(registrationData.company);
                     await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
                     await StorefrontAccountLogin.vatRegNoInput.fill(registrationData.vatRegNo);
                 }
 
-                // Fill basic registration fields
                 await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
                 await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
                 await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
                 await StorefrontAccountLogin.registerEmailInput.fill(registrationData.email);
 
-                // Fill password only if not a guest
-                if (!isGuest) {
+                if (!registrationData.isGuest) {
                     await StorefrontAccountLogin.registerPasswordInput.fill(registrationData.password);
                 }
 
-                // Fill address fields
                 await StorefrontAccountLogin.streetAddressInput.fill(registrationData.street);
                 await StorefrontAccountLogin.postalCodeInput.fill(registrationData.postalCode);
                 await StorefrontAccountLogin.cityInput.fill(registrationData.city);
                 await StorefrontAccountLogin.countryInput.selectOption({ label: registrationData.country });
 
-                // Submit the registration form
                 await StorefrontAccountLogin.registerButton.click();
             };
         };
 
         await use(task);
 
-        // Cleanup: Delete registered user
         await deleteRegisteredUser(AdminApiContext, registeredEmail);
     },
 });
