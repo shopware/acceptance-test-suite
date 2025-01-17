@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
 import type { RegistrationData } from '../../../types/ShopwareTypes';
 import { AdminApiContext } from 'src/services/AdminApiContext';
@@ -10,74 +10,82 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
         let registeredEmail = '';
 
         const defaultRegistrationData: RegistrationData = {
+            isCommercial: false,
+            isGuest: false,
             salutation: 'Mr.',
             firstName: 'Jeff',
             lastName: 'Goldblum',
-            email: IdProvider.getIdPair().uuid + '@test.com',
+            email: `${IdProvider.getIdPair().uuid}@test.com`,
             password: 'shopware',
             street: 'Ebbinghof 10',
             city: 'Schöppingen',
             country: 'Germany',
             postalCode: '48624',
-            company: 'shopware', 
-            department: 'Operations', 
+            company: 'shopware',
+            department: 'Operations',
             vatRegNo: 'DE1234567890',
         };
 
-        const registerTask = (overrides?: Partial<RegistrationData>, isCommercial?: boolean ) => {
-            return async function() {
-
+        const task = (overrides?: Partial<RegistrationData>, isCommercial?: boolean) => {
+            return async function Register() {
                 const registrationData = { ...defaultRegistrationData, ...overrides };
-                registeredEmail = registrationData.email;
-                
-                await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
-                await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
-                await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
 
-                if (isCommercial) {
+                registeredEmail = registrationData.email;
+
+                if (registrationData.isCommercial || isCommercial) {
+                    await StorefrontAccountLogin.accountTypeSelect.selectOption('Commercial');
                     await StorefrontAccountLogin.companyInput.fill(registrationData.company);
                     await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
                     await StorefrontAccountLogin.vatRegNoInput.fill(registrationData.vatRegNo);
                 }
 
+                await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
+                await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
+                await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
                 await StorefrontAccountLogin.registerEmailInput.fill(registrationData.email);
-                await StorefrontAccountLogin.registerPasswordInput.fill(registrationData.password);
+
+                if (!registrationData.isGuest) {
+                    await StorefrontAccountLogin.registerPasswordInput.fill(registrationData.password);
+                }
+
                 await StorefrontAccountLogin.streetAddressInput.fill(registrationData.street);
                 await StorefrontAccountLogin.postalCodeInput.fill(registrationData.postalCode);
                 await StorefrontAccountLogin.cityInput.fill(registrationData.city);
                 await StorefrontAccountLogin.countryInput.selectOption({ label: registrationData.country });
-            
+
                 await StorefrontAccountLogin.registerButton.click();
-            }
+            };
         };
 
-        await use(registerTask);
+        await use(task);
 
         await deleteRegisteredUser(AdminApiContext, registeredEmail);
-
     },
 });
 
 async function deleteRegisteredUser(adminApiContext: AdminApiContext, email: string): Promise<void> {
     if (!email) return;
 
-    const response = await adminApiContext.post('search/customer', {
-        data: {
-            limit: 1,
-            filter: [
-                {
-                    type: 'equals',
-                    field: 'email',
-                    value: email,
-                },
-            ],
-        },
-    });
+    try {
+        const response = await adminApiContext.post('search/customer', {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: 'equals',
+                        field: 'email',
+                        value: email,
+                    },
+                ],
+            },
+        });
 
-    const { data: customers } = (await response.json()) as { data: components['schemas']['Customer'][] };
+        const { data: customers } = (await response.json()) as { data: components['schemas']['Customer'][] };
 
-    for (const customer of customers) {
-        await adminApiContext.delete(`customer/${customer.id}`);
+        for (const customer of customers) {
+            await adminApiContext.delete(`customer/${customer.id}`);
+        }
+    } catch (error) {
+        console.error(`Error deleting user with email ${email}:`, error);
     }
-
 }

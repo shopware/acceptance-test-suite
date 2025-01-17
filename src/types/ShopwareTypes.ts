@@ -201,6 +201,8 @@ export type SalesChannelAnalytics = components['schemas']['SalesChannelAnalytics
 };
 
 export interface RegistrationData {
+    isCommercial: boolean;
+    isGuest: boolean;
     salutation: string;
     firstName: string;
     lastName: string;
