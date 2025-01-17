@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.2.0](https://github.com/shopware/acceptance-test-suite/compare/v11.1.6...v11.2.0) (2025-01-17)
+
+
+### Features
+
+* refactor registration task for guest users ([#267](https://github.com/shopware/acceptance-test-suite/issues/267)) ([ea374cc](https://github.com/shopware/acceptance-test-suite/commit/ea374cc02dec560ae6b1413875a81bc8a83b38a6))
+
 ## [11.1.6](https://github.com/shopware/acceptance-test-suite/compare/v11.1.5...v11.1.6) (2025-01-17)
 
 
