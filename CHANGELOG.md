@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.2.1](https://github.com/shopware/acceptance-test-suite/compare/v11.2.0...v11.2.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* remove account type selection ([#269](https://github.com/shopware/acceptance-test-suite/issues/269)) ([025b1a8](https://github.com/shopware/acceptance-test-suite/commit/025b1a873fe3f90b9e7caf16245dae9f432dcff4))
+
 ## [11.2.0](https://github.com/shopware/acceptance-test-suite/compare/v11.1.6...v11.2.0) (2025-01-17)
 
 
