@@ -2,7 +2,6 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
 export class Home implements PageObject {
-
     public readonly accountMenuButton: Locator;
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
@@ -19,14 +18,17 @@ export class Home implements PageObject {
     public readonly consentDialog: Locator;
     public readonly consentDialogTechnicallyRequiredCheckbox: Locator;
     public readonly consentDialogStatisticsCheckbox: Locator;
-    public readonly consentDialogMarketingdCheckbox: Locator
+    /**
+     * @deprecated Use 'consentDialogMarketingCheckbox' instead
+     */
+    public readonly consentDialogMarketingdCheckbox: Locator;
+    public readonly consentDialogMarketingCheckbox: Locator;
     public readonly consentDialogAcceptAllCookiesButton: Locator;
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
 
     constructor(public readonly page: Page) {
-
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
@@ -42,13 +44,44 @@ export class Home implements PageObject {
         this.consentCookiePreferences = page.getByLabel('Cookie preferences');
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
         this.consentDialog = page.getByRole('dialog').filter({ hasText: 'Cookie preferences' });
-        this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Technically required', exact: true });
-        this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Statistics', exact: true });
+        this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
+            name: 'Technically required',
+            exact: true,
+        });
+        this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', {
+            name: 'Statistics',
+            exact: true,
+        });
         this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing', exact: true });
-        this.consentDialogSaveButton = this.consentDialog.getByRole('button', { name: 'Save', exact: true });
-        this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', { name: 'Accept all cookies', exact: true });
+        this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing', exact: true });
+        this.consentDialogSaveButton = this.consentDialog.getByRole('button', {
+            name: 'Save',
+            exact: true,
+        });
+        this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', {
+            name: 'Accept all cookies',
+            exact: true,
+        });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
+    }
 
+    async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
+        const menuNavigationItem = this.page.locator('.nav-main').getByText(categoryName, { exact: true });
+        const offcanvasNavigationItem = this.page.locator('.js-navigation-offcanvas-initial-content').getByText(categoryName, { exact: true });
+        const breadcrumbNavigationItem = this.page.locator('.cms-breadcrumb').getByText(categoryName, { exact: true });
+        const breadcrumbNavigationLinkItem = this.page
+            .locator('.breadcrumb-item')
+            .filter({ has: this.page.getByText(categoryName, { exact: true }) })
+            .getByRole('link');
+        const flyoutCategoryLink = this.page.locator('.nav-main').locator('.navigation-flyout-category-link').getByText(categoryName);
+
+        return {
+            menuNavigationItem: menuNavigationItem,
+            offcanvasNavigationItem: offcanvasNavigationItem,
+            breadcrumbNavigationItem: breadcrumbNavigationItem,
+            breadcrumbNavigationLinkItem: breadcrumbNavigationLinkItem,
+            flyoutCategoryLink: flyoutCategoryLink,
+        };
     }
 
     async getListingItemByProductId(productId: string): Promise<Record<string, Locator>> {
@@ -61,7 +94,9 @@ export class Home implements PageObject {
         const productCheapestPrice = listingItem.locator('.product-cheapest-price');
         const productPrice = listingItem.locator('.product-price');
         const productName = listingItem.locator('.product-name');
-        const productAddToShoppingCart = listingItem.getByRole('button', { name: 'Add to shopping cart' });
+        const productAddToShoppingCart = listingItem.getByRole('button', {
+            name: 'Add to shopping cart',
+        });
 
         return {
             productImage: productImage,
@@ -73,7 +108,7 @@ export class Home implements PageObject {
             productPrice: productPrice,
             productName: productName,
             productAddToShoppingCart: productAddToShoppingCart,
-        }
+        };
     }
 
     url() {
