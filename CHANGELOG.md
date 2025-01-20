@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.3.1](https://github.com/shopware/acceptance-test-suite/compare/v11.3.0...v11.3.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* Change locators for accessibility changes in forms ([fe1942c](https://github.com/shopware/acceptance-test-suite/commit/fe1942cda5fd2bb4508ed6afc95171072cf3fc08))
+
 ## [11.3.0](https://github.com/shopware/acceptance-test-suite/compare/v11.2.1...v11.3.0) (2025-01-20)
 
 
