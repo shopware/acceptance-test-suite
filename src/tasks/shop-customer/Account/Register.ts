@@ -37,17 +37,17 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
 
                 registeredEmail = registrationData.email;
 
-                // Deprecation warning for the 'isCommercial' argument
-                if (registrationData.isCommercial || isCommercial) {
-                    await StorefrontAccountLogin.accountTypeSelect.selectOption('Commercial');
+                await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
+                await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
+                await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
+
+                  // Deprecation warning for the 'isCommercial' argument
+                  if (registrationData.isCommercial || isCommercial) {
                     await StorefrontAccountLogin.companyInput.fill(registrationData.company);
                     await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
                     await StorefrontAccountLogin.vatRegNoInput.fill(registrationData.vatRegNo);
                 }
 
-                await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
-                await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
-                await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
                 await StorefrontAccountLogin.registerEmailInput.fill(registrationData.email);
 
                 if (!registrationData.isGuest) {
