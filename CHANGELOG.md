@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.3.2](https://github.com/shopware/acceptance-test-suite/compare/v11.3.1...v11.3.2) (2025-01-20)
+
+
+### Bug Fixes
+
+* add additional locator for main navigation ([#276](https://github.com/shopware/acceptance-test-suite/issues/276)) ([f0cf928](https://github.com/shopware/acceptance-test-suite/commit/f0cf9286c99254f3bc0017e1767ae66f9960a278))
+
 ## [11.3.1](https://github.com/shopware/acceptance-test-suite/compare/v11.3.0...v11.3.1) (2025-01-20)
 
 
