@@ -114,8 +114,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new AccountRecover(StorefrontPage));
     },
 
-    StorefrontAccountProfile: async ({ StorefrontPage }, use) => {
-        await use(new AccountProfile(StorefrontPage));
+    StorefrontAccountProfile: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new AccountProfile(StorefrontPage, InstanceMeta));
     },
 
     StorefrontAccountOrder: async ({ StorefrontPage }, use) => {

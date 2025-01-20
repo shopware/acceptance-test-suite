@@ -1,5 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class AccountProfile implements PageObject {
     public readonly salutationSelect: Locator;
@@ -26,7 +27,10 @@ export class AccountProfile implements PageObject {
     public readonly emailUpdateFailureAlert: Locator;
     public readonly passwordUpdateFailureAlert: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(
+        public readonly page: Page,
+        public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']
+    ) {
         this.salutationSelect = page.getByLabel('Salutation');
         this.firstNameInput = page.getByLabel('First name');
         this.lastNameInput = page.getByLabel('Last name');
@@ -40,16 +44,34 @@ export class AccountProfile implements PageObject {
 
         this.changePasswordButton = page.getByRole('button', { name: 'Change password' });
         this.newPasswordInput = page.locator('input[id="newPassword"]');
-        this.newPasswordConfirmInput = page.locator('input[id="passwordConfirmation"]');
-        this.currentPasswordInput = page.locator('input[id="password"]');
+
+        if (instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
+            this.newPasswordConfirmInput = page.locator('input[name="password[newPasswordConfirm]"]');
+            this.currentPasswordInput = page.locator('input[name="password[password]"]');
+        } else {
+            this.newPasswordConfirmInput = page.locator('input[id="passwordConfirmation"]');
+            this.currentPasswordInput = page.locator('input[id="password"]');
+        }
+
         this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: 'Save changes' });
         this.loginDataEmailAddress = page.locator('.account-profile-mail');
 
         this.emailUpdateMessage = page.getByText('Your email address has been updated.');
         this.passwordUpdateMessage = page.getByText('Your password has been updated.');
-        this.emailValidationAlert = page.locator('.was-validated');
+
+        if (instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
+            this.emailValidationAlert = page.getByText('Invalid email address.');
+        } else {
+            this.emailValidationAlert = page.locator('.was-validated');
+        }
+
         this.emailUpdateFailureAlert = page.getByText('Email address could not be changed.');
-        this.passwordUpdateFailureAlert = page.getByText('Password could not be changed.');
+
+        if (instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
+            this.passwordUpdateFailureAlert = page.getByText('Input is too short.');
+        } else {
+            this.passwordUpdateFailureAlert = page.getByText('Password could not be changed.');
+        }
     }
 
     url() {
