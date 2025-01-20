@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.3.0](https://github.com/shopware/acceptance-test-suite/compare/v11.2.1...v11.3.0) (2025-01-20)
+
+
+### Features
+
+* NEXT-40275 - add account address creation page ([#271](https://github.com/shopware/acceptance-test-suite/issues/271)) ([efa74f0](https://github.com/shopware/acceptance-test-suite/commit/efa74f051d47470f0a25c682ad45ee0c7bc7243e))
+
+
+### Bug Fixes
+
+* revert 6.7 locator compatibility for customer group pages in admin ([#272](https://github.com/shopware/acceptance-test-suite/issues/272)) ([ba5ff25](https://github.com/shopware/acceptance-test-suite/commit/ba5ff256e077a19470ef2bfeaa5845ce9852afe8))
+
 ## [11.2.1](https://github.com/shopware/acceptance-test-suite/compare/v11.2.0...v11.2.1) (2025-01-20)
 
 
