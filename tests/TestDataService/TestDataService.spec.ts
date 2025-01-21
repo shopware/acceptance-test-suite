@@ -14,6 +14,7 @@ import {
     Category,
     APIResponse,
     SalesChannelAnalytics,
+    Tax,
 } from '../../src';
 
 test('Data Service', async ({
@@ -89,6 +90,9 @@ test('Data Service', async ({
     const salesChannelAnalytics = await TestDataService.createSalesChannelAnalytics({ active: false });
     expect(salesChannelAnalytics.active).toEqual(false);
 
+    const taxRate21 = await TestDataService.createTaxRate({ taxRate: 21.0 });
+    expect(taxRate21.taxRate).toEqual(21.0);
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -142,6 +146,10 @@ test('Data Service', async ({
     const { data: databaseSalesChannelAnalytics } = (await salesChannelAnalyticsResponse.json()) as { data: SalesChannelAnalytics };
     expect(databaseSalesChannelAnalytics.id).toBe(salesChannelAnalytics.id);
 
+    const taxRate21Response = await AdminApiContext.get(`./tax/${taxRate21.id}?_response=detail`);
+    const { data: databaseTaxRate21 } = (await taxRate21Response.json()) as { data: Tax };
+    expect(databaseTaxRate21.id).toBe(taxRate21.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
@@ -161,4 +169,5 @@ test('Data Service', async ({
     expect(cleanUpDeleteOperations['deleted']['product_manufacturer']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['cms_page']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['sales_channel_analytics']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['tax']).toBeDefined();
 });
