@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.3.3](https://github.com/shopware/acceptance-test-suite/compare/v11.3.2...v11.3.3) (2025-01-21)
+
+
+### Bug Fixes
+
+* NEXT-40281 - add some locators and extend search suggest from home ([b0f5312](https://github.com/shopware/acceptance-test-suite/commit/b0f5312c097344c049da66dc302fa20912ce5795))
+* NEXT-40281 - added some new locators and method to search suggest ([4e49199](https://github.com/shopware/acceptance-test-suite/commit/4e49199f8e1dc874d74225bc5dd8fe9d8963a720))
+
 ## [11.3.2](https://github.com/shopware/acceptance-test-suite/compare/v11.3.1...v11.3.2) (2025-01-20)
 
 
