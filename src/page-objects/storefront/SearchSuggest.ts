@@ -11,6 +11,7 @@ export class SearchSuggest extends Home implements PageObject {
     public readonly searchSuggestLineItemName: Locator;
     public readonly searchSuggestLineItemPrice: Locator;
     public readonly searchSuggestTotalLink: Locator;
+    public readonly searchResultTotal: Locator;
     public readonly searchHeadline: Locator;
 
     constructor(public readonly page: Page) {
@@ -22,7 +23,20 @@ export class SearchSuggest extends Home implements PageObject {
         this.searchSuggestLineItemName = page.locator ('.search-suggest-product-name');
         this.searchSuggestLineItemPrice = page.locator ('.col-auto.search-suggest-product-price');
         this.searchSuggestTotalLink = page.locator ('.search-suggest-total-link');
+        this.searchResultTotal = page.locator ('.search-suggest-total-count');
         this.searchHeadline = page.locator ('.search-headline');
+    }
+
+    async getTotalSearchResultCount(): Promise<number> {
+        const totalCountText = await this.searchResultTotal.textContent();
+        return parseInt(totalCountText?.trim().replace(/\D/g, '') || '0', 10);
+    }
+
+    async searchForTerm(searchTerm: string): Promise<void> {
+        await this.searchInput.fill(searchTerm);
+        await this.page.waitForResponse((response) => 
+            response.url().includes(`suggest?search=${searchTerm}`) && response.ok()
+        );
     }
 
     url(searchTerm?: string) {
