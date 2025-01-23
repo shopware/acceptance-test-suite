@@ -32,7 +32,7 @@ export class Home implements PageObject {
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
-        this.productListItems = page.getByRole('.product-box');
+        this.productListItems = page.locator('.product-box');
         this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
         this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
         this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
