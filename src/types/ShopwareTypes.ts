@@ -234,6 +234,10 @@ export type CustomField = Omit<components['schemas']['CustomField'], 'config'> &
     };
 };
 
+export type Tax = components['schemas']['Tax'] &{
+    id: string;
+};
+
 // custom types below
 
 export enum RuleType {
