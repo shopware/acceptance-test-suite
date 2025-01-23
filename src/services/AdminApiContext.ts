@@ -1,4 +1,5 @@
 import { request, APIResponse, APIRequestContext } from '@playwright/test';
+import { jwtDecode } from 'jwt-decode';
 
 type HTTPHeaders = Record<string, string>;
 
@@ -62,7 +63,6 @@ export class AdminApiContext {
         }
 
         contextOptions['access_token'] = await this.authenticateWithClientCredentials(tmpContext, contextOptions);
-
         return new AdminApiContext(await this.createApiRequestContext(contextOptions), contextOptions);
     }
 
@@ -123,31 +123,50 @@ export class AdminApiContext {
     }
 
     isAuthenticated(): boolean {
-        // TODO: check token expiry
-        return !!this.options['access_token'];
+        if (!this.options['access_token']) {
+            return false;
+        }
+
+        const token = this.options['access_token'];
+        const decodedToken: { exp: number } = jwtDecode(token);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return decodedToken.exp > currentTime;
+    }
+
+    async ensureAuthenticated(): Promise<void> {
+        if (!this.isAuthenticated()) {
+            this.options['access_token'] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
+            this.context = await AdminApiContext.createApiRequestContext(this.options);
+        }
     }
 
     async get<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
+        await this.ensureAuthenticated();
         return this.context.get(url, options);
     }
 
     async post<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
+        await this.ensureAuthenticated();
         return this.context.post(url, options);
     }
 
     async patch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
+        await this.ensureAuthenticated();
         return this.context.patch(url, options);
     }
 
     async delete<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
+        await this.ensureAuthenticated();
         return this.context.delete(url, options);
     }
 
     async fetch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
+        await this.ensureAuthenticated();
         return this.context.fetch(url, options);
     }
 
     async head<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
+        await this.ensureAuthenticated();
         return this.context.head(url, options);
     }
 }
