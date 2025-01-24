@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.4.1](https://github.com/shopware/acceptance-test-suite/compare/v11.4.0...v11.4.1) (2025-01-24)
+
+
+### Bug Fixes
+
+* generate a new access token if existing one is expired ([#285](https://github.com/shopware/acceptance-test-suite/issues/285)) ([03adeed](https://github.com/shopware/acceptance-test-suite/commit/03adeed1f71d30783173a43fce12aec3a96d3a6d))
+
 ## [11.4.0](https://github.com/shopware/acceptance-test-suite/compare/v11.3.3...v11.4.0) (2025-01-24)
 
 
