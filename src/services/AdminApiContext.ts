@@ -89,7 +89,7 @@ export class AdminApiContext {
                 grant_type: 'client_credentials',
                 client_id: options.client_id,
                 client_secret: options.client_secret,
-                scope: ['write'],
+                scope: 'write',
             },
         });
 
@@ -109,7 +109,7 @@ export class AdminApiContext {
                 grant_type: 'password',
                 username: options.admin_username,
                 password: options.admin_password,
-                scope: ['write'],
+                scope: 'write',
             },
         });
 
