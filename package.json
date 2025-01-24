@@ -42,8 +42,7 @@
     "axe-html-reporter": "2.2.3",
     "compare-versions": "^6.1.1",
     "image-js": "0.35.5",
-    "uuid": "9.0.1",
-    "jwt-decode": "^4.0.0"
+    "uuid": "9.0.1"
   },
   "devDependencies": {
     "@types/node": "20.14.8",

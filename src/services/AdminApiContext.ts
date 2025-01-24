@@ -1,5 +1,4 @@
 import { request, APIResponse, APIRequestContext } from '@playwright/test';
-import { jwtDecode } from 'jwt-decode';
 
 type HTTPHeaders = Record<string, string>;
 
@@ -123,50 +122,60 @@ export class AdminApiContext {
     }
 
     isAuthenticated(): boolean {
-        if (!this.options['access_token']) {
-            return false;
-        }
-
-        const token = this.options['access_token'];
-        const decodedToken: { exp: number } = jwtDecode(token);
-        const currentTime = Math.floor(Date.now() / 1000);
-        return decodedToken.exp > currentTime;
+        // TODO: check token expiry
+        return !!this.options['access_token'];
     }
 
-    async ensureAuthenticated(): Promise<void> {
-        if (!this.isAuthenticated()) {
-            this.options['access_token'] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
-            this.context = await AdminApiContext.createApiRequestContext(this.options);
-        }
+    async refreshAccessToken(): Promise<void> {
+        this.options['access_token'] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
+        this.context = await AdminApiContext.createApiRequestContext(this.options);
     }
 
     async get<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        await this.ensureAuthenticated();
-        return this.context.get(url, options);
+        return this.handleRequest('get', url, options);
     }
 
     async post<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        await this.ensureAuthenticated();
-        return this.context.post(url, options);
+        return this.handleRequest('post', url, options);
     }
 
     async patch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        await this.ensureAuthenticated();
-        return this.context.patch(url, options);
+        return this.handleRequest('patch', url, options);
     }
 
     async delete<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        await this.ensureAuthenticated();
-        return this.context.delete(url, options);
+        return this.handleRequest('delete', url, options);
     }
 
     async fetch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        await this.ensureAuthenticated();
-        return this.context.fetch(url, options);
+        return this.handleRequest('fetch', url, options);
     }
 
     async head<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        await this.ensureAuthenticated();
-        return this.context.head(url, options);
+        return this.handleRequest('head', url, options);
+    }
+
+    private async handleRequest<PAYLOAD>(
+      method: 'get' | 'post' | 'patch' | 'delete' | 'fetch' | 'head',
+      url: string,
+      options?: RequestOptions<PAYLOAD>
+    ): Promise<APIResponse> {
+        const methodMap = {
+            get: this.context.get.bind(this.context),
+            post: this.context.post.bind(this.context),
+            patch: this.context.patch.bind(this.context),
+            delete: this.context.delete.bind(this.context),
+            fetch: this.context.fetch.bind(this.context),
+            head: this.context.head.bind(this.context),
+        };
+
+        let response = await methodMap[method](url, options);
+
+        if (response.status() === 401) {
+            await this.refreshAccessToken();
+            response = await methodMap[method](url, options);
+        }
+
+        return response;
     }
 }
