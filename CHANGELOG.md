@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.4.0](https://github.com/shopware/acceptance-test-suite/compare/v11.3.3...v11.4.0) (2025-01-24)
+
+
+### Features
+
+* add tax rate creation method via TestDataService ([#281](https://github.com/shopware/acceptance-test-suite/issues/281)) ([776a1f4](https://github.com/shopware/acceptance-test-suite/commit/776a1f4d299f7a7c75a783ea24035f1e3af54651))
+
+
+### Bug Fixes
+
+* style with prettier ([ad352bb](https://github.com/shopware/acceptance-test-suite/commit/ad352bb40ed826c82356eedd87406c5dce789e74))
+* Use string as oauth scope as it is spec compliant ([b7aae53](https://github.com/shopware/acceptance-test-suite/commit/b7aae53329842b50ce8cfca01a0a3ead19fd4d7a))
+* add searchForTerm task to shop customer ([#283](https://github.com/shopware/acceptance-test-suite/issues/283)) ([7be4b6f](https://github.com/shopware/acceptance-test-suite/commit/7be4b6f11e9374cd4a08aa6e2801ec36665dd576))
+
 ## [11.3.3](https://github.com/shopware/acceptance-test-suite/compare/v11.3.2...v11.3.3) (2025-01-21)
 
 
