@@ -173,7 +173,8 @@ export class AdminApiContext {
 
         if (response.status() === 401) {
             await this.refreshAccessToken();
-            response = await methodMap[method](url, options);
+            const updatedOptions = { ...options, headers: { Authorization: `Bearer ${this.options['access_token']}` }};
+            response = await methodMap[method](url, updatedOptions);
         }
 
         return response;
