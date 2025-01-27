@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.4.2](https://github.com/shopware/acceptance-test-suite/compare/v11.4.1...v11.4.2) (2025-01-27)
+
+
+### Bug Fixes
+
+* use new access token in the current handleRequest call ([#290](https://github.com/shopware/acceptance-test-suite/issues/290)) ([93fcf95](https://github.com/shopware/acceptance-test-suite/commit/93fcf95139ee10552ac97adc0b85f3bf2d85b4a7))
+
 ## [11.4.1](https://github.com/shopware/acceptance-test-suite/compare/v11.4.0...v11.4.1) (2025-01-24)
 
 
