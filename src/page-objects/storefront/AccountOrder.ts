@@ -34,6 +34,9 @@ export class AccountOrder implements PageObject {
         const orderShippingMethod = orderItem.locator('.order-table-body-value').nth(4);
         const orderDetailButton = orderItem.getByRole('button', {name: /Expand|Show details/});
         const orderImage = orderItem.locator('.line-item-img-link');
+        const taxPrice = orderItem.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
+        const shippingCosts = orderItem.locator(`dt:text-matches('Shipping costs:') + dd`);
+        const totalGross = orderItem.locator(`dt:text-matches('Total (gross):') + dd`);
 
         return {
             orderStatus: orderStatus,
@@ -48,7 +51,9 @@ export class AccountOrder implements PageObject {
             orderShippingMethod: orderShippingMethod,
             orderDetailButton: orderDetailButton,
             orderImage: orderImage,
-
+            taxPrice: taxPrice,
+            shippingCosts: shippingCosts,
+            totalGross: totalGross,
         }
     }
     getViewSubscriptionLink = (orderNumber: string): Locator => {
