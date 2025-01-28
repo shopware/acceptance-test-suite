@@ -25,6 +25,8 @@ import { OpenSearchSuggestPage } from './shop-customer/Search/OpenSearchSuggestP
 import { SearchForTerm } from './shop-customer/Search/SearchForTerm';
 
 import { ValidateAccessibility } from './shop-customer/Accessibility/ValidateAccessibility';
+import { AddProductToWishlist } from './shop-customer/Wishlist/addProductToWishlist';
+import { RemoveProductFromWishlist } from './shop-customer/Wishlist/RemoveProductFromWishlist';
 
 export const test = mergeTests(
     Login,
@@ -47,5 +49,7 @@ export const test = mergeTests(
     OpenSearchResultPage,
     OpenSearchSuggestPage,
     SearchForTerm,
-    ValidateAccessibility
+    ValidateAccessibility,
+    AddProductToWishlist,
+    RemoveProductFromWishlist
 );

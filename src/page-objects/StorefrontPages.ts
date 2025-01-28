@@ -23,6 +23,7 @@ import { CheckoutOrderEdit } from './storefront/CheckoutOrderEdit';
 import { AccountAddressCreate } from './storefront/AccountAddresssCreate';
 import { PageNotFound } from './storefront/PageNotFound';
 import { ContactForm } from './storefront/ContactForm';
+import { Wishlist } from './storefront/Wishlist';
 
 export interface StorefrontPageTypes {
     StorefrontHome: Home;
@@ -47,6 +48,7 @@ export interface StorefrontPageTypes {
     StorefrontCheckoutOrderEdit: CheckoutOrderEdit;
     StorefrontPageNotFound: PageNotFound;
     StorefrontContactForm: ContactForm;
+    StorefrontWishlist: Wishlist;
 }
 
 export const StorefrontPageObjects = {
@@ -72,6 +74,7 @@ export const StorefrontPageObjects = {
     CheckoutOrderEdit,
     PageNotFound,
     ContactForm,
+    Wishlist,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -162,5 +165,9 @@ export const test = base.extend<FixtureTypes>({
   
     StorefrontContactForm: async ({ StorefrontPage, InstanceMeta }, use) => {
         await use(new ContactForm(StorefrontPage, InstanceMeta));
+    },
+  
+    StorefrontWishlist: async ({ StorefrontPage }, use) => {
+        await use(new Wishlist(StorefrontPage));
     },
 });
