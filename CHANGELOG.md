@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.4.3](https://github.com/shopware/acceptance-test-suite/compare/v11.4.2...v11.4.3) (2025-01-28)
+
+
+### Bug Fixes
+
+* add additional locator for account order page ([#292](https://github.com/shopware/acceptance-test-suite/issues/292)) ([5e0adee](https://github.com/shopware/acceptance-test-suite/commit/5e0adeef7408c3f89a8aa496a38511903465dad1))
+
 ## [11.4.2](https://github.com/shopware/acceptance-test-suite/compare/v11.4.1...v11.4.2) (2025-01-27)
 
 
