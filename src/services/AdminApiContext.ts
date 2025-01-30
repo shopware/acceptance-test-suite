@@ -23,7 +23,7 @@ export class AdminApiContext {
     public readonly options: AdminApiContextOptions;
 
     private static readonly defaultOptions: AdminApiContextOptions = {
-        app_url: process.env['APP_URL'],
+        app_url: process.env['ADMIN_API_URL'] || process.env['APP_URL'],
         client_id: process.env['SHOPWARE_ACCESS_KEY_ID'],
         client_secret: process.env['SHOPWARE_SECRET_ACCESS_KEY'],
         admin_username: process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin',

@@ -14,7 +14,9 @@ if (process.env['ADMIN_URL']) {
 } else {
   process.env['ADMIN_URL'] = process.env['APP_URL'] + 'admin/';
 }
-
+if (process.env['ADMIN_API_URL']) {
+  process.env['ADMIN_API_URL'] = (process.env['ADMIN_API_URL'] ?? '').replace(/\/+$/, '') + '/';
+}
 if (!process.env['WEBSERVER_COMMAND']) {
   if (process.env['WEBSERVER_COMMAND'] === defaultAppUrl) {
     process.env['WEBSERVER_COMMAND'] = 'docker compose up --pull=always --quiet-pull shopware';
