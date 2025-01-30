@@ -15,6 +15,7 @@ import {
     APIResponse,
     SalesChannelAnalytics,
     Tax,
+    ProductCrossSelling,
 } from '../../src';
 
 test('Data Service', async ({
@@ -93,6 +94,10 @@ test('Data Service', async ({
     const taxRate21 = await TestDataService.createTaxRate({ taxRate: 21.0 });
     expect(taxRate21.taxRate).toEqual(21.0);
 
+    const crossSellingProduct = await TestDataService.createBasicProduct();
+    const productCrossSelling = await TestDataService.createProductCrossSelling(crossSellingProduct.id, { name: 'Custom cross selling' });
+    expect(productCrossSelling.name).toEqual('Custom cross selling');
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -149,6 +154,10 @@ test('Data Service', async ({
     const taxRate21Response = await AdminApiContext.get(`./tax/${taxRate21.id}?_response=detail`);
     const { data: databaseTaxRate21 } = (await taxRate21Response.json()) as { data: Tax };
     expect(databaseTaxRate21.id).toBe(taxRate21.id);
+
+    const crossSellingProductResponse = await AdminApiContext.get(`./product-cross-selling/${productCrossSelling.id}?_response=detail`);
+    const { data: databaseCrossSellingProduct } = (await crossSellingProductResponse.json()) as { data: ProductCrossSelling };
+    expect(databaseCrossSellingProduct.id).toBe(productCrossSelling.id);
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
