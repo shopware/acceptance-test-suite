@@ -117,6 +117,7 @@ export class Home implements PageObject {
         const productListingPriceBadge = listingItem.locator('.badge-discount');
         const wishlistNotAddedIcon = listingItem.locator('.product-wishlist-not-added');
         const wishlistAddedIcon = listingItem.locator('.product-wishlist-added');
+        const removeProductFromWishlist = listingItem.locator('.icon-wishlist-remove');  
 
         return {
             productImage: productImage,
@@ -133,6 +134,7 @@ export class Home implements PageObject {
             productListingPriceBadge: productListingPriceBadge,
             wishlistNotAddedIcon: wishlistNotAddedIcon,
             wishlistAddedIcon: wishlistAddedIcon,
+            removeFromWishlistXButton: removeProductFromWishlist,
         };
     }
 
