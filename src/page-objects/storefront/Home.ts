@@ -18,6 +18,8 @@ export class Home implements PageObject {
     public readonly consentDialog: Locator;
     public readonly consentDialogTechnicallyRequiredCheckbox: Locator;
     public readonly consentDialogStatisticsCheckbox: Locator;
+    public readonly contactFormLink: Locator;
+
     /**
      * @deprecated Use 'consentDialogMarketingCheckbox' instead
      */
@@ -63,6 +65,7 @@ export class Home implements PageObject {
             exact: true,
         });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
+        this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {

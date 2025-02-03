@@ -33,6 +33,7 @@ import type {
     CustomFieldSet,
     CustomField,
     Tax,
+    ProductCrossSelling,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -100,7 +101,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product_cross_selling' , 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
 
     /**
      * A registry of all created records.
@@ -473,6 +474,27 @@ export class TestDataService {
         this.addCreatedRecord('property_group', propertyGroup.id);
 
         return propertyGroup;
+    }
+
+    /**
+     * Creates a basic product cross-selling entity without products.
+     *
+     * @param productId - The uuid of the product to which the pproduct cross-selling should be assigned.
+     * @param overrides - Specific data overrides that will be applied to the property group data struct.
+     */
+    async createProductCrossSelling(productId: string, overrides: Partial<ProductCrossSelling> = {}): Promise<ProductCrossSelling> {
+        const crossSellingStruct = this.getBasicCrossSellingStruct(productId, overrides);
+
+        const response = await this.AdminApiClient.post('product-cross-selling?_response=detail', {
+            data: crossSellingStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: productCrossSelling } = (await response.json()) as { data: ProductCrossSelling };
+
+        this.addCreatedRecord('product_cross_selling', productCrossSelling.id);
+
+        return productCrossSelling;
     }
 
     /**
@@ -1640,7 +1662,6 @@ export class TestDataService {
                 deleteOperations[`delete-${record.resource}`].payload.push(record.payload);
             }
         });
-
         await this.AdminApiClient.post('_action/sync', {
             data: priorityDeleteOperations,
         });
@@ -2515,5 +2536,25 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicTaxStruct, overrides);
+    }
+
+    getBasicCrossSellingStruct(productId: string, overrides: Partial<ProductCrossSelling> = {}) {
+
+        const { id: productCrossSellingId, uuid: productCrossSellingUuid } = this.IdProvider.getIdPair();
+        const productCrossSellingName = `${this.namePrefix}ProductCrossSelling-${productCrossSellingId}${this.nameSuffix}`;
+
+        const defaultCrossSelling = {
+            id: productCrossSellingUuid,
+            productId: productId,
+            name: productCrossSellingName,
+            type: 'product_list',
+            position: 1,
+            active: true,
+            productStreamId: null,
+            sortingType: 'name',
+            limit: 10,
+            sortBy: 'name',
+        }
+        return Object.assign({}, defaultCrossSelling, overrides);
     }
 }
