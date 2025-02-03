@@ -100,7 +100,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'sales_channel_payment_method', 'customer'];
 
     /**
      * A registry of all created records.
@@ -1207,6 +1207,39 @@ export class TestDataService {
         this.addCreatedRecord('sales_channel_language', {
             salesChannelId: salesChannelId,
             languageId: languageId,
+        });
+
+        return salesChannel;
+    }
+
+    /**
+     * Assigns a payment method to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param paymentMethodId - The uuid of the currency.
+     */
+    async assignSalesChannelPaymentMethod(salesChannelId: string, paymentMethodId: string) {
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel-payment-method': {
+                    entity: 'sales_channel_payment_method',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            salesChannelId: salesChannelId,
+                            paymentMethodId: paymentMethodId,
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        this.addCreatedRecord('sales_channel_currency', {
+            salesChannelId: salesChannelId,
+            paymentMethodId: paymentMethodId,
         });
 
         return salesChannel;
