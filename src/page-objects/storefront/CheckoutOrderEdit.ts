@@ -40,4 +40,13 @@ export class CheckoutOrderEdit implements PageObject{
     url(orderUuid: string) {
         return `account/order/edit/${orderUuid}`;
     }
+
+    /**
+     * Returns the radio button element for a specified payment method.
+     *
+     * @param paymentMethodName - The name of the payment method on the page.
+     */
+    getPaymentMethodButton(paymentMethodName: string): Locator {
+        return this.page.getByLabel(paymentMethodName);
+    }
 }
