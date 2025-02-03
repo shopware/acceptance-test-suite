@@ -138,16 +138,16 @@ export const test = base.extend<FixtureTypes>({
         await use(new FirstRunWizard(AdminPage, InstanceMeta));
     },
 
-    AdminFlowBuilderCreate: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderCreate(AdminPage));
+    AdminFlowBuilderCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderCreate(AdminPage, InstanceMeta));
     },
 
-    AdminFlowBuilderListing: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderListing(AdminPage));
+    AdminFlowBuilderListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderListing(AdminPage, InstanceMeta));
     },
 
-    AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderDetail(AdminPage));
+    AdminFlowBuilderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderDetail(AdminPage, InstanceMeta));
     },
 
     AdminDataSharing: async ({ AdminPage }, use) => {
