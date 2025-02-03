@@ -1237,7 +1237,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_currency', {
+        this.addCreatedRecord('sales_channel_payment_method', {
             salesChannelId: salesChannelId,
             paymentMethodId: paymentMethodId,
         });
