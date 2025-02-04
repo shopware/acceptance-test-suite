@@ -156,6 +156,7 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontCustomRegister: async ({ StorefrontPage }, use) => {
         await use(new CustomRegister(StorefrontPage));
+
     },
 
     StorefrontCheckoutOrderEdit: async ({ StorefrontPage }, use) => {

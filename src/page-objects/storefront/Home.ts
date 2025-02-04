@@ -18,8 +18,6 @@ export class Home implements PageObject {
     public readonly consentDialog: Locator;
     public readonly consentDialogTechnicallyRequiredCheckbox: Locator;
     public readonly consentDialogStatisticsCheckbox: Locator;
-    public readonly contactFormLink: Locator;
-
     /**
      * @deprecated Use 'consentDialogMarketingCheckbox' instead
      */

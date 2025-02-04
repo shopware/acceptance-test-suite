@@ -226,10 +226,6 @@ export type SalesChannelAnalytics = components['schemas']['SalesChannelAnalytics
     id: string,
 };
 
-export type ProductCrossSelling = components['schemas']['ProductCrossSelling'] & {
-    id: string,
-};
-
 export interface RegistrationData {
     isCommercial: boolean;
     isGuest: boolean;
