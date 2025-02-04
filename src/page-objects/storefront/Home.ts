@@ -18,6 +18,8 @@ export class Home implements PageObject {
     public readonly consentDialog: Locator;
     public readonly consentDialogTechnicallyRequiredCheckbox: Locator;
     public readonly consentDialogStatisticsCheckbox: Locator;
+    public readonly contactFormLink: Locator;
+
     /**
      * @deprecated Use 'consentDialogMarketingCheckbox' instead
      */
@@ -75,6 +77,7 @@ export class Home implements PageObject {
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');
         this.wishlistBasket = page.locator('.header-wishlist-badge');
+        this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
