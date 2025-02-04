@@ -12,7 +12,8 @@ export class Account implements PageObject {
     public readonly newsletterCheckbox: Locator;
     public readonly newsletterRegistrationSuccessMessage: Locator;
     public readonly customerGroupRequestMessage: Locator;
-
+    public readonly cannotDeliverToCountryAlert: Locator;
+    public readonly shippingToAddressNotPossibleAlert: Locator;
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.headline = page.getByRole('heading', { name: 'Overview' });
         this.personalDataCardTitle = page.getByRole('heading', { name: 'Personal data' });
@@ -27,7 +28,9 @@ export class Account implements PageObject {
         } else {
             this.customerGroupRequestMessage = page.locator('.alert-content-container');
         }
-        
+        this.cannotDeliverToCountryAlert = page.getByText('We can not deliver to the country that is stored in your delivery address.');
+        this.shippingToAddressNotPossibleAlert = page.getByText('Shipping to the selected shipping address is currently not possible.');
+
     }
 
     async getCustomerGroupAlert(customerGroup: string): Promise<Locator> {

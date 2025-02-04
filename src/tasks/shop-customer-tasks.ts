@@ -5,6 +5,7 @@ import { Logout } from './shop-customer/Account/Logout';
 import { Register } from './shop-customer/Account/Register';
 import { RegisterGuest } from './shop-customer/Account/RegisterGuest';
 import { ChangeStorefrontCurrency } from './shop-customer/Account/ChangeStorefrontCurrency';
+import { AddNewAddress } from './shop-customer/Account/AddNewAddress';
 
 import { AddProductToCart } from './shop-customer/Product/AddProductToCart';
 import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFromProductToCheckout';
@@ -31,6 +32,7 @@ export const test = mergeTests(
     Register,
     RegisterGuest,
     ChangeStorefrontCurrency,
+    AddNewAddress,
     AddProductToCart,
     ChangeProductQuantity,
     ProceedFromProductToCheckout,

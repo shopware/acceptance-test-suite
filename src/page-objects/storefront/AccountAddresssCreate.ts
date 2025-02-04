@@ -12,6 +12,7 @@ export class AccountAddressCreate implements PageObject {
     public readonly cityInput: Locator;
     public readonly countryDropdown: Locator;
     public readonly saveAddressButton: Locator;
+    public readonly stateDropdown: Locator;
 
     constructor(public readonly page: Page) {
         this.salutationDropdown = page.locator('#addresspersonalSalutation');
@@ -23,6 +24,7 @@ export class AccountAddressCreate implements PageObject {
         this.zipcodeInput = page.locator('#addressAddressZipcode');
         this.cityInput = page.locator('#addressAddressCity');
         this.countryDropdown = page.locator('#addressAddressCountry');
+        this.stateDropdown = page.locator('#addressAddressCountryState');
         this.saveAddressButton = page.locator('.address-form-submit');
     }
 
