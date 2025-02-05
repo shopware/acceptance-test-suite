@@ -114,6 +114,10 @@ export type SystemConfig = components['schemas']['SystemConfig'] & {
     id: string,
 }
 
+export type ProductCrossSelling = components['schemas']['ProductCrossSelling'] & {
+    id: string,
+};
+
 export interface CalculatedTaxes {
     tax: number,
     taxRate: number,
