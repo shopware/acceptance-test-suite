@@ -56,10 +56,6 @@ export class AccountOrder implements PageObject {
             totalGross: totalGross,
         }
     }
-    getViewSubscriptionLink = (orderNumber: string): Locator => {
-        const orderContainer = this.page.locator('.order-item-header', { hasText: `Order Number: ${orderNumber}`});
-        return orderContainer.getByText('View Subscription');
-    };
 
     url() {
         return 'account/order';
