@@ -41,7 +41,6 @@ export class AccountLogin implements PageObject {
     public readonly shippingAddressPostalCodeInput: Locator;
     public readonly shippingAddressStateInput: Locator;
 
-
     constructor(public readonly page: Page) {
         this.emailInput = page.getByLabel('Your email address');
         this.passwordInput = page.getByLabel('Your password');

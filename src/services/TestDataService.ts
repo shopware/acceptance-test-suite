@@ -100,7 +100,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer', 'customer_address'];
+    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
 
     /**
      * A registry of all created records.

@@ -4,11 +4,9 @@ import type { FixtureTypes} from '../../../types/FixtureTypes';
 import { Address } from '../../../types/ShopwareTypes';
 
 export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>({
-    AddNewAddress: async ({ ShopCustomer, StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use)=> {
+    AddNewAddress: async ({ StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use)=> {
         const task = (address: Address) => {
             return async function AddNewAddress() {
-
-                await ShopCustomer.goesTo(StorefrontAccountAddresses.url());
                 await StorefrontAccountAddresses.addNewAddressButton.click();
 
                 await StorefrontAccountAddressCreate.firstNameInput.fill(address.firstName);
@@ -22,7 +20,6 @@ export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>(
                 await StorefrontAccountAddressCreate.stateDropdown.selectOption({label: address.state});
 
                 await StorefrontAccountAddressCreate.saveAddressButton.click();
-
             }
         };
 
