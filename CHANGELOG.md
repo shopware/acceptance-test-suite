@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.5.0](https://github.com/shopware/acceptance-test-suite/compare/v11.4.3...v11.5.0) (2025-02-04)
+
+
+### Features
+
+* add contact form page object and other corresponding locator addings ([#294](https://github.com/shopware/acceptance-test-suite/issues/294)) ([38983bf](https://github.com/shopware/acceptance-test-suite/commit/38983bf1091c02d9618e70e5285608cc5bb4bda7))
+* add functions for changing the payment method on an existing order ([#299](https://github.com/shopware/acceptance-test-suite/issues/299)) ([6719019](https://github.com/shopware/acceptance-test-suite/commit/6719019c0989e36408e1967b2e8d32d1e3f5b024))
+
 ## [11.4.3](https://github.com/shopware/acceptance-test-suite/compare/v11.4.2...v11.4.3) (2025-01-28)
 
 

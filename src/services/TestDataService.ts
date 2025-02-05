@@ -33,6 +33,7 @@ import type {
     CustomFieldSet,
     CustomField,
     Tax,
+    ProductCrossSelling,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -100,7 +101,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product', 'product_cross_selling', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'sales_channel_payment_method', 'customer'];
 
     /**
      * A registry of all created records.
@@ -169,6 +170,27 @@ export class TestDataService {
         this.addCreatedRecord('product', product.id);
 
         return product;
+    }
+
+    /**
+     * Creates a basic product cross-selling entity without products.
+     *
+     * @param productId - The uuid of the product to which the pproduct cross-selling should be assigned.
+     * @param overrides - Specific data overrides that will be applied to the property group data struct.
+     */
+    async createProductCrossSelling(productId: string, overrides: Partial<ProductCrossSelling> = {}): Promise<ProductCrossSelling> {
+        const crossSellingStruct = this.getBasicCrossSellingStruct(productId, overrides);
+
+        const response = await this.AdminApiClient.post('product-cross-selling?_response=detail', {
+            data: crossSellingStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: productCrossSelling } = (await response.json()) as { data: ProductCrossSelling };
+
+        this.addCreatedRecord('product_cross_selling', productCrossSelling.id);
+
+        return productCrossSelling;
     }
 
     /**
@@ -1207,6 +1229,39 @@ export class TestDataService {
         this.addCreatedRecord('sales_channel_language', {
             salesChannelId: salesChannelId,
             languageId: languageId,
+        });
+
+        return salesChannel;
+    }
+
+    /**
+     * Assigns a payment method to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param paymentMethodId - The uuid of the currency.
+     */
+    async assignSalesChannelPaymentMethod(salesChannelId: string, paymentMethodId: string) {
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel-payment-method': {
+                    entity: 'sales_channel_payment_method',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            salesChannelId: salesChannelId,
+                            paymentMethodId: paymentMethodId,
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        this.addCreatedRecord('sales_channel_payment_method', {
+            salesChannelId: salesChannelId,
+            paymentMethodId: paymentMethodId,
         });
 
         return salesChannel;
@@ -2515,5 +2570,25 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicTaxStruct, overrides);
+    }
+
+    getBasicCrossSellingStruct(productId: string, overrides: Partial<ProductCrossSelling> = {}) {
+
+        const { id: productCrossSellingId, uuid: productCrossSellingUuid } = this.IdProvider.getIdPair();
+        const productCrossSellingName = `${this.namePrefix}ProductCrossSelling-${productCrossSellingId}${this.nameSuffix}`;
+
+        const defaultCrossSelling = {
+            id: productCrossSellingUuid,
+            productId: productId,
+            name: productCrossSellingName,
+            type: 'product_list',
+            position: 1,
+            active: true,
+            productStreamId: null,
+            sortingType: 'name',
+            limit: 10,
+            sortBy: 'name',
+        }
+        return Object.assign({}, defaultCrossSelling, overrides);
     }
 }
