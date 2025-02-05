@@ -97,6 +97,9 @@ export class Home implements PageObject {
         const productAddToShoppingCart = listingItem.getByRole('button', {
             name: 'Add to shopping cart',
         });
+        const productListingPrice = listingItem.locator('.list-price-price');
+        const productListingPricePercentage = listingItem.locator('.list-price-percentage');
+        const productListingPriceBadge = listingItem.locator('.badge-discount');
 
         return {
             productImage: productImage,
@@ -108,6 +111,9 @@ export class Home implements PageObject {
             productPrice: productPrice,
             productName: productName,
             productAddToShoppingCart: productAddToShoppingCart,
+            productListingPrice: productListingPrice,
+            productListingPricePercentage: productListingPricePercentage,
+            productListingPriceBadge: productListingPriceBadge,
         };
     }
 
