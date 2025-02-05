@@ -27,6 +27,7 @@ export class Home implements PageObject {
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
+    public readonly mainNavigationLink: Locator;
     public readonly contactFormLink: Locator;
 
     constructor(public readonly page: Page) {
@@ -64,6 +65,7 @@ export class Home implements PageObject {
             exact: true,
         });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
+        this.mainNavigationLink = page.locator('.main-navigation-link-text');
         this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
     }
 
