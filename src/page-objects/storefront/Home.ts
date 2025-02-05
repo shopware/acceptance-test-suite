@@ -27,6 +27,7 @@ export class Home implements PageObject {
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
+    public readonly mainNavigationLink: Locator;
 
     constructor(public readonly page: Page) {
         this.accountMenuButton = page.getByLabel('Your account');
@@ -63,6 +64,7 @@ export class Home implements PageObject {
             exact: true,
         });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
+        this.mainNavigationLink = page.locator('.main-navigation-link-text');
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
