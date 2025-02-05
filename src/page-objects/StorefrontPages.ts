@@ -69,6 +69,7 @@ export const StorefrontPageObjects = {
     Search,
     SearchSuggest,
     CustomRegister,
+    CheckoutOrderEdit,
     PageNotFound,
     ContactForm,
 }
