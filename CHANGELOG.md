@@ -1,5 +1,27 @@
 # Changelog
 
+## [11.6.0](https://github.com/shopware/acceptance-test-suite/compare/v11.5.0...v11.6.0) (2025-02-05)
+
+
+### Features
+
+* add contact form page object and other corresponding locator adding2 ([#303](https://github.com/shopware/acceptance-test-suite/issues/303)) ([13c2aab](https://github.com/shopware/acceptance-test-suite/commit/13c2aab04539c76d3d78ae7d0644b08c6a9d6222))
+* add page not found page ([#301](https://github.com/shopware/acceptance-test-suite/issues/301)) ([89db0f9](https://github.com/shopware/acceptance-test-suite/commit/89db0f94b3c15e0e2c16e507141a444a153309d1))
+
+### Bug Fixes
+
+* add locators for listing price to existing page objects ([#304](https://github.com/shopware/acceptance-test-suite/issues/304)) ([9532a88](https://github.com/shopware/acceptance-test-suite/commit/9532a881ea19dbc05dc3a3f418f14464ee182569))
+* add variantListingConfig to shopware types and omit the original one ([#302](https://github.com/shopware/acceptance-test-suite/issues/302)) ([724f199](https://github.com/shopware/acceptance-test-suite/commit/724f19965d8b1a5647a304df4561949162b03293))
+* remove commercial only locator method ([#307](https://github.com/shopware/acceptance-test-suite/issues/307)) ([ba108ea](https://github.com/shopware/acceptance-test-suite/commit/ba108ea999e25e825c46ec308202b247d077c089))
+
+## [11.5.0](https://github.com/shopware/acceptance-test-suite/compare/v11.4.3...v11.5.0) (2025-02-04)
+
+
+### Features
+
+* add contact form page object and other corresponding locator addings ([#294](https://github.com/shopware/acceptance-test-suite/issues/294)) ([38983bf](https://github.com/shopware/acceptance-test-suite/commit/38983bf1091c02d9618e70e5285608cc5bb4bda7))
+* add functions for changing the payment method on an existing order ([#299](https://github.com/shopware/acceptance-test-suite/issues/299)) ([6719019](https://github.com/shopware/acceptance-test-suite/commit/6719019c0989e36408e1967b2e8d32d1e3f5b024))
+
 ## [11.4.3](https://github.com/shopware/acceptance-test-suite/compare/v11.4.2...v11.4.3) (2025-01-28)
 
 

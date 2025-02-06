@@ -59,6 +59,10 @@ export interface Price {
     currencyId: string;
 }
 
+export interface VariantListingConfig {
+    displayParent: boolean;
+}
+
 export interface ProductPrice {
     productId?: string;
     ruleId: string;
@@ -67,7 +71,7 @@ export interface ProductPrice {
     quantityEnd: number | null;
 }
 
-export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options' | 'tags' | 'visibilities' > & {
+export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options' | 'tags' | 'visibilities' | 'variantListingConfig' > & {
     id: string,
     price: Price[],
     prices?: ProductPrice[],
@@ -77,6 +81,7 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' 
     options?: Record<string, string>[],
     tags?: Record<string, string>[],
     visibilities?: Record<string, unknown>[],
+    variantListingConfig?: VariantListingConfig,
 }
 
 export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts'> & {
@@ -130,6 +135,10 @@ export type Country = Omit<components['schemas']['Country'], 'states'> & {
 export type SystemConfig = components['schemas']['SystemConfig'] & {
     id: string,
 }
+
+export type ProductCrossSelling = components['schemas']['ProductCrossSelling'] & {
+    id: string,
+};
 
 export interface CalculatedTaxes {
     tax: number,

@@ -27,6 +27,8 @@ export class Home implements PageObject {
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
+    public readonly mainNavigationLink: Locator;
+    public readonly contactFormLink: Locator;
 
     constructor(public readonly page: Page) {
         this.accountMenuButton = page.getByLabel('Your account');
@@ -63,6 +65,8 @@ export class Home implements PageObject {
             exact: true,
         });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
+        this.mainNavigationLink = page.locator('.main-navigation-link-text');
+        this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
@@ -97,6 +101,9 @@ export class Home implements PageObject {
         const productAddToShoppingCart = listingItem.getByRole('button', {
             name: 'Add to shopping cart',
         });
+        const productListingPrice = listingItem.locator('.list-price-price');
+        const productListingPricePercentage = listingItem.locator('.list-price-percentage');
+        const productListingPriceBadge = listingItem.locator('.badge-discount');
 
         return {
             productImage: productImage,
@@ -108,6 +115,9 @@ export class Home implements PageObject {
             productPrice: productPrice,
             productName: productName,
             productAddToShoppingCart: productAddToShoppingCart,
+            productListingPrice: productListingPrice,
+            productListingPricePercentage: productListingPricePercentage,
+            productListingPriceBadge: productListingPriceBadge,
         };
     }
 
