@@ -17,7 +17,10 @@ export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>(
                 await StorefrontAccountAddressCreate.zipcodeInput.fill(address.zipCode);
                 await StorefrontAccountAddressCreate.cityInput.fill(address.city);
                 await StorefrontAccountAddressCreate.countryDropdown.selectOption({label: address.country});
-                await StorefrontAccountAddressCreate.stateDropdown.selectOption({label: address.state});
+
+                if (address.state) {
+                    await StorefrontAccountAddressCreate.stateDropdown.selectOption({label: address.state});
+                }
 
                 await StorefrontAccountAddressCreate.saveAddressButton.click();
             }

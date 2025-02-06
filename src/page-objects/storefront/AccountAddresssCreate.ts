@@ -15,13 +15,13 @@ export class AccountAddressCreate implements PageObject {
     public readonly stateDropdown: Locator;
 
     constructor(public readonly page: Page) {
-        this.salutationDropdown = page.locator('#addresspersonalSalutation');
-        this.firstNameInput = page.locator('#addresspersonalFirstName');
-        this.lastNameInput = page.locator('#addresspersonalLastName');
-        this.companyInput = page.locator('#addresscompany');
-        this.departmentInput = page.locator('#addressdepartment');
-        this.streetInput = page.locator('#addressAddressStreet');
-        this.zipcodeInput = page.locator('#addressAddressZipcode');
+        this.salutationDropdown = page.getByRole('combobox', { name: 'Salutation' });
+        this.firstNameInput = page.getByRole('textbox', { name: 'First name' });
+        this.lastNameInput = page.getByRole('textbox', { name: 'Last name' });
+        this.companyInput = page.getByRole('textbox', { name: 'Company' });
+        this.departmentInput = page.getByRole('textbox', { name: 'Department' });
+        this.streetInput = page.getByRole('textbox', { name: 'Street' });
+        this.zipcodeInput = page.getByRole('textbox', { name: 'Postal code' });
         this.cityInput = page.locator('#addressAddressCity');
         this.countryDropdown = page.locator('#addressAddressCountry');
         this.stateDropdown = page.locator('#addressAddressCountryState');
