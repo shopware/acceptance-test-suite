@@ -160,7 +160,7 @@ export const test = base.extend<FixtureTypes>({
         await use(new PageNotFound(StorefrontPage));
     },
   
-    StorefrontContactForm: async ({ StorefrontPage }, use) => {
-        await use(new ContactForm(StorefrontPage));
+    StorefrontContactForm: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new ContactForm(StorefrontPage, InstanceMeta));
     },
 });
