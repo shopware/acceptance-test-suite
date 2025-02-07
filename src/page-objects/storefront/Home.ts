@@ -134,7 +134,7 @@ export class Home implements PageObject {
             productListingPriceBadge: productListingPriceBadge,
             wishlistNotAddedIcon: wishlistNotAddedIcon,
             wishlistAddedIcon: wishlistAddedIcon,
-            removeFromWishlistXButton: removeProductFromWishlist,
+            removeFromWishlistButton: removeProductFromWishlist,
         };
     }
 

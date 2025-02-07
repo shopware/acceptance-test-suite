@@ -20,6 +20,9 @@ export class ProductDetail implements PageObject {
     public readonly offCanvasSummaryTotalPrice: Locator;
     public readonly offCanvas: Locator;
 
+    public readonly wishlistAddedButton: Locator;
+    public readonly wishlistNotAddedButton: Locator;
+
     constructor(public readonly page: Page) {
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
@@ -37,6 +40,9 @@ export class ProductDetail implements PageObject {
         this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
         this.offCanvasLineItemImages = page.locator('.line-item-img-link');
         this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
+
+        this.wishlistAddedButton = page.locator('.product-wishlist-added');
+        this.wishlistNotAddedButton = page.locator('.product-wishlist-not-added');
     }
 
     url(productData: Product) {
