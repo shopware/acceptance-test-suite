@@ -29,7 +29,6 @@ export class AccountLogin implements PageObject {
     public readonly postalCodeInput: Locator;
     public readonly registerButton: Locator;
 
-<<<<<<< HEAD
     // Inputs for reCaptcha
     public readonly greCaptchaV2Container: Locator;
     public readonly greCaptchaV2Input: Locator;
@@ -49,8 +48,6 @@ export class AccountLogin implements PageObject {
     public readonly shippingAddressPostalCodeInput: Locator;
     public readonly shippingAddressStateInput: Locator;
 
-=======
->>>>>>> bf7aaad (feat: rebase to trunk fix conflict on testdataservice)
     constructor(public readonly page: Page) {
         this.emailInput = page.getByLabel('Your email address');
         this.passwordInput = page.getByLabel('Your password');
@@ -88,6 +85,12 @@ export class AccountLogin implements PageObject {
         this.logoutLink = page.getByRole('link', { name: 'Log out'});
         this.successAlert = page.getByText('Successfully logged out.');
         this.passwordUpdatedAlert = page.getByText('Your password has been updated.');
+
+        this.greCaptchaV2Container = this.page.locator('.grecaptcha-v2-container');
+        this.greCaptchaV2Input = this.page.locator('.grecaptcha-v2-input');
+        this.greCaptchaV3Input = this.page.locator('.grecaptcha_v3-input');
+        this.greCaptchaProtectionInformation = this.page.locator('.grecaptcha-protection-information');
+        this.greCaptchaBadge = this.page.locator('.grecaptcha-badge');
     }
 
     async getShippingCountryLocatorByName(countryName: string): Promise<Locator> {
