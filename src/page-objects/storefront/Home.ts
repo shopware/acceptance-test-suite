@@ -75,7 +75,6 @@ export class Home implements PageObject {
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');
         this.wishlistBasket = page.locator('.header-wishlist-badge');
-        this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
