@@ -131,18 +131,6 @@ export class ProductDetail implements PageObject {
         this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
     }
 
-    async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
-
-        const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
-        const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
-        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
-
-        return {
-            customFieldSetTab: customFieldSetTab,
-            customFieldSetTabCustomContent: customFieldSetTabCustomContent,
-        }
-    }
-
     url(productId: string) {
         return `#/sw/product/detail/${productId}/base`
     }

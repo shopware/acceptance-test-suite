@@ -16,18 +16,6 @@ export class CategoryDetail implements PageObject {
         this.customFieldSetTabCustomContent = this.customFieldCard.locator('.sw-tabs__custom-content');
     }
 
-    async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
-
-        const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
-        const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
-        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
-
-        return {
-            customFieldSetTab: customFieldSetTab,
-            customFieldSetTabCustomContent: customFieldSetTabCustomContent,
-        }
-    }
-
     url(categoryUuid: string) {
         return `#/sw/category/index/${categoryUuid}/base`
     }

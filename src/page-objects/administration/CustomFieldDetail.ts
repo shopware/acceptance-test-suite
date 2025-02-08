@@ -19,6 +19,7 @@ export class CustomFieldDetail extends CustomFieldCreate {
     public readonly customFieldDeleteDialog: Locator;
     public readonly customFieldDeleteCancelButton: Locator;
     public readonly customFieldDeleteButton: Locator;
+    public readonly customFieldEditAvailableInShoppingCartCheckbox: Locator;
 
     constructor(public readonly page: Page) {
         super(page);
@@ -40,6 +41,7 @@ export class CustomFieldDetail extends CustomFieldCreate {
         this.customFieldHelpTextEnglishGBInput = this.newCustomFieldDialog.getByLabel('Help text (English (GB))');
 
         this.customFieldEditDialog = page.getByRole('dialog', { name: 'Edit custom field' });
+        this.customFieldEditAvailableInShoppingCartCheckbox = this.customFieldEditDialog.getByLabel('Available in shopping cart');
         this.customFieldEditApplyButton = this.customFieldEditDialog.getByRole('button', { name: 'Apply changes' });
 
         //Dialog - delete field
