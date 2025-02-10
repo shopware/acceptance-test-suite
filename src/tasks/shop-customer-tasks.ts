@@ -51,5 +51,5 @@ export const test = mergeTests(
     ValidateAccessibility,
     RemoveProductFromWishlist,
     AddProductToCartFromWishlist,
-    AddProductToWishlist
+    AddProductToWishlist,
 );
