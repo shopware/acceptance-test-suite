@@ -2,10 +2,9 @@ import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
 import type { RegistrationData } from '../../../types/ShopwareTypes';
-import { deleteRegisteredUser } from '../../../services/ShopwareDataHelpers';
 
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
-    Register: async ({ StorefrontAccountLogin, AdminApiContext, IdProvider }, use) => {
+    Register: async ({ StorefrontAccountLogin, IdProvider, TestDataService }, use) => {
         let registeredEmail = '';
 
         const defaultRegistrationData: RegistrationData = {
@@ -59,11 +58,14 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await StorefrontAccountLogin.countryInput.selectOption({ label: registrationData.country });
 
                 await StorefrontAccountLogin.registerButton.click();
+
+                const customer = await TestDataService.getCustomerByEmail(registeredEmail);
+                if (customer) {
+                    TestDataService.addCreatedRecord('customer', customer.id);
+                }
             };
         };
 
         await use(task);
-
-        await deleteRegisteredUser(AdminApiContext, registeredEmail);
     },
 });
