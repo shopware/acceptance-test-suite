@@ -153,8 +153,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new FlowBuilderTemplates(AdminPage));
     },
 
-    AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderDetail(AdminPage));
+    AdminFlowBuilderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderDetail(AdminPage, InstanceMeta));
     },
 
     AdminDataSharing: async ({ AdminPage }, use) => {

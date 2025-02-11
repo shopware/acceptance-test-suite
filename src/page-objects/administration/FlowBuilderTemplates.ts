@@ -4,11 +4,8 @@ import { FlowBuilderListing } from './FlowBuilderListing';
 
 export class FlowBuilderTemplates extends FlowBuilderListing implements PageObject {
 
-    public readonly searchBar: Locator;
-
     constructor(public readonly page: Page) {
         super(page);
-        this.searchBar = page.locator('.sw-search-bar').getByPlaceholder('Search flows...');
     }
     url() {
         return `#/sw/flow/index/templates`;
