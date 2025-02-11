@@ -1,5 +1,15 @@
 # Changelog
 
+## [11.6.1](https://github.com/shopware/acceptance-test-suite/compare/v11.6.0...v11.6.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* make contact form locators compatible with 6.7. and 6.6. ([#309](https://github.com/shopware/acceptance-test-suite/issues/309)) ([2a8550a](https://github.com/shopware/acceptance-test-suite/commit/2a8550ab35b98999189c0c8c22a8c235a85c4ad4))
+* replace deleteRegisteredUser with addCreatedRecord ([8359e9e](https://github.com/shopware/acceptance-test-suite/commit/8359e9e201501dd0f3650621965943d48db7e1ec))
+* retain headers in current requests ([dc9ca9b](https://github.com/shopware/acceptance-test-suite/commit/dc9ca9b2853cad752594aa5d28c4d50f31b7d234))
+* update page objects for 6.7 compatibility ([f9835f5](https://github.com/shopware/acceptance-test-suite/commit/f9835f5bb6fa8334ccfb361e6711781a4f729da3))
+
 ## [11.6.0](https://github.com/shopware/acceptance-test-suite/compare/v11.5.0...v11.6.0) (2025-02-05)
 
 
