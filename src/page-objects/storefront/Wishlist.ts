@@ -10,13 +10,13 @@ export class Wishlist extends Home implements PageObject {
     constructor(public readonly page: Page) {
         super(page);
         this.wishListHeader = page.locator('.wishlist-headline');
-        this.removeAlert = page.locator('.alert-content');
+        this.removeAlert = page.locator('.alert-success');
         this.emptyListing = page.locator('.wishlist-listing-empty');
     }
 
-    async getListingItemByProductId(productId: string): Promise<Record<string, Locator>> {
-        const baseItems = await super.getListingItemByProductId(productId);
-        const listingItem = this.page.getByRole('listitem').filter({ has: this.page.locator(`[value="${productId}"]`) });
+    async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {
+        const baseItems = await super.getListingItemByProductName(productListingName);
+        const listingItem = this.page.getByRole('listitem').filter({ has: this.page.getByText(productListingName) });
         const removeFromWishlistButton = listingItem.locator('.icon-wishlist-remove');
     
         return {

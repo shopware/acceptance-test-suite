@@ -152,6 +152,8 @@ export class Home implements PageObject {
         const productListingPrice = listingItem.locator('.list-price-price');
         const productListingPricePercentage = listingItem.locator('.list-price-percentage');
         const productListingPriceBadge = listingItem.locator('.badge-discount');
+        const wishlistNotAddedIcon = listingItem.locator('.product-wishlist-not-added');
+        const wishlistAddedIcon = listingItem.locator('.product-wishlist-added');
 
         return {
             productImage: productImage,
@@ -166,6 +168,8 @@ export class Home implements PageObject {
             productListingPrice: productListingPrice,
             productListingPricePercentage: productListingPricePercentage,
             productListingPriceBadge: productListingPriceBadge,
+            wishlistNotAddedIcon: wishlistNotAddedIcon,
+            wishlistAddedIcon: wishlistAddedIcon,
         };
     }
 
