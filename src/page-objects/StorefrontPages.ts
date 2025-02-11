@@ -128,8 +128,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new AccountOrder(StorefrontPage));
     },
 
-    StorefrontAccountAddresses: async ({ StorefrontPage }, use) => {
-        await use(new AccountAddresses(StorefrontPage));
+    StorefrontAccountAddresses: async ({ StorefrontPage , InstanceMeta }, use) => {
+        await use(new AccountAddresses(StorefrontPage, InstanceMeta));
     },
 
     StorefrontAccountAddressCreate: async ({ StorefrontPage }, use) => {
