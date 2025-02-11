@@ -16,6 +16,8 @@ export class FlowBuilderListing implements PageObject {
     public readonly flowDeleteButton: Locator;
     public readonly successAlert: Locator;
     public readonly successAlertMessage: Locator;
+    public readonly searchBar: Locator;
+
 
     constructor(public readonly page: Page) {
         this.createFlowButton = page.locator('.sw-flow-list__create');
@@ -33,6 +35,8 @@ export class FlowBuilderListing implements PageObject {
         this.downloadFlowButton = page.getByRole('button', { name: 'Download flow' });
         this.successAlert = page.locator('.sw-alert__body');
         this.successAlertMessage = page.locator('.sw-alert__message');
+        this.searchBar = page.locator('.sw-search-bar').getByPlaceholder('Search flows...');
+
     }
 
     url() {

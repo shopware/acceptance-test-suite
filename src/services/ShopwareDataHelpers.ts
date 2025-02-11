@@ -1,7 +1,7 @@
 import { APIResponse } from '@playwright/test';
 import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
-import { Promotion } from '../types/ShopwareTypes';
+import { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
 
 type Language = components['schemas']['Language'] & {
     id: string,
@@ -250,6 +250,58 @@ export const getMediaId = async (fileName: string, adminApiContext: AdminApiCont
     const result = (await resp.json()) as { data: { id: string }[]; total: number };
     return result.data[0].id;
 };
+
+export const getFlowTemplateData = async (flowTemplateId: string, adminApiContext: AdminApiContext): Promise<FlowTemplate> => {
+    const flowTemplateResponse = await adminApiContext.post(`search/flow-template`, {
+        data: {
+            limit: 1,
+            filter: [{
+                type: 'equals',
+                field: 'id',
+                value: flowTemplateId,
+            }],
+        },
+    });
+    const result = (await flowTemplateResponse.json());
+    return result.data[0];
+};
+
+export const getFlowData = async (flowId: string, adminApiContext: AdminApiContext): Promise<Flow> => {
+    const flowResponse = await adminApiContext.post(`search/flow`, {
+        data: {
+            limit: 1,
+            filter: [{
+                type: 'equals',
+                field: 'id',
+                value: flowId,
+            }],
+            associations: { sequences: {}  },
+        },
+    });
+    const result = (await flowResponse.json());
+    return result.data[0];
+};
+
+export const compareFlowTemplateWithFlow = async (flowId:string, flowTemplateId: string, adminApiContext: AdminApiContext): Promise<boolean> => {
+    const flowTemplateData: FlowTemplate = await getFlowTemplateData(flowTemplateId, adminApiContext);
+    const flowData: Flow = await getFlowData(flowId, adminApiContext);
+    // compare triggers
+    if (flowTemplateData.config.eventName != flowData.eventName){
+        return false;
+    }
+    // compare sequences
+    let i = 0;
+    for (const sequenceTemplate of flowTemplateData.config.sequences) {
+        if (sequenceTemplate.actionName != flowData.sequences[i].actionName){
+            return false;
+        }
+        if (JSON.stringify(sequenceTemplate.config) != JSON.stringify(flowData.sequences[i].config)){
+            return false;
+        }
+        i++;
+    }
+    return true;
+}
 
 export function extractIdFromUrl(url: string): string | null {
     const segments = url.split('/');
