@@ -22,7 +22,10 @@ export class FlowBuilderCreate implements PageObject {
         this.smartBarHeader = page.locator('.smart-bar__header');
     }
 
-    url(flowId: string, tabName = 'general') {
+    url(flowId?: string, tabName = 'general') {
+        if (!flowId || flowId === '') {
+            return `#/sw/flow/create/${tabName}`;
+        }
         return `#/sw/flow/create/${flowId}/${tabName}`;
     }
 }
