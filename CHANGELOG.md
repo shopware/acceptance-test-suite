@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.7.0](https://github.com/shopware/acceptance-test-suite/compare/v11.6.1...v11.7.0) (2025-02-12)
+
+
+### Features
+
+* create storefront wishlist page and wishlist tasks ([#295](https://github.com/shopware/acceptance-test-suite/issues/295)) ([2a06c23](https://github.com/shopware/acceptance-test-suite/commit/2a06c23818afb204b2b369c6a12e6b47dbbf3256))
+
+
+### Bug Fixes
+
+* adjust text editor selector ([#316](https://github.com/shopware/acceptance-test-suite/issues/316)) ([e324b5e](https://github.com/shopware/acceptance-test-suite/commit/e324b5e7674c95acf6514f42bbdefacc5adc8d44))
+* deprecated getCountryId and add getCountry ([#315](https://github.com/shopware/acceptance-test-suite/issues/315)) ([3224796](https://github.com/shopware/acceptance-test-suite/commit/3224796d5c2f0d6b703c1d498f0a33f2dfd93fbb))
+
 ## [11.6.1](https://github.com/shopware/acceptance-test-suite/compare/v11.6.0...v11.6.1) (2025-02-11)
 
 
