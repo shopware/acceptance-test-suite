@@ -28,35 +28,54 @@ jobs:
       timeout-minutes: 15
       runs-on: ubuntu-latest
       strategy:
-        fail-fast: false
         matrix:
-          instance:
-            - compose-service: shopware
-              APP_URL: http://localhost:8011
-            - compose-service: shopware-65
-              APP_URL: http://localhost:8021
+          include:
+            - PHP_VERSION: 8.3
+              SHOPWARE_VERSION: latest
+              SHOPWARE_BUILD_SOURCE: tag
+              PORT: 8031
+            - PHP_VERSION: 8.3
+              SHOPWARE_VERSION: 6.6.x
+              SHOPWARE_BUILD_SOURCE: branch
+              PORT: 8021
+            - PHP_VERSION: 8.4
+              SHOPWARE_VERSION: trunk
+              SHOPWARE_BUILD_SOURCE: branch
+              PORT: 8011
       env:
-        APP_URL: ${{ matrix.instance.APP_URL }}
-        WEBSERVER_COMMAND: '' # this will disable the log output 
+        WEBSERVER_COMMAND: '' # this will disable the log output
+        PHP_VERSION: ${{ matrix.PHP_VERSION }}
+        SHOPWARE_VERSION: ${{ matrix.SHOPWARE_VERSION }}
+        SHOPWARE_BUILD_SOURCE: ${{ matrix.SHOPWARE_BUILD_SOURCE }}
+        PORT: ${{ matrix.PORT }}
       steps:
       - uses: actions/checkout@v4
-      - name: Compose up ${{ matrix.instance.compose-service }} 
-        run: docker compose up -d --pull=always --quiet-pull ${{ matrix.instance.compose-service }} 
+
+      - name: Start shopware
+        run: docker compose up --pull=always --quiet-pull --wait
+
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+
       - name: Install dependencies
         run: npm ci
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests ${{ matrix.instance.compose-service }} 
+
+      - name: Run Playwright tests (shopware ${SHOPWARE_VERSION})
+        env:
+          APP_URL: http://localhost:${{ matrix.PORT }}
         run: npx playwright test --repeat-each 4
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.instance.compose-service }} 
+          name: playwright-report-${{ matrix.SHOPWARE_VERSION }}
           path: test-results/
           retention-days: 7
+
     test-saas:
       timeout-minutes: 15
       runs-on: ubuntu-latest
