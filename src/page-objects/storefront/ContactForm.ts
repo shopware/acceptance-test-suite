@@ -6,11 +6,11 @@ import { satisfies } from 'compare-versions';
 
 export class ContactForm extends Home implements PageObject {
     /**
-     * @deprecated Compatible until 6.6.x, will be removed in 6.8.x, use 'contactWrapper' instead
+     * @deprecated Compatible until shopware v6.6.x, will be removed in 6.8.0.0, use 'contactWrapper' instead
      */
-    public readonly contactModal: Locator;
+    public readonly contactModal: Locator | undefined;
     /**
-     * @deprecated Compatible until 6.6.x, will be removed in 6.8.x, use 'contactSuccessMessage' instead
+     * @deprecated Compatible until shopware v6.6.x, will be removed in 6.8.0.0, use 'contactSuccessMessage' instead
      */
     public readonly contactSuccessModal: Locator | undefined;
     public readonly contactWrapper: Locator;
@@ -40,19 +40,18 @@ export class ContactForm extends Home implements PageObject {
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page);
+        this.contactWrapper = this.page.locator('.card').filter({ has: this.page.getByText('Contact') });
+        this.formFieldFeedback = this.contactWrapper.locator('.form-field-feedback');
+        this.formAlert = this.page.getByRole('alert');
+        this.contactSuccessMessage = this.page.locator('.confirm-message');
 
-        this.contactModal = this.page.getByRole('dialog').filter({ has: this.page.getByText('Contact') });
-
-        if (satisfies(instanceMeta.version, '<6.7')) {
-            this.contactWrapper = this.page.getByRole('dialog').filter({ has: this.page.getByText('Contact') });
+        if (satisfies(instanceMeta.version, '<6.7') && !instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
+            this.contactModal = this.page.getByRole('dialog').filter({ has: this.page.getByText('Contact') });
+            this.contactWrapper = this.contactModal;
             this.contactSuccessModal = this.page.getByRole('dialog').filter({ has: this.page.locator('.confirm-message') });
             this.contactSuccessMessage = this.contactSuccessModal.locator('.confirm-message');
-        } else {
-            this.contactWrapper = this.page.locator('.card').filter({ has: this.page.getByText('Contact') });
-            this.formFieldFeedback = this.contactWrapper.locator('.form-field-feedback');
-            this.formAlert = this.page.getByRole('alert');
-            this.contactSuccessMessage = this.page.locator('.confirm-message');
         }
+
         this.basicCaptcha = this.contactWrapper.locator('.basic-captcha');
         this.salutationSelect = this.contactWrapper.getByLabel('Salutation');
         this.firstNameInput = this.contactWrapper.getByLabel('First name');
