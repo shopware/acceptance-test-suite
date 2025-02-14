@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.7.1](https://github.com/shopware/acceptance-test-suite/compare/v11.7.0...v11.7.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* reorg contact form locators to make it compatible with 6.6.x with accessability tweak enabled ([#320](https://github.com/shopware/acceptance-test-suite/issues/320)) ([a046bfc](https://github.com/shopware/acceptance-test-suite/commit/a046bfc83c97935fdbc9a949a8f6014925719d3d))
+
 ## [11.7.0](https://github.com/shopware/acceptance-test-suite/compare/v11.6.1...v11.7.0) (2025-02-12)
 
 
