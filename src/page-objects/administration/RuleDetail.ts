@@ -24,6 +24,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly promotionCartRulesCardEmptyState: Locator;
     public readonly assignmentModalAddButton: Locator;
     public readonly assignmentModalSearchField: Locator;
+    public readonly conditionSelectField: Locator;
 
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
@@ -45,6 +46,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.promotionCartRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_cart_rule');
         this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
         this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByRole('textbox');
+        this.conditionSelectField = page.locator('.sw-condition-tree').locator('.sw-condition-type-select');
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.assignmentModalAddButton = page.locator('.sw-button--primary').getByText('Add');
         } else {
