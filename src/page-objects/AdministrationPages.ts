@@ -126,12 +126,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomerGroupListing(AdminPage));
     },
 
-    AdminCustomerGroupCreate: async ({ AdminPage }, use) => {
-        await use(new CustomerGroupCreate(AdminPage));
+    AdminCustomerGroupCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomerGroupCreate(AdminPage, InstanceMeta));
     },
 
-    AdminCustomerGroupDetail: async ({ AdminPage }, use) => {
-        await use(new CustomerGroupDetail(AdminPage));
+    AdminCustomerGroupDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomerGroupDetail(AdminPage, InstanceMeta));
     },
 
     AdminFirstRunWizard: async ({ AdminPage, InstanceMeta }, use) => {

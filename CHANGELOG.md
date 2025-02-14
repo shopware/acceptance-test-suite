@@ -1,5 +1,42 @@
 # Changelog
 
+## [11.7.0](https://github.com/shopware/acceptance-test-suite/compare/v11.6.1...v11.7.0) (2025-02-12)
+
+
+### Features
+
+* create storefront wishlist page and wishlist tasks ([#295](https://github.com/shopware/acceptance-test-suite/issues/295)) ([2a06c23](https://github.com/shopware/acceptance-test-suite/commit/2a06c23818afb204b2b369c6a12e6b47dbbf3256))
+
+
+### Bug Fixes
+
+* adjust text editor selector ([#316](https://github.com/shopware/acceptance-test-suite/issues/316)) ([e324b5e](https://github.com/shopware/acceptance-test-suite/commit/e324b5e7674c95acf6514f42bbdefacc5adc8d44))
+* deprecated getCountryId and add getCountry ([#315](https://github.com/shopware/acceptance-test-suite/issues/315)) ([3224796](https://github.com/shopware/acceptance-test-suite/commit/3224796d5c2f0d6b703c1d498f0a33f2dfd93fbb))
+
+## [11.6.1](https://github.com/shopware/acceptance-test-suite/compare/v11.6.0...v11.6.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* make contact form locators compatible with 6.7. and 6.6. ([#309](https://github.com/shopware/acceptance-test-suite/issues/309)) ([2a8550a](https://github.com/shopware/acceptance-test-suite/commit/2a8550ab35b98999189c0c8c22a8c235a85c4ad4))
+* replace deleteRegisteredUser with addCreatedRecord ([8359e9e](https://github.com/shopware/acceptance-test-suite/commit/8359e9e201501dd0f3650621965943d48db7e1ec))
+* retain headers in current requests ([dc9ca9b](https://github.com/shopware/acceptance-test-suite/commit/dc9ca9b2853cad752594aa5d28c4d50f31b7d234))
+* update page objects for 6.7 compatibility ([f9835f5](https://github.com/shopware/acceptance-test-suite/commit/f9835f5bb6fa8334ccfb361e6711781a4f729da3))
+
+## [11.6.0](https://github.com/shopware/acceptance-test-suite/compare/v11.5.0...v11.6.0) (2025-02-05)
+
+
+### Features
+
+* add contact form page object and other corresponding locator adding2 ([#303](https://github.com/shopware/acceptance-test-suite/issues/303)) ([13c2aab](https://github.com/shopware/acceptance-test-suite/commit/13c2aab04539c76d3d78ae7d0644b08c6a9d6222))
+* add page not found page ([#301](https://github.com/shopware/acceptance-test-suite/issues/301)) ([89db0f9](https://github.com/shopware/acceptance-test-suite/commit/89db0f94b3c15e0e2c16e507141a444a153309d1))
+
+### Bug Fixes
+
+* add locators for listing price to existing page objects ([#304](https://github.com/shopware/acceptance-test-suite/issues/304)) ([9532a88](https://github.com/shopware/acceptance-test-suite/commit/9532a881ea19dbc05dc3a3f418f14464ee182569))
+* add variantListingConfig to shopware types and omit the original one ([#302](https://github.com/shopware/acceptance-test-suite/issues/302)) ([724f199](https://github.com/shopware/acceptance-test-suite/commit/724f19965d8b1a5647a304df4561949162b03293))
+* remove commercial only locator method ([#307](https://github.com/shopware/acceptance-test-suite/issues/307)) ([ba108ea](https://github.com/shopware/acceptance-test-suite/commit/ba108ea999e25e825c46ec308202b247d077c089))
+
 ## [11.5.0](https://github.com/shopware/acceptance-test-suite/compare/v11.4.3...v11.5.0) (2025-02-04)
 
 

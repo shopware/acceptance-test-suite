@@ -27,7 +27,12 @@ export class Home implements PageObject {
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
+    public readonly mainNavigationLink: Locator;
     public readonly contactFormLink: Locator;
+
+    //wishlist
+    public readonly wishlistIcon: Locator;
+    public readonly wishlistBasket: Locator;
 
     constructor(public readonly page: Page) {
         this.accountMenuButton = page.getByLabel('Your account');
@@ -64,7 +69,12 @@ export class Home implements PageObject {
             exact: true,
         });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
+        this.mainNavigationLink = page.locator('.main-navigation-link-text');
         this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
+
+        //wishlist
+        this.wishlistIcon = page.locator('.header-wishlist-icon');
+        this.wishlistBasket = page.locator('.header-wishlist-badge');
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
@@ -86,6 +96,9 @@ export class Home implements PageObject {
         };
     }
 
+    /**
+     * @deprecated - use getListingItemByProductName instead
+     */
     async getListingItemByProductId(productId: string): Promise<Record<string, Locator>> {
         const listingItem = this.page.getByRole('listitem').filter({ has: this.page.locator(`[value="${productId}"]`) });
         const productImage = listingItem.locator('.product-image-link');
@@ -99,6 +112,11 @@ export class Home implements PageObject {
         const productAddToShoppingCart = listingItem.getByRole('button', {
             name: 'Add to shopping cart',
         });
+        const productListingPrice = listingItem.locator('.list-price-price');
+        const productListingPricePercentage = listingItem.locator('.list-price-percentage');
+        const productListingPriceBadge = listingItem.locator('.badge-discount');
+        const wishlistNotAddedIcon = listingItem.locator('.product-wishlist-not-added');
+        const wishlistAddedIcon = listingItem.locator('.product-wishlist-added');
 
         return {
             productImage: productImage,
@@ -110,6 +128,48 @@ export class Home implements PageObject {
             productPrice: productPrice,
             productName: productName,
             productAddToShoppingCart: productAddToShoppingCart,
+            productListingPrice: productListingPrice,
+            productListingPricePercentage: productListingPricePercentage,
+            productListingPriceBadge: productListingPriceBadge,
+            wishlistNotAddedIcon: wishlistNotAddedIcon,
+            wishlistAddedIcon: wishlistAddedIcon,
+        };
+    }
+
+    async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {
+        const listingItem = this.page.getByRole('listitem').filter({ has: this.page.getByText(productListingName) });
+        const productImage = listingItem.locator('.product-image-link');
+        const productRating = listingItem.locator('.product-rating');
+        const productVariantCharacteristics = listingItem.locator('.product-variant-characteristics');
+        const productDescription = listingItem.locator('.product-description');
+        const productPriceUnit = listingItem.locator('.product-price-unit');
+        const productCheapestPrice = listingItem.locator('.product-cheapest-price');
+        const productPrice = listingItem.locator('.product-price');
+        const productName = listingItem.locator('.product-name');
+        const productAddToShoppingCart = listingItem.getByRole('button', {
+            name: 'Add to shopping cart',
+        });
+        const productListingPrice = listingItem.locator('.list-price-price');
+        const productListingPricePercentage = listingItem.locator('.list-price-percentage');
+        const productListingPriceBadge = listingItem.locator('.badge-discount');
+        const wishlistNotAddedIcon = listingItem.locator('.product-wishlist-not-added');
+        const wishlistAddedIcon = listingItem.locator('.product-wishlist-added');
+
+        return {
+            productImage: productImage,
+            productRating: productRating,
+            productVariantCharacteristics: productVariantCharacteristics,
+            productDescription: productDescription,
+            productPriceUnit: productPriceUnit,
+            productCheapestPrice: productCheapestPrice,
+            productPrice: productPrice,
+            productName: productName,
+            productAddToShoppingCart: productAddToShoppingCart,
+            productListingPrice: productListingPrice,
+            productListingPricePercentage: productListingPricePercentage,
+            productListingPriceBadge: productListingPriceBadge,
+            wishlistNotAddedIcon: wishlistNotAddedIcon,
+            wishlistAddedIcon: wishlistAddedIcon,
         };
     }
 

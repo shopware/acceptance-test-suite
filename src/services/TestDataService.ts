@@ -1440,6 +1440,32 @@ export class TestDataService {
     }
 
     /**
+     * Retrieves a customer by its email address.
+     *
+     * @param email - The email address of the customer.
+     * @returns The customer object.
+     */
+    async getCustomerByEmail(email: string): Promise<Customer> {
+        const response = await this.AdminApiClient.post('search/customer', {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: 'equals',
+                        field: 'email',
+                        value: email,
+                    },
+                ],
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: result } = (await response.json()) as { data: Customer[] };
+
+        return result[0];
+    }
+
+    /**
      * Retrieves a customer salutations by its key.
      *
      * @param key - The key of the salutation. Default is "mr".
@@ -1749,11 +1775,21 @@ export class TestDataService {
     };
 
     /**
+     * @deprecated Use `getCountry` instead.
      * Retrieves a country Id based on its iso2 code.
      *
      * @param iso2 - The iso2 code of the country, for example "DE".
      */
     async getCountryId(iso2: string): Promise<Country> {
+        return await this.getCountry(iso2);
+    }
+
+    /**
+     * Retrieves a country based on its iso2 code.
+     *
+     * @param iso2 - The iso2 code of the country, for example "DE".
+     */
+    async getCountry(iso2: string): Promise<Country> {
         const countryResponse = await this.AdminApiClient.post('search/country', {
             data: {
                 limit: 1,

@@ -5,6 +5,7 @@ import { Logout } from './shop-customer/Account/Logout';
 import { Register } from './shop-customer/Account/Register';
 import { RegisterGuest } from './shop-customer/Account/RegisterGuest';
 import { ChangeStorefrontCurrency } from './shop-customer/Account/ChangeStorefrontCurrency';
+import { AddNewAddress } from './shop-customer/Account/AddNewAddress';
 
 import { AddProductToCart } from './shop-customer/Product/AddProductToCart';
 import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFromProductToCheckout';
@@ -24,6 +25,7 @@ import { OpenSearchSuggestPage } from './shop-customer/Search/OpenSearchSuggestP
 import { SearchForTerm } from './shop-customer/Search/SearchForTerm';
 
 import { ValidateAccessibility } from './shop-customer/Accessibility/ValidateAccessibility';
+import { AddProductToCartFromWishlist, AddProductToWishlist, RemoveProductFromWishlist } from './shop-customer/Wishlist/WishlistActions';
 
 export const test = mergeTests(
     Login,
@@ -31,6 +33,7 @@ export const test = mergeTests(
     Register,
     RegisterGuest,
     ChangeStorefrontCurrency,
+    AddNewAddress,
     AddProductToCart,
     ChangeProductQuantity,
     ProceedFromProductToCheckout,
@@ -45,5 +48,8 @@ export const test = mergeTests(
     OpenSearchResultPage,
     OpenSearchSuggestPage,
     SearchForTerm,
-    ValidateAccessibility
+    ValidateAccessibility,
+    RemoveProductFromWishlist,
+    AddProductToCartFromWishlist,
+    AddProductToWishlist,
 );

@@ -35,6 +35,19 @@ export type CustomerAddress = components['schemas']['CustomerAddress'] & {
     id: string,
 }
 
+export interface Address {
+    salutation: string,
+    firstName: string,
+    lastName: string,
+    company: string,
+    department: string,
+    street: string,
+    city: string,
+    zipCode: string,
+    country: string,
+    state: string,
+}
+
 export type Salutation = components['schemas']['Salutation'] & {
     id: string,
 }
@@ -111,8 +124,12 @@ export type Currency = components['schemas']['Currency'] & {
     id: string,
 }
 
-export type Country = components['schemas']['Country'] & {
+export type Country = Omit<components['schemas']['Country'], 'states'> & {
     id: string,
+    states: [{
+        name: string,
+        shortCode: string,
+    }],
 }
 
 export type SystemConfig = components['schemas']['SystemConfig'] & {

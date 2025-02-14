@@ -9,6 +9,9 @@ export class ProductDetail implements PageObject {
     public readonly productSingleImage: Locator;
     public readonly productSinglePrice: Locator;
     public readonly productPriceRangesRow: Locator;
+    public readonly productListingPriceBadge: Locator;
+    public readonly productListingPrice: Locator;
+    public readonly productListingPricePercentage: Locator;
 
     public readonly offCanvasCartTitle: Locator;
     public readonly offCanvasCart: Locator;
@@ -17,6 +20,9 @@ export class ProductDetail implements PageObject {
     public readonly offCanvasSummaryTotalPrice: Locator;
     public readonly offCanvas: Locator;
 
+    public readonly wishlistAddedButton: Locator;
+    public readonly wishlistNotAddedButton: Locator;
+
     constructor(public readonly page: Page) {
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
@@ -24,6 +30,9 @@ export class ProductDetail implements PageObject {
         this.productSingleImage = page.locator('.gallery-slider-single-image');
         this.productSinglePrice = page.locator('.product-detail-price');
         this.productPriceRangesRow = page.locator('.product-block-prices-row');
+        this.productListingPriceBadge = page.locator('.list-price-badge');
+        this.productListingPrice = page.locator('.list-price-price');
+        this.productListingPricePercentage = page.locator('.list-price-percentage');
 
         this.offCanvas = page.locator('offcanvas-body');
         this.offCanvasCartTitle = page.getByText('Shopping cart', { exact: true });
@@ -31,6 +40,9 @@ export class ProductDetail implements PageObject {
         this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
         this.offCanvasLineItemImages = page.locator('.line-item-img-link');
         this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
+
+        this.wishlistAddedButton = page.locator('.product-wishlist-added');
+        this.wishlistNotAddedButton = page.locator('.product-wishlist-not-added');
     }
 
     url(productData: Product) {
