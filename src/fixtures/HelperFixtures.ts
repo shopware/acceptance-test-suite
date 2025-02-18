@@ -5,6 +5,7 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
 import { satisfies } from 'compare-versions';
+import { PluginConfigHelper } from '../services/PluginConfigHelper';
 
 type FeaturesType = Record<string, boolean>;
 
@@ -16,6 +17,7 @@ export interface HelperFixtureTypes {
         isSaaS: boolean,
         features: FeaturesType,
     },
+    PluginConfigHelper: PluginConfigHelper,
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -85,4 +87,14 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         },
         { scope: 'worker' },
     ],
+
+    PluginConfigHelper: [
+        async ({ AdminApiContext }, use)=> {
+            const response = await AdminApiContext.get('system-config');
+            const jsonResponse = await response.json();
+
+            await use(new PluginConfigHelper(AdminApiContext, jsonResponse.data))
+        },
+        { scope: 'worker' }
+    ]
 });
