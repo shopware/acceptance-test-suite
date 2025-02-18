@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class FirstRunWizard implements PageObject {
 
@@ -27,7 +29,21 @@ export class FirstRunWizard implements PageObject {
     public readonly salesChannelSelectionList: Locator;
     public readonly salesChannelSelectionMultiSelect: Locator;
     public readonly smtpServerTitle: Locator;
+
+    /**
+     * @deprecated - Use `smtpServerFieldInputs` instead.
+     */
     public readonly smtpServerFields: Locator;
+    public readonly smtpServerFieldInputs: Locator;
+    public readonly smtpServerHostInput: Locator;
+    public readonly smtpServerPortInput: Locator;
+    public readonly smtpServerUsernameInput: Locator;
+    public readonly smtpServerPasswordInput: Locator;
+    public readonly smtpServerEncryptionInput: Locator;
+    public readonly smtpServerSenderAddressInput: Locator;
+    public readonly smtpServerDeliveryAddressInput: Locator;
+    public readonly smtpServerDisableEmailDeliveryCheckbox: Locator;
+
     public readonly payPalPaymethods: Locator;
     public readonly payPalInfoCard: Locator;
     public readonly emailAddressInputField: Locator;
@@ -42,7 +58,7 @@ export class FirstRunWizard implements PageObject {
     public readonly recommendationHeader: Locator;
     public readonly toolsRecommendedPlugin: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
 
         // Generic buttons
         this.nextButton = page.getByText('Next', { exact: true });
@@ -65,13 +81,32 @@ export class FirstRunWizard implements PageObject {
         // Default values part
         this.defaultValuesHeader = page.locator('.sw-modal__title', { hasText: 'Setup default values'});
         this.salesChannelSelectionMultiSelect = page.getByPlaceholder('Select Sales Channels...');
-        this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
+        } else {
+            this.salesChannelSelectionList = page.locator('.sw-select-result-list-popover').getByRole('listitem');
+        }
 
         // Mailer configuration part
         this.mailerConfigurationHeader = page.locator('.sw-modal__title', { hasText: 'Mailer configuration'});
         this.smtpServerButton = page.getByText('Configure own SMTP server', { exact: true });
         this.smtpServerTitle = page.getByText('SMTP server', { exact: true });
         this.smtpServerFields = page.locator('.sw-field');
+        this.smtpServerHostInput = page.getByLabel('Host');
+        this.smtpServerPortInput = page.getByLabel('Port');
+        this.smtpServerUsernameInput = page.getByLabel('Username');
+        this.smtpServerPasswordInput = page.getByLabel('Password');
+        this.smtpServerEncryptionInput = page.locator('.sw-single-select__selection-input');
+        this.smtpServerSenderAddressInput = page.getByLabel('Sender address');
+        this.smtpServerDeliveryAddressInput = page.getByLabel('Delivery address');
+        this.smtpServerDisableEmailDeliveryCheckbox = page.getByLabel('Disable email delivery');
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.smtpServerFieldInputs = page.locator('.sw-field');
+        } else {
+            this.smtpServerFieldInputs = page.locator('.mt-field');
+        }
 
         // PayPal part
         this.payPalSetupHeader = page.locator('.sw-modal__title', { hasText: 'Setup PayPal'});

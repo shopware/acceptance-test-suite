@@ -5,6 +5,7 @@ export class CheckoutFinish implements PageObject {
     public readonly headline: Locator;
     public readonly orderNumberText: Locator;
     public readonly grandTotalPrice: Locator;
+    public readonly taxPrice: Locator;
     public readonly cartLineItemImages: Locator;
 
     private readonly orderNumberRegex = /Your order number: #(\d+)/;
@@ -13,6 +14,7 @@ export class CheckoutFinish implements PageObject {
         this.headline = page.getByRole('heading', { name: 'Thank you for your order' });
         this.orderNumberText = page.getByText(this.orderNumberRegex);
         this.grandTotalPrice = page.locator('dt:has-text("Grand total") + dd');
+        this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }
 

@@ -62,7 +62,6 @@ export class AdminApiContext {
         }
 
         contextOptions['access_token'] = await this.authenticateWithClientCredentials(tmpContext, contextOptions);
-
         return new AdminApiContext(await this.createApiRequestContext(contextOptions), contextOptions);
     }
 
@@ -89,7 +88,7 @@ export class AdminApiContext {
                 grant_type: 'client_credentials',
                 client_id: options.client_id,
                 client_secret: options.client_secret,
-                scope: ['write'],
+                scope: 'write',
             },
         });
 
@@ -109,7 +108,7 @@ export class AdminApiContext {
                 grant_type: 'password',
                 username: options.admin_username,
                 password: options.admin_password,
-                scope: ['write'],
+                scope: 'write',
             },
         });
 
@@ -127,27 +126,64 @@ export class AdminApiContext {
         return !!this.options['access_token'];
     }
 
+    async refreshAccessToken(): Promise<void> {
+        this.options['access_token'] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
+        this.context = await AdminApiContext.createApiRequestContext(this.options);
+    }
+
     async get<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.context.get(url, options);
+        return this.handleRequest('get', url, options);
     }
 
     async post<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.context.post(url, options);
+        return this.handleRequest('post', url, options);
     }
 
     async patch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.context.patch(url, options);
+        return this.handleRequest('patch', url, options);
     }
 
     async delete<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.context.delete(url, options);
+        return this.handleRequest('delete', url, options);
     }
 
     async fetch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.context.fetch(url, options);
+        return this.handleRequest('fetch', url, options);
     }
 
     async head<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.context.head(url, options);
+        return this.handleRequest('head', url, options);
+    }
+
+    private async handleRequest<PAYLOAD>(
+      method: 'get' | 'post' | 'patch' | 'delete' | 'fetch' | 'head',
+      url: string,
+      options?: RequestOptions<PAYLOAD>
+    ): Promise<APIResponse> {
+        const methodMap = {
+            get: this.context.get.bind(this.context),
+            post: this.context.post.bind(this.context),
+            patch: this.context.patch.bind(this.context),
+            delete: this.context.delete.bind(this.context),
+            fetch: this.context.fetch.bind(this.context),
+            head: this.context.head.bind(this.context),
+        };
+
+        let response = await methodMap[method](url, options);
+
+        if (response.status() === 401) {
+            await this.refreshAccessToken();
+            const updatedOptions: RequestOptions<PAYLOAD> = {
+                ...options,
+                data: options?.data ?? undefined,
+                headers: {
+                    ...(options?.headers || {}),
+                    Authorization: `Bearer ${this.options['access_token']}`,
+                },
+            };
+            response = await methodMap[method](url, updatedOptions);
+        }
+
+        return response;
     }
 }

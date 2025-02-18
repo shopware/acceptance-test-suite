@@ -4,13 +4,48 @@ export type SalesChannel = components['schemas']['SalesChannel'] & {
     id: string,
 }
 
-export type Customer = components['schemas']['Customer'] & {
+export type SalesChannelDomain = components['schemas']['SalesChannelDomain'] & {
+    id: string,
+};
+
+export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingAddress' | 'defaultBillingAddress'> & {
     id: string,
     password: string,
+    defaultShippingAddress: {
+        firstName: string,
+        lastName: string,
+        city: string,
+        street: string,
+        zipcode: string,
+        countryId: string,
+        salutationId: string,
+    },
+    defaultBillingAddress: {
+        firstName: string,
+        lastName: string,
+        city: string,
+        street: string,
+        zipcode: string,
+        countryId: string,
+        salutationId: string,
+    }
 }
 
 export type CustomerAddress = components['schemas']['CustomerAddress'] & {
     id: string,
+}
+
+export interface Address {
+    salutation: string,
+    firstName: string,
+    lastName: string,
+    company: string,
+    department: string,
+    street: string,
+    city: string,
+    zipCode: string,
+    country: string,
+    state: string,
 }
 
 export type Salutation = components['schemas']['Salutation'] & {
@@ -24,6 +59,10 @@ export interface Price {
     currencyId: string;
 }
 
+export interface VariantListingConfig {
+    displayParent: boolean;
+}
+
 export interface ProductPrice {
     productId?: string;
     ruleId: string;
@@ -32,7 +71,7 @@ export interface ProductPrice {
     quantityEnd: number | null;
 }
 
-export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options'> & {
+export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' | 'options' | 'tags' | 'visibilities' | 'variantListingConfig' > & {
     id: string,
     price: Price[],
     prices?: ProductPrice[],
@@ -40,6 +79,9 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' 
         name: string,
     }
     options?: Record<string, string>[],
+    tags?: Record<string, string>[],
+    visibilities?: Record<string, unknown>[],
+    variantListingConfig?: VariantListingConfig,
 }
 
 export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts'> & {
@@ -81,6 +123,22 @@ export type Rule = components['schemas']['Rule'] & {
 export type Currency = components['schemas']['Currency'] & {
     id: string,
 }
+
+export type Country = Omit<components['schemas']['Country'], 'states'> & {
+    id: string,
+    states: [{
+        name: string,
+        shortCode: string,
+    }],
+}
+
+export type SystemConfig = components['schemas']['SystemConfig'] & {
+    id: string,
+}
+
+export type ProductCrossSelling = components['schemas']['ProductCrossSelling'] & {
+    id: string,
+};
 
 export interface CalculatedTaxes {
     tax: number,
@@ -159,3 +217,100 @@ export type DeliveryTime = components['schemas']['DeliveryTime'] & {
 export type CmsPage = components['schemas']['CmsPage'] & {
     id: string,
 };
+
+export type CustomerGroup = components['schemas']['CustomerGroup'] & {
+    id: string,
+};
+
+export type SalesChannelAnalytics = components['schemas']['SalesChannelAnalytics'] & {
+    id: string,
+};
+
+export interface RegistrationData {
+    isCommercial: boolean;
+    isGuest: boolean;
+    salutation: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    street: string;
+    city: string;
+    country: string;
+    postalCode: string;
+    company: string;
+    department: string;
+    vatRegNo: string;
+}
+
+export type Language = components['schemas']['Language'] & {
+    id: string,
+};
+
+export type CustomFieldSet = components['schemas']['CustomFieldSet'] & {
+    id: string,
+};
+
+export type CustomField = Omit<components['schemas']['CustomField'], 'config'> & {
+    id: string,
+    config: {
+        label: {
+            'en-GB': string,
+        }
+    };
+};
+
+export type Tax = components['schemas']['Tax'] &{
+    id: string;
+};
+
+// custom types below
+
+export enum RuleType {
+    shippingAvailability = 'shippingMethodAvailabilityRule',
+    taxAvailability = 'taxProviderAvailabilityRule',
+    paymentAvailability = 'paymentMethodAvailabilityRule',
+    promotionOrder = 'promotionOrderRule',
+    promotionCustomer = 'promotionCustomerRule',
+    promotionCart = 'promotionCartRule',
+}
+
+export interface RuleAssignmentEntity {
+    entity: {
+    id: string;
+    name: string;
+}
+    ruleType: RuleType
+}
+
+export interface CategoryData {
+    name: string;
+    categoryType: 'Link' | 'Page / List' | 'Structuring element / Entry point';
+    status: boolean;
+}
+
+export interface CategoryCustomizableLinkData {
+    linkType: 'Internal' | 'External';
+    entity: 'Category' | 'Product' | 'Landing page'; // Restrict entity values
+    category?: string;
+    product?: string;
+    landingPage?: string;
+    openInNewTab: boolean;
+}
+
+export interface AccountData {
+    customerGroup?: string;
+    accountStatus?: boolean;
+    language?: string;
+    replyToCustomerGroupRequest?: string;
+}
+
+export interface TagData {
+    changeType: 'Overwrite' | 'Clear' | 'Add' | 'Remove';
+    tags: string[];
+}
+
+export interface CustomFieldData {
+    customFieldSetName: string;
+    customFieldValue: string;
+}

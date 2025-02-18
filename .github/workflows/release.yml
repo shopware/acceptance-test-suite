@@ -3,14 +3,24 @@ on:
     branches:
       - trunk
 name: release-please
+
+permissions:
+  id-token: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - uses: octo-sts/action@v1.0.0
+        id: sts-release
+        with:
+          scope: shopware/acceptance-test-suite
+          identity: release
       - uses: googleapis/release-please-action@v4
         id: release
         with:
           release-type: node
+          token: ${{ steps.sts-release.outputs.token }}
       # The logic below handles the npm publication:
       - uses: actions/checkout@v4
         # these if statements ensure that a publication only occurs when

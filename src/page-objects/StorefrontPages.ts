@@ -11,12 +11,19 @@ import { CheckoutFinish } from './storefront/CheckoutFinish';
 import { CheckoutRegister } from './storefront/CheckoutRegister';
 import { Account } from './storefront/Account';
 import { AccountLogin } from './storefront/AccountLogin';
+import { AccountRecover } from './storefront/AccountRecover';
 import { AccountProfile } from './storefront/AccountProfile';
 import { AccountOrder } from './storefront/AccountOrder';
 import { AccountAddresses } from './storefront/AccountAddresses';
 import { AccountPayment } from './storefront/AccountPayment';
 import { Search } from './storefront/Search';
 import { SearchSuggest } from './storefront/SearchSuggest';
+import { CustomRegister } from './storefront/CustomRegister';
+import { CheckoutOrderEdit } from './storefront/CheckoutOrderEdit';
+import { AccountAddressCreate } from './storefront/AccountAddresssCreate';
+import { PageNotFound } from './storefront/PageNotFound';
+import { ContactForm } from './storefront/ContactForm';
+import { Wishlist } from './storefront/Wishlist';
 
 export interface StorefrontPageTypes {
     StorefrontHome: Home;
@@ -29,12 +36,19 @@ export interface StorefrontPageTypes {
     StorefrontCheckoutRegister: CheckoutRegister;
     StorefrontAccount: Account;
     StorefrontAccountLogin: AccountLogin;
+    StorefrontAccountRecover: AccountRecover;
     StorefrontAccountProfile: AccountProfile;
     StorefrontAccountOrder: AccountOrder;
     StorefrontAccountAddresses: AccountAddresses;
+    StorefrontAccountAddressCreate: AccountAddressCreate;
     StorefrontAccountPayment: AccountPayment;
     StorefrontSearch: Search;
     StorefrontSearchSuggest: SearchSuggest;
+    StorefrontCustomRegister: CustomRegister;
+    StorefrontCheckoutOrderEdit: CheckoutOrderEdit;
+    StorefrontPageNotFound: PageNotFound;
+    StorefrontContactForm: ContactForm;
+    StorefrontWishlist: Wishlist;
 }
 
 export const StorefrontPageObjects = {
@@ -48,12 +62,19 @@ export const StorefrontPageObjects = {
     CheckoutRegister,
     Account,
     AccountLogin,
+    AccountRecover,
     AccountProfile,
     AccountOrder,
     AccountAddresses,
+    AccountAddressCreate,
     AccountPayment,
     Search,
     SearchSuggest,
+    CustomRegister,
+    CheckoutOrderEdit,
+    PageNotFound,
+    ContactForm,
+    Wishlist,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -90,24 +111,32 @@ export const test = base.extend<FixtureTypes>({
         await use(new CheckoutRegister(StorefrontPage));
     },
 
-    StorefrontAccount: async ({ StorefrontPage }, use) => {
-        await use(new Account(StorefrontPage));
+    StorefrontAccount: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new Account(StorefrontPage, InstanceMeta));
     },
 
     StorefrontAccountLogin: async ({ StorefrontPage }, use) => {
         await use(new AccountLogin(StorefrontPage));
     },
 
-    StorefrontAccountProfile: async ({ StorefrontPage }, use) => {
-        await use(new AccountProfile(StorefrontPage));
+    StorefrontAccountRecover: async ({ StorefrontPage }, use) => {
+        await use(new AccountRecover(StorefrontPage));
+    },
+
+    StorefrontAccountProfile: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new AccountProfile(StorefrontPage, InstanceMeta));
     },
 
     StorefrontAccountOrder: async ({ StorefrontPage }, use) => {
         await use(new AccountOrder(StorefrontPage));
     },
 
-    StorefrontAccountAddresses: async ({ StorefrontPage }, use) => {
-        await use(new AccountAddresses(StorefrontPage));
+    StorefrontAccountAddresses: async ({ StorefrontPage , InstanceMeta }, use) => {
+        await use(new AccountAddresses(StorefrontPage, InstanceMeta));
+    },
+
+    StorefrontAccountAddressCreate: async ({ StorefrontPage }, use) => {
+        await use(new AccountAddressCreate(StorefrontPage));
     },
 
     StorefrontAccountPayment: async ({ StorefrontPage }, use) => {
@@ -120,5 +149,25 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontSearchSuggest: async ({ StorefrontPage }, use) => {
         await use(new SearchSuggest(StorefrontPage));
+    },
+
+    StorefrontCustomRegister: async ({ StorefrontPage }, use) => {
+        await use(new CustomRegister(StorefrontPage));
+    },
+
+    StorefrontCheckoutOrderEdit: async ({ StorefrontPage }, use) => {
+        await use(new CheckoutOrderEdit(StorefrontPage));
+    },
+
+    StorefrontPageNotFound: async ({ StorefrontPage }, use) => {
+        await use(new PageNotFound(StorefrontPage));
+    },
+  
+    StorefrontContactForm: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new ContactForm(StorefrontPage, InstanceMeta));
+    },
+  
+    StorefrontWishlist: async ({ StorefrontPage }, use) => {
+        await use(new Wishlist(StorefrontPage));
     },
 });

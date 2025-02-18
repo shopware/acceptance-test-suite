@@ -1,6 +1,6 @@
 {
   "name": "@shopware-ag/acceptance-test-suite",
-  "version": "5.1.0",
+  "version": "11.7.1",
   "description": "Shopware Acceptance Test Suite",
   "author": "shopware AG",
   "license": "MIT",
@@ -37,9 +37,10 @@
   },
   "dependencies": {
     "@axe-core/playwright": "4.9.1",
-    "@playwright/test": "^1.45.0",
+    "@playwright/test": "^1.49.1",
     "@shopware/api-client": "0.5.0",
     "axe-html-reporter": "2.2.3",
+    "compare-versions": "^6.1.1",
     "image-js": "0.35.5",
     "uuid": "9.0.1"
   },

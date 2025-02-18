@@ -1,9 +1,9 @@
-import { test, expect, type Order, APIResponse } from '../../src/index';
-
+import { test, expect, type Order, APIResponse } from '../../src';
 
 test('Order creation with TestDataService', async ({
     TestDataService, AdminApiContext,
 }) => {
+
     const product = await TestDataService.createProductWithImage({ description: 'Test Description' });
     expect(product.description).toEqual('Test Description');
     expect(product.coverId).toBeDefined();
@@ -26,6 +26,48 @@ test('Order creation with TestDataService', async ({
     expect(order.orderCustomer.firstName).toEqual('Luke');
     expect(order.price.totalPrice).toEqual(48.99);
 
+    const customerAddress = await TestDataService.getCustomerAddress(customer.defaultBillingAddressId);
+    const deliveryStateMachine = await TestDataService.getDeliveryStateMachine();
+    const deliveryState = await TestDataService.getStateMachineState(deliveryStateMachine.id);
+    const shippingMethod = await TestDataService.getShippingMethod();
+    const deliveryStruct = TestDataService.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress);
+
+    const shippingCosts = 12.99;
+    const totalPrice = 50 + shippingCosts;
+
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (deliveryStruct.shippingCosts != null) {
+        deliveryStruct.shippingCosts.unitPrice = shippingCosts;
+        deliveryStruct.shippingCosts.totalPrice = shippingCosts;
+    }
+
+    const customShippingCosts = {
+        price: {
+            totalPrice: totalPrice,
+            positionPrice: totalPrice,
+            rawTotal: totalPrice,
+            netPrice: totalPrice,
+            taxStatus: 'gross',
+            calculatedTaxes: [{
+                tax: 0,
+                taxRate: 0,
+                price: totalPrice,
+            }],
+            taxRules: [{
+                taxRate: 0,
+                percentage: 100,
+            }],
+        },
+        deliveries: [deliveryStruct],
+    };
+
+    const orderWithCustomShippingCosts = await TestDataService.createOrder(
+        [{ product, quantity: 5 }],
+        customer,
+        customShippingCosts,
+    );
+    expect(orderWithCustomShippingCosts.price.totalPrice).toEqual(62.99);
+
     const orderResponse = await AdminApiContext.get(`./order/${order.id}?_response=detail`);
     const { data: databaseOrder } = (await orderResponse.json()) as { data: Order };
     expect(databaseOrder.id).toBe(order.id);
@@ -36,7 +78,6 @@ test('Order creation with TestDataService', async ({
 
     expect(cleanUpResponse.ok()).toBeTruthy();
     const cleanUp = await cleanUpResponse.json();
-    expect(cleanUp['deleted']['customer']).toBeDefined();
     expect(cleanUp['deleted']['promotion']).toBeDefined();
     expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
 });

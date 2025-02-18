@@ -1,11 +1,55 @@
-import { test, expect, type Product, Category, PropertyGroup, Customer, Manufacturer, PaymentMethod, Rule, ShippingMethod } from '../../src/index';
-
+/* eslint-disable playwright/no-conditional-expect */
+import {
+    test,
+    expect,
+    Customer,
+    PaymentMethod,
+    Rule,
+    ShippingMethod,
+    Currency,
+    Country,
+    PropertyGroup,
+    Product,
+    Manufacturer,
+    Category,
+    APIResponse,
+    SalesChannelAnalytics,
+    Tax,
+    ProductCrossSelling,
+} from '../../src';
 
 test('Data Service', async ({
     TestDataService,
     AdminApiContext,
 }) => {
-    // Test test-data generation
+    const customer = await TestDataService.createCustomer({ firstName: 'Luke', lastName: 'Skywalker' })
+    expect(customer.firstName).toEqual('Luke');
+    expect(customer.lastName).toEqual('Skywalker');
+
+    const paymentMethod = await TestDataService.createBasicPaymentMethod({ name: 'Custom payment method' });
+    expect(paymentMethod.name).toEqual('Custom payment method');
+
+    const paymentMethodWithImage = await TestDataService.createPaymentMethodWithImage();
+    expect(paymentMethodWithImage.media).toBeDefined();
+
+    const rule = await TestDataService.createBasicRule({ description: 'Rule description' });
+    expect(rule.description).toEqual('Rule description');
+
+    const basicShippingMethod = await TestDataService.createBasicShippingMethod({ name: 'Custom shipping method' });
+    expect(basicShippingMethod.name).toEqual('Custom shipping method');
+
+    const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
+    expect(shippingMethodWithImage.media).toBeDefined();
+
+    const currency = await TestDataService.createCurrency({ taxFreeFrom: 10 });
+    expect(currency.taxFreeFrom).toEqual(10);
+
+    const country = await TestDataService.createCountry();
+    expect(country.name).toBeDefined();
+
+    const customerGroup = await TestDataService.createCustomerGroup({ name: 'Custom customer group' });
+    expect(customerGroup.name).toEqual('Custom customer group');
+
     const category = await TestDataService.createCategory({ name: 'Custom Category' });
     expect(category.name).toEqual('Custom Category');
 
@@ -19,58 +63,6 @@ test('Data Service', async ({
     const propertyGroup = await TestDataService.createColorPropertyGroup();
     expect(propertyGroup.description).toEqual('Color');
 
-    const customer = await TestDataService.createCustomer({ firstName: 'Luke', lastName: 'Skywalker' })
-    expect(customer.firstName).toEqual('Luke');
-    expect(customer.lastName).toEqual('Skywalker');
-
-    const customerAddress = await TestDataService.getCustomerAddress(customer.defaultBillingAddressId);
-    const deliveryStateMachine = await TestDataService.getDeliveryStateMachine();
-    const deliveryState = await TestDataService.getStateMachineState(deliveryStateMachine.id);
-    const shippingMethod = await TestDataService.getShippingMethod();
-    const deliveryStruct = TestDataService.getBasicOrderDeliveryStruct(deliveryState, shippingMethod, customerAddress);
-
-    const shippingCosts = 12.99;
-    const totalPrice = 50 + shippingCosts;
-
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (deliveryStruct.shippingCosts != null) {
-        deliveryStruct.shippingCosts.unitPrice = shippingCosts;
-        deliveryStruct.shippingCosts.totalPrice = shippingCosts;
-    }
-
-    const customShippingCosts = {
-        price: {
-            totalPrice: totalPrice,
-            positionPrice: totalPrice,
-            rawTotal: totalPrice,
-            netPrice: totalPrice,
-            taxStatus: 'gross',
-            calculatedTaxes: [{
-                tax: 0,
-                taxRate: 0,
-                price: totalPrice,
-            }],
-            taxRules: [{
-                taxRate: 0,
-                percentage: 100,
-            }],
-        },
-        deliveries: [deliveryStruct],
-    };
-
-    const orderWithCustomShippingCosts = await TestDataService.createOrder(
-        [{ product, quantity: 5 }],
-        customer,
-        customShippingCosts,
-    );
-    expect(orderWithCustomShippingCosts.price.totalPrice).toEqual(62.99);
-
-    const paymentMethod = await TestDataService.createBasicPaymentMethod({ name: 'Custom payment method' });
-    expect(paymentMethod.name).toEqual('Custom payment method');
-
-    const paymentMethodWithImage = await TestDataService.createPaymentMethodWithImage();
-    expect(paymentMethodWithImage.media).toBeDefined();
-
     const manufacturer = await TestDataService.createBasicManufacturer({ description: 'Test Description Manufacturer' });
     expect(manufacturer.description).toEqual('Test Description Manufacturer');
 
@@ -80,61 +72,40 @@ test('Data Service', async ({
     await TestDataService.assignManufacturerProduct(manufacturer.id, product.id)
     expect(product.manufacturerId).toBeDefined();
 
-    const rule = await TestDataService.createBasicRule({ description: 'Rule description' });
-    expect(rule.description).toEqual('Rule description');
-
-    const parentProduct = await TestDataService.createBasicProduct();
-    const propertyGroups: PropertyGroup[] = [];
-    const propertyGroupColor = await TestDataService.createColorPropertyGroup();
-    const propertyGroupText = await TestDataService.createTextPropertyGroup();
-    propertyGroups.push(propertyGroupColor);
-    propertyGroups.push(propertyGroupText);
-
-    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description' });
-    expect(variantProducts.length).toEqual(9);
-    expect(variantProducts[0].description).toEqual('Variant description');
-
-    const basicShippingMethod = await TestDataService.createBasicShippingMethod({ name: 'Custom shipping method' });
-    expect(basicShippingMethod.name).toEqual('Custom shipping method');
-
-    const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
-    expect(shippingMethodWithImage.media).toBeDefined();
-
     const cmsType = 'product_detail';
     const cmsPageName = 'Custom product detail page';
     const cmsPage = await TestDataService.createBasicPageLayout(cmsType, { name: cmsPageName });
     expect(cmsPage.name).toEqual(cmsPageName);
     expect(cmsPage.type).toEqual(cmsType);
 
+    const parentProduct = await TestDataService.createBasicProduct();
+    const propertyGroupColor = await TestDataService.createColorPropertyGroup();
+    const propertyGroupText = await TestDataService.createTextPropertyGroup();
+    const propertyGroups: PropertyGroup[] = [];
+    propertyGroups.push(propertyGroupColor);
+    propertyGroups.push(propertyGroupText);
+    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description' });
+    expect(variantProducts.length).toEqual(9);
+    expect(variantProducts[0].description).toEqual('Variant description');
+
+    const salesChannelAnalytics = await TestDataService.createSalesChannelAnalytics({ active: false });
+    expect(salesChannelAnalytics.active).toEqual(false);
+
+    const taxRate21 = await TestDataService.createTaxRate({ taxRate: 21.0 });
+    expect(taxRate21.taxRate).toEqual(21.0);
+
+    const crossSellingProduct = await TestDataService.createBasicProduct();
+    const productCrossSelling = await TestDataService.createProductCrossSelling(crossSellingProduct.id, { name: 'Custom cross selling' });
+    expect(productCrossSelling.name).toEqual('Custom cross selling');
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
     expect(cleanUpFalseResponse).toBeNull();
 
-    const categoryResponse = await AdminApiContext.get(`./category/${category.id}?_response=detail`);
-    const { data: databaseCategory } = (await categoryResponse.json()) as { data: Category };
-    expect(databaseCategory.id).toBe(category.id);
-
-    const productResponse = await AdminApiContext.get(`./product/${product.id}?_response=detail`);
-    const { data: databaseProduct } = (await productResponse.json()) as { data: Product };
-    expect(databaseProduct.id).toBe(product.id);
-
-    const digitalProductResponse = await AdminApiContext.get(`./product/${digitalProduct.id}?_response=detail`);
-    const { data: databaseDigitalProduct } = (await digitalProductResponse.json()) as { data: Product };
-    expect(databaseDigitalProduct.id).toBe(digitalProduct.id);
-
-    const propertyGroupResponse = await AdminApiContext.get(`./property-group/${propertyGroup.id}?_response=detail`);
-    const { data: databasePropertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
-    expect(databasePropertyGroup.id).toBe(propertyGroup.id);
-
     const customerResponse = await AdminApiContext.get(`./customer/${customer.id}?_response=detail`);
     const { data: databaseCustomer } = (await customerResponse.json()) as { data: Customer };
     expect(databaseCustomer.id).toBe(customer.id);
-
-
-    const manufacturerResponse = await AdminApiContext.get(`./product-manufacturer/${manufacturer.id}?_response=detail`);
-    const { data: databaseManufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
-    expect(databaseManufacturer.id).toBe(manufacturer.id);
 
     const paymentMethodResponse = await AdminApiContext.get(`./payment-method/${paymentMethod.id}?_response=detail`);
     const { data: databasePaymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
@@ -148,26 +119,64 @@ test('Data Service', async ({
     const { data: databaseRule } = (await ruleResponse.json()) as { data: Rule };
     expect(databaseRule.id).toBe(rule.id);
 
+    const currencyResponse = await AdminApiContext.get(`./currency/${currency.id}?_response=detail`);
+    const { data: databaseCurrency } = (await currencyResponse.json()) as { data: Currency };
+    expect(databaseCurrency.id).toBe(currency.id);
+
+    const countryResponse = await AdminApiContext.get(`./country/${country.id}?_response=detail`);
+    const { data: databaseCountry } = (await countryResponse.json()) as { data: Country };
+    expect(databaseCountry.id).toBe(country.id);
+
+    const productResponse = await AdminApiContext.get(`./product/${product.id}?_response=detail`);
+    const { data: databaseProduct } = (await productResponse.json()) as { data: Product };
+    expect(databaseProduct.id).toBe(product.id);
+
+    const digitalProductResponse = await AdminApiContext.get(`./product/${digitalProduct.id}?_response=detail`);
+    const { data: databaseDigitalProduct } = (await digitalProductResponse.json()) as { data: Product };
+    expect(databaseDigitalProduct.id).toBe(digitalProduct.id);
+
+    const propertyGroupResponse = await AdminApiContext.get(`./property-group/${propertyGroup.id}?_response=detail`);
+    const { data: databasePropertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
+    expect(databasePropertyGroup.id).toBe(propertyGroup.id);
+
+    const manufacturerResponse = await AdminApiContext.get(`./product-manufacturer/${manufacturer.id}?_response=detail`);
+    const { data: databaseManufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
+    expect(databaseManufacturer.id).toBe(manufacturer.id);
+
+    const categoryResponse = await AdminApiContext.get(`./category/${category.id}?_response=detail`);
+    const { data: databaseCategory } = (await categoryResponse.json()) as { data: Category };
+    expect(databaseCategory.id).toBe(category.id);
+
+    const salesChannelAnalyticsResponse = await AdminApiContext.get(`./sales-channel-analytics/${salesChannelAnalytics.id}?_response=detail`);
+    const { data: databaseSalesChannelAnalytics } = (await salesChannelAnalyticsResponse.json()) as { data: SalesChannelAnalytics };
+    expect(databaseSalesChannelAnalytics.id).toBe(salesChannelAnalytics.id);
+
+    const taxRate21Response = await AdminApiContext.get(`./tax/${taxRate21.id}?_response=detail`);
+    const { data: databaseTaxRate21 } = (await taxRate21Response.json()) as { data: Tax };
+    expect(databaseTaxRate21.id).toBe(taxRate21.id);
+
+    const crossSellingProductResponse = await AdminApiContext.get(`./product-cross-selling/${productCrossSelling.id}?_response=detail`);
+    const { data: databaseCrossSellingProduct } = (await crossSellingProductResponse.json()) as { data: ProductCrossSelling };
+    expect(databaseCrossSellingProduct.id).toBe(productCrossSelling.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
-    const cleanUpResponse = await TestDataService.cleanUp();
+    const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
+    expect(cleanUpDeleteOperationsResponse.ok()).toBeTruthy();
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    expect(cleanUpResponse.ok()).toBeTruthy();
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const cleanUp = await cleanUpResponse.json();
-    expect(cleanUp['notFound'].length).toBe(0);
-    expect(cleanUp['deleted']['category']).toBeDefined();
-    expect(cleanUp['deleted']['media']).toBeDefined();
-    expect(cleanUp['deleted']['property_group']).toBeDefined();
-    expect(cleanUp['deleted']['property_group_option']).toBeDefined();
-    expect(cleanUp['deleted']['customer']).toBeDefined();
-    expect(cleanUp['deleted']['product_manufacturer']).toBeDefined();
-    expect(cleanUp['deleted']['payment_method']).toBeDefined();
-    expect(cleanUp['deleted']['shipping_method']).toBeDefined();
-    expect(cleanUp['deleted']['rule']).toBeDefined();
-    expect(cleanUp['deleted']['cms_page']).toBeDefined();
+    const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();
+    expect(cleanUpDeleteOperations['notFound'].length).toBe(0);
+    expect(cleanUpDeleteOperations['deleted']['media']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['payment_method']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['rule']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['currency']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['country']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['customer_group']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['category']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['property_group']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['property_group_option']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['product_manufacturer']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['cms_page']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['sales_channel_analytics']).toBeDefined();
+    expect(cleanUpDeleteOperations['deleted']['tax']).toBeDefined();
 });
