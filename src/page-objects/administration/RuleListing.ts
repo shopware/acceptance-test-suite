@@ -4,9 +4,11 @@ import type { PageObject } from '../../types/PageObject';
 export class RuleListing implements PageObject {
 
     public readonly createRuleButton: Locator;
+    public readonly gridCell: Locator;
 
     constructor(public readonly page: Page) {
         this.createRuleButton = page.getByText('Create rule');
+        this.gridCell = page.locator('.sw-data-grid__cell--name');
 
     }
 

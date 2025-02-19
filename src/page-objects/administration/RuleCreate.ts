@@ -6,8 +6,8 @@ export class RuleCreate implements PageObject {
     public readonly nameInput: Locator;
     public readonly priorityInput: Locator;
     public readonly descriptionInput: Locator;
-    public readonly typeInput: Locator;
-    public readonly tagInput: Locator;
+    public readonly typeItem: Locator;
+    public readonly tagItem: Locator;
     public readonly conditionTypeSelectionInput: Locator;
     public readonly conditionValueSelectionInput: Locator;
     public readonly filtersResultPopoverSelectionList: Locator;
@@ -19,9 +19,8 @@ export class RuleCreate implements PageObject {
         this.nameInput = page.getByLabel('Name');
         this.priorityInput = page.getByLabel('Priority');
         this.descriptionInput = page.locator('.sw-block-field__block').getByLabel('Description');
-        this.typeInput = page.locator('.sw-select__selection').getByLabel('Type');
-        this.tagInput = page.locator('.sw-select__selection').getByLabel('Tags');
-
+        this.typeItem = page.locator('.sw-settings-rule-detail__type-field').locator('.sw-select-selection-list__item');
+        this.tagItem = page.locator('.sw-settings-rule-detail__tags-field').locator('.sw-select-selection-list__item');
         this.conditionTypeSelectionInput = page.locator('.sw-condition-type-select').locator('.sw-single-select__selection');
         this.conditionValueSelectionInput = page.locator('.sw-condition__value-content').locator('.sw-entity-single-select__selection');
         this.filtersResultPopoverSelectionList = page.locator('.sw-select-result-list__content').getByRole('listitem');

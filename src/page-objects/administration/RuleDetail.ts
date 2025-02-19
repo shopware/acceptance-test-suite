@@ -25,6 +25,24 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly assignmentModalAddButton: Locator;
     public readonly assignmentModalSearchField: Locator;
     public readonly conditionSelectField: Locator;
+    public readonly conditionLineItemGoodsTotalOperator: Locator;
+    public readonly conditionLineItemGoodsTotalValue: Locator;
+    public readonly conditionDateRangeOperator: Locator;
+    public readonly conditionDateRangeDateFieldFirst: Locator;
+    public readonly conditionDateRangeDateFieldSecond: Locator;
+    public readonly conditionCustomerSurnameOperator: Locator;
+    public readonly conditionCustomerSurnameValue: Locator;
+    public readonly conditionCartLineItemTaxationMatchOperator: Locator;
+    public readonly conditionCartLineItemTaxationOperator: Locator;
+    public readonly conditionCartLineItemTaxationValue: Locator;
+    public readonly conditionTimeRangeValueFirst: Locator;
+    public readonly conditionTimeRangeValueSecond: Locator;
+    public readonly conditionOrderCreatedByAdminValue: Locator;
+    public readonly conditionLineItemGoodsTotalFilter: Locator;
+    public readonly conditionFilterModal: Locator;
+    public readonly conditionCartLineItemInStockOperator: Locator;
+    public readonly conditionCartLineItemInStockValue: Locator
+    public readonly conditionFilterModalCloseButtonX: Locator;
 
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
@@ -47,6 +65,24 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
         this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByRole('textbox');
         this.conditionSelectField = page.locator('.sw-condition-tree').locator('.sw-condition-type-select');
+        this.conditionLineItemGoodsTotalOperator = page.locator('.sw-condition-line-item-goods-total').locator('.sw-single-select__selection-text');
+        this.conditionLineItemGoodsTotalValue = page.locator('.sw-condition-line-item-goods-total').getByRole('textbox');
+        this.conditionLineItemGoodsTotalFilter = page.locator('.sw-condition-line-item-goods-total__filter').getByRole('button');
+        this.conditionDateRangeOperator = page.locator('.sw-condition-date-range').locator('.sw-single-select__selection-text');
+        this.conditionDateRangeDateFieldFirst = page.locator('.sw-condition-date-range').locator('.flatpickr-input').first();
+        this.conditionDateRangeDateFieldSecond = page.locator('.sw-condition-date-range').locator('.flatpickr-input').last();
+        this.conditionCustomerSurnameOperator = page.locator('.sw-condition__condition-type-customerLastName').locator('.sw-single-select__selection-text');
+        this.conditionCustomerSurnameValue = page.locator('.sw-condition__condition-type-customerLastName').getByRole('textbox');
+        this.conditionCartLineItemTaxationMatchOperator = page.locator('.sw-condition-base-line-item__matches-all');
+        this.conditionCartLineItemTaxationOperator =page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-single-select__selection-text');
+        this.conditionCartLineItemTaxationValue = page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-select-selection-list__item');
+        this.conditionTimeRangeValueFirst = page.locator('.sw-condition-time-range').getByRole('textbox').first()
+        this.conditionTimeRangeValueSecond = page.locator('.sw-condition-time-range').getByRole('textbox').last()
+        this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.sw-select__selection');
+        this.conditionFilterModal = page.locator('.sw-modal__header').getByText('Filter');
+        this.conditionFilterModalCloseButtonX = page.locator('.sw-modal__close');
+        this.conditionCartLineItemInStockOperator = page.locator('.sw-condition__condition-type-cartLineItemStock').locator('.sw-single-select__selection-text');
+        this.conditionCartLineItemInStockValue = page.locator('.sw-condition__condition-type-cartLineItemStock').getByRole('textbox');
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.assignmentModalAddButton = page.locator('.sw-button--primary').getByText('Add');
         } else {
