@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.8.0](https://github.com/shopware/acceptance-test-suite/compare/v11.7.2...v11.8.0) (2025-02-20)
+
+
+### Features
+
+* Replace textareas ([cd8807b](https://github.com/shopware/acceptance-test-suite/commit/cd8807b74d5ec7598dc20b718ceb8c1a6de54ade))
+
+
+### Bug Fixes
+
+* Correct select class when create category ([04729ac](https://github.com/shopware/acceptance-test-suite/commit/04729ac525ad6d65622d481f5825131bd212967f))
+
 ## [11.7.2](https://github.com/shopware/acceptance-test-suite/compare/v11.7.1...v11.7.2) (2025-02-20)
 
 
