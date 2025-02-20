@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.7.2](https://github.com/shopware/acceptance-test-suite/compare/v11.7.1...v11.7.2) (2025-02-20)
+
+
+### Bug Fixes
+
+* replace sw-card with mt-card ([ddda176](https://github.com/shopware/acceptance-test-suite/commit/ddda176d5d814b17e73d487e4d1a520f901ea8c8))
+
 ## [11.7.1](https://github.com/shopware/acceptance-test-suite/compare/v11.7.0...v11.7.1) (2025-02-14)
 
 
