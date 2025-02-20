@@ -251,7 +251,7 @@ export const getMediaId = async (fileName: string, adminApiContext: AdminApiCont
     return result.data[0].id;
 };
 
-export const getFlowTemplateData = async (flowTemplateId: string, adminApiContext: AdminApiContext): Promise<FlowTemplate> => {
+export const getFlowTemplate = async (flowTemplateId: string, adminApiContext: AdminApiContext): Promise<FlowTemplate> => {
     const flowTemplateResponse = await adminApiContext.post(`search/flow-template`, {
         data: {
             limit: 1,
@@ -266,7 +266,7 @@ export const getFlowTemplateData = async (flowTemplateId: string, adminApiContex
     return result.data[0];
 };
 
-export const getFlowData = async (flowId: string, adminApiContext: AdminApiContext): Promise<Flow> => {
+export const getFlow = async (flowId: string, adminApiContext: AdminApiContext): Promise<Flow> => {
     const flowResponse = await adminApiContext.post(`search/flow`, {
         data: {
             limit: 1,
@@ -283,8 +283,8 @@ export const getFlowData = async (flowId: string, adminApiContext: AdminApiConte
 };
 
 export const compareFlowTemplateWithFlow = async (flowId:string, flowTemplateId: string, adminApiContext: AdminApiContext): Promise<boolean> => {
-    const flowTemplateData: FlowTemplate = await getFlowTemplateData(flowTemplateId, adminApiContext);
-    const flowData: Flow = await getFlowData(flowId, adminApiContext);
+    const flowTemplateData: FlowTemplate = await getFlowTemplate(flowTemplateId, adminApiContext);
+    const flowData: Flow = await getFlow(flowId, adminApiContext);
     // compare triggers
     if (flowTemplateData.config.eventName != flowData.eventName){
         return false;
