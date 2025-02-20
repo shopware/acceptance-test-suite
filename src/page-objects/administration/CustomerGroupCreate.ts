@@ -29,12 +29,15 @@ export class CustomerGroupCreate implements PageObject {
         this.customerGroupNetTaxDisplay = page.locator('#sw-field--castedValue-1');
         this.customSignupFormToggle = page.getByLabel('Custom signup form');
         this.signupFormTitle = page.locator('#sw-field--customerGroup-registrationTitle');
+
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.signupFormIntroduction = page.locator('.sw-text-editor__content-editor');
+            this.signupFormSeoDescription = page.locator('#sw-field--customerGroup-registrationSeoMetaDescription');
         } else {
             this.signupFormIntroduction = page.locator('.mt-text-editor__content-editor');
+            this.signupFormSeoDescription = page.getByRole('textbox', { name: 'SEO meta description' });
         }
-        this.signupFormSeoDescription = page.locator('#sw-field--customerGroup-registrationSeoMetaDescription');
+
         this.signupFormCompanySignupToggle = page.getByLabel('Company signup form');
         this.customerGroupSaleschannelSelection = page.locator('input[class=sw-select-selection-list__input]');
         this.customerGroupSaleschannelResultList = page.locator('.sw-select-result-list__content');
