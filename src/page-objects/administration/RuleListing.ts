@@ -12,7 +12,11 @@ export class RuleListing implements PageObject {
 
     }
 
-    url() {
-        return `#/sw/settings/rule/index`;
+    url(searchTerm: string) {
+        let url = '#/sw/settings/rule/index';
+        if (searchTerm.length > 0) {
+            url += `?limit=25&page=1&term=${searchTerm}`;
+        }
+        return url;
     }
 }
