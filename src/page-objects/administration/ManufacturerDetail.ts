@@ -10,14 +10,14 @@ export class ManufacturerDetail extends ManufacturerCreate {
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
 
-        this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+        this.customFieldCard = page.locator('.mt-card').getByText('Custom fields');
         this.customFieldSetTabs = this.customFieldCard.locator('.sw-tabs-item');
         this.customFieldSetTabCustomContent = this.customFieldCard.locator('.sw-tabs__custom-content');
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
 
-        const customFieldCard = this.page.locator('.sw-card').filter({hasText: 'Custom fields'});
+        const customFieldCard = this.page.locator('.mt-card').filter({hasText: 'Custom fields'});
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
         const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
 

@@ -128,12 +128,12 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
 
         this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
-        this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+        this.customFieldCard = page.locator('.mt-card').getByText('Custom fields');
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
 
-        const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
+        const customFieldCard = this.page.locator('.mt-card').filter({ hasText: 'Custom fields' });
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
         const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
 
