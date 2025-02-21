@@ -106,8 +106,8 @@ export const AdminPageObjects = {
 
 export const test = base.extend<FixtureTypes>({
 
-    AdminProductDetail: async ({ AdminPage }, use) => {
-        await use(new ProductDetail(AdminPage));
+    AdminProductDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new ProductDetail(AdminPage, InstanceMeta));
     },
 
     AdminOrderDetail: async ({ AdminPage }, use) => {
@@ -174,8 +174,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new Categories(AdminPage));
     },
 
-    AdminCategoryDetail: async ({ AdminPage }, use) => {
-        await use(new CategoryDetail(AdminPage));
+    AdminCategoryDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CategoryDetail(AdminPage, InstanceMeta));
     },
 
     AdminLandingPageDetail: async ({ AdminPage }, use) => {
