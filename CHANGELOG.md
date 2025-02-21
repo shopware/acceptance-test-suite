@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.8.1](https://github.com/shopware/acceptance-test-suite/compare/v11.8.0...v11.8.1) (2025-02-21)
+
+
+### Bug Fixes
+
+* **meteor:** make mt-card change retrocompatible ([#328](https://github.com/shopware/acceptance-test-suite/issues/328)) ([75e2f54](https://github.com/shopware/acceptance-test-suite/commit/75e2f54cd54560fb252fbf2601847ce413304414))
+
 ## [11.8.0](https://github.com/shopware/acceptance-test-suite/compare/v11.7.2...v11.8.0) (2025-02-20)
 
 
