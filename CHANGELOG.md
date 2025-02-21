@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.9.0](https://github.com/shopware/acceptance-test-suite/compare/v11.8.1...v11.9.0) (2025-02-21)
+
+
+### Features
+
+* move sales channel default data to fixtures ([#305](https://github.com/shopware/acceptance-test-suite/issues/305)) ([#308](https://github.com/shopware/acceptance-test-suite/issues/308)) ([2df2936](https://github.com/shopware/acceptance-test-suite/commit/2df293684022848944300e11004fdcde442a2045))
+
 ## [11.8.1](https://github.com/shopware/acceptance-test-suite/compare/v11.8.0...v11.8.1) (2025-02-21)
 
 
