@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.9.1](https://github.com/shopware/acceptance-test-suite/compare/v11.9.0...v11.9.1) (2025-02-24)
+
+
+### Bug Fixes
+
+* address manager options button locator ([7b030df](https://github.com/shopware/acceptance-test-suite/commit/7b030dfc0f22d1790ce73ed4e8270e7139ed4c9e))
+
 ## [11.9.0](https://github.com/shopware/acceptance-test-suite/compare/v11.8.1...v11.9.0) (2025-02-21)
 
 
