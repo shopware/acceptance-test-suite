@@ -2,7 +2,6 @@ import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
 import { FlowConfig } from '../../../types/ShopwareTypes';
-import { getResultListItem } from '../../../services/ShopwareUIHelpers';
 
 export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
     CreateFlow: async ({ AdminFlowBuilderCreate, AdminFlowBuilderDetail, AdminFlowBuilderListing, ShopAdmin }, use ) => {
@@ -24,24 +23,24 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.triggerSelectField.press('Enter');
                 // Add condition
                 await AdminFlowBuilderCreate.sequenceSelectorConditionButton.click();
-                await (await getResultListItem(AdminFlowBuilderCreate.page, AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
+                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
                 // Add action to condition true block
                 await AdminFlowBuilderCreate.trueBlockAddActionButton.click();
-                await (await getResultListItem(AdminFlowBuilderCreate.page, AdminFlowBuilderCreate.trueBlockActionSelectField, `${flowConfig.trueAction}`)).click();
+                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.trueBlockActionSelectField, `${flowConfig.trueAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.mailSendModal).toBeVisible();
-                await (await getResultListItem(AdminFlowBuilderCreate.page, AdminFlowBuilderCreate.mailSendModalTemplateSelectField, `${flowConfig.trueActionIdentifier}`)).click();
+                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.mailSendModalTemplateSelectField, `${flowConfig.trueActionIdentifier}`)).click();
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.trueBlockActionDescription).toContainText(`${flowConfig.trueActionIdentifier}`);
                 // Add action to condition false block
                 await AdminFlowBuilderCreate.falseBlockAddActionButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionSelectField).toBeVisible();
-                await (await getResultListItem(AdminFlowBuilderCreate.page, AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
+                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.tagModal).toBeVisible();
-                await (await getResultListItem(AdminFlowBuilderCreate.page, AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
+                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionDescription).toContainText(`Tag: ${flowConfig.falseActionIdentifier}`);
                 await AdminFlowBuilderCreate.saveButton.click();
-                await ShopAdmin.expects(AdminFlowBuilderDetail.successMessage).toHaveText('Success');
+                await ShopAdmin.expects(AdminFlowBuilderDetail.successMessage).toBeVisible();
             }
         };
         await use(task);

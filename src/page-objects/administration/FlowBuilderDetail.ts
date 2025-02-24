@@ -15,8 +15,6 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
         } else {
             this.successMessage = page.locator('.mt-banner__title');
         }
-
-
     }
 
     url(flowId?: string, tabName = 'general') {

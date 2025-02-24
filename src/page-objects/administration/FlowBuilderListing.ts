@@ -20,21 +20,21 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlertMessage: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
-    this.createFlowButton = page.locator('.sw-flow-list__create');
-    this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
-    this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
-    this.flowContextMenu = page.locator('.sw-context-menu__content');
-    this.contextMenuDownload = this.flowContextMenu.locator('.sw-flow-list__item-download');
-    this.contextMenuDuplicate = this.flowContextMenu.locator('.sw-flow-list__item-duplicate');
-    this.contextMenuEdit = this.flowContextMenu.locator('.sw-flow-list__item-edit');
-    this.contextMenuDelete = this.flowContextMenu.locator('.sw-flow-list__item-delete');
-    this.flowDownloadModal = page.locator('.sw-flow-download-modal');
-    this.flowDeleteButton = page.getByRole('dialog')
-        .filter( {hasText: 'If you delete this flow, no more actions will be performed for the trigger. Are you sure you want to delete this flow?'} )
-        .getByRole('button', { name: 'Delete' });
-    this.downloadFlowButton = page.getByRole('button', { name: 'Download flow' });
-    this.successAlert = page.locator('.sw-alert__body');
-    this.successAlertMessage = page.locator('.sw-alert__message');
+        this.createFlowButton = page.locator('.sw-flow-list__create');
+        this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
+        this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
+        this.flowContextMenu = page.locator('.sw-context-menu__content');
+        this.contextMenuDownload = this.flowContextMenu.locator('.sw-flow-list__item-download');
+        this.contextMenuDuplicate = this.flowContextMenu.locator('.sw-flow-list__item-duplicate');
+        this.contextMenuEdit = this.flowContextMenu.locator('.sw-flow-list__item-edit');
+        this.contextMenuDelete = this.flowContextMenu.locator('.sw-flow-list__item-delete');
+        this.flowDownloadModal = page.locator('.sw-flow-download-modal');
+        this.flowDeleteButton = page.getByRole('dialog')
+            .filter( {hasText: 'If you delete this flow, no more actions will be performed for the trigger. Are you sure you want to delete this flow?'} )
+            .getByRole('button', { name: 'Delete' });
+        this.downloadFlowButton = page.getByRole('button', { name: 'Download flow' });
+        this.successAlert = page.locator('.sw-alert__body');
+        this.successAlertMessage = page.locator('.sw-alert__message');
     }
 
     url() {
@@ -48,7 +48,7 @@ export class FlowBuilderListing implements PageObject {
         if (satisfies(this.instanceMeta.version, '<6.7')) {
             flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-checkmark-xs');
         } else {
-            flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').getByTestId('mt-icon__regular-checkmark-xs');
+            flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').getByTestId('sw-icon__regular-checkmark-xs');
         }
         const flowDisabledCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-times-s');
         const flowNameText = lineItem.locator('.sw-data-grid__cell--name');

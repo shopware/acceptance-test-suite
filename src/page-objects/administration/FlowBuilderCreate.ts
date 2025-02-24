@@ -2,6 +2,7 @@ import type { Locator, Page } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class FlowBuilderCreate implements PageObject {
 
@@ -47,11 +48,10 @@ export class FlowBuilderCreate implements PageObject {
         this.smartBarHeader = page.locator('.smart-bar__header');
         this.generalTab = page.locator('.sw-flow-detail__tab-general');
         this.triggerSelectField = page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox');
+        this.flowTab = page.locator('.sw-tabs__content').locator('.sw-flow-detail__tab-flow');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.flowTab = page.locator('.sw-tabs__content').locator('.sw-flow-detail__tab-flow');
             this.modalAddButton = page.locator('.sw-button--primary').getByText('Add action');
         } else {
-            this.flowTab = page.locator('.mt-tabs').locator('.mt-tabs__item').getByText('Flow');
             this.modalAddButton = page.locator('.mt-button--primary').getByText('Add action');
         }
         this.nameField = page.locator('.sw-flow-detail-general__general-name').getByLabel('Name');
@@ -86,5 +86,9 @@ export class FlowBuilderCreate implements PageObject {
         await this.page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox').hover();
         const tooltip = await this.page.waitForSelector('.sw-tooltip');
         return await tooltip.innerText();
+    }
+
+    async getSelectFieldListitem(selectField: Locator, listItem: string) {
+        return getSelectFieldListitem(this.page, selectField, listItem, this.instanceMeta);
     }
 }
