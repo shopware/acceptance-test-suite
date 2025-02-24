@@ -29,7 +29,7 @@ export class AccountAddresses implements PageObject {
         }
         else {
             this.availableAddresses = page.locator('.address-manager-list-wrapper');
-            this.addressDropdownButton = this.availableAddresses.locator('#dropdownMenuButton');
+            this.addressDropdownButton = this.availableAddresses.getByRole('button', { name: 'Address options' }).first();
             this.availableAddressesUseAsBillingAddress = this.availableAddresses.getByRole('button', { name: 'Use as default billing address' });
             this.availableAddressesUseAsShippingAddress = this.availableAddresses.getByRole('button', { name: 'Use as default shipping address' });
         }
