@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import {CustomFieldLocators} from "./modules/CustomFields";
+import {CustomFieldLocators} from './modules/CustomFields';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
@@ -24,7 +24,7 @@ export class CategoryDetail implements PageObject {
 
         this.customFieldSetTabs = this.customFieldCard.locator('.sw-tabs-item');
         this.customFieldSetTabCustomContent = this.customFieldCard.locator('.sw-tabs__custom-content');
-        this.customFieldLocators = new CustomFieldLocators(page);
+        this.customFieldLocators = new CustomFieldLocators(page, instanceMeta);
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
