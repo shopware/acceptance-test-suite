@@ -25,6 +25,7 @@ jobs:
         - run: npm ci
         - run: npm run build
     test:
+      name: test shopware ${{ matrix.SHOPWARE_VERSION }}
       timeout-minutes: 15
       runs-on: ubuntu-latest
       strategy:
@@ -64,7 +65,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests (shopware ${SHOPWARE_VERSION})
+      - name: Run Playwright tests
         env:
           APP_URL: http://localhost:${{ matrix.PORT }}
         run: npx playwright test --repeat-each 4
