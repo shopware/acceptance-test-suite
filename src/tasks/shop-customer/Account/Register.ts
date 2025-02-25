@@ -1,12 +1,10 @@
 import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
 import type { RegistrationData } from '../../../types/ShopwareTypes';
-import { AdminApiContext } from 'src/services/AdminApiContext';
 
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
-    Register: async ({ StorefrontAccountLogin, AdminApiContext, IdProvider }, use) => {
+    Register: async ({ StorefrontAccountLogin, IdProvider, TestDataService }, use) => {
         let registeredEmail = '';
 
         const defaultRegistrationData: RegistrationData = {
@@ -60,38 +58,14 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await StorefrontAccountLogin.countryInput.selectOption({ label: registrationData.country });
 
                 await StorefrontAccountLogin.registerButton.click();
+
+                const customer = await TestDataService.getCustomerByEmail(registeredEmail);
+                if (customer) {
+                    TestDataService.addCreatedRecord('customer', customer.id);
+                }
             };
         };
 
         await use(task);
-
-        await deleteRegisteredUser(AdminApiContext, registeredEmail);
     },
 });
-
-async function deleteRegisteredUser(adminApiContext: AdminApiContext, email: string): Promise<void> {
-    if (!email) return;
-
-    try {
-        const response = await adminApiContext.post('search/customer', {
-            data: {
-                limit: 1,
-                filter: [
-                    {
-                        type: 'equals',
-                        field: 'email',
-                        value: email,
-                    },
-                ],
-            },
-        });
-
-        const { data: customers } = (await response.json()) as { data: components['schemas']['Customer'][] };
-
-        for (const customer of customers) {
-            await adminApiContext.delete(`customer/${customer.id}`);
-        }
-    } catch (error) {
-        console.error(`Error deleting user with email ${email}:`, error);
-    }
-}

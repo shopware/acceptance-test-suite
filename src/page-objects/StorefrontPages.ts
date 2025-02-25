@@ -21,6 +21,9 @@ import { SearchSuggest } from './storefront/SearchSuggest';
 import { CustomRegister } from './storefront/CustomRegister';
 import { CheckoutOrderEdit } from './storefront/CheckoutOrderEdit';
 import { AccountAddressCreate } from './storefront/AccountAddresssCreate';
+import { PageNotFound } from './storefront/PageNotFound';
+import { ContactForm } from './storefront/ContactForm';
+import { Wishlist } from './storefront/Wishlist';
 
 export interface StorefrontPageTypes {
     StorefrontHome: Home;
@@ -43,6 +46,9 @@ export interface StorefrontPageTypes {
     StorefrontSearchSuggest: SearchSuggest;
     StorefrontCustomRegister: CustomRegister;
     StorefrontCheckoutOrderEdit: CheckoutOrderEdit;
+    StorefrontPageNotFound: PageNotFound;
+    StorefrontContactForm: ContactForm;
+    StorefrontWishlist: Wishlist;
 }
 
 export const StorefrontPageObjects = {
@@ -66,6 +72,9 @@ export const StorefrontPageObjects = {
     SearchSuggest,
     CustomRegister,
     CheckoutOrderEdit,
+    PageNotFound,
+    ContactForm,
+    Wishlist,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -122,8 +131,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new AccountOrder(StorefrontPage));
     },
 
-    StorefrontAccountAddresses: async ({ StorefrontPage }, use) => {
-        await use(new AccountAddresses(StorefrontPage));
+    StorefrontAccountAddresses: async ({ StorefrontPage , InstanceMeta }, use) => {
+        await use(new AccountAddresses(StorefrontPage, InstanceMeta));
     },
 
     StorefrontAccountAddressCreate: async ({ StorefrontPage }, use) => {
@@ -144,10 +153,21 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontCustomRegister: async ({ StorefrontPage }, use) => {
         await use(new CustomRegister(StorefrontPage));
-
     },
 
     StorefrontCheckoutOrderEdit: async ({ StorefrontPage }, use) => {
         await use(new CheckoutOrderEdit(StorefrontPage));
+    },
+
+    StorefrontPageNotFound: async ({ StorefrontPage }, use) => {
+        await use(new PageNotFound(StorefrontPage));
+    },
+  
+    StorefrontContactForm: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new ContactForm(StorefrontPage, InstanceMeta));
+    },
+  
+    StorefrontWishlist: async ({ StorefrontPage }, use) => {
+        await use(new Wishlist(StorefrontPage));
     },
 });

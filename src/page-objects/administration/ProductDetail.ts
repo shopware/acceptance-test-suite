@@ -1,6 +1,8 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import {CustomFieldLocators} from "./modules/CustomFields";
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class ProductDetail implements PageObject {
 
@@ -81,7 +83,7 @@ export class ProductDetail implements PageObject {
     public readonly customFieldCard: Locator;
     public readonly customFieldLocators: CustomFieldLocators;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
 
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
@@ -130,8 +132,29 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
 
         this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
-        this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
         this.customFieldLocators = new CustomFieldLocators(page);
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+        } else {
+            this.customFieldCard = page.locator('.mt-card').getByText('Custom fields');
+        }
+    }
+
+    async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
+        let customFieldCard: Locator;
+        if (satisfies(this.instanceMeta.version, '<6.7')) {
+            customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
+        } else {
+            customFieldCard = this.page.locator('.mt-card').filter({ hasText: 'Custom fields' });
+        }
+
+        const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
+        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
+
+        return {
+            customFieldSetTab: customFieldSetTab,
+            customFieldSetTabCustomContent: customFieldSetTabCustomContent,
+        }
     }
 
     url(productId: string) {

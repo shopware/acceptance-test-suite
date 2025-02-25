@@ -33,6 +33,7 @@ import type {
     CustomFieldSet,
     CustomField,
     Tax,
+    ProductCrossSelling,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 
@@ -100,7 +101,7 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'customer'];
+    private highPriorityEntities = ['order', 'product', 'product_cross_selling', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'sales_channel_payment_method', 'customer'];
 
     /**
      * A registry of all created records.
@@ -169,6 +170,27 @@ export class TestDataService {
         this.addCreatedRecord('product', product.id);
 
         return product;
+    }
+
+    /**
+     * Creates a basic product cross-selling entity without products.
+     *
+     * @param productId - The uuid of the product to which the pproduct cross-selling should be assigned.
+     * @param overrides - Specific data overrides that will be applied to the property group data struct.
+     */
+    async createProductCrossSelling(productId: string, overrides: Partial<ProductCrossSelling> = {}): Promise<ProductCrossSelling> {
+        const crossSellingStruct = this.getBasicCrossSellingStruct(productId, overrides);
+
+        const response = await this.AdminApiClient.post('product-cross-selling?_response=detail', {
+            data: crossSellingStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: productCrossSelling } = (await response.json()) as { data: ProductCrossSelling };
+
+        this.addCreatedRecord('product_cross_selling', productCrossSelling.id);
+
+        return productCrossSelling;
     }
 
     /**
@@ -1213,6 +1235,39 @@ export class TestDataService {
     }
 
     /**
+     * Assigns a payment method to a sales channel.
+     *
+     * @param salesChannelId - The uuid of the sales channel.
+     * @param paymentMethodId - The uuid of the currency.
+     */
+    async assignSalesChannelPaymentMethod(salesChannelId: string, paymentMethodId: string) {
+        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-sales-channel-payment-method': {
+                    entity: 'sales_channel_payment_method',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            salesChannelId: salesChannelId,
+                            paymentMethodId: paymentMethodId,
+                        },
+                    ],
+                },
+            },
+        });
+        expect(syncSalesChannelResponse.ok()).toBeTruthy();
+
+        const { data: salesChannel } = await syncSalesChannelResponse.json();
+
+        this.addCreatedRecord('sales_channel_payment_method', {
+            salesChannelId: salesChannelId,
+            paymentMethodId: paymentMethodId,
+        });
+
+        return salesChannel;
+    }
+
+    /**
      * Assigns a media resource to a payment method as a logo.
      *
      * @param paymentMethodId - The uuid of the payment method.
@@ -1382,6 +1437,32 @@ export class TestDataService {
         const { data: address } = (await response.json()) as { data: CustomerAddress };
 
         return address;
+    }
+
+    /**
+     * Retrieves a customer by its email address.
+     *
+     * @param email - The email address of the customer.
+     * @returns The customer object.
+     */
+    async getCustomerByEmail(email: string): Promise<Customer> {
+        const response = await this.AdminApiClient.post('search/customer', {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: 'equals',
+                        field: 'email',
+                        value: email,
+                    },
+                ],
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: result } = (await response.json()) as { data: Customer[] };
+
+        return result[0];
     }
 
     /**
@@ -1694,11 +1775,21 @@ export class TestDataService {
     };
 
     /**
+     * @deprecated Use `getCountry` instead.
      * Retrieves a country Id based on its iso2 code.
      *
      * @param iso2 - The iso2 code of the country, for example "DE".
      */
     async getCountryId(iso2: string): Promise<Country> {
+        return await this.getCountry(iso2);
+    }
+
+    /**
+     * Retrieves a country based on its iso2 code.
+     *
+     * @param iso2 - The iso2 code of the country, for example "DE".
+     */
+    async getCountry(iso2: string): Promise<Country> {
         const countryResponse = await this.AdminApiClient.post('search/country', {
             data: {
                 limit: 1,
@@ -2515,5 +2606,25 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicTaxStruct, overrides);
+    }
+
+    getBasicCrossSellingStruct(productId: string, overrides: Partial<ProductCrossSelling> = {}) {
+
+        const { id: productCrossSellingId, uuid: productCrossSellingUuid } = this.IdProvider.getIdPair();
+        const productCrossSellingName = `${this.namePrefix}ProductCrossSelling-${productCrossSellingId}${this.nameSuffix}`;
+
+        const defaultCrossSelling = {
+            id: productCrossSellingUuid,
+            productId: productId,
+            name: productCrossSellingName,
+            type: 'product_list',
+            position: 1,
+            active: true,
+            productStreamId: null,
+            sortingType: 'name',
+            limit: 10,
+            sortBy: 'name',
+        }
+        return Object.assign({}, defaultCrossSelling, overrides);
     }
 }
