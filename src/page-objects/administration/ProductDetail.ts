@@ -1,5 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import {CustomFieldLocators} from "./modules/CustomFields";
 
 export class ProductDetail implements PageObject {
 
@@ -78,6 +79,7 @@ export class ProductDetail implements PageObject {
      * Cards
      */
     public readonly customFieldCard: Locator;
+    public readonly customFieldLocators: CustomFieldLocators;
 
     constructor(public readonly page: Page) {
 
@@ -129,9 +131,14 @@ export class ProductDetail implements PageObject {
 
         this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
         this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+        this.customFieldLocators = new CustomFieldLocators(page);
     }
 
     url(productId: string) {
         return `#/sw/product/detail/${productId}/base`
+    }
+
+    async customFields(customFieldSetName: string, customFieldTextName: string) {
+        return await this.customFieldLocators.getLocators(customFieldSetName, customFieldTextName);
     }
 }
