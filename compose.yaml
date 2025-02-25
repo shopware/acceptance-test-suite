@@ -80,10 +80,10 @@ services:
 
   init:
     <<: [ *service, *shopware-volumes ]
-    image: ghcr.io/shopware/acceptance-test-suite/shopware:${SHOPWARE_VERSION:-trunk}
+    image: ghcr.io/shopware/acceptance-test-suite/test-image:${SHOPWARE_VERSION:-trunk}
     build:
       context: .
-      dockerfile: shopware.Dockerfile
+      dockerfile: test-image.Dockerfile
       args:
         - PHP_VERSION=${PHP_VERSION:-8.4}
         - SHOPWARE_VERSION=${SHOPWARE_VERSION:-trunk}
