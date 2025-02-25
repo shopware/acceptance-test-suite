@@ -19,7 +19,7 @@ if (!process.env['WEBSERVER_COMMAND']) {
   if (process.env['WEBSERVER_COMMAND'] === defaultAppUrl) {
     process.env['WEBSERVER_COMMAND'] = 'docker compose up --pull=always --quiet-pull shopware';
   } else {
-    process.env['WEBSERVER_COMMAND'] = 'sleep 1h';
+    process.env['WEBSERVER_COMMAND'] = 'sleep 999d';
   }
 }
 
@@ -44,7 +44,7 @@ export default defineConfig({
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: process.env['WEBSERVER_COMMAND'] ?? 'sleep 1h',
+    command: process.env['WEBSERVER_COMMAND'] ?? 'sleep 999d',
     url: process.env['APP_URL'],
     reuseExistingServer: true,
     timeout: 180000,
