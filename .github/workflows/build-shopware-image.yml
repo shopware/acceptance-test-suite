@@ -42,9 +42,11 @@ jobs:
           - PHP_VERSION: 8.3
             SHOPWARE_VERSION: 6.6.x
             SHOPWARE_BUILD_SOURCE: branch
+            COMPOSER_ROOT_VERSION: 6.6.9999999-dev
           - PHP_VERSION: 8.4
             SHOPWARE_VERSION: trunk
             SHOPWARE_BUILD_SOURCE: branch
+            COMPOSER_ROOT_VERSION: 6.7.9999999-dev
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,3 +71,4 @@ jobs:
             PHP_VERSION=${{ matrix.PHP_VERSION }}
             SHOPWARE_VERSION=${{ matrix.SHOPWARE_VERSION }}
             SHOPWARE_BUILD_SOURCE=${{ matrix.SHOPWARE_BUILD_SOURCE }}
+            COMPOSER_ROOT_VERSION=${{ matrix.COMPOSER_ROOT_VERSION || '' }}

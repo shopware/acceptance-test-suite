@@ -13,16 +13,19 @@ RUN shopware-cli project create /src ${SHOPWARE_VERSION#v} --verbose
 FROM shopware-cli AS checkout-branch
 
 ARG SHOPWARE_VERSION
+ARG COMPOSER_ROOT_VERSION="6.7.9999999-dev"
 
-ENV COMPOSER_ROOT_VERSION="6.7.9999999-dev"
+ENV COMPOSER_ROOT_VERSION=${COMPOSER_ROOT_VERSION}
 
 ADD https://github.com/shopware/shopware.git#${SHOPWARE_VERSION} /src
 
 FROM shopware-cli AS checkout-local
 
-COPY . /src
+ARG COMPOSER_ROOT_VERSION="6.7.9999999-dev"
 
-ENV COMPOSER_ROOT_VERSION="6.7.9999999-dev"
+ENV COMPOSER_ROOT_VERSION=${COMPOSER_ROOT_VERSION}
+
+COPY . /src
 
 FROM checkout-${SHOPWARE_BUILD_SOURCE} AS prepare-general
 SHELL ["/usr/bin/env", "bash", "-c"]
