@@ -6,15 +6,38 @@ on:
   workflow_dispatch:
 
 jobs:
+  versions:
+    name: Determine Shopware versions to build
+    runs-on: ubuntu-24.04
+    outputs:
+      first-version: ${{ steps.versions.outputs.first-version }}
+      latest-version: ${{ steps.versions.outputs.latest-version }}
+      lts-first-version: ${{ steps.versions.outputs.lts-first-version }}
+      lts-latest-version: ${{ steps.versions.outputs.lts-latest-version }}
+    steps:
+      - name: Generate versions
+        id: versions
+        uses: shopware/github-actions/versions@main
+
   build-test-image:
     runs-on: ubuntu-24.04
+    needs: [ versions ]
     permissions:
       packages: write
     strategy:
       matrix:
         include:
           - PHP_VERSION: 8.3
-            SHOPWARE_VERSION: latest
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-first-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
             SHOPWARE_BUILD_SOURCE: tag
           - PHP_VERSION: 8.3
             SHOPWARE_VERSION: 6.6.x
