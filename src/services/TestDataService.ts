@@ -2371,7 +2371,7 @@ export class TestDataService {
         const totalPrice = unitPrice * (lineItem.quantity || 1);
 
         const basicPromotionLineItemStruct = {
-            promotionId: promotion.id,
+            //promotionId: promotion.id,
             referencedId: promotion.code,
             payload: {
                 code: promotion.code,
