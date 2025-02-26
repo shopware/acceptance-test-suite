@@ -1,8 +1,8 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import {CustomFieldLocators} from './modules/CustomFields';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class ProductDetail implements PageObject {
 
@@ -81,7 +81,6 @@ export class ProductDetail implements PageObject {
      * Cards
      */
     public readonly customFieldCard: Locator;
-    public readonly customFieldLocators: CustomFieldLocators;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
 
@@ -132,7 +131,6 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
 
         this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
-        this.customFieldLocators = new CustomFieldLocators(page, instanceMeta);
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
         } else {
@@ -161,7 +159,7 @@ export class ProductDetail implements PageObject {
         return `#/sw/product/detail/${productId}/base`
     }
 
-    async customFields(customFieldSetName: string, customFieldTextName: string) {
-        return await this.customFieldLocators.getLocators(customFieldSetName, customFieldTextName);
+    async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
+        return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
     }
 }
