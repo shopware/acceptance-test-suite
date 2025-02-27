@@ -40,7 +40,7 @@ jobs:
       - run: npm run build
 
   test:
-    name: test shopware ${{ matrix.SHOPWARE_VERSION }}
+    name: test shopware ${{ matrix.SHOPWARE_VERSION_ID }}
     timeout-minutes: 15
     runs-on: ubuntu-latest
     needs: [ versions ]
@@ -50,10 +50,13 @@ jobs:
       matrix:
         include:
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
+            SHOPWARE_VERSION_ID: 'lts-latest'
             PORT: 8011
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
+            SHOPWARE_VERSION_ID: 'first'
             PORT: 8021
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
+            SHOPWARE_VERSION_ID: 'latest'
             PORT: 8031
     env:
       WEBSERVER_COMMAND: '' # this will disable the log output
@@ -65,7 +68,7 @@ jobs:
     - name: Login into Github Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    - name: Start shopware
+    - name: Start Shopware ${{ matrix.SHOPWARE_VERSION }}
       run: docker compose up --pull=always --quiet-pull --wait
 
     - uses: actions/setup-node@v4
@@ -78,7 +81,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
-    - name: Run Playwright tests
+    - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
       env:
         APP_URL: http://localhost:${{ matrix.PORT }}
       run: npx playwright test --repeat-each 4
