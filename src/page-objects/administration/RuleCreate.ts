@@ -18,7 +18,7 @@ export class RuleCreate implements PageObject {
     constructor(public readonly page: Page) {
         this.nameInput = page.getByLabel('Name');
         this.priorityInput = page.getByLabel('Priority');
-        this.descriptionInput = page.locator('.sw-block-field__block').getByLabel('Description');
+        this.descriptionInput = page.getByLabel('Description');
         this.typeItem = page.locator('.sw-settings-rule-detail__type-field').locator('.sw-select-selection-list__item');
         this.tagItem = page.locator('.sw-settings-rule-detail__tags-field').locator('.sw-select-selection-list__item');
         this.conditionTypeSelectionInput = page.locator('.sw-condition-type-select').locator('.sw-single-select__selection');
