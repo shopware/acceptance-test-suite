@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.9.3](https://github.com/shopware/acceptance-test-suite/compare/v11.9.2...v11.9.3) (2025-02-28)
+
+
+### Bug Fixes
+
+* adjust the Password input selector ([#339](https://github.com/shopware/acceptance-test-suite/issues/339)) ([7380aee](https://github.com/shopware/acceptance-test-suite/commit/7380aee4f29ea92ace2853ac50821b7014b6fa7b))
+* always check storefront availability after theme assign ([#337](https://github.com/shopware/acceptance-test-suite/issues/337)) ([6e5832d](https://github.com/shopware/acceptance-test-suite/commit/6e5832dc46728815bfc592a0ed1703cb1af604f1))
+
 ## [11.9.2](https://github.com/shopware/acceptance-test-suite/compare/v11.9.1...v11.9.2) (2025-02-28)
 
 
