@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { satisfies } from 'compare-versions';
 
 export class DataSharing implements PageObject {
 
@@ -10,8 +12,13 @@ export class DataSharing implements PageObject {
     public readonly dataSharingDisableButton: Locator;
     public readonly dataSharingTermsAgreementLabel: Locator;
 
-    constructor(public readonly page: Page) {
-        this.dataConsentHeadline = page.locator('h3.sw-usage-data-consent-banner__content-headline');
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        if (satisfies(instanceMeta.version, '<6.6.1')) {
+            this.dataConsentHeadline = page.locator('header.sw-usage-data-consent-banner__title');
+        } else {
+            this.dataConsentHeadline = page.locator('h3.sw-usage-data-consent-banner__content-headline');
+        }
+
         this.dataSharingAgreeButton = page.getByRole('button', { name: 'Agree' });
         this.dataSharingDisableButton = page.getByRole('button', { name: 'Disable data sharing' });
         this.dataSharingSuccessMessageLabel = page.getByText('You are sharing data with us', { exact: true });
@@ -19,6 +26,10 @@ export class DataSharing implements PageObject {
     }
 
     url() {
+        if (satisfies(this.instanceMeta.version, '<6.6.1')) {
+            return '#/sw/settings/usage/data/index';
+        }
+
         return '#/sw/settings/usage/data/index/general';
     }
 }

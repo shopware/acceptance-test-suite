@@ -1,0 +1,74 @@
+name: Build Shopware Image
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  versions:
+    name: Determine Shopware versions to build
+    runs-on: ubuntu-24.04
+    outputs:
+      first-version: ${{ steps.versions.outputs.first-version }} # current major, initial version; so for major = 6.7 -> 6.7.0.0
+      latest-version: ${{ steps.versions.outputs.latest-version }} # current major, latest version -> 6.7.*.*
+      lts-first-version: ${{ steps.versions.outputs.lts-first-version }} # previous major, initial version -> 6.6.0.0
+      lts-latest-version: ${{ steps.versions.outputs.lts-latest-version }} # previous major, latest version -> 6.6.*.*
+    steps:
+      - name: Generate versions
+        id: versions
+        uses: shopware/github-actions/versions@main
+
+  build-test-image:
+    runs-on: ubuntu-24.04
+    needs: [ versions ]
+    permissions:
+      packages: write
+    strategy:
+      matrix:
+        include:
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.2
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-first-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
+            SHOPWARE_BUILD_SOURCE: tag
+          - PHP_VERSION: 8.3
+            SHOPWARE_VERSION: 6.6.x
+            SHOPWARE_BUILD_SOURCE: branch
+            COMPOSER_ROOT_VERSION: 6.6.9999999-dev
+          - PHP_VERSION: 8.4
+            SHOPWARE_VERSION: trunk
+            SHOPWARE_BUILD_SOURCE: branch
+            COMPOSER_ROOT_VERSION: 6.7.9999999-dev
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: "0"
+          sparse-checkout: |-
+            test-image.Dockerfile
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login into Github Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ env.ACT && 'false' || 'true' }}
+          tags: ghcr.io/${{ github.repository }}/test-image:${{ matrix.SHOPWARE_VERSION }}
+          file: test-image.Dockerfile
+          build-args: |
+            PHP_VERSION=${{ matrix.PHP_VERSION }}
+            SHOPWARE_VERSION=${{ matrix.SHOPWARE_VERSION }}
+            SHOPWARE_BUILD_SOURCE=${{ matrix.SHOPWARE_BUILD_SOURCE }}
+            COMPOSER_ROOT_VERSION=${{ matrix.COMPOSER_ROOT_VERSION || '' }}
