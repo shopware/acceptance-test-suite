@@ -96,7 +96,7 @@ export class FirstRunWizard implements PageObject {
         this.smtpServerHostInput = page.getByLabel('Host');
         this.smtpServerPortInput = page.getByLabel('Port');
         this.smtpServerUsernameInput = page.getByLabel('Username');
-        this.smtpServerPasswordInput = page.getByLabel('Password');
+        this.smtpServerPasswordInput = page.getByLabel('Password', { exact: true });
         this.smtpServerEncryptionInput = page.locator('.sw-single-select__selection-input');
         this.smtpServerSenderAddressInput = page.getByLabel('Sender address');
         this.smtpServerDeliveryAddressInput = page.getByLabel('Delivery address');
