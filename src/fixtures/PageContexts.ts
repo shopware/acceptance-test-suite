@@ -1,7 +1,6 @@
 import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
-import { isSaaSInstance, isThemeCompiled } from '../services/ShopInfo';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -109,8 +108,6 @@ export const test = base.extend<FixtureTypes>({
             baseURL: url,
         });
         const page = await context.newPage();
-
-        const isSaasInstance = await isSaaSInstance(AdminApiContext);
 
         if (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
             base.slow();
