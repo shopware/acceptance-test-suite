@@ -17,7 +17,7 @@ test('Order creation with TestDataService', async ({
     expect(promotion.discounts[0].type).toEqual('absolute');
 
     const order = await TestDataService.createOrder(
-        [{ product: product, quantity: 5 }, { product: promotion, quantity: 1 }],
+        [{ product: product, quantity: 5 }, { product: promotion, quantity: 1, overrides: { promotionId: undefined } }], // We unset the promotionId here, since it's write-protected
         customer,
         { orderNumber: '123456789' },
     );
@@ -81,4 +81,3 @@ test('Order creation with TestDataService', async ({
     expect(cleanUp['deleted']['promotion']).toBeDefined();
     expect(cleanUp['deleted']['promotion_discount']).toBeDefined();
 });
-

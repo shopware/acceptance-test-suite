@@ -150,8 +150,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new FlowBuilderDetail(AdminPage));
     },
 
-    AdminDataSharing: async ({ AdminPage }, use) => {
-        await use(new DataSharing(AdminPage));
+    AdminDataSharing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new DataSharing(AdminPage, InstanceMeta));
     },
 
     AdminDashboard: async ({ AdminPage }, use) => {
