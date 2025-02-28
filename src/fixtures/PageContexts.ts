@@ -119,11 +119,9 @@ export const test = base.extend<FixtureTypes>({
                 `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
             );
 
-            if (isSaasInstance) {
-                while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
-                    // eslint-disable-next-line playwright/no-wait-for-timeout
-                    await page.waitForTimeout(4000);
-                }
+            while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+                // eslint-disable-next-line playwright/no-wait-for-timeout
+                await page.waitForTimeout(4000);
             }
         }
 
