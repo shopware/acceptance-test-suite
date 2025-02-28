@@ -10,7 +10,7 @@ export const isThemeCompiled = async (context: AdminApiContext, storefrontUrl: s
 
     const body = (await response.body()).toString();
 
-    const matches = body.match(/.*"(https:\/\/.*all\.css[^"]*)".*/);
+    const matches = body.match(/.*"(https?:\/\/.*all\.css[^"]*)".*/);
     if (matches && matches?.length > 1) {
         const allCssUrl = matches[1];
 

@@ -16,8 +16,8 @@ if (process.env['ADMIN_URL']) {
 }
 
 if (!process.env['WEBSERVER_COMMAND']) {
-  if (process.env['WEBSERVER_COMMAND'] === defaultAppUrl) {
-    process.env['WEBSERVER_COMMAND'] = 'docker compose up --pull=always --quiet-pull shopware';
+  if (process.env['APP_URL'] === defaultAppUrl) {
+    process.env['WEBSERVER_COMMAND'] = 'docker compose up --pull=always --quiet-pull';
   } else {
     process.env['WEBSERVER_COMMAND'] = 'sleep 999d';
   }

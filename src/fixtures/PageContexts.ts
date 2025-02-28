@@ -1,7 +1,7 @@
 import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
-import { isSaaSInstance, isThemeCompiled } from '../services/ShopInfo';
+import { isThemeCompiled } from '../services/ShopInfo';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -110,8 +110,6 @@ export const test = base.extend<FixtureTypes>({
         });
         const page = await context.newPage();
 
-        const isSaasInstance = await isSaaSInstance(AdminApiContext);
-
         if (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
             base.slow();
 
@@ -119,11 +117,9 @@ export const test = base.extend<FixtureTypes>({
                 `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
             );
 
-            if (isSaasInstance) {
-                while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
-                    // eslint-disable-next-line playwright/no-wait-for-timeout
-                    await page.waitForTimeout(4000);
-                }
+            while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+                // eslint-disable-next-line playwright/no-wait-for-timeout
+                await page.waitForTimeout(4000);
             }
         }
 
