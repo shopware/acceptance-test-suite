@@ -58,7 +58,7 @@ export const test = base.extend<FixtureTypes>({
         await expect(page.url()).toContain('login');
 
         await page.getByLabel(/Username|Email address/).fill(adminUser.username);
-        await page.getByLabel('Password').fill(adminUser.password);
+        await page.getByLabel('Password', { exact: true}).fill(adminUser.password);
 
         const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
 
