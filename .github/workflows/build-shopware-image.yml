@@ -10,10 +10,10 @@ jobs:
     name: Determine Shopware versions to build
     runs-on: ubuntu-24.04
     outputs:
-      first-version: ${{ steps.versions.outputs.first-version }}
-      latest-version: ${{ steps.versions.outputs.latest-version }}
-      lts-first-version: ${{ steps.versions.outputs.lts-first-version }}
-      lts-latest-version: ${{ steps.versions.outputs.lts-latest-version }}
+      first-version: ${{ steps.versions.outputs.first-version }} # current major, initial version; so for major = 6.7 -> 6.7.0.0
+      latest-version: ${{ steps.versions.outputs.latest-version }} # current major, latest version -> 6.7.*.*
+      lts-first-version: ${{ steps.versions.outputs.lts-first-version }} # previous major, initial version -> 6.6.0.0
+      lts-latest-version: ${{ steps.versions.outputs.lts-latest-version }} # previous major, latest version -> 6.6.*.*
     steps:
       - name: Generate versions
         id: versions
