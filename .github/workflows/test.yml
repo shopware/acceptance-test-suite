@@ -84,7 +84,7 @@ jobs:
     - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
       env:
         APP_URL: http://localhost:${{ matrix.PORT }}
-      run: npx playwright test --repeat-each 1
+      run: npx playwright test --repeat-each 4
 
     - uses: actions/upload-artifact@v4
       if: always()
