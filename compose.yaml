@@ -37,6 +37,18 @@ x-shopware-volumes: &shopware-volumes
     - thumbnail:/var/www/html/public/thumbnail
     - cache:/var/www/html/var/cache
 
+x-develop-ats: &develop-ats
+  develop:
+    watch:
+      - action: sync
+        path: ./tests
+        target: /tests
+      - action: sync
+        path: playwright.config.ts
+        target: playwright.config.ts
+      - action: rebuild
+        path: package.json
+
 services:
   database:
     <<: [ *service ]
@@ -61,7 +73,7 @@ services:
       database:
         condition: service_healthy
     ports:
-      - '8012:8080'
+      - "8012:8080"
 
   mailpit:
     <<: [ *service ]
@@ -93,8 +105,8 @@ services:
         condition: service_completed_successfully
       database:
         condition: service_healthy
-    entrypoint: ['vendor/bin/shopware-deployment-helper']
-    command: ['run']
+    entrypoint: ["vendor/bin/shopware-deployment-helper"]
+    command: ["run"]
 
   shopware:
     extends:
@@ -106,10 +118,45 @@ services:
         condition: service_healthy
     ports:
       - ${PORT:-8011}:8000
-    entrypoint: ['/usr/bin/supervisord', '-c', '/etc/supervisord.conf']
+    entrypoint: ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
     command: []
     healthcheck:
       test: ["CMD", "curl", "-fsSL", "http://localhost:8000/api/_info/health-check"]
+
+  playwright:
+    <<: [ *develop-ats ]
+    profiles:
+      - playwright
+    image: ghcr.io/shopware/acceptance-test-suite/playwright-image:latest
+    build:
+      dockerfile_inline: |
+        FROM mcr.microsoft.com/playwright:v1.48.1-noble
+        
+        COPY . /home/ubuntu/src
+        WORKDIR /home/ubuntu/src
+        
+        RUN <<EOF
+        npm ci
+        npx playwright install --with-deps
+        chown -R ubuntu:ubuntu /home/ubuntu/src
+        EOF
+        
+        USER ubuntu
+    depends_on:
+      shopware:
+        condition: service_healthy
+    user: ubuntu # UID=1000 with this base image
+    environment:
+      <<: *env
+      DISPLAY: "unix${DISPLAY}"
+      XAUTHORITY: "/tmp/Xauthority"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+      - "${HOME}/.Xauthority:/tmp/.Xauthority"
+    network_mode: host
+    working_dir: "/home/ubuntu/src"
+    entrypoint: [ "npx", "playwright" ]
+    command: [ "test", "--ui" ]
 
 volumes:
   jwt:
