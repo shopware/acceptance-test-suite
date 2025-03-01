@@ -20,6 +20,8 @@ import { PaymentDetail } from './administration/PaymentDetail';
 import { LandingPageCreate } from './administration/LandingPageCreate';
 import { LandingPageDetail } from './administration/LandingPageDetail';
 import { Categories } from './administration/Categories';
+import { OrderListing } from './administration/OrderListing';
+import { OrderBulkEdit } from './administration/OrderBulkEdit';
 import { CustomFieldListing } from './administration/CustomFieldListing';
 import { CustomFieldCreate } from './administration/CustomFieldCreate';
 import { CustomFieldDetail } from './administration/CustomFieldDetail';
@@ -27,6 +29,7 @@ import { CategoryDetail } from './administration/CategoryDetail';
 import { RuleCreate } from './administration/RuleCreate';
 import { RuleDetail } from './administration/RuleDetail';
 import { RuleListing } from './administration/RuleListing';
+
 import { ManufacturerCreate } from './administration/ManufacturerCreate';
 import { ManufacturerListing } from './administration/ManufacturerListing';
 import { ManufacturerDetail } from './administration/ManufacturerDetail';
@@ -55,11 +58,13 @@ export interface AdministrationPageTypes {
     AdminCategoryDetail: CategoryDetail;
     AdminLandingPageCreate: LandingPageCreate;
     AdminLandingPageDetail: LandingPageDetail;
+    AdminOrderListing: OrderListing;
+    AdminOrderBulkEdit: OrderBulkEdit;
+    AdminRuleCreate: RuleCreate;
     AdminCustomFieldListing: CustomFieldListing;
     AdminCustomFieldCreate: CustomFieldCreate;
     AdminCustomFieldDetail: CustomFieldDetail;
     AdminRuleDetail: RuleDetail;
-    AdminRuleCreate: RuleCreate;
     AdminRuleListing: RuleListing;
     AdminManufacturerCreate: ManufacturerCreate,
     AdminManufacturerListing: ManufacturerListing,
@@ -90,6 +95,8 @@ export const AdminPageObjects = {
     CategoryDetail,
     LandingPageCreate,
     LandingPageDetail,
+    OrderListing,
+    OrderBulkEdit,
     CustomFieldListing,
     CustomFieldCreate,
     CustomFieldDetail,

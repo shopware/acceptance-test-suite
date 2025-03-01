@@ -2,6 +2,7 @@ import { mergeTests } from '@playwright/test';
 
 import { SaveProduct } from './shop-admin/Product/SaveProduct';
 import { ExpectNotification } from './shop-admin/ExpectNotification';
+import { BulkEditOrders } from './shop-admin/Order/BulkEditOrders';
 import { CreateLinkTypeCategory } from './shop-admin/Category/CreateLinkTypeCategory';
 import { BulkEditProducts } from './shop-admin/Product/BulkEditProducts';
 import { BulkEditCustomers } from './shop-admin/Customers/BulkEditCustomers';
@@ -12,6 +13,7 @@ export const test = mergeTests(
     ExpectNotification,
     CreateLinkTypeCategory,
     BulkEditProducts,
+    BulkEditOrders,
     BulkEditCustomers,
     AssignEntitiesToRule,
 );
