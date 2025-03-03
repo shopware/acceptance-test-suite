@@ -2,6 +2,7 @@ import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
+import { clearDelayedCache } from 'src/services/Cache';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -58,7 +59,7 @@ export const test = base.extend<FixtureTypes>({
         await expect(page.url()).toContain('login');
 
         await page.getByLabel(/Username|Email address/).fill(adminUser.username);
-        await page.getByLabel('Password', { exact: true}).fill(adminUser.password);
+        await page.getByLabel('Password', { exact: true }).fill(adminUser.password);
 
         const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
 
@@ -92,6 +93,8 @@ export const test = base.extend<FixtureTypes>({
             return res;
         };
 
+        await clearDelayedCache(AdminApiContext);
+
         // Run the test
         await use(page);
 
@@ -102,25 +105,32 @@ export const test = base.extend<FixtureTypes>({
         await AdminApiContext.delete(`user/${uuid}`);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext }, use) => {
+    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
 
         const context = await browser.newContext({
             baseURL: url,
         });
-        const page = await context.newPage();
 
+        let page;
         if (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
             base.slow();
 
             await AdminApiContext.post(
                 `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
             );
+            await clearDelayedCache(AdminApiContext);
 
-            while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
-                // eslint-disable-next-line playwright/no-wait-for-timeout
-                await page.waitForTimeout(4000);
+            page = await context.newPage();
+
+            if (InstanceMeta.isSaaS) {
+                while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+                    // eslint-disable-next-line playwright/no-wait-for-timeout
+                    await page.waitForTimeout(4000);
+                }
             }
+        } else {
+            page = await context.newPage();
         }
 
         await page.goto('./', { waitUntil: 'load' });
