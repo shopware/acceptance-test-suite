@@ -2,6 +2,7 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class ProductDetail implements PageObject {
 
@@ -130,7 +131,6 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
 
         this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
-
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
         } else {
@@ -157,5 +157,9 @@ export class ProductDetail implements PageObject {
 
     url(productId: string) {
         return `#/sw/product/detail/${productId}/base`
+    }
+
+    async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
+        return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
     }
 }

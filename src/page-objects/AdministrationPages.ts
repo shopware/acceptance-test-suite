@@ -110,8 +110,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new ProductDetail(AdminPage, InstanceMeta));
     },
 
-    AdminOrderDetail: async ({ AdminPage }, use) => {
-        await use(new OrderDetail(AdminPage));
+    AdminOrderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new OrderDetail(AdminPage, InstanceMeta));
     },
 
     AdminCustomerListing: async ({ AdminPage }, use) => {
@@ -194,8 +194,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomFieldCreate(AdminPage));
     },
 
-    AdminCustomFieldDetail: async ({ AdminPage }, use) => {
-        await use(new CustomFieldDetail(AdminPage));
+    AdminCustomFieldDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomFieldDetail(AdminPage, InstanceMeta));
     },
 
     AdminRuleCreate: async ({ AdminPage }, use) => {

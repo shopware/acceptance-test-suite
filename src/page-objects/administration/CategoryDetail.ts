@@ -2,6 +2,7 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class CategoryDetail implements PageObject {
     public readonly saveButton: Locator;
@@ -43,5 +44,9 @@ export class CategoryDetail implements PageObject {
 
     url(categoryUuid: string) {
         return `#/sw/category/index/${categoryUuid}/base`
+    }
+
+    async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
+        return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
     }
 }
