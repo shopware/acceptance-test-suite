@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.10.1](https://github.com/shopware/acceptance-test-suite/compare/v11.10.0...v11.10.1) (2025-03-03)
+
+
+### Bug Fixes
+
+* add locator and module to RuleCreate ([#342](https://github.com/shopware/acceptance-test-suite/issues/342)) ([be5d1e0](https://github.com/shopware/acceptance-test-suite/commit/be5d1e0bda77bbab55d339dd12aa69718f772d12))
+* clear delayed cache after theme assignment ([#343](https://github.com/shopware/acceptance-test-suite/issues/343)) ([e19f046](https://github.com/shopware/acceptance-test-suite/commit/e19f0461a3ab7e2a8e9a2c8dc21bb1cc455a4c71))
+
 ## [11.10.0](https://github.com/shopware/acceptance-test-suite/compare/v11.9.3...v11.10.0) (2025-03-03)
 
 
