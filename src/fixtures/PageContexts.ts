@@ -2,7 +2,7 @@ import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
-import { clearDelayedCache } from 'src/services/Cache';
+import { clearDelayedCache } from '../services/Cache';
 
 export interface PageContextTypes {
     AdminPage: Page;
