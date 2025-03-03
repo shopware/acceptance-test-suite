@@ -20,5 +20,4 @@ export async function getSelectFieldListitem(page: Page, selectField: Locator, l
         await page.locator('.mt-select-result-list__item-list').waitFor({ state: 'visible' });
         return page.locator('.mt-select-result-list__item-list').getByRole('listitem').filter({ hasText: listItem });
     }
-
 }

@@ -198,8 +198,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomFieldDetail(AdminPage, InstanceMeta));
     },
 
-    AdminRuleCreate: async ({ AdminPage }, use) => {
-        await use(new RuleCreate(AdminPage));
+    AdminRuleCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new RuleCreate(AdminPage, InstanceMeta));
     },
 
     AdminRuleDetail: async ({ AdminPage, InstanceMeta }, use) => {
