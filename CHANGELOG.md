@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.10.0](https://github.com/shopware/acceptance-test-suite/compare/v11.9.3...v11.10.0) (2025-03-03)
+
+
+### Features
+
+* add Admin modules and locators for custom field test ([#312](https://github.com/shopware/acceptance-test-suite/issues/312)) ([5fd5000](https://github.com/shopware/acceptance-test-suite/commit/5fd50007f6709e166d770c7826a5410fa872d870))
+
 ## [11.9.3](https://github.com/shopware/acceptance-test-suite/compare/v11.9.2...v11.9.3) (2025-02-28)
 
 
