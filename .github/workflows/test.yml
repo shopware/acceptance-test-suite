@@ -47,6 +47,7 @@ jobs:
     permissions:
       packages: read
     strategy:
+      fail-fast: false
       matrix:
         include:
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
