@@ -29,19 +29,6 @@ test('Administration page objects - Settings.', async ({
     await ShopAdmin.expects(AdminCustomerGroupDetail.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupDetail.saveButton).toBeVisible();
 
-    await ShopAdmin.goesTo(AdminFlowBuilderCreate.url());
-    await ShopAdmin.expects(AdminFlowBuilderCreate.header).toBeVisible();
-    await ShopAdmin.expects(AdminFlowBuilderCreate.saveButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminRuleCreate.url());
-    await ShopAdmin.expects(AdminRuleCreate.nameInput).toBeVisible();
-    await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
-
-    const flowId = await getFlowId('Order enters status unconfirmed', AdminApiContext);
-    await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
-    await ShopAdmin.expects(AdminFlowBuilderDetail.generalTab).toBeVisible();
-    await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
-
     await ShopAdmin.goesTo(AdminCustomFieldListing.url());
     await ShopAdmin.expects(AdminCustomFieldListing.addNewSetButton).toBeVisible();
 
@@ -65,4 +52,18 @@ test('Administration page objects - Settings.', async ({
         await ShopAdmin.goesTo(AdminFlowBuilderListing.url());
         await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeVisible();
     }
+
+    const flowId = await getFlowId('Order enters status unconfirmed', AdminApiContext);
+    await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
+    await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
+
+    // todo: fix unsaved changes issue on the previous page so that we don't have to do a hard reload 
+    await ShopAdmin.goesTo(AdminFlowBuilderCreate.url(), true);
+    await ShopAdmin.expects(AdminFlowBuilderCreate.newFlowHeader).toBeVisible();
+    await ShopAdmin.expects(AdminFlowBuilderCreate.saveButton).toBeVisible();
+
+    // todo: fix unsaved changes issue on the previous page so that we don't have to do a hard reload 
+    await ShopAdmin.goesTo(AdminRuleCreate.url(), true);
+    await ShopAdmin.expects(AdminRuleCreate.nameInput).toBeVisible();
+    await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
 });

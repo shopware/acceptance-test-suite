@@ -18,11 +18,11 @@ export class Actor {
         await test.step(stepTitle, async () => await task());
     }
 
-    async goesTo(url: string) {
+    async goesTo(url: string, forceReload = false) {
         const stepTitle = `${this.name} navigates to "${url}"`;
 
         await test.step(stepTitle, async () => {
-            if (url.startsWith('#')) {
+            if (!forceReload && url.startsWith('#')) {
                 await this.page.evaluate(`document.location = "${url}";`)
                 await this.page.waitForURL((url) => {
                     return url.hash !== 'login';
