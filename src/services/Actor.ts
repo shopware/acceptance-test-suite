@@ -23,8 +23,11 @@ export class Actor {
 
         await test.step(stepTitle, async () => {
             if (url.startsWith('#')) {
-                await expect(this.page.locator('.sw-skeleton')).toHaveCount(0);
                 await this.page.evaluate(`document.location = "${url}";`)
+                await this.page.waitForURL((url) => {
+                    return url.hash !== 'login';
+                });
+
                 await expect(this.page.locator('.sw-skeleton')).toHaveCount(0);
             } else {
                 await this.page.goto(url);

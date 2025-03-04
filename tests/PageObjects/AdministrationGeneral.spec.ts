@@ -15,13 +15,6 @@ test('Administration page objects - General.', async ({
     AdminOrderDetail,
     AdminProductDetail,
 }) => {
-
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (!InstanceMeta.isSaaS) {
-        await ShopAdmin.goesTo(AdminDashboard.url());
-        await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
-    }
-
     await ShopAdmin.goesTo(AdminCustomerListing.url());
     await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
 
@@ -51,4 +44,9 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));
     await ShopAdmin.expects(AdminProductDetail.savePhysicalProductButton).toBeVisible();
 
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (!InstanceMeta.isSaaS) {
+        await ShopAdmin.goesTo(AdminDashboard.url());
+        await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
+    }
 });
