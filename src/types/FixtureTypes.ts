@@ -4,6 +4,7 @@ import { ActorFixtureTypes } from '../fixtures/Actors';
 import { TestDataFixtureTypes } from '../fixtures/TestData';
 import { HelperFixtureTypes } from '../fixtures/HelperFixtures';
 import { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
+import { ShopwareDataFixtureTypes } from '../fixtures/ShopwareDataFixtures';
 import { StorefrontPageTypes } from '../page-objects/StorefrontPages';
 import { AdministrationPageTypes } from '../page-objects/AdministrationPages';
 import { DataFixtureTypes } from '../data-fixtures/DataFixtures';
@@ -17,6 +18,7 @@ export interface FixtureTypes extends
     HelperFixtureTypes,
     FeatureFixtureTypes,
     DefaultSalesChannelTypes,
+    ShopwareDataFixtureTypes,
     StorefrontPageTypes,
     AdministrationPageTypes,
     DataFixtureTypes {}

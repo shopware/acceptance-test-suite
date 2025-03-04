@@ -2,16 +2,6 @@ import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import type { Customer, SalesChannel } from '../types/ShopwareTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
-import {
-    getLanguageData,
-    getCurrency,
-    getPaymentMethodId,
-    getDefaultShippingMethodId,
-    getTaxId,
-    getCountryId,
-    getSnippetSetId,
-    getThemeId,
-} from '../services/ShopwareDataHelpers';
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
@@ -47,35 +37,20 @@ export interface DefaultSalesChannelTypes {
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     SalesChannelBaseConfig: [
-        async ({ AdminApiContext }, use) => {
-            const requests = {
-                language: getLanguageData('en-GB', AdminApiContext),
-                currencyEUR: getCurrency('EUR', AdminApiContext),
-                invoicePaymentMethodId: getPaymentMethodId(AdminApiContext),
-                defaultShippingMethod: getDefaultShippingMethodId(AdminApiContext),
-                getTaxId: getTaxId(AdminApiContext),
-                deCountryId: getCountryId('de', AdminApiContext),
-                enGBSnippetSetId: getSnippetSetId('en-GB', AdminApiContext),
-                defaultThemeId: getThemeId('Storefront', AdminApiContext),
-            };
-            await Promise.all(Object.values(requests));
-
-            const lang = await requests.language;
-            const currency = await requests.currencyEUR;
-
+        async ({ Country, Currency, Language, PaymentMethod, ShippingMethod, SnippetSet, Tax, Theme }, use) => {
             await use({
-                enGBLocaleId: lang.translationCode.id,
-                enGBLanguageId: lang.id,
+                enGBLocaleId: Language.translationCode.id,
+                enGBLanguageId: Language.id,
                 storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
-                eurCurrencyId: currency.id,
+                eurCurrencyId: Currency.id,
                 defaultCurrencyId: 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
                 defaultLanguageId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b',
-                invoicePaymentMethodId: await requests.invoicePaymentMethodId,
-                defaultShippingMethod: await requests.defaultShippingMethod,
-                taxId: await requests.getTaxId,
-                deCountryId: await requests.deCountryId,
-                enGBSnippetSetId: await requests.enGBSnippetSetId,
-                defaultThemeId: await requests.defaultThemeId,
+                invoicePaymentMethodId: PaymentMethod.id,
+                defaultShippingMethod: ShippingMethod.id,
+                taxId: Tax.id,
+                deCountryId: Country.id,
+                enGBSnippetSetId: SnippetSet.id,
+                defaultThemeId: Theme.id,
                 appUrl: process.env['APP_URL'],
                 adminUrl: process.env['ADMIN_URL'] || `${process.env['APP_URL']}admin/`,
             });

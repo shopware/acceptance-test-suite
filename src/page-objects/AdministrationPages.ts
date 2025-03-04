@@ -106,12 +106,12 @@ export const AdminPageObjects = {
 
 export const test = base.extend<FixtureTypes>({
 
-    AdminProductDetail: async ({ AdminPage }, use) => {
-        await use(new ProductDetail(AdminPage));
+    AdminProductDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new ProductDetail(AdminPage, InstanceMeta));
     },
 
-    AdminOrderDetail: async ({ AdminPage }, use) => {
-        await use(new OrderDetail(AdminPage));
+    AdminOrderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new OrderDetail(AdminPage, InstanceMeta));
     },
 
     AdminCustomerListing: async ({ AdminPage }, use) => {
@@ -150,8 +150,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new FlowBuilderDetail(AdminPage));
     },
 
-    AdminDataSharing: async ({ AdminPage }, use) => {
-        await use(new DataSharing(AdminPage));
+    AdminDataSharing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new DataSharing(AdminPage, InstanceMeta));
     },
 
     AdminDashboard: async ({ AdminPage }, use) => {
@@ -174,8 +174,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new Categories(AdminPage));
     },
 
-    AdminCategoryDetail: async ({ AdminPage }, use) => {
-        await use(new CategoryDetail(AdminPage));
+    AdminCategoryDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CategoryDetail(AdminPage, InstanceMeta));
     },
 
     AdminLandingPageDetail: async ({ AdminPage }, use) => {
@@ -194,12 +194,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomFieldCreate(AdminPage));
     },
 
-    AdminCustomFieldDetail: async ({ AdminPage }, use) => {
-        await use(new CustomFieldDetail(AdminPage));
+    AdminCustomFieldDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomFieldDetail(AdminPage, InstanceMeta));
     },
 
-    AdminRuleCreate: async ({ AdminPage }, use) => {
-        await use(new RuleCreate(AdminPage));
+    AdminRuleCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new RuleCreate(AdminPage, InstanceMeta));
     },
 
     AdminRuleDetail: async ({ AdminPage, InstanceMeta }, use) => {

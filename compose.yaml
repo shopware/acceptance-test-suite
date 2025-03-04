@@ -1,42 +1,35 @@
 x-env: &env
-    APP_ENV: prod
-    APP_DEBUG: 1
-    PROJECT_ROOT: /var/www/html
-    MYSQL_ROOT_PASSWORD: app
-    MYSQL_DATABASE: shopware
-    ADMINER_DEFAULT_SERVER: database
-    SHOPWARE_HTTP_CACHE_ENABLED: 0
-    DATABASE_URL: mysql://root:app@database:3306/shopware
-    APP_SECRET: secret
-    APP_URL: http://localhost:8011
-    MAILER_DSN: smtp://mailpit:1025
-    MAILPIT_BASE_URL: http://localhost:8013
-    # TEST_WEB_INSTALLER: 1
-    # SHOPWARE_SKIP_WEBINSTALLER: 0
-    # SHOPWARE_DISABLE_UPDATE_CHECK: '0'
-    # SW_RECOVERY_NEXT_VERSION: 6.6.9999999.9999999
-    # SW_RECOVERY_NEXT_BRANCH: dev-trunk
-    # SW_RECOVERY_REPOSITORY: '{"type": "path", "url": "custom/packages/*", "options": { "symlink": true } }'
-    INSTALL_LOCALE: en-US
-    INSTALL_CURRENCY: USD
-    PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
+  APP_ENV: prod
+  APP_DEBUG: 1
+  PROJECT_ROOT: /var/www/html
+  MYSQL_ROOT_PASSWORD: app
+  MYSQL_DATABASE: shopware
+  ADMINER_DEFAULT_SERVER: database
+  SHOPWARE_HTTP_CACHE_ENABLED: 0
+  DATABASE_URL: mysql://root:app@database:3306/shopware
+  APP_SECRET: 0000shopwareAAAA0000shopwareAAAA
+  APP_URL: http://localhost:${PORT:-8011}
+  SALES_CHANNEL_URL: http://localhost:${PORT:-8011}
+  MAILER_DSN: smtp://mailpit:1025
+  MAILPIT_BASE_URL: http://localhost:8013
+  # TEST_WEB_INSTALLER: 1
+  # SHOPWARE_SKIP_WEBINSTALLER: 0
+  # SHOPWARE_DISABLE_UPDATE_CHECK: '0'
+  # SW_RECOVERY_NEXT_VERSION: 6.6.9999999.9999999
+  # SW_RECOVERY_NEXT_BRANCH: dev-trunk
+  # SW_RECOVERY_REPOSITORY: '{"type": "path", "url": "custom/packages/*", "options": { "symlink": true } }'
+  INSTALL_LOCALE: en-US
+  INSTALL_CURRENCY: USD
+  PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
 
 x-service: &service
-    environment:
-        <<: *env
-    networks:
-        - local
+  environment:
+    <<: *env
+  networks:
+    - local
 
-x-shopware: &shopware-65
-    environment:
-        <<: *env
-        DATABASE_URL: mysql://root:app@database:3306/shopware_65
-        MYSQL_DATABASE: shopware_65
-        APP_URL: http://localhost:8021
-    networks:
-        - local
-    image: ghcr.io/shopware/shopware/ci-e2e:v6.5.x
-    volumes:
+x-shopware-volumes: &shopware-volumes
+  volumes:
     - jwt:/var/www/html/config/jwt
     - media:/var/www/html/public/media
     - theme:/var/www/html/public/theme
@@ -45,50 +38,78 @@ x-shopware: &shopware-65
     - cache:/var/www/html/var/cache
 
 services:
-    database:
-        <<: *service
-        image: mysql:8.0
-        entrypoint:
-            [
-                "sh",
-                "-c",
-                "docker-entrypoint.sh mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-require-primary-key=ON"
-            ]
-        tmpfs:
-            - /var/lib/mysql:uid=999,gid=999
+  database:
+    <<: [ *service ]
+    image: mysql:8.0
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "docker-entrypoint.sh mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-require-primary-key=ON"
+      ]
+    tmpfs:
+      - /var/lib/mysql:uid=999,gid=999
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      start_interval: 1s
+      start_period: 10s
 
-    adminer:
-        <<: *service
-        image: adminer:latest
-        depends_on: [ database ]
-        ports:
-            - '8012:8080'
+  adminer:
+    <<: [ *service ]
+    image: adminer:latest
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - '8012:8080'
 
-    mailpit:
-        <<: *service
-        image: axllent/mailpit
-        ports:
-            - 8013:8025
-    shopware:
-        <<: *service
-        image: ghcr.io/shopware/shopware/ci-e2e:trunk
-        depends_on: [ database, mailpit ]
-        ports:
-            - '8011:8000'
+  mailpit:
+    <<: [ *service ]
+    image: axllent/mailpit
+    ports:
+      - 8013:8025
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8025"]
 
-    init-65:
-        <<: *shopware-65
-        depends_on: [ database, mailpit ]
-        entrypoint: ['sh', '/init.sh']
-        user: root
+  init-volumes:
+    <<: [ *shopware-volumes ]
+    image: alpine:latest
+    entrypoint: ["chown"]
+    command: ["-R", "82:82", "/var/www/html"]
+    user: root
 
-    shopware-65:
-        <<: *shopware-65
-        depends_on:
-            init-65:
-                condition: service_completed_successfully
-        ports:
-            - '8021:8000'
+  init:
+    <<: [ *service, *shopware-volumes ]
+    image: ghcr.io/shopware/acceptance-test-suite/test-image:${SHOPWARE_VERSION:-trunk}
+    build:
+      context: .
+      dockerfile: test-image.Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION:-8.4}
+        - SHOPWARE_VERSION=${SHOPWARE_VERSION:-trunk}
+        - SHOPWARE_BUILD_SOURCE=${SHOPWARE_BUILD_SOURCE:-branch}
+    depends_on:
+      init-volumes:
+        condition: service_completed_successfully
+      database:
+        condition: service_healthy
+    entrypoint: ['vendor/bin/shopware-deployment-helper']
+    command: ['run']
+
+  shopware:
+    extends:
+      service: init
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      mailpit:
+        condition: service_healthy
+    ports:
+      - ${PORT:-8011}:8000
+    entrypoint: ['/usr/bin/supervisord', '-c', '/etc/supervisord.conf']
+    command: []
+    healthcheck:
+      test: ["CMD", "curl", "-fsSL", "http://localhost:8000/api/_info/health-check"]
 
 volumes:
   jwt:
@@ -99,4 +120,4 @@ volumes:
   cache:
 
 networks:
-    local:
+  local:
