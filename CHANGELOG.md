@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.11.0](https://github.com/shopware/acceptance-test-suite/compare/v11.10.1...v11.11.0) (2025-03-04)
+
+
+### Features
+
+* Introduce ADMIN_API_URL environment variable for customizable admin API endpoint ([#296](https://github.com/shopware/acceptance-test-suite/issues/296)) ([0492f5f](https://github.com/shopware/acceptance-test-suite/commit/0492f5fa6fd7c64ba95aa00fb0c6a193b8cff3cd))
+
 ## [11.10.1](https://github.com/shopware/acceptance-test-suite/compare/v11.10.0...v11.10.1) (2025-03-03)
 
 
