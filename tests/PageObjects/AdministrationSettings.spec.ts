@@ -1,4 +1,4 @@
-import { getFlowId, isSaaSInstance, test } from '../../src';
+import { getFlowId, test } from '../../src';
 
 test('Administration page objects - Settings.', async ({
     InstanceMeta,
@@ -17,13 +17,6 @@ test('Administration page objects - Settings.', async ({
     AdminCustomFieldCreate,
     AdminRuleCreate,
 }) => {
-
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (!await isSaaSInstance(AdminApiContext)) {
-        await ShopAdmin.goesTo(AdminFirstRunWizard.url());
-        await ShopAdmin.expects(AdminFirstRunWizard.nextButton).toBeVisible({ timeout: 15_000 });
-    }
-
     await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
     await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
 
@@ -57,6 +50,9 @@ test('Administration page objects - Settings.', async ({
             await ShopAdmin.goesTo(AdminDataSharing.url());
             await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
         }
+
+        await ShopAdmin.goesTo(AdminFirstRunWizard.url());
+        await ShopAdmin.expects(AdminFirstRunWizard.nextButton).toBeVisible({ timeout: 15_000 });
     }
 
     await ShopAdmin.goesTo(AdminRuleCreate.url());
