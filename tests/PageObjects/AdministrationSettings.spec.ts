@@ -17,7 +17,7 @@ test('Administration page objects - Settings.', async ({
     AdminCustomFieldCreate,
     AdminRuleCreate,
 }) => {
-    await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
+    await ShopAdmin.goesTo(AdminCustomerGroupListing.url(), InstanceMeta.isSaaS);
     await ShopAdmin.expects(AdminCustomerGroupListing.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
 

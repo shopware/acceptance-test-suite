@@ -15,7 +15,7 @@ test('Administration page objects - General.', async ({
     AdminOrderDetail,
     AdminProductDetail,
 }) => {
-    await ShopAdmin.goesTo(AdminCustomerListing.url());
+    await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
     await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
 
