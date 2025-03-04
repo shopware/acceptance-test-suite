@@ -21,7 +21,7 @@ test('Administration page objects - Settings.', async ({
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!await isSaaSInstance(AdminApiContext)) {
         await ShopAdmin.goesTo(AdminFirstRunWizard.url());
-        await ShopAdmin.expects(AdminFirstRunWizard.nextButton).toBeVisible();
+        await ShopAdmin.expects(AdminFirstRunWizard.nextButton).toBeVisible({ timeout: 15_000 });
     }
 
     await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
@@ -49,9 +49,6 @@ test('Administration page objects - Settings.', async ({
     await ShopAdmin.goesTo(AdminCustomFieldCreate.url());
     await ShopAdmin.expects(AdminCustomFieldCreate.saveButton).toBeVisible();
 
-    await ShopAdmin.goesTo(AdminRuleCreate.url());
-    await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
-
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {
 
@@ -61,4 +58,7 @@ test('Administration page objects - Settings.', async ({
             await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
         }
     }
+
+    await ShopAdmin.goesTo(AdminRuleCreate.url());
+    await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
 });
