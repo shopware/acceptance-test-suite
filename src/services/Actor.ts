@@ -1,3 +1,4 @@
+/* eslint-disable playwright/no-conditional-in-test */
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
@@ -21,18 +22,24 @@ export class Actor {
         const stepTitle = `${this.name} navigates to "${url}"`;
 
         await test.step(stepTitle, async () => {
-            await this.page.goto(url);
+            if (url.startsWith('#')) {
+                await expect(this.page.locator('.sw-skeleton')).toHaveCount(0);
+                await this.page.evaluate(`document.location = "${url}";`)
+                await expect(this.page.locator('.sw-skeleton')).toHaveCount(0);
+            } else {
+                await this.page.goto(url);
 
-            await this.page.addStyleTag({
-                content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-            });
+                await this.page.addStyleTag({
+                    content: `
+                    .sf-toolbar {
+                        width: 0 !important;
+                        height: 0 !important;
+                        display: none !important;
+                        pointer-events: none !important;
+                    }
+                    `.trim(),
+                });
+            }
         });
     }
 
