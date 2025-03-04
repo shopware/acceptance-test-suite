@@ -95,6 +95,10 @@ export const test = base.extend<FixtureTypes>({
 
         await clearDelayedCache(AdminApiContext);
 
+        await page.waitForURL((url) => {
+            return url.hash !== 'login';
+        });
+
         // Run the test
         await use(page);
 
