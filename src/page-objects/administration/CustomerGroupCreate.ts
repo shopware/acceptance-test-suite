@@ -23,7 +23,7 @@ export class CustomerGroupCreate implements PageObject {
         this.headline = page.getByRole('heading', { name: 'New customer group' });
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
-        this.cardTitle = page.getByRole('heading', { name: 'Customer group', exact: true });
+        this.cardTitle = page.getByRole('heading', { name: 'Customer group' });
         this.customerGroupNameField = page.locator('#sw-field--customerGroup-name');
         this.customerGroupGrossTaxDisplay = page.locator('#sw-field--castedValue-0');
         this.customerGroupNetTaxDisplay = page.locator('#sw-field--castedValue-1');

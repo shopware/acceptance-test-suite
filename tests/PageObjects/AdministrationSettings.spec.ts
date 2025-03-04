@@ -22,7 +22,7 @@ test('Administration page objects - Settings.', async ({
     await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomerGroupCreate.url());
-    await ShopAdmin.expects(AdminCustomerGroupCreate.cardTitle).toBeVisible();
+    await ShopAdmin.expects(AdminCustomerGroupCreate.customerGroupNameField).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupCreate.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomerGroupDetail.url(DefaultSalesChannel.salesChannel.customerGroupId));
