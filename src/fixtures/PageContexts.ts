@@ -95,6 +95,14 @@ export const test = base.extend<FixtureTypes>({
 
         await clearDelayedCache(AdminApiContext);
 
+        await expect(page.locator('.sw-skeleton')).toHaveCount(0);
+
+        await page.waitForURL((url) => {
+            return url.hash !== '#login';
+        });
+
+        await expect(page.getByText('Administration').first()).toBeVisible();
+
         // Run the test
         await use(page);
 

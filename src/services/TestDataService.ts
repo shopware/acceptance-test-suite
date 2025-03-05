@@ -36,6 +36,7 @@ import type {
     ProductCrossSelling,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
+import { clearDelayedCache } from './Cache';
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -2521,7 +2522,7 @@ export class TestDataService {
     }
 
     async clearCaches() {
-        await this.AdminApiClient.delete('_action/cache');
+        await clearDelayedCache(this.AdminApiClient);
     }
 
     getBasicCustomFieldSetStruct(overrides: Partial<CustomFieldSet> = {}): Partial<CustomFieldSet> {
