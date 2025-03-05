@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.11.1](https://github.com/shopware/acceptance-test-suite/compare/v11.11.0...v11.11.1) (2025-03-05)
+
+
+### Bug Fixes
+
+* locator compatibility for variants ([#348](https://github.com/shopware/acceptance-test-suite/issues/348)) ([44c16d4](https://github.com/shopware/acceptance-test-suite/commit/44c16d43b1bca7b23bbb6eae7fc6d76fa251562d))
+
 ## [11.11.0](https://github.com/shopware/acceptance-test-suite/compare/v11.10.1...v11.11.0) (2025-03-04)
 
 
