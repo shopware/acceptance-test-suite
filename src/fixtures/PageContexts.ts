@@ -98,7 +98,7 @@ export const test = base.extend<FixtureTypes>({
         await expect(page.locator('.sw-skeleton')).toHaveCount(0);
 
         await page.waitForURL((url) => {
-            return url.hash !== 'login';
+            return url.hash !== '#login';
         });
 
         await expect(page.getByText('Administration').first()).toBeVisible();
