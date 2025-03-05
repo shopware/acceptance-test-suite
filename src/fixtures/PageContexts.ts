@@ -101,7 +101,7 @@ export const test = base.extend<FixtureTypes>({
             return url.hash !== 'login';
         });
 
-        await expect(page.getByText('Administration')).toBeVisible();
+        await expect(page.getByText('Administration').first()).toBeVisible();
 
         // Run the test
         await use(page);
