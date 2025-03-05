@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.12.0](https://github.com/shopware/acceptance-test-suite/compare/v11.11.1...v11.12.0) (2025-03-05)
+
+
+### Features
+
+* **perf:** replace goto with document.location for hash urls ([#346](https://github.com/shopware/acceptance-test-suite/issues/346)) ([c57439c](https://github.com/shopware/acceptance-test-suite/commit/c57439cb209278c0e455d2fbc2aa725b1c80a81a))
+
 ## [11.11.1](https://github.com/shopware/acceptance-test-suite/compare/v11.11.0...v11.11.1) (2025-03-05)
 
 
