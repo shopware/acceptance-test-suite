@@ -101,7 +101,7 @@ export const test = base.extend<FixtureTypes>({
             return url.hash !== 'login';
         });
 
-        await expect(page.locator('.sw-skeleton')).toHaveCount(0);
+        await expect(page.getByText('Administration')).toBeVisible();
 
         // Run the test
         await use(page);
