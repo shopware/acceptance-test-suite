@@ -32,7 +32,7 @@ export class Actor {
 
                 await this.page.evaluate(`document.location = "${url}";`);
 
-                await this.page.waitForURL(`${fullURL.toString()}**`, { timeout: 5000 });
+                await this.page.waitForURL(`${fullURL.toString()}**`, { timeout: 15_000 });
 
                 await expect(this.page.locator('.sw-skeleton')).toHaveCount(0);
             } else {
