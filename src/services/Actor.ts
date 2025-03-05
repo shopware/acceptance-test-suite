@@ -24,8 +24,8 @@ export class Actor {
         await test.step(stepTitle, async () => {
             if (!forceReload && url.startsWith('#')) {
                 await this.page.evaluate(`document.location = "${url}";`)
-                await this.page.waitForURL((url) => {
-                    return url.hash !== 'login';
+                await this.page.waitForURL((u) => {
+                    return u.hash === url;
                 });
 
                 await expect(this.page.locator('.sw-skeleton')).toHaveCount(0);
