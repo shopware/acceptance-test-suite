@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.12.4](https://github.com/shopware/acceptance-test-suite/compare/v11.12.3...v11.12.4) (2025-03-06)
+
+
+### Bug Fixes
+
+* locator compatibility for category selection list ([#357](https://github.com/shopware/acceptance-test-suite/issues/357)) ([ce755b9](https://github.com/shopware/acceptance-test-suite/commit/ce755b996ec6cce60a9a50073c12c8cb161d06af))
+
 ## [11.12.3](https://github.com/shopware/acceptance-test-suite/compare/v11.12.2...v11.12.3) (2025-03-06)
 
 
