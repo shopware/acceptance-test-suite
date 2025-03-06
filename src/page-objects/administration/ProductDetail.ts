@@ -104,7 +104,11 @@ export class ProductDetail implements PageObject {
         this.saleChannelsInput = page.locator('.sw-product-detail__select-visibility');
 
         // Labelling
-        this.releaseDateInput = page.locator('.sw-product-detail-base__labelling-card').locator('.form-control');
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.releaseDateInput = page.locator('.sw-product-detail-base__labelling-card').locator('.form-control');
+        } else {
+            this.releaseDateInput = page.locator('.dp__input_readonly');
+        }
 
         // Media upload interactions
         this.uploadMediaButton = page.getByRole('button', { name: 'Upload file' });
