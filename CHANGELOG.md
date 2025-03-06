@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.12.3](https://github.com/shopware/acceptance-test-suite/compare/v11.12.2...v11.12.3) (2025-03-06)
+
+
+### Bug Fixes
+
+* locator compatibility for saleschannel selection list ([#355](https://github.com/shopware/acceptance-test-suite/issues/355)) ([04b830b](https://github.com/shopware/acceptance-test-suite/commit/04b830b843635303b9102cc312724dfae92173bb))
+
 ## [11.12.2](https://github.com/shopware/acceptance-test-suite/compare/v11.12.1...v11.12.2) (2025-03-06)
 
 
