@@ -74,19 +74,15 @@ export class Categories implements PageObject {
       .locator('.sw-select')
       .filter({ hasText: 'Entity' })
       .locator('.sw-select__selection');
-    if (satisfies(instanceMeta.version, '<6.7')) {
-      this.categorySelectionList = page
-          .locator('.sw-category-link-settings__selection-category');
-    } else {
-      this.categorySelectionList = page
-          .locator('.sw-category-tree__input-field');
-    }
+    this.categorySelectionList = page
+      .locator('.sw-category-link-settings__selection-category')
+      .locator('.sw-block-field__block');
     this.categorySelectionListWrapper = page
-        .locator('.sw-category-tree-field__main-wrapper');
+      .locator('.sw-category-tree-field__main-wrapper');
     this.productSelectionList = page
       .locator('.sw-category-link-settings__selection-product');
     this.productSelectionInput = this.productSelectionList
-        .locator('.sw-entity-single-select__selection-input');
+      .locator('.sw-entity-single-select__selection-input');
     this.landingPageSelectionList = page
       .locator('.sw-category-link-settings__selection-landing-page');
     this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
