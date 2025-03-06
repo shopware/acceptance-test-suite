@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.12.1](https://github.com/shopware/acceptance-test-suite/compare/v11.12.0...v11.12.1) (2025-03-06)
+
+
+### Bug Fixes
+
+* make createlinktypecategory 6.7 compatible ([#351](https://github.com/shopware/acceptance-test-suite/issues/351)) ([23ccec0](https://github.com/shopware/acceptance-test-suite/commit/23ccec055319d849897076294128c5f511c3e2f7))
+
 ## [11.12.0](https://github.com/shopware/acceptance-test-suite/compare/v11.11.1...v11.12.0) (2025-03-05)
 
 
