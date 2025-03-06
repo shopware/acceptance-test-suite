@@ -170,8 +170,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new PaymentDetail(AdminPage));
     },
 
-    AdminCategories: async ({ AdminPage }, use) => {
-        await use(new Categories(AdminPage));
+    AdminCategories: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new Categories(AdminPage, InstanceMeta));
     },
 
     AdminCategoryDetail: async ({ AdminPage, InstanceMeta }, use) => {
