@@ -17,6 +17,7 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Test Data Service](#test-data-service)
 * [Code Contribution](#code-contribution)
 * [Best practices](#best-practices)
+* [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
 
 ## Installation
 Start by creating your own [Playwright](https://playwright.dev/docs/intro) project.
