@@ -79,6 +79,10 @@ export class Home implements PageObject {
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
         const menuNavigationItem = this.page.locator('.nav-main').getByText(categoryName, { exact: true });
+        /** @deprecated - Remove, because it is obsolete.
+         * The Offcanvas can only be tested on mobile viewport.
+         * The content is only loaded if the navigation is triggered.
+         */
         const offcanvasNavigationItem = this.page.locator('.js-navigation-offcanvas-initial-content').getByText(categoryName, { exact: true });
         const breadcrumbNavigationItem = this.page.locator('.cms-breadcrumb').getByText(categoryName, { exact: true });
         const breadcrumbNavigationLinkItem = this.page
@@ -89,6 +93,7 @@ export class Home implements PageObject {
 
         return {
             menuNavigationItem: menuNavigationItem,
+            /** @deprecated - Remove, because it is obsolete. */
             offcanvasNavigationItem: offcanvasNavigationItem,
             breadcrumbNavigationItem: breadcrumbNavigationItem,
             breadcrumbNavigationLinkItem: breadcrumbNavigationLinkItem,
