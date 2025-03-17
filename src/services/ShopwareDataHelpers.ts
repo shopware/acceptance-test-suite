@@ -108,6 +108,8 @@ export const getPaymentMethodId = async (adminApiContext: AdminApiContext, handl
 /**
  * Gives the default shipping method back called Standard
  * @param adminApiContext - An AdminApiContext entity
+ *
+ * @deprecated - Use getShippingMethodId instead
  */
 export const getDefaultShippingMethodId = async (adminApiContext: AdminApiContext): Promise<string> => {
     const resp = await adminApiContext.post('search/shipping-method', {
@@ -117,6 +119,23 @@ export const getDefaultShippingMethodId = async (adminApiContext: AdminApiContex
                 type: 'equals',
                 field: 'name',
                 value: 'Standard',
+            }],
+        },
+    });
+
+    const result = (await resp.json()) as { data: { id: string; active: boolean }[]; total: number };
+
+    return result.data[0].id;
+};
+
+export const getShippingMethodId = async (name: string, adminApiContext: AdminApiContext): Promise<string> => {
+    const resp = await adminApiContext.post('search/shipping-method', {
+        data: {
+            limit: 1,
+            filter: [{
+                type: 'equals',
+                field: 'name',
+                value: name,
             }],
         },
     });

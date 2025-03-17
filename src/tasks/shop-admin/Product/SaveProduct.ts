@@ -10,7 +10,7 @@ export const SaveProduct = base.extend<{ SaveProduct: Task }, FixtureTypes>({
                 await AdminProductDetail.savePhysicalProductButton.click();
 
                 // Wait until product is saved via API
-                const response = await AdminProductDetail.page.waitForResponse(`${process.env['APP_URL']}api/_action/sync`);
+                const response = await AdminProductDetail.page.waitForResponse(`${process.env['ADMIN_API_URL'] || process.env['APP_URL']}api/_action/sync`);
 
                 // Assertions
                 expect(response.ok()).toBeTruthy();

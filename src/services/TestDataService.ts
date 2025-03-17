@@ -36,6 +36,7 @@ import type {
     ProductCrossSelling,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
+import { clearDelayedCache } from './Cache';
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -1775,11 +1776,21 @@ export class TestDataService {
     };
 
     /**
+     * @deprecated Use `getCountry` instead.
      * Retrieves a country Id based on its iso2 code.
      *
      * @param iso2 - The iso2 code of the country, for example "DE".
      */
     async getCountryId(iso2: string): Promise<Country> {
+        return await this.getCountry(iso2);
+    }
+
+    /**
+     * Retrieves a country based on its iso2 code.
+     *
+     * @param iso2 - The iso2 code of the country, for example "DE".
+     */
+    async getCountry(iso2: string): Promise<Country> {
         const countryResponse = await this.AdminApiClient.post('search/country', {
             data: {
                 limit: 1,
@@ -2511,7 +2522,7 @@ export class TestDataService {
     }
 
     async clearCaches() {
-        await this.AdminApiClient.delete('_action/cache');
+        await clearDelayedCache(this.AdminApiClient);
     }
 
     getBasicCustomFieldSetStruct(overrides: Partial<CustomFieldSet> = {}): Partial<CustomFieldSet> {

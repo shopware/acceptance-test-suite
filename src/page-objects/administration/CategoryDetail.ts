@@ -1,5 +1,8 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class CategoryDetail implements PageObject {
     public readonly saveButton: Locator;
@@ -8,17 +11,28 @@ export class CategoryDetail implements PageObject {
     public readonly customFieldSetTabs: Locator;
     public readonly customFieldSetTabCustomContent: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
-        this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+        } else {
+            this.customFieldCard = page.locator('.mt-card').getByText('Custom fields');
+        }
+
         this.customFieldSetTabs = this.customFieldCard.locator('.sw-tabs-item');
         this.customFieldSetTabCustomContent = this.customFieldCard.locator('.sw-tabs__custom-content');
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
+        let customFieldCard: Locator;
+        if (satisfies(this.instanceMeta.version, '<6.7')) {
+            customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
+        } else {
+            customFieldCard = this.page.locator('.mt-card').filter({ hasText: 'Custom fields' });
+        }
 
-        const customFieldCard = this.page.locator('.sw-card').filter({ hasText: 'Custom fields' });
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
         const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
 
@@ -30,5 +44,9 @@ export class CategoryDetail implements PageObject {
 
     url(categoryUuid: string) {
         return `#/sw/category/index/${categoryUuid}/base`
+    }
+
+    async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
+        return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
     }
 }

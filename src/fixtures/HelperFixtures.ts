@@ -68,7 +68,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const config = (await response.json()) as { version: string };
 
             const features: FeaturesType = {};
-            if (satisfies(config.version, '>=6.6.0.0')) {
+            if (satisfies(config.version, '>=6.6.1.0')) {
                 const featuresResponse = await context.get('./_action/feature-flag');
                 expect(featuresResponse.ok(), '/_action/feature-flag request failed').toBeTruthy();
                 const data = (await featuresResponse.json()) as Record<string, { major: boolean, active: boolean }>;

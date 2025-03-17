@@ -44,6 +44,8 @@ export class OffCanvasCart implements PageObject {
         const productUnitPriceValue = lineItem.locator('.line-item-unit-price-value');
         const productTotalPriceValue = lineItem.locator('.line-item-total-price-value');
         const removeButton = lineItem.locator('.line-item-remove-button');
+        const wishlistAddedButton = lineItem.locator('.product-wishlist-added');
+        const wishlistNotAddedButton = lineItem.locator('.product-wishlist-not-added');
 
         return {
             lineItemImage: lineItemImage,
@@ -56,6 +58,8 @@ export class OffCanvasCart implements PageObject {
             productUnitPriceValue: productUnitPriceValue,
             productTotalPriceValue: productTotalPriceValue,
             removeButton: removeButton,
+            wishlistAddedButton: wishlistAddedButton,
+            wishlistNotAddedButton: wishlistNotAddedButton,
         }
     }
 }

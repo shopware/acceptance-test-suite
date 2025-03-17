@@ -11,6 +11,7 @@ import { test as DataFixtures } from './data-fixtures/DataFixtures';
 import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
 import { test as FeatureService } from './fixtures/Feature';
+import { test as ShopwareDataFixture } from './fixtures/ShopwareDataFixtures';
 
 export * from '@playwright/test';
 export * from './services/ShopwareDataHelpers';
@@ -29,6 +30,7 @@ export type { PageObject } from './types/PageObject';
 export const test = mergeTests(
     HelperFixtures,
     DefaultSalesChannel,
+    ShopwareDataFixture,
     ApiContexts,
     PageContexts,
     Actors,

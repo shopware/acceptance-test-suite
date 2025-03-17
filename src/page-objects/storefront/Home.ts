@@ -30,6 +30,10 @@ export class Home implements PageObject {
     public readonly mainNavigationLink: Locator;
     public readonly contactFormLink: Locator;
 
+    //wishlist
+    public readonly wishlistIcon: Locator;
+    public readonly wishlistBasket: Locator;
+
     constructor(public readonly page: Page) {
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
@@ -67,10 +71,18 @@ export class Home implements PageObject {
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
         this.mainNavigationLink = page.locator('.main-navigation-link-text');
         this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
+
+        //wishlist
+        this.wishlistIcon = page.locator('.header-wishlist-icon');
+        this.wishlistBasket = page.locator('.header-wishlist-badge');
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
         const menuNavigationItem = this.page.locator('.nav-main').getByText(categoryName, { exact: true });
+        /** @deprecated - Remove, because it is obsolete.
+         * The Offcanvas can only be tested on mobile viewport.
+         * The content is only loaded if the navigation is triggered.
+         */
         const offcanvasNavigationItem = this.page.locator('.js-navigation-offcanvas-initial-content').getByText(categoryName, { exact: true });
         const breadcrumbNavigationItem = this.page.locator('.cms-breadcrumb').getByText(categoryName, { exact: true });
         const breadcrumbNavigationLinkItem = this.page
@@ -81,6 +93,7 @@ export class Home implements PageObject {
 
         return {
             menuNavigationItem: menuNavigationItem,
+            /** @deprecated - Remove, because it is obsolete. */
             offcanvasNavigationItem: offcanvasNavigationItem,
             breadcrumbNavigationItem: breadcrumbNavigationItem,
             breadcrumbNavigationLinkItem: breadcrumbNavigationLinkItem,
@@ -107,6 +120,8 @@ export class Home implements PageObject {
         const productListingPrice = listingItem.locator('.list-price-price');
         const productListingPricePercentage = listingItem.locator('.list-price-percentage');
         const productListingPriceBadge = listingItem.locator('.badge-discount');
+        const wishlistNotAddedIcon = listingItem.locator('.product-wishlist-not-added');
+        const wishlistAddedIcon = listingItem.locator('.product-wishlist-added');
 
         return {
             productImage: productImage,
@@ -121,6 +136,8 @@ export class Home implements PageObject {
             productListingPrice: productListingPrice,
             productListingPricePercentage: productListingPricePercentage,
             productListingPriceBadge: productListingPriceBadge,
+            wishlistNotAddedIcon: wishlistNotAddedIcon,
+            wishlistAddedIcon: wishlistAddedIcon,
         };
     }
 
@@ -140,6 +157,8 @@ export class Home implements PageObject {
         const productListingPrice = listingItem.locator('.list-price-price');
         const productListingPricePercentage = listingItem.locator('.list-price-percentage');
         const productListingPriceBadge = listingItem.locator('.badge-discount');
+        const wishlistNotAddedIcon = listingItem.locator('.product-wishlist-not-added');
+        const wishlistAddedIcon = listingItem.locator('.product-wishlist-added');
 
         return {
             productImage: productImage,
@@ -154,6 +173,8 @@ export class Home implements PageObject {
             productListingPrice: productListingPrice,
             productListingPricePercentage: productListingPricePercentage,
             productListingPriceBadge: productListingPriceBadge,
+            wishlistNotAddedIcon: wishlistNotAddedIcon,
+            wishlistAddedIcon: wishlistAddedIcon,
         };
     }
 
