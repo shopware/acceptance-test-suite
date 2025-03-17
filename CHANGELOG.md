@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.12.5](https://github.com/shopware/acceptance-test-suite/compare/v11.12.4...v11.12.5) (2025-03-17)
+
+
+### Bug Fixes
+
+* locator compatibility for ExpectNotification.ts ([#361](https://github.com/shopware/acceptance-test-suite/issues/361)) ([399bbe1](https://github.com/shopware/acceptance-test-suite/commit/399bbe136cdb8f7e2e0f34097c72d7211e196aef))
+
 ## [11.12.4](https://github.com/shopware/acceptance-test-suite/compare/v11.12.3...v11.12.4) (2025-03-06)
 
 
