@@ -1,5 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class Categories implements PageObject {
   /**
@@ -42,8 +44,10 @@ export class Categories implements PageObject {
   public readonly filterResultPopoverTreeCheckboxItemList: Locator;
   public readonly openInNewTabCheckbox: Locator;
   public readonly popoverCategoryTree: Locator;
+  public readonly categorySelectionListWrapper: Locator;
+  public readonly productSelectionInput: Locator;
 
-  constructor(public readonly page: Page) {
+  constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
     this.landingPageArea = page.locator('.sw-category-detail__landing-page-collapse');
     this.landingPageHeadline = this.landingPageArea.getByRole('heading', { name: 'Landing pages' });
     this.addLandingPageButton = this.landingPageArea.getByText('Add landing page');
@@ -71,9 +75,14 @@ export class Categories implements PageObject {
       .filter({ hasText: 'Entity' })
       .locator('.sw-select__selection');
     this.categorySelectionList = page
-      .locator('.sw-category-link-settings__selection-category');
+      .locator('.sw-category-link-settings__selection-category')
+      .locator('.sw-block-field__block');
+    this.categorySelectionListWrapper = page
+      .locator('.sw-category-tree-field__main-wrapper');
     this.productSelectionList = page
       .locator('.sw-category-link-settings__selection-product');
+    this.productSelectionInput = this.productSelectionList
+      .locator('.sw-entity-single-select__selection-input');
     this.landingPageSelectionList = page
       .locator('.sw-category-link-settings__selection-landing-page');
     this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
@@ -81,6 +90,7 @@ export class Categories implements PageObject {
     this.filterResultPopoverTreeCheckboxItemList = this.popoverCategoryTree.locator('.sw-tree__content').locator('.sw-tree-item');
     this.openInNewTabCheckbox = page.getByRole('checkbox', { name: 'Open in new tab' });
     this.loadingSpinner = page.locator('.sw-loader');
+    this.loadingSpinner = page.locator('.mt-loader');
     this.fadingBar = page.locator('.fade-leave-active');
   }
 

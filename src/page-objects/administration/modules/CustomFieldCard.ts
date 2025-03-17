@@ -28,4 +28,3 @@ import { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
             customFieldLabel,
             customFieldSelect,
         };
-}

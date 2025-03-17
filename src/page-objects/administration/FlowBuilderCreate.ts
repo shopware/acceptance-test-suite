@@ -41,6 +41,7 @@ export class FlowBuilderCreate implements PageObject {
     public readonly delayCard: Locator;
     public readonly conditionRule: Locator;
     public readonly sequenceSeparator: Locator;
+    public readonly newFlowHeader: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.saveButton = page.locator('.sw-flow-detail__save');
@@ -78,6 +79,7 @@ export class FlowBuilderCreate implements PageObject {
         this.tagModalTagsSelectField = page.locator('.sw-flow-tag-modal').locator('.sw-select__selection').getByLabel('Tags');
         this.delayCard = page.locator('.sw-flow-delay-action__delay_card');
         this.sequenceSeparator = page.locator('.sw-flow-detail-flow__position-connection');
+        this.newFlowHeader = page.getByRole('heading', { name: 'New flow' })
     }
     url() {
         return '#/sw/flow/create/general';
