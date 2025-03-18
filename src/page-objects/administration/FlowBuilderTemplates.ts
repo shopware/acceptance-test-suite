@@ -11,9 +11,9 @@ export class FlowBuilderTemplates extends FlowBuilderListing implements PageObje
         return `#/sw/flow/index/templates`;
     }
 
-    async getLineItemByFlowName(flowName: string): Promise<Record<string, Locator>> {
+    async getLineItemByFlowName(flowName: string) {
         const lineItem = this.page.locator('.sw-data-grid__row').filter({ has: this.page.getByText(flowName, {exact: true}) });
-        const createFlowLink = lineItem.getByRole('link').getByTestId('sw-icon__regular-long-arrow-right');
+        const createFlowLink = lineItem.getByRole('link').getByText('Create new flow from template');
         const templateDetailLink = lineItem.getByRole('link').getByText(flowName);
 
         return {
