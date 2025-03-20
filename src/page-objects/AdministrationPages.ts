@@ -11,6 +11,7 @@ import { CustomerGroupDetail } from './administration/CustomerGroupDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
+import { FlowBuilderTemplates } from './administration/FlowBuilderTemplates';
 import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
@@ -45,6 +46,7 @@ export interface AdministrationPageTypes {
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
+    AdminFlowBuilderTemplates: FlowBuilderTemplates;
     AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
@@ -80,6 +82,7 @@ export const AdminPageObjects = {
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
+    FlowBuilderTemplates,
     FlowBuilderDetail,
     Dashboard,
     DataSharing,
@@ -146,8 +149,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new FlowBuilderListing(AdminPage));
     },
 
-    AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderDetail(AdminPage));
+    AdminFlowBuilderTemplates: async ({ AdminPage }, use) => {
+        await use(new FlowBuilderTemplates(AdminPage));
+    },
+
+    AdminFlowBuilderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderDetail(AdminPage, InstanceMeta));
     },
 
     AdminDataSharing: async ({ AdminPage, InstanceMeta }, use) => {
