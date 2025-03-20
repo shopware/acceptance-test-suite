@@ -12,7 +12,6 @@ export class FlowBuilderCreate implements PageObject {
     public readonly smartBarHeader: Locator;
     public readonly newFlowHeader: Locator;
 
-
     constructor(public readonly page: Page) {
         this.saveButton = page.locator('.sw-flow-detail__save');
         this.header = page.locator('h2');
@@ -21,8 +20,7 @@ export class FlowBuilderCreate implements PageObject {
         this.triggerSelectField = page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox');
         this.addActionField = page.locator('.sw-flow-sequence-action__content').locator('.sw-single-select__selection');
         this.smartBarHeader = page.locator('.smart-bar__header');
-        this.newFlowHeader = page.getByRole('heading', { name: 'New flow' })
-
+        this.newFlowHeader = page.getByRole('heading', { name: 'New flow' });
     }
 
     url(flowId?: string, tabName = 'general') {

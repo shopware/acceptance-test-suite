@@ -46,7 +46,7 @@ export interface AdministrationPageTypes {
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
-    AdminFlowBuilderTemplates: FlowBuilderTemplates
+    AdminFlowBuilderTemplates: FlowBuilderTemplates;
     AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
