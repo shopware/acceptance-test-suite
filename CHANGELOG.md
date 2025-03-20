@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.13.0](https://github.com/shopware/acceptance-test-suite/compare/v11.12.5...v11.13.0) (2025-03-20)
+
+
+### Features
+
+* NEXT-39675 - Flow Builder Templates page object ([#246](https://github.com/shopware/acceptance-test-suite/issues/246)) ([5e8e81d](https://github.com/shopware/acceptance-test-suite/commit/5e8e81dd00153fc4bf0bc416e0cf926c05952237))
+
 ## [11.12.5](https://github.com/shopware/acceptance-test-suite/compare/v11.12.4...v11.12.5) (2025-03-17)
 
 
