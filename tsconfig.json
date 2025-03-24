@@ -3,7 +3,7 @@
     "target": "ES6",
     "lib": ["ESNext"],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./",
