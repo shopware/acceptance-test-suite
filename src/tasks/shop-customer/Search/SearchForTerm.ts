@@ -7,6 +7,7 @@ export const SearchForTerm = base.extend<{ SearchForTerm: Task }, FixtureTypes>(
         const task = (searchTerm: string) => {
             return async function SearchForTerm() {
                 await StorefrontSearchSuggest.searchInput.fill(searchTerm);
+                searchTerm = searchTerm.replaceAll(' ', '%20');
                 await StorefrontSearchSuggest.page.waitForResponse((response) => response.url().includes(`suggest?search=${searchTerm}`) && response.ok());
             };
         };
