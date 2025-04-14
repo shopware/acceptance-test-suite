@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.13.2](https://github.com/shopware/acceptance-test-suite/compare/v11.13.1...v11.13.2) (2025-04-14)
+
+
+### Bug Fixes
+
+* search term encoding ([#367](https://github.com/shopware/acceptance-test-suite/issues/367)) ([ff76834](https://github.com/shopware/acceptance-test-suite/commit/ff76834c0d0e78de0d4de133e862cd9ceb0ebd1d))
+
 ## [11.13.1](https://github.com/shopware/acceptance-test-suite/compare/v11.13.0...v11.13.1) (2025-04-10)
 
 
