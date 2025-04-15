@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from 'src/fixtures/HelperFixtures';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class CustomerGroupCreate implements PageObject {

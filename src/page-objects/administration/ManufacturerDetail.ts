@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import { ManufacturerCreate } from './ManufacturerCreate';
-import { HelperFixtureTypes } from 'src/fixtures/HelperFixtures';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class ManufacturerDetail extends ManufacturerCreate {
