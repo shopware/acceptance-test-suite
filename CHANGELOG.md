@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.14.0](https://github.com/shopware/acceptance-test-suite/compare/v11.13.2...v11.14.0) (2025-04-15)
+
+
+### Features
+
+* bump api-client version to 1.2.1 ([#364](https://github.com/shopware/acceptance-test-suite/issues/364)) ([4bbfb36](https://github.com/shopware/acceptance-test-suite/commit/4bbfb3629dba6e8c236b6d0e02fedf66e2bdb284))
+
+
+### Bug Fixes
+
+* add locator for 6.6.x ([#371](https://github.com/shopware/acceptance-test-suite/issues/371)) ([9d19f06](https://github.com/shopware/acceptance-test-suite/commit/9d19f06d67337afa757f032e2f363ff27ac8aa3b))
+
 ## [11.13.2](https://github.com/shopware/acceptance-test-suite/compare/v11.13.1...v11.13.2) (2025-04-14)
 
 
