@@ -314,11 +314,10 @@ export class TestDataService {
         const basicProductReview = this.getBasicProductReviewStruct(productId, overrides);
 
         const productReviewResponse = await this.AdminApiClient.post('product-review?_response=detail', {
-            data: Object.assign({}, basicProductReview, overrides),
+            data: basicProductReview,
         });
         expect(productReviewResponse.ok()).toBeTruthy();
         const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
-        this.addCreatedRecord('product_review', review.id);
         return review;
     }
 
