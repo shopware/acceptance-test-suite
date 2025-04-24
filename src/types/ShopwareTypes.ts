@@ -314,3 +314,26 @@ export interface CustomFieldData {
     customFieldSetName: string;
     customFieldValue: string;
 }
+
+export enum RuleConditions {
+    ShoppingCartTotal = 'cartCartAmount',
+    DateRange = 'customerBillingCountry',
+    TimeRange = 'timeRange',
+    BillingStreet =  'customerBillingStreet',
+    ItemMarkedAsNew = 'cartLineItemIsNew',
+    SalesChannel = 'salesChannelIds',
+    DayOfWeek = 'dayOfWeek',
+    Languages = 'languageIds',
+    Currencies = 'currencyIds',
+    ItemUnitPrice = 'cartPositionPrice',
+    ItemType = 'lineItemType',
+    ItemInStock = 'cartLineItemStock',
+    CustomerLastName = 'customerLastName',
+    AdminOrder = 'orderCreatedByAdmin',
+
+
+}
+
+export type RuleOperators = '=' | '!=' | '<' | '>' | '<=' | '>=';
+
+export type RuleValues = string | number | boolean | Date;

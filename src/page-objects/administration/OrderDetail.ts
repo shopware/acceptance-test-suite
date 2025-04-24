@@ -2,6 +2,7 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import {HelperFixtureTypes} from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
+import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class OrderDetail implements PageObject {
     public readonly saveButton: Locator;
@@ -20,5 +21,9 @@ export class OrderDetail implements PageObject {
 
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
         return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
+    }
+
+    async getSelectFieldListitem(selectField: Locator, listItem: string) {
+        return getSelectFieldListitem(this.page, selectField, listItem, this.instanceMeta);
     }
 }
