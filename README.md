@@ -18,6 +18,11 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Local Development with ATS](#local-development-with-ats)
 * [Best practices](#best-practices)
 * [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
+* [Services](#services)
+  * [Test Data Service](#test-data-service)
+    * [Available Methods](#available-create-methods-in-testdata-service)
+    * [Writing New Methods](#writing-new-methods-in-testdata-service)
+    * [Automatic Cleanup](#automatic-cleanup-of-test-data-and-system-configurations)
 
 ## Installation
 Start by creating your own [Playwright](https://playwright.dev/docs/intro) project.
@@ -401,58 +406,6 @@ await ShopCustomer.attemptsTo(ProductCart);
 await ShopCustomer.attemptsTo(PutProductIntoCart);
 ```
 
-## Test Data Service
-This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the service class or simply use the auto-completion of your IDE. Here is a list of available methods:
-
-### Creating Data
-* `createBasicProduct()`
-* `createProductWithImage()`
-* `createDigitalProduct()`
-* `createProductWithPriceRange()`
-* `createBasicManufacturer()`
-* `createManufacturerWithImage()`
-* `createCategory()`
-* `createMediaPNG()`
-* `createMediaTXT()`
-* `createColorPropertyGroup()`
-* `createTextPropertyGroup()`
-* `createTag()`
-* `createCustomer()`
-* `createOrder()`
-* `createPromotionWithCode()`
-* `createBasicPaymentMethod()`
-* `createPaymentMethodWithImage()`
-* `createBasicShippingMethod()`
-* `createShippingMethodWithImage()`
-* `createBasicRule()`
-* `createBasicPageLayout()`
-
-### Relations
-* `assignProductDownload()`
-* `assignProductMedia()`
-* `assignProductManufacturer()`
-* `assignProductCategory()`
-* `assignProductTag()`
-* `assignManufacturerMedia()`
-* `assignPaymentMethodMedia()`
-* `assignShippingMethodMedia()`
-
-### Retrieving Basic Data
-* `getCurrency()`
-* `getRule()`
-* `getShippingMethod()`
-* `getPaymentMethod()`
-* `getAllDeliveryTimeResources()`
-* `getCustomerAddress()`
-* `getSalutation()`
-* `getOrderStateMachine()`
-* `getDeliveryStateMachine()`
-* `getTransactionStateMachine()`
-* `getTransactionStateMachine()`
-* `getStateMachine()`
-* `getStateMachineState()`
-* `getPropertyGroupOptions()`
-
 ## Code Contribution
 You can contribute to this project via its [official repository](https://github.com/shopware/acceptance-test-suite/) on GitHub.  
 
@@ -590,3 +543,165 @@ Afterwards you can execute the normal playwright commands:
 ```bash
 npx playwright test --ui
 ```
+
+## Services
+
+The test suite provides several services that can be used to simplify your test code. These services are designed to be reusable and can be easily extended to fit your specific needs.
+
+### Test Data Service
+This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the [service class](https://github.com/shopware/acceptance-test-suite/blob/trunk/src/services/TestDataService.ts) or simply use the auto-completion of your IDE.
+
+#### Available `create*` Methods in TestDataService
+
+These methods are designed to streamline the setup of test data, ensuring consistency and efficiency in your testing processes.
+
+- `createBasicManufacturer(): Promise<Manufacturer>`
+- `createBasicPageLayout(cmsPageType: string): Promise<CmsPage>`
+- `createBasicPaymentMethod(): Promise<PaymentMethod>`
+- `createBasicProduct(): Promise<Product>`
+- `createBasicRule(): Promise<Rule>`
+- `createBasicShippingMethod(): Promise<ShippingMethod>`
+- `createCategory(): Promise<Category>`
+- `createColorPropertyGroup(): Promise<PropertyGroup>`
+- `createCountry(): Promise<Country>`
+- `createCurrency(): Promise<Currency>`
+- `createCustomer(): Promise<Customer>`
+- `createCustomerGroup(): Promise<CustomerGroup>`
+- `createCustomField(customFieldSetId: string): Promise<CustomField>`
+- `createCustomFieldSet(): Promise<CustomFieldSet>`
+- `createDigitalProduct(): Promise<Product>`
+- `createManufacturerWithImage(): Promise<Manufacturer>`
+- `createMediaPNG(): Promise<Media>`
+- `createMediaResource(): Promise<Media>`
+- `createMediaTXT(): Promise<Media>`
+- `createOrder(lineItems: SimpleLineItem[], customer: Customer): Promise<Order>`
+- `createPaymentMethodWithImage(): Promise<PaymentMethod>`
+- `createProductCrossSelling(productId: string): Promise<ProductCrossSelling>`
+- `createProductWithImage(): Promise<Product>`
+- `createProductWithPriceRange(): Promise<Product>`
+- `createPromotionWithCode(): Promise<Promotion>`
+- `createSalesChannelAnalytics(): Promise<SalesChannelAnalytics>`
+- `createSalesChannelDomain(): Promise<SalesChannelDomain>`
+- `createShippingMethodWithImage(): Promise<ShippingMethod>`
+- `createTag(tagName: string): Promise<Tag>`
+- `createTaxRate(): Promise<Tax>`
+- `createTextPropertyGroup(): Promise<PropertyGroup>`
+- `createVariantProducts(parentProduct: Product, propertyGroups: PropertyGroup[]): Promise<Product[]>`
+
+#### Available `assign*` Methods in TestDataService
+
+These methods are designed to establish associations between entities, such as linking products to categories or assigning media to manufacturers, ensuring that your test data reflects realistic scenarios.
+
+- `assignManufacturerMedia(manufacturerId: string, mediaId: string): Promise<void>`
+- `assignPaymentMethodMedia(paymentMethodId: string, mediaId: string): Promise<void>`
+- `assignProductCategory(productId: string, categoryIds: string[]): Promise<void>`
+- `assignProductDownload(productId: string, mediaId: string): Promise<void>`
+- `assignProductManufacturer(productId: string, manufacturerId: string): Promise<void>`
+- `assignProductMedia(productId: string, mediaId: string): Promise<void>`
+- `assignProductTag(productId: string, tagIds: string[]): Promise<void>`
+- `assignShippingMethodMedia(shippingMethodId: string, mediaId: string): Promise<void>`
+
+
+#### Available `get*` Methods in TestDataService
+
+- `getAllDeliveryTimeResources(): Promise<DeliveryTime[]>`
+- `getCountry(iso2: string): Promise<Country>`
+- `getCurrency(isoCode: string): Promise<Currency>`
+- `getCustomerAddress(addressId: string): Promise<CustomerAddress>`
+- `getCustomerByEmail(email: string): Promise<Customer>`
+- `getCustomerGroupById(customerGroupId: string): Promise<CustomerGroup>`
+- `getCustomerGroups(): Promise<CustomerGroup[]>`
+- `getDeliveryStateMachine(): Promise<StateMachine>`
+- `getLanguageById(languageId: string): Promise<Language>`
+- `getLanguageData(languageCode: string): Promise<Language>`
+- `getOrderStateMachine(): Promise<StateMachine>`
+- `getPaymentMethod(name = 'Invoice'): Promise<PaymentMethod>`
+- `getPropertyGroupOptions(propertyGroupId: string): Promise<PropertyGroupOption[]>`
+- `getRule(name: string): Promise<Rule>`
+- `getShippingMethod(name = 'Standard'): Promise<ShippingMethod>`
+- `getStateMachine(name: string): Promise<StateMachine>`
+- `getStateMachineState(stateMachineId: string, stateName: 'open' | 'completed' | 'in_progress' | 'cancelled' = 'open'): Promise<StateMachineState>`
+- `getTransactionStateMachine(): Promise<StateMachine>`
+
+#### Writing New Methods in `TestDataService`
+
+The `TestDataService` is a helper class that provides reusable methods to create, assign, or fetch data via the Shopware Admin API. If you want to add new functionality to this service—such as a new type of entity creation—you can follow this approach:
+
+##### 1. Define the Purpose
+
+Decide whether you're creating, assigning, or retrieving data. Most methods fall into one of the following patterns:
+- `create*`: Creates a new entity (e.g. product, customer, category)
+- `assign*`: Links existing entities (e.g. assign media to product)
+- `get*`: Retrieves specific or filtered data from the system
+
+##### 2. Implement the Method
+
+Use the `AdminApiContext` to interact with the Shopware Admin API. Here's a simplified example of adding a method to [create a new shipping method](https://github.com/shopware/acceptance-test-suite/blob/e8d2a5e8cee2194b914aa35aa87fe7cf04060834/src/services/TestDataService.ts#L679)
+
+##### 3. Follow Naming Conventions
+
+Be consistent in naming:
+- Use `createBasic*` for standardized, default setups with predefined values (e.g. `createBasicProduct`)
+- Use `create*With*` for variations (e.g. `createProductWithImage`)
+- Use `assign*` for methods that associate two entities (e.g. `assignProductMedia`)
+- Use `get*` to retrieve specific entities or lists (e.g. `getCurrency`)
+
+##### 4. Add a Return Type
+
+Always define a return type (typically a `Promise<...>`) to improve autocompletion and documentation support.
+
+##### 5. Add Cleanup Logic
+
+Make sure to clean up the entity via code after test run by putting the entity to a record. See example below:
+
+```ts
+async createBasicRule(): Promise<Rule> {
+        [...]
+                
+        this.addCreatedRecord('rule', rule.id);
+
+        [...]
+    }
+```
+
+Further information you can explore in the chapter:
+
+
+##### 6. Test the Method
+
+Once added, use your new method inside a test to verify it works as expected (`/tests/TestDataService.spec.ts`):
+
+```ts
+test('Verify new shipping method creation', async ({ TestDataService }) => {
+    const shippingMethod = await TestDataService.createShippingMethod({
+        name: 'Express Delivery'
+    });
+
+    expect(shippingMethod.name).toEqual('Express Delivery');
+});
+```
+
+### Automatic Cleanup of Test Data and System Configurations
+
+The `TestDataService` includes a built-in mechanism to ensure that any test data & system configuration entries created during a test run is automatically deleted afterward. This ensures that the Shopware instance remains clean and consistent between tests, helping to maintain **test isolation** and prevent **state leakage**.
+
+#### How Cleanup Works
+
+When you create an entity using a `create*` method (e.g., `createBasicProduct`, `createCustomer`), the service automatically registers that entity for deletion by calling the `addCreatedRecord()` method:
+```ts
+this.addCreatedRecord('product', product.id);
+```
+
+These records are stored in a cleanup queue that is processed at the end of each test using the Playwright lifecycle.
+
+#### Cleanup Execution
+
+The `cleanup()` method handles the deletion of all registered entities and system config changes. All created records are grouped into two categories: 
+* Priority Deletions (`priorityDeleteOperations`) – for entities with dependencies that must be deleted first (e.g. orders, customers)
+* Standard Deletions (`deleteOperations`) – for all other entities
+
+This prioritization prevents errors when deleting interdependent data. Any modified system configurations are reset to their previous state after deleting priority records
+
+#### Skipping Cleanup
+
+In rare scenarios, such as performance testing or debugging, you may want to prevent cleanup for specific entities. You can simply skip the cleanUp by calling `TestDataService.setCleanUp(false)` within your test.
