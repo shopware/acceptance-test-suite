@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.15.0](https://github.com/shopware/acceptance-test-suite/compare/v11.14.0...v11.15.0) (2025-04-25)
+
+
+### Features
+
+* add header and footer pages ([#375](https://github.com/shopware/acceptance-test-suite/issues/375)) ([dc9d7ef](https://github.com/shopware/acceptance-test-suite/commit/dc9d7ef36f3c9c23e4dfb3333eda7b30a3e90679))
+
 ## [11.14.0](https://github.com/shopware/acceptance-test-suite/compare/v11.13.2...v11.14.0) (2025-04-15)
 
 
