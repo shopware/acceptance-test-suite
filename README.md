@@ -20,6 +20,8 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
 * [Services](#services)
   * [Test Data Service](#test-data-service)
+    * [When to Use](#when-to-use-the-testdataservice-in-tests)
+    * [When and Why to Extend](#when-and-why-to-extend-the-testdataservice)
     * [Available Methods](#available-create-methods-in-testdataservice)
     * [Writing New Methods](#writing-new-methods-in-testdataservice)
     * [Automatic Cleanup](#automatic-cleanup-of-test-data-and-system-configurations)
@@ -550,9 +552,42 @@ npx playwright test --ui
 The test suite provides several services that can be used to simplify your test code. These services are designed to be reusable and can be easily extended to fit your specific needs.
 
 ### Test Data Service
-This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the [service class](https://github.com/shopware/acceptance-test-suite/blob/trunk/src/services/TestDataService.ts) or simply use the auto-completion of your IDE.
+The `TestDataService` is a powerful utility designed to simplify test data creation, management, and cleanup when writing acceptance and API tests for Shopware. It provides ready-to-use functions for common data needs and ensures reliable, isolated test environments.
+ For detailed documentation of the methods you can have a look at the [service class](https://github.com/shopware/acceptance-test-suite/blob/trunk/src/services/TestDataService.ts) or simply use the auto-completion of your IDE.
 
-#### Available `create*` Methods in TestDataService
+### When to Use the TestDataService in Tests
+
+You should use the `TestDataService` whenever you need **test data** that matches common Shopware structures, such as:
+
+- Creating a **basic product**, **customer**, **order**, **category**, etc.
+- Setting up **media** resources like product images or digital downloads.
+- Creating **promotions**, **rules**, or **payment/shipping methods**.
+- Fetching existing entities via helper methods (`getCurrency()`, `getShippingMethod()`, etc.).
+- **Assigning relations** between entities (e.g., linking a product to a category).
+
+**Typical examples include:**
+
+```ts
+const product = await TestDataService.createBasicProduct();
+const customer = await TestDataService.createCustomer();
+const shipping = await TestDataService.createBasicShippingMethod();
+```
+
+### When and Why to Extend the TestDataService
+
+You should add new functions to the TestDataService (or extend it) when:
+
+- Your project or plugin introduces **new entity types** (e.g., `CommercialCustomerGroup`, `CustomProductType`).
+- You need a **specialized creation logic** (e.g., a shipping method with multiple rules, a pre-configured product bundle).
+- Existing methods require **modifications** that should not affect the core service.
+- You want to **reuse the same setup across multiple tests** without duplicating logic.
+- You require **special cleanup handling** for newly created entities.
+
+
+
+Using and extending the `TestDataService` properly ensures your acceptance tests stay **readable**, **maintainable**, and **scalable** even as your Shopware project grows.
+
+### Available `create*` Methods in TestDataService
 
 These methods are designed to streamline the setup of test data, ensuring consistency and efficiency in your testing processes.
 
@@ -589,7 +624,7 @@ These methods are designed to streamline the setup of test data, ensuring consis
 - `createTextPropertyGroup(): Promise<PropertyGroup>`
 - `createVariantProducts(parentProduct: Product, propertyGroups: PropertyGroup[]): Promise<Product[]>`
 
-#### Available `assign*` Methods in TestDataService
+### Available `assign*` Methods in TestDataService
 
 These methods are designed to establish associations between entities, such as linking products to categories or assigning media to manufacturers, ensuring that your test data reflects realistic scenarios.
 
@@ -603,7 +638,7 @@ These methods are designed to establish associations between entities, such as l
 - `assignShippingMethodMedia(shippingMethodId: string, mediaId: string): Promise<void>`
 
 
-#### Available `get*` Methods in TestDataService
+### Available `get*` Methods in TestDataService
 
 - `getAllDeliveryTimeResources(): Promise<DeliveryTime[]>`
 - `getCountry(iso2: string): Promise<Country>`
@@ -624,7 +659,7 @@ These methods are designed to establish associations between entities, such as l
 - `getStateMachineState(stateMachineId: string, stateName: 'open' | 'completed' | 'in_progress' | 'cancelled' = 'open'): Promise<StateMachineState>`
 - `getTransactionStateMachine(): Promise<StateMachine>`
 
-#### Writing New Methods in `TestDataService`
+### Writing New Methods in `TestDataService`
 
 The `TestDataService` is a helper class that provides reusable methods to create, assign, or fetch data via the Shopware Admin API. If you want to add new functionality to this service—such as a new type of entity creation—you can follow this approach:
 
@@ -765,3 +800,4 @@ In this setup:
 - The `TestDataService` fixture is **overridden** with your custom `CustomTestDataService`.
 - Now all tests that use `TestDataService` will have access to both the original and your extended methods.
 - The automated cleanup is still in place, ensuring that any test data created during the test run is removed afterward.
+
