@@ -20,9 +20,10 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
 * [Services](#services)
   * [Test Data Service](#test-data-service)
-    * [Available Methods](#available-create-methods-in-testdata-service)
-    * [Writing New Methods](#writing-new-methods-in-testdata-service)
+    * [Available Methods](#available-create-methods-in-testdataservice)
+    * [Writing New Methods](#writing-new-methods-in-testdataservice)
     * [Automatic Cleanup](#automatic-cleanup-of-test-data-and-system-configurations)
+    * [Extending the TestDataService](#extending-the-testdataservice-in-external-projects)
 
 ## Installation
 Start by creating your own [Playwright](https://playwright.dev/docs/intro) project.
@@ -713,8 +714,6 @@ Got it — based on your provided files (`AcceptanceTest.ts`, `CommercialTestDat
 ### Extending the TestDataService in external projects
 
 The `TestDataService` provided by the Shopware Acceptance Test Suite is designed to be **easily extendable**. This allows you to add project-specific data generation methods while still benefiting from the existing, standardized base functionality.
-
-### How to Extend the TestDataService
 
 #### 1. Create a New Subclass
 
