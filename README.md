@@ -9,22 +9,22 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 
 * [Installation](#installation)
 * [Configuration](#configuration)
+* [Testing within the Test Suite](#testing-within-the-test-suite)
 * [Usage](#usage)
-* [General Fixtures](#general-fixtures)
+* [General fixtures](#general-fixtures)
 * [Page Objects](#page-objects)
 * [Actor Pattern](#actor-pattern)
-* [Test Data Service](#test-data-service)
-* [Code Contribution](#code-contribution)
-* [Local Development with ATS](#local-development-with-ats)
+* [Code contribution](#code-contribution)
+* [Local development with ATS](#local-development-with-ats)
 * [Best practices](#best-practices)
-* [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
+* [Running tests in the Test Suite](#running-tests-in-the-test-suite)
 * [Services](#services)
   * [Test Data Service](#test-data-service)
-    * [When to Use](#when-to-use-the-testdataservice-in-tests)
-    * [When and Why to Extend](#when-and-why-to-extend-the-testdataservice)
-    * [Available Methods](#available-create-methods-in-testdataservice)
-    * [Writing New Methods](#writing-new-methods-in-testdataservice)
-    * [Automatic Cleanup](#automatic-cleanup-of-test-data-and-system-configurations)
+    * [When to use](#when-to-use-the-testdataservice-in-tests)
+    * [When and why to extend](#when-and-why-to-extend-the-testdataservice)
+    * [Available methods](#available-create-methods-in-testdataservice)
+    * [Writing new methods](#writing-new-methods-in-testdataservice)
+    * [Automatic cleanup](#automatic-cleanup-of-test-data-and-system-configurations)
     * [Extending the TestDataService](#extending-the-testdataservice-in-external-projects)
 
 ## Installation
@@ -80,12 +80,12 @@ export default defineConfig({
 
 For more information about how to configure your Playwright project, have a look into the [official documentation](https://playwright.dev/docs/test-configuration).
 
-### Mailpit Configuration
+### Mailpit configuration
 Set up your local Mailpit instance by following the instructions at [Mailpit GitHub repository](https://github.com/axllent/mailpit).  
 By default, Mailpit starts a web interface at `http://localhost:8025` and listens for SMTP on port `1025`.  
 Set the `MAILPIT_BASE_URL` environment variable in `playwright.config.ts` to `http://localhost:8025`. You can now run email tests, such as `tests/Mailpit.spec.ts`.
 
-## Testing With ATS
+## Testing within the Test Suite
 The `tests` folder ensures the reliability of the testing framework by validating the functionality of tools and data used in tests. Add tests to verify any new features or changes you introduce:
 
 - **Page Objects**: Ensure they are correctly implemented and interact with the application as expected, including navigation, element visibility, and user interactions.
@@ -143,7 +143,7 @@ test('My first test scenario.', async ({ AdminApiContext, DefaultSalesChannel })
 
 In the example above you can see two Shopware specific fixtures that are used in the test, `AdminApiContext` and `DefaultSalesChannel`. Every fixture can be used as an argument within the test method. Read more about available fixtures in the next section.
 
-## General Fixtures
+## General fixtures
 
 ### DefaultSalesChannel
 We try to encapsulate test execution within the system under test and make tests as deterministic as possible. The idea is, to have a separate sales channel created which is used to do tests within the standard Storefront. The `DefaultSalesChannel` fixture is a worker scoped fixture and is there to achieve exactly that. Using it will provide you with a new sales channel with default settings, including a default Storefront customer.
@@ -262,7 +262,7 @@ test('Storefront cart test scenario', async ({ StorefrontPage, StorefrontCheckou
 
 You can get an overview of all available page objects in the [repository](https://github.com/shopware/acceptance-test-suite/tree/trunk/src/page-objects) of this test suite.
 
-## Page object module
+### Page Object module
 The `modules` folder is designed to house reusable utility functions that operate on a `Page` object (from Playwright). These functions dynamically interact with different browser pages or contexts using the `page` parameter.
 For example, utility functions like `getCustomFieldCardLocators` or `getSelectFieldListitem` are used across multiple page objects to handle specific functionality (e.g., managing custom fields or select field list items). Centralizing these utilities in the `modules` folder improves code organization, readability, and reduces duplication.
 Create a new class inside module when it helps to streamline the codebase and avoid repetitive logic across page objects.
@@ -301,7 +301,7 @@ export const AdminPageObjects = {
 }
 ```
 
-## Actor Pattern
+## Actor pattern
 The actor pattern is a very simple concept that we added to our test suite. It is something that is not related to Playwright, but similar concepts exist in other testing frameworks. We implemented it, because we want to have reusable test logic that can be used in a human-readable form, without abstracting away Playwright as a framework. So you are totally free to use it or not. Any normal Playwright functionality will still be usable in your tests.
 
 The concept adds two new entities besides the already mentioned page objects.
@@ -345,11 +345,11 @@ test('Product detail test scenario', async ({
 });
 ```
 
-In this example you can see that this pattern creates tests that are very comprehensible, even for non-tech people. They also make it easier to abstract simple test logic that might be used in different scenarios into executable tasks, like adding a product to the cart. You can also see the usage of a data fixture (`ProductData`), which we will cover in a later chapter.
+In this example you can see that this pattern creates tests that are very comprehensible, even for non-tech people. They also make it easier to abstract simple test logic that might be used in different scenarios into executable tasks, like adding a product to the cart.
 
 The test suite offers two different actors by default:
 
-* `ShopCustomer`: A user that is navigating the Storefront and buying products.
+* `ShopCustomer`: A user that is navigating the Storefront.
 * `ShopAdmin`: A user that is managing Shopware via the Administration.
 
 ### Tasks
@@ -400,6 +400,7 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension. Use `/src/tasks/shop-customer-tasks.ts` or `/src/tasks/shop-admin-tasks.ts` for that.
 
 To keep tests easily readable, use names for your tasks so that in the test itself the code line resembles the `Actor.attemptsTo(doSomething)` pattern as good as possible.
+
 **Example**
 ```TypeScript
 // Bad example
@@ -409,33 +410,33 @@ await ShopCustomer.attemptsTo(ProductCart);
 await ShopCustomer.attemptsTo(PutProductIntoCart);
 ```
 
-## Code Contribution
+## Code contribution
 You can contribute to this project via its [official repository](https://github.com/shopware/acceptance-test-suite/) on GitHub.  
 
 This project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please make sure to form your commits accordingly to the spec.
 
-## Local Development with ATS
+## Local development with ATS
 To work locally with the Acceptance Test Suite (ATS) and your development setup, follow these steps:
 
-### Create Your Page Objects and TestDataService Methods
+### Create your Page Objects and TestDataService methods
 
-In the ATS repository (shopware/acceptance-test-suite), create or modify your custom page objects, TestDataService methods, or any related files.
+In the ATS repository ([shopware/acceptance-test-suite](https://github.com/shopware/acceptance-test-suite)), create or modify your custom page objects, TestDataService methods, or any related files.
 
 After making your changes, build the project by running the following command in the ATS repository:
 ```bash
 npm run build
 ```
-This will generate the necessary artifacts in the dist folder.
+This will generate the necessary artifacts in the `dist` folder.
 
-Copy the generated artifacts (e.g., all files in the dist folder) from the ATS repository to your local Shopware instance's `node_modules` folder, specifically under the ATS package path:
+Copy the generated artifacts (e.g., all files in the `dist` folder) from the ATS repository to your local Shopware instance's `node_modules` folder, specifically under the ATS package path:
 ```bash
 cp -R dist/* <path-to-your-shopware-instance>/tests/acceptance/node_modules/@shopware-ag/acceptance-test-suite/dist
 ````
-### Adjust Tests, Page Objects, and Methods
+### Adjust tests, Page Objects, and methods
 
 In your Shopware instance, adjust any tests, page objects, TestDataService methods, or other related files to align them with the changes made in the ATS repository.
 
-### Run the Tests
+### Run the tests
 
 Execute the tests to verify your changes. Use the following command from your Shopware project's acceptance test directory:
 ```bash
@@ -451,7 +452,6 @@ A good first read about this is the official [playwright best practices page](ht
 
 The most important part is [test isolation](https://playwright.dev/docs/best-practices#make-tests-as-isolated-as-possible) which helps to prevent flaky behavior and enables the test to be run in parallel and on systems with an unknown state.
 
-
 ### Dos
 
 - use the [`TestDataService`](./src/services/TestDataService.ts) for creating test data
@@ -460,7 +460,7 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 - if you need specific settings for your test, set it explicitly for the user/customer/sales channel
 - directly jump to detail pages with the id of the entities you've created
     - if that's no possible, use the search with a unique name to filter lists to just that single entity
-- if you need to skip tests, comment any relevant github issues as part of the skip method: `test.skip('Blocked by http://[...])`
+- if you need to skip tests, comment any relevant github issues as part of the skip method: `test.skip('Blocked by https://[...])`
 
 ### Don'ts
 
@@ -516,7 +516,7 @@ const responseData = await response.json();
 console.log(responseData.errors[0]);
 ```
 
-## Running Tests in the Test Suite
+## Running tests in the Test Suite
 If you want to work on the test suite and try to execute tests from within this repository, you have to run a corresponding docker image for a specific Shopware version.
 
 We publish pre-built images at the [GitHub container registry](https://github.com/orgs/shopware/packages/container/package/acceptance-test-suite%2Ftest-image). The images are built on a daily basis, check to see which versions are available.
@@ -555,7 +555,7 @@ The test suite provides several services that can be used to simplify your test 
 The `TestDataService` is a powerful utility designed to simplify test data creation, management, and cleanup when writing acceptance and API tests for Shopware. It provides ready-to-use functions for common data needs and ensures reliable, isolated test environments.
  For detailed documentation of the methods you can have a look at the [service class](https://github.com/shopware/acceptance-test-suite/blob/trunk/src/services/TestDataService.ts) or simply use the auto-completion of your IDE.
 
-### When to Use the TestDataService in Tests
+### When to use the TestDataService in tests
 
 You should use the `TestDataService` whenever you need **test data** that matches common Shopware structures, such as:
 
@@ -567,13 +567,13 @@ You should use the `TestDataService` whenever you need **test data** that matche
 
 **Typical examples include:**
 
-```ts
+```typescript
 const product = await TestDataService.createBasicProduct();
 const customer = await TestDataService.createCustomer();
 const shipping = await TestDataService.createBasicShippingMethod();
 ```
 
-### When and Why to Extend the TestDataService
+### When and why to extend the TestDataService
 
 You should add new functions to the TestDataService (or extend it) when:
 
@@ -583,98 +583,61 @@ You should add new functions to the TestDataService (or extend it) when:
 - You want to **reuse the same setup across multiple tests** without duplicating logic.
 - You require **special cleanup handling** for newly created entities.
 
-
-
 Using and extending the `TestDataService` properly ensures your acceptance tests stay **readable**, **maintainable**, and **scalable** even as your Shopware project grows.
 
-### Available `create*` Methods in TestDataService
+### Available `create*` methods in TestDataService
 
-These methods are designed to streamline the setup of test data, ensuring consistency and efficiency in your testing processes.
+These methods are designed to streamline the setup of test data, ensuring consistency and efficiency in your testing processes. They are much more available than listed below, but these are the most common ones. Please use your IDE auto-completion to find all available methods.
 
-- `createBasicManufacturer(): Promise<Manufacturer>`
-- `createBasicPageLayout(cmsPageType: string): Promise<CmsPage>`
-- `createBasicPaymentMethod(): Promise<PaymentMethod>`
 - `createBasicProduct(): Promise<Product>`
-- `createBasicRule(): Promise<Rule>`
-- `createBasicShippingMethod(): Promise<ShippingMethod>`
-- `createCategory(): Promise<Category>`
-- `createColorPropertyGroup(): Promise<PropertyGroup>`
-- `createCountry(): Promise<Country>`
-- `createCurrency(): Promise<Currency>`
+- `createVariantProducts(parentProduct: Product, propertyGroups: PropertyGroup[]): Promise<Product[]>`
 - `createCustomer(): Promise<Customer>`
 - `createCustomerGroup(): Promise<CustomerGroup>`
-- `createCustomField(customFieldSetId: string): Promise<CustomField>`
-- `createCustomFieldSet(): Promise<CustomFieldSet>`
-- `createDigitalProduct(): Promise<Product>`
-- `createManufacturerWithImage(): Promise<Manufacturer>`
-- `createMediaPNG(): Promise<Media>`
-- `createMediaResource(): Promise<Media>`
-- `createMediaTXT(): Promise<Media>`
 - `createOrder(lineItems: SimpleLineItem[], customer: Customer): Promise<Order>`
-- `createPaymentMethodWithImage(): Promise<PaymentMethod>`
-- `createProductCrossSelling(productId: string): Promise<ProductCrossSelling>`
-- `createProductWithImage(): Promise<Product>`
-- `createProductWithPriceRange(): Promise<Product>`
-- `createPromotionWithCode(): Promise<Promotion>`
-- `createSalesChannelAnalytics(): Promise<SalesChannelAnalytics>`
-- `createSalesChannelDomain(): Promise<SalesChannelDomain>`
-- `createShippingMethodWithImage(): Promise<ShippingMethod>`
-- `createTag(tagName: string): Promise<Tag>`
-- `createTaxRate(): Promise<Tax>`
-- `createTextPropertyGroup(): Promise<PropertyGroup>`
-- `createVariantProducts(parentProduct: Product, propertyGroups: PropertyGroup[]): Promise<Product[]>`
+- `createCategory(): Promise<Category>`
+- `createColorPropertyGroup(): Promise<PropertyGroup>`
+- `createBasicPaymentMethod(): Promise<PaymentMethod>`
+- `createBasicShippingMethod(): Promise<ShippingMethod>`
 
-### Available `assign*` Methods in TestDataService
+- [...]
 
-These methods are designed to establish associations between entities, such as linking products to categories or assigning media to manufacturers, ensuring that your test data reflects realistic scenarios.
 
-- `assignManufacturerMedia(manufacturerId: string, mediaId: string): Promise<void>`
-- `assignPaymentMethodMedia(paymentMethodId: string, mediaId: string): Promise<void>`
+### Available `assign*` methods in TestDataService
+
+These methods are designed to establish associations between entities, such as linking products to categories or assigning media to manufacturers, ensuring that your test data reflects realistic scenarios. They are much more available than listed below, but these are the most common ones. Please use your IDE auto-completion to find all available methods.
+
 - `assignProductCategory(productId: string, categoryIds: string[]): Promise<void>`
-- `assignProductDownload(productId: string, mediaId: string): Promise<void>`
 - `assignProductManufacturer(productId: string, manufacturerId: string): Promise<void>`
 - `assignProductMedia(productId: string, mediaId: string): Promise<void>`
-- `assignProductTag(productId: string, tagIds: string[]): Promise<void>`
-- `assignShippingMethodMedia(shippingMethodId: string, mediaId: string): Promise<void>`
 
+- [...]
 
-### Available `get*` Methods in TestDataService
+### Available `get*` methods in TestDataService
+They are much more available than listed below, but these are the most common ones. Please use your IDE auto-completion to find all available methods.
 
-- `getAllDeliveryTimeResources(): Promise<DeliveryTime[]>`
 - `getCountry(iso2: string): Promise<Country>`
 - `getCurrency(isoCode: string): Promise<Currency>`
-- `getCustomerAddress(addressId: string): Promise<CustomerAddress>`
-- `getCustomerByEmail(email: string): Promise<Customer>`
-- `getCustomerGroupById(customerGroupId: string): Promise<CustomerGroup>`
 - `getCustomerGroups(): Promise<CustomerGroup[]>`
-- `getDeliveryStateMachine(): Promise<StateMachine>`
-- `getLanguageById(languageId: string): Promise<Language>`
-- `getLanguageData(languageCode: string): Promise<Language>`
-- `getOrderStateMachine(): Promise<StateMachine>`
 - `getPaymentMethod(name = 'Invoice'): Promise<PaymentMethod>`
-- `getPropertyGroupOptions(propertyGroupId: string): Promise<PropertyGroupOption[]>`
-- `getRule(name: string): Promise<Rule>`
-- `getShippingMethod(name = 'Standard'): Promise<ShippingMethod>`
-- `getStateMachine(name: string): Promise<StateMachine>`
-- `getStateMachineState(stateMachineId: string, stateName: 'open' | 'completed' | 'in_progress' | 'cancelled' = 'open'): Promise<StateMachineState>`
-- `getTransactionStateMachine(): Promise<StateMachine>`
 
-### Writing New Methods in `TestDataService`
+- [...]
 
-The `TestDataService` is a helper class that provides reusable methods to create, assign, or fetch data via the Shopware Admin API. If you want to add new functionality to this service—such as a new type of entity creation—you can follow this approach:
+### Writing new methods in `TestDataService`
 
-##### 1. Define the Purpose
+If you want to add new functionality to this service — such as a new type of entity creation — you can follow this approach:
+
+#### 1. Define the purpose
 
 Decide whether you're creating, assigning, or retrieving data. Most methods fall into one of the following patterns:
 - `create*`: Creates a new entity (e.g. product, customer, category)
 - `assign*`: Links existing entities (e.g. assign media to product)
 - `get*`: Retrieves specific or filtered data from the system
 
-##### 2. Implement the Method
+#### 2. Implement the method
 
 Use the `AdminApiContext` to interact with the Shopware Admin API. Here's a simplified example of adding a method to [create a new shipping method](https://github.com/shopware/acceptance-test-suite/blob/e8d2a5e8cee2194b914aa35aa87fe7cf04060834/src/services/TestDataService.ts#L679)
 
-##### 3. Follow Naming Conventions
+#### 3. Follow naming conventions
 
 Be consistent in naming:
 - Use `createBasic*` for standardized, default setups with predefined values (e.g. `createBasicProduct`)
@@ -682,15 +645,15 @@ Be consistent in naming:
 - Use `assign*` for methods that associate two entities (e.g. `assignProductMedia`)
 - Use `get*` to retrieve specific entities or lists (e.g. `getCurrency`)
 
-##### 4. Add a Return Type
+#### 4. Add a return type
 
 Always define a return type (typically a `Promise<...>`) to improve autocompletion and documentation support.
 
-##### 5. Add Cleanup Logic
+#### 5. Add cleanup logic
 
 Make sure to clean up the entity via code after test run by putting the entity to a record. See example below:
 
-```ts
+```typescript
 async createBasicRule(): Promise<Rule> {
         [...]
                 
@@ -700,14 +663,13 @@ async createBasicRule(): Promise<Rule> {
     }
 ```
 
-Further information you can explore in the chapter:
+Further information you can explore in the chapter: [Automatic Cleanup](#automatic-cleanup-of-test-data-and-system-configurations)
 
-
-##### 6. Test the Method
+#### 6. Test the method
 
 Once added, use your new method inside a test to verify it works as expected (`/tests/TestDataService.spec.ts`):
 
-```ts
+```typescript
 test('Verify new shipping method creation', async ({ TestDataService }) => {
     const shippingMethod = await TestDataService.createShippingMethod({
         name: 'Express Delivery'
@@ -717,44 +679,42 @@ test('Verify new shipping method creation', async ({ TestDataService }) => {
 });
 ```
 
-### Automatic Cleanup of Test Data and System Configurations
+### Automatic cleanup of test data and system configurations
 
 The `TestDataService` includes a built-in mechanism to ensure that any test data & system configuration entries created during a test run is automatically deleted afterward. This ensures that the Shopware instance remains clean and consistent between tests, helping to maintain **test isolation** and prevent **state leakage**.
 
-#### How Cleanup Works
+#### How cleanup works
 
 When you create an entity using a `create*` method (e.g., `createBasicProduct`, `createCustomer`), the service automatically registers that entity for deletion by calling the `addCreatedRecord()` method:
-```ts
+```typescript
 this.addCreatedRecord('product', product.id);
 ```
 
 These records are stored in a cleanup queue that is processed at the end of each test using the Playwright lifecycle.
 
-#### Cleanup Execution
+#### Cleanup execution
 
 The `cleanup()` method handles the deletion of all registered entities and system config changes. All created records are grouped into two categories: 
 * Priority Deletions (`priorityDeleteOperations`) – for entities with dependencies that must be deleted first (e.g. orders, customers)
 * Standard Deletions (`deleteOperations`) – for all other entities
 
-This prioritization prevents errors when deleting interdependent data. Any modified system configurations are reset to their previous state after deleting priority records
+This prioritization prevents errors when deleting interdependent data. Any modified system configurations are reset to their previous state after deleting priority records.
+The priority entities can be found in the `TestDataService` class. If you want to add a new entity to the priority deletion list, you can do so by adding it to the `priorityDeleteOperations` array.
 
-#### Skipping Cleanup
+#### Skipping cleanup
 
 In rare scenarios, such as performance testing or debugging, you may want to prevent cleanup for specific entities. You can simply skip the cleanUp by calling `TestDataService.setCleanUp(false)` within your test.
 
-Got it — based on your provided files (`AcceptanceTest.ts`, `CommercialTestData.ts`, and `README.md`), here is a new **Markdown** chapter you can insert into the README, describing **how to extend the TestDataService** from another project:
-
----
 
 ### Extending the TestDataService in external projects
 
-The `TestDataService` provided by the Shopware Acceptance Test Suite is designed to be **easily extendable**. This allows you to add project-specific data generation methods while still benefiting from the existing, standardized base functionality.
+The `TestDataService` is designed to be **easily extendable**. This allows you to add project-specific data generation methods while still benefiting from the existing, standardized base functionality.
 
-#### 1. Create a New Subclass
+#### 1. Create a new subclass
 
 You can create a new TypeScript class that **extends** the base `TestDataService`.
 
-```ts
+```typescript
 import { TestDataService } from '@shopware-ag/acceptance-test-suite';
 
 export class CustomTestDataService extends TestDataService {
@@ -774,20 +734,20 @@ export class CustomTestDataService extends TestDataService {
 }
 ```
 
-#### 2. Provide the Extended Service as a Fixture
+#### 2. Provide the extended service as a fixture
 
 Following the Playwright [fixture system](https://playwright.dev/docs/test-fixtures) described in the README, you create a new fixture that initializes your extended service.
 
 Example from `AcceptanceTest.ts`:
 
-```ts
+```typescript
 import { test as base } from '@shopware-ag/acceptance-test-suite';
 import type { FixtureTypes } from '@shopware-ag/acceptance-test-suite';
-import { CommercialTestDataService } from './CommercialTestData';
+import { CustomTestDataService } from './CustomTestData';
 
 export * from '@shopware-ag/acceptance-test-suite';
 
-export const test = base.extend<FixtureTypes>({
+export const test = base.extend<FixtureTypes & CustomTestDataService>({
     TestDataService: async ({ AdminApiContext, DefaultSalesChannel }, use) => {
         const service = new CustomTestDataService(AdminApiContext, DefaultSalesChannel);
         await use(service);
