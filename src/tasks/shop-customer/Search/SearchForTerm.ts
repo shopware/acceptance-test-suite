@@ -7,7 +7,8 @@ export const SearchForTerm = base.extend<{ SearchForTerm: Task }, FixtureTypes>(
         const task = (searchTerm: string) => {
             return async function SearchForTerm() {
                 await StorefrontSearchSuggest.searchInput.fill(searchTerm);
-                await StorefrontSearchSuggest.page.waitForResponse((response) => response.url().includes(`suggest?search=${searchTerm}`) && response.ok());
+                const encodedSearchTerm = encodeURIComponent(searchTerm);
+                await StorefrontSearchSuggest.page.waitForResponse((response) => response.url().includes(`suggest?search=${encodedSearchTerm}`) && response.ok());
             };
         };
 

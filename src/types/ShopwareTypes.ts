@@ -328,3 +328,25 @@ export interface CustomFieldData {
     customFieldSetName: string;
     customFieldValue: string;
 }
+
+export interface FlowTemplate {
+    id: string;
+    name: string;
+    config: {
+        eventName: string;
+        sequences: [{
+            actionName: string;
+            config: string;
+        }]
+    }
+}
+
+export interface Flow {
+    id: string;
+    name: string;
+    eventName: string;
+    sequences: [{
+        actionName: string;
+        config: string;
+    }]
+}

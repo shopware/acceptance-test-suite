@@ -6,9 +6,21 @@ export class Home implements PageObject {
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
     public readonly productListItems: Locator;
+    /**
+     * @deprecated Use 'Header/languagesDropdown' instead
+     */
     public readonly languagesDropdown: Locator;
+    /**
+     * @deprecated Use 'Header/languagesMenuOptions' instead
+     */
     public readonly languagesMenuOptions: Locator;
+    /**
+     * @deprecated Use 'Header/currenciesDropdown' instead
+     */
     public readonly currenciesDropdown: Locator;
+    /**
+     * @deprecated Use 'Header/currenciesMenuOptions' instead
+     */
     public readonly currenciesMenuOptions: Locator;
     public readonly consentOnlyTechnicallyRequiredButton: Locator;
     public readonly consentConfigureButton: Locator;
@@ -27,11 +39,23 @@ export class Home implements PageObject {
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
+    /**
+     * @deprecated Use 'Header/mainNavigationLink' instead
+     */
     public readonly mainNavigationLink: Locator;
+    /**
+     * @deprecated Use 'Footer/contactFormLink' instead
+     */
     public readonly contactFormLink: Locator;
 
     //wishlist
+    /**
+     * @deprecated Use 'Header/wishlistIcon' instead
+     */
     public readonly wishlistIcon: Locator;
+    /**
+     * @deprecated Use 'Header/wishlistBasket' instead
+     */
     public readonly wishlistBasket: Locator;
 
     constructor(public readonly page: Page) {

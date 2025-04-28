@@ -4,7 +4,6 @@ import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class FlowBuilderListing implements PageObject {
-
     public readonly createFlowButton: Locator;
     public readonly firstFlowName: Locator;
     public readonly firstFlowContextButton: Locator;
@@ -18,6 +17,7 @@ export class FlowBuilderListing implements PageObject {
     public readonly flowDeleteButton: Locator;
     public readonly successAlert: Locator;
     public readonly successAlertMessage: Locator;
+    public readonly searchBar: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.createFlowButton = page.locator('.sw-flow-list__create');
@@ -35,6 +35,7 @@ export class FlowBuilderListing implements PageObject {
         this.downloadFlowButton = page.getByRole('button', { name: 'Download flow' });
         this.successAlert = page.locator('.sw-alert__body');
         this.successAlertMessage = page.locator('.sw-alert__message');
+        this.searchBar = page.locator('.sw-search-bar__input');
     }
 
     url() {
@@ -61,6 +62,6 @@ export class FlowBuilderListing implements PageObject {
             flowNameText: flowNameText,
             flowEventNameText: flowEventNameText,
             flowContextMenuButton: flowContextMenuButton,
-        }
+        };
     }
 }

@@ -41,6 +41,7 @@ export class FlowBuilderCreate implements PageObject {
     public readonly delayCard: Locator;
     public readonly conditionRule: Locator;
     public readonly sequenceSeparator: Locator;
+    public readonly addActionField: Locator;
     public readonly newFlowHeader: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
@@ -80,9 +81,15 @@ export class FlowBuilderCreate implements PageObject {
         this.delayCard = page.locator('.sw-flow-delay-action__delay_card');
         this.sequenceSeparator = page.locator('.sw-flow-detail-flow__position-connection');
         this.newFlowHeader = page.getByRole('heading', { name: 'New flow' })
+        this.addActionField = page.locator('.sw-flow-sequence-action__content').locator('.sw-single-select__selection');
     }
-    url() {
-        return '#/sw/flow/create/general';
+
+    url(flowId?: string, tabName = 'general') {
+        if (!flowId || flowId === '') {
+            return `#/sw/flow/create/${tabName}`;
+        }
+        return `#/sw/flow/create/${flowId}/${tabName}`;
+
     }
     async getSelectedTrigger(): Promise<string> {
         await this.page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox').hover();

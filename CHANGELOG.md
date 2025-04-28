@@ -1,5 +1,45 @@
 # Changelog
 
+## [11.15.0](https://github.com/shopware/acceptance-test-suite/compare/v11.14.0...v11.15.0) (2025-04-25)
+
+
+### Features
+
+* add header and footer pages ([#375](https://github.com/shopware/acceptance-test-suite/issues/375)) ([dc9d7ef](https://github.com/shopware/acceptance-test-suite/commit/dc9d7ef36f3c9c23e4dfb3333eda7b30a3e90679))
+
+## [11.14.0](https://github.com/shopware/acceptance-test-suite/compare/v11.13.2...v11.14.0) (2025-04-15)
+
+
+### Features
+
+* bump api-client version to 1.2.1 ([#364](https://github.com/shopware/acceptance-test-suite/issues/364)) ([4bbfb36](https://github.com/shopware/acceptance-test-suite/commit/4bbfb3629dba6e8c236b6d0e02fedf66e2bdb284))
+
+
+### Bug Fixes
+
+* add locator for 6.6.x ([#371](https://github.com/shopware/acceptance-test-suite/issues/371)) ([9d19f06](https://github.com/shopware/acceptance-test-suite/commit/9d19f06d67337afa757f032e2f363ff27ac8aa3b))
+
+## [11.13.2](https://github.com/shopware/acceptance-test-suite/compare/v11.13.1...v11.13.2) (2025-04-14)
+
+
+### Bug Fixes
+
+* search term encoding ([#367](https://github.com/shopware/acceptance-test-suite/issues/367)) ([ff76834](https://github.com/shopware/acceptance-test-suite/commit/ff76834c0d0e78de0d4de133e862cd9ceb0ebd1d))
+
+## [11.13.1](https://github.com/shopware/acceptance-test-suite/compare/v11.13.0...v11.13.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* search term blank space replacement ([#365](https://github.com/shopware/acceptance-test-suite/issues/365)) ([85c5129](https://github.com/shopware/acceptance-test-suite/commit/85c5129747c71705c01ad97c06595fd8747fa755))
+
+## [11.13.0](https://github.com/shopware/acceptance-test-suite/compare/v11.12.5...v11.13.0) (2025-03-20)
+
+
+### Features
+
+* NEXT-39675 - Flow Builder Templates page object ([#246](https://github.com/shopware/acceptance-test-suite/issues/246)) ([5e8e81d](https://github.com/shopware/acceptance-test-suite/commit/5e8e81dd00153fc4bf0bc416e0cf926c05952237))
+
 ## [11.12.5](https://github.com/shopware/acceptance-test-suite/compare/v11.12.4...v11.12.5) (2025-03-17)
 
 
