@@ -16,6 +16,7 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [Data Fixtures](#data-fixtures)
 * [Test Data Service](#test-data-service)
 * [Code Contribution](#code-contribution)
+* [Local Development with ATS](#local-development-with-ats)
 * [Best practices](#best-practices)
 * [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
 
@@ -71,6 +72,33 @@ export default defineConfig({
 ```
 
 For more information about how to configure your Playwright project, have a look into the [official documentation](https://playwright.dev/docs/test-configuration).
+
+### Mailpit Configuration
+Set up your local Mailpit instance by following the instructions at [Mailpit GitHub repository](https://github.com/axllent/mailpit).  
+By default, Mailpit starts a web interface at `http://localhost:8025` and listens for SMTP on port `1025`.  
+Set the `MAILPIT_BASE_URL` environment variable in `playwright.config.ts` to `http://localhost:8025`. You can now run email tests, such as `tests/Mailpit.spec.ts`.
+
+## Testing With ATS
+The `tests` folder ensures the reliability of the testing framework by validating the functionality of tools and data used in tests. Add tests to verify any new features or changes you introduce:
+
+- **Page Objects**: Ensure they are correctly implemented and interact with the application as expected, including navigation, element visibility, and user interactions.
+- **TestDataService Methods**: Verify that methods for creating, getting, and cleaning up test data (e.g., products, customers, orders) work correctly and produce consistent results.
+
+```TypeScript
+//Example for page objects
+
+await ShopAdmin.goesTo(AdminManufacturerCreate.url());
+await ShopAdmin.expects(AdminManufacturerCreate.nameInput).toBeVisible();
+await ShopAdmin.expects(AdminManufacturerCreate.saveButton).toBeVisible();
+```
+
+```TypeScript
+//Example for TestDataService
+
+const product = await TestDataService.createProductWithImage({ description: 'Test Description' });
+expect(product.description).toEqual('Test Description');
+expect(product.coverId).toBeDefined();
+```
 
 ## Usage
 The test suite uses the [extension system](https://playwright.dev/docs/extensibility) of Playwright and can be used as a full drop-in for Playwright. But, as you might also want to add your own extensions, the best way to use it is to create your own base test file and use it as the central reference for your test files. Add it to your project root or a specific fixture directory and name it whatever you like.
@@ -223,6 +251,13 @@ test('Storefront cart test scenario', async ({ StorefrontPage, StorefrontCheckou
 ```
 
 You can get an overview of all available page objects in the [repository](https://github.com/shopware/acceptance-test-suite/tree/trunk/src/page-objects) of this test suite.
+
+## Page object module
+The `modules` folder is designed to house reusable utility functions that operate on a `Page` object (from Playwright). These functions dynamically interact with different browser pages or contexts using the `page` parameter.
+For example, utility functions like `getCustomFieldCardLocators` or `getSelectFieldListitem` are used across multiple page objects to handle specific functionality (e.g., managing custom fields or select field list items). Centralizing these utilities in the `modules` folder improves code organization, readability, and reduces duplication.
+Create a new class inside module when it helps to streamline the codebase and avoid repetitive logic across page objects.
+
+You can find how `getCustomFieldCardLocators` is defined in the [modules folder ](./src/page-objects/administration/modules/CustomFieldCard.ts) and used in other page object class [here](./src/page-objects/administration/ProductDetail.ts).
 
 ## Actor Pattern
 The actor pattern is a very simple concept that we added to our test suite. It is something that is not related to Playwright, but similar concepts exist in other testing frameworks. We implemented it, because we want to have reusable test logic that can be used in a human-readable form, without abstracting away Playwright as a framework. So you are totally free to use it or not. Any normal Playwright functionality will still be usable in your tests.
@@ -438,6 +473,38 @@ This service is a simple way to create test data within your tests. It simplifie
 You can contribute to this project via its [official repository](https://github.com/shopware/acceptance-test-suite/) on GitHub.  
 
 This project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please make sure to form your commits accordingly to the spec.
+
+## Local Development with ATS
+To work locally with the Acceptance Test Suite (ATS) and your development setup, follow these steps:
+
+### Create Your Page Objects and TestDataService Methods
+
+In the ATS repository (shopware/acceptance-test-suite), create or modify your custom page objects, TestDataService methods, or any related files.
+Run the Build Command
+
+After making your changes, build the project by running the following command in the ATS repository:
+```bash
+npm run build
+```
+This will generate the necessary artifacts in the dist folder.
+Copy the Artifacts
+
+Copy the generated artifacts (e.g., all files in the dist folder) from the ATS repository to your local Shopware instance's node_modules folder, specifically under the ATS package path:
+```bash
+cp -R dist/* <path-to-your-shopware-instance>/node_modules/@shopware-ag/acceptance-test-suite/
+````
+### Adjust Tests, Page Objects, and Methods
+
+In your Shopware instance, adjust any tests, page objects, TestDataService methods, or other related files to align them with the changes made in the ATS repository.
+
+### Run the Tests
+
+Execute the tests to verify your changes. Use the following command from your Shopware project's acceptance test directory:
+```bash
+npx playwright test --ui
+```
+This will launch the Playwright Test Runner UI where you can select and run specific tests.
+By following these steps, you can work locally with the ATS and test your changes in your Shopware instance.
 
 ## Best practices
 
