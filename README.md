@@ -705,3 +705,64 @@ This prioritization prevents errors when deleting interdependent data. Any modif
 #### Skipping Cleanup
 
 In rare scenarios, such as performance testing or debugging, you may want to prevent cleanup for specific entities. You can simply skip the cleanUp by calling `TestDataService.setCleanUp(false)` within your test.
+
+Got it — based on your provided files (`AcceptanceTest.ts`, `CommercialTestData.ts`, and `README.md`), here is a new **Markdown** chapter you can insert into the README, describing **how to extend the TestDataService** from another project:
+
+---
+
+### Extending the TestDataService in external projects
+
+The `TestDataService` provided by the Shopware Acceptance Test Suite is designed to be **easily extendable**. This allows you to add project-specific data generation methods while still benefiting from the existing, standardized base functionality.
+
+### How to Extend the TestDataService
+
+#### 1. Create a New Subclass
+
+You can create a new TypeScript class that **extends** the base `TestDataService`.
+
+```ts
+import { TestDataService } from '@shopware-ag/acceptance-test-suite';
+
+export class CustomTestDataService extends TestDataService {
+    
+    async createCustomCustomerGroup(data: Partial<CustomerGroup>) {
+        const response = await this.adminApi.post('customer-group?_response=true', {
+            data: {
+                ...
+            },
+        });
+
+        const { data: createdGroup } = await response.json();
+        this.addCreatedRecord('customer-group', createdGroup.id);
+
+        return createdGroup;
+    }
+}
+```
+
+#### 2. Provide the Extended Service as a Fixture
+
+Following the Playwright [fixture system](https://playwright.dev/docs/test-fixtures) described in the README, you create a new fixture that initializes your extended service.
+
+Example from `AcceptanceTest.ts`:
+
+```ts
+import { test as base } from '@shopware-ag/acceptance-test-suite';
+import type { FixtureTypes } from '@shopware-ag/acceptance-test-suite';
+import { CommercialTestDataService } from './CommercialTestData';
+
+export * from '@shopware-ag/acceptance-test-suite';
+
+export const test = base.extend<FixtureTypes>({
+    TestDataService: async ({ AdminApiContext, DefaultSalesChannel }, use) => {
+        const service = new CustomTestDataService(AdminApiContext, DefaultSalesChannel);
+        await use(service);
+        await service.cleanUp();
+    },
+});
+```
+
+In this setup:
+- The `TestDataService` fixture is **overridden** with your custom `CustomTestDataService`.
+- Now all tests that use `TestDataService` will have access to both the original and your extended methods.
+- The automated cleanup is still in place, ensuring that any test data created during the test run is removed afterward.
