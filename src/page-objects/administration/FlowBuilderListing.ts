@@ -49,7 +49,7 @@ export class FlowBuilderListing implements PageObject {
         if (satisfies(this.instanceMeta.version, '<6.7')) {
             flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-checkmark-xs');
         } else {
-            flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').getByTestId('sw-icon__regular-checkmark-xs');
+            flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').getByTestId('mt-icon__regular-checkmark-xs');
         }
         const flowDisabledCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-times-s');
         const flowNameText = lineItem.locator('.sw-data-grid__cell--name');

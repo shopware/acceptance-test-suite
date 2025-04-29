@@ -13,9 +13,10 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
     public readonly alertWarning: Locator;
     public readonly templateName: Locator;
     public readonly alertMessage: Locator;
+    public readonly successMessage: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
-        super(page);
+        super(page, instanceMeta);
         this.generalTab = page.locator('.sw-flow-detail__tab-general');
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.successMessage = page.locator('.sw-alert__title');

@@ -149,8 +149,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new FlowBuilderListing(AdminPage, InstanceMeta));
     },
 
-    AdminFlowBuilderTemplates: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderTemplates(AdminPage));
+    AdminFlowBuilderTemplates: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderTemplates(AdminPage, InstanceMeta));
     },
 
     AdminFlowBuilderDetail: async ({ AdminPage, InstanceMeta }, use) => {

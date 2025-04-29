@@ -23,20 +23,46 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.triggerSelectField.press('Enter');
                 // Add condition
                 await AdminFlowBuilderCreate.sequenceSelectorConditionButton.click();
-                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
+                await AdminFlowBuilderCreate.conditionSelectField.click();
+                await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator('.sw-select-result-list__item-list')).toBeVisible();
+                await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__content').getByRole('listitem').filter({ hasText: `${flowConfig.condition}`}).click();
+                //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
                 // Add action to condition true block
                 await AdminFlowBuilderCreate.trueBlockAddActionButton.click();
-                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.trueBlockActionSelectField, `${flowConfig.trueAction}`)).click();
+                await AdminFlowBuilderCreate.trueBlockActionSelectField.click();
+                await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator('.sw-select-result-list__item-list')).toBeVisible();
+                await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__content').getByRole('listitem').filter({ hasText: `${flowConfig.trueAction}` }).click();
+                //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.trueBlockActionSelectField, `${flowConfig.trueAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.mailSendModal).toBeVisible();
-                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.mailSendModalTemplateSelectField, `${flowConfig.trueActionIdentifier}`)).click();
+                await AdminFlowBuilderCreate.mailSendModalTemplateSelectField.click();
+                await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__item-list').waitFor({ state: 'visible' });
+                await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__content').getByRole('listitem').filter({ hasText: `${flowConfig.trueActionIdentifier}`}).click();
+                //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.mailSendModalTemplateSelectField, `${flowConfig.trueActionIdentifier}`)).click();
+                // Hide symfony toolbar to make modalAddButton accessible
+                await AdminFlowBuilderCreate.page.addStyleTag({
+                    content: `
+                        .sf-toolbar {
+                            width: 0 !important;
+                            height: 0 !important;
+                            display: none !important;
+                            pointer-events: none !important; 
+                        }
+                    `.trim(),
+                });
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.trueBlockActionDescription).toContainText(`${flowConfig.trueActionIdentifier}`);
                 // Add action to condition false block
                 await AdminFlowBuilderCreate.falseBlockAddActionButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionSelectField).toBeVisible();
-                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
+                await AdminFlowBuilderCreate.falseBlockActionSelectField.click();
+                await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator('.sw-select-result-list__item-list')).toBeVisible();
+                await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__content').getByRole('listitem').filter({ hasText: `${flowConfig.falseAction}` }).click();
+                //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.tagModal).toBeVisible();
-                await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
+                await AdminFlowBuilderCreate.tagModalTagsSelectField.click();
+                await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator('.sw-select-result-list__item-list')).toBeVisible();
+                await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__content').getByRole('listitem').filter({ hasText: `${flowConfig.falseActionIdentifier}`}).click();
+                //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionDescription).toContainText(`Tag: ${flowConfig.falseActionIdentifier}`);
                 await AdminFlowBuilderCreate.saveButton.click();
