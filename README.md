@@ -480,18 +480,16 @@ To work locally with the Acceptance Test Suite (ATS) and your development setup,
 ### Create Your Page Objects and TestDataService Methods
 
 In the ATS repository (shopware/acceptance-test-suite), create or modify your custom page objects, TestDataService methods, or any related files.
-Run the Build Command
 
 After making your changes, build the project by running the following command in the ATS repository:
 ```bash
 npm run build
 ```
 This will generate the necessary artifacts in the dist folder.
-Copy the Artifacts
 
-Copy the generated artifacts (e.g., all files in the dist folder) from the ATS repository to your local Shopware instance's node_modules folder, specifically under the ATS package path:
+Copy the generated artifacts (e.g., all files in the dist folder) from the ATS repository to your local Shopware instance's `node_modules` folder, specifically under the ATS package path:
 ```bash
-cp -R dist/* <path-to-your-shopware-instance>/node_modules/@shopware-ag/acceptance-test-suite/
+cp -R dist/* <path-to-your-shopware-instance>/tests/acceptance/node_modules/@shopware-ag/acceptance-test-suite/dist
 ````
 ### Adjust Tests, Page Objects, and Methods
 
@@ -501,6 +499,7 @@ In your Shopware instance, adjust any tests, page objects, TestDataService metho
 
 Execute the tests to verify your changes. Use the following command from your Shopware project's acceptance test directory:
 ```bash
+cd tests/acceptance
 npx playwright test --ui
 ```
 This will launch the Playwright Test Runner UI where you can select and run specific tests.
