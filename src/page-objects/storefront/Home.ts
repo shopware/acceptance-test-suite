@@ -58,6 +58,18 @@ export class Home implements PageObject {
      */
     public readonly wishlistBasket: Locator;
 
+    //product filters
+    public readonly filterMultiSelect: Locator;
+    public readonly manufacturerFilter: Locator;
+    public readonly propertyFilters: Locator;
+    public readonly priceFilterButton: Locator;
+    public readonly resetAllButton: Locator;
+    public readonly freeShippingFilter: Locator;
+    public readonly productList : Locator;
+    public readonly productItemNames: Locator;
+    public readonly productRatingButton: Locator;
+    public readonly productRatingList: Locator;
+
     constructor(public readonly page: Page) {
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
@@ -99,6 +111,30 @@ export class Home implements PageObject {
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');
         this.wishlistBasket = page.locator('.header-wishlist-badge');
+
+        //product filters
+        this.filterMultiSelect = page.locator('.filter-multi-select');
+        this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: 'Manufacturer' });
+        this.propertyFilters = page.locator('.filter-multi-select-properties');
+        this.priceFilterButton = page.getByRole('button', { name: 'Price' }).first();
+        this.resetAllButton = page.getByRole('button', { name: 'Reset all' });
+        this.freeShippingFilter = page.getByRole('checkbox', { name: 'Free shipping' });
+        this.productList = page.locator('.cms-listing-row');
+        this.productItemNames = this.productList.locator('.product-name');
+        this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
+        this.productRatingList = page.locator('.filter-rating-select-list-item');
+    }
+
+    async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
+        return this.productRatingList.filter({ hasText: `min. ${rating}/5` });
+    }
+
+    async getFilterItemByFilterName(filterName: string): Promise<Locator> {
+        return this.filterMultiSelect.getByRole('checkbox', { name: filterName });
+    }
+
+    async getFilterButtonByFilterName(filterName: string): Promise<Locator> {
+        return this.filterMultiSelect.getByRole('button', { name: filterName });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
