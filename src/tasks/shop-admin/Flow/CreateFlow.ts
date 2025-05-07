@@ -38,17 +38,6 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__item-list').waitFor({ state: 'visible' });
                 await AdminFlowBuilderCreate.page.locator('.sw-select-result-list__content').getByRole('listitem').filter({ hasText: `${flowConfig.trueActionIdentifier}`}).click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.mailSendModalTemplateSelectField, `${flowConfig.trueActionIdentifier}`)).click();
-                // Hide symfony toolbar to make modalAddButton accessible
-                await AdminFlowBuilderCreate.page.addStyleTag({
-                    content: `
-                        .sf-toolbar {
-                            width: 0 !important;
-                            height: 0 !important;
-                            display: none !important;
-                            pointer-events: none !important; 
-                        }
-                    `.trim(),
-                });
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.trueBlockActionDescription).toContainText(`${flowConfig.trueActionIdentifier}`);
                 // Add action to condition false block
