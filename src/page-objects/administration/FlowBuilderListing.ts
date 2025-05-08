@@ -1,7 +1,5 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class FlowBuilderListing implements PageObject {
     public readonly createFlowButton: Locator;
@@ -19,7 +17,7 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlertMessage: Locator;
     public readonly searchBar: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(public readonly page: Page) {
         this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
         this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
@@ -45,12 +43,7 @@ export class FlowBuilderListing implements PageObject {
     async getLineItemByFlowName(flowName: string): Promise<Record<string, Locator>> {
         const lineItem = this.page.locator('.sw-data-grid__row').filter({ hasText: flowName });
         const flowSelectionCheckbox = lineItem.locator('.sw-data-grid__cell--selection').locator('.sw-field__checkbox');
-        let flowActiveCheckmark
-        if (satisfies(this.instanceMeta.version, '<6.7')) {
-            flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-checkmark-xs');
-        } else {
-            flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').getByTestId('mt-icon__regular-checkmark-xs');
-        }
+        const flowActiveCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-checkmark-xs');
         const flowDisabledCheckmark = lineItem.locator('.sw-data-grid__cell--active').locator('.icon--regular-times-s');
         const flowNameText = lineItem.locator('.sw-data-grid__cell--name');
         const flowEventNameText = lineItem.locator('.sw-data-grid__cell--eventName');

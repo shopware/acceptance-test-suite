@@ -1,12 +1,11 @@
 import type { Page } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import { FlowBuilderListing } from './FlowBuilderListing';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class FlowBuilderTemplates extends FlowBuilderListing implements PageObject {
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
-        super(page, instanceMeta);
+    constructor(public readonly page: Page) {
+        super(page);
     }
 
     url() {
