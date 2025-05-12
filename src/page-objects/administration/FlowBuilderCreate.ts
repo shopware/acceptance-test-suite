@@ -43,6 +43,8 @@ export class FlowBuilderCreate implements PageObject {
     public readonly sequenceSeparator: Locator;
     public readonly addActionField: Locator;
     public readonly newFlowHeader: Locator;
+    public readonly resultListItem: Locator;
+    public readonly resultList: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.saveButton = page.locator('.sw-flow-detail__save');
@@ -80,8 +82,10 @@ export class FlowBuilderCreate implements PageObject {
         this.tagModalTagsSelectField = page.locator('.sw-flow-tag-modal').locator('.sw-select__selection').getByLabel('Tags');
         this.delayCard = page.locator('.sw-flow-delay-action__delay_card');
         this.sequenceSeparator = page.locator('.sw-flow-detail-flow__position-connection');
-        this.newFlowHeader = page.getByRole('heading', { name: 'New flow' })
+        this.newFlowHeader = page.getByRole('heading', { name: 'New flow' });
         this.addActionField = page.locator('.sw-flow-sequence-action__content').locator('.sw-single-select__selection');
+        this.resultListItem = page.locator('.sw-select-result-list__content');
+        this.resultList = page.locator('.sw-select-result-list');
     }
 
     url(flowId?: string, tabName = 'general') {
@@ -93,7 +97,7 @@ export class FlowBuilderCreate implements PageObject {
     }
     async getSelectedTrigger(): Promise<string> {
         await this.page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox').hover();
-        const tooltip = await this.page.waitForSelector('.sw-tooltip');
+        const tooltip = await this.page.locator('.sw-tooltip');
         return await tooltip.innerText();
     }
 
