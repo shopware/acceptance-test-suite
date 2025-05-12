@@ -80,7 +80,7 @@ services:
 
   init:
     <<: [ *service, *shopware-volumes ]
-    image: ghcr.io/shopware/acceptance-test-suite/test-image:${SHOPWARE_VERSION:-trunk}
+    # image: ghcr.io/shopware/acceptance-test-suite/test-image:${SHOPWARE_VERSION:-trunk}
     build:
       context: .
       dockerfile: test-image.Dockerfile
