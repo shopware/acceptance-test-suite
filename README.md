@@ -206,6 +206,9 @@ Note that this is just a very rough example. In most cases you won't use this pa
 ### StorefrontPage
 This fixture provides a Playwright [page](https://playwright.dev/docs/api/class-page) context for the Shopware Storefront of the default sales channel.
 
+### Add new fixtures
+To add new general fixtures create them inside the src/fixtures folder. Keep in mind, that you need to merge your new fixture inside the /src/index.ts file.
+
 ## Page Objects
 Page objects can be helpful to simplify the usage of element selectors and make them available in a reusable way. They help you to organize page specific locators and provide helpers for interacting with a given page. Within our test suite we try to keep the page objects very simple and not to add too much logic to them. So most of the page objects resemble just a collection of element locators and maybe some little helper methods.
 
@@ -224,7 +227,7 @@ test('Storefront cart test scenario', async ({ StorefrontPage, StorefrontCheckou
 
 You can get an overview of all available page objects in the [repository](https://github.com/shopware/acceptance-test-suite/tree/trunk/src/page-objects) of this test suite.
 
-## Add new Page Objects
+### Add new Page Objects
 Page objects are organized mainly by their usage in theadministration or storefront. To add a new page object just add it in the respective subfolder and reference it in the AdministrationPages.ts or StorefrontPages.ts.
 
 **Usage**  
