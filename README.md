@@ -352,7 +352,7 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 });
 ```
 
-You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension.
+You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension. Use /src/tasks/shop-customer-tasks.ts or /src/tasks/shop-admin-tasks.ts for that.
 
 ## Data Fixtures
 
