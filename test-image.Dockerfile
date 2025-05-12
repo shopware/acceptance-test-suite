@@ -4,6 +4,8 @@ ARG SHOPWARE_BUILD_SOURCE="branch"
 FROM shopware/docker-base:${PHP_VERSION}-nginx-otel AS base-image
 FROM shopware/shopware-cli:latest-php-${PHP_VERSION} AS shopware-cli
 
+RUN apk del nodejs-20 npm && apk add nodejs-22 npm
+
 FROM shopware-cli AS checkout-tag
 
 ARG SHOPWARE_VERSION
