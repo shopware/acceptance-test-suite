@@ -1,5 +1,21 @@
 # Changelog
 
+## [11.15.2](https://github.com/shopware/acceptance-test-suite/compare/v11.15.1...v11.15.2) (2025-05-12)
+
+
+### Bug Fixes
+
+* increase SaaS timeout to 120sec ([#388](https://github.com/shopware/acceptance-test-suite/issues/388)) ([7d386df](https://github.com/shopware/acceptance-test-suite/commit/7d386df29d32bb4e8e55b034ef3076aa6b6b4db8))
+* increase timeout for SaaS ([#384](https://github.com/shopware/acceptance-test-suite/issues/384)) ([0b2b3c7](https://github.com/shopware/acceptance-test-suite/commit/0b2b3c756dcffc2970a9a0f6fab00033e9e146e6))
+
+## [11.15.1](https://github.com/shopware/acceptance-test-suite/compare/v11.15.0...v11.15.1) (2025-05-07)
+
+
+### Bug Fixes
+
+* add possibility to get all available address options buttons ([#383](https://github.com/shopware/acceptance-test-suite/issues/383)) ([4998c5b](https://github.com/shopware/acceptance-test-suite/commit/4998c5b74a5afddd114d2e2ba6b03a32bc5b0f31))
+* product filter and product review ([#369](https://github.com/shopware/acceptance-test-suite/issues/369)) ([1c4c040](https://github.com/shopware/acceptance-test-suite/commit/1c4c04083f1a569cbad8d6827069cd9449cce42e))
+
 ## [11.15.0](https://github.com/shopware/acceptance-test-suite/compare/v11.14.0...v11.15.0) (2025-04-25)
 
 

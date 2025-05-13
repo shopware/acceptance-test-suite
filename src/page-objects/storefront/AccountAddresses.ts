@@ -11,7 +11,8 @@ export class AccountAddresses implements PageObject {
     public readonly useDefaultShippingAddressButton: Locator;
     public readonly deliveryNotPossibleAlert: Locator | undefined;
     public readonly availableAddresses: Locator | undefined;
-    public readonly addressDropdownButton: Locator | undefined
+    public readonly addressDropdownButton: Locator | undefined;
+    public readonly addressDropdownButtons: Locator | undefined;
     public readonly availableAddressesUseAsBillingAddress: Locator | undefined;
     public readonly availableAddressesUseAsShippingAddress: Locator | undefined;
 
@@ -30,6 +31,7 @@ export class AccountAddresses implements PageObject {
         else {
             this.availableAddresses = page.locator('.address-manager-list-wrapper');
             this.addressDropdownButton = this.availableAddresses.getByRole('button', { name: 'Address options' }).first();
+            this.addressDropdownButtons = this.availableAddresses.getByRole('button', { name: 'Address options' });
             this.availableAddressesUseAsBillingAddress = this.availableAddresses.getByRole('button', { name: 'Use as default billing address' });
             this.availableAddressesUseAsShippingAddress = this.availableAddresses.getByRole('button', { name: 'Use as default shipping address' });
         }
