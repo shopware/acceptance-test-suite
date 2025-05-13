@@ -3,6 +3,7 @@ import type { PageObject } from '../../types/PageObject';
 import { FlowBuilderCreate } from './FlowBuilderCreate';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { getTooltipText } from './modules/TooltipText';
 
 export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
 
@@ -36,5 +37,9 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
 
     url(flowId?: string, tabName = 'general') {
         return `#/sw/flow/detail/${flowId}/${tabName}`
+    }
+
+    async getTooltipText(toolTipArea: Locator): Promise<string> {
+        return await getTooltipText(this.page, toolTipArea);
     }
 }
