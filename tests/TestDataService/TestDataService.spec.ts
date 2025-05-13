@@ -16,6 +16,7 @@ import {
     SalesChannelAnalytics,
     Tax,
     ProductCrossSelling,
+    ProductReview,
 } from '../../src';
 
 test('Data Service', async ({
@@ -98,6 +99,11 @@ test('Data Service', async ({
     const productCrossSelling = await TestDataService.createProductCrossSelling(crossSellingProduct.id, { name: 'Custom cross selling' });
     expect(productCrossSelling.name).toEqual('Custom cross selling');
 
+    const reviewedProduct = await TestDataService.createBasicProduct();
+    const review = await TestDataService.createProductReview(reviewedProduct.id, { title: 'Custom review title' });
+    expect(review.title).toEqual('Custom review title');
+    expect(review.points).toEqual(5);
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -158,6 +164,10 @@ test('Data Service', async ({
     const crossSellingProductResponse = await AdminApiContext.get(`./product-cross-selling/${productCrossSelling.id}?_response=detail`);
     const { data: databaseCrossSellingProduct } = (await crossSellingProductResponse.json()) as { data: ProductCrossSelling };
     expect(databaseCrossSellingProduct.id).toBe(productCrossSelling.id);
+
+    const productReviewResponse = await AdminApiContext.get(`./product-review/${review.id}?_response=detail`);
+    const { data: databaseProductReview } = (await productReviewResponse.json()) as { data: ProductReview };
+    expect(databaseProductReview.id).toBe(review.id);
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);

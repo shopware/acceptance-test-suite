@@ -1,6 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
-import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class Categories implements PageObject {

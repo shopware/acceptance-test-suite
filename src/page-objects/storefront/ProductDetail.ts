@@ -23,6 +23,10 @@ export class ProductDetail implements PageObject {
     public readonly wishlistAddedButton: Locator;
     public readonly wishlistNotAddedButton: Locator;
 
+    public readonly productDetailConfigurator: Locator;
+    public readonly productDetailConfiguratorGroupTitle: Locator;
+    public readonly productDetailConfiguratorOptionInputs: Locator;
+
     constructor(public readonly page: Page) {
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
@@ -43,6 +47,10 @@ export class ProductDetail implements PageObject {
 
         this.wishlistAddedButton = page.locator('.product-wishlist-added');
         this.wishlistNotAddedButton = page.locator('.product-wishlist-not-added');
+
+        this.productDetailConfigurator = page.locator('.product-detail-configurator');
+        this.productDetailConfiguratorGroupTitle = page.locator('.product-detail-configurator-group-title');
+        this.productDetailConfiguratorOptionInputs = page.locator('.product-detail-configurator-option-input');
     }
 
     url(productData: Product) {

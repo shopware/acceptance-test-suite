@@ -61,13 +61,13 @@ test('Storefront page objects', async ({
     await ShopCustomer.goesTo(StorefrontAccountProfile.url());
     await ShopCustomer.expects(StorefrontAccountProfile.changeEmailButton).toBeVisible();
 
+    await ShopCustomer.goesTo(StorefrontAccountAddresses.url());
+    await ShopCustomer.expects(StorefrontAccountAddresses.addNewAddressButton).toBeVisible();
+
     // eslint-disable-next-line playwright/no-conditional-in-test
-    if (satisfies(InstanceMeta.version, '<=6.7')) {
+    if (satisfies(InstanceMeta.version, '<6.7')) {
         await ShopCustomer.goesTo(StorefrontAccountPayment.url());
         await ShopCustomer.expects(StorefrontAccountPayment.changeDefaultPaymentButton).toBeVisible();
-
-        await ShopCustomer.goesTo(StorefrontAccountAddresses.url());
-        await ShopCustomer.expects(StorefrontAccountAddresses.addNewAddressButton).toBeVisible();
     }
 
 });
