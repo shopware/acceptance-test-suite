@@ -228,7 +228,7 @@ test('Storefront cart test scenario', async ({ StorefrontPage, StorefrontCheckou
 You can get an overview of all available page objects in the [repository](https://github.com/shopware/acceptance-test-suite/tree/trunk/src/page-objects) of this test suite.
 
 ### Add new Page Objects
-Page objects are organized mainly by their usage in theadministration or storefront. To add a new page object just add it in the respective subfolder and reference it in the AdministrationPages.ts or StorefrontPages.ts.
+Page objects are organized mainly by their usage in the administration or storefront. To add a new page object just add it in the respective subfolder and reference it in the `AdministrationPages.ts` or `StorefrontPages.ts`.
 
 **Usage**  
 ```TypeScript
