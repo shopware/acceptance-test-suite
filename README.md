@@ -457,7 +457,7 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 ### Don'ts
 
 - do not expect lists/tables to only contain one item, leverage unique ids/names to open or find your entity instead
-- same with helper functions, do not except to only get item back from the API. Always a unique criteria to the API call
+- same with helper functions, do not expect to only get one item back from the API. Always use unique criteria to the API call
 - avoid unused fixtures: if you request a fixture but don't use any data from the fixture, the test or fixture should be refactored
 - do not depend on implicit configuration and existing data. Examples:
     - rules
