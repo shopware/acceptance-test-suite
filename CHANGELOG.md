@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.15.3](https://github.com/shopware/acceptance-test-suite/compare/v11.15.2...v11.15.3) (2025-05-15)
+
+
+### Bug Fixes
+
+* add locator itemCardHeader to OrderDetails page ([#390](https://github.com/shopware/acceptance-test-suite/issues/390)) ([223cf44](https://github.com/shopware/acceptance-test-suite/commit/223cf44f28e3a8c28d7da97c0b26b8ff64b3652d))
+
 ## [11.15.2](https://github.com/shopware/acceptance-test-suite/compare/v11.15.1...v11.15.2) (2025-05-12)
 
 
