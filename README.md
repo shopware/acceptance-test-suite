@@ -357,66 +357,6 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 
 You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension. Use `/src/tasks/shop-customer-tasks.ts` or `/src/tasks/shop-admin-tasks.ts` for that.
 
-## Data Fixtures
-
----
-**Deprecated:** Use the [Test Data Service](#test-data-service) instead.  
-
----
-
-We already covered a lot of interesting fixtures you can use to create your test scenario. One topic which is missing is test data. Most test scenarios will need some predefined state within the system under test to validate a certain behaviour. Within this test suite we use Playwright fixtures also to create necessary test data via API. The goal is to have no direct system dependencies like a database connection to the system under test.
-
-**Example**  
-```TypeScript
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '@shopware-ag/acceptance-test-suite';
-
-export const PropertiesData = base.extend<FixtureTypes>({
-    PropertiesData: async ({ AdminApiContext }, use) => {
-
-        const response = await AdminApiContext.post('property-group?_response=1', {
-            data: {
-                name: 'Size',
-                description: 'Size',
-                displayType: 'text',
-                sortingType: 'name',
-                options: [{
-                    name: 'Small',
-                }, {
-                    name: 'Medium',
-                }, {
-                    name: 'Large',
-                }],
-            },
-        });
-
-        expect(response.ok()).toBeTruthy();
-
-        const { data: propertyGroup } = await response.json();
-
-        await use(propertyGroup);
-
-        const deleteResponse = await AdminApiContext.delete(`property-group/${propertyGroup.id}`);
-        expect(deleteResponse.ok()).toBeTruthy();
-    },
-});
-```
-
-Here you can see a simple data fixture which will create a new property group in the Shopware instance under test via the Admin-API. The nice thing about Playwright fixtures is, that we can create some data and make it available within our test using the `use()` method and right afterward already clean up the data with a delete call. This enables us to have all operations regarding specific test data in one place with the opportunity to automatically clean up the data after test execution.
-
-You can simply make test data available in your test by using the fixture in your test method.
-
-```TypeScript
-import { test } from './../BaseTestFile';
-
-test('Property group test scenario', async ({ PropertiesData }) => {
-    
-    // Do some testing with the property group from PropertiesData
-});
-```
-
-If you create your own data fixtures make sure to import and merge them in your base test file with other fixtures you created.
-
 ## Test Data Service
 This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the service class or simply use the auto-completion of your IDE. Here is a list of available methods:
 
@@ -483,8 +423,9 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 
 ### Dos
 
-- use fixtures or the [`TestDataService`](./src/services/TestDataService.ts)
-- create all the data that is required for your test case. That includes sales channels, customers and users (the page fixtures handle most of the common use cases)
+- use the [`TestDataService`](./src/services/TestDataService.ts) for creating test data
+- create all the data that is required for your test case. That includes sales channels, customers and users (the page fixtures handle most of the common use cases)...
+- ...and clean it up if you don't need it anymore. The TestDataService will take care of it if you used it to create the test data
 - if you need specific settings for your test, set it explicitly for the user/customer/sales channel
 - directly jump to detail pages with the id of the entities you've created
     - if that's no possible, use the search with a unique name to filter lists to just that single entity
@@ -494,6 +435,7 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 - do not expect lists/tables to only contain one item, leverage unique ids/names to open or find your entity instead
 - same with helper functions, do not expect to only get one item back from the API. Always use unique criteria to the API call
 - avoid unused fixtures: if you request a fixture but don't use any data from the fixture, the test or fixture should be refactored
+- to create test data use the TestDataService instead of data fixtures
 - do not depend on implicit configuration and existing data. Examples:
     - rules
     - flows
@@ -501,6 +443,29 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 - do not expect the shop to have the defaults en_GB and EUR
 - do not change global settings (sales channel is ok, because it's created by us)
   - basically everything in Settings that is not specific to a sales channel (tax, search, etc.)
+ 
+### Sensitive Data / Credentials
+Sometimes you have to provide sensitie data or credentials for your tests to run, for example credentials for a sandbox environment for a payment provider. Apart from avoiding to have those credentials in the acutal code, you should also prevent them from appearing in logs or traces. To achieve that you should outsource steps using sensitive data to another project, running before the actual test project, and disable traces for it.
+
+**Example**
+```Typescript
+projects: [
+    // Init project using sensitive data
+    { name: 'init', 
+      testMatch: /.*\.init\.ts/,
+      use : {trace : 'off'}
+    },
+
+    {
+      // actual test project
+      // [...]
+      dependencies: ['init'],
+    }]
+```
+ 
+### Debugging
+
+- To watch the content of variables use `console.log(variable)`
 
 ## Running Tests in the Test Suite
 If you want to work on the test suite and try to execute tests from within this repository, you have to run a corresponding docker image for a specific Shopware version.
