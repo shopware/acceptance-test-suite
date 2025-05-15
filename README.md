@@ -234,6 +234,9 @@ Note that this is just a very rough example. In most cases you won't use this pa
 ### StorefrontPage
 This fixture provides a Playwright [page](https://playwright.dev/docs/api/class-page) context for the Shopware Storefront of the default sales channel.
 
+### Add new fixtures
+To add new general fixtures create them inside the `src/fixtures` folder. Keep in mind, that you need to merge your new fixture inside the `/src/index.ts` file.
+
 ## Page Objects
 Page objects can be helpful to simplify the usage of element selectors and make them available in a reusable way. They help you to organize page specific locators and provide helpers for interacting with a given page. Within our test suite we try to keep the page objects very simple and not to add too much logic to them. So most of the page objects resemble just a collection of element locators and maybe some little helper methods.
 
@@ -258,6 +261,37 @@ For example, utility functions like `getCustomFieldCardLocators` or `getSelectFi
 Create a new class inside module when it helps to streamline the codebase and avoid repetitive logic across page objects.
 
 You can find how `getCustomFieldCardLocators` is defined in the [modules folder ](./src/page-objects/administration/modules/CustomFieldCard.ts) and used in other page object class [here](./src/page-objects/administration/ProductDetail.ts).
+
+### Add new Page Objects
+Page objects are organized mainly by their usage in the administration or storefront. To add a new page object just add it in the respective subfolder and reference it in the `AdministrationPages.ts` or `StorefrontPages.ts`.
+
+**Usage**  
+```TypeScript
+import { test as base } from '@playwright/test';
+import type { FixtureTypes } from '../types/FixtureTypes';
+
+import { ProductDetail } from './administration/ProductDetail';
+import { OrderDetail } from './administration/OrderDetail';
+import { CustomerListing } from './administration/CustomerListing';
+// [...]
+import { MyNewPage } from './administration/MyNewPage';
+
+export interface AdministrationPageTypes {
+    AdminProductDetail: ProductDetail;
+    AdminOrderDetail: OrderDetail;
+    AdminCustomerListing: CustomerListing;
+    // [...]
+    AdminMyNewPage: MyNewPage;
+}
+
+export const AdminPageObjects = {
+    ProductDetail,
+    OrderDetail,
+    CustomerListing,
+    // [...]
+    MyNewPage,
+}
+```
 
 ## Actor Pattern
 The actor pattern is a very simple concept that we added to our test suite. It is something that is not related to Playwright, but similar concepts exist in other testing frameworks. We implemented it, because we want to have reusable test logic that can be used in a human-readable form, without abstracting away Playwright as a framework. So you are totally free to use it or not. Any normal Playwright functionality will still be usable in your tests.
@@ -355,7 +389,7 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 });
 ```
 
-You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension.
+You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension. Use `/src/tasks/shop-customer-tasks.ts` or `/src/tasks/shop-admin-tasks.ts` for that.
 
 ## Data Fixtures
 
