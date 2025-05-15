@@ -13,7 +13,6 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [General Fixtures](#general-fixtures)
 * [Page Objects](#page-objects)
 * [Actor Pattern](#actor-pattern)
-* [Data Fixtures](#data-fixtures)
 * [Test Data Service](#test-data-service)
 * [Code Contribution](#code-contribution)
 * [Best practices](#best-practices)
