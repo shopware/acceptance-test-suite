@@ -429,6 +429,7 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 - if you need specific settings for your test, set it explicitly for the user/customer/sales channel
 - directly jump to detail pages with the id of the entities you've created
     - if that's no possible, use the search with a unique name to filter lists to just that single entity
+- if you need to skip tests, comment any relevant github issues as part of the skip method: `test.skip('Blocked by http://[...])`
 
 ### Don'ts
 
