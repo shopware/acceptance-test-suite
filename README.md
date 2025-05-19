@@ -356,6 +356,16 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 
 You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension. Use `/src/tasks/shop-customer-tasks.ts` or `/src/tasks/shop-admin-tasks.ts` for that.
 
+To keep tests easily readable, use names for your tasks so that in the test itself the code line resembles the `Actor.attemptsTo(doSomething)` pattern as good as possible.
+**Example**
+```TypeScript
+// Bad example
+await ShopCustomer.attemptsTo(ProductCart);
+
+// Better example
+await ShopCustomer.attemptsTo(PutProductIntoCart);
+```
+
 ## Test Data Service
 This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the service class or simply use the auto-completion of your IDE. Here is a list of available methods:
 
@@ -463,9 +473,26 @@ projects: [
     }]
 ```
  
-### Debugging
+### Debugging API calls
+Debugging API calls may not be an easy task at first glance, because if the call you made returns an error, it is not directly visible to you. But you can use the `errors[]`-array of the response and log that on the console.
 
-- To watch the content of variables use `console.log(variable)`
+**Example**
+```Typescript
+const response = await this.AdminApiClient.post('some/route', {
+    data: {
+        limit: 1,
+        filter: [
+            {
+                type: 'equals',
+                field: 'someField',
+                value: 'someValue',
+            },
+        ],
+    },
+});
+const responseData = await response.json();
+console.log(responseData.errors[0]);
+```
 
 ## Running Tests in the Test Suite
 If you want to work on the test suite and try to execute tests from within this repository, you have to run a corresponding docker image for a specific Shopware version.
