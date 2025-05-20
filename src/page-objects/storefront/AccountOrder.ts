@@ -9,6 +9,9 @@ export class AccountOrder implements PageObject {
     public readonly dialogOrderCancel: Locator;
     public readonly dialogOrderCancelButton: Locator;
     public readonly dialogBackButton: Locator;
+    public readonly documentDetails: Locator;
+    public readonly invoiceHTML: Locator;
+    public readonly creditItem: Locator;
 
     constructor(public readonly page: Page) {
         this.orderExpandButton = page.getByRole('button', {name: /Expand|Show details/}).first();
@@ -17,6 +20,9 @@ export class AccountOrder implements PageObject {
         this.dialogOrderCancel = page.getByRole('dialog', { name: 'Cancel order' });
         this.dialogOrderCancelButton = this.dialogOrderCancel.getByRole('button', { name: 'Cancel order' });
         this.dialogBackButton = this.dialogOrderCancel.getByRole('button', { name: 'Back' });
+        this.documentDetails = page.locator('.document-detail-content-header');
+        this.invoiceHTML = page.getByRole('link', { name: '.html' });
+        this.creditItem = page.locator('.line-item:has-text("CreditItem")');
 
     }
     async getOrderByOrderNumber(orderNumber: string): Promise<Record<string, Locator>> {

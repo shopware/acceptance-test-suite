@@ -7,11 +7,28 @@ export class OrderDetail implements PageObject {
     public readonly saveButton: Locator;
     public readonly dataGridContextButton: Locator;
     public readonly orderTag: Locator;
+    public readonly firstLineItem: Locator;
+    public readonly lineItems: Locator;
+    public readonly contextMenuButton: Locator;
+    public readonly contextMenu: Locator;
+    public readonly contextMenuSendDocument: Locator;
+    public readonly sendDocumentModal: Locator;
+    public readonly sendDocumentButton: Locator;
+    public readonly sentCheckmark: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.saveButton = page.locator('.sw-order-detail__smart-bar-save-button');
         this.dataGridContextButton = page.locator('.sw-data-grid__actions-menu').and(page.getByRole('button'));
         this.orderTag = page.locator('.sw-select-selection-list__item');
+        this.firstLineItem = page.locator('.sw-data-grid__row--1');
+        this.lineItems = page.locator('.sw-data-grid__table');
+        this.contextMenu = page.locator('.sw-context-menu');
+        this.contextMenuSendDocument = page.locator('.sw-context-menu').getByText('Send document');
+        this.contextMenuButton = page.getByLabel('Open actions menu');
+        this.sendDocumentModal = page.locator('.sw-order-send-document-modal');
+        this.sendDocumentButton = page.getByRole('button').getByText('Send document');
+        this.sentCheckmark = page.getByTestId('mt-icon__regular-checkmark-xs');
+
     }
 
     url(orderId: string, tabName = 'general') {

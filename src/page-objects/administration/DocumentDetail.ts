@@ -5,6 +5,7 @@ export class DocumentDetail implements PageObject {
 
     public readonly showInAccountSwitch: Locator;
     public readonly saveButton: Locator;
+    public readonly documentTypeSelect: Locator;
 
 
 
@@ -12,6 +13,7 @@ export class DocumentDetail implements PageObject {
     constructor(public readonly page: Page) {
         this.showInAccountSwitch = page.getByRole('checkbox', { name: 'Display document in "My' });
         this.saveButton = page.getByRole('button', { name: 'Save' });
+        this.documentTypeSelect = page.locator('.sw-settings-document-detail__select-type');
     }
 
     url(documentId: string) {
