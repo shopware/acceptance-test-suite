@@ -40,6 +40,7 @@ test('Administration page objects - General.', async ({
     const order = await TestDataService.createOrder([{ product, quantity: 1 }], customer);
     await ShopAdmin.goesTo(AdminOrderDetail.url(order.id));
     await ShopAdmin.expects(AdminOrderDetail.dataGridContextButton).toBeVisible();
+    await ShopAdmin.expects(AdminOrderDetail.itemsCardHeader).toContainText('Items');
     await ShopAdmin.expects(AdminOrderDetail.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));

@@ -13,9 +13,9 @@ This test suite is an extension to [Playwright](https://playwright.dev/) to easi
 * [General Fixtures](#general-fixtures)
 * [Page Objects](#page-objects)
 * [Actor Pattern](#actor-pattern)
-* [Data Fixtures](#data-fixtures)
 * [Test Data Service](#test-data-service)
 * [Code Contribution](#code-contribution)
+* [Local Development with ATS](#local-development-with-ats)
 * [Best practices](#best-practices)
 * [Running Tests in the Test Suite](#running-tests-in-the-test-suite)
 
@@ -71,6 +71,33 @@ export default defineConfig({
 ```
 
 For more information about how to configure your Playwright project, have a look into the [official documentation](https://playwright.dev/docs/test-configuration).
+
+### Mailpit Configuration
+Set up your local Mailpit instance by following the instructions at [Mailpit GitHub repository](https://github.com/axllent/mailpit).  
+By default, Mailpit starts a web interface at `http://localhost:8025` and listens for SMTP on port `1025`.  
+Set the `MAILPIT_BASE_URL` environment variable in `playwright.config.ts` to `http://localhost:8025`. You can now run email tests, such as `tests/Mailpit.spec.ts`.
+
+## Testing With ATS
+The `tests` folder ensures the reliability of the testing framework by validating the functionality of tools and data used in tests. Add tests to verify any new features or changes you introduce:
+
+- **Page Objects**: Ensure they are correctly implemented and interact with the application as expected, including navigation, element visibility, and user interactions.
+- **TestDataService Methods**: Verify that methods for creating, getting, and cleaning up test data (e.g., products, customers, orders) work correctly and produce consistent results.
+
+```TypeScript
+//Example for page objects
+
+await ShopAdmin.goesTo(AdminManufacturerCreate.url());
+await ShopAdmin.expects(AdminManufacturerCreate.nameInput).toBeVisible();
+await ShopAdmin.expects(AdminManufacturerCreate.saveButton).toBeVisible();
+```
+
+```TypeScript
+//Example for TestDataService
+
+const product = await TestDataService.createProductWithImage({ description: 'Test Description' });
+expect(product.description).toEqual('Test Description');
+expect(product.coverId).toBeDefined();
+```
 
 ## Usage
 The test suite uses the [extension system](https://playwright.dev/docs/extensibility) of Playwright and can be used as a full drop-in for Playwright. But, as you might also want to add your own extensions, the best way to use it is to create your own base test file and use it as the central reference for your test files. Add it to your project root or a specific fixture directory and name it whatever you like.
@@ -206,6 +233,9 @@ Note that this is just a very rough example. In most cases you won't use this pa
 ### StorefrontPage
 This fixture provides a Playwright [page](https://playwright.dev/docs/api/class-page) context for the Shopware Storefront of the default sales channel.
 
+### Add new fixtures
+To add new general fixtures create them inside the `src/fixtures` folder. Keep in mind, that you need to merge your new fixture inside the `/src/index.ts` file.
+
 ## Page Objects
 Page objects can be helpful to simplify the usage of element selectors and make them available in a reusable way. They help you to organize page specific locators and provide helpers for interacting with a given page. Within our test suite we try to keep the page objects very simple and not to add too much logic to them. So most of the page objects resemble just a collection of element locators and maybe some little helper methods.
 
@@ -223,6 +253,45 @@ test('Storefront cart test scenario', async ({ StorefrontPage, StorefrontCheckou
 ```
 
 You can get an overview of all available page objects in the [repository](https://github.com/shopware/acceptance-test-suite/tree/trunk/src/page-objects) of this test suite.
+
+## Page object module
+The `modules` folder is designed to house reusable utility functions that operate on a `Page` object (from Playwright). These functions dynamically interact with different browser pages or contexts using the `page` parameter.
+For example, utility functions like `getCustomFieldCardLocators` or `getSelectFieldListitem` are used across multiple page objects to handle specific functionality (e.g., managing custom fields or select field list items). Centralizing these utilities in the `modules` folder improves code organization, readability, and reduces duplication.
+Create a new class inside module when it helps to streamline the codebase and avoid repetitive logic across page objects.
+
+You can find how `getCustomFieldCardLocators` is defined in the [modules folder ](./src/page-objects/administration/modules/CustomFieldCard.ts) and used in other page object class [here](./src/page-objects/administration/ProductDetail.ts).
+
+
+### Add new Page Objects
+Page objects are organized mainly by their usage in the administration or storefront. To add a new page object just add it in the respective subfolder and reference it in the `AdministrationPages.ts` or `StorefrontPages.ts`.
+
+**Usage**  
+```TypeScript
+import { test as base } from '@playwright/test';
+import type { FixtureTypes } from '../types/FixtureTypes';
+
+import { ProductDetail } from './administration/ProductDetail';
+import { OrderDetail } from './administration/OrderDetail';
+import { CustomerListing } from './administration/CustomerListing';
+// [...]
+import { MyNewPage } from './administration/MyNewPage';
+
+export interface AdministrationPageTypes {
+    AdminProductDetail: ProductDetail;
+    AdminOrderDetail: OrderDetail;
+    AdminCustomerListing: CustomerListing;
+    // [...]
+    AdminMyNewPage: MyNewPage;
+}
+
+export const AdminPageObjects = {
+    ProductDetail,
+    OrderDetail,
+    CustomerListing,
+    // [...]
+    MyNewPage,
+}
+```
 
 ## Actor Pattern
 The actor pattern is a very simple concept that we added to our test suite. It is something that is not related to Playwright, but similar concepts exist in other testing frameworks. We implemented it, because we want to have reusable test logic that can be used in a human-readable form, without abstracting away Playwright as a framework. So you are totally free to use it or not. Any normal Playwright functionality will still be usable in your tests.
@@ -320,67 +389,17 @@ test('Customer login test scenario', async ({ ShopCustomer, Login }) => {
 });
 ```
 
-You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension.
+You can create your own tasks in the same way to make them available for the actor pattern. Every task is just a simple Playwright fixture containing a function call with the corresponding test logic. Make sure to merge your task fixtures with other fixtures you created in your base test file. You can use the `mergeTests` method of Playwright to combine several fixtures into one test extension. Use `/src/tasks/shop-customer-tasks.ts` or `/src/tasks/shop-admin-tasks.ts` for that.
 
-## Data Fixtures
-
----
-**Deprecated:** Use the [Test Data Service](#test-data-service) instead.  
-
----
-
-We already covered a lot of interesting fixtures you can use to create your test scenario. One topic which is missing is test data. Most test scenarios will need some predefined state within the system under test to validate a certain behaviour. Within this test suite we use Playwright fixtures also to create necessary test data via API. The goal is to have no direct system dependencies like a database connection to the system under test.
-
-**Example**  
+To keep tests easily readable, use names for your tasks so that in the test itself the code line resembles the `Actor.attemptsTo(doSomething)` pattern as good as possible.
+**Example**
 ```TypeScript
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '@shopware-ag/acceptance-test-suite';
+// Bad example
+await ShopCustomer.attemptsTo(ProductCart);
 
-export const PropertiesData = base.extend<FixtureTypes>({
-    PropertiesData: async ({ AdminApiContext }, use) => {
-
-        const response = await AdminApiContext.post('property-group?_response=1', {
-            data: {
-                name: 'Size',
-                description: 'Size',
-                displayType: 'text',
-                sortingType: 'name',
-                options: [{
-                    name: 'Small',
-                }, {
-                    name: 'Medium',
-                }, {
-                    name: 'Large',
-                }],
-            },
-        });
-
-        expect(response.ok()).toBeTruthy();
-
-        const { data: propertyGroup } = await response.json();
-
-        await use(propertyGroup);
-
-        const deleteResponse = await AdminApiContext.delete(`property-group/${propertyGroup.id}`);
-        expect(deleteResponse.ok()).toBeTruthy();
-    },
-});
+// Better example
+await ShopCustomer.attemptsTo(PutProductIntoCart);
 ```
-
-Here you can see a simple data fixture which will create a new property group in the Shopware instance under test via the Admin-API. The nice thing about Playwright fixtures is, that we can create some data and make it available within our test using the `use()` method and right afterward already clean up the data with a delete call. This enables us to have all operations regarding specific test data in one place with the opportunity to automatically clean up the data after test execution.
-
-You can simply make test data available in your test by using the fixture in your test method.
-
-```TypeScript
-import { test } from './../BaseTestFile';
-
-test('Property group test scenario', async ({ PropertiesData }) => {
-    
-    // Do some testing with the property group from PropertiesData
-});
-```
-
-If you create your own data fixtures make sure to import and merge them in your base test file with other fixtures you created.
 
 ## Test Data Service
 This service is a simple way to create test data within your tests. It simplifies the usage of the Shopware API and provides sample structs for various entities, which you also can adjust to your needs. For detailed documentation of the methods you can have a look at the service class or simply use the auto-completion of your IDE. Here is a list of available methods:
@@ -439,6 +458,37 @@ You can contribute to this project via its [official repository](https://github.
 
 This project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please make sure to form your commits accordingly to the spec.
 
+## Local Development with ATS
+To work locally with the Acceptance Test Suite (ATS) and your development setup, follow these steps:
+
+### Create Your Page Objects and TestDataService Methods
+
+In the ATS repository (shopware/acceptance-test-suite), create or modify your custom page objects, TestDataService methods, or any related files.
+
+After making your changes, build the project by running the following command in the ATS repository:
+```bash
+npm run build
+```
+This will generate the necessary artifacts in the dist folder.
+
+Copy the generated artifacts (e.g., all files in the dist folder) from the ATS repository to your local Shopware instance's `node_modules` folder, specifically under the ATS package path:
+```bash
+cp -R dist/* <path-to-your-shopware-instance>/tests/acceptance/node_modules/@shopware-ag/acceptance-test-suite/dist
+````
+### Adjust Tests, Page Objects, and Methods
+
+In your Shopware instance, adjust any tests, page objects, TestDataService methods, or other related files to align them with the changes made in the ATS repository.
+
+### Run the Tests
+
+Execute the tests to verify your changes. Use the following command from your Shopware project's acceptance test directory:
+```bash
+cd tests/acceptance
+npx playwright test --ui
+```
+This will launch the Playwright Test Runner UI where you can select and run specific tests.
+By following these steps, you can work locally with the ATS and test your changes in your Shopware instance.
+
 ## Best practices
 
 A good first read about this is the official [playwright best practices page](https://playwright.dev/docs/best-practices). It describes the most important practices which should also be followed when writing acceptance tests for Shopware.
@@ -448,16 +498,18 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 
 ### Dos
 
-- use fixtures or the [`TestDataService`](./src/services/TestDataService.ts)
-- create all the data that is required for your test case. That includes sales channels, customers and users (the page fixtures handle most of the common use cases)
+- use the [`TestDataService`](./src/services/TestDataService.ts) for creating test data
+- create all the data that is required for your test case. That includes sales channels, customers and users (the page fixtures handle most of the common use cases)...
+- ...and clean it up if you don't need it anymore. The TestDataService will take care of it if you used it to create the test data
 - if you need specific settings for your test, set it explicitly for the user/customer/sales channel
 - directly jump to detail pages with the id of the entities you've created
     - if that's no possible, use the search with a unique name to filter lists to just that single entity
+- if you need to skip tests, comment any relevant github issues as part of the skip method: `test.skip('Blocked by http://[...])`
 
 ### Don'ts
 
 - do not expect lists/tables to only contain one item, leverage unique ids/names to open or find your entity instead
-- same with helper functions, do not except to only get item back from the API. Always a unique criteria to the API call
+- same with helper functions, do not expect to only get one item back from the API. Always use unique criteria to the API call
 - avoid unused fixtures: if you request a fixture but don't use any data from the fixture, the test or fixture should be refactored
 - do not depend on implicit configuration and existing data. Examples:
     - rules
@@ -466,6 +518,47 @@ The most important part is [test isolation](https://playwright.dev/docs/best-pra
 - do not expect the shop to have the defaults en_GB and EUR
 - do not change global settings (sales channel is ok, because it's created by us)
   - basically everything in Settings that is not specific to a sales channel (tax, search, etc.)
+ 
+### Sensitive Data / Credentials
+Sometimes you have to provide sensitie data or credentials for your tests to run, for example credentials for a sandbox environment for a payment provider. Apart from avoiding to have those credentials in the acutal code, you should also prevent them from appearing in logs or traces. To achieve that you should outsource steps using sensitive data to another project, running before the actual test project, and disable traces for it.
+
+**Example**
+```Typescript
+projects: [
+    // Init project using sensitive data
+    {
+      name: 'init', 
+      testMatch: /.*\.init\.ts/,
+      use : {trace : 'off'}
+    },
+
+    {
+      // actual test project
+      // [...]
+      dependencies: ['init'],
+    }]
+```
+ 
+### Debugging API calls
+Debugging API calls may not be an easy task at first glance, because if the call you made returns an error, it is not directly visible to you. But you can use the `errors[]`-array of the response and log that on the console.
+
+**Example**
+```Typescript
+const response = await this.AdminApiClient.post('some/route', {
+    data: {
+        limit: 1,
+        filter: [
+            {
+                type: 'equals',
+                field: 'someField',
+                value: 'someValue',
+            },
+        ],
+    },
+});
+const responseData = await response.json();
+console.log(responseData.errors[0]);
+```
 
 ## Running Tests in the Test Suite
 If you want to work on the test suite and try to execute tests from within this repository, you have to run a corresponding docker image for a specific Shopware version.

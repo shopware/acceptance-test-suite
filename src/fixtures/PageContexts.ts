@@ -57,6 +57,7 @@ export const test = base.extend<FixtureTypes>({
         });
 
         await expect(page.url()).toContain('login');
+        await expect(page.getByLabel(/Username|Email address/)).toBeVisible({ timeout: 90000 });
 
         await page.getByLabel(/Username|Email address/).fill(adminUser.username);
         await page.getByLabel('Password', { exact: true }).fill(adminUser.password);
@@ -101,7 +102,7 @@ export const test = base.extend<FixtureTypes>({
             return url.hash !== '#login';
         });
 
-        await expect(page.getByText('Administration').first()).toBeVisible();
+        await expect(page.getByText('Administrator').first()).toBeVisible({ timeout: 60000 });
 
         // Run the test
         await use(page);

@@ -1,5 +1,20 @@
 # Changelog
 
+## [11.15.3](https://github.com/shopware/acceptance-test-suite/compare/v11.15.2...v11.15.3) (2025-05-15)
+
+
+### Bug Fixes
+
+* add locator itemCardHeader to OrderDetails page ([#390](https://github.com/shopware/acceptance-test-suite/issues/390)) ([223cf44](https://github.com/shopware/acceptance-test-suite/commit/223cf44f28e3a8c28d7da97c0b26b8ff64b3652d))
+
+## [11.15.2](https://github.com/shopware/acceptance-test-suite/compare/v11.15.1...v11.15.2) (2025-05-12)
+
+
+### Bug Fixes
+
+* increase SaaS timeout to 120sec ([#388](https://github.com/shopware/acceptance-test-suite/issues/388)) ([7d386df](https://github.com/shopware/acceptance-test-suite/commit/7d386df29d32bb4e8e55b034ef3076aa6b6b4db8))
+* increase timeout for SaaS ([#384](https://github.com/shopware/acceptance-test-suite/issues/384)) ([0b2b3c7](https://github.com/shopware/acceptance-test-suite/commit/0b2b3c756dcffc2970a9a0f6fab00033e9e146e6))
+
 ## [11.15.1](https://github.com/shopware/acceptance-test-suite/compare/v11.15.0...v11.15.1) (2025-05-07)
 
 
