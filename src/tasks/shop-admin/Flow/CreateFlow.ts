@@ -23,17 +23,20 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.triggerSelectField.press('Enter');
                 // Add condition
                 await AdminFlowBuilderCreate.sequenceSelectorConditionButton.click();
+                // todo: As soon as conditionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.conditionSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem.getByRole('listitem').filter({ hasText: `${flowConfig.condition}`}).click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
                 // Add action to condition true block
                 await AdminFlowBuilderCreate.trueBlockAddActionButton.click();
+                // todo: As soon as trueBlockActionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.trueBlockActionSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem.getByRole('listitem').filter({ hasText: `${flowConfig.trueAction}` }).click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.trueBlockActionSelectField, `${flowConfig.trueAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.mailSendModal).toBeVisible();
+                // todo: As soon as mailSendModalTemplateSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.mailSendModalTemplateSelectField.click();
                 await AdminFlowBuilderCreate.resultListItem.waitFor({ state: 'visible' });
                 await AdminFlowBuilderCreate.resultListItem.getByRole('listitem').filter({ hasText: `${flowConfig.trueActionIdentifier}`}).click();
@@ -43,11 +46,13 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 // Add action to condition false block
                 await AdminFlowBuilderCreate.falseBlockAddActionButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionSelectField).toBeVisible();
+                // todo: As soon as falseBlockActionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.falseBlockActionSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem.getByRole('listitem').filter({ hasText: `${flowConfig.falseAction}` }).click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.tagModal).toBeVisible();
+                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.tagModalTagsSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem.getByRole('listitem').filter({ hasText: `${flowConfig.falseActionIdentifier}`}).click();
