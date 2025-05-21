@@ -1,4 +1,5 @@
 /* eslint-env node */
+
 module.exports = {
     extends: [
         "eslint:recommended",
@@ -7,8 +8,14 @@ module.exports = {
         "plugin:playwright/recommended"
     ],
     parser: "@typescript-eslint/parser",
-    plugins: ["@typescript-eslint"],
+    plugins: ["@typescript-eslint", "n"],
     root: true,
+    settings: {
+        n: {
+            tryExtensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".node"],
+            tsconfigPath: "tsconfig.json"
+        }
+    },
     rules: {
         "@typescript-eslint/no-unused-vars": "warn",
         "quotes": ["error", "single", { allowTemplateLiterals: true }],
@@ -17,5 +24,18 @@ module.exports = {
         "no-unused-vars": "warn",
         "playwright/expect-expect": "off",
         "playwright/no-standalone-expect": "off",
-    }
+        "n/no-process-env": ["error", {
+            "allowedVariables": ["NODE_ENV"],
+        }],
+        "n/no-unsupported-features/es-syntax": "off"
+    },
+    overrides: [
+        {
+            files: ["src/ConfigOptions.ts", "playwright.config.ts"],
+            rules: {
+                // ConfigOptions.ts is the central place for environment configuration
+                "n/no-process-env": "off"
+            }
+        },
+    ]
 };

@@ -9,8 +9,10 @@ import { StorefrontPageTypes } from '../page-objects/StorefrontPages';
 import { AdministrationPageTypes } from '../page-objects/AdministrationPages';
 import { DataFixtureTypes } from '../data-fixtures/DataFixtures';
 import { FeatureFixtureTypes } from '../fixtures/Feature';
+import { ConfigOptions } from '../ConfigOptions';
 
 export interface FixtureTypes extends
+    ConfigOptions,
     ApiContextTypes,
     PageContextTypes,
     ActorFixtureTypes,

@@ -52,17 +52,12 @@ jobs:
         include:
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
             SHOPWARE_VERSION_ID: 'lts-latest'
-            PORT: 8011
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
             SHOPWARE_VERSION_ID: 'first'
-            PORT: 8021
           - SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
             SHOPWARE_VERSION_ID: 'latest'
-            PORT: 8031
     env:
-      WEBSERVER_COMMAND: '' # this will disable the log output
-      SHOPWARE_VERSION: ${{ matrix.SHOPWARE_VERSION }}
-      PORT: ${{ matrix.PORT }}
+      WEBSERVER_COMMAND: 'sleep 999d' # this will disable the log output
     steps:
     - uses: actions/checkout@v4
 
@@ -89,8 +84,6 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
-      env:
-        APP_URL: http://localhost:${{ matrix.PORT }}
       run: npx playwright test --repeat-each 4
 
     - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}

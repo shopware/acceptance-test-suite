@@ -29,7 +29,7 @@ export class AccountProfile implements PageObject {
 
     constructor(
         public readonly page: Page,
-        public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']
+        public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'],
     ) {
         this.salutationSelect = page.getByLabel('Salutation');
         this.firstNameInput = page.getByLabel('First name');

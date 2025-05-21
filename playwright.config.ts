@@ -1,31 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import { ConfigOptions } from './src/ConfigOptions';
 
-process.env['SHOPWARE_ADMIN_USERNAME'] = process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin';
-process.env['SHOPWARE_ADMIN_PASSWORD'] = process.env['SHOPWARE_ADMIN_PASSWORD'] || 'shopware';
-process.env['MAILPIT_BASE_URL'] = process.env['MAILPIT_BASE_URL'] || 'http://localhost:8013';
+const defaultAppURL = 'http://localhost:8011';
+const appURL = process.env['APP_URL'] ?? defaultAppURL;
+const defaultCommand = appURL === defaultAppURL ? 'docker compose up --pull=always --quiet-pull' : 'sleep 999d';
 
-const defaultAppUrl = 'http://localhost:8011/';
-process.env['APP_URL'] = process.env['APP_URL'] ?? defaultAppUrl;
-
-// make sure APP_URL ends with a slash
-process.env['APP_URL'] = (process.env['APP_URL'] ?? '').replace(/\/+$/, '') + '/';
-if (process.env['ADMIN_URL']) {
-  process.env['ADMIN_URL'] = process.env['ADMIN_URL'].replace(/\/+$/, '') + '/';
-} else {
-  process.env['ADMIN_URL'] = process.env['APP_URL'] + 'admin/';
-}
-if (process.env['ADMIN_API_URL']) {
-  process.env['ADMIN_API_URL'] = (process.env['ADMIN_API_URL'] ?? '').replace(/\/+$/, '') + '/';
-}
-if (!process.env['WEBSERVER_COMMAND']) {
-  if (process.env['APP_URL'] === defaultAppUrl) {
-    process.env['WEBSERVER_COMMAND'] = 'docker compose up --pull=always --quiet-pull';
-  } else {
-    process.env['WEBSERVER_COMMAND'] = 'sleep 999d';
-  }
-}
-
-export default defineConfig({
+export default defineConfig<ConfigOptions>({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -40,14 +20,17 @@ export default defineConfig({
     ['github'],
   ] : 'html',
   use: {
-    baseURL: process.env['APP_URL'],
+    shopware: {
+      appURL: appURL,
+      mailpitBaseURL: process.env['SHOPWARE_MAILPIT_BASE_URL'] || 'http://localhost:8013',
+    },
     trace: 'retain-on-failure',
     video: 'off',
   },
   // We abuse this to wait for the external webserver
   webServer: {
-    command: process.env['WEBSERVER_COMMAND'] ?? 'sleep 999d',
-    url: process.env['APP_URL'],
+    command: process.env['WEBSERVER_COMMAND'] ?? defaultCommand,
+    url: appURL,
     reuseExistingServer: true,
     timeout: 180000,
   },

@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import type { Customer, SalesChannel } from '../types/ShopwareTypes';
 import type { components } from '@shopware/api-client/admin-api-types';
+import type { ConfigOptions } from '../ConfigOptions';
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
@@ -34,10 +35,13 @@ export interface DefaultSalesChannelTypes {
     },
 }
 
-export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
+type WorkerFixtures = FixtureTypes & {
+    BaseConfig: ConfigOptions;
+};
 
+export const test = base.extend<WorkerFixtures>({
     SalesChannelBaseConfig: [
-        async ({ Country, Currency, Language, PaymentMethod, ShippingMethod, SnippetSet, Tax, Theme }, use) => {
+        async ({ Country, Currency, Language, PaymentMethod, ShippingMethod, SnippetSet, Tax, Theme, BaseConfig }, use) => {
             await use({
                 enGBLocaleId: Language.translationCode.id,
                 enGBLanguageId: Language.id,
@@ -51,11 +55,12 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 deCountryId: Country.id,
                 enGBSnippetSetId: SnippetSet.id,
                 defaultThemeId: Theme.id,
-                appUrl: process.env['APP_URL'],
-                adminUrl: process.env['ADMIN_URL'] || `${process.env['APP_URL']}admin/`,
+                appUrl: BaseConfig.shopware.appURL,
+                adminUrl: BaseConfig.shopware.adminURL ?? '',
             });
         },
-        { scope: 'worker' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { scope: 'worker' } as any,
     ],
 
     DefaultSalesChannel: [
@@ -204,6 +209,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 url: baseUrl,
             });
         },
-        { scope: 'worker' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { scope: 'worker' } as any,
     ],
 });

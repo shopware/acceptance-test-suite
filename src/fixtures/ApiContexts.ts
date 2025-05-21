@@ -3,6 +3,7 @@ import { AdminApiContext } from '../services/AdminApiContext';
 import { StoreApiContext } from '../services/StoreApiContext';
 import { MailpitApiContext } from '../services/MailpitApiContext';
 import type { FixtureTypes } from '../types/FixtureTypes';
+import type { ConfigOptions } from '../ConfigOptions';
 
 export interface ApiContextTypes {
     AdminApiContext: AdminApiContext;
@@ -10,19 +11,24 @@ export interface ApiContextTypes {
     MailpitApiContext: MailpitApiContext;
 }
 
-export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
+type WorkerFixtures = FixtureTypes & {
+    BaseConfig: ConfigOptions;
+};
+
+export const test = base.extend<WorkerFixtures>({
     AdminApiContext: [
-        async ({ }, use) => {
-            const adminApiContext = await AdminApiContext.create();
+        async ({ BaseConfig }, use) => {
+            const adminApiContext = await AdminApiContext.create({ app_url: BaseConfig.shopware.adminAPIURL });
             await use(adminApiContext);
         },
-        { scope: 'worker' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { scope: 'worker' } as any,
     ],
 
     StoreApiContext: [
         async ({ DefaultSalesChannel }, use) => {
             const options = {
-                app_url: process.env['APP_URL'],
+                app_url: DefaultSalesChannel.url,
                 'sw-access-key': DefaultSalesChannel.salesChannel.accessKey,
                 ignoreHTTPSErrors: true,
             };
@@ -30,15 +36,16 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const storeApiContext = await StoreApiContext.create(options);
             await use(storeApiContext);
         },
-        { scope: 'worker' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { scope: 'worker' } as any,
     ],
 
     MailpitApiContext: [
-        async ({ }, use) => {
-            const mailpitApiContext = await MailpitApiContext.create(process.env['MAILPIT_BASE_URL'] as string);
-
+        async ({ BaseConfig }, use) => {
+            const mailpitApiContext = await MailpitApiContext.create(BaseConfig.shopware.mailpitBaseURL ?? '');
             await use(mailpitApiContext);
         },
-        { scope: 'worker' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { scope: 'worker' } as any,
     ],
 });

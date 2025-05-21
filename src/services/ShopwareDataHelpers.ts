@@ -10,7 +10,7 @@ type Language = components['schemas']['Language'] & {
 
 export const getLanguageData = async (
     languageCode: string,
-    adminApiContext: AdminApiContext
+    adminApiContext: AdminApiContext,
 ): Promise<Language> => {
 
     const resp = await adminApiContext.post('search/language', {

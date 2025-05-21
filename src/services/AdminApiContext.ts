@@ -23,11 +23,6 @@ export class AdminApiContext {
     public readonly options: AdminApiContextOptions;
 
     private static readonly defaultOptions: AdminApiContextOptions = {
-        app_url: process.env['ADMIN_API_URL'] || process.env['APP_URL'],
-        client_id: process.env['SHOPWARE_ACCESS_KEY_ID'],
-        client_secret: process.env['SHOPWARE_SECRET_ACCESS_KEY'],
-        admin_username: process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin',
-        admin_password: process.env['SHOPWARE_ADMIN_PASSWORD'] || 'shopware',
         ignoreHTTPSErrors: true,
     };
 
@@ -36,9 +31,8 @@ export class AdminApiContext {
         this.options = options;
     }
 
-    public static async create(options?: AdminApiContextOptions) {
+    public static async create(options: AdminApiContextOptions) {
         const contextOptions = { ...this.defaultOptions, ...options };
-
         const tmpContext = await this.createApiRequestContext(contextOptions);
 
         if (!contextOptions.client_id) {
@@ -158,7 +152,7 @@ export class AdminApiContext {
     private async handleRequest<PAYLOAD>(
       method: 'get' | 'post' | 'patch' | 'delete' | 'fetch' | 'head',
       url: string,
-      options?: RequestOptions<PAYLOAD>
+      options?: RequestOptions<PAYLOAD>,
     ): Promise<APIResponse> {
         const methodMap = {
             get: this.context.get.bind(this.context),

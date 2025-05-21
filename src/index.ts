@@ -12,6 +12,7 @@ import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
 import { test as FeatureService } from './fixtures/Feature';
 import { test as ShopwareDataFixture } from './fixtures/ShopwareDataFixtures';
+import { test as ShopwareConfig } from './ConfigOptions';
 
 export * from '@playwright/test';
 export * from './services/ShopwareDataHelpers';
@@ -28,6 +29,7 @@ export type { Task } from './types/Task';
 export type { PageObject } from './types/PageObject';
 
 export const test = mergeTests(
+    ShopwareConfig,
     HelperFixtures,
     DefaultSalesChannel,
     ShopwareDataFixture,

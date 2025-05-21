@@ -25,7 +25,6 @@ export class StoreApiContext {
     private readonly options: StoreApiContextOptions;
 
     private static readonly defaultOptions: StoreApiContextOptions = {
-        app_url: process.env['APP_URL'],
         ignoreHTTPSErrors: true,
     };
 
@@ -34,7 +33,7 @@ export class StoreApiContext {
         this.options = options;
     }
 
-    public static async create(options?: StoreApiContextOptions) {
+    public static async create(options: StoreApiContextOptions) {
         const contextOptions = { ...this.defaultOptions, ...options };
 
         return new StoreApiContext(await this.createContext(contextOptions), contextOptions);

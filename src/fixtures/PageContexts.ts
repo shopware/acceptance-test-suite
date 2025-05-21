@@ -1,5 +1,6 @@
 import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
+import type { ConfigOptions } from '../ConfigOptions';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
 import { clearDelayedCache } from '../services/Cache';
@@ -12,8 +13,7 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
-export const test = base.extend<FixtureTypes>({
-
+export const test = base.extend<FixtureTypes & { BaseConfig: ConfigOptions }>({
     AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
         const context = await browser.newContext({
             baseURL: SalesChannelBaseConfig.adminUrl,
@@ -126,7 +126,7 @@ export const test = base.extend<FixtureTypes>({
             base.slow();
 
             await AdminApiContext.post(
-                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
+                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`,
             );
             await clearDelayedCache(AdminApiContext);
 
@@ -151,10 +151,9 @@ export const test = base.extend<FixtureTypes>({
         await context.close();
     },
 
-    InstallPage: async ({ browser }, use) => {
-
+    InstallPage: async ({ browser, BaseConfig }, use) => {
         const context = await browser.newContext({
-            baseURL: process.env['APP_URL'],
+            baseURL: BaseConfig.shopware.appURL,
         });
         const page = await context.newPage();
 

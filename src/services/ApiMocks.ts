@@ -29,13 +29,13 @@ export async function mockApiCalls(page: Page) {
     await page.route('**/api/sbp/shop-info*', route => route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: process.env.SBP_SHOP_INFO_JSON ?? '{}',
+        body: BaseConfig.shopware.data?.shopInfoJson ?? '{}',
     }));
 
     await page.route('**/api/sbp/bookableplans*', route => route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: process.env.SBP_BOOKABLE_PLANS_JSON ?? '{}',
+        body: BaseConfig.shopware.data?.bookablePlansJson ?? '{}',
     }));
 
     await page.route('**/api/sbp/nps/active-trigger', route => route.fulfill({

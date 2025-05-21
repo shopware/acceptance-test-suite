@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { IdProvider } from '../services/IdProvider';
 import { isSaaSInstance } from '../services/ShopInfo';
 import type { FixtureTypes } from '../types/FixtureTypes';
+import type { ConfigOptions } from '../ConfigOptions';
 import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
 import { satisfies } from 'compare-versions';
@@ -18,10 +19,14 @@ export interface HelperFixtureTypes {
     },
 }
 
-export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
+type WorkerFixtures = FixtureTypes & {
+    BaseConfig: ConfigOptions;
+};
+
+export const test = base.extend<NonNullable<unknown>, WorkerFixtures>({
     IdProvider: [
-        async ({ }, use, workerInfo) => {
-            const seed = process.env.SHOPWARE_ACCESS_KEY_ID || process.env.SHOPWARE_ADMIN_PASSWORD || 'test-suite';
+        async ({ BaseConfig }, use, workerInfo) => {
+            const seed = BaseConfig.shopware.auth?.accessKeyId || BaseConfig.shopware.auth?.adminPassword || 'test-suite';
             const idProvider = new IdProvider(workerInfo.parallelIndex, seed);
 
             await use(idProvider);
@@ -48,7 +53,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 const language = await getLanguageData('en-US', context);
 
                 await context.post('./_actions/set-default-entities',
-                    { data: { currencyId: currency.id, languageId: language.id } }
+                    { data: { currencyId: currency.id, languageId: language.id } },
                 );
 
                 // we need to be authenticated with an sbp user

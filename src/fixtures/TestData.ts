@@ -1,17 +1,19 @@
 import { test as base } from '@playwright/test';
 import { TestDataService } from '../services/TestDataService';
 import type { FixtureTypes } from '../types/FixtureTypes';
-
-const ATS_SKIP_CLEANUP: boolean = ['1', 'true'].includes(process.env['ATS_SKIP_CLEANUP'] || '');
-const ATS_EXEC_CLEANUP = !ATS_SKIP_CLEANUP;
+import { ConfigOptions } from 'src/ConfigOptions';
 
 export interface TestDataFixtureTypes {
     TestDataService: TestDataService;
 }
 
-export const test = base.extend<FixtureTypes>({
+type WorkerFixtures = FixtureTypes & {
+    BaseConfig: ConfigOptions;
+};
 
-    TestDataService: async ({ AdminApiContext, IdProvider, DefaultSalesChannel, SalesChannelBaseConfig }, use) => {
+export const test = base.extend<WorkerFixtures>({
+
+    TestDataService: async ({ AdminApiContext, IdProvider, DefaultSalesChannel, SalesChannelBaseConfig, BaseConfig }, use) => {
         const DataService = new TestDataService(AdminApiContext, IdProvider, {
             defaultSalesChannel: DefaultSalesChannel.salesChannel,
             defaultTaxId: SalesChannelBaseConfig.taxId,
@@ -20,11 +22,11 @@ export const test = base.extend<FixtureTypes>({
             defaultLanguageId: DefaultSalesChannel.salesChannel.languageId,
             defaultCountryId: DefaultSalesChannel.salesChannel.countryId,
             defaultCustomerGroupId: DefaultSalesChannel.salesChannel.customerGroupId,
-        })
+        }, BaseConfig);
 
         await use(DataService);
 
-        if (ATS_EXEC_CLEANUP) {
+        if (BaseConfig.shopware.data?.cleanUp) {
             await DataService.cleanUp();
         }
     },
