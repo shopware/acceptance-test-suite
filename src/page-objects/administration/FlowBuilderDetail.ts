@@ -15,6 +15,7 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
     public readonly templateName: Locator;
     public readonly alertMessage: Locator;
     public readonly successMessage: Locator;
+    public readonly actionContentTag: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
@@ -33,6 +34,7 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
         this.saveButton = page.locator('.sw-flow-detail__save');
         this.flowTab = page.locator('.sw-flow-detail__tab-flow');
         this.templateName = page.getByLabel('Name');
+        this.actionContentTag = page.locator('.sw-flow-sequence-action__content').locator('.tag');
     }
 
     url(flowId?: string, tabName = 'general') {
