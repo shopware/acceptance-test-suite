@@ -34,6 +34,7 @@ import { ManufacturerDetail } from './administration/ManufacturerDetail';
 import { ProductListing } from './administration/ProductListing';
 import { ProductBulkEdit } from './administration/ProductBulkEdit';
 import { CustomerBulkEdit } from './administration/CustomerBulkEdit';
+import { SettingsListing } from './administration/SettingsListing';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -69,6 +70,7 @@ export interface AdministrationPageTypes {
     AdminProductListing: ProductListing;
     AdminProductBulkEdit: ProductBulkEdit;
     AdminCustomerBulkEdit: CustomerBulkEdit;
+    AdminSettingsListing: SettingsListing;
 }
 
 export const AdminPageObjects = {
@@ -105,6 +107,7 @@ export const AdminPageObjects = {
     ProductListing,
     ProductBulkEdit,
     CustomerBulkEdit,
+    SettingsListing,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -239,5 +242,9 @@ export const test = base.extend<FixtureTypes>({
 
     AdminCustomerBulkEdit: async ({ AdminPage }, use) => {
         await use(new CustomerBulkEdit(AdminPage));
+    },
+
+    AdminSettingsListing: async ({ AdminPage }, use) => {
+        await use(new SettingsListing(AdminPage));
     },
 });
