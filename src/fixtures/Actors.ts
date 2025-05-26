@@ -14,8 +14,8 @@ export const test = base.extend<FixtureTypes>({
         await use(shopCustomer);
     },
 
-    ShopAdmin: async ({ AdminPage }, use) => {
-        const shopAdmin = new Actor('Shop administrator', AdminPage);
+    ShopAdmin: async ({ AdminPage, SalesChannelBaseConfig }, use) => {
+        const shopAdmin = new Actor('Shop administrator', AdminPage, SalesChannelBaseConfig.adminUrl);
 
         await use(shopAdmin);
     },

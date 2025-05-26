@@ -1,4 +1,5 @@
-import {test} from '../../src';
+import { satisfies } from 'compare-versions';
+import { test } from '../../src';
 
 test('Storefront page objects', async ({
     ShopCustomer,
@@ -19,6 +20,7 @@ test('Storefront page objects', async ({
     StorefrontCategory,
     StorefrontSearch,
     TestDataService,
+    InstanceMeta,
 }) => {
 
     const product = await TestDataService.createBasicProduct();
@@ -59,10 +61,13 @@ test('Storefront page objects', async ({
     await ShopCustomer.goesTo(StorefrontAccountProfile.url());
     await ShopCustomer.expects(StorefrontAccountProfile.changeEmailButton).toBeVisible();
 
-    await ShopCustomer.goesTo(StorefrontAccountPayment.url());
-    await ShopCustomer.expects(StorefrontAccountPayment.changeDefaultPaymentButton).toBeVisible();
-
     await ShopCustomer.goesTo(StorefrontAccountAddresses.url());
     await ShopCustomer.expects(StorefrontAccountAddresses.addNewAddressButton).toBeVisible();
+
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (satisfies(InstanceMeta.version, '<6.7')) {
+        await ShopCustomer.goesTo(StorefrontAccountPayment.url());
+        await ShopCustomer.expects(StorefrontAccountPayment.changeDefaultPaymentButton).toBeVisible();
+    }
 
 });

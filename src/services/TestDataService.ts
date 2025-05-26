@@ -33,9 +33,14 @@ import {
     CustomFieldSet,
     CustomField,
     Tax,
-    ProductCrossSelling, RuleConditions, RuleOperators, RuleValues,
+    ProductCrossSelling, 
+    RuleConditions, 
+    RuleOperators, 
+    RuleValues,
+    ProductReview,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
+import { clearDelayedCache } from './Cache';
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -300,6 +305,23 @@ export class TestDataService {
         });
 
         return variantProducts;
+    }
+
+    /**
+     * Creates a product review
+     *
+     * @param productId - The uuid of the product to which the review should be assigned.
+     * @param overrides - Specific data overrides that will be applied to the review data struct.
+     */
+    async createProductReview(productId: string, overrides: Partial<ProductReview> = {}): Promise<ProductReview> {
+        const basicProductReview = this.getBasicProductReviewStruct(productId, overrides);
+
+        const productReviewResponse = await this.AdminApiClient.post('product-review?_response=detail', {
+            data: basicProductReview,
+        });
+        expect(productReviewResponse.ok()).toBeTruthy();
+        const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
+        return review;
     }
 
     /**
@@ -2524,7 +2546,7 @@ export class TestDataService {
     }
 
     async clearCaches() {
-        await this.AdminApiClient.delete('_action/cache');
+        await clearDelayedCache(this.AdminApiClient);
     }
 
     getBasicCustomFieldSetStruct(overrides: Partial<CustomFieldSet> = {}): Partial<CustomFieldSet> {
@@ -2629,5 +2651,21 @@ export class TestDataService {
             sortBy: 'name',
         }
         return Object.assign({}, defaultCrossSelling, overrides);
+    }
+
+    getBasicProductReviewStruct(productId: string, overrides: Partial<ProductReview> = {}): Partial<ProductReview> {
+        const { id: productReviewId, uuid: productReviewUuid } = this.IdProvider.getIdPair();
+        const productReviewName = `${this.namePrefix}ProductReview-${productReviewId}${this.nameSuffix}`;
+
+        const defaultProductReview = {
+            id: productReviewUuid,
+            productId: productId,
+            title: productReviewName,
+            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+            points: 5,
+            status: true,
+            salesChannelId: this.defaultSalesChannel.id,
+        }
+        return Object.assign({}, defaultProductReview, overrides);
     }
 }

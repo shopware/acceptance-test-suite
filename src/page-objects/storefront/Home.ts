@@ -6,9 +6,21 @@ export class Home implements PageObject {
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
     public readonly productListItems: Locator;
+    /**
+     * @deprecated Use 'Header/languagesDropdown' instead
+     */
     public readonly languagesDropdown: Locator;
+    /**
+     * @deprecated Use 'Header/languagesMenuOptions' instead
+     */
     public readonly languagesMenuOptions: Locator;
+    /**
+     * @deprecated Use 'Header/currenciesDropdown' instead
+     */
     public readonly currenciesDropdown: Locator;
+    /**
+     * @deprecated Use 'Header/currenciesMenuOptions' instead
+     */
     public readonly currenciesMenuOptions: Locator;
     public readonly consentOnlyTechnicallyRequiredButton: Locator;
     public readonly consentConfigureButton: Locator;
@@ -27,12 +39,36 @@ export class Home implements PageObject {
     public readonly consentDialogSaveButton: Locator;
     public readonly consentCookieBannerContainer: Locator;
     public readonly offcanvasBackdrop: Locator;
+    /**
+     * @deprecated Use 'Header/mainNavigationLink' instead
+     */
     public readonly mainNavigationLink: Locator;
+    /**
+     * @deprecated Use 'Footer/contactFormLink' instead
+     */
     public readonly contactFormLink: Locator;
 
     //wishlist
+    /**
+     * @deprecated Use 'Header/wishlistIcon' instead
+     */
     public readonly wishlistIcon: Locator;
+    /**
+     * @deprecated Use 'Header/wishlistBasket' instead
+     */
     public readonly wishlistBasket: Locator;
+
+    //product filters
+    public readonly filterMultiSelect: Locator;
+    public readonly manufacturerFilter: Locator;
+    public readonly propertyFilters: Locator;
+    public readonly priceFilterButton: Locator;
+    public readonly resetAllButton: Locator;
+    public readonly freeShippingFilter: Locator;
+    public readonly productList : Locator;
+    public readonly productItemNames: Locator;
+    public readonly productRatingButton: Locator;
+    public readonly productRatingList: Locator;
 
     constructor(public readonly page: Page) {
         this.accountMenuButton = page.getByLabel('Your account');
@@ -75,10 +111,38 @@ export class Home implements PageObject {
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');
         this.wishlistBasket = page.locator('.header-wishlist-badge');
+
+        //product filters
+        this.filterMultiSelect = page.locator('.filter-multi-select');
+        this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: 'Manufacturer' });
+        this.propertyFilters = page.locator('.filter-multi-select-properties');
+        this.priceFilterButton = page.getByRole('button', { name: 'Price' }).first();
+        this.resetAllButton = page.getByRole('button', { name: 'Reset all' });
+        this.freeShippingFilter = page.getByRole('checkbox', { name: 'Free shipping' });
+        this.productList = page.locator('.cms-listing-row');
+        this.productItemNames = this.productList.locator('.product-name');
+        this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
+        this.productRatingList = page.locator('.filter-rating-select-list-item');
+    }
+
+    async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
+        return this.productRatingList.filter({ hasText: `min. ${rating}/5` });
+    }
+
+    async getFilterItemByFilterName(filterName: string): Promise<Locator> {
+        return this.filterMultiSelect.getByRole('checkbox', { name: filterName });
+    }
+
+    async getFilterButtonByFilterName(filterName: string): Promise<Locator> {
+        return this.filterMultiSelect.getByRole('button', { name: filterName });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
         const menuNavigationItem = this.page.locator('.nav-main').getByText(categoryName, { exact: true });
+        /** @deprecated - Remove, because it is obsolete.
+         * The Offcanvas can only be tested on mobile viewport.
+         * The content is only loaded if the navigation is triggered.
+         */
         const offcanvasNavigationItem = this.page.locator('.js-navigation-offcanvas-initial-content').getByText(categoryName, { exact: true });
         const breadcrumbNavigationItem = this.page.locator('.cms-breadcrumb').getByText(categoryName, { exact: true });
         const breadcrumbNavigationLinkItem = this.page
@@ -89,6 +153,7 @@ export class Home implements PageObject {
 
         return {
             menuNavigationItem: menuNavigationItem,
+            /** @deprecated - Remove, because it is obsolete. */
             offcanvasNavigationItem: offcanvasNavigationItem,
             breadcrumbNavigationItem: breadcrumbNavigationItem,
             breadcrumbNavigationLinkItem: breadcrumbNavigationLinkItem,

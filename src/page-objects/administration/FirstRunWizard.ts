@@ -22,7 +22,7 @@ export class FirstRunWizard implements PageObject {
     public readonly shopwareAccountHeader: Locator;
     public readonly shopwareStoreHeader: Locator;
     public readonly doneHeader: Locator;
-    public readonly frwSuccessText:Locator;
+    public readonly frwSuccessText: Locator;
     public readonly welcomeText: Locator;
     public readonly pluginCardInfo: Locator;
     public readonly dataImportCard: Locator;
@@ -75,21 +75,16 @@ export class FirstRunWizard implements PageObject {
         // Data import part
         this.installMigrationAssistantButton = page.getByRole('button', { name: 'Install Migration Assistant' });
         this.installDemoDataButton = page.getByRole('button', { name: 'Install demo data' });
-        this.dataImportHeader = page.locator('.sw-modal__title', { hasText: 'Getting started with Shopware 6'});
+        this.dataImportHeader = page.locator('.sw-modal__title', { hasText: 'Getting started with Shopware 6' });
         this.dataImportCard = page.locator('.sw-first-run-wizard-data-import__card');
 
         // Default values part
-        this.defaultValuesHeader = page.locator('.sw-modal__title', { hasText: 'Setup default values'});
+        this.defaultValuesHeader = page.locator('.sw-modal__title', { hasText: 'Setup default values' });
         this.salesChannelSelectionMultiSelect = page.getByPlaceholder('Select Sales Channels...');
-
-        if (satisfies(instanceMeta.version, '<6.7')) {
-            this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
-        } else {
-            this.salesChannelSelectionList = page.locator('.sw-select-result-list-popover').getByRole('listitem');
-        }
+        this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
 
         // Mailer configuration part
-        this.mailerConfigurationHeader = page.locator('.sw-modal__title', { hasText: 'Mailer configuration'});
+        this.mailerConfigurationHeader = page.locator('.sw-modal__title', { hasText: 'Mailer configuration' });
         this.smtpServerButton = page.getByText('Configure own SMTP server', { exact: true });
         this.smtpServerTitle = page.getByText('SMTP server', { exact: true });
         this.smtpServerFields = page.locator('.sw-field');
@@ -109,26 +104,26 @@ export class FirstRunWizard implements PageObject {
         }
 
         // PayPal part
-        this.payPalSetupHeader = page.locator('.sw-modal__title', { hasText: 'Setup PayPal'});
+        this.payPalSetupHeader = page.locator('.sw-modal__title', { hasText: 'Setup PayPal' });
         this.payPalPaymethods = page.locator('.paymethod');
         this.payPalInfoCard = page.locator('.sw-first-run-wizard-paypal-info');
 
         // Extensions part
-        this.extensionsHeader = page.locator('.sw-modal__title', { hasText: 'Extensions'});
+        this.extensionsHeader = page.locator('.sw-modal__title', { hasText: 'Extensions' });
         this.germanRegionSelector = page.getByText('Germany / Austria / Switzerland');
         this.toolsSelector = page.getByText('Tools');
         this.recommendationHeader = page.getByText('Global recommendations', { exact: true });
         this.toolsRecommendedPlugin = page.locator('.sw-plugin-card__info').locator('.sw-plugin-card__label');
 
         // Shopware account part
-        this.shopwareAccountHeader = page.locator('.sw-modal__title', { hasText: 'Shopware Account'});
+        this.shopwareAccountHeader = page.locator('.sw-modal__title', { hasText: 'Shopware Account' });
         this.emailAddressInputField = page.getByPlaceholder('Enter your email address...', { exact: true });
         this.passwordInputField = page.getByPlaceholder('Enter your password...', { exact: true });
         this.forgotPasswordLink = page.getByText('Did you forget your password?', { exact: true })
 
         // Shopware store part
-        this.shopwareStoreHeader = page.locator('.sw-modal__title', { hasText: 'Shopware Store'});
-        this.doneHeader = page.locator('.sw-modal__title', { hasText: 'Done'});
+        this.shopwareStoreHeader = page.locator('.sw-modal__title', { hasText: 'Shopware Store' });
+        this.doneHeader = page.locator('.sw-modal__title', { hasText: 'Done' });
         this.extensionStoreHeading = page.locator('.sw-first-run-wizard-store__heading');
         this.frwSuccessText = page.getByText('All done!', { exact: true });
         this.documentationLink = page.locator('[href*="https://docs.shopware.com/en"]');

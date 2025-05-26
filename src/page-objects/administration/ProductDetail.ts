@@ -102,9 +102,13 @@ export class ProductDetail implements PageObject {
         this.activeForAllSalesChannelsToggle = page.locator('.sw-field--product-active').getByRole('checkbox');
         this.tagsInput = page.locator('.sw-product-category-form__tag-field');
         this.saleChannelsInput = page.locator('.sw-product-detail__select-visibility');
-        
+
         // Labelling
-        this.releaseDateInput = page.locator('.sw-product-detail-base__labelling-card').locator('.form-control');
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.releaseDateInput = page.locator('.sw-product-detail-base__labelling-card').locator('.form-control');
+        } else {
+            this.releaseDateInput = page.locator('.dp__input_readonly');
+        }
 
         // Media upload interactions
         this.uploadMediaButton = page.getByRole('button', { name: 'Upload file' });
@@ -123,12 +127,12 @@ export class ProductDetail implements PageObject {
         this.propertyGroupColor = this.variantsModal.getByText('Color').first();
         this.propertyGroupSize = this.variantsModal.getByText('Size').first();
         this.propertyOptionGrid = this.variantsModal.locator('.sw-property-search__tree-selection__option_grid');
-        this.propertyOptionColorBlue = this.propertyOptionGrid.getByLabel('Blue');
-        this.propertyOptionColorRed = this.propertyOptionGrid.getByLabel('Red');
-        this.propertyOptionColorGreen = this.propertyOptionGrid.getByLabel('Green');
-        this.propertyOptionSizeSmall = this.propertyOptionGrid.getByLabel('Small');
-        this.propertyOptionSizeMedium = this.propertyOptionGrid.getByLabel('Medium');
-        this.propertyOptionSizeLarge = this.propertyOptionGrid.getByLabel('Large');
+        this.propertyOptionColorBlue = this.propertyOptionGrid.getByRole('row', { name: 'Blue' }).getByRole('checkbox');
+        this.propertyOptionColorRed = this.propertyOptionGrid.getByRole('row', { name: 'Red' }).getByRole('checkbox');
+        this.propertyOptionColorGreen = this.propertyOptionGrid.getByRole('row', { name: 'Green' }).getByRole('checkbox');
+        this.propertyOptionSizeSmall = this.propertyOptionGrid.getByRole('row', { name: 'Small' }).getByRole('checkbox');
+        this.propertyOptionSizeMedium = this.propertyOptionGrid.getByRole('row', { name: 'Medium' }).getByRole('checkbox');
+        this.propertyOptionSizeLarge = this.propertyOptionGrid.getByRole('row', { name: 'Large' }).getByRole('checkbox');
 
         this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
         if (satisfies(instanceMeta.version, '<6.7')) {
