@@ -16,6 +16,7 @@ export class OrderDetail implements PageObject {
     public readonly sendDocumentModal: Locator;
     public readonly sendDocumentButton: Locator;
     public readonly itemsCardHeader: Locator;
+    public readonly sentCheckmark: Locator;
 
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
