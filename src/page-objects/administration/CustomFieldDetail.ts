@@ -1,5 +1,8 @@
 import type { Page, Locator } from '@playwright/test';
 import { CustomFieldCreate } from './CustomFieldCreate';
+import { getSelectFieldListitem } from './modules/SelectFieldListitem';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { satisfies } from 'compare-versions';
 
 export class CustomFieldDetail extends CustomFieldCreate {
     public readonly newCustomFieldButton: Locator;
@@ -19,8 +22,9 @@ export class CustomFieldDetail extends CustomFieldCreate {
     public readonly customFieldDeleteDialog: Locator;
     public readonly customFieldDeleteCancelButton: Locator;
     public readonly customFieldDeleteButton: Locator;
+    public readonly customFieldEditAvailableInShoppingCartCheckbox: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page);
 
         //Custom field section
@@ -30,16 +34,20 @@ export class CustomFieldDetail extends CustomFieldCreate {
         //Dialog - New custom field / Edit custom field
         this.newCustomFieldDialog = page.getByRole('dialog', { name: 'New custom field' });
         this.customFieldAddButton = this.newCustomFieldDialog.getByRole('button', { name: 'Add' });
-        this.customFieldTechnicalNameInput = this.newCustomFieldDialog.getByLabel('Technical Name');
+        this.customFieldTechnicalNameInput = this.newCustomFieldDialog.getByLabel('Technical name');
         this.customFieldPositionInput = this.newCustomFieldDialog.getByLabel('Position');
-        this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByLabel('Type');
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByLabel('Type');
+        } else {
+            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByRole('textbox', { name: 'Select...' });
+        }
         this.customFieldModifyByStoreApiCheckbox = this.newCustomFieldDialog.getByLabel('Modifiable via Store API');
         this.customFieldCancelButton = this.newCustomFieldDialog.getByRole('button', { name: 'Cancel' });
         this.customFieldLabelEnglishGBInput = this.newCustomFieldDialog.getByLabel('Label (English (GB))');
         this.customFieldPlaceholderEnglishGBInput = this.newCustomFieldDialog.getByLabel('Placeholder (English (GB))');
         this.customFieldHelpTextEnglishGBInput = this.newCustomFieldDialog.getByLabel('Help text (English (GB))');
-
         this.customFieldEditDialog = page.getByRole('dialog', { name: 'Edit custom field' });
+        this.customFieldEditAvailableInShoppingCartCheckbox = this.customFieldEditDialog.getByLabel('Available in shopping cart');
         this.customFieldEditApplyButton = this.customFieldEditDialog.getByRole('button', { name: 'Apply changes' });
 
         //Dialog - delete field
@@ -73,5 +81,8 @@ export class CustomFieldDetail extends CustomFieldCreate {
 
     url(customFieldUuid?: string) {
         return `#/sw/settings/custom/field/detail/${customFieldUuid}`
+    }
+    async getSelectFieldListitem(selectField: Locator, listItem: string) {
+        return getSelectFieldListitem(this.page, selectField, listItem, this.instanceMeta);
     }
 }

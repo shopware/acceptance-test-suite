@@ -34,8 +34,10 @@ import type {
     CustomField,
     Tax,
     ProductCrossSelling,
+    ProductReview,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
+import { clearDelayedCache } from './Cache';
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -300,6 +302,23 @@ export class TestDataService {
         });
 
         return variantProducts;
+    }
+
+    /**
+     * Creates a product review
+     *
+     * @param productId - The uuid of the product to which the review should be assigned.
+     * @param overrides - Specific data overrides that will be applied to the review data struct.
+     */
+    async createProductReview(productId: string, overrides: Partial<ProductReview> = {}): Promise<ProductReview> {
+        const basicProductReview = this.getBasicProductReviewStruct(productId, overrides);
+
+        const productReviewResponse = await this.AdminApiClient.post('product-review?_response=detail', {
+            data: basicProductReview,
+        });
+        expect(productReviewResponse.ok()).toBeTruthy();
+        const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
+        return review;
     }
 
     /**
@@ -1775,11 +1794,21 @@ export class TestDataService {
     };
 
     /**
+     * @deprecated Use `getCountry` instead.
      * Retrieves a country Id based on its iso2 code.
      *
      * @param iso2 - The iso2 code of the country, for example "DE".
      */
     async getCountryId(iso2: string): Promise<Country> {
+        return await this.getCountry(iso2);
+    }
+
+    /**
+     * Retrieves a country based on its iso2 code.
+     *
+     * @param iso2 - The iso2 code of the country, for example "DE".
+     */
+    async getCountry(iso2: string): Promise<Country> {
         const countryResponse = await this.AdminApiClient.post('search/country', {
             data: {
                 limit: 1,
@@ -2511,7 +2540,7 @@ export class TestDataService {
     }
 
     async clearCaches() {
-        await this.AdminApiClient.delete('_action/cache');
+        await clearDelayedCache(this.AdminApiClient);
     }
 
     getBasicCustomFieldSetStruct(overrides: Partial<CustomFieldSet> = {}): Partial<CustomFieldSet> {
@@ -2616,5 +2645,21 @@ export class TestDataService {
             sortBy: 'name',
         }
         return Object.assign({}, defaultCrossSelling, overrides);
+    }
+
+    getBasicProductReviewStruct(productId: string, overrides: Partial<ProductReview> = {}): Partial<ProductReview> {
+        const { id: productReviewId, uuid: productReviewUuid } = this.IdProvider.getIdPair();
+        const productReviewName = `${this.namePrefix}ProductReview-${productReviewId}${this.nameSuffix}`;
+
+        const defaultProductReview = {
+            id: productReviewUuid,
+            productId: productId,
+            title: productReviewName,
+            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+            points: 5,
+            status: true,
+            salesChannelId: this.defaultSalesChannel.id,
+        }
+        return Object.assign({}, defaultProductReview, overrides);
     }
 }

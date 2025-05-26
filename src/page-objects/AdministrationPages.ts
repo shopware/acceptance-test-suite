@@ -11,6 +11,7 @@ import { CustomerGroupDetail } from './administration/CustomerGroupDetail';
 import { FirstRunWizard } from './administration/FirstRunWizard';
 import { FlowBuilderCreate } from './administration/FlowBuilderCreate';
 import { FlowBuilderListing } from './administration/FlowBuilderListing';
+import { FlowBuilderTemplates } from './administration/FlowBuilderTemplates';
 import { FlowBuilderDetail } from './administration/FlowBuilderDetail';
 import { DataSharing } from './administration/DataSharing';
 import { Dashboard } from './administration/Dashboard';
@@ -45,6 +46,7 @@ export interface AdministrationPageTypes {
     AdminFirstRunWizard: FirstRunWizard;
     AdminFlowBuilderCreate: FlowBuilderCreate;
     AdminFlowBuilderListing: FlowBuilderListing;
+    AdminFlowBuilderTemplates: FlowBuilderTemplates;
     AdminFlowBuilderDetail: FlowBuilderDetail;
     AdminDataSharing: DataSharing;
     AdminDashboard: Dashboard;
@@ -80,6 +82,7 @@ export const AdminPageObjects = {
     FirstRunWizard,
     FlowBuilderCreate,
     FlowBuilderListing,
+    FlowBuilderTemplates,
     FlowBuilderDetail,
     Dashboard,
     DataSharing,
@@ -106,12 +109,12 @@ export const AdminPageObjects = {
 
 export const test = base.extend<FixtureTypes>({
 
-    AdminProductDetail: async ({ AdminPage }, use) => {
-        await use(new ProductDetail(AdminPage));
+    AdminProductDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new ProductDetail(AdminPage, InstanceMeta));
     },
 
-    AdminOrderDetail: async ({ AdminPage }, use) => {
-        await use(new OrderDetail(AdminPage));
+    AdminOrderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new OrderDetail(AdminPage, InstanceMeta));
     },
 
     AdminCustomerListing: async ({ AdminPage }, use) => {
@@ -126,12 +129,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomerGroupListing(AdminPage));
     },
 
-    AdminCustomerGroupCreate: async ({ AdminPage }, use) => {
-        await use(new CustomerGroupCreate(AdminPage));
+    AdminCustomerGroupCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomerGroupCreate(AdminPage, InstanceMeta));
     },
 
-    AdminCustomerGroupDetail: async ({ AdminPage }, use) => {
-        await use(new CustomerGroupDetail(AdminPage));
+    AdminCustomerGroupDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomerGroupDetail(AdminPage, InstanceMeta));
     },
 
     AdminFirstRunWizard: async ({ AdminPage, InstanceMeta }, use) => {
@@ -146,12 +149,16 @@ export const test = base.extend<FixtureTypes>({
         await use(new FlowBuilderListing(AdminPage));
     },
 
-    AdminFlowBuilderDetail: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderDetail(AdminPage));
+    AdminFlowBuilderTemplates: async ({ AdminPage }, use) => {
+        await use(new FlowBuilderTemplates(AdminPage));
     },
 
-    AdminDataSharing: async ({ AdminPage }, use) => {
-        await use(new DataSharing(AdminPage));
+    AdminFlowBuilderDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderDetail(AdminPage, InstanceMeta));
+    },
+
+    AdminDataSharing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new DataSharing(AdminPage, InstanceMeta));
     },
 
     AdminDashboard: async ({ AdminPage }, use) => {
@@ -170,12 +177,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new PaymentDetail(AdminPage));
     },
 
-    AdminCategories: async ({ AdminPage }, use) => {
-        await use(new Categories(AdminPage));
+    AdminCategories: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new Categories(AdminPage, InstanceMeta));
     },
 
-    AdminCategoryDetail: async ({ AdminPage }, use) => {
-        await use(new CategoryDetail(AdminPage));
+    AdminCategoryDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CategoryDetail(AdminPage, InstanceMeta));
     },
 
     AdminLandingPageDetail: async ({ AdminPage }, use) => {
@@ -194,12 +201,12 @@ export const test = base.extend<FixtureTypes>({
         await use(new CustomFieldCreate(AdminPage));
     },
 
-    AdminCustomFieldDetail: async ({ AdminPage }, use) => {
-        await use(new CustomFieldDetail(AdminPage));
+    AdminCustomFieldDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomFieldDetail(AdminPage, InstanceMeta));
     },
 
-    AdminRuleCreate: async ({ AdminPage }, use) => {
-        await use(new RuleCreate(AdminPage));
+    AdminRuleCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new RuleCreate(AdminPage, InstanceMeta));
     },
 
     AdminRuleDetail: async ({ AdminPage, InstanceMeta }, use) => {

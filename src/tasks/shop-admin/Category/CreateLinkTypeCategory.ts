@@ -35,6 +35,9 @@ export const CreateLinkTypeCategory = base.extend<{ CreateLinkTypeCategory: Task
             break;
           case 'Product':
             await AdminCategories.productSelectionList.click();
+            if (categoryCustomizableLinkData.product != null) {
+              await AdminCategories.productSelectionInput.fill(categoryCustomizableLinkData.product);
+            }
             await AdminCategories.filtersResultPopoverItemList.filter({ hasText: categoryCustomizableLinkData.product }).click();
             break;
           case 'Landing page':

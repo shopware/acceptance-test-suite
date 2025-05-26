@@ -84,6 +84,15 @@ export type Product = Omit<components['schemas']['Product'], 'price' | 'prices' 
     variantListingConfig?: VariantListingConfig,
 }
 
+export type ProductReview = components['schemas']['ProductReview'] & {
+    id: string,
+    productId: string,
+    salesChannelId: string,
+    title: string,
+    content: string,
+    points: number,
+}
+
 export type OrderDelivery = Omit<components['schemas']['OrderDelivery'], 'shippingOrderAddress' | 'shippingCosts'> & {
     id: string,
     shippingOrderAddress: Partial<components['schemas']['OrderAddress']>
@@ -313,4 +322,26 @@ export interface TagData {
 export interface CustomFieldData {
     customFieldSetName: string;
     customFieldValue: string;
+}
+
+export interface FlowTemplate {
+    id: string;
+    name: string;
+    config: {
+        eventName: string;
+        sequences: [{
+            actionName: string;
+            config: string;
+        }]
+    }
+}
+
+export interface Flow {
+    id: string;
+    name: string;
+    eventName: string;
+    sequences: [{
+        actionName: string;
+        config: string;
+    }]
 }

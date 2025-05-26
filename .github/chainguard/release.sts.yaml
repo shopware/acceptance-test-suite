@@ -1,0 +1,8 @@
+issuer: https://token.actions.githubusercontent.com
+subject_pattern: repo:shopware/acceptance-test-suite:.*
+claim_pattern:
+  workflow_ref: shopware/acceptance-test-suite/.github/workflows/release.yml@refs/heads/trunk
+
+permissions:
+  contents: write
+  pull_requests: write
