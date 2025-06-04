@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.15.4](https://github.com/shopware/acceptance-test-suite/compare/v11.15.3...v11.15.4) (2025-06-04)
+
+
+### Bug Fixes
+
+* customer bulk edit tags ([#399](https://github.com/shopware/acceptance-test-suite/issues/399)) ([960a165](https://github.com/shopware/acceptance-test-suite/commit/960a1659ded1da0b5db5d78f4d4a9c36767e3031))
+
 ## [11.15.3](https://github.com/shopware/acceptance-test-suite/compare/v11.15.2...v11.15.3) (2025-05-15)
 
 
