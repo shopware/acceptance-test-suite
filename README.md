@@ -808,6 +808,10 @@ You can create a new TypeScript class that **extends** the base `TestDataService
 import { TestDataService } from '@shopware-ag/acceptance-test-suite';
 
 export class CustomTestDataService extends TestDataService {
+
+    constructor(AdminApiContext, DefaultSalesChannel) {
+        super(...);
+    }
     
     async createCustomCustomerGroup(data: Partial<CustomerGroup>) {
         const response = await this.adminApi.post('customer-group?_response=true', {
@@ -832,14 +836,16 @@ Example from `AcceptanceTest.ts`:
 
 ```typescript
 import { test as base } from '@shopware-ag/acceptance-test-suite';
-import type { FixtureTypes } from '@shopware-ag/acceptance-test-suite';
-import { CustomTestDataService } from './CustomTestData';
+import type { FixtureTypes } from './BaseTestFile';
+import { CustomTestDataService } from './CustomTestDataService';
 
-export * from '@shopware-ag/acceptance-test-suite';
+export interface CustomTestDataServiceType {
+    TestDataService: CustomTestDataService;
+}
 
-export const test = base.extend<FixtureTypes & CustomTestDataService>({
+export const test = base.extend<FixtureTypes & CustomTestDataServiceType>({
     TestDataService: async ({ AdminApiContext, DefaultSalesChannel }, use) => {
-        const service = new CustomTestDataService(AdminApiContext, DefaultSalesChannel);
+        const service = new CustomTestDataService(AdminApiContext, DefaultSalesChannel.salesChannel);
         await use(service);
         await service.cleanUp();
     },
