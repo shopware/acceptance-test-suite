@@ -2,6 +2,9 @@ import { test as base } from '@playwright/test';
 import { TestDataService } from '../services/TestDataService';
 import type { FixtureTypes } from '../types/FixtureTypes';
 
+const ATS_SKIP_CLEANUP: boolean = ['1', 'true'].includes(process.env['ATS_SKIP_CLEANUP'] || '');
+const ATS_EXEC_CLEANUP = !ATS_SKIP_CLEANUP;
+
 export interface TestDataFixtureTypes {
     TestDataService: TestDataService;
 }
@@ -21,6 +24,8 @@ export const test = base.extend<FixtureTypes>({
 
         await use(DataService);
 
-        await DataService.cleanUp();
+        if (ATS_EXEC_CLEANUP) {
+            await DataService.cleanUp();
+        }
     },
 });
