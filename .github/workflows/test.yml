@@ -84,12 +84,11 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
+      if: github.event.name != 'pull_request' || !steps.changed-test-files.outputs.any_changed
       run: npx playwright test --repeat-each 4
 
     - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}
-      if: steps.changed-test-files.outputs.all_changed_files_count > 0
-      env:
-        APP_URL: http://localhost:${{ matrix.PORT }}
+      if: github.event.name == 'pull_request' && steps.changed-test-files.outputs.any_changed
       run: >-
         npx playwright test
         --repeat-each 10
