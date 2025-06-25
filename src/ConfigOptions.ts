@@ -82,7 +82,7 @@ const applyDefaults = (options: ConfigOptions & PlaywrightTestOptions & Playwrig
 };
 
 
-const testWithBaseConfig = testWithConfig.extend<ConfigOptions & { BaseConfig: ConfigOptions }>({
+const testWithBaseConfig = testWithConfig.extend<ConfigOptions & { BaseConfig: ConfigOptionsWithDefaults }>({
   BaseConfig: [
     async ({ }, use, workerInfo) => {
       await use(
@@ -96,7 +96,7 @@ const testWithBaseConfig = testWithConfig.extend<ConfigOptions & { BaseConfig: C
   ],
 });
 
-export const test = testWithBaseConfig.extend<ConfigOptions & { BaseConfig: ConfigOptions }>({
+export const test = testWithBaseConfig.extend<ConfigOptions & { BaseConfig: ConfigOptionsWithDefaults }>({
   shopware: async ({ BaseConfig }, use) => {
     await use(BaseConfig.shopware);
   },

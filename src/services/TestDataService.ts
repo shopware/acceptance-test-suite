@@ -38,7 +38,7 @@ import type {
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 import { clearDelayedCache } from './Cache';
-import { ConfigOptions } from 'src/ConfigOptions';
+import { ConfigOptions } from '../ConfigOptions';
 
 export interface SalesChannelRecord {
     salesChannelId: string;

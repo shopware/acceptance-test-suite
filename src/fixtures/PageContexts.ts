@@ -1,6 +1,6 @@
 import { test as base, expect, Page, BrowserContext } from '@playwright/test';
 import type { FixtureTypes } from '../types/FixtureTypes';
-import type { ConfigOptions } from '../ConfigOptions';
+import type { ConfigOptionsWithDefaults } from '../ConfigOptions';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
 import { clearDelayedCache } from '../services/Cache';
@@ -13,7 +13,7 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
-export const test = base.extend<FixtureTypes & { BaseConfig: ConfigOptions }>({
+export const test = base.extend<FixtureTypes & { BaseConfig: ConfigOptionsWithDefaults }>({
     AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, BaseConfig }, use) => {
         const context = await browser.newContext({
             baseURL: SalesChannelBaseConfig.adminUrl,

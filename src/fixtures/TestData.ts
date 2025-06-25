@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
 import { TestDataService } from '../services/TestDataService';
 import type { FixtureTypes } from '../types/FixtureTypes';
-import { ConfigOptions } from 'src/ConfigOptions';
+import { ConfigOptions } from '../ConfigOptions';
 
 export interface TestDataFixtureTypes {
     TestDataService: TestDataService;
