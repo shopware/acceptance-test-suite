@@ -24,6 +24,7 @@ export default defineConfig<ConfigOptions>({
       appURL: appURL,
       mailpitBaseURL: process.env['SHOPWARE_MAILPIT_BASE_URL'] || 'http://localhost:8013',
     },
+    baseURL: appURL,
     trace: 'retain-on-failure',
     video: 'off',
   },

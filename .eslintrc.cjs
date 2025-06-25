@@ -10,12 +10,6 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     plugins: ["@typescript-eslint", "n"],
     root: true,
-    settings: {
-        n: {
-            tryExtensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".node"],
-            tsconfigPath: "tsconfig.json"
-        }
-    },
     rules: {
         "@typescript-eslint/no-unused-vars": "warn",
         "quotes": ["error", "single", { allowTemplateLiterals: true }],

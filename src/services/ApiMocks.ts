@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 
-export async function mockApiCalls(page: Page) {
+export async function mockApiCalls(page: Page, BaseConfig: ConfigOptionsWithDefaults) {
     await page.route('**/api/notification/message*', route => route.fulfill({
         status: 200,
         contentType: 'application/json',

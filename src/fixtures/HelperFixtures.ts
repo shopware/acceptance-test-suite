@@ -55,7 +55,6 @@ export const test = base.extend<NonNullable<unknown>, WorkerFixtures>({
                 await context.post('./_actions/set-default-entities',
                     { data: { currencyId: currency.id, languageId: language.id } },
                 );
-
                 // we need to be authenticated with an sbp user
                 const token = await AdminApiContext.authenticateWithUserPassword(context.context, context.options);
                 await context.post('./sbp/request-live-status', { headers: { Authorization: `Bearer ${token}` } });

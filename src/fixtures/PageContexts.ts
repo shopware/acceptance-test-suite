@@ -14,14 +14,14 @@ export interface PageContextTypes {
 }
 
 export const test = base.extend<FixtureTypes & { BaseConfig: ConfigOptions }>({
-    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
+    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, BaseConfig }, use) => {
         const context = await browser.newContext({
             baseURL: SalesChannelBaseConfig.adminUrl,
             serviceWorkers: 'block',
         });
         const page = await context.newPage();
 
-        await mockApiCalls(page);
+        await mockApiCalls(page, BaseConfig);
 
         const { id, uuid } = IdProvider.getIdPair();
 
