@@ -18,7 +18,13 @@ type WorkerFixtures = FixtureTypes & {
 export const test = base.extend<WorkerFixtures>({
     AdminApiContext: [
         async ({ BaseConfig }, use) => {
-            const adminApiContext = await AdminApiContext.create({ app_url: BaseConfig.shopware.adminAPIURL });
+            const adminApiContext = await AdminApiContext.create({
+                app_url: BaseConfig.shopware.adminAPIURL,
+                client_id: BaseConfig.shopware.auth?.accessKeyId,
+                client_secret: BaseConfig.shopware.auth?.secretAccessKey,
+                admin_username: BaseConfig.shopware.auth?.adminUsername,
+                admin_password: BaseConfig.shopware.auth?.adminPassword,
+            });
             await use(adminApiContext);
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
