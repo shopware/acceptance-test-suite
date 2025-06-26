@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.16.0](https://github.com/shopware/acceptance-test-suite/compare/v11.15.4...v11.16.0) (2025-06-26)
+
+
+### Features
+
+* new locators for product detail page and a new task ([#405](https://github.com/shopware/acceptance-test-suite/issues/405)) ([3b5fdef](https://github.com/shopware/acceptance-test-suite/commit/3b5fdefe8c01fad80de96eca1ae5504eee0e1b4d))
+
 ## [11.15.4](https://github.com/shopware/acceptance-test-suite/compare/v11.15.3...v11.15.4) (2025-06-04)
 
 
