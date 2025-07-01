@@ -1,6 +1,27 @@
 /* eslint-disable playwright/no-conditional-in-test */
-import { test, expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+
+//Option 1
+//import { test, expect } from '@playwright/test';
+//import { expect } from '../fixtures/a11y_poc/a11y_assertions/toHaveColorATS'; //can directly import from toHaveColorATS OR see next line
+//import '../fixtures/a11y_poc/a11y_assertions/toHaveColorATS'; //requires the global type declaration in a separate .d.ts file (didn't work in same file, even with export)
+
+//Option 2 (this is the cleanest way minus mergeExpects)
+//import '../fixtures/a11y_poc/a11y_assertions/fooBar'; //did not require separate .d.ts file
+//import { test, expect } from '@playwright/test';
+
+//For Benchmarking
+import { test } from '@playwright/test';
+import { expect } from '../fixtures/a11y_poc/a11y_assertions/visibleFocus';
+
+//can't figure this out
+//import { expect } from '../fixtures/a11y_poc/a11y_assertions/pwMergeExpects';
+
+
+
+import type { Page, Locator } from '@playwright/test';
+import exp from 'constants';
+import { AsyncLocalStorage } from 'async_hooks';
+
 
 export class Actor {
     public page: Page;
@@ -14,6 +35,42 @@ export class Actor {
     }
 
     expects = expect;
+
+    async presses(locator: Locator, key: string) {
+        const stepTitle = `${this.name} presses ${key} on ${locator}`;
+        await test.step(stepTitle, async () =>{
+            //see how debugging looks
+            
+            //toBeAttached is unecessary because toBeVisible() already checks this: https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-be-visible
+            //await expect(locator).toBeAttached();
+            await expect(locator).toBeVisible();
+            await locator.focus();
+            await expect(locator).toBeFocused();        
+            await expect(locator).toBeEnabled();
+            /*if I want retries (do we? I'm not sure I would)
+            await expect(async () => {
+                await expect(locator).toBeFocused();
+            }).toPass();
+            */
+            await expect(locator).toHaveVisibleFocus();
+            await locator.press(key);
+        });
+    }
+
+    async fillsIn(locator: Locator, input: string) {
+        const stepTitle = `${this.name} fills ${locator} with text "${input}"`;
+        await test.step(stepTitle, async () =>{
+            //fill() auto-checks if visible/enabled/editable
+            //So there are technically 7 assertions running in this function which I did merely for consistency's sake until we figure out how to break down actionability checks
+
+            await expect(locator).toBeVisible();
+            await locator.focus();
+            await expect(locator).toBeFocused();
+            await expect(locator).toBeEnabled();
+            await expect(locator).toHaveVisibleFocus();
+            await locator.fill(input);
+        });
+    }
 
     async attemptsTo(task: () => Promise<void>) {
         const stepTitle = `${this.name} attempts to ${this.camelCaseToLowerCase(task.name)}`;
