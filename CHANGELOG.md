@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.16.1](https://github.com/shopware/acceptance-test-suite/compare/v11.16.0...v11.16.1) (2025-07-01)
+
+
+### Bug Fixes
+
+* add all tabs to the admin product detail page ([#407](https://github.com/shopware/acceptance-test-suite/issues/407)) ([bb8bda5](https://github.com/shopware/acceptance-test-suite/commit/bb8bda55b7c1d023ad24e2836f64aba55022c21f))
+
 ## [11.16.0](https://github.com/shopware/acceptance-test-suite/compare/v11.15.4...v11.16.0) (2025-06-26)
 
 
