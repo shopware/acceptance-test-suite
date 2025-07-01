@@ -19,7 +19,7 @@ const customMatchers = {
           : `raven expected ${received} to be green`,
       pass,
     };
-  }
+  },
 
 };
 
