@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.16.2](https://github.com/shopware/acceptance-test-suite/compare/v11.16.1...v11.16.2) (2025-07-02)
+
+
+### Bug Fixes
+
+* add SelectProductFilterOption task ([#411](https://github.com/shopware/acceptance-test-suite/issues/411)) ([12a5780](https://github.com/shopware/acceptance-test-suite/commit/12a57801b993769da05184bbd807e7301f1854fb))
+
 ## [11.16.1](https://github.com/shopware/acceptance-test-suite/compare/v11.16.0...v11.16.1) (2025-07-01)
 
 
