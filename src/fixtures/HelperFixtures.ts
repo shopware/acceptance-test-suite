@@ -5,7 +5,6 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
 import { satisfies } from 'compare-versions';
-import type { Page } from '@playwright/test';
 
 type FeaturesType = Record<string, boolean>;
 
@@ -17,7 +16,8 @@ export interface HelperFixtureTypes {
         isSaaS: boolean,
         features: FeaturesType,
     },
-    HideElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>
+    HideAdminElementsForScreenshot: (selectors: string[]) => Promise<void>,
+    HideStorefrontElementsForScreenshot: (selectors: string[]) => Promise<void>,
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -88,20 +88,39 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         { scope: 'worker' },
     ],
 
-    HideElementsForScreenshot: [
-        async ({ }, use) => {
-        const fn = async (page: Page, selectors: string[]) => {
-            if (!selectors.length) return;
+    HideAdminElementsForScreenshot: [
+        async ({ AdminPage }, use) => {
 
-            const css = selectors
-            .map(selector => `${selector} { display: none !important; }`)
-            .join('\n');
+            const fn = async (selectors: string[]) => {
+                if (!selectors.length) return;
 
-            await page.addStyleTag({ content: css });
-        };
+                const css = selectors
+                    .map(selector => `${selector} { display: none !important; }`)
+                    .join('\n');
 
-        await use(fn);
+                await AdminPage.addStyleTag({ content: css });
+            };
+
+            await use(fn);
         },
         { scope: 'worker' },
-  ],
+    ],
+    
+    HideStorefrontElementsForScreenshot: [
+        async ({ StorefrontPage }, use) => {
+
+            const fn = async (selectors: string[]) => {
+                if (!selectors.length) return;
+
+                const css = selectors
+                    .map(selector => `${selector} { display: none !important; }`)
+                    .join('\n');
+
+                await StorefrontPage.addStyleTag({ content: css });
+            };
+
+            await use(fn);
+        },
+        { scope: 'worker' },
+    ],
 });
