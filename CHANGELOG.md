@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.17.0](https://github.com/shopware/acceptance-test-suite/compare/v11.16.3...v11.17.0) (2025-07-03)
+
+
+### Features
+
+* add HideElementsForScreenshot helper ([#413](https://github.com/shopware/acceptance-test-suite/issues/413)) ([ecf7933](https://github.com/shopware/acceptance-test-suite/commit/ecf7933103e61de50e550eaa851c996153d562d2))
+
 ## [11.16.3](https://github.com/shopware/acceptance-test-suite/compare/v11.16.2...v11.16.3) (2025-07-03)
 
 
