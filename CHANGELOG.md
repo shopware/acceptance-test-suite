@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.16.3](https://github.com/shopware/acceptance-test-suite/compare/v11.16.2...v11.16.3) (2025-07-03)
+
+
+### Bug Fixes
+
+* add all tabs to the admin order detail page ([#414](https://github.com/shopware/acceptance-test-suite/issues/414)) ([8b4ccdb](https://github.com/shopware/acceptance-test-suite/commit/8b4ccdbfbb95aefb292b66667d5e4e7c47001b02))
+
 ## [11.16.2](https://github.com/shopware/acceptance-test-suite/compare/v11.16.1...v11.16.2) (2025-07-02)
 
 
