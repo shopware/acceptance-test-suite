@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.17.1](https://github.com/shopware/acceptance-test-suite/compare/v11.17.0...v11.17.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* add replace elements helper and fix hide elements ([#417](https://github.com/shopware/acceptance-test-suite/issues/417)) ([b2567b6](https://github.com/shopware/acceptance-test-suite/commit/b2567b6eac8457528be37b493cada6f2f8b36409))
+
 ## [11.17.0](https://github.com/shopware/acceptance-test-suite/compare/v11.16.3...v11.17.0) (2025-07-03)
 
 
