@@ -53,6 +53,11 @@ export class ProductDetail implements PageObject {
      */
     public readonly variantsTabLink: Locator;
     public readonly specificationsTabLink: Locator;
+    public readonly advancedPricingTabLink: Locator;
+    public readonly layoutTabLink: Locator;
+    public readonly crossSellingTabLink: Locator;
+    public readonly SEOTabLink: Locator;
+    public readonly reviewsTabLink: Locator;
 
     /**
      * Variants Generation
@@ -88,6 +93,15 @@ export class ProductDetail implements PageObject {
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
         this.saveButtonLoadingSpinner = page.locator('sw-loader');
 
+        // Tabs
+        this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
+        this.advancedPricingTabLink = page.getByRole('tab', { name: 'Advanced pricing' });
+        this.variantsTabLink = page.getByRole('tab', { name: 'Variants' });
+        this.layoutTabLink = page.getByRole('tab', { name: 'Layout' });
+        this.crossSellingTabLink = page.getByRole('tab', { name: 'Cross Selling' });
+        this.SEOTabLink = page.getByRole('tab', { name: 'SEO' })
+        this.reviewsTabLink = page.getByRole('tab', { name: 'Reviews' });
+
         // General Info
         this.manufacturerDropdownText = page.locator('.sw-select-product__select_manufacturer');
 
@@ -115,8 +129,6 @@ export class ProductDetail implements PageObject {
         this.coverImage = page.locator('.sw-product-media-form__cover-image');
         this.productImage = page.locator('.sw-media-preview-v2__item');
 
-        this.variantsTabLink = page.getByRole('tab', { name: 'Variants' });
-
         this.generateVariantsButton = page.getByRole('button', { name: 'Generate variants' });
         this.variantsModal = page.getByRole('dialog', { name: 'Generate variants' });
         this.variantsModalHeadline = this.variantsModal.getByRole('heading', { name: 'Generate variants' });
@@ -134,7 +146,6 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeMedium = this.propertyOptionGrid.getByRole('row', { name: 'Medium' }).getByRole('checkbox');
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByRole('row', { name: 'Large' }).getByRole('checkbox');
 
-        this.specificationsTabLink = page.getByRole('tab', { name: 'Specifications' });
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
         } else {

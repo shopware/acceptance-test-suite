@@ -1,5 +1,54 @@
 # Changelog
 
+## [11.17.1](https://github.com/shopware/acceptance-test-suite/compare/v11.17.0...v11.17.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* add replace elements helper and fix hide elements ([#417](https://github.com/shopware/acceptance-test-suite/issues/417)) ([b2567b6](https://github.com/shopware/acceptance-test-suite/commit/b2567b6eac8457528be37b493cada6f2f8b36409))
+
+## [11.17.0](https://github.com/shopware/acceptance-test-suite/compare/v11.16.3...v11.17.0) (2025-07-03)
+
+
+### Features
+
+* add HideElementsForScreenshot helper ([#413](https://github.com/shopware/acceptance-test-suite/issues/413)) ([ecf7933](https://github.com/shopware/acceptance-test-suite/commit/ecf7933103e61de50e550eaa851c996153d562d2))
+
+## [11.16.3](https://github.com/shopware/acceptance-test-suite/compare/v11.16.2...v11.16.3) (2025-07-03)
+
+
+### Bug Fixes
+
+* add all tabs to the admin order detail page ([#414](https://github.com/shopware/acceptance-test-suite/issues/414)) ([8b4ccdb](https://github.com/shopware/acceptance-test-suite/commit/8b4ccdbfbb95aefb292b66667d5e4e7c47001b02))
+
+## [11.16.2](https://github.com/shopware/acceptance-test-suite/compare/v11.16.1...v11.16.2) (2025-07-02)
+
+
+### Bug Fixes
+
+* add SelectProductFilterOption task ([#411](https://github.com/shopware/acceptance-test-suite/issues/411)) ([12a5780](https://github.com/shopware/acceptance-test-suite/commit/12a57801b993769da05184bbd807e7301f1854fb))
+
+## [11.16.1](https://github.com/shopware/acceptance-test-suite/compare/v11.16.0...v11.16.1) (2025-07-01)
+
+
+### Bug Fixes
+
+* add all tabs to the admin product detail page ([#407](https://github.com/shopware/acceptance-test-suite/issues/407)) ([bb8bda5](https://github.com/shopware/acceptance-test-suite/commit/bb8bda55b7c1d023ad24e2836f64aba55022c21f))
+
+## [11.16.0](https://github.com/shopware/acceptance-test-suite/compare/v11.15.4...v11.16.0) (2025-06-26)
+
+
+### Features
+
+* new locators for product detail page and a new task ([#405](https://github.com/shopware/acceptance-test-suite/issues/405)) ([3b5fdef](https://github.com/shopware/acceptance-test-suite/commit/3b5fdefe8c01fad80de96eca1ae5504eee0e1b4d))
+
+## [11.15.4](https://github.com/shopware/acceptance-test-suite/compare/v11.15.3...v11.15.4) (2025-06-04)
+
+
+### Bug Fixes
+
+* customer bulk edit tags ([#399](https://github.com/shopware/acceptance-test-suite/issues/399)) ([960a165](https://github.com/shopware/acceptance-test-suite/commit/960a1659ded1da0b5db5d78f4d4a9c36767e3031))
+
 ## [11.15.3](https://github.com/shopware/acceptance-test-suite/compare/v11.15.2...v11.15.3) (2025-05-15)
 
 
