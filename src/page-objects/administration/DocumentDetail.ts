@@ -2,13 +2,9 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
 export class DocumentDetail implements PageObject {
-
     public readonly showInAccountSwitch: Locator;
     public readonly saveButton: Locator;
     public readonly documentTypeSelect: Locator;
-
-
-
 
     constructor(public readonly page: Page) {
         this.showInAccountSwitch = page.getByRole('checkbox', { name: 'Display document in "My' });
