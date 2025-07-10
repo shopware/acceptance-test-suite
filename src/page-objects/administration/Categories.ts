@@ -40,6 +40,7 @@ export class Categories implements PageObject {
   public readonly loadingSpinner: Locator;
   public readonly fadingBar: Locator;
   public readonly configureHomePageButton: Locator;
+  public readonly configureModalCancelButton: Locator;
 
   /**
    * Customisable link
@@ -107,6 +108,7 @@ export class Categories implements PageObject {
     this.loadingSpinner = page.locator('.mt-loader');
     this.fadingBar = page.locator('.fade-leave-active');
     this.configureHomePageButton = page.getByRole('button', { name: 'Configure home page' });
+    this.configureModalCancelButton = page.locator('.sw-modal').getByRole('button', { name: 'Cancel' });
   }
 
   async getLandingPageByName(landingPageName: string): Promise<Locator> {
