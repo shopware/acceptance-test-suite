@@ -22,6 +22,14 @@ export class Categories implements PageObject {
   public readonly categoryItems: Locator;
 
   /**
+   * Tabs
+   */
+  public readonly generalTab: Locator;
+  public readonly productsTab: Locator;
+  public readonly layoutTab: Locator;
+  public readonly seoTab: Locator;
+
+  /**
    * General
    */
   public readonly nameInput: Locator;
@@ -31,6 +39,7 @@ export class Categories implements PageObject {
   public readonly saveButton: Locator;
   public readonly loadingSpinner: Locator;
   public readonly fadingBar: Locator;
+  public readonly configureHomePageButton: Locator;
 
   /**
    * Customisable link
@@ -58,6 +67,12 @@ export class Categories implements PageObject {
     this.confirmCategoryCreationButton = page.locator('.sw-confirm-field').locator('.sw-confirm-field__button--submit');
     this.categoryItems = this.categoryTree.locator('.tree-link');
     this.confirmCategoryCancelButton = page.locator('.sw-confirm-field').locator('.sw-confirm-field__button--cancel');
+
+    this.generalTab = page.locator('.sw-tabs__content').getByText('General');
+    this.productsTab = page.locator('.sw-tabs__content').getByText('Products');
+    this.layoutTab = page.locator('.sw-tabs__content').getByText('Layout');
+    this.seoTab = page.locator('.sw-tabs__content').getByText('SEO');
+
     this.nameInput = page.getByLabel('Name');
     this.activeCheckbox = page.getByRole('checkbox', { name: 'Active' });
     this.saveButton = page.getByRole('button', { name: 'Save' });
@@ -91,6 +106,7 @@ export class Categories implements PageObject {
     this.loadingSpinner = page.locator('.sw-loader');
     this.loadingSpinner = page.locator('.mt-loader');
     this.fadingBar = page.locator('.fade-leave-active');
+    this.configureHomePageButton = page.getByRole('button', { name: 'Configure home page' });
   }
 
   async getLandingPageByName(landingPageName: string): Promise<Locator> {
