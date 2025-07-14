@@ -9,6 +9,7 @@ export class OrderDetail implements PageObject {
     public readonly dataGridContextButton: Locator;
     public readonly orderTag: Locator;
     public readonly lineItem: Locator;
+    public readonly lineItemsTable: Locator;
     public readonly documentType: Locator;
     public readonly contextMenuButton: Locator;
     public readonly contextMenu: Locator;
@@ -30,6 +31,7 @@ export class OrderDetail implements PageObject {
         this.dataGridContextButton = page.locator('.sw-data-grid__actions-menu').and(page.getByRole('button'));
         this.orderTag = page.locator('.sw-select-selection-list__item');
         this.lineItem = page.locator('.sw-data-grid__row');
+        this.lineItemsTable = page.locator('.sw-data-grid__table');
         this.documentType = page.locator('.sw-data-grid__cell--documentType-name');
         this.contextMenu = page.locator('.sw-context-menu');
         this.contextMenuSendDocument = this.contextMenu.getByText('Send document');
