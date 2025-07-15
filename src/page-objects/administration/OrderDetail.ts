@@ -8,7 +8,16 @@ export class OrderDetail implements PageObject {
     public readonly saveButton: Locator;
     public readonly dataGridContextButton: Locator;
     public readonly orderTag: Locator;
+    public readonly lineItem: Locator;
+    public readonly lineItemsTable: Locator;
+    public readonly documentType: Locator;
+    public readonly contextMenuButton: Locator;
+    public readonly contextMenu: Locator;
+    public readonly contextMenuSendDocument: Locator;
+    public readonly sendDocumentModal: Locator;
+    public readonly sendDocumentButton: Locator;
     public readonly itemsCardHeader: Locator;
+    public readonly sentCheckmark: Locator;
 
     /**
      * Tabs
@@ -21,6 +30,15 @@ export class OrderDetail implements PageObject {
         this.saveButton = page.locator('.sw-order-detail__smart-bar-save-button');
         this.dataGridContextButton = page.locator('.sw-data-grid__actions-menu').and(page.getByRole('button'));
         this.orderTag = page.locator('.sw-select-selection-list__item');
+        this.lineItem = page.locator('.sw-data-grid__row');
+        this.lineItemsTable = page.locator('.sw-data-grid__table');
+        this.documentType = page.locator('.sw-data-grid__cell--documentType-name');
+        this.contextMenu = page.locator('.sw-context-menu');
+        this.contextMenuSendDocument = this.contextMenu.getByText('Send document');
+        this.contextMenuButton = page.getByLabel('Open actions menu');
+        this.sendDocumentModal = page.locator('.sw-order-send-document-modal');
+        this.sendDocumentButton = page.getByRole('button').getByText('Send document');
+        this.sentCheckmark = page.locator('.icon--regular-checkmark-xs');
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.itemsCardHeader = page.locator('.sw-card__header').getByText('Items');
         } else {
