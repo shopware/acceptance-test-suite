@@ -66,6 +66,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - id: changed-test-files
+      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
+      with:
+        files: |
+          tests/**/*.spec.ts
+
     - name: Login into Github Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
@@ -86,6 +92,16 @@ jobs:
       env:
         APP_URL: http://localhost:${{ matrix.PORT }}
       run: npx playwright test --repeat-each 4
+
+    - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}
+      if: steps.changed-test-files.outputs.all_changed_files_count > 0
+      env:
+        APP_URL: http://localhost:${{ matrix.PORT }}
+      run: >-
+        npx playwright test
+        --repeat-each 10
+        --
+        ${{ steps.changed-test-files.outputs.all_changed_files }}
 
     - uses: actions/upload-artifact@v4
       if: always()

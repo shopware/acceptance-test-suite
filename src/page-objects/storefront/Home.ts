@@ -6,6 +6,8 @@ export class Home implements PageObject {
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
     public readonly productListItems: Locator;
+    public readonly loader: Locator;
+    public readonly productVariantCharacteristicsOptions: Locator;
     /**
      * @deprecated Use 'Header/languagesDropdown' instead
      */
@@ -123,6 +125,8 @@ export class Home implements PageObject {
         this.productItemNames = this.productList.locator('.product-name');
         this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
         this.productRatingList = page.locator('.filter-rating-select-list-item');
+        this.loader = page.locator('.has-element-loader');
+        this.productVariantCharacteristicsOptions = page.locator('.product-variant-characteristics-option');
     }
 
     async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
