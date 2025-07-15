@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.18.0](https://github.com/shopware/acceptance-test-suite/compare/v11.17.1...v11.18.0) (2025-07-15)
+
+
+### Features
+
+* add page objects for documents test ([#373](https://github.com/shopware/acceptance-test-suite/issues/373)) ([8812dc7](https://github.com/shopware/acceptance-test-suite/commit/8812dc75f887e4f7f143726db0424167649aa61c))
+
 ## [11.17.1](https://github.com/shopware/acceptance-test-suite/compare/v11.17.0...v11.17.1) (2025-07-07)
 
 
