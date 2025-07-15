@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { Actor } from '../services/Actor';
 import type { FixtureTypes } from '../types/FixtureTypes';
 
+
 export interface ActorFixtureTypes {
     ShopCustomer: Actor;
     ShopAdmin: Actor;

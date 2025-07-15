@@ -1,26 +1,6 @@
-/* eslint-disable playwright/no-conditional-in-test */
-
-//Option 1
-//import { test, expect } from '@playwright/test';
-//import { expect } from '../fixtures/a11y_poc/a11y_assertions/toHaveColorATS'; //can directly import from toHaveColorATS OR see next line
-//import '../fixtures/a11y_poc/a11y_assertions/toHaveColorATS'; //requires the global type declaration in a separate .d.ts file (didn't work in same file, even with export)
-
-//Option 2 (this is the cleanest way minus mergeExpects)
-//import '../fixtures/a11y_poc/a11y_assertions/fooBar'; //did not require separate .d.ts file
-//import { test, expect } from '@playwright/test';
-
-//For Benchmarking
-import { test } from '@playwright/test';
-import { expect } from '../fixtures/a11y_poc/a11y_assertions/visibleFocus';
-
-//can't figure this out
-//import { expect } from '../fixtures/a11y_poc/a11y_assertions/pwMergeExpects';
-
-
+import { test , expect} from '@playwright/test';
 
 import type { Page, Locator } from '@playwright/test';
-import exp from 'constants';
-import { AsyncLocalStorage } from 'async_hooks';
 
 
 export class Actor {
@@ -39,10 +19,6 @@ export class Actor {
     async presses(locator: Locator, key: string) {
         const stepTitle = `${this.name} presses ${key} on ${locator}`;
         await test.step(stepTitle, async () =>{
-            //see how debugging looks
-            
-            //toBeAttached is unecessary because toBeVisible() already checks this: https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-be-visible
-            //await expect(locator).toBeAttached();
             await expect(locator).toBeVisible();
             await locator.focus();
             await expect(locator).toBeFocused();        
@@ -52,6 +28,7 @@ export class Actor {
                 await expect(locator).toBeFocused();
             }).toPass();
             */
+            await expect(locator).toHaveColour('rgb(255, 255, 255) 0px 0px 0px 2px, rgb(0, 66, 160) 0px 0px 0px 4px'); 
             await expect(locator).toHaveVisibleFocus();
             await locator.press(key);
         });

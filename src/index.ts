@@ -12,6 +12,7 @@ import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
 import { test as FeatureService } from './fixtures/Feature';
 import { test as ShopwareDataFixture } from './fixtures/ShopwareDataFixtures';
+import { expect as CustomMatchers } from './fixtures/CustomMatchers';
 
 export * from '@playwright/test';
 export * from './services/ShopwareDataHelpers';
@@ -19,6 +20,8 @@ export * from './services/ShopInfo';
 export * from './services/ImageHelper';
 export * from './types/ShopwareTypes';
 export * from './services/TestDataService';
+export * from './fixtures/CustomMatchers';
+ 
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
 export { AdminPageObjects } from './page-objects/AdministrationPages';
@@ -41,4 +44,5 @@ export const test = mergeTests(
     DataFixtures,
     ShopAdminTasks,
     ShopCustomerTasks,
+    CustomMatchers,
 );

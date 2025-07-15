@@ -3,6 +3,7 @@ import type { Task } from '../../../../types/Task';
 import type { FixtureTypes} from '../../../../types/FixtureTypes';
 import type { Customer } from '../../../../types/ShopwareTypes';
 
+
 export const Login_a11yAssert = base.extend<{ Login_a11yAssert: Task }, FixtureTypes>({
     Login_a11yAssert: async ({ ShopCustomer, DefaultSalesChannel, StorefrontAccountLogin, StorefrontAccount }, use) => {
         const task = (customCustomer?: Customer) => {
@@ -28,8 +29,8 @@ export const Login_a11yAssert = base.extend<{ Login_a11yAssert: Task }, FixtureT
                 //await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toBeFoo();
 
                 //VSCode is won't detect this with option 2
-                //await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toHaveColorATS('green');
-
+                await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toHaveColour('green');
+                await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toHaveVisibleFocus();
             }
         };
 

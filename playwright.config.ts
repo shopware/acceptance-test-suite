@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import './custom-matchers';
 
 process.env['SHOPWARE_ADMIN_USERNAME'] = process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin';
 process.env['SHOPWARE_ADMIN_PASSWORD'] = process.env['SHOPWARE_ADMIN_PASSWORD'] || 'shopware';
@@ -27,6 +28,7 @@ if (!process.env['WEBSERVER_COMMAND']) {
 
 export default defineConfig({
   testDir: './tests',
+  globalSetup: './global-setup',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   timeout: 120000,

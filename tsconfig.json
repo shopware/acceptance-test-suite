@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./",
-    "types": ["node"],
+    "types": ["node", "@playwright/test"],
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -15,7 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "include": [
     "src"
@@ -30,5 +33,6 @@
   ],
   "files": [
     "src/index.ts",
+    "src/global.d.ts"
   ]
 }
