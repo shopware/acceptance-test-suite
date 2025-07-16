@@ -18,7 +18,12 @@ export interface HelperFixtureTypes {
         features: FeaturesType,
     },
     HideElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
-    ReplaceElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,  
+    ReplaceElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
+    SetScreenshotDimensions: (page: Page, response: string, options: {
+        width?: number,
+        scrollableElement?: string,
+        additionalHeight?: number
+    }) => Promise<void>,
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -140,5 +145,34 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         await use(fn);
     },
         { scope: 'worker' },
-    ],      
+    ],
+
+    /**
+     * Sets the viewport size for screenshots, ensuring that all scrollable content is visible.
+     * @param page - The Playwright Page object to set the viewport size on.
+     * @param apiResponse - The API response URL to wait for before setting the viewport size.
+     * @param options - Optional parameters to customize the viewport size:
+     *  width: number - The width of the viewport (default is 1440).
+     *  scrollableElement: string - The CSS selector for the scrollable element whose height will be used to set the viewport size (default is '.sw-card-view__content').
+     *  additionalHeight: number - Additional height to add to the viewport size (default is 152, typically the height of the header).
+     */
+
+    SetScreenshotDimensions: [
+        async ({ }, use) => {
+            const viewportSize = async (
+                page: Page, responseURL: string, options: { width?: number, scrollableElement?: string, additionalHeight?: number } = {
+                    width: 1440,
+                    scrollableElement: '.sw-card-view__content',
+                    additionalHeight: 152,
+                }) => {
+                await page.waitForResponse(response => response.url().includes(responseURL));
+                const scrollableElement = page.locator(options.scrollableElement ?? '.sw-card-view__content');
+                const scrollHeight = await scrollableElement.evaluate(el => el.scrollHeight);
+                await page.setViewportSize({ width: options.width ?? 1440, height: scrollHeight + (options.additionalHeight ?? 152) });
+            };
+
+            await use(viewportSize);
+        },
+        { scope: 'worker' },
+    ],
 });
