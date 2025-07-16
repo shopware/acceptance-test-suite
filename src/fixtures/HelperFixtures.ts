@@ -151,12 +151,13 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     /**
      * Sets the viewport size for screenshots, ensuring that all scrollable content is visible.
-     * @param page - The Playwright Page object to set the viewport size on.
-     * @param apiResponse - The API response URL to wait for before setting the viewport size.
+     * @param page - The Playwright page object to set the viewport size on.
      * @param options - Optional parameters to customize the viewport size:
+     *  responseURL: string - The URL to wait for before setting the viewport size (default is 'api/notification/message?limit=5' and should be replaced because it takes 3-5 seconds).
      *  width: number - The width of the viewport (default is 1440).
-     *  scrollableElement: string - The CSS selector for the scrollable element whose height will be used to set the viewport size (default is '.sw-card-view__content').
-     *  additionalHeight: number - Additional height to add to the viewport size (default is 152, typically the height of the header).
+     *  scrollableElementVertical: string - The CSS selector for the scrollable element whose height will be used to set the viewport size (default is '.sw-card-view__content').
+     *  scrollableElementHorizontal: string - The CSS selector for the scrollable element whose width will be used to set the viewport size (default is '.sw-data-grid__wrapper').
+     *  additionalHeight: number - Additional height to add to the viewport size (default is 0).
      */
 
     SetScreenshotDimensions: [
@@ -184,29 +185,21 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 if (await scrollableElementVertical.count() > 0) {
                     scrollHeight = await scrollableElementVertical.evaluate(el => el.scrollHeight);
                 }
-                console.log('Scroll height:', scrollHeight);
-
                 const header = page.locator('.sw-page__head-area');
                 let headerHeight = 0;
                 if (await header.count() > 0) {
                     headerHeight = await header.evaluate(el => el.offsetHeight);
                 }
-                console.log('Header height:', headerHeight);
-
                 const scrollableElementHorizontal = page
                     .locator(options.scrollableElementVertical ?? '.sw-data-grid__wrapper')
                 let pageWidth = options.width ?? 1440;
                 if (await scrollableElementHorizontal.count() > 0) {
                     pageWidth = (await scrollableElementHorizontal.evaluate(el => el.scrollWidth)) + 302;
                 }
-                console.log('Page width:', pageWidth);
-
-
                 await page.setViewportSize({
                     width: pageWidth,
                     height: scrollHeight + headerHeight + (options.additionalHeight ?? 0) });
             };
-
             await use(viewportSize);
         },
         { scope: 'worker' },
