@@ -19,9 +19,11 @@ export interface HelperFixtureTypes {
     },
     HideElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
     ReplaceElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
-    SetScreenshotDimensions: (page: Page, response: string, options: {
+    SetScreenshotDimensions: (page: Page, options: {
+        responseURL?: string,
         width?: number,
-        scrollableElement?: string,
+        scrollableElementVertical?: string,
+        scrollableElementHorizontal?: string,
         additionalHeight?: number
     }) => Promise<void>,
 }
@@ -160,15 +162,49 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     SetScreenshotDimensions: [
         async ({ }, use) => {
             const viewportSize = async (
-                page: Page, responseURL: string, options: { width?: number, scrollableElement?: string, additionalHeight?: number } = {
+                page: Page, options: {
+                    responseURL?: string,
+                    width?: number,
+                    scrollableElementVertical?: string,
+                    scrollableElementHorizontal?: string,
+                    additionalHeight?: number
+                } = {
+                    responseURL: 'api/notification/message?limit=5',
                     width: 1440,
-                    scrollableElement: '.sw-card-view__content',
-                    additionalHeight: 152,
+                    scrollableElementVertical: '.sw-card-view__content',
+                    scrollableElementHorizontal: '.sw-data-grid__wrapper',
+                    additionalHeight: 0,
                 }) => {
-                await page.waitForResponse(response => response.url().includes(responseURL));
-                const scrollableElement = page.locator(options.scrollableElement ?? '.sw-card-view__content');
-                const scrollHeight = await scrollableElement.evaluate(el => el.scrollHeight);
-                await page.setViewportSize({ width: options.width ?? 1440, height: scrollHeight + (options.additionalHeight ?? 152) });
+                await page.waitForResponse(response => response.url()
+                    .includes(options.responseURL ?? 'api/notification/message?limit=5'));
+
+                const scrollableElementVertical = page
+                    .locator(options.scrollableElementVertical ?? '.sw-card-view__content');
+                let scrollHeight = 928;
+                if (await scrollableElementVertical.count() > 0) {
+                    scrollHeight = await scrollableElementVertical.evaluate(el => el.scrollHeight);
+                }
+                console.log('Scroll height:', scrollHeight);
+
+                const header = page.locator('.sw-page__head-area');
+                let headerHeight = 0;
+                if (await header.count() > 0) {
+                    headerHeight = await header.evaluate(el => el.offsetHeight);
+                }
+                console.log('Header height:', headerHeight);
+
+                const scrollableElementHorizontal = page
+                    .locator(options.scrollableElementVertical ?? '.sw-data-grid__wrapper')
+                let pageWidth = options.width ?? 1440;
+                if (await scrollableElementHorizontal.count() > 0) {
+                    pageWidth = (await scrollableElementHorizontal.evaluate(el => el.scrollWidth)) + 302;
+                }
+                console.log('Page width:', pageWidth);
+
+
+                await page.setViewportSize({
+                    width: pageWidth,
+                    height: scrollHeight + headerHeight + (options.additionalHeight ?? 0) });
             };
 
             await use(viewportSize);
