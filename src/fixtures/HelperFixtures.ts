@@ -19,11 +19,11 @@ export interface HelperFixtureTypes {
     },
     HideElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
     ReplaceElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
-    SetScreenshotDimensions: (page: Page, options: {
+    GetScreenshotDimensions: (page: Page, options: {
         responseURL?: string,
         width?: number,
-        scrollableElementVertical?: string,
-        scrollableElementHorizontal?: string,
+        scrollVertical?: string,
+        scrollHorizontal?: string,
         additionalHeight?: number
     }) => Promise<void>,
 }
@@ -160,45 +160,45 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
      *  additionalHeight: number - Additional height to add to the viewport size (default is 0).
      */
 
-    SetScreenshotDimensions: [
+    GetScreenshotDimensions: [
         async ({ }, use) => {
             const viewportSize = async (
                 page: Page, options: {
                     responseURL?: string,
                     width?: number,
-                    scrollableElementVertical?: string,
-                    scrollableElementHorizontal?: string,
+                    scrollVertical?: string,
+                    scrollHorizontal?: string,
                     additionalHeight?: number
                 } = {
                     responseURL: 'api/notification/message?limit=5',
                     width: 1440,
-                    scrollableElementVertical: '.sw-card-view__content',
-                    scrollableElementHorizontal: '.sw-data-grid__wrapper',
+                    scrollVertical: '.sw-card-view__content',
+                    scrollHorizontal: '.sw-data-grid__wrapper',
                     additionalHeight: 0,
                 }) => {
                 await page.waitForResponse(response => response.url()
                     .includes(options.responseURL ?? 'api/notification/message?limit=5'));
 
-                const scrollableElementVertical = page
-                    .locator(options.scrollableElementVertical ?? '.sw-card-view__content');
-                let scrollHeight = 928;
-                if (await scrollableElementVertical.count() > 0) {
-                    scrollHeight = await scrollableElementVertical.evaluate(el => el.scrollHeight);
+                const scrollVertical = page
+                    .locator(options.scrollVertical ?? '.sw-card-view__content');
+                let pageHeight = 1080;
+                if (await scrollVertical.count() > 0) {
+                    pageHeight = await scrollVertical.evaluate(el => el.scrollHeight);
                 }
                 const header = page.locator('.sw-page__head-area');
                 let headerHeight = 0;
                 if (await header.count() > 0) {
                     headerHeight = await header.evaluate(el => el.offsetHeight);
                 }
-                const scrollableElementHorizontal = page
-                    .locator(options.scrollableElementVertical ?? '.sw-data-grid__wrapper')
+                const scrollHorizontal = page
+                    .locator(options.scrollVertical ?? '.sw-data-grid__wrapper')
                 let pageWidth = options.width ?? 1440;
-                if (await scrollableElementHorizontal.count() > 0) {
-                    pageWidth = (await scrollableElementHorizontal.evaluate(el => el.scrollWidth)) + 302;
+                if (await scrollHorizontal.count() > 0) {
+                    pageWidth = (await scrollHorizontal.evaluate(el => el.scrollWidth)) + 302;
                 }
                 await page.setViewportSize({
                     width: pageWidth,
-                    height: scrollHeight + headerHeight + (options.additionalHeight ?? 0) });
+                    height: pageHeight + headerHeight + (options.additionalHeight ?? 0) });
             };
             await use(viewportSize);
         },
