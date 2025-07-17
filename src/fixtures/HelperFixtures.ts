@@ -20,7 +20,7 @@ export interface HelperFixtureTypes {
     HideElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
     ReplaceElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
     GetScreenshotDimensions: (page: Page, options: {
-        responseURL?: string,
+        requestURL?: string,
         width?: number,
         scrollVertical?: string,
         scrollHorizontal?: string,
@@ -153,35 +153,32 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
      * Sets the viewport size for screenshots, ensuring that all scrollable content is visible.
      * @param page - The Playwright page object to set the viewport size on.
      * @param options - Optional parameters to customize the viewport size:
-     *  responseURL: string - The URL to wait for before setting the viewport size (default is 'api/notification/message?limit=5' and should be replaced because it takes 3-5 seconds).
+     *  requestURL: string - The URL to wait for before setting the viewport size (default is 'api/notification/message?limit=5' and should be replaced because it takes 3-5 seconds).
      *  width: number - The width of the viewport (default is 1440).
-     *  scrollableElementVertical: string - The CSS selector for the scrollable element whose height will be used to set the viewport size (default is '.sw-card-view__content').
-     *  scrollableElementHorizontal: string - The CSS selector for the scrollable element whose width will be used to set the viewport size (default is '.sw-data-grid__wrapper').
+     *  scrollVertical: string - The CSS selector for the scrollable element whose height will be used to set the viewport size (default is '.sw-card-view__content').
+     *  scrollHorizontal: string - The CSS selector for the scrollable element whose width will be used to set the viewport size (default is '.sw-data-grid__wrapper').
      *  additionalHeight: number - Additional height to add to the viewport size (default is 0).
      */
-
     GetScreenshotDimensions: [
         async ({ }, use) => {
             const viewportSize = async (
                 page: Page, options: {
-                    responseURL?: string,
+                    requestURL?: string,
                     width?: number,
                     scrollVertical?: string,
                     scrollHorizontal?: string,
                     additionalHeight?: number
                 } = {
-                    responseURL: 'api/notification/message?limit=5',
+                    requestURL: 'api/notification/message?limit=5',
                     width: 1440,
                     scrollVertical: '.sw-card-view__content',
                     scrollHorizontal: '.sw-data-grid__wrapper',
                     additionalHeight: 0,
                 }) => {
-                await page.waitForResponse(response => response.url()
-                    .includes(options.responseURL ?? 'api/notification/message?limit=5'));
+                await page.waitForResponse(response => response.url().includes(options.requestURL ?? 'api/notification/message?limit=5'));
 
-                const scrollVertical = page
-                    .locator(options.scrollVertical ?? '.sw-card-view__content');
-                let pageHeight = 1080;
+                const scrollVertical = page.locator(options.scrollVertical ?? '.sw-card-view__content');
+                let pageHeight = 1080; // Default height
                 if (await scrollVertical.count() > 0) {
                     pageHeight = await scrollVertical.evaluate(el => el.scrollHeight);
                 }
@@ -190,11 +187,10 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 if (await header.count() > 0) {
                     headerHeight = await header.evaluate(el => el.offsetHeight);
                 }
-                const scrollHorizontal = page
-                    .locator(options.scrollVertical ?? '.sw-data-grid__wrapper')
-                let pageWidth = options.width ?? 1440;
+                const scrollHorizontal = page.locator(options.scrollVertical ?? '.sw-data-grid__wrapper')
+                let pageWidth = options.width ?? 1440; // Default width
                 if (await scrollHorizontal.count() > 0) {
-                    pageWidth = (await scrollHorizontal.evaluate(el => el.scrollWidth)) + 302;
+                    pageWidth = (await scrollHorizontal.evaluate(el => el.scrollWidth));
                 }
                 await page.setViewportSize({
                     width: pageWidth,
