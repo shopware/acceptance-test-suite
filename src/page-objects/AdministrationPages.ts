@@ -36,6 +36,9 @@ import { ProductBulkEdit } from './administration/ProductBulkEdit';
 import { CustomerBulkEdit } from './administration/CustomerBulkEdit';
 import { DocumentListing } from './administration/DocumentListing';
 import { DocumentDetail } from './administration/DocumentDetail';
+import { PromotionsListing } from './administration/PromotionListing';
+import { PromotionCreate } from './administration/PromotionCreate';
+import { PromotionDetail } from './administration/PromotionDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -73,6 +76,9 @@ export interface AdministrationPageTypes {
     AdminCustomerBulkEdit: CustomerBulkEdit;
     AdminDocumentListing: DocumentListing;
     AdminDocumentDetail: DocumentDetail;
+    AdminPromotionsListing: PromotionsListing;
+    AdminPromotionCreate: PromotionCreate;
+    AdminPromotionDetail: PromotionDetail;
 }
 
 export const AdminPageObjects = {
@@ -111,6 +117,9 @@ export const AdminPageObjects = {
     CustomerBulkEdit,
     DocumentListing,
     DocumentDetail,
+    PromotionsListing,
+    PromotionCreate,
+    PromotionDetail,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -251,5 +260,17 @@ export const test = base.extend<FixtureTypes>({
     },
     AdminDocumentDetail: async ({ AdminPage }, use) => {
         await use(new DocumentDetail(AdminPage));
+    },
+
+    AdminPromotionsListing: async ({ AdminPage }, use) => {
+        await use(new PromotionsListing(AdminPage));
+    },
+
+    AdminPromotionCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionCreate(AdminPage, InstanceMeta));
+    },
+
+    AdminPromotionDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionDetail(AdminPage, InstanceMeta));
     },
 });

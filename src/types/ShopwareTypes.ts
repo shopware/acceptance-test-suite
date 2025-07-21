@@ -205,6 +205,8 @@ export type Promotion = Omit<components['schemas']['Promotion'], 'discounts'> & 
         value: number,
         considerAdvancedRules: boolean,
     }],
+    active: boolean,
+    code: string,
 };
 
 export type PromotionDiscount = components['schemas']['PromotionDiscount'] & {

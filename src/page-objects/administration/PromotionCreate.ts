@@ -1,0 +1,47 @@
+import type { Page, Locator } from '@playwright/test';
+import type { PageObject } from '../../types/PageObject';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+
+export class PromotionCreate implements PageObject {
+
+    // SmartBar
+    public readonly smartBar: Locator;
+    public readonly smartBarHeader: Locator;
+    public readonly languageSelect: Locator;
+    public readonly saveButton: Locator;
+    public readonly cancelButton: Locator;
+
+    // General
+    public readonly generalCard: Locator;
+    public readonly nameInput: Locator;
+    public readonly priorityInput: Locator;
+    public readonly priorityUpButton: Locator;
+    public readonly priorityDownButton: Locator;
+
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        
+        // SmartBar
+        this.smartBar = page.locator('.smart-bar__content');
+        this.smartBarHeader = this.smartBar.locator('.smart-bar__header');
+        this.languageSelect = this.smartBar.locator('.sw-entity-single-select__selection');
+        this.saveButton = page.getByRole('button', { name: 'Save' });
+        this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+
+        // General
+        this.generalCard = page.locator('.sw-promotion-v2-detail-base__card-general');
+        this.nameInput = this.generalCard.locator('.sw-promotion-v2-detail-base__field-name').getByRole('textbox');
+        this.priorityInput = this.generalCard.getByLabel('Priority');
+        this.priorityUpButton = this.generalCard.getByTestId('mt-icon__regular-chevron-up-s');
+        this.priorityDownButton = this.generalCard.getByTestId('mt-icon__regular-chevron-down-s');
+    }
+
+    /**
+     * Returns the url to the creation page.
+     *
+     * @param searchTerms - Includes search terms for filtering of the promotions list.
+     */
+    url() {
+        let url = '#/sw/promotion/v2/create/base';
+        return url;
+    }
+};  
