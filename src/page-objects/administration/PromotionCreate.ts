@@ -41,7 +41,6 @@ export class PromotionCreate implements PageObject {
      * @param searchTerms - Includes search terms for filtering of the promotions list.
      */
     url() {
-        let url = '#/sw/promotion/v2/create/base';
-        return url;
+        return '#/sw/promotion/v2/create/base';
     }
-};  
+}  

@@ -84,4 +84,4 @@ export class PromotionsListing implements PageObject {
             promotionContextMenuDeleteButton: promotionTableRow.locator(promotionContextMenuSelector).getByRole('button', { name: 'Delete' }),
         };
     }
-};  
+} 

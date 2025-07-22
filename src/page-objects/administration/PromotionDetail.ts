@@ -53,7 +53,6 @@ export class PromotionDetail extends PromotionCreate {
         if (tab != 'general') {
             tabString = tab;
         }
-        let url = `#/sw/promotion/v2/detail/${promotionId}/${tabString}`;
-        return url;
+        return `#/sw/promotion/v2/detail/${promotionId}/${tabString}`;
     }
-};  
+} 
