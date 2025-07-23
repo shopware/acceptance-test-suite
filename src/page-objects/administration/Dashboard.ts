@@ -1,5 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { getViewportDimensions } from './modules/DynamicViewport';
 
 export class Dashboard implements PageObject {
 
@@ -26,5 +27,8 @@ export class Dashboard implements PageObject {
 
     url() {
         return '#/sw/dashboard/index';
+    }
+    async getViewportDimensions(options?: object ): Promise<{ contentWidth: number; totalHeight: number }> {
+        return getViewportDimensions(this.page, options);
     }
 }

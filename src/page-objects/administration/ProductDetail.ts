@@ -3,6 +3,7 @@ import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
+import { getViewportDimensions } from './modules/DynamicViewport';
 
 export class ProductDetail implements PageObject {
 
@@ -176,5 +177,9 @@ export class ProductDetail implements PageObject {
 
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
         return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
+    }
+
+    async getViewportDimensions(options?: object ): Promise<{ contentWidth: number; totalHeight: number }> {
+        return getViewportDimensions(this.page, options);
     }
 }
