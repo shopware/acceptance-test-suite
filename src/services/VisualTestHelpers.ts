@@ -84,7 +84,7 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
  * @param {string | Locator} [options.scrollableElementVertical] - Selector or Locator for vertical scroll container.
  * @param {string | Locator} [options.scrollableElementHorizontal] - Selector or Locator for horizontal scroll container.
  * @param {number} [options.additionalHeight] - Extra height to add (e.g., to avoid cut-off).
- * @param {string | Locator} [options.waitForLocator] - A selector or Locator to wait for visibility before measuring.
+ * @param {string | Locator} [options.waitForSelector] - A selector or Locator to wait for visibility before measuring.
  * @param {number} [options.contentHeight] - Default vertical height fallback if measurement fails.
  * @param {number} [options.headerHeight] - Default header height fallback.
  * @param {string} [options.headerElement] - Selector for a header element whose height should be added if outside scrollable container.
@@ -119,7 +119,7 @@ const defaultOptions: Required<Options> = {
 export async function setViewport(
     page: Page,
     options: Options = {}
-): Promise<{ contentWidth: number; totalHeight: number }> {
+): Promise<void> {
 
     // Merge options with defaults
     const config: Required<Options> = { ...defaultOptions, ...options };
@@ -212,5 +212,5 @@ export async function setViewport(
 
     await page.setViewportSize({ width: contentWidth, height: totalHeight });
     console.warn(`[Info] Viewport size: width=${contentWidth}, height=${totalHeight}`);
-    return { contentWidth, totalHeight };
+    return;
 }
