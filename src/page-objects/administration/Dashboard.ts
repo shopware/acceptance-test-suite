@@ -4,7 +4,6 @@ import type { PageObject } from '../../types/PageObject';
 export class Dashboard implements PageObject {
 
     public readonly contentView: Locator;
-
     public readonly adminMenuView: Locator;
     public readonly adminMenuCatalog: Locator;
     public readonly adminMenuOrder: Locator;
@@ -15,10 +14,8 @@ export class Dashboard implements PageObject {
     public readonly adminMenuUserChevron: Locator;
     public readonly adminMenuUserIcon: Locator;
     public readonly adminMenuUserName: Locator;
-
     public readonly welcomeHeadline: Locator;
     public readonly welcomeMessage: Locator;
-
     public readonly dataSharingConsentBanner: Locator;
     public readonly dataSharingAgreeButton: Locator;
     public readonly dataSharingNotAtTheMomentButton: Locator;
@@ -26,10 +23,8 @@ export class Dashboard implements PageObject {
     public readonly dataSharingSettingsLink: Locator;
     public readonly dataSharingAcceptMessageText: Locator;
     public readonly dataSharingNotAtTheMomentMessageText: Locator;
-
     public readonly statisticsDateRange: Locator;
     public readonly statisticsChart: Locator;
-
 
     constructor(public readonly page: Page) {
         this.adminMenuView = page.locator('.sw-admin-menu');

@@ -7,7 +7,6 @@ import type { Page, Locator } from '@playwright/test';
  * @param page - Playwright page object
  * @param selectors - CSS selectors for elements to hide
  */
-
 export async function hideElements(page: Page, selectors: (string | Locator)[]) {
     if (!selectors.length) return;
 
@@ -94,7 +93,6 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
  *   - `contentWidth`: the horizontal scroll width or fallback.
  *   - `totalHeight`: sum of content height, header height, and any additional height.
  */
-// Customisable values
 export interface Options {
     requestURL?: string;
     width?: number;
@@ -106,7 +104,6 @@ export interface Options {
     headerHeight?: number;
     headerElement?: string;
 }
-// Default values
 const defaultOptions: Required<Options> = {
     requestURL: 'api/notification/message?limit=5',
     width: 1440,
@@ -123,6 +120,7 @@ export async function setViewport(
     page: Page,
     options: Options = {}
 ): Promise<{ contentWidth: number; totalHeight: number }> {
+
     // Merge options with defaults
     const config: Required<Options> = { ...defaultOptions, ...options };
 
@@ -150,15 +148,14 @@ export async function setViewport(
         }
     }
 
-    // Measure vertically scrollable content height
     const locator = typeof config.scrollableElementVertical === 'string'
         ? page.locator(config.scrollableElementVertical)
         : config.scrollableElementVertical;
     const scrollableElementVertical = locator;
     let contentHeight = config.contentHeight;
-
     // Skip measurement if contentHeight is already provided
     if (options.contentHeight === undefined) {
+    // Measure vertically scrollable content height
         try {
             if (await scrollableElementVertical.count() > 0 && await scrollableElementVertical.isVisible()) {
                 await scrollableElementVertical.waitFor({ state: 'visible' });
@@ -168,10 +165,11 @@ export async function setViewport(
             console.warn(`[Info] No scrollable element found. Applying default height: ${config.contentHeight}.`);
         }
     }
-    // Measure header height
+
     let headerHeight = config.headerHeight;
     // Skip measurement if contentHeight is already provided
     if (options.contentHeight === undefined) {
+    // Measure header height
         try {
             const header = page.locator(config.headerElement);
             if (await header.count() > 0 && await header.isVisible()) {
@@ -192,10 +190,10 @@ export async function setViewport(
         }
     }
 
-    // Get horizontal scroll width
     let contentWidth = config.width;
     // Skip measurement if width is already provided
     if (options.width === undefined) {
+    // Measure horizontal scroll width
         try {
             const locator = typeof config.scrollableElementHorizontal === 'string'
                 ? page.locator(config.scrollableElementHorizontal)
@@ -216,4 +214,3 @@ export async function setViewport(
     console.warn(`[Info] Viewport size: width=${contentWidth}, height=${totalHeight}`);
     return { contentWidth, totalHeight };
 }
-

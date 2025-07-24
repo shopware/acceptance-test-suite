@@ -4,8 +4,6 @@ import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
-
-
 export class ProductDetail implements PageObject {
 
     public readonly contentView: Locator;
@@ -96,7 +94,6 @@ export class ProductDetail implements PageObject {
 
         this.contentView = page.locator('.sw-desktop__content');
         this.productHeadline = page.locator('.smart-bar__header');
-
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
         this.saveButtonLoadingSpinner = page.locator('sw-loader');
@@ -185,8 +182,4 @@ export class ProductDetail implements PageObject {
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
         return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
     }
-
-    // async getViewportDimensions(options?: object ): Promise<{ contentWidth: number; totalHeight: number }> {
-    //     return getViewportDimensions(this.page, options);
-    // }
 }
