@@ -19,6 +19,7 @@ export * from './services/ShopInfo';
 export * from './services/ImageHelper';
 export * from './types/ShopwareTypes';
 export * from './services/TestDataService';
+export * as VisualTestHelpers from './services/VisualTestHelpers';
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
 export { AdminPageObjects } from './page-objects/AdministrationPages';

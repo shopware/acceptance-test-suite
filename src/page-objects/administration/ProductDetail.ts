@@ -3,9 +3,13 @@ import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
-import { getViewportDimensions } from './modules/DynamicViewport';
+
+
 
 export class ProductDetail implements PageObject {
+
+    public readonly contentView: Locator;
+    public readonly productHeadline: Locator;
 
     /**
      * Save interactions
@@ -89,6 +93,9 @@ export class ProductDetail implements PageObject {
     public readonly customFieldCard: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+
+        this.contentView = page.locator('.sw-desktop__content');
+        this.productHeadline = page.locator('.smart-bar__header');
 
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
@@ -179,7 +186,7 @@ export class ProductDetail implements PageObject {
         return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
     }
 
-    async getViewportDimensions(options?: object ): Promise<{ contentWidth: number; totalHeight: number }> {
-        return getViewportDimensions(this.page, options);
-    }
+    // async getViewportDimensions(options?: object ): Promise<{ contentWidth: number; totalHeight: number }> {
+    //     return getViewportDimensions(this.page, options);
+    // }
 }
