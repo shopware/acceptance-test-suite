@@ -4,6 +4,11 @@ import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class Categories implements PageObject {
   /**
+   * Visual tests
+   */
+  public readonly contentView: Locator;
+  
+  /**
    * Landing pages
    */
   public readonly landingPageArea: Locator;
@@ -57,6 +62,7 @@ export class Categories implements PageObject {
   public readonly productSelectionInput: Locator;
 
   constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    this.contentView = page.locator('.sw-desktop__content');
     this.landingPageArea = page.locator('.sw-category-detail__landing-page-collapse');
     this.landingPageHeadline = this.landingPageArea.getByRole('heading', { name: 'Landing pages' });
     this.addLandingPageButton = this.landingPageArea.getByText('Add landing page');
