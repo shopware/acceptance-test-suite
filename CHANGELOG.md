@@ -1,5 +1,14 @@
 # Changelog
 
+## [11.19.0](https://github.com/shopware/acceptance-test-suite/compare/v11.18.0...v11.19.0) (2025-07-25)
+
+
+### Features
+
+* add helper functions for visual tests ([#421](https://github.com/shopware/acceptance-test-suite/issues/421)) ([c496840](https://github.com/shopware/acceptance-test-suite/commit/c49684040154ca2aeca16c2e1fdc782b22052923))
+* Add locators for Categories visual test ([#419](https://github.com/shopware/acceptance-test-suite/issues/419)) ([6cd23dd](https://github.com/shopware/acceptance-test-suite/commit/6cd23ddf0a7e98efc79997f5f819e8d4300a8831))
+* add settings page object ([#395](https://github.com/shopware/acceptance-test-suite/issues/395)) ([1eafdfd](https://github.com/shopware/acceptance-test-suite/commit/1eafdfdb66cb894316bf014471d1e87224abd78f))
+
 ## [11.18.0](https://github.com/shopware/acceptance-test-suite/compare/v11.17.1...v11.18.0) (2025-07-15)
 
 
