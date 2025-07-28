@@ -2,10 +2,15 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
 export class Home implements PageObject {
+
+    public readonly categoryTitle: Locator;
+
     public readonly accountMenuButton: Locator;
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
     public readonly productListItems: Locator;
+    public readonly loader: Locator;
+    public readonly productVariantCharacteristicsOptions: Locator;
     /**
      * @deprecated Use 'Header/languagesDropdown' instead
      */
@@ -71,6 +76,7 @@ export class Home implements PageObject {
     public readonly productRatingList: Locator;
 
     constructor(public readonly page: Page) {
+        this.categoryTitle = page.locator('.cms-element-text h1');
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
@@ -123,6 +129,8 @@ export class Home implements PageObject {
         this.productItemNames = this.productList.locator('.product-name');
         this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
         this.productRatingList = page.locator('.filter-rating-select-list-item');
+        this.loader = page.locator('.has-element-loader');
+        this.productVariantCharacteristicsOptions = page.locator('.product-variant-characteristics-option');
     }
 
     async getRatingItemLocatorByRating(rating: number): Promise<Locator> {

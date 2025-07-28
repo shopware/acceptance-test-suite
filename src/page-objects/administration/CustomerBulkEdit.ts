@@ -53,7 +53,7 @@ export class CustomerBulkEdit implements PageObject{
     const changeTag = page.locator('.sw-bulk-edit-change-field-tags');
     this.changeTagsCheckbox = changeTag.getByRole('checkbox', { name: 'Change: Tags' });
     this.changeTypeSelect = changeTag.locator('.sw-bulk-edit-change-type__selection');
-    this.enterTagsSelect = changeTag.locator('.sw-entity-multi-select');
+    this.enterTagsSelect = changeTag.locator('.sw-entity-multi-select input');
 
     //Custom fields
     const customFields = page.locator('.sw-bulk-edit__custom-fields');
