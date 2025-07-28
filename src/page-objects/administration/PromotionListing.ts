@@ -30,7 +30,7 @@ export class PromotionsListing implements PageObject {
         this.emptyStateAddPromotionButton = this.emptyState.getByRole('button', {name: 'Add promotion'} );
 
         // Promotions table locators
-        this.promotionsTable = page.locator('.sw-promotion-v2-list__content');
+        this.promotionsTable = page.locator('.sw-data-grid__table');
 
         // Sidebar
         this.sidebarRefreshButton = page.getByTitle('Refresh');
@@ -74,14 +74,14 @@ export class PromotionsListing implements PageObject {
         return {
             selectionCheckbox: promotionTableRow.getByRole('checkbox'),
             promotionName: promotionTableRow.locator(promotionNameSelector),
-            promotionActive: promotionTableRow.getByTestId(promotionActiveSelector),
-            promotionInactive: promotionTableRow.getByTestId(promotionInactiveSelector),
+            promotionActive: promotionTableRow.locator(promotionActiveSelector),
+            promotionInactive: promotionTableRow.locator(promotionInactiveSelector),
             promotionValidFrom: promotionTableRow.locator(promotionValidFromSelector),
             promotionValidUntil: promotionTableRow.locator(promotionValidUntilSelector),
             promotionContextButton: promotionTableRow.locator(promotionContextButtonSelector),
-            promotionContextMenuEditButton: promotionTableRow.locator(promotionContextMenuSelector).getByRole('button', { name: 'Edit' }),
-            promotionContextMenuDuplicateButton: promotionTableRow.locator(promotionContextMenuSelector).getByRole('button', { name: 'Duplicate' }),
-            promotionContextMenuDeleteButton: promotionTableRow.locator(promotionContextMenuSelector).getByRole('button', { name: 'Delete' }),
+            promotionContextMenuEditButton: this.page.locator(promotionContextMenuSelector).getByRole('link', { name: 'Edit' }),
+            promotionContextMenuDuplicateButton: this.page.locator(promotionContextMenuSelector).getByRole('button', { name: 'Duplicate' }),
+            promotionContextMenuDeleteButton: this.page.locator(promotionContextMenuSelector).getByRole('button', { name: 'Delete' }),
         };
     }
 } 

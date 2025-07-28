@@ -15,8 +15,6 @@ export class PromotionCreate implements PageObject {
     public readonly generalCard: Locator;
     public readonly nameInput: Locator;
     public readonly priorityInput: Locator;
-    public readonly priorityUpButton: Locator;
-    public readonly priorityDownButton: Locator;
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         
@@ -31,14 +29,10 @@ export class PromotionCreate implements PageObject {
         this.generalCard = page.locator('.sw-promotion-v2-detail-base__card-general');
         this.nameInput = this.generalCard.locator('.sw-promotion-v2-detail-base__field-name').getByRole('textbox');
         this.priorityInput = this.generalCard.getByLabel('Priority');
-        this.priorityUpButton = this.generalCard.getByTestId('mt-icon__regular-chevron-up-s');
-        this.priorityDownButton = this.generalCard.getByTestId('mt-icon__regular-chevron-down-s');
     }
 
     /**
      * Returns the url to the creation page.
-     *
-     * @param searchTerms - Includes search terms for filtering of the promotions list.
      */
     url() {
         return '#/sw/promotion/v2/create/base';

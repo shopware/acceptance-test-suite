@@ -32,7 +32,7 @@ export class PromotionDetail extends PromotionCreate {
         // General Tab
         this.promotionCodesCard = page.locator('.sw-promotion-v2-detail-base__card-codes');
         this.promotionCodesHeading = this.promotionCodesCard.getByRole('heading', { name: 'Promotion codes' });
-        this.promotionCodesSelection = this.promotionCodesCard.getByRole('combobox');
+        this.promotionCodesSelection = this.promotionCodesCard.locator('.mt-select__selection');
 
         // Conditions Tab
         this.preConditionsCard = page.locator('.mt-card__wrapper', { hasText: 'Pre-conditions' });
