@@ -22,8 +22,8 @@ export class PromotionCreate implements PageObject {
         this.smartBar = page.locator('.smart-bar__content');
         this.smartBarHeader = this.smartBar.locator('.smart-bar__header');
         this.languageSelect = this.smartBar.locator('.sw-entity-single-select__selection');
-        this.saveButton = page.getByRole('button', { name: 'Save' });
-        this.cancelButton = page.getByRole('button', { name: 'Cancel' });
+        this.saveButton = this.smartBar.getByRole('button', { name: 'Save' });
+        this.cancelButton = this.smartBar.getByRole('button', { name: 'Cancel' });
 
         // General
         this.generalCard = page.locator('.sw-promotion-v2-detail-base__card-general');

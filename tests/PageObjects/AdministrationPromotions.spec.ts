@@ -75,5 +75,4 @@ test('Promotions Detail Page', async ({
     await ShopAdmin.goesTo(AdminPromotionDetail.url(testPromo.id, 'discounts'));
     await ShopAdmin.expects(AdminPromotionDetail.addDiscountButton).toBeVisible();
     await ShopAdmin.expects(AdminPromotionDetail.discountCards).toBeVisible();
-    
 }); 

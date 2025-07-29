@@ -262,8 +262,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new DocumentDetail(AdminPage));
     },
 
-    AdminPromotionsListing: async ({ AdminPage }, use) => {
-        await use(new PromotionsListing(AdminPage));
+    AdminPromotionsListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionsListing(AdminPage, InstanceMeta));
     },
 
     AdminPromotionCreate: async ({ AdminPage, InstanceMeta }, use) => {
