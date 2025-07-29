@@ -30,7 +30,7 @@ export class CustomerGroupCreate implements PageObject {
         this.customSignupFormToggle = page.getByLabel('Custom signup form');
         this.signupFormTitle = page.locator('#sw-field--customerGroup-registrationTitle');
 
-        if (satisfies(instanceMeta.version, '<6.7')) {
+        if (satisfies(instanceMeta.version, '<6.8')) {
             this.signupFormIntroduction = page.locator('.sw-text-editor__content-editor');
             this.signupFormSeoDescription = page.locator('#sw-field--customerGroup-registrationSeoMetaDescription');
         } else {
