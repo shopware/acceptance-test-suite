@@ -5,7 +5,6 @@ import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class FlowBuilderCreate implements PageObject {
-
     //header
     public readonly saveButton: Locator;
     public readonly header: Locator;
@@ -98,7 +97,7 @@ export class FlowBuilderCreate implements PageObject {
     async getSelectedTrigger(): Promise<string> {
         await this.page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox').hover();
         const tooltip = await this.page.locator('.sw-tooltip');
-        return await tooltip.innerText();
+        return tooltip.innerText();
     }
 
     async getSelectFieldListitem(selectField: Locator, listItem: string) {
