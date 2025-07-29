@@ -1,5 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
+import { satisfies } from 'compare-versions';
+import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class PromotionsListing implements PageObject {
 
@@ -19,7 +21,8 @@ export class PromotionsListing implements PageObject {
     // Sidebar
     public readonly sidebarRefreshButton: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        console.log('Version: ', instanceMeta.version);
         this.smartBar = page.locator('.smart-bar__content');
         this.smartBarHeader = this.smartBar.locator('.smart-bar__header');
         this.languageSelect = this.smartBar.locator('.sw-entity-single-select__selection');
@@ -34,6 +37,12 @@ export class PromotionsListing implements PageObject {
 
         // Sidebar
         this.sidebarRefreshButton = page.getByTitle('Refresh');
+
+        // Selectors specific for versions before 6.7
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.smartBarAddPromotionButton = this.smartBar.getByRole('link', { name: 'Add promotion' } );
+            this.emptyStateAddPromotionButton = this.emptyState.getByRole('link', {name: 'Add promotion'} );
+        }
     }
 
     /**
