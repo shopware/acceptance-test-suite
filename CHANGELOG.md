@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.19.1](https://github.com/shopware/acceptance-test-suite/compare/v11.19.0...v11.19.1) (2025-07-29)
+
+
+### Bug Fixes
+
+* only use mt-text-editor in 6.8 ([#423](https://github.com/shopware/acceptance-test-suite/issues/423)) ([5c91a8f](https://github.com/shopware/acceptance-test-suite/commit/5c91a8f57192c0759872aaab950bd0ec617dbaac))
+
 ## [11.19.0](https://github.com/shopware/acceptance-test-suite/compare/v11.18.0...v11.19.0) (2025-07-25)
 
 
