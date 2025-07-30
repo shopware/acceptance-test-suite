@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.19.2](https://github.com/shopware/acceptance-test-suite/compare/v11.19.1...v11.19.2) (2025-07-30)
+
+
+### Bug Fixes
+
+* change version condition to only expect the text-editor in 6.8 ([#426](https://github.com/shopware/acceptance-test-suite/issues/426)) ([29c74ec](https://github.com/shopware/acceptance-test-suite/commit/29c74ec65e5a8afc3a5c40bfe1538bba3270578c))
+
 ## [11.19.1](https://github.com/shopware/acceptance-test-suite/compare/v11.19.0...v11.19.1) (2025-07-29)
 
 
