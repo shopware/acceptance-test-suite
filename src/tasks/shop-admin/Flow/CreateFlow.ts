@@ -13,7 +13,7 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);
                 await AdminFlowBuilderCreate.descriptionField.fill(`${flowConfig.description}`);
                 await AdminFlowBuilderCreate.priorityField.fill(`${flowConfig.priority}`);
-                if (flowConfig.active){
+                if (flowConfig.active) {
                     await AdminFlowBuilderCreate.activeSwitch.click();
                 }
                 // Switch to flow tab

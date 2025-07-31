@@ -37,8 +37,11 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
         this.actionContentTag = page.locator('.sw-flow-sequence-action__content').locator('.tag');
     }
 
-    url(flowId?: string, tabName = 'general') {
-        return `#/sw/flow/detail/${flowId}/${tabName}`
+    url(flowId: string, tabName = 'general') {
+        if (!flowId || flowId === '') {
+            return `#/sw/flow/detail/${tabName}`;
+        }
+        return `#/sw/flow/detail/${flowId}/${tabName}`;
     }
 
     async getTooltipText(toolTipArea: Locator): Promise<string> {
