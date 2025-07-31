@@ -45,6 +45,7 @@ import { SearchForTerm } from './shop-customer/Search/SearchForTerm';
 
 import { ValidateAccessibility } from './shop-customer/Accessibility/ValidateAccessibility';
 import { AddProductToCartFromWishlist, AddProductToWishlist, RemoveProductFromWishlist } from './shop-customer/Wishlist/WishlistActions';
+import { SelectProductFilterOption } from './shop-customer/Product/SelectProductFilterOption';
 
 export const test = mergeTests(
     AddProductToCart_a11y,
@@ -88,4 +89,5 @@ export const test = mergeTests(
     RemoveProductFromWishlist,
     AddProductToCartFromWishlist,
     AddProductToWishlist,
+    SelectProductFilterOption,
 );

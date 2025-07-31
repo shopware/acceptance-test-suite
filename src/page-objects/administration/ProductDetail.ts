@@ -6,6 +6,9 @@ import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class ProductDetail implements PageObject {
 
+    public readonly contentView: Locator;
+    public readonly productHeadline: Locator;
+
     /**
      * Save interactions
      */
@@ -89,6 +92,8 @@ export class ProductDetail implements PageObject {
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
 
+        this.contentView = page.locator('.sw-desktop__content');
+        this.productHeadline = page.locator('.smart-bar__header');
         this.savePhysicalProductButton = page.getByRole('button', { name: 'Save' });
         this.saveButtonCheckMark = page.locator('.icon--regular-checkmark-xs');
         this.saveButtonLoadingSpinner = page.locator('sw-loader');

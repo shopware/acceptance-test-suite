@@ -21,7 +21,7 @@ export * from './services/ImageHelper';
 export * from './types/ShopwareTypes';
 export * from './services/TestDataService';
 export * from './fixtures/CustomMatchers';
- 
+export * from './services/VisualTestHelpers';
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
 export { AdminPageObjects } from './page-objects/AdministrationPages';
