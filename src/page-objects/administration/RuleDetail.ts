@@ -3,9 +3,11 @@ import type { PageObject } from '../../types/PageObject';
 import { RuleCreate } from './RuleCreate';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
+import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class RuleDetail extends RuleCreate implements PageObject {
 
+    public readonly contentView: Locator;
     public readonly shippingMethodAvailabilityRulesCard: Locator;
     public readonly shippingMethodAvailabilityRulesCardLink: Locator;
     public readonly shippingMethodAvailabilityRulesCardTable: Locator;
@@ -22,12 +24,14 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly promotionCustomerRulesCardEmptyState: Locator;
     public readonly promotionCartRulesCard: Locator;
     public readonly promotionCartRulesCardEmptyState: Locator;
+    public readonly assignmentModal: Locator;
     public readonly assignmentModalAddButton: Locator;
     public readonly assignmentModalSearchField: Locator;
 
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
+        this.contentView = page.locator('.sw-desktop__content');
         this.shippingMethodAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-shipping_method_availability_rule');
         this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole('link');
         this.shippingMethodAvailabilityRulesCardTable = page.locator('.sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule');
@@ -44,11 +48,12 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('alert');
         this.promotionCartRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_cart_rule');
         this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
-        this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByRole('textbox');
+        this.assignmentModal = page.locator('.sw-settings-rule-add-assignment-modal');
+        this.assignmentModalSearchField = this.assignmentModal.getByRole('textbox');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.assignmentModalAddButton = page.locator('.sw-button--primary').getByText('Add');
+            this.assignmentModalAddButton = this.assignmentModal.locator('.sw-button--primary').getByText('Add');
         } else {
-            this.assignmentModalAddButton = page.locator('.mt-button--primary').getByText('Add');
+            this.assignmentModalAddButton = this.assignmentModal.locator('.mt-button--primary').getByText('Add');
         }
     }
 
