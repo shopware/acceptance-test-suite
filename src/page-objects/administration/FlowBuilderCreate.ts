@@ -3,7 +3,6 @@ import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
-import { getTooltipText } from './modules/TooltipText';
 
 export class FlowBuilderCreate implements PageObject {
     //header
@@ -64,10 +63,10 @@ export class FlowBuilderCreate implements PageObject {
         this.descriptionField = page.getByLabel('Description');
         this.priorityField = page.getByLabel('Priority');
         this.activeSwitch = page.getByLabel('Active');
-        this.sequenceSelectorConditionButton = page.locator('.sw-flow-sequence-selector__actions').getByText('Add condition (IF)');
+        this.sequenceSelectorConditionButton = page.getByText('Add condition (IF)');
         this.conditionSelectField = page.locator('.sw-flow-sequence-condition__select');
         this.conditionRule = page.locator('.sw-flow-sequence-condition__rule-header');
-        this.sequenceSelectorActionButton = page.locator('.sw-flow-sequence-selector__actions').getByText('Add action (THEN)');
+        this.sequenceSelectorActionButton = page.getByText('Add action (THEN)');
         this.actionSelectField = page.locator('.sw-flow-sequence-action__content').locator('.sw-single-select__selection');
         this.selectFieldResultList = page.locator('.sw-select-result-list__item-list');
         this.trueBlock = page.locator('.sw-flow-sequence__true-block');
