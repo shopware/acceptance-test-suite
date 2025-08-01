@@ -1,7 +1,7 @@
-import { expect, Locator } from '@playwright/test';
+import { expect as baseExpect, Locator } from '@playwright/test';
 
 // Extend Playwright's expect with custom matchers
-expect.extend({
+export const expect = baseExpect.extend({
   async toHaveColour(locator: Locator, expected: string) {
     try {
       // Validate the expected color format (hex, rgb, rgba, etc.)
@@ -63,11 +63,12 @@ expect.extend({
 });
 
 // Extend Playwright's Expect interface for TypeScript support
-declare module '@playwright/test' {
-  interface Matchers<R> {
-    toHaveColour(expected: string): Promise<R>;
-    toHaveVisibleFocus(): Promise<R>;
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace PlaywrightTest {
+    interface Matchers<R> {
+      toHaveColour(expected: string): Promise<R>;
+      toHaveVisibleFocus(): Promise<R>;
+    }
   }
 }
-
-export const customExpect = expect;
