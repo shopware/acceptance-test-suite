@@ -3,7 +3,6 @@ import type { PageObject } from '../../types/PageObject';
 import { RuleCreate } from './RuleCreate';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
-import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class RuleDetail extends RuleCreate implements PageObject {
 
@@ -27,6 +26,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly assignmentModal: Locator;
     public readonly assignmentModalAddButton: Locator;
     public readonly assignmentModalSearchField: Locator;
+    public readonly conditionORContainer: Locator;
 
 
     constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
@@ -55,6 +55,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
         } else {
             this.assignmentModalAddButton = this.assignmentModal.locator('.mt-button--primary').getByText('Add');
         }
+        this.conditionORContainer = page.locator('.sw-condition-or-container');
     }
 
     async getEntityCard(cardLocator: Locator): Promise<Record<string, Locator>> {

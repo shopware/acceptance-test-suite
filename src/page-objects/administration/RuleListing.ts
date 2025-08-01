@@ -1,13 +1,17 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
+
 export class RuleListing implements PageObject {
 
     public readonly createRuleButton: Locator;
+    public readonly header: Locator;
+    public readonly grid: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(public readonly page: Page, public readonly options: { version: string; isSaaS: boolean; features: object }) {
         this.createRuleButton = page.getByText('Create rule');
-
+        this.header = page.locator('.smart-bar__header');
+        this.grid = page.locator('sw-data-grid__table)');
     }
 
     url() {
