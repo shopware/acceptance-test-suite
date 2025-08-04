@@ -26,7 +26,7 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
         for (let i = 0; i < count; i++) {
             const el = locator.nth(i);
             await el.evaluate(el => {
-                // @ts-expect-error no DOM types in this context
+                // @ts-ignore
                 (el as HTMLElement).style.visibility = 'hidden';
             });
         }
@@ -46,8 +46,9 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
         if (typeof selector === 'string') {
             // Handle selector strings
             await page.evaluate((sel) => {
-                // @ts-expect-error no DOM types in this context
+                // @ts-ignore
                 const elements = document.querySelectorAll<HTMLElement>(sel);
+                // @ts-ignore
                 elements.forEach((el: { textContent: string; }) => {
                     el.textContent = '***';
                 });
@@ -181,6 +182,7 @@ export async function setViewport(
                         [headerHandle, scrollableHandle]
                     );
                     if (!isInside) {
+                        // @ts-ignore
                         headerHeight = await header.evaluate(el => el.offsetHeight);
                     }
                 }
