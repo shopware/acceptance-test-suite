@@ -10,7 +10,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./",
-    "types": ["node", "@playwright/test"],
+    "types": ["node"],
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -33,6 +33,5 @@
   ],
   "files": [
     "src/index.ts",
-    "src/global.d.ts"
   ]
 }
