@@ -20,8 +20,9 @@ export class Actor {
         await locator.focus();
         await expect(locator).toBeFocused();        
 
-        //toHaveVisibleFocus() will not currently work on buttons/links as those use:focus-visible
-        //await expect(locator).toHaveVisibleFocus(); 
+        //toHaveVisibleFocus() will not currently work everywhere out of the box as buttons/links use:focus-visible and must be tabbed to
+        //see: src/tasks/shop-customer/a11y_poc/customAssertions/ProceedFromProductToCheckout_a11yAssert.ts
+        await expect(locator).toHaveVisibleFocus(); 
     }
     
     async presses(locator: Locator, key: string) {
@@ -31,7 +32,7 @@ export class Actor {
             //actionability checks - are they even necessary as focus() cannot work on nonvisible/non-enabled elements
             await expect(locator).toBeVisible();      
             await expect(locator).toBeEnabled();
-
+            
             await this.a11y_checks(locator);
             await locator.press(key);
         });
@@ -41,9 +42,7 @@ export class Actor {
         const stepTitle = `${this.name} fills ${locator} with text "${input}"`;
         await test.step(stepTitle, async () =>{
             //fill() auto-checks if visible/enabled/editable
-
             await this.a11y_checks(locator);
-            await expect(locator).toHaveVisibleFocus();
             await locator.fill(input);
         });
     }
