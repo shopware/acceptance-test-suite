@@ -16,20 +16,23 @@ export class Actor {
 
     expects = expect;
 
+    async a11y_checks(locator: Locator){
+        await locator.focus();
+        await expect(locator).toBeFocused();        
+
+        //toHaveVisibleFocus() will not currently work on buttons/links as those use:focus-visible
+        //await expect(locator).toHaveVisibleFocus(); 
+    }
+    
     async presses(locator: Locator, key: string) {
         const stepTitle = `${this.name} presses ${key} on ${locator}`;
         await test.step(stepTitle, async () =>{
-            await expect(locator).toBeVisible();
-            await locator.focus();
-            await expect(locator).toBeFocused();        
+            
+            //actionability checks - are they even necessary as focus() cannot work on nonvisible/non-enabled elements
+            await expect(locator).toBeVisible();      
             await expect(locator).toBeEnabled();
-            /*if I want retries (do we? I'm not sure I would)
-            await expect(async () => {
-                await expect(locator).toBeFocused();
-            }).toPass();
-            */
-            await expect(locator).toHaveColour('rgb(255, 255, 255) 0px 0px 0px 2px, rgb(0, 66, 160) 0px 0px 0px 4px'); 
-            await expect(locator).toHaveVisibleFocus();
+
+            await this.a11y_checks(locator);
             await locator.press(key);
         });
     }
@@ -38,12 +41,8 @@ export class Actor {
         const stepTitle = `${this.name} fills ${locator} with text "${input}"`;
         await test.step(stepTitle, async () =>{
             //fill() auto-checks if visible/enabled/editable
-            //So there are technically 7 assertions running in this function which I did merely for consistency's sake until we figure out how to break down actionability checks
 
-            await expect(locator).toBeVisible();
-            await locator.focus();
-            await expect(locator).toBeFocused();
-            await expect(locator).toBeEnabled();
+            await this.a11y_checks(locator);
             await expect(locator).toHaveVisibleFocus();
             await locator.fill(input);
         });
