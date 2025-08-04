@@ -48,7 +48,6 @@ export class FlowBuilderListing implements PageObject {
         const flowNameText = lineItem.locator('.sw-data-grid__cell--name');
         const flowEventNameText = lineItem.locator('.sw-data-grid__cell--eventName');
         const flowContextMenuButton = lineItem.locator('.sw-data-grid__actions-menu');
-
         return {
             flowSelectionCheckbox: flowSelectionCheckbox,
             flowActiveCheckmark: flowActiveCheckmark,
