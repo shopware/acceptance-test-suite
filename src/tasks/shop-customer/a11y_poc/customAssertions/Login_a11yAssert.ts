@@ -24,13 +24,6 @@ export const Login_a11yAssert = base.extend<{ Login_a11yAssert: Task }, FixtureT
                 await ShopCustomer.presses(StorefrontAccountLogin.loginButton, 'Enter');
 
                 await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toBeVisible();
-                
-                //note VSCode detects both with Option 1
-                //await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toBeFoo();
-
-                //VSCode is won't detect this with option 2
-                await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toHaveColour('green');
-                await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toHaveVisibleFocus();
             }
         };
 
