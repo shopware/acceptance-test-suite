@@ -5,6 +5,8 @@ import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class PromotionsListing implements PageObject {
 
+    private readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
+
     // SmartBar
     public readonly smartBar: Locator;
     public readonly smartBarHeader: Locator;
@@ -21,7 +23,8 @@ export class PromotionsListing implements PageObject {
     // Sidebar
     public readonly sidebarRefreshButton: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(public readonly page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.instanceMeta = instanceMeta;
         this.smartBar = page.locator('.smart-bar__content');
         this.smartBarHeader = this.smartBar.locator('.smart-bar__header');
         this.languageSelect = this.smartBar.locator('.sw-entity-single-select__selection');
@@ -38,7 +41,7 @@ export class PromotionsListing implements PageObject {
         this.sidebarRefreshButton = page.getByTitle('Refresh');
 
         // Selectors specific for versions before 6.7
-        if (satisfies(instanceMeta.version, '<6.7')) {
+        if (satisfies(instanceMeta.version, '<6.7.1')) {
             this.smartBarAddPromotionButton = this.smartBar.getByRole('link', { name: 'Add promotion' } );
             this.emptyStateAddPromotionButton = this.emptyState.getByRole('link', {name: 'Add promotion'} );
         }
@@ -71,25 +74,35 @@ export class PromotionsListing implements PageObject {
      */
     async getPromotionRow(promotionName: string): Promise<Record<string, Locator>> {
         const promotionTableRow = this.promotionsTable.locator('.sw-data-grid__row', { hasText: promotionName });
-        const promotionNameSelector = '.sw-data-grid__cell--name';
-        const promotionValidFromSelector = '.sw-data-grid__cell--validFrom';
-        const promotionValidUntilSelector = '.sw-data-grid__cell--validUntil';
-        const promotionActiveSelector = '.is--active';
-        const promotionInactiveSelector = '.is--inactive';
-        const promotionContextButtonSelector = '.sw-context-button';
-        const promotionContextMenuSelector = '.sw-context-menu';
+        const selectionCheckbox = promotionTableRow.getByRole('checkbox');
+        const promotionNameCell = promotionTableRow.locator('.sw-data-grid__cell--name');
+        const promotionValidFrom = promotionTableRow.locator('.sw-data-grid__cell--validFrom');
+        const promotionValidUntil = promotionTableRow.locator('.sw-data-grid__cell--validUntil');
+        const promotionActive = promotionTableRow.locator('.is--active');
+        const promotionInactive = promotionTableRow.locator('.is--inactive');
+        const promotionContextButton = promotionTableRow.locator('.sw-context-button');
+        const promotionContextMenu = '.sw-context-menu';
+        const promotionContextMenuEdit = this.page.locator(promotionContextMenu).getByRole('link', { name: 'Edit' });
+        let promotionContextMenuDuplicate = this.page.locator(promotionContextMenu).getByRole('button', { name: 'Duplicate' });
+        let promotionContextMenuDelete = this.page.locator(promotionContextMenu).getByRole('button', { name: 'Delete' });
+
+        // Selectors specific for versions before 6.7.1
+        if (satisfies(this.instanceMeta.version, '<6.7.1')) {
+            promotionContextMenuDuplicate = this.page.locator(promotionContextMenu).locator('.sw-context-menu-item', { hasText: 'Duplicate' });
+            promotionContextMenuDelete = this.page.locator(promotionContextMenu).locator('.sw-context-menu-item', { hasText: 'Delete' });
+        }
 
         return {
-            selectionCheckbox: promotionTableRow.getByRole('checkbox'),
-            promotionName: promotionTableRow.locator(promotionNameSelector),
-            promotionActive: promotionTableRow.locator(promotionActiveSelector),
-            promotionInactive: promotionTableRow.locator(promotionInactiveSelector),
-            promotionValidFrom: promotionTableRow.locator(promotionValidFromSelector),
-            promotionValidUntil: promotionTableRow.locator(promotionValidUntilSelector),
-            promotionContextButton: promotionTableRow.locator(promotionContextButtonSelector),
-            promotionContextMenuEditButton: this.page.locator(promotionContextMenuSelector).getByRole('link', { name: 'Edit' }),
-            promotionContextMenuDuplicateButton: this.page.locator(promotionContextMenuSelector).getByRole('button', { name: 'Duplicate' }),
-            promotionContextMenuDeleteButton: this.page.locator(promotionContextMenuSelector).getByRole('button', { name: 'Delete' }),
+            selectionCheckbox: selectionCheckbox,
+            promotionName: promotionNameCell,
+            promotionActive: promotionActive,
+            promotionInactive: promotionInactive,
+            promotionValidFrom: promotionValidFrom,
+            promotionValidUntil: promotionValidUntil,
+            promotionContextButton: promotionContextButton,
+            promotionContextMenuEditButton: promotionContextMenuEdit,
+            promotionContextMenuDuplicateButton: promotionContextMenuDuplicate,
+            promotionContextMenuDeleteButton: promotionContextMenuDelete,
         };
     }
 } 

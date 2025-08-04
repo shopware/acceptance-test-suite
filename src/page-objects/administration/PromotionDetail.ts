@@ -42,10 +42,12 @@ export class PromotionDetail extends PromotionCreate {
         this.addDiscountButton = page.getByRole('button', { name: 'Add discount' });
         this.discountCards = page.locator('.sw-promotion-detail-discounts__discount-list');
 
-        // Selectors specific for versions before 6.7
-        if (satisfies(instanceMeta.version, '<6.7')) {
-            this.promotionCodesHeading = this.promotionCodesCard.locator('sw-card__title');
+        // Selectors specific for versions before 6.7.1
+        if (satisfies(instanceMeta.version, '<6.7.1')) {
+            this.promotionCodesHeading = this.promotionCodesCard.locator('.sw-card__title');
             this.promotionCodesSelection = this.promotionCodesCard.getByRole('combobox');
+
+            this.preConditionsCard = page.locator('.sw-card-wrapper', { hasText: 'Pre-conditions' });
         }
     }
 
