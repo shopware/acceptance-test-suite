@@ -4,6 +4,7 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
 import { clearDelayedCache } from '../services/Cache';
+import { createNewAdminPageContext } from '../services/AdminLoginHelper';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -16,13 +17,6 @@ export interface PageContextTypes {
 export const test = base.extend<FixtureTypes>({
 
     AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
-        const context = await browser.newContext({
-            baseURL: SalesChannelBaseConfig.adminUrl,
-            serviceWorkers: 'block',
-        });
-        const page = await context.newPage();
-
-        await mockApiCalls(page);
 
         const { id, uuid } = IdProvider.getIdPair();
 
@@ -44,72 +38,12 @@ export const test = base.extend<FixtureTypes>({
 
         expect(response.ok()).toBeTruthy();
 
-        await page.goto('#/login');
-
-        await page.addStyleTag({
-            content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-        });
-
-        await expect(page.url()).toContain('login');
-        await expect(page.getByLabel(/Username|Email address/)).toBeVisible({ timeout: 90000 });
-
-        await page.getByLabel(/Username|Email address/).fill(adminUser.username);
-        await page.getByLabel('Password', { exact: true }).fill(adminUser.password);
-
-        const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
-
-        const jsLoadingPromises = [];
-        for (const i in config.bundles) {
-            if (config.bundles[i]?.js && config.bundles[i]?.js?.length) {
-                const js = config?.bundles[i]?.js ?? [];
-                jsLoadingPromises.push(...js.map(url => page.waitForResponse(url)));
-            }
-        }
-
-        await page.getByRole('button', { name: 'Log in' }).click();
-
-        // wait for all plugin js to be loaded
-        await Promise.all(jsLoadingPromises);
-
-        // Override page reload to also remove the Symfony toolbar
-        const originalReload = page.reload.bind(page);
-        page.reload = async () => {
-            const res = await originalReload();
-            await page.addStyleTag({
-                content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-            });
-            return res;
-        };
-
-        await clearDelayedCache(AdminApiContext);
-
-        await expect(page.locator('.sw-skeleton')).toHaveCount(0);
-
-        await page.waitForURL((url) => {
-            return url.hash !== '#login';
-        });
-
-        await expect(page.getByText('Administrator').first()).toBeVisible({ timeout: 60000 });
+        const page = await createNewAdminPageContext(adminUser, browser, SalesChannelBaseConfig, AdminApiContext);
 
         // Run the test
         await use(page);
 
         await page.close();
-        await context.close();
 
         // Cleanup created user
         await AdminApiContext.delete(`user/${uuid}`);

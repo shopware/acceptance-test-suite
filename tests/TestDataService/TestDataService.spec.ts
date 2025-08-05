@@ -17,6 +17,8 @@ import {
     type Tax,
     type ProductCrossSelling,
     type ProductReview,
+    type User,
+    type AclRole,
 } from '../../src';
 
 test('Data Service', async ({
@@ -104,6 +106,17 @@ test('Data Service', async ({
     expect(review.title).toEqual('Custom review title');
     expect(review.points).toEqual(5);
 
+    const merchant = await TestDataService.createMerchant({ firstName: 'Han', lastName: 'Solo' });
+    expect(merchant.firstName).toEqual('Han');
+    expect(merchant.lastName).toEqual('Solo');
+
+    const merchantWithBasicRole = await TestDataService.createMerchant({ firstName: 'Mi', lastName: 'How' });
+    const aclRole = await TestDataService.createAclRole({ name: 'Custom role' });
+    await TestDataService.assignAclRoleMerchant(aclRole.id, merchantWithBasicRole.id);
+    expect(merchantWithBasicRole.firstName).toEqual('Mi');
+    expect(merchantWithBasicRole.lastName).toEqual('How');
+    expect(aclRole.name).toEqual('Custom role');
+
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
     const cleanUpFalseResponse = await TestDataService.cleanUp();
@@ -168,6 +181,14 @@ test('Data Service', async ({
     const productReviewResponse = await AdminApiContext.get(`./product-review/${review.id}?_response=detail`);
     const { data: databaseProductReview } = (await productReviewResponse.json()) as { data: ProductReview };
     expect(databaseProductReview.id).toBe(review.id);
+
+    const merchantResponse = await AdminApiContext.get(`./user/${merchant.id}?_response=detail`);
+    const { data: databaseMerchant } = (await merchantResponse.json()) as { data: User };
+    expect(databaseMerchant.id).toBe(merchant.id);
+
+    const aclRoleResponse = await AdminApiContext.get(`./acl-role/${aclRole.id}?_response=detail`);
+    const { data: databaseAclRole } = (await aclRoleResponse.json()) as { data: AclRole };
+    expect(databaseAclRole.id).toBe(aclRole.id);
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);

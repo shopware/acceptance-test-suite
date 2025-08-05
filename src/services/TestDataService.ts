@@ -1,40 +1,42 @@
 import { createRandomImage } from './ImageHelper';
-import { getLanguageData, getSnippetSetId, getPromotionWithDiscount } from './ShopwareDataHelpers';
+import { getLanguageData, getPromotionWithDiscount, getSnippetSetId } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
-    Product,
-    PropertyGroup,
+    AclRole,
     Category,
-    Media,
-    Tag,
-    Rule,
-    Order,
+    CmsPage,
+    Country,
     Currency,
     Customer,
     CustomerAddress,
+    CustomerGroup,
+    CustomField,
+    CustomFieldSet,
+    DeliveryTime,
+    Language,
+    Manufacturer,
+    Media,
+    Order,
+    OrderDelivery,
+    OrderLineItem,
     PaymentMethod,
+    Product,
+    ProductCrossSelling,
+    ProductReview,
+    Promotion,
+    PropertyGroup,
+    PropertyGroupOption,
+    Rule,
+    SalesChannel,
+    SalesChannelAnalytics,
+    SalesChannelDomain,
     ShippingMethod,
     StateMachine,
     StateMachineState,
-    Promotion,
-    SalesChannel,
-    Manufacturer,
-    OrderDelivery,
-    OrderLineItem,
-    PropertyGroupOption,
-    DeliveryTime,
-    CmsPage,
-    Country,
-    CustomerGroup,
-    SalesChannelAnalytics,
-    SalesChannelDomain,
-    Language,
-    CustomFieldSet,
-    CustomField,
+    Tag,
     Tax,
-    ProductCrossSelling,
-    ProductReview,
+    User,
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 import { clearDelayedCache } from './Cache';
@@ -103,7 +105,19 @@ export class TestDataService {
      *
      * @private
      */
-    private highPriorityEntities = ['order', 'product', 'product_cross_selling', 'landing_page', 'shipping_method', 'sales_channel_domain', 'sales_channel_currency', 'sales_channel_country', 'sales_channel_payment_method', 'customer'];
+    private highPriorityEntities = [
+        'order',
+        'product',
+        'product_cross_selling',
+        'landing_page',
+        'shipping_method',
+        'sales_channel_domain',
+        'sales_channel_currency',
+        'sales_channel_country',
+        'sales_channel_payment_method',
+        'customer',
+        'acl_user_role',
+    ];
 
     /**
      * A registry of all created records.
@@ -317,6 +331,7 @@ export class TestDataService {
             data: basicProductReview,
         });
         expect(productReviewResponse.ok()).toBeTruthy();
+
         const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
         return review;
     }
@@ -581,6 +596,59 @@ export class TestDataService {
     }
 
     /**
+     * Creates a new merchant for the admin with full admin permissions.
+     *
+     * @param overrides - Specific data overrides that will be applied to the customer data struct.
+     * @param salesChannel - The sales channel for which the customer should be registered.
+     */
+    async createMerchant(overrides: Partial<User> = {}, salesChannel: SalesChannel = this.defaultSalesChannel): Promise<User> {
+        const language = await this.getLanguageById(salesChannel.languageId);
+
+        const basicMerchantStruct = this.getBasicMerchantStruct(language.localeId, overrides);
+
+        const response = await this.AdminApiClient.post('user?_response=detail', {
+            data: basicMerchantStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const merchantData = await this.getMerchantById(basicMerchantStruct.id);
+
+        let merchant;
+
+        if (typeof basicMerchantStruct.password !== 'string') {
+            merchant = { ...merchantData };
+        } else {
+            merchant = {
+                ...merchantData,
+                password: basicMerchantStruct.password,
+            };
+        }
+        this.addCreatedRecord('user', merchant.id);
+
+        return merchant;
+    }
+
+    /**
+     * Creates a new AclRole for the administration with basic shop configuration privileges.
+     *
+     * @param overrides - Specific data overrides that will be applied to the aclRole data struct.
+     */
+    async createAclRole(overrides: Partial<AclRole> = {}): Promise<AclRole> {
+        const basicAclRoleStruct = this.getBasicAclRoleStruct(overrides);
+
+        const response = await this.AdminApiClient.post('acl-role?_response=detail', {
+            data: basicAclRoleStruct,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const aclRole = await this.getAclRoleById(basicAclRoleStruct.id)
+
+        this.addCreatedRecord('acl_role', aclRole.id);
+
+        return aclRole;
+    }
+
+    /**
      * Creates a new order. This order is created on pure data and prices are not guaranteed to be calculated correctly.
      *
      * @param lineItems - Products that should be added to the order.
@@ -799,6 +867,7 @@ export class TestDataService {
         const currencyResponse = await this.AdminApiClient.post('currency?_response=detail', {
             data: basicCurrency,
         });
+
         expect(currencyResponse.ok()).toBeTruthy();
 
         const { data: currency } = (await currencyResponse.json()) as { data: Currency };
@@ -1325,6 +1394,47 @@ export class TestDataService {
     }
 
     /**
+     * Assigns an ACL Role to a merchant (user in administration).
+     *
+     * @param aclRoleId - The uuid of the ACL role.
+     * @param userId - The uuid of the user (merchant).
+
+     */
+    async assignAclRoleMerchant(aclRoleId: string, userId: string) {
+        await this.AdminApiClient.patch(`user/${userId}?_response=basic`, {
+            data: {
+                admin: false, // Ensure the user is not an admin
+            },
+        });
+
+        const syncAclUserResponse = await this.AdminApiClient.post('./_action/sync', {
+            data: {
+                'write-acl-user-role': {
+                    entity: 'acl_user_role',
+                    action: 'upsert',
+                    payload: [
+                        {
+                            userId: userId,
+                            aclRoleId: aclRoleId,
+                        },
+                    ],
+                },
+            },
+        });
+
+        expect(syncAclUserResponse.ok()).toBeTruthy();
+
+        const { data: aclMerchant } = await syncAclUserResponse.json();
+
+        this.addCreatedRecord('acl_user_role', {
+            userId: userId,
+            aclRoleId: aclRoleId,
+        });
+
+        return aclMerchant;
+    }
+
+    /**
      * Retrieves a language based on its code.
      * @param languageCode
      */
@@ -1652,6 +1762,34 @@ export class TestDataService {
     }
 
     /**
+     * Retrieves a merchant by its id.
+     *
+     * @param merchantId - The id of the merchant.
+     */
+    async getMerchantById(merchantId: string | undefined): Promise<User> {
+        const response = await this.AdminApiClient.get(`user/${merchantId}`);
+        expect(response.ok()).toBeTruthy();
+
+        const { data: merchant } = (await response.json()) as { data: User };
+
+        return merchant;
+    }
+
+    /**
+     * Retrieves a AclRole by its id.
+     *
+     * @param aclRoleId - The id of the ACL role.
+     */
+    async getAclRoleById(aclRoleId: string | undefined): Promise<AclRole> {
+        const response = await this.AdminApiClient.get(`acl-role/${aclRoleId}`);
+        expect(response.ok()).toBeTruthy();
+
+        const { data: aclRole } = (await response.json()) as { data: AclRole };
+
+        return aclRole;
+    }
+
+    /**
      * Adds an entity reference to the registry of created records.
      * All entities added to the registry will be deleted by the cleanup call.
      *
@@ -1703,6 +1841,8 @@ export class TestDataService {
             return null;
         }
 
+        const deleteUserIds: string[] = [];
+        const deleteAclRolesIds: string[] = [];
         const deleteOperations: Record<string, SyncApiOperation> = {};
         const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
 
@@ -1718,6 +1858,21 @@ export class TestDataService {
         }
 
         this.createdRecords.forEach((record) => {
+
+            if (record.resource === 'user') {
+                if (!deleteUserIds.includes(record.payload.id)) {
+                    deleteUserIds.push(record.payload.id);
+                }
+                return;
+            }
+
+            if (record.resource === 'acl_role') {
+                if (!deleteAclRolesIds.includes(record.payload.id)) {
+                    deleteAclRolesIds.push(record.payload.id);
+                }
+                return;
+            }
+
             if (this.highPriorityEntities.includes(record.resource)) {
                 if (!priorityDeleteOperations[`delete-${record.resource}`]) {
                     priorityDeleteOperations[`delete-${record.resource}`] = {
@@ -1748,6 +1903,18 @@ export class TestDataService {
         await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
             data: this.restoreSystemConfig,
         });
+
+        if (deleteUserIds.length > 0) {
+            for (const userId of deleteUserIds) {
+                await this.AdminApiClient.delete(`user/${userId}`, {});
+            }
+        }
+
+        if (deleteAclRolesIds.length > 0) {
+            for (const aclRoleId of deleteAclRolesIds) {
+                await this.AdminApiClient.delete(`acl-role/${aclRoleId}`, {});
+            }
+        }
 
         await this.clearCaches();
 
@@ -2116,6 +2283,58 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicCustomer, overrides);
+    }
+
+    getBasicMerchantStruct(localId: string, overrides: Partial<User> = {}): Partial<User> {
+        const { id: merchantId, uuid: merchantUuid } = this.IdProvider.getIdPair();
+        const merchantName = `${this.namePrefix}merchant_${merchantId}${this.nameSuffix}`;
+
+        const basicMerchant = {
+            id: merchantUuid,
+            username: merchantName,
+            firstName: `${merchantId} merchant`,
+            lastName: `${merchantId} merchant`,
+            email: `merchant${merchantId}@example.com`,
+            password: 'shopware',
+            localeId: localId,
+            timezone: 'Europe/Berlin',
+            admin: true,
+        };
+        return Object.assign({}, basicMerchant, overrides);
+    }
+
+    getBasicAclRoleStruct(overrides: Partial<AclRole> = {}): Partial<AclRole> {
+        const { id: aclRoleId, uuid: aclRoleUuid } = this.IdProvider.getIdPair();
+        const aclRoleName = `${this.namePrefix}AclRole-${aclRoleId}${this.nameSuffix}`;
+
+        const basicAclRole = {
+            id: aclRoleUuid,
+            name: aclRoleName,
+            privileges: [
+                'cms_page:read',
+                'custom_field:read',
+                'custom_field_set_relation:read',
+                'language:read',
+                'locale:read',
+                'log_entry:create',
+                'message_queue_stats:read',
+                'product_sorting:create',
+                'product_sorting:delete',
+                'product_sorting:read',
+                'product_sorting:update',
+                'sales_channel:read',
+                'seo_url_template:create',
+                'seo_url_template:read',
+                'seo_url_template:update',
+                'system.system_config',
+                'system_config:create',
+                'system_config:delete',
+                'system_config:read',
+                'system_config:update',
+            ],
+        };
+
+        return Object.assign({}, basicAclRole, overrides);
     }
 
     getBasicOrderDeliveryStruct(deliveryState: StateMachineState, shippingMethod: ShippingMethod, customerAddress: CustomerAddress): Partial<OrderDelivery> {
@@ -2628,7 +2847,6 @@ export class TestDataService {
     }
 
     getBasicCrossSellingStruct(productId: string, overrides: Partial<ProductCrossSelling> = {}) {
-
         const { id: productCrossSellingId, uuid: productCrossSellingUuid } = this.IdProvider.getIdPair();
         const productCrossSellingName = `${this.namePrefix}ProductCrossSelling-${productCrossSellingId}${this.nameSuffix}`;
 
@@ -2643,7 +2861,7 @@ export class TestDataService {
             sortingType: 'name',
             limit: 10,
             sortBy: 'name',
-        }
+        };
         return Object.assign({}, defaultCrossSelling, overrides);
     }
 
@@ -2659,7 +2877,7 @@ export class TestDataService {
             points: 5,
             status: true,
             salesChannelId: this.defaultSalesChannel.id,
-        }
+        };
         return Object.assign({}, defaultProductReview, overrides);
     }
 }
