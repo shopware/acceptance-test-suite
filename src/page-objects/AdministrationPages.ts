@@ -49,6 +49,7 @@ import { MediaListing } from './administration/MediaListing';
 import { LayoutListing } from './administration/LayoutListing';
 import { LayoutCreate } from './administration/LayoutCreate';
 import { ListingPageLayoutDetail } from './administration/ListingPageLayoutDetail';
+import { SalesChannelDetail } from './administration/SalesChannelDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -99,6 +100,7 @@ export interface AdministrationPageTypes {
     AdminLayoutListing: LayoutListing;
     AdminListingPageLayoutDetail: ListingPageLayoutDetail;
     AdminLayoutCreate: LayoutCreate;
+    AdminSalesChannelDetail: SalesChannelDetail;
 }
 
 export const AdminPageObjects = {
@@ -138,6 +140,7 @@ export const AdminPageObjects = {
     SettingsListing,
     DocumentListing,
     DocumentDetail,
+    SalesChannelDetail,
     ShopwareServices,
     PromotionsListing,
     PromotionCreate,
@@ -153,6 +156,7 @@ export const AdminPageObjects = {
 };
 
 export const test = base.extend<FixtureTypes>({
+
     AdminProductDetail: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new ProductDetail(AdminPage, InstanceMeta));
     },
@@ -312,7 +316,7 @@ export const test = base.extend<FixtureTypes>({
     AdminMedia: async ({ AdminPage }, use) => {
         await use(new Media(AdminPage));
     },
-    
+
     AdminShopwareServices: async ({ AdminPage }, use) => {
         await use(new ShopwareServices(AdminPage));
     },
@@ -342,5 +346,9 @@ export const test = base.extend<FixtureTypes>({
 
     AdminLayoutCreate: async ({ AdminPage }, use) => {
         await use(new LayoutCreate(AdminPage));
+    },
+
+    AdminSalesChannelDetail: async ({ AdminPage }, use) => {
+        await use(new SalesChannelDetail(AdminPage));
     },
 });
