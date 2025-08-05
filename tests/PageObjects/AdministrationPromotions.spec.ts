@@ -29,6 +29,7 @@ test('Promotions Listing Page', async ({
         await ShopAdmin.expects(activeRow.promotionValidFrom).toBeVisible();
         await ShopAdmin.expects(activeRow.promotionValidUntil).toBeVisible();
         await ShopAdmin.expects(activeRow.promotionContextButton).toBeVisible();
+        
         await activeRow.promotionContextButton.click();
         await ShopAdmin.expects(activeRow.promotionContextMenuEditButton).toBeVisible();
         await ShopAdmin.expects(activeRow.promotionContextMenuDuplicateButton).toBeVisible();

@@ -41,7 +41,7 @@ export class PromotionsListing implements PageObject {
         this.sidebarRefreshButton = page.getByTitle('Refresh');
 
         // Selectors specific for versions before 6.7
-        if (satisfies(instanceMeta.version, '<6.7.1')) {
+        if (satisfies(instanceMeta.version, '<6.7')) {
             this.smartBarAddPromotionButton = this.smartBar.getByRole('link', { name: 'Add promotion' } );
             this.emptyStateAddPromotionButton = this.emptyState.getByRole('link', {name: 'Add promotion'} );
         }
