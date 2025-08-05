@@ -17,9 +17,9 @@ test('Promotions Pages', async ({
         await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
     });
 
-    const activePromo = await TestDataService.createPromotionWithCode({ active: true });
-    const inactivePromo = await TestDataService.createPromotionWithCode({ active: false });
     await test.step('Listing page - With promotions.', async () => {
+        const activePromo = await TestDataService.createPromotionWithCode({ active: true });
+        const inactivePromo = await TestDataService.createPromotionWithCode({ active: false });
         await ShopAdmin.goesTo(AdminPromotionsListing.url());
         await ShopAdmin.expects(AdminPromotionsListing.promotionsTable).toBeVisible();
 
@@ -52,6 +52,7 @@ test('Promotions Pages', async ({
     });
 
     await test.step('Promotions Detail Page.', async () => {
+        const activePromo = await TestDataService.createPromotionWithCode({ active: true });
         await ShopAdmin.goesTo(AdminPromotionDetail.url(activePromo.id));
         await ShopAdmin.expects(AdminPromotionDetail.tabGeneralLink).toBeVisible();
         await ShopAdmin.expects(AdminPromotionDetail.tabConditionsLink).toBeVisible();
