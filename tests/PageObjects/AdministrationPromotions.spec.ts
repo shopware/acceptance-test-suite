@@ -8,7 +8,7 @@ test('Promotions Pages', async ({
     AdminPromotionDetail,
     
 }) => {
-    await test.step('Listing page - Empty state.', async () => {
+    test.step('Listing page - Empty state.', async () => {
         await ShopAdmin.goesTo(AdminPromotionsListing.url());
         await ShopAdmin.expects(AdminPromotionsListing.smartBarHeader).toBeVisible();
         await ShopAdmin.expects(AdminPromotionsListing.languageSelect).toBeVisible();
@@ -17,7 +17,7 @@ test('Promotions Pages', async ({
         await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
     });
 
-    await test.step('Listing page - With promotions.', async () => {
+    test.step('Listing page - With promotions.', async () => {
         const activePromo = await TestDataService.createPromotionWithCode({ active: true });
         const inactivePromo = await TestDataService.createPromotionWithCode({ active: false });
         await ShopAdmin.goesTo(AdminPromotionsListing.url());
@@ -40,7 +40,7 @@ test('Promotions Pages', async ({
         await ShopAdmin.expects(inactiveRow.promotionInactive).toBeVisible();
     });
 
-    await test.step('Promotions Create Page.', async () => {
+    test.step('Promotions Create Page.', async () => {
         await ShopAdmin.goesTo(AdminPromotionCreate.url());
         await ShopAdmin.expects(AdminPromotionCreate.smartBarHeader).toBeVisible();
         await ShopAdmin.expects(AdminPromotionCreate.languageSelect).toBeVisible();
@@ -51,7 +51,7 @@ test('Promotions Pages', async ({
         await ShopAdmin.expects(AdminPromotionCreate.priorityInput).toBeVisible();
     });
 
-    await test.step('Promotions Detail Page.', async () => {
+    test.step('Promotions Detail Page.', async () => {
         const activePromo = await TestDataService.createPromotionWithCode({ active: true });
         await ShopAdmin.goesTo(AdminPromotionDetail.url(activePromo.id));
         await ShopAdmin.expects(AdminPromotionDetail.tabGeneralLink).toBeVisible();
@@ -67,6 +67,5 @@ test('Promotions Pages', async ({
         await ShopAdmin.goesTo(AdminPromotionDetail.url(activePromo.id, 'discounts'));
         await ShopAdmin.expects(AdminPromotionDetail.addDiscountButton).toBeVisible();
         await ShopAdmin.expects(AdminPromotionDetail.discountCards).toBeVisible();
-    });
-    
+    }); 
 });
