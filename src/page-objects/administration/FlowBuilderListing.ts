@@ -2,6 +2,7 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
 export class FlowBuilderListing implements PageObject {
+    public readonly contentView: Locator;
     public readonly createFlowButton: Locator;
     public readonly firstFlowName: Locator;
     public readonly firstFlowContextButton: Locator;
@@ -16,8 +17,10 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlert: Locator;
     public readonly successAlertMessage: Locator;
     public readonly searchBar: Locator;
+    public readonly pagination: Locator;
 
     constructor(public readonly page: Page) {
+        this.contentView = page.locator('.sw-desktop__content');
         this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
         this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
@@ -34,10 +37,11 @@ export class FlowBuilderListing implements PageObject {
         this.successAlert = page.locator('.sw-alert__body');
         this.successAlertMessage = page.locator('.sw-alert__message');
         this.searchBar = page.locator('.sw-search-bar__input');
+        this.pagination = page.locator('.sw-pagination');
     }
 
-    url() {
-        return '#/sw/flow/index/';
+    url(tabName = 'flows') {
+        return `#/sw/flow/index/${tabName}`;
     }
 
     async getLineItemByFlowName(flowName: string): Promise<Record<string, Locator>> {
