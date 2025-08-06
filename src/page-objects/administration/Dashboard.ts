@@ -60,7 +60,7 @@ export class Dashboard implements PageObject {
         this.statisticsDateRange = page.locator('.mt-card__subtitle');
         this.statisticsChart = page.locator('.vue-apexcharts');
 
-        this.shopwareServicesAdvertisementBanner= page.locator('.sw-settings-services-dashboard-banner__content').first();
+        this.shopwareServicesAdvertisementBanner = page.locator('.sw-settings-services-dashboard-banner__content').first();
         this.shopwareServicesAdvertisementBannerCloseButton = this.shopwareServicesAdvertisementBanner.getByLabel('Close');
         this.shopwareServicesExploreNowButton = this.shopwareServicesAdvertisementBanner.getByRole('button', { name: 'Explore now' });
 
