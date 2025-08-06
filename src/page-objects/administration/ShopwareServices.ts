@@ -3,7 +3,7 @@ import type { Page, Locator } from '@playwright/test';
 
 export class ShopwareServices implements PageObject {
     public readonly header: Locator;
-    public readonly deactivatedBanner: Locator
+    public readonly deactivatedBanner: Locator;
     public readonly activateServicesButton: Locator;
     public readonly permissionBanner: Locator;
     public readonly permissionGrantButton: Locator;

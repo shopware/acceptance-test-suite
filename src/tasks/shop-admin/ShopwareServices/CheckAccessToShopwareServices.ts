@@ -6,7 +6,7 @@ import { createNewAdminPageContext } from '../../../services/AdminLoginHelper';
 
 export const CheckAccessToShopwareServices = base.extend<{ CheckAccessToShopwareServices: Task }, FixtureTypes>({
     CheckAccessToShopwareServices: async ({ TestDataService, SalesChannelBaseConfig, browser }, use ) => {
-        const task= (customMerchant?: User, aclRole?: AclRole) => {
+        const task = (customMerchant?: User, aclRole?: AclRole) => {
             return async function CheckAccessToShopwareServices() {
 
                 let merchant;
@@ -20,7 +20,7 @@ export const CheckAccessToShopwareServices = base.extend<{ CheckAccessToShopware
 
                 const adminPage = await createNewAdminPageContext(merchant, browser, SalesChannelBaseConfig, TestDataService.AdminApiClient);
 
-                const shopwareServicesAdvertisementBanner= adminPage.locator('.sw-settings-services-dashboard-banner__content').first();
+                const shopwareServicesAdvertisementBanner = adminPage.locator('.sw-settings-services-dashboard-banner__content').first();
                 const shopwareServicesExploreNowButton = shopwareServicesAdvertisementBanner.getByRole('button', { name: 'Explore now' });
 
                 await expect(shopwareServicesAdvertisementBanner).toBeVisible();

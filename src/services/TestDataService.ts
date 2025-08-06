@@ -641,7 +641,7 @@ export class TestDataService {
         });
         expect(response.ok()).toBeTruthy();
 
-        const aclRole = await this.getAclRoleById(basicAclRoleStruct.id)
+        const aclRole = await this.getAclRoleById(basicAclRoleStruct.id);
 
         this.addCreatedRecord('acl_role', aclRole.id);
 
@@ -1425,7 +1425,6 @@ export class TestDataService {
 
         this.addCreatedRecord('acl_user_role', {
             userId: adminUserId,
-            aclRoleId: aclRoleId,
         });
 
         return aclMerchant;
