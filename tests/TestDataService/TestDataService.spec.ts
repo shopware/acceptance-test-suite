@@ -193,6 +193,7 @@ test('Data Service', async ({
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
+
     expect(cleanUpDeleteOperationsResponse.ok()).toBeTruthy();
 
     const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();

@@ -108,6 +108,7 @@ export class TestDataService {
     private highPriorityEntities = [
         'order',
         'product',
+        'product_download',
         'product_cross_selling',
         'landing_page',
         'shipping_method',
@@ -1040,6 +1041,8 @@ export class TestDataService {
 
         const { data: productDownload } = await downloadResponse.json();
 
+        this.addCreatedRecord('product_download', productDownload.id);
+
         return productDownload;
     }
 
@@ -1422,10 +1425,6 @@ export class TestDataService {
         expect(syncAclUserResponse.ok()).toBeTruthy();
 
         const { data: aclMerchant } = await syncAclUserResponse.json();
-
-        this.addCreatedRecord('acl_user_role', {
-            userId: adminUserId,
-        });
 
         return aclMerchant;
     }
@@ -1892,9 +1891,10 @@ export class TestDataService {
             }
         });
 
-        await this.AdminApiClient.post('_action/sync', {
+        const priorityDeleteOperationsResponse = await this.AdminApiClient.post('_action/sync', {
             data: priorityDeleteOperations,
         });
+        expect(priorityDeleteOperationsResponse.ok()).toBeTruthy();
 
         await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
             data: this.restoreSystemConfig,
