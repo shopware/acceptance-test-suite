@@ -1,5 +1,5 @@
 import { createRandomImage } from './ImageHelper';
-import { getLanguageData, getPromotionWithDiscount, getSnippetSetId } from './ShopwareDataHelpers';
+import { getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
@@ -1397,15 +1397,12 @@ export class TestDataService {
      * Assigns an ACL Role to a merchant (user in administration).
      *
      * @param aclRoleId - The uuid of the ACL role.
-     * @param userId - The uuid of the user (merchant).
+     * @param adminUserId - The uuid of the admin user (merchant).
 
      */
-    async assignAclRoleMerchant(aclRoleId: string, userId: string) {
-        await this.AdminApiClient.patch(`user/${userId}?_response=basic`, {
-            data: {
-                admin: false, // Ensure the user is not an admin
-            },
-        });
+    async assignAclRoleMerchant(aclRoleId: string, adminUserId: string) {
+
+        await updateAdminUser(adminUserId, this.AdminApiClient, { admin: false });
 
         const syncAclUserResponse = await this.AdminApiClient.post('./_action/sync', {
             data: {
@@ -1414,7 +1411,7 @@ export class TestDataService {
                     action: 'upsert',
                     payload: [
                         {
-                            userId: userId,
+                            userId: adminUserId,
                             aclRoleId: aclRoleId,
                         },
                     ],
@@ -1427,7 +1424,7 @@ export class TestDataService {
         const { data: aclMerchant } = await syncAclUserResponse.json();
 
         this.addCreatedRecord('acl_user_role', {
-            userId: userId,
+            userId: adminUserId,
             aclRoleId: aclRoleId,
         });
 
