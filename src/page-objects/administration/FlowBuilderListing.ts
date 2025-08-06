@@ -18,6 +18,8 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlertMessage: Locator;
     public readonly searchBar: Locator;
     public readonly pagination: Locator;
+    public readonly testFlowNameCells: Locator;
+    public readonly flowTemplatesTab: Locator;
 
     constructor(public readonly page: Page) {
         this.contentView = page.locator('.sw-desktop__content');
@@ -38,6 +40,8 @@ export class FlowBuilderListing implements PageObject {
         this.successAlertMessage = page.locator('.sw-alert__message');
         this.searchBar = page.locator('.sw-search-bar__input');
         this.pagination = page.locator('.sw-pagination');
+        this.testFlowNameCells = page.locator('.sw-data-grid__cell--name a').getByText('Test flow');
+        this.flowTemplatesTab = page.locator('.sw-tabs-item').getByText('Flow templates');
     }
 
     url(tabName = 'flows') {
