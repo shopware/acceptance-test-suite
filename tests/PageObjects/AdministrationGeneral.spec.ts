@@ -55,4 +55,11 @@ test('Administration page objects - General.', async ({
         await ShopAdmin.goesTo(AdminDashboard.url());
         await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
     }
+    await ShopAdmin.goesTo(AdminDashboard.url());
+    await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toBeVisible();
+    await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toContainText('Introducing Shopware Services');
+    await ShopAdmin.expects(AdminDashboard.shopwareServicesExploreNowButton).toBeVisible();
+    await ShopAdmin.expects(AdminDashboard.adminMenuUserActions).toBeVisible();
+    await AdminDashboard.adminMenuUserActions.click();
+    await ShopAdmin.expects(AdminDashboard.adminMenuLogoutButton).toBeVisible();
 });
