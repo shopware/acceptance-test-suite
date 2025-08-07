@@ -6,6 +6,7 @@ import { CreateLinkTypeCategory } from './shop-admin/Category/CreateLinkTypeCate
 import { BulkEditProducts } from './shop-admin/Product/BulkEditProducts';
 import { BulkEditCustomers } from './shop-admin/Customers/BulkEditCustomers';
 import { AssignEntitiesToRule } from './shop-admin/Rule/AssignEntitiesToRule';
+import { CreateFlow } from './shop-admin/Flow/CreateFlow';
 import { LoginViaReviewsTab } from './shop-customer/Account/LoginViaReviewsTab';
 
 export const test = mergeTests(
@@ -15,5 +16,6 @@ export const test = mergeTests(
     BulkEditProducts,
     BulkEditCustomers,
     AssignEntitiesToRule,
+    CreateFlow,
     LoginViaReviewsTab,
 );

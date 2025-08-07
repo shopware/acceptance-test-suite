@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.20.0](https://github.com/shopware/acceptance-test-suite/compare/v11.19.2...v11.20.0) (2025-08-01)
+
+
+### Features
+
+* add abstractions for flow builder create test ([#298](https://github.com/shopware/acceptance-test-suite/issues/298)) ([a43302a](https://github.com/shopware/acceptance-test-suite/commit/a43302a5c6fe7833a81b286d06edc80b956877e0))
+
 ## [11.19.2](https://github.com/shopware/acceptance-test-suite/compare/v11.19.1...v11.19.2) (2025-07-30)
 
 
