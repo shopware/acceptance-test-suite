@@ -4,6 +4,6 @@
 
 # Shopware Acceptance Test Suite
 
-This repository remains the source code for the test suite but all guides, examples, and setup instructions is in the [documentation]((https://github.com/<your-org>/<docs-repo>/).
+This repository remains the source code for the test suite but all guides, examples, and setup instructions is in the [documentation](https://developer.shopware.com/docs/guides/plugins/plugins/testing/playwright/)
 
 Feel free to open issues or pull requests here for bugs or improvements related to the test suite code itself.
