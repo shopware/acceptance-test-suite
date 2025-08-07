@@ -38,6 +38,7 @@ test('Promotions Pages', async ({
 
         await ShopAdmin.expects(inactiveRow.promotionName).toHaveText(inactivePromo.name);
         await ShopAdmin.expects(inactiveRow.promotionInactive).toBeVisible();
+        await TestDataService.cleanUp();
     });
 
     await test.step('Promotions Create Page.', async () => {
@@ -67,5 +68,6 @@ test('Promotions Pages', async ({
         await ShopAdmin.goesTo(AdminPromotionDetail.url(activePromo.id, 'discounts'));
         await ShopAdmin.expects(AdminPromotionDetail.addDiscountButton).toBeVisible();
         await ShopAdmin.expects(AdminPromotionDetail.discountCards).toBeVisible();
+        await TestDataService.cleanUp();
     }); 
 });
