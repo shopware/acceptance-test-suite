@@ -1,19 +1,26 @@
-import { test } from '../../src';
+import { test, expect } from '../../src';
 
-test.skip('Promotions Listing - Empty state', async ({ 
+test('Promotions Listing - Empty state', async ({ 
     ShopAdmin, 
     AdminPromotionsListing,
     
 }) => {
-    // Test is skipped because due to parallel test execution in CI it can't be guaranteed that the promotions listing is empty.
-    // TODO: We should find a solution for that and unskip the test then
+    /* Honestly I don't have a good feeling about this. Test isn't really suitable for parallelization, as the next 
+       tests on a different worker can create test data, while this test expects an empty state.
+       This solution seems to work, but I would like to see a better solution in the future.
+       Until then, if this test turns out to be flaky, we should skip it until we have that solution. */
 
-    await ShopAdmin.goesTo(AdminPromotionsListing.url());
-    await ShopAdmin.expects(AdminPromotionsListing.smartBarHeader).toBeVisible();
-    await ShopAdmin.expects(AdminPromotionsListing.languageSelect).toBeVisible();
-    await ShopAdmin.expects(AdminPromotionsListing.smartBarAddPromotionButton).toBeVisible();
-    await ShopAdmin.expects(AdminPromotionsListing.emptyState).toBeVisible();
-    await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
+    await expect(async () => {
+        await ShopAdmin.goesTo(AdminPromotionsListing.url());
+        await ShopAdmin.expects(AdminPromotionsListing.smartBarHeader).toBeVisible();
+        await ShopAdmin.expects(AdminPromotionsListing.languageSelect).toBeVisible();
+        await ShopAdmin.expects(AdminPromotionsListing.smartBarAddPromotionButton).toBeVisible();
+        await ShopAdmin.expects(AdminPromotionsListing.emptyState).toBeVisible();
+        await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
+    }).toPass({
+        timeout: 60_000,
+        intervals: [1_000, 2_000, 3_000],
+    });
 });
 
 test('Promotions Listing - With promotions', async ({ 
