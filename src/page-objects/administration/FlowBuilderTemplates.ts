@@ -7,6 +7,7 @@ export class FlowBuilderTemplates extends FlowBuilderListing implements PageObje
     constructor(public readonly page: Page) {
         super(page);
     }
+
     url() {
         return `#/sw/flow/index/templates`;
     }
@@ -19,6 +20,6 @@ export class FlowBuilderTemplates extends FlowBuilderListing implements PageObje
             createFlowLink: createFlowLink,
             lineItem: lineItem,
             templateDetailLink: templateDetailLink,
-        }
+        };
     }
 }
