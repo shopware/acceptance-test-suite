@@ -1,5 +1,35 @@
 # Changelog
 
+## [11.20.0](https://github.com/shopware/acceptance-test-suite/compare/v11.19.2...v11.20.0) (2025-08-01)
+
+
+### Features
+
+* add abstractions for flow builder create test ([#298](https://github.com/shopware/acceptance-test-suite/issues/298)) ([a43302a](https://github.com/shopware/acceptance-test-suite/commit/a43302a5c6fe7833a81b286d06edc80b956877e0))
+
+## [11.19.2](https://github.com/shopware/acceptance-test-suite/compare/v11.19.1...v11.19.2) (2025-07-30)
+
+
+### Bug Fixes
+
+* change version condition to only expect the text-editor in 6.8 ([#426](https://github.com/shopware/acceptance-test-suite/issues/426)) ([29c74ec](https://github.com/shopware/acceptance-test-suite/commit/29c74ec65e5a8afc3a5c40bfe1538bba3270578c))
+
+## [11.19.1](https://github.com/shopware/acceptance-test-suite/compare/v11.19.0...v11.19.1) (2025-07-29)
+
+
+### Bug Fixes
+
+* only use mt-text-editor in 6.8 ([#423](https://github.com/shopware/acceptance-test-suite/issues/423)) ([5c91a8f](https://github.com/shopware/acceptance-test-suite/commit/5c91a8f57192c0759872aaab950bd0ec617dbaac))
+
+## [11.19.0](https://github.com/shopware/acceptance-test-suite/compare/v11.18.0...v11.19.0) (2025-07-25)
+
+
+### Features
+
+* add helper functions for visual tests ([#421](https://github.com/shopware/acceptance-test-suite/issues/421)) ([c496840](https://github.com/shopware/acceptance-test-suite/commit/c49684040154ca2aeca16c2e1fdc782b22052923))
+* Add locators for Categories visual test ([#419](https://github.com/shopware/acceptance-test-suite/issues/419)) ([6cd23dd](https://github.com/shopware/acceptance-test-suite/commit/6cd23ddf0a7e98efc79997f5f819e8d4300a8831))
+* add settings page object ([#395](https://github.com/shopware/acceptance-test-suite/issues/395)) ([1eafdfd](https://github.com/shopware/acceptance-test-suite/commit/1eafdfdb66cb894316bf014471d1e87224abd78f))
+
 ## [11.18.0](https://github.com/shopware/acceptance-test-suite/compare/v11.17.1...v11.18.0) (2025-07-15)
 
 

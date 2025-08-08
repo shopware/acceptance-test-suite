@@ -5,7 +5,6 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
 import { satisfies } from 'compare-versions';
-import type { Page } from '@playwright/test';
 
 type FeaturesType = Record<string, boolean>;
 
@@ -17,8 +16,6 @@ export interface HelperFixtureTypes {
         isSaaS: boolean,
         features: FeaturesType,
     },
-    HideElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,
-    ReplaceElementsForScreenshot: (page: Page, selectors: string[]) => Promise<void>,  
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
@@ -88,57 +85,4 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         },
         { scope: 'worker' },
     ],
-
-    /**
-     * Hides the given page elements using `visibility: hidden`, so they become invisible
-     * without affecting the layout (no realignment occurs).
-     *
-     * @param selectors - A list of CSS selectors for the elements to hide.
-     */
-
-    HideElementsForScreenshot: [
-        async ({ }, use) => {
-            const fn = async (page: Page, selectors: string[]) => {
-                if (!selectors.length) return;
-
-                const css = selectors
-                .map(selector => `${selector} { visibility: hidden !important; }`)
-                .join('\n');
-
-                await page.addStyleTag({ content: css });
-            };
-
-            await use(fn);
-        },
-        { scope: 'worker' },
-    ],
-
-    /**
-     * Replaces the visible text content of the selected elements with "***",
-     * typically used to mask sensitive information (e.g. names, prices).
-     *
-     * @param selectors - A list of CSS selectors for the elements whose content should be replaced.
-     */
-
-    ReplaceElementsForScreenshot : [
-    async ({}, use) => {
-        const fn = async (page: Page, selectors: string[]) => {
-        if (!selectors.length) return;
-
-        await page.evaluate((selectors: string[]) => {
-            selectors.forEach(selector => {
-            // @ts-expect-error no DOM types in this context
-            const elements = document.querySelectorAll(selector);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            elements.forEach((el: any) => {
-                el.textContent = '***';
-            });
-            });
-        }, selectors);
-        };
-
-        await use(fn);
-    },
-        { scope: 'worker' },
-    ],      
 });

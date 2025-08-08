@@ -2,6 +2,9 @@ import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
 export class Home implements PageObject {
+
+    public readonly categoryTitle: Locator;
+
     public readonly accountMenuButton: Locator;
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
@@ -73,6 +76,7 @@ export class Home implements PageObject {
     public readonly productRatingList: Locator;
 
     constructor(public readonly page: Page) {
+        this.categoryTitle = page.locator('.cms-element-text h1');
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');

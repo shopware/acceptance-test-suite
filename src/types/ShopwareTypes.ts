@@ -294,6 +294,20 @@ export interface RuleAssignmentEntity {
     ruleType: RuleType
 }
 
+export interface FlowConfig {
+    name: string;
+    description: string;
+    priority: string;
+    active: boolean;
+    triggerSearchTerm: string
+    triggerLabel: string;
+    condition: string;
+    trueAction: string;
+    trueActionIdentifier: string;
+    falseAction: string;
+    falseActionIdentifier: string;
+}
+
 export interface CategoryData {
     name: string;
     categoryType: 'Link' | 'Page / List' | 'Structuring element / Entry point';

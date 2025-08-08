@@ -15,7 +15,7 @@ export class ManufacturerCreate implements PageObject {
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
         this.nameInput = page.getByLabel('Name');
         this.websiteInput = page.getByLabel('Website');
-        if (satisfies(instanceMeta.version, '<6.7')) {
+        if (satisfies(instanceMeta.version, '<6.8')) {
             this.descriptionInput = page.locator('.sw-text-editor__content-editor');
         } else {
             this.descriptionInput = page.locator('.mt-text-editor__content-editor');
