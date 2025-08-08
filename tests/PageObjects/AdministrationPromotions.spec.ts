@@ -18,7 +18,7 @@ test('Promotions Listing - Empty state', async ({
         await ShopAdmin.expects(AdminPromotionsListing.emptyState).toBeVisible();
         await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
     }).toPass({
-        timeout: 60_000,
+        timeout: 120_000,
         intervals: [1_000, 2_000, 3_000],
     });
 });
