@@ -1,8 +1,9 @@
-import { test, expect } from '../../src';
+import { test, expect, TestDataService } from '../../src';
 
 test('Promotions Listing - Empty state', async ({ 
     ShopAdmin, 
     AdminPromotionsListing,
+    TestDataService,
     
 }) => {
     /* Honestly I don't have a good feeling about this. Test isn't really suitable for parallelization, as the next 
@@ -11,6 +12,7 @@ test('Promotions Listing - Empty state', async ({
        Until then, if this test turns out to be flaky, we should skip it until we have that solution. */
 
     await expect(async () => {
+        await TestDataService.clearCaches();
         await ShopAdmin.goesTo(AdminPromotionsListing.url());
         await ShopAdmin.expects(AdminPromotionsListing.smartBarHeader).toBeVisible();
         await ShopAdmin.expects(AdminPromotionsListing.languageSelect).toBeVisible();
@@ -18,7 +20,7 @@ test('Promotions Listing - Empty state', async ({
         await ShopAdmin.expects(AdminPromotionsListing.emptyState).toBeVisible();
         await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
     }).toPass({
-        timeout: 120_000,
+        timeout: 60_000,
         intervals: [1_000, 2_000, 3_000],
     });
 });
