@@ -17,11 +17,21 @@ export class Actor {
     expects = expect;
 
     async a11y_checks(locator: Locator){
+        
+        const tagName = await locator.evaluate(el => el.tagName);
+
+        /* Storefront buttons and links only use :focus-visible, which locator.focus() doesn't trigger by default. 
+        *  Using a keyboard event tricks the browser into using :focus-visible the next time you call locator.focus().
+        */
+
+        if (tagName === "BUTTON" || tagName === "A"){
+            console.log('hooray '+locator);
+            await this.page.keyboard.press('Tab');
+        }   
+
         await locator.focus();
         await expect(locator).toBeFocused();        
 
-        //toHaveVisibleFocus() will not currently work everywhere out of the box as buttons/links use:focus-visible and must be tabbed to
-        //see: src/tasks/shop-customer/a11y_poc/customAssertions/ProceedFromProductToCheckout_a11yAssert.ts
         await expect(locator).toHaveVisibleFocus(); 
     }
     
