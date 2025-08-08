@@ -25,7 +25,6 @@ export class Actor {
         */
 
         if (tagName === "BUTTON" || tagName === "A"){
-            console.log('hooray '+locator);
             await this.page.keyboard.press('Tab');
         }   
 
