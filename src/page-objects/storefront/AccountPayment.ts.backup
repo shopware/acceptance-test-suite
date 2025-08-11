@@ -7,10 +7,7 @@ export class AccountPayment implements PageObject {
     public readonly invoiceOption: Locator;
     public readonly changeDefaultPaymentButton: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
         this.cashOnDeliveryOption = page.getByLabel('Cash on delivery');
         this.paidInAdvanceOption = page.getByLabel('Paid in advance');
         this.invoiceOption = page.getByLabel('Invoice');

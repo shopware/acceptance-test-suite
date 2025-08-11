@@ -34,8 +34,10 @@ export class CustomerBulkEdit implements PageObject{
   public readonly confirmModalApplyChangesButton: Locator;
   public readonly confirmModalSuccessHeader: Locator;
   public readonly confirmModalSuccessCloseButton: Locator;
+  public readonly page: Page;
 
-  constructor(readonly page: Page){
+  constructor(page: Page){
+    this.page = page;
     //General
     this.applyChangesButton = page.getByRole('button', { name: 'Apply changes' });
     this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');

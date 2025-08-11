@@ -12,10 +12,7 @@ export class CheckoutCart implements PageObject {
     public readonly unitPriceInfo: Locator;
     public readonly cartQuantityNumber: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
         this.headline = page.getByRole('heading', { name: 'Shopping cart' });
         this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
         this.enterPromoInput = page.getByLabel('Promo code');

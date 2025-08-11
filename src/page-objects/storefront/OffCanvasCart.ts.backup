@@ -1,34 +1,35 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 
-export class CheckoutCart implements PageObject {
+export class OffCanvasCart implements PageObject {
     public readonly headline: Locator;
+    public readonly itemCount: Locator;
     public readonly goToCheckoutButton: Locator;
+    public readonly goToCartButton: Locator;
+    public readonly continueShoppingButton: Locator;
     public readonly enterPromoInput: Locator;
-    public readonly grandTotalPrice: Locator;
-    public readonly emptyCartAlert: Locator;
-    public readonly stockReachedAlert: Locator;
-    public readonly cartLineItemImages: Locator;
-    public readonly unitPriceInfo: Locator;
+    public readonly submitDiscountButton: Locator;
+    public readonly subTotalPrice: Locator;
+    public readonly shippingCosts: Locator;
     public readonly cartQuantityNumber: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
         this.headline = page.getByRole('heading', { name: 'Shopping cart' });
+        this.itemCount = page.locator('.offcanvas-cart-header-count');
         this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
-        this.enterPromoInput = page.getByLabel('Promo code');
-        this.grandTotalPrice = page.locator('dt:has-text("Grand total") + dd:visible');
-        this.emptyCartAlert = page.getByText('Your shopping cart is empty.');
-        this.stockReachedAlert = page.getByText('only available 1 times');
-        this.cartLineItemImages = page.locator('.line-item-img-link');
-        this.unitPriceInfo = page.locator('.line-item-unit-price-value');
-        this.cartQuantityNumber = page.locator('input[name="quantity"]');
+        this.goToCartButton = page.getByRole('link', { name: 'Display shopping cart' });
+        this.continueShoppingButton = page.getByRole('button', { name: 'Continue shopping' });
+        this.enterPromoInput = page.locator('input[id="addPromotionOffcanvasCartInput"]');
+        this.submitDiscountButton = page.locator('#addPromotionOffcanvasCart');
+        this.subTotalPrice = page.locator('dt:has-text("Subtotal") + dd:visible');
+        this.shippingCosts = page.locator('dt:has-text("Shipping costs") + dd:visible');
+        this.cartQuantityNumber = page.getByLabel('Quantity', { exact: true });
     }
 
     url() {
-        return 'checkout/cart';
+        // Off canvas cart is a modal and does not have a url, but the class needs a url method.
+        throw new Error('Off Canvas Cart does not have an own url.');
+        return '';
     }
 
     async getLineItemByProductNumber(productNumber: string): Promise<Record<string, Locator>> {
@@ -43,6 +44,8 @@ export class CheckoutCart implements PageObject {
         const productUnitPriceValue = lineItem.locator('.line-item-unit-price-value');
         const productTotalPriceValue = lineItem.locator('.line-item-total-price-value');
         const removeButton = lineItem.locator('.line-item-remove-button');
+        const wishlistAddedButton = lineItem.locator('.product-wishlist-added');
+        const wishlistNotAddedButton = lineItem.locator('.product-wishlist-not-added');
 
         return {
             lineItemImage: lineItemImage,
@@ -55,6 +58,8 @@ export class CheckoutCart implements PageObject {
             productUnitPriceValue: productUnitPriceValue,
             productTotalPriceValue: productTotalPriceValue,
             removeButton: removeButton,
+            wishlistAddedButton: wishlistAddedButton,
+            wishlistNotAddedButton: wishlistNotAddedButton,
         }
     }
 }

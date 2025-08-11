@@ -13,7 +13,10 @@ export class OffCanvasCart implements PageObject {
     public readonly shippingCosts: Locator;
     public readonly cartQuantityNumber: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
         this.headline = page.getByRole('heading', { name: 'Shopping cart' });
         this.itemCount = page.locator('.offcanvas-cart-header-count');
         this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });

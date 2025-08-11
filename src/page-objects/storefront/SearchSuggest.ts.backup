@@ -13,11 +13,8 @@ export class SearchSuggest extends Home implements PageObject {
     public readonly searchResultTotal: Locator;
     public readonly searchHeadline: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
+    constructor(public readonly page: Page) {
         super(page);
-        this.page = page;
         this.searchSuggestLineItemImages = page.locator('.search-suggest-product-image-container');
         this.searchInput = page.locator('.header-search-input');
         this.searchIcon = page.locator('.header-search-icon');

@@ -21,10 +21,7 @@ export class CheckoutOrderEdit implements PageObject{
     public readonly shippingStandard: Locator;
     public readonly shippingExpress: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
 
         this.completePaymentButton = page.getByRole('button', { name : 'Complete payment' });
         this.orderCancelButton = page.getByRole('button', { name: 'Cancel order' });

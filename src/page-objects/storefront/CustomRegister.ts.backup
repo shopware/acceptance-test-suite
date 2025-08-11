@@ -4,11 +4,8 @@ import { AccountLogin } from './AccountLogin';
 
 export class CustomRegister extends AccountLogin implements PageObject {
     
-    public readonly page: Page;
-
-    constructor(page: Page) {
+    constructor(public readonly page: Page) {
         super(page);
-        this.page = page;
     }
 
     url(customCustomerGroupName?: string) {

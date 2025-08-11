@@ -54,10 +54,7 @@ export class ProductDetail implements PageObject {
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
         this.quantitySelect = page.getByLabel('Quantity', { exact: true });

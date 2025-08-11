@@ -14,10 +14,7 @@ export class AccountAddressCreate implements PageObject {
     public readonly saveAddressButton: Locator;
     public readonly stateDropdown: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
         this.salutationDropdown = page.getByRole('combobox', { name: 'Salutation' });
         this.firstNameInput = page.getByRole('textbox', { name: 'First name' });
         this.lastNameInput = page.getByRole('textbox', { name: 'Last name' });

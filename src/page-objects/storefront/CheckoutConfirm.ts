@@ -26,8 +26,10 @@ export class CheckoutConfirm implements PageObject {
      * Product details
      */
     public readonly cartLineItemImages: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.headline = page.getByRole('heading', { name: 'Complete order' });
         this.termsAndConditionsCheckbox = page.getByLabel('I have read and accepted the general terms and conditions.');
         this.immediateAccessToDigitalProductCheckbox = page.getByLabel('I want immediate access to the digital content and I acknowledge that thereby I waive my right to cancel.');

@@ -6,10 +6,7 @@ export class Search implements PageObject {
     public readonly headline: Locator;
     public readonly productImages: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
         this.headline = page.locator('h1.search-headline');
         this.productImages = page.locator('.product-image-wrapper');
     }

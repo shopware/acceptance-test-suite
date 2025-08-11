@@ -14,10 +14,7 @@ export class AccountRecover implements PageObject {
     public readonly changePasswordButton: Locator;
     public readonly invalidLinkMessage: Locator;
 
-    public readonly page: Page;
-
-    constructor(page: Page) {
-        this.page = page;
+    constructor(public readonly page: Page) {
         this.passwordRecoveryForm = page.locator('.account-recover-password-form');
         const cardTitle = this.passwordRecoveryForm.locator('.card-title');
         this.title = cardTitle.getByText('Password recovery');
