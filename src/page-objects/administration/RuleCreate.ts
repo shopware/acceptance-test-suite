@@ -13,8 +13,12 @@ export class RuleCreate implements PageObject {
     public readonly saveButton: Locator;
     public readonly cancelButton: Locator;
     public readonly valueNotAvailableTooltip: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.nameInput = page.getByLabel('Name');
         this.priorityInput = page.getByLabel('Priority');
         this.conditionTypeSelectionInput = page.locator('.sw-condition-type-select').locator('.sw-single-select__selection');

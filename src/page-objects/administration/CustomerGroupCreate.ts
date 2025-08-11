@@ -18,8 +18,12 @@ export class CustomerGroupCreate implements PageObject {
     public readonly signupFormCompanySignupToggle: Locator;
     public readonly customerGroupSaleschannelSelection: Locator;
     public readonly customerGroupSaleschannelResultList: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.headline = page.getByRole('heading', { name: 'New customer group' });
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
