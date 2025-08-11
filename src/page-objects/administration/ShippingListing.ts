@@ -13,8 +13,10 @@ export class ShippingListing implements PageObject {
     public readonly modalHeader: Locator;
     public readonly modalCancelButton: Locator;
     public readonly modalDeleteButton: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.header = page.locator('.smart-bar__header');
         this.addShippingMethod = page.getByText('Add shipping method', { exact: true });
         this.contextMenu = page.locator('.sw-data-grid-settings__trigger');

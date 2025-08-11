@@ -23,9 +23,11 @@ export class CustomFieldDetail extends CustomFieldCreate {
     public readonly customFieldDeleteCancelButton: Locator;
     public readonly customFieldDeleteButton: Locator;
     public readonly customFieldEditAvailableInShoppingCartCheckbox: Locator;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page);
+        this.instanceMeta = instanceMeta;
 
         //Custom field section
         this.newCustomFieldButton = page.getByRole('button', { name: 'New custom field' });

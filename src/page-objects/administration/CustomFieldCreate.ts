@@ -9,8 +9,10 @@ export class CustomFieldCreate implements PageObject {
     public readonly labelEnglishGBInput: Locator;
     public readonly assignToSelectionList: Locator;
     public readonly resultAssignToPopoverItemList: Locator
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
         this.technicalNameInput = page.getByLabel('Technical name');

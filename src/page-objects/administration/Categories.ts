@@ -60,8 +60,12 @@ export class Categories implements PageObject {
   public readonly popoverCategoryTree: Locator;
   public readonly categorySelectionListWrapper: Locator;
   public readonly productSelectionInput: Locator;
+  public readonly page: Page;
+  public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-  constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+  constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    this.page = page;
+    this.instanceMeta = instanceMeta;
     this.contentView = page.locator('.sw-desktop__content');
     this.landingPageArea = page.locator('.sw-category-detail__landing-page-collapse');
     this.landingPageHeadline = this.landingPageArea.getByRole('heading', { name: 'Landing pages' });
