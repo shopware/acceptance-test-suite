@@ -4,8 +4,10 @@ import type { PageObject } from '../../types/PageObject';
 export class CustomerGroupListing implements PageObject {
     public readonly headline: Locator;
     public readonly addCustomerGroupButton: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.headline = page.getByRole('heading', { name: 'Customer groups' });
         this.addCustomerGroupButton = page.locator('.sw-settings-customer-group-list__create');
     }

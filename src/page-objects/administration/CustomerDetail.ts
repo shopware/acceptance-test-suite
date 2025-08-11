@@ -15,8 +15,12 @@ export class CustomerDetail implements PageObject {
     public readonly customerGroupDeclineButton: Locator;
     public readonly tagList: Locator;
     public readonly tagItems: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.editButton = page.getByRole('button', { name: 'Edit' });
         this.generalTab = page.getByRole('link', { name: 'General' });
         this.accountCard = page.locator('.sw-customer-card');

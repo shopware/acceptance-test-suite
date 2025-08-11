@@ -57,8 +57,12 @@ export class FirstRunWizard implements PageObject {
     public readonly toolsSelector: Locator;
     public readonly recommendationHeader: Locator;
     public readonly toolsRecommendedPlugin: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
 
         // Generic buttons
         this.nextButton = page.getByText('Next', { exact: true });

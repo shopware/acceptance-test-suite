@@ -16,8 +16,10 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlert: Locator;
     public readonly successAlertMessage: Locator;
     public readonly searchBar: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
         this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();

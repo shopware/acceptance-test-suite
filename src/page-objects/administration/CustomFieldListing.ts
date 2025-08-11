@@ -4,8 +4,10 @@ import type { PageObject } from '../../types/PageObject';
 export class CustomFieldListing implements PageObject {
     public readonly addNewSetButton: Locator;
     public readonly customFieldRows: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.addNewSetButton = page.getByText('Add new set');
         this.customFieldRows = page.getByRole('row');
     }
