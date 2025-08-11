@@ -274,7 +274,7 @@ export type Tax = components['schemas']['Tax'] &{
 };
 
 // custom types below
-
+// Rule Types
 export const RuleType = {
     shippingAvailability: 'shippingMethodAvailabilityRule',
     taxAvailability: 'taxProviderAvailabilityRule',
