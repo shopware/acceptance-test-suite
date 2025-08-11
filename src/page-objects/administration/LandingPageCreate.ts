@@ -24,8 +24,10 @@ export class LandingPageCreate implements PageObject {
   public readonly layoutEmptyState: Locator;
   public readonly createNewLayoutButton: Locator;
   public readonly layoutCheckboxes: Locator;
+  public readonly page: Page;
 
-  constructor(public readonly page: Page) {
+  constructor(page: Page) {
+    this.page = page;
     //Common
     this.loadingSpinner = page.locator('.sw-loader');
     this.saveLandingPageButton = page.getByRole('button', { name: 'Save' });
