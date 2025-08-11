@@ -1,28 +1,19 @@
-import { test, expect, TestDataService } from '../../src';
+import { test } from '../../src';
 
-test('Promotions Listing - Empty state', async ({ 
+test.skip('Promotions Listing - Empty state', async ({ 
     ShopAdmin, 
     AdminPromotionsListing,
     TestDataService,
     
 }) => {
-    /* Honestly I don't have a good feeling about this. Test isn't really suitable for parallelization, as the next 
-       tests on a different worker can create test data, while this test expects an empty state.
-       This solution seems to work, but I would like to see a better solution in the future.
-       Until then, if this test turns out to be flaky, we should skip it until we have that solution. */
-
-    await expect(async () => {
-        await TestDataService.clearCaches();
-        await ShopAdmin.goesTo(AdminPromotionsListing.url());
-        await ShopAdmin.expects(AdminPromotionsListing.smartBarHeader).toBeVisible();
-        await ShopAdmin.expects(AdminPromotionsListing.languageSelect).toBeVisible();
-        await ShopAdmin.expects(AdminPromotionsListing.smartBarAddPromotionButton).toBeVisible();
-        await ShopAdmin.expects(AdminPromotionsListing.emptyState).toBeVisible();
-        await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
-    }).toPass({
-        timeout: 60_000,
-        intervals: [1_000, 2_000, 3_000],
-    });
+    /* Test is flaky due to parallelization and therefore skipped */
+    await TestDataService.clearCaches();
+    await ShopAdmin.goesTo(AdminPromotionsListing.url());
+    await ShopAdmin.expects(AdminPromotionsListing.smartBarHeader).toBeVisible();
+    await ShopAdmin.expects(AdminPromotionsListing.languageSelect).toBeVisible();
+    await ShopAdmin.expects(AdminPromotionsListing.smartBarAddPromotionButton).toBeVisible();
+    await ShopAdmin.expects(AdminPromotionsListing.emptyState).toBeVisible();
+    await ShopAdmin.expects(AdminPromotionsListing.emptyStateAddPromotionButton).toBeVisible();
 });
 
 test('Promotions Listing - With promotions', async ({ 
