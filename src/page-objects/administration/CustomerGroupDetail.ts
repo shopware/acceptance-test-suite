@@ -9,7 +9,7 @@ export class CustomerGroupDetail extends CustomerGroupCreate implements PageObje
     public readonly technicalUrl: Locator;
     public readonly saleschannelUrl: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
         this.headline = page.locator('.smart-bar__header');
         this.selectedSalesChannel = page.locator('.sw-select-selection-list');

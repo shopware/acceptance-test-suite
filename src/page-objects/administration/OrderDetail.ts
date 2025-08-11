@@ -25,8 +25,12 @@ export class OrderDetail implements PageObject {
     public readonly generalTabLink: Locator;
     public readonly detailsTabLink: Locator;
     public readonly documentsTabLink: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.saveButton = page.locator('.sw-order-detail__smart-bar-save-button');
         this.dataGridContextButton = page.locator('.sw-data-grid__actions-menu').and(page.getByRole('button'));
         this.orderTag = page.locator('.sw-select-selection-list__item');
