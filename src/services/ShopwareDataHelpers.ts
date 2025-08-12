@@ -1,4 +1,4 @@
-import { APIResponse } from '@playwright/test';
+import type { APIResponse } from 'playwright-core';
 import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
 import { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
