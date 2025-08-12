@@ -2,7 +2,7 @@
 import {
     test,
     expect,
-    APIResponse,
+    type APIResponse,
     SystemConfig,
 } from '../../src';
 

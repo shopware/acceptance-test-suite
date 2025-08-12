@@ -12,7 +12,7 @@ import {
     Product,
     Manufacturer,
     Category,
-    APIResponse,
+    type APIResponse,
     SalesChannelAnalytics,
     Tax,
     ProductCrossSelling,
