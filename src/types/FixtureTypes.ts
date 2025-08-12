@@ -2,7 +2,7 @@ import { ApiContextTypes } from '../fixtures/ApiContexts';
 import { PageContextTypes } from '../fixtures/PageContexts';
 import { ActorFixtureTypes } from '../fixtures/Actors';
 import { TestDataFixtureTypes } from '../fixtures/TestData';
-import { HelperFixtureTypes } from '../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../fixtures/HelperFixtures';
 import { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
 import { ShopwareDataFixtureTypes } from '../fixtures/ShopwareDataFixtures';
 import { StorefrontPageTypes } from '../page-objects/StorefrontPages';

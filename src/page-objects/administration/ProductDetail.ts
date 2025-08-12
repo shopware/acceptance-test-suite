@@ -1,7 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class ProductDetail implements PageObject {

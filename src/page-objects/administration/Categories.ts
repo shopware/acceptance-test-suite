@@ -1,6 +1,6 @@
 import type { Locator, Page } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class Categories implements PageObject {
   /**

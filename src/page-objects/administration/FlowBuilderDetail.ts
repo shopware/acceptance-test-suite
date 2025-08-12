@@ -2,7 +2,7 @@ import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { FlowBuilderCreate } from './FlowBuilderCreate';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getTooltipText } from './modules/TooltipText';
 
 export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {

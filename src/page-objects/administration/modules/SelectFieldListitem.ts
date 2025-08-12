@@ -1,5 +1,5 @@
 import type { Page, Locator } from 'playwright-core';
-import { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 /**

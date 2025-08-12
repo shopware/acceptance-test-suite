@@ -1,7 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import { CustomFieldCreate } from './CustomFieldCreate';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class CustomFieldDetail extends CustomFieldCreate {

@@ -1,7 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { CustomerGroupCreate } from './CustomerGroupCreate';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class CustomerGroupDetail extends CustomerGroupCreate implements PageObject {
     public readonly headline: Locator;

@@ -1,7 +1,7 @@
 import type { Locator, Page } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class FlowBuilderCreate implements PageObject {

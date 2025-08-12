@@ -1,7 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class RuleCreate implements PageObject {
 
