@@ -3,7 +3,7 @@ import type { Locator } from 'playwright-core';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
 import { RuleType } from '../../../types/ShopwareTypes';
-import { RuleAssignmentEntity } from '../../../types/ShopwareTypes';
+import type { RuleAssignmentEntity } from '../../../types/ShopwareTypes';
 
 export const AssignEntitiesToRule = base.extend<{ AssignEntitiesToRule: Task }, FixtureTypes>({
     AssignEntitiesToRule: async ({ AdminRuleDetail }, use ) => {
