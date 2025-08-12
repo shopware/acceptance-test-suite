@@ -1,4 +1,4 @@
-import { type Page, type Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 

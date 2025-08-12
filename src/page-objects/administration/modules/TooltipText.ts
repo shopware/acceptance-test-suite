@@ -1,4 +1,4 @@
-import { type Page, type Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 
 /**
  * Returns the text of a tooltip.

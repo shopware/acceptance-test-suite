@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import { CustomFieldCreate } from './CustomFieldCreate';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';

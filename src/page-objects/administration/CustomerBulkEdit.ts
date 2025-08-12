@@ -1,5 +1,5 @@
 import { PageObject } from '../../types/PageObject';
-import { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from 'playwright-core';
 
 export class CustomerBulkEdit implements PageObject{
 
