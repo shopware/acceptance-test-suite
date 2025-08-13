@@ -8,9 +8,9 @@ test('Create 300K basic products', { tag: '@Product' }, async ({
     await TestDataService.setCleanUp(false);
 
 
-    const TOTAL_PRODUCTS = 10;
-    const START_INDEX = 28845;                // your nextBatchStartIndex
-    const CONCURRENCY = 2;                 // try 10–50 depending on your API
+    const TOTAL_PRODUCTS = 20000;
+    const START_INDEX = 48845;             // your nextBatchStartIndex
+    const CONCURRENCY = 25;                 // try 10–50 depending on your API
     const COOLDOWN_EVERY_MS = 60_000;       // 60s
     const COOLDOWN_PAUSE_MS = 1_000;        // 1s
     const MAX_RETRIES = 12;                  // exponential backoff
@@ -94,13 +94,13 @@ test('Create 300K basic products', { tag: '@Product' }, async ({
                 ],
                 visibilities: [
                     {
-                        salesChannelId: '81dab996f9db4ce4ad8a518bc14d9eac', // Default sales channel ID
+                        salesChannelId: '0198887c74677161a70f4d5cb21a5e2d', // Default sales channel ID
                         visibility: 30,
                     },
                 ],
                 categories: [
                     {
-                        id: '0ef98bee3c7b47bd96b8163d091eb935', // basic product category ID
+                        id: '0198987a9f1f71789f89cc484cef51e2', // basic product category ID
                     },
                 ],
             };

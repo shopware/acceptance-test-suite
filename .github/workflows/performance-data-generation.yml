@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     #concurrency: saas # only allow one job at a time
     env:
-      APP_URL: "https://fo-demodata-rise-001.swstage.store/"
+      APP_URL: "https://qops-ats-default-instance.swstage.store/"
       SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
       SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
     steps:
