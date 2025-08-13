@@ -3,13 +3,13 @@ import { test } from '../src';
 test('Create 300K basic products', { tag: '@Product' }, async ({
     TestDataService,
 }) => {
-    test.setTimeout(1440000000); // Set timeout to around 4h  for this large operation
+    test.setTimeout(1440000000); // Set timeout to around 24h  for this large operation
 
     await TestDataService.setCleanUp(false);
 
 
-    const TOTAL_PRODUCTS = 20000;
-    const START_INDEX = 48845;             // your nextBatchStartIndex
+    const TOTAL_PRODUCTS = 150000;
+    const START_INDEX = 68846;             // your nextBatchStartIndex
     const CONCURRENCY = 25;                 // try 10–50 depending on your API
     const COOLDOWN_EVERY_MS = 60_000;       // 60s
     const COOLDOWN_PAUSE_MS = 1_000;        // 1s
