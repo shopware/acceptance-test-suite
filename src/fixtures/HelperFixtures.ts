@@ -52,7 +52,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 );
 
                 // we need to be authenticated with an sbp user
-                const token = await AdminApiContext.authenticateWithUserPassword(context.context, context.options);
+                const token = await AdminApiContext.authenticateWithClientCredentials(context.context, context.options);
                 await context.post('./sbp/request-live-status', { headers: { Authorization: `Bearer ${token}` } });
             };
 
