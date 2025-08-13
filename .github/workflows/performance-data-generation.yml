@@ -1,0 +1,42 @@
+on:
+    pull_request:
+    workflow_dispatch:
+
+name: Performance Data Generation
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      - run: npm run build
+
+  test-saas:
+    timeout-minutes: 1440 # 24 hours
+    runs-on: ubuntu-latest
+    #concurrency: saas # only allow one job at a time
+    env:
+      APP_URL: "https://fo-demodata-rise-001.swstage.store/"
+      SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
+      SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test BasicProductPerformanceOptimized.spec.ts
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-saas
+        path: test-results/
+        retention-days: 1
