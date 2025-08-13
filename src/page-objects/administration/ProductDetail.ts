@@ -78,28 +78,44 @@ export class ProductDetail implements PageObject {
     public readonly propertyGroupValueCheckbox: (text: string) => Locator;
     public readonly propertyOptionGrid: Locator;
     
-    /** @deprecated - Use `propertyGroup` instead. */
+    /** 
+     * @deprecated - Use `propertyGroup` instead. 
+     */
     public readonly propertyGroupColor: Locator;
 
-    /** @deprecated - Use `propertyGroup` instead. */
+    /** 
+     * @deprecated - Use `propertyGroup` instead. 
+     */
     public readonly propertyGroupSize: Locator;
 
-    /** @deprecated - Use `propertyGroupValueCheckbox` instead. */
+    /** 
+     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
+     */
     public readonly propertyOptionColorBlue: Locator;
 
-    /** @deprecated - Use `propertyGroupValueCheckbox` instead. */
+    /** 
+     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
+     */
     public readonly propertyOptionColorRed: Locator;
 
-    /** @deprecated - Use `propertyGroupValueCheckbox` instead. */
+    /** 
+     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
+     */
     public readonly propertyOptionColorGreen: Locator;
 
-    /** @deprecated - Use `propertyGroupValueCheckbox` instead. */
+    /** 
+     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
+     */
     public readonly propertyOptionSizeSmall: Locator;
 
-    /** @deprecated - Use `propertyGroupValueCheckbox` instead. */
+    /** 
+     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
+     */
     public readonly propertyOptionSizeMedium: Locator;
 
-    /** @deprecated - Use `propertyGroupValueCheckbox` instead. */
+    /** 
+     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
+     */
     public readonly propertyOptionSizeLarge: Locator;
 
     /**
