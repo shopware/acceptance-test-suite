@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class PaymentDetail implements PageObject {
@@ -7,9 +7,11 @@ export class PaymentDetail implements PageObject {
     public readonly nameField: Locator;
     public readonly availabilityRuleField: Locator;
     public readonly availabilityRuleListItem: Locator;
+    public readonly page: Page;
 
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.header = page.locator('.smart-bar__header');
         this.nameField = page.getByLabel('Name',{exact: true});
         this.availabilityRuleField = page.locator('.sw-settings-payment-detail__field-availability-rule').locator('.sw-entity-single-select__selection-text');

@@ -1,7 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
-import { Product } from 'src/types/ShopwareTypes';
+import type { Product } from 'src/types/ShopwareTypes';
 
 interface Change {
     value: string;

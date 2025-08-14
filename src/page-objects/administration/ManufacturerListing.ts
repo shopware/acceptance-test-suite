@@ -1,11 +1,13 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class ManufacturerListing implements PageObject {
     public readonly addManufacturerButton: Locator;
     public readonly manufacturerRows: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.addManufacturerButton = page.getByText('Add manufacturer');
         this.manufacturerRows = page.getByRole('row');
     }

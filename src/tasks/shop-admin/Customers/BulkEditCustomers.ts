@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
-import { Task } from '../../../types/Task';
-import { FixtureTypes } from '../../../types/FixtureTypes';
-import { AccountData, Customer, CustomFieldData, TagData } from '../../../types/ShopwareTypes';
+import type { Task } from '../../../types/Task';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
+import type { AccountData, Customer, CustomFieldData, TagData } from '../../../types/ShopwareTypes';
 
 export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, FixtureTypes>({
     BulkEditCustomers: async ({ ShopAdmin, AdminCustomerListing, AdminCustomerBulkEdit  }, use ) => {

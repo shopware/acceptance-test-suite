@@ -1,4 +1,5 @@
-import { request, APIResponse, APIRequestContext } from '@playwright/test';
+import { request } from '@playwright/test';
+import type { APIRequestContext, APIResponse } from 'playwright-core';
 
 type HTTPHeaders = Record<string, string>;
 

@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class Footer implements PageObject {
@@ -8,7 +8,10 @@ export class Footer implements PageObject {
     public readonly footerContactForm: Locator;
     public readonly footerContactFormLink: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
         this.footerHeadline = page.locator('.footer-column-headline');
         this.footerContent = page.locator('.footer-column-content-inner');
         this.footerHotline = page.locator('.footer-contact-hotline');

@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class Header implements PageObject {
@@ -11,8 +11,10 @@ export class Header implements PageObject {
     //wishlist
     public readonly wishlistIcon: Locator;
     public readonly wishlistBasket: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.mainNavigationLink = page.locator('.main-navigation-link-text');
         this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
         this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });

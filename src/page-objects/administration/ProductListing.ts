@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class ProductListing implements PageObject {
@@ -8,6 +8,7 @@ export class ProductListing implements PageObject {
      */
     public readonly productsTable: Locator;
     public readonly bulkEditButton: Locator;
+    public readonly page: Page;
 
     /**
      * Bulk edit modal
@@ -15,7 +16,8 @@ export class ProductListing implements PageObject {
     public readonly bulkEditModal: Locator;
     public readonly startBulkEditButton: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.productsTable = page.locator('.sw-data-grid__table');
         this.bulkEditButton = page.getByRole('button', {name: 'Bulk edit'});
 

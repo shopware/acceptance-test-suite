@@ -1,8 +1,10 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class AccountProfile implements PageObject {
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
     public readonly salutationSelect: Locator;
     public readonly firstNameInput: Locator;
     public readonly lastNameInput: Locator;
@@ -28,9 +30,11 @@ export class AccountProfile implements PageObject {
     public readonly passwordUpdateFailureAlert: Locator;
 
     constructor(
-        public readonly page: Page,
-        public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']
+        page: Page,
+        instanceMeta: HelperFixtureTypes['InstanceMeta']
     ) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.salutationSelect = page.getByLabel('Salutation');
         this.firstNameInput = page.getByLabel('First name');
         this.lastNameInput = page.getByLabel('Last name');
