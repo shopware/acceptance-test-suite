@@ -5,6 +5,7 @@ import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 export class PromotionCreate implements PageObject {
 
     public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
     // SmartBar
     public readonly smartBar: Locator;
@@ -18,8 +19,9 @@ export class PromotionCreate implements PageObject {
     public readonly nameInput: Locator;
     public readonly priorityInput: Locator;
 
-    constructor(page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.page = page;
+        this.instanceMeta = instanceMeta;
 
         // SmartBar
         this.smartBar = page.locator('.smart-bar__content');
