@@ -1,5 +1,5 @@
 /* eslint-disable playwright/no-conditional-in-test */
-import { test , expect} from '@playwright/test';
+import { test, expect} from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
 
 
@@ -24,7 +24,7 @@ export class Actor {
         *  Using a keyboard event tricks the browser into using :focus-visible the next time you call locator.focus().
         */
 
-        if (tagName === "BUTTON" || tagName === "A"){
+        if (tagName === 'BUTTON' || tagName === 'A'){
             await this.page.keyboard.press('Tab');
         }   
 
