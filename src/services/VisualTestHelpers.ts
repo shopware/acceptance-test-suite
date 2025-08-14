@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 
 /**
  * Hides the given page elements using `visibility: hidden`, so they become invisible

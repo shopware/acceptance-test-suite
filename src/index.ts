@@ -15,7 +15,10 @@ import { test as ShopwareDataFixture } from './fixtures/ShopwareDataFixtures';
 
 import './fixtures/CustomMatchers';
 
-export * from '@playwright/test';
+// Export only runtime values from @playwright/test to avoid strip-only mode errors
+export { expect, mergeTests } from '@playwright/test';
+// Export types from playwright-core for strip-only mode compatibility  
+export type { APIResponse, Page, Locator, BrowserContext, APIRequestContext, Request } from 'playwright-core';
 export * from './services/ShopwareDataHelpers';
 export * from './services/ShopInfo';
 export * from './services/ImageHelper';

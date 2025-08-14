@@ -1,6 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import {HelperFixtureTypes} from '../../fixtures/HelperFixtures';
+import type {HelperFixtureTypes} from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 import { satisfies } from 'compare-versions';
 
@@ -25,8 +25,12 @@ export class OrderDetail implements PageObject {
     public readonly generalTabLink: Locator;
     public readonly detailsTabLink: Locator;
     public readonly documentsTabLink: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.saveButton = page.locator('.sw-order-detail__smart-bar-save-button');
         this.dataGridContextButton = page.locator('.sw-data-grid__actions-menu').and(page.getByRole('button'));
         this.orderTag = page.locator('.sw-select-selection-list__item');

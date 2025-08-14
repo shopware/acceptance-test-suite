@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import type { Product } from '../../types/ShopwareTypes';
 
@@ -54,7 +54,10 @@ export class ProductDetail implements PageObject {
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
         this.quantitySelect = page.getByLabel('Quantity', { exact: true });
