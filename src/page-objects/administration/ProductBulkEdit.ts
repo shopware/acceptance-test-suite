@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class ProductBulkEdit implements PageObject {
@@ -59,8 +59,10 @@ export class ProductBulkEdit implements PageObject {
     public readonly confirmModalLoadingSpinner: Locator;
     public readonly confirmModalSuccessHeader: Locator;
     public readonly confirmModalSuccessCloseButton: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
 
         // Manufacturer
         this.changeManufacturerRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');

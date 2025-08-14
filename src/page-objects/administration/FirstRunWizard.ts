@@ -1,7 +1,7 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class FirstRunWizard implements PageObject {
 
@@ -57,8 +57,12 @@ export class FirstRunWizard implements PageObject {
     public readonly toolsSelector: Locator;
     public readonly recommendationHeader: Locator;
     public readonly toolsRecommendedPlugin: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
 
         // Generic buttons
         this.nextButton = page.getByText('Next', { exact: true });

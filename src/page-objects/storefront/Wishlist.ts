@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { Home } from './Home';
 
@@ -7,8 +7,11 @@ export class Wishlist extends Home implements PageObject {
     public readonly removeAlert: Locator;
     public readonly emptyListing: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
         super(page);
+        this.page = page;
         this.wishListHeader = page.locator('.wishlist-headline');
         this.removeAlert = page.locator('.alert-success');
         this.emptyListing = page.locator('.wishlist-listing-empty');
