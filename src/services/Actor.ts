@@ -1,5 +1,5 @@
 /* eslint-disable playwright/no-conditional-in-test */
-import { test, expect} from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
 
 
