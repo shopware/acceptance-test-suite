@@ -22,3 +22,9 @@ dist
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Backup files
+*.backup
+*.bak
+*~
+*.orig

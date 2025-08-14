@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class AccountRecover implements PageObject {
@@ -14,7 +14,10 @@ export class AccountRecover implements PageObject {
     public readonly changePasswordButton: Locator;
     public readonly invalidLinkMessage: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
         this.passwordRecoveryForm = page.locator('.account-recover-password-form');
         const cardTitle = this.passwordRecoveryForm.locator('.card-title');
         this.title = cardTitle.getByText('Password recovery');

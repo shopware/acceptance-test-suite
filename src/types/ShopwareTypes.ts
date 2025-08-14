@@ -274,15 +274,17 @@ export type Tax = components['schemas']['Tax'] &{
 };
 
 // custom types below
+// Rule Types
+export const RuleType = {
+    shippingAvailability: 'shippingMethodAvailabilityRule',
+    taxAvailability: 'taxProviderAvailabilityRule',
+    paymentAvailability: 'paymentMethodAvailabilityRule',
+    promotionOrder: 'promotionOrderRule',
+    promotionCustomer: 'promotionCustomerRule',
+    promotionCart: 'promotionCartRule',
+} as const;
 
-export enum RuleType {
-    shippingAvailability = 'shippingMethodAvailabilityRule',
-    taxAvailability = 'taxProviderAvailabilityRule',
-    paymentAvailability = 'paymentMethodAvailabilityRule',
-    promotionOrder = 'promotionOrderRule',
-    promotionCustomer = 'promotionCustomerRule',
-    promotionCart = 'promotionCartRule',
-}
+export type RuleType = typeof RuleType[keyof typeof RuleType];
 
 export interface RuleAssignmentEntity {
     entity: {

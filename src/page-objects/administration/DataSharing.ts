@@ -1,6 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class DataSharing implements PageObject {
@@ -11,8 +11,12 @@ export class DataSharing implements PageObject {
     public readonly dataSharingAgreeButton: Locator;
     public readonly dataSharingDisableButton: Locator;
     public readonly dataSharingTermsAgreementLabel: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         if (satisfies(instanceMeta.version, '<6.6.1')) {
             this.dataConsentHeadline = page.locator('header.sw-usage-data-consent-banner__title');
         } else {

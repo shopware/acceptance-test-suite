@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import type { Page } from 'playwright-core';
 
 export async function mockApiCalls(page: Page) {
     await page.route('**/api/notification/message*', route => route.fulfill({

@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class Home implements PageObject {
@@ -74,8 +74,10 @@ export class Home implements PageObject {
     public readonly productItemNames: Locator;
     public readonly productRatingButton: Locator;
     public readonly productRatingList: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.categoryTitle = page.locator('.cms-element-text h1');
         this.accountMenuButton = page.getByLabel('Your account');
         this.closeGuestSessionButton = page.locator('.account-aside-btn');

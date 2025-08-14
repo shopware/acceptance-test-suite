@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
-import { FlowConfig } from '../../../types/ShopwareTypes';
+import type { FlowConfig } from '../../../types/ShopwareTypes';
 
 export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
     CreateFlow: async ({ AdminFlowBuilderCreate, AdminFlowBuilderDetail, AdminFlowBuilderListing, ShopAdmin, TestDataService }, use ) => {
