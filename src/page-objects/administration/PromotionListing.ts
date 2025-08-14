@@ -89,8 +89,8 @@ export class PromotionsListing implements PageObject {
         let promotionContextMenuDuplicate = this.page.locator(promotionContextMenu).getByRole('button', { name: 'Duplicate' });
         let promotionContextMenuDelete = this.page.locator(promotionContextMenu).getByRole('button', { name: 'Delete' });
 
-        // Selectors specific for versions before 6.7.1
-        if (satisfies(this.instanceMeta.version, '<6.7.1')) {
+        // Selectors specific for versions before 6.7
+        if (satisfies(this.instanceMeta.version, '<6.7')) {
             promotionContextMenuDuplicate = this.page.locator(promotionContextMenu).locator('.sw-context-menu-item', { hasText: 'Duplicate' });
             promotionContextMenuDelete = this.page.locator(promotionContextMenu).locator('.sw-context-menu-item', { hasText: 'Delete' });
         }
