@@ -61,6 +61,12 @@ export interface Price {
 
 export interface VariantListingConfig {
     displayParent: boolean;
+    configuratorGroupConfig: ConfiguratorGroupConfig[];
+}
+export interface ConfiguratorGroupConfig {
+    id: string;
+    representation: string;
+    expressionForListings: boolean;
 }
 
 export interface ProductPrice {
