@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.21.0](https://github.com/shopware/acceptance-test-suite/compare/v11.20.1...v11.21.0) (2025-08-14)
+
+
+### Features
+
+* add admin promotions page and tests ([#422](https://github.com/shopware/acceptance-test-suite/issues/422)) ([7d8e1bd](https://github.com/shopware/acceptance-test-suite/commit/7d8e1bd9a98d58ca5e09969909910a8864a6ce95))
+
 ## [11.20.1](https://github.com/shopware/acceptance-test-suite/compare/v11.20.0...v11.20.1) (2025-08-14)
 
 
