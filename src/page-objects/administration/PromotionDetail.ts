@@ -1,7 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import { PromotionCreate } from './PromotionCreate';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class PromotionDetail extends PromotionCreate {
 
