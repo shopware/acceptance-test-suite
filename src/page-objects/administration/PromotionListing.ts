@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
@@ -6,6 +6,8 @@ import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 export class PromotionsListing implements PageObject {
 
     private readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
+
+    public readonly page: Page;
 
     // SmartBar
     public readonly smartBar: Locator;
@@ -23,7 +25,8 @@ export class PromotionsListing implements PageObject {
     // Sidebar
     public readonly sidebarRefreshButton: Locator;
 
-    constructor(public readonly page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
         this.instanceMeta = instanceMeta;
         this.smartBar = page.locator('.smart-bar__content');
         this.smartBarHeader = this.smartBar.locator('.smart-bar__header');

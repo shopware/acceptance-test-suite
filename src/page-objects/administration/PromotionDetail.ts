@@ -5,6 +5,8 @@ import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class PromotionDetail extends PromotionCreate {
 
+    public readonly page: Page;
+
     // Tabs
     public readonly tabGeneralLink: Locator;
     public readonly tabConditionsLink: Locator;
@@ -22,9 +24,11 @@ export class PromotionDetail extends PromotionCreate {
     public readonly addDiscountButton: Locator;
     public readonly discountCards: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
 
+        this.page = page;
+        
         // Tabs
         this.tabGeneralLink = page.getByRole('tab', { name: 'General' });
         this.tabConditionsLink = page.getByRole('tab', { name: 'Conditions' });
