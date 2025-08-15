@@ -1,5 +1,5 @@
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import type { Page, Locator } from '@playwright/test';
 
 export class ShopwareServices implements PageObject {
     public readonly header: Locator;
@@ -11,8 +11,10 @@ export class ShopwareServices implements PageObject {
     public readonly deactivateServicesConfirmButton: Locator;
     public readonly deactivateServicesButton: Locator;
     public readonly deactivateServicesModal: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.header = page.getByRole('heading', { name: 'Future proof your store with Shopware Services' });
         this.deactivatedBanner = page.locator('.sw-settings-services-index__services-deactivated-banner');
         this.activateServicesButton = page.getByRole('button', { name: 'Activate Services' });
