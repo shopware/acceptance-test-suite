@@ -74,8 +74,8 @@ export class ProductDetail implements PageObject {
     /**
      * Property Selection
      */
-    public readonly propertyGroup: (text: string) => Locator;
-    public readonly propertyGroupValueCheckbox: (text: string) => Locator;
+    public readonly propertyName: (propertyName: string) => Locator;
+    public readonly propertyValueCheckbox: (propertyValueName: string) => Locator;
     
     /** @deprecated - Use 'propertyGroup' instead. */
     public readonly propertyGroupColor: Locator;
@@ -164,8 +164,8 @@ export class ProductDetail implements PageObject {
         this.variantsSaveButton = this.variantsModal.getByRole('button', { name: 'Save variants' });
 
         // Property selection
-        this.propertyGroup = (text: string) => this.variantsModal.getByText(text);
-        this.propertyGroupValueCheckbox = (text: string) => this.variantsModal.getByRole('row', { name: text }).getByRole('checkbox');
+        this.propertyName = (propertyName: string) => this.variantsModal.getByText(propertyName);
+        this.propertyValueCheckbox = (propertyValueName: string) => this.variantsModal.getByRole('row', { name: propertyValueName }).getByRole('checkbox');
         
         this.propertyGroupColor = this.variantsModal.getByText('Color').first();
         this.propertyGroupSize = this.variantsModal.getByText('Size').first();
