@@ -193,7 +193,7 @@ export class ProductDetail implements PageObject {
         }
 
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
-        const customFieldSetTabCustomContent = customFieldCard.locator('.sw-custom-field-set-renderer-tab-content__${customFieldSetName}');
+        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
 
         return {
             customFieldSetTab: customFieldSetTab,
@@ -202,7 +202,7 @@ export class ProductDetail implements PageObject {
     }
 
     url(productId: string) {
-        return '#/sw/product/detail/${productId}/base'
+        return `#/sw/product/detail/${productId}/base`;
     }
 
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
