@@ -34,7 +34,6 @@ export class Dashboard implements PageObject {
     public readonly adminMenuUserActions: Locator;
     public readonly adminMenuLogoutButton: Locator;
 
-    constructor(public readonly page: Page) {
     constructor(page: Page) {
         this.page = page;
         this.adminMenuView = page.locator('.sw-admin-menu');
