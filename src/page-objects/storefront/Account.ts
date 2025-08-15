@@ -1,6 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class Account implements PageObject {
@@ -14,8 +14,12 @@ export class Account implements PageObject {
     public readonly customerGroupRequestMessage: Locator;
     public readonly cannotDeliverToCountryAlert: Locator;
     public readonly shippingToAddressNotPossibleAlert: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.headline = page.getByRole('heading', { name: 'Overview' });
         this.personalDataCardTitle = page.getByRole('heading', { name: 'Personal data' });
         this.paymentMethodCardTitle = page.getByRole('heading', { name: 'Default payment method' });

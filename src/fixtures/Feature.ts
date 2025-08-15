@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
 import { FeatureService } from '../services/FeatureService';
-import { FixtureTypes } from '../types/FixtureTypes';
+import type { FixtureTypes } from '../types/FixtureTypes';
 
 
 export interface FeatureFixtureTypes {

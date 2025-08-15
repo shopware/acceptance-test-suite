@@ -1,6 +1,6 @@
 /* eslint-disable playwright/no-conditional-in-test */
 import { test, expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import type { Page } from 'playwright-core';
 
 export class Actor {
     public page: Page;

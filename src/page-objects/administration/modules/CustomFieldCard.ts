@@ -1,6 +1,6 @@
-import { type Page, type Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
 
 /**
  * Returns locators for assigned custom fields on entity detail pages.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.20.1](https://github.com/shopware/acceptance-test-suite/compare/v11.20.0...v11.20.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* Replace TypeScript parameter properties and fix all type imports for strip-only mode ([#434](https://github.com/shopware/acceptance-test-suite/issues/434)) ([e13f096](https://github.com/shopware/acceptance-test-suite/commit/e13f0962542907e29cf5f42faabcf50b36a31df1))
+
 ## [11.20.0](https://github.com/shopware/acceptance-test-suite/compare/v11.19.2...v11.20.0) (2025-08-01)
 
 

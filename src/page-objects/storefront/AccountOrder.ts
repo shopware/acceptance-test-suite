@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class AccountOrder implements PageObject {
@@ -13,7 +13,10 @@ export class AccountOrder implements PageObject {
     public readonly invoiceHTML: Locator;
     public readonly creditItem: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
         this.orderExpandButton = page.getByRole('button', {name: /Expand|Show details/}).first();
         this.cartLineItemImages = page.locator('.line-item-img-link');
         this.digitalProductDownloadButton = page.getByRole('link', { name: 'Download' }).first();

@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class CheckoutOrderEdit implements PageObject{
@@ -21,7 +21,10 @@ export class CheckoutOrderEdit implements PageObject{
     public readonly shippingStandard: Locator;
     public readonly shippingExpress: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
 
         this.completePaymentButton = page.getByRole('button', { name : 'Complete payment' });
         this.orderCancelButton = page.getByRole('button', { name: 'Cancel order' });

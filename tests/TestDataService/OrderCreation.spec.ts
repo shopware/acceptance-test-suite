@@ -1,4 +1,4 @@
-import { test, expect, type Order, APIResponse } from '../../src';
+import { test, expect, type Order, type APIResponse } from '../../src';
 
 test('Order creation with TestDataService', async ({
     TestDataService, AdminApiContext,

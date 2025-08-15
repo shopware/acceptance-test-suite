@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class CheckoutFinish implements PageObject {
@@ -7,10 +7,12 @@ export class CheckoutFinish implements PageObject {
     public readonly grandTotalPrice: Locator;
     public readonly taxPrice: Locator;
     public readonly cartLineItemImages: Locator;
+    public readonly page: Page;
 
     private readonly orderNumberRegex = /Your order number: #(\d+)/;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.headline = page.getByRole('heading', { name: 'Thank you for your order' });
         this.orderNumberText = page.getByText(this.orderNumberRegex);
         this.grandTotalPrice = page.locator('dt:has-text("Grand total") + dd');

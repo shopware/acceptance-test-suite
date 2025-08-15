@@ -2,8 +2,8 @@
 import {
     test,
     expect,
-    APIResponse,
-    SystemConfig,
+    type APIResponse,
+    type SystemConfig,
 } from '../../src';
 
 test('System config can be overwritten and is restored to defaults', async ({

@@ -1,10 +1,10 @@
-import type { Page } from '@playwright/test';
+import type { Page } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { FlowBuilderListing } from './FlowBuilderListing';
 
 export class FlowBuilderTemplates extends FlowBuilderListing implements PageObject {
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
         super(page);
     }
 

@@ -1,7 +1,8 @@
-import { test as base, Locator } from '@playwright/test';
+import { test as base } from '@playwright/test';
+import type { Locator } from 'playwright-core';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
-import { CategoryData, CategoryCustomizableLinkData } from '../../../types/ShopwareTypes';
+import type { CategoryData, CategoryCustomizableLinkData } from '../../../types/ShopwareTypes';
 
 export const CreateLinkTypeCategory = base.extend<{ CreateLinkTypeCategory: Task }, FixtureTypes>({
   CreateLinkTypeCategory: async ({ AdminCategories, AdminCategoryDetail, TestDataService }, use) => {
