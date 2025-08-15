@@ -76,46 +76,32 @@ export class ProductDetail implements PageObject {
      */
     public readonly propertyGroup: (text: string) => Locator;
     public readonly propertyGroupValueCheckbox: (text: string) => Locator;
-    public readonly propertyOptionGrid: Locator;
     
-    /** 
-     * @deprecated - Use `propertyGroup` instead. 
-     */
+    /** @deprecated - Use 'propertyGroup' instead. */
     public readonly propertyGroupColor: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroup` instead. 
-     */
+    /** @deprecated - Use 'propertyGroup' instead. */
     public readonly propertyGroupSize: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
-     */
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
+    public readonly propertyOptionGrid: Locator;
+
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
     public readonly propertyOptionColorBlue: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
-     */
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
     public readonly propertyOptionColorRed: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
-     */
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
     public readonly propertyOptionColorGreen: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
-     */
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
     public readonly propertyOptionSizeSmall: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
-     */
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
     public readonly propertyOptionSizeMedium: Locator;
 
-    /** 
-     * @deprecated - Use `propertyGroupValueCheckbox` instead. 
-     */
+    /** @deprecated - Use 'propertyGroupValueCheckbox' instead. */
     public readonly propertyOptionSizeLarge: Locator;
 
     /**
@@ -175,11 +161,11 @@ export class ProductDetail implements PageObject {
 
         // Property selection
         this.propertyGroup = (text: string) => this.variantsModal.getByText(text);
-        this.propertyOptionGrid = this.variantsModal.locator('.sw-property-search__tree-selection__option_grid');
-        this.propertyGroupValueCheckbox = (text: string) => this.propertyOptionGrid.getByRole('row', { name: text }).getByRole('checkbox');
+        this.propertyGroupValueCheckbox = (text: string) => this.variantsModal.getByRole('row', { name: text }).getByRole('checkbox');
         
         this.propertyGroupColor = this.variantsModal.getByText('Color').first();
         this.propertyGroupSize = this.variantsModal.getByText('Size').first();
+        this.propertyOptionGrid = this.variantsModal.locator('.sw-property-search__tree-selection__option_grid');
         this.propertyOptionColorBlue = this.propertyOptionGrid.getByRole('row', { name: 'Blue' }).getByRole('checkbox');
         this.propertyOptionColorRed = this.propertyOptionGrid.getByRole('row', { name: 'Red' }).getByRole('checkbox');
         this.propertyOptionColorGreen = this.propertyOptionGrid.getByRole('row', { name: 'Green' }).getByRole('checkbox');
@@ -203,7 +189,7 @@ export class ProductDetail implements PageObject {
         }
 
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
-        const customFieldSetTabCustomContent = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
+        const customFieldSetTabCustomContent = customFieldCard.locator('.sw-custom-field-set-renderer-tab-content__${customFieldSetName}');
 
         return {
             customFieldSetTab: customFieldSetTab,
@@ -212,7 +198,7 @@ export class ProductDetail implements PageObject {
     }
 
     url(productId: string) {
-        return `#/sw/product/detail/${productId}/base`
+        return '#/sw/product/detail/${productId}/base'
     }
 
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
