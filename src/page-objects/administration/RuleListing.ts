@@ -8,7 +8,7 @@ export class RuleListing implements PageObject {
     public readonly header: Locator;
     public readonly grid: Locator;
 
-    constructor(public readonly page: Page, public readonly options: { version: string; isSaaS: boolean; features: object }) {
+    constructor(public readonly page: Page) {
         this.createRuleButton = page.getByText('Create rule');
         this.header = page.locator('.smart-bar__header');
         this.grid = page.locator('sw-data-grid__table)');

@@ -222,8 +222,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new RuleDetail(AdminPage, InstanceMeta));
     },
 
-    AdminRuleListing: async ({ AdminPage, InstanceMeta }, use) => {
-        await use(new RuleListing(AdminPage, InstanceMeta));
+    AdminRuleListing: async ({ AdminPage }, use) => {
+        await use(new RuleListing(AdminPage));
     },
 
     AdminManufacturerListing: async ({ AdminPage }, use) => {
