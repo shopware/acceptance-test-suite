@@ -8,7 +8,7 @@ test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataSe
     await TestDataService.setCleanUp(false);
 
     const MAX_RETRIES = 20; // Maximum retry attempts for failed requests
-    const TOTAL_ORDERS = 1000; // Total number of orders to create
+    const TOTAL_ORDERS = 10000; // Total number of orders to create
     const CONCURRENCY = 15; // Number of concurrent workers
     const START_INDEX = 1; // Start index for product creation
     const COOLDOWN_EVERY_MS = 60_000; // Cooldown period to prevent system overload
