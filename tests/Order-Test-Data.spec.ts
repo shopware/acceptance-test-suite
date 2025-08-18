@@ -218,7 +218,7 @@ test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataSe
                         productId: '5db3c047b1f64c2d9848fb2f905035f7',
                         referencedId: '5db3c047b1f64c2d9848fb2f905035f7',
                         payload: {
-                            productNumber: 'Product-264381594707841',
+                            productNumber: 'Order-Product-Performance',
                         },
                         identifier: '5db3c047b1f64c2d9848fb2f905035f7',
                         type: 'product',
