@@ -1,6 +1,6 @@
 import { test, expect } from '../src';
 import * as console from 'console';
-import { CustomerAddress } from '../src';
+import { CustomerAddress } from '../src/types/ShopwareTypes';
 
 test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataService, AdminApiContext }) => {
 
@@ -82,9 +82,9 @@ test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataSe
         const tax = 16;
         const taxRate = 19.0;
 
-        const shippingGross = 10.0;
-        const shippingNet = 8.4;
-        const shippingTax = 19.0;
+        const shippingGross = 0.0;
+        const shippingNet = 0.0;
+        const shippingTax = 0.0;
         const shippingTaxRate = (shippingTax / shippingNet) * 100;
 
         console.log(`Creating ${TOTAL_ORDERS} products with concurrency=${CONCURRENCY} ...`);
