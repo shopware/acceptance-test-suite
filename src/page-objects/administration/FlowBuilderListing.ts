@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class FlowBuilderListing implements PageObject {
@@ -21,7 +21,8 @@ export class FlowBuilderListing implements PageObject {
     public readonly testFlowNameCells: Locator;
     public readonly flowTemplatesTab: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.contentView = page.locator('.sw-desktop__content');
         this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();

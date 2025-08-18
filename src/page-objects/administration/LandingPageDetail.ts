@@ -1,4 +1,4 @@
-import type {Page, Locator} from '@playwright/test';
+import type {Page, Locator} from 'playwright-core';
 import type {PageObject} from '../../types/PageObject';
 
 export class LandingPageDetail implements PageObject {
@@ -25,8 +25,10 @@ export class LandingPageDetail implements PageObject {
     public readonly layoutResetButton: Locator;
     public readonly layoutAssignmentStatus: Locator;
     public readonly layoutAssignmentContentSection: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         //Common
         this.loadingSpinner = page.locator('.sw-loader');
         this.saveLandingPageButton = page.getByRole('button', {name: 'Save'});

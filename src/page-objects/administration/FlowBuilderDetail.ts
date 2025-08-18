@@ -1,8 +1,8 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { FlowBuilderCreate } from './FlowBuilderCreate';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getTooltipText } from './modules/TooltipText';
 
 export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
@@ -19,7 +19,7 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
     public readonly skeletonLoader: Locator;
     public readonly messageClose: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
         this.generalTab = page.locator('.sw-flow-detail__tab-general');
         if (satisfies(instanceMeta.version, '<6.7')) {

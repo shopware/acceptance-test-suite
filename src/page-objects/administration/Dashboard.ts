@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class Dashboard implements PageObject {
@@ -25,8 +25,10 @@ export class Dashboard implements PageObject {
     public readonly dataSharingNotAtTheMomentMessageText: Locator;
     public readonly statisticsDateRange: Locator;
     public readonly statisticsChart: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.adminMenuView = page.locator('.sw-admin-menu');
         this.contentView = page.locator('.sw-desktop__content');
         this.adminMenuCatalog = page.locator('.sw-catalogue');

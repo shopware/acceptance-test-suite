@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { Home } from './Home';
 
@@ -13,8 +13,11 @@ export class SearchSuggest extends Home implements PageObject {
     public readonly searchResultTotal: Locator;
     public readonly searchHeadline: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
         super(page);
+        this.page = page;
         this.searchSuggestLineItemImages = page.locator('.search-suggest-product-image-container');
         this.searchInput = page.locator('.header-search-input');
         this.searchIcon = page.locator('.header-search-icon');

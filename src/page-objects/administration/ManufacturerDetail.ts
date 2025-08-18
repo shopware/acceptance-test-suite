@@ -1,6 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import { ManufacturerCreate } from './ManufacturerCreate';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class ManufacturerDetail extends ManufacturerCreate {
@@ -8,7 +8,7 @@ export class ManufacturerDetail extends ManufacturerCreate {
     public readonly customFieldSetTabs: Locator;
     public readonly customFieldSetTabCustomContent: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
 
         if (satisfies(instanceMeta.version, '<6.7')) {

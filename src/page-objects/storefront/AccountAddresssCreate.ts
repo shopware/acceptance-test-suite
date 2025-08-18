@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class AccountAddressCreate implements PageObject {
@@ -14,7 +14,10 @@ export class AccountAddressCreate implements PageObject {
     public readonly saveAddressButton: Locator;
     public readonly stateDropdown: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
         this.salutationDropdown = page.getByRole('combobox', { name: 'Salutation' });
         this.firstNameInput = page.getByRole('textbox', { name: 'First name' });
         this.lastNameInput = page.getByRole('textbox', { name: 'Last name' });

@@ -1,7 +1,7 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class FlowBuilderCreate implements PageObject {
@@ -47,8 +47,12 @@ export class FlowBuilderCreate implements PageObject {
     public readonly newFlowHeader: Locator;
     public readonly resultListItem: Locator;
     public readonly resultList: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.contentView = page.locator('.sw-desktop__content');
         this.saveButton = page.locator('.sw-flow-detail__save');
         this.header = page.locator('h2');
