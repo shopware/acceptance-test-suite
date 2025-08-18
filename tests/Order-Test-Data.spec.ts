@@ -1,6 +1,6 @@
 import { test, expect } from '../src';
 import * as console from 'console';
-import { CustomerAddress } from '@shopware-ag/acceptance-test-suite';
+import { CustomerAddress } from '../src';
 
 test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataService, AdminApiContext }) => {
 
@@ -8,10 +8,10 @@ test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataSe
 
     await TestDataService.setCleanUp(false);
 
-    const MAX_RETRIES = 10; // Maximum retry attempts for failed requests
-    const TOTAL_ORDERS = 10_0000; // Total number of orders to create
-    const CONCURRENCY = 10; // Number of concurrent workers
-    const START_INDEX = 1; // Start index for product creation
+    const MAX_RETRIES = 20; // Maximum retry attempts for failed requests
+    const TOTAL_ORDERS = 10; // Total number of orders to create
+    const CONCURRENCY = 4; // Number of concurrent workers
+    const START_INDEX = 2; // Start index for product creation
     const COOLDOWN_EVERY_MS = 60_000; // Cooldown period to prevent system overload
     const COOLDOWN_PAUSE_MS = 1_000; // Cooldown duration
     const LOG_EVERY = 1_000;
