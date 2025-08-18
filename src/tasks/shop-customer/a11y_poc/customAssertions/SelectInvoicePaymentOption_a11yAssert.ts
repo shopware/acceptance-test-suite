@@ -6,8 +6,8 @@ export const SelectInvoicePaymentOption_a11yAssert = base.extend<{ SelectInvoice
     SelectInvoicePaymentOption_a11yAssert: async ({ ShopCustomer, StorefrontCheckoutConfirm }, use)=> {
         const task = () => {
             return async function SelectInvoicePaymentOption() {
-                //await StorefrontCheckoutConfirm.paymentInvoice.press('Space');
-                await ShopCustomer.presses(StorefrontCheckoutConfirm.paymentInvoice, 'Space');
+                //await StorefrontCheckoutConfirm.paymentInvoice.check();
+                await ShopCustomer.selectsValue(StorefrontCheckoutConfirm.paymentMethod, 'Invoice');
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.paymentInvoice).toBeChecked();
             }
         };

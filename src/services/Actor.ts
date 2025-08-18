@@ -33,6 +33,53 @@ export class Actor {
 
         await expect(locator).toHaveVisibleFocus(); 
     }
+
+    async selectsValue(radioGroup: Locator, inputLabel: string){
+
+        const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
+
+        if(!(await desiredOption.isChecked()))
+        {
+            const options: { label: string; locator: Locator; isChecked: boolean }[] = [];
+
+            for (const labelEl of await radioGroup.locator('label').all()) {
+                
+                const label = await labelEl.innerText();
+                const radioButton = radioGroup.getByRole('radio', { name: label });
+                const isChecked = await radioButton.isChecked();
+
+                options.push({ label, locator: radioButton, isChecked });
+            } 
+
+            const defaultOptionIndex = options.findIndex(opt => opt.isChecked);
+            const desiredOptionIndex = options.findIndex(opt => opt.label === inputLabel);
+
+            if(defaultOptionIndex < desiredOptionIndex)
+            {        
+                /* need waitForLoadState() for stability because in most cases selecting 
+                 * a radio button either reloads the page or, in the case of product variants 
+                 * will navigate to a new one
+                 */
+
+                for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
+                    await this.presses(options[i].locator, 'ArrowDown');
+                    this.page.waitForLoadState('domcontentloaded'); 
+                    console.log(options[i].locator); //for debugging only
+                }
+            }
+
+            else{
+                for(let i = defaultOptionIndex; i > desiredOptionIndex; i--){
+                    await this.presses(options[i].locator, 'ArrowUp');
+                    this.page.waitForLoadState('domcontentloaded');
+                    console.log(options[i].locator); //for debugging only
+
+                }
+            }
+        }
+        
+        await this.a11y_checks(desiredOption);
+    }
     
     async presses(locator: Locator, key: string) {
         const stepTitle = `${this.name} presses ${key} on ${locator}`;

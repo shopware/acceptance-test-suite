@@ -17,7 +17,7 @@ import { ProceedFromProductToCheckout_a11yAssert } from './shop-customer/a11y_po
 import { SelectInvoicePaymentOption_a11yAssert } from './shop-customer/a11y_poc/customAssertions/SelectInvoicePaymentOption_a11yAssert';
 import { SelectStandardShippingOption_a11yAssert } from './shop-customer/a11y_poc/customAssertions/SelectStandardShippingOption_a11yAssert';
 import { SubmitOrder_a11yAssert } from './shop-customer/a11y_poc/customAssertions/SubmitOrder_a11yAssert';
-
+import { Register_a11yAssert } from './shop-customer/a11y_poc/customAssertions/Register_a11yAssert';
 
 import { Login } from './shop-customer/Account/Login';
 import { Logout } from './shop-customer/Account/Logout';
@@ -63,6 +63,7 @@ export const test = mergeTests(
     SelectInvoicePaymentOption_a11yAssert,
     SelectStandardShippingOption_a11yAssert,
     SubmitOrder_a11yAssert,
+    Register_a11yAssert,
     
 
     Login,

@@ -54,10 +54,18 @@ export class ProductDetail implements PageObject {
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
+    //a11y-poc
+    public readonly propertyName:(propertyName: string) => Locator;
+    public readonly propertyValueRadioButton: (propertyName: Locator, propertyValueName: string) => Locator;
+
     public readonly page: Page;
 
     constructor(page: Page) {
         this.page = page;
+
+        //a11y-poc 
+        this.propertyName = (propertyName: string) => this.page.getByRole('group', { name: `Select ${propertyName}` }); 
+        this.propertyValueRadioButton = (propertyName: Locator, propertyValueName: string) => propertyName.getByRole('radio', { name: propertyValueName });
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
         this.quantitySelect = page.getByLabel('Quantity', { exact: true });
@@ -108,6 +116,28 @@ export class ProductDetail implements PageObject {
         this.reviewItemContent = this.page.locator('.product-detail-review-item-content');
         this.reviewSubmitMessage = this.page.getByText('Thank you for submitting your review. We will examine the review and eventually unlock it, please be patient.');
     }
+
+    //a11y-poc-old
+    async getPropertyGroup(propertyName: string){
+        
+        const propertyTitle = this.page.locator('.product-detail-configurator-group-title').filter({ hasText: `Select ${propertyName}` });
+        const propertyGroup = this.page.locator('.product-detail-configurator-group').filter({ has: propertyTitle });
+        const propertyValues = propertyGroup.locator('.product-detail-configurator-option-label');
+        const propertyRadioButtons = propertyGroup.getByRole('radio');
+    
+        const ravenGroupTest = this.page.getByRole('group', {name: `Select ${propertyName}`});
+        //const ravenRadioButtons = ravenGroupTest.
+
+        return {
+            propertyTitle: propertyTitle,
+            propertyGroup: propertyGroup,
+            propertyValues: propertyValues,
+            propertyRadioButtons: propertyRadioButtons,
+
+            ravenGroupTest: ravenGroupTest,
+        }
+    }
+
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {
         const rowLocators = this.page.locator('.product-detail-review-filter').filter({ hasText: filterOptionName });

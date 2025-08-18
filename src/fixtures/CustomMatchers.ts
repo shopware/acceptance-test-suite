@@ -30,24 +30,28 @@ export const expect = baseExpect.extend({
 
   async toHaveVisibleFocus(locator: Locator) {
     try {
-      // Check for common focus indicators using outline or box-shadow
-      const outlineStyle = await locator.evaluate((element) => {
-        const computedStyle = window.getComputedStyle(element);
-        return computedStyle.outline !== 'none' && computedStyle.outlineWidth !== '0px';
-      });
-
+      // Check for common focus indicators using box-shadow, border or outline
       const boxShadowStyle = await locator.evaluate((element) => {
         const computedStyle = window.getComputedStyle(element);
         return computedStyle.boxShadow !== 'none';
       });
 
-      if (!outlineStyle && !boxShadowStyle) {
+      const borderStyle = await locator.evaluate((element) => {
+        const computedStyle = window.getComputedStyle(element);
+        return computedStyle.borderStyle !== 'none' && computedStyle.borderWidth !== '0px';
+      });
+
+      const outlineStyle = await locator.evaluate((element) => {
+        const computedStyle = window.getComputedStyle(element);
+        return computedStyle.outline !== 'none' && computedStyle.outlineWidth !== '0px';
+      });
+
+      if (!boxShadowStyle && !borderStyle && !outlineStyle) {
         return {
-          message: () => `expected ${locator} to have visible focus, but no outline or box-shadow was detected`,
+          message: () => `expected ${locator} to have visible focus, but no outline, border or box-shadow was detected`,
           pass: false,
         };
       }
-
 
       return {
         message: () => `expected ${locator} to have visible focus`,

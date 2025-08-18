@@ -6,8 +6,8 @@ export const SelectStandardShippingOption_a11yAssert = base.extend<{ SelectStand
     SelectStandardShippingOption_a11yAssert: async ({ ShopCustomer, StorefrontCheckoutConfirm }, use)=> {
         const task = () => {
             return async function SelectStandardShippingOption() {
-                //await StorefrontCheckoutConfirm.shippingStandard.press('Space');
-                await ShopCustomer.presses(StorefrontCheckoutConfirm.shippingStandard, 'Space');
+                //await StorefrontCheckoutConfirm.shippingStandard.check();
+                await ShopCustomer.selectsValue(StorefrontCheckoutConfirm.shippingMethod, 'Standard');
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.shippingStandard).toBeChecked();
             }
         };
