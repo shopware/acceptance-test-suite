@@ -2,6 +2,7 @@ import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class FlowBuilderListing implements PageObject {
+    public readonly page: Page;
     public readonly contentView: Locator;
     public readonly createFlowButton: Locator;
     public readonly firstFlowName: Locator;
