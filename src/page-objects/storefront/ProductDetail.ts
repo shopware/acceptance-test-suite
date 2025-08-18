@@ -117,28 +117,6 @@ export class ProductDetail implements PageObject {
         this.reviewSubmitMessage = this.page.getByText('Thank you for submitting your review. We will examine the review and eventually unlock it, please be patient.');
     }
 
-    //a11y-poc-old
-    async getPropertyGroup(propertyName: string){
-        
-        const propertyTitle = this.page.locator('.product-detail-configurator-group-title').filter({ hasText: `Select ${propertyName}` });
-        const propertyGroup = this.page.locator('.product-detail-configurator-group').filter({ has: propertyTitle });
-        const propertyValues = propertyGroup.locator('.product-detail-configurator-option-label');
-        const propertyRadioButtons = propertyGroup.getByRole('radio');
-    
-        const ravenGroupTest = this.page.getByRole('group', {name: `Select ${propertyName}`});
-        //const ravenRadioButtons = ravenGroupTest.
-
-        return {
-            propertyTitle: propertyTitle,
-            propertyGroup: propertyGroup,
-            propertyValues: propertyValues,
-            propertyRadioButtons: propertyRadioButtons,
-
-            ravenGroupTest: ravenGroupTest,
-        }
-    }
-
-
     async getReviewFilterRowOptionsByName(filterOptionName: string) {
         const rowLocators = this.page.locator('.product-detail-review-filter').filter({ hasText: filterOptionName });
         const reviewFilterOptionCheckbox = rowLocators.getByLabel(filterOptionName);
