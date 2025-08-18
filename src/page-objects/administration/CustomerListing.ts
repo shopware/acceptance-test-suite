@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class CustomerListing implements PageObject {
@@ -12,8 +12,10 @@ export class CustomerListing implements PageObject {
     public readonly startBulkEditButton: Locator;
     public readonly cancelButton: Locator;
     public readonly modalHeaderCheckbox: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.headline = page.getByRole('heading', { name: 'Customers' });
         this.addCustomerButton = page.locator('.sw-customer-list__button-create');
         this.bulkEditButton = page.getByRole('button', { name: 'Bulk edit' });

@@ -1,5 +1,33 @@
 # Changelog
 
+## [11.21.0](https://github.com/shopware/acceptance-test-suite/compare/v11.20.1...v11.21.0) (2025-08-14)
+
+
+### Features
+
+* add admin promotions page and tests ([#422](https://github.com/shopware/acceptance-test-suite/issues/422)) ([7d8e1bd](https://github.com/shopware/acceptance-test-suite/commit/7d8e1bd9a98d58ca5e09969909910a8864a6ce95))
+
+## [11.20.1](https://github.com/shopware/acceptance-test-suite/compare/v11.20.0...v11.20.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* Replace TypeScript parameter properties and fix all type imports for strip-only mode ([#434](https://github.com/shopware/acceptance-test-suite/issues/434)) ([e13f096](https://github.com/shopware/acceptance-test-suite/commit/e13f0962542907e29cf5f42faabcf50b36a31df1))
+
+## [11.20.0](https://github.com/shopware/acceptance-test-suite/compare/v11.19.2...v11.20.0) (2025-08-01)
+
+
+### Features
+
+* add abstractions for flow builder create test ([#298](https://github.com/shopware/acceptance-test-suite/issues/298)) ([a43302a](https://github.com/shopware/acceptance-test-suite/commit/a43302a5c6fe7833a81b286d06edc80b956877e0))
+
+## [11.19.2](https://github.com/shopware/acceptance-test-suite/compare/v11.19.1...v11.19.2) (2025-07-30)
+
+
+### Bug Fixes
+
+* change version condition to only expect the text-editor in 6.8 ([#426](https://github.com/shopware/acceptance-test-suite/issues/426)) ([29c74ec](https://github.com/shopware/acceptance-test-suite/commit/29c74ec65e5a8afc3a5c40bfe1538bba3270578c))
+
 ## [11.19.1](https://github.com/shopware/acceptance-test-suite/compare/v11.19.0...v11.19.1) (2025-07-29)
 
 

@@ -1,7 +1,7 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { RuleCreate } from './RuleCreate';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class RuleDetail extends RuleCreate implements PageObject {
@@ -29,7 +29,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly conditionORContainer: Locator;
 
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
         this.contentView = page.locator('.sw-desktop__content');
         this.shippingMethodAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-shipping_method_availability_rule');

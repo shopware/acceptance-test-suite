@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class FlowBuilderListing implements PageObject {
@@ -16,8 +16,10 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlert: Locator;
     public readonly successAlertMessage: Locator;
     public readonly searchBar: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
         this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
@@ -48,7 +50,6 @@ export class FlowBuilderListing implements PageObject {
         const flowNameText = lineItem.locator('.sw-data-grid__cell--name');
         const flowEventNameText = lineItem.locator('.sw-data-grid__cell--eventName');
         const flowContextMenuButton = lineItem.locator('.sw-data-grid__actions-menu');
-
         return {
             flowSelectionCheckbox: flowSelectionCheckbox,
             flowActiveCheckmark: flowActiveCheckmark,

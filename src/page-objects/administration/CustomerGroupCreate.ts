@@ -1,6 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class CustomerGroupCreate implements PageObject {
@@ -18,8 +18,12 @@ export class CustomerGroupCreate implements PageObject {
     public readonly signupFormCompanySignupToggle: Locator;
     public readonly customerGroupSaleschannelSelection: Locator;
     public readonly customerGroupSaleschannelResultList: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.headline = page.getByRole('heading', { name: 'New customer group' });
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.cancelButton = page.getByRole('button', { name: 'Cancel' });
@@ -32,9 +36,13 @@ export class CustomerGroupCreate implements PageObject {
 
         if (satisfies(instanceMeta.version, '<6.8')) {
             this.signupFormIntroduction = page.locator('.sw-text-editor__content-editor');
-            this.signupFormSeoDescription = page.locator('#sw-field--customerGroup-registrationSeoMetaDescription');
         } else {
             this.signupFormIntroduction = page.locator('.mt-text-editor__content-editor');
+        }
+
+        if (satisfies(instanceMeta.version, '<6.7')) {
+            this.signupFormSeoDescription = page.locator('#sw-field--customerGroup-registrationSeoMetaDescription');
+        } else {
             this.signupFormSeoDescription = page.getByRole('textbox', { name: 'SEO meta description' });
         }
 

@@ -1,7 +1,7 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { Home } from './Home';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
 export class ContactForm extends Home implements PageObject {
@@ -37,9 +37,11 @@ export class ContactForm extends Home implements PageObject {
     public readonly greCaptchaV2Container: Locator;
     public readonly greCaptchaV2Input: Locator;
     public readonly greCaptchaProtectionInformation: Locator;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page);
+        this.instanceMeta = instanceMeta;
         this.contactWrapper = this.page.locator('.card').filter({ has: this.page.getByText('Contact') });
         this.formFieldFeedback = this.contactWrapper.locator('.form-field-feedback');
         this.formAlert = this.page.getByRole('alert');

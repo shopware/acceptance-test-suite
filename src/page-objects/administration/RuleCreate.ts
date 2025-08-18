@@ -1,7 +1,7 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class RuleCreate implements PageObject {
 
@@ -14,8 +14,12 @@ export class RuleCreate implements PageObject {
     public readonly saveButton: Locator;
     public readonly cancelButton: Locator;
     public readonly valueNotAvailableTooltip: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.header = page.locator('.smart-bar__header');
         this.nameInput = page.getByLabel('Name');
         this.priorityInput = page.getByLabel('Priority');

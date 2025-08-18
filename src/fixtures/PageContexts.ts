@@ -1,4 +1,5 @@
-import { test as base, expect, Page, BrowserContext } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
+import type { Page, BrowserContext } from 'playwright-core';
 import type { FixtureTypes } from '../types/FixtureTypes';
 import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
