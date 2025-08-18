@@ -32,7 +32,16 @@ export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingA
 }
 
 export type CustomerAddress = components['schemas']['CustomerAddress'] & {
-    id: string,
+    id: string;
+    customerId: string;
+    salutationId: string;
+    firstName: string;
+    lastName: string;
+    street: string;
+    zipcode: string;
+    city: string;
+    countryId: string;
+    phoneNumber?: string;
 }
 
 export interface Address {

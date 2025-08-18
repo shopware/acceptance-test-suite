@@ -1,6 +1,5 @@
-import { test, expect } from '../src';
+import { test, expect, CustomerAddress } from '../src';
 import * as console from 'console';
-import { CustomerAddress } from '../src/types/ShopwareTypes';
 
 test('Create 100K orders for a customer', { tag: '@Order' }, async ({ TestDataService, AdminApiContext }) => {
 
