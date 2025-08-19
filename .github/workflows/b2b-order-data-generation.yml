@@ -2,7 +2,7 @@ on:
     pull_request:
     workflow_dispatch:
 
-name: Order Data Generation
+name: B2B &Order Data Generation
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test Order-Test-Data.spec.ts
+      run: npx playwright test B2B-Test-Data.spec.ts
     - uses: actions/upload-artifact@v4
       if: always()
       with:
