@@ -1,9 +1,10 @@
-import { Browser, BrowserContext, expect, Page } from '@playwright/test';
+import { expect } from '@playwright/test';
+import type { Browser, BrowserContext, Page } from '@playwright/test';
 import { mockApiCalls } from './ApiMocks';
 import { clearDelayedCache } from './Cache';
-import { User } from '../types/ShopwareTypes';
-import { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
-import { FixtureTypes } from '../types/FixtureTypes';
+import type { User } from '../types/ShopwareTypes';
+import type { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
+import type { FixtureTypes } from '../types/FixtureTypes';
 
 export async function createNewAdminPageContext(merchant: User, browser: Browser, SalesChannelBaseConfig: DefaultSalesChannelTypes['SalesChannelBaseConfig'], AdminApiContext: FixtureTypes['AdminApiContext']): Promise<Page> {
 
