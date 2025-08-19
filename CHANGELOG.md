@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.23.0](https://github.com/shopware/acceptance-test-suite/compare/v11.22.0...v11.23.0) (2025-08-19)
+
+
+### Features
+
+* add locators for Rule Builder visual test  ([#428](https://github.com/shopware/acceptance-test-suite/issues/428)) ([e643ce9](https://github.com/shopware/acceptance-test-suite/commit/e643ce9f5baa3940e588df8254d5e651dc9478ca))
+
 ## [11.22.0](https://github.com/shopware/acceptance-test-suite/compare/v11.21.0...v11.22.0) (2025-08-19)
 
 
