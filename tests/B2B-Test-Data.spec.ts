@@ -5,7 +5,7 @@ test('Create 10K business partners with 1K employees each (10 workers)', { tag: 
     test.setTimeout(1440000000); // 16 days
     await TestDataService.setCleanUp(false);
 
-    let nextPartnerId = 1;
+    let nextPartnerId = 101;
     const totalPartners = 10000;
     const mutex: { locked: boolean; queue: Array<(value?: unknown) => void> } = { locked: false, queue: [] };
 
@@ -55,9 +55,8 @@ test('Create 10K business partners with 1K employees each (10 workers)', { tag: 
             expect(businessPartnerResponse.ok()).toBeTruthy();
 
             // Activate B2B features
-            const featureToggles = { EMPLOYEE_MANAGEMENT: true };
             const b2bFeatureResponse = await AdminApiContext.post('customer-specific-features?_response=detail', {
-                data: { customerId: customer.id, features: featureToggles },
+                data: { customerId: customer.id, features: { EMPLOYEE_MANAGEMENT: true } },
             });
             expect(b2bFeatureResponse.ok()).toBeTruthy();
 
