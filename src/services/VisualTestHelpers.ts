@@ -132,7 +132,7 @@ export async function setViewport(
         try {
             await page.waitForResponse(response => response.url().includes(config.requestURL));
         } catch {
-            console.warn(`[Info] Timed out waiting for API request: "${config.requestURL}".`);
+            console.warn(`[Error] Timed out waiting for request: "${config.requestURL}".`);
         }
     }
 
@@ -144,7 +144,7 @@ export async function setViewport(
                 : config.waitForSelector;
             await locator.waitFor({ state: 'visible', timeout: 10000 });
         } catch {
-            console.warn(`[Info] ${config.waitForSelector} not found or timed out.`);
+            console.warn(`[Error] ${config.waitForSelector} not found or timed out.`);
         }
     }
 
@@ -162,7 +162,7 @@ export async function setViewport(
                 contentHeight = await scrollableElementVertical.evaluate(el => el.scrollHeight);
             }
         } catch {
-            console.warn(`[Info] No scrollable element found. Applying default height: ${config.contentHeight}.`);
+            console.warn(`[Warning] Scrollable element not found. Applying default height: ${config.contentHeight}.`);
         }
     }
 
@@ -186,7 +186,7 @@ export async function setViewport(
                 }
             }
         } catch {
-            console.warn(`[Info] No header found.`);
+            console.warn(`[Info] Header not found.`);
         }
     }
 
@@ -205,12 +205,12 @@ export async function setViewport(
                 contentWidth = config.width
             }
         } catch {
-            console.warn(`[Info] No scrollable element found. Applying default width: ${config.width}.`);
+            console.warn(`[Warning] Scrollable element not found. Applying default width: ${config.width}.`);
         }
     }
     const totalHeight = contentHeight + headerHeight + config.additionalHeight;
 
     await page.setViewportSize({ width: contentWidth, height: totalHeight });
-    console.warn(`[Info] Viewport size: width=${contentWidth}, height=${totalHeight}`);
+    console.warn(`[Success] Viewport size: width=${contentWidth}, height=${totalHeight}`);
     return;
 }

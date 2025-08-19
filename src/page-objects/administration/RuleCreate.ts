@@ -5,6 +5,7 @@ import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class RuleCreate implements PageObject {
 
+    public readonly header: Locator;
     public readonly nameInput: Locator;
     public readonly priorityInput: Locator;
     public readonly conditionTypeSelectionInput: Locator;
@@ -19,6 +20,7 @@ export class RuleCreate implements PageObject {
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.page = page;
         this.instanceMeta = instanceMeta;
+        this.header = page.locator('.smart-bar__header');
         this.nameInput = page.getByLabel('Name');
         this.priorityInput = page.getByLabel('Priority');
         this.conditionTypeSelectionInput = page.locator('.sw-condition-type-select').locator('.sw-single-select__selection');
