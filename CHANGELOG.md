@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.22.0](https://github.com/shopware/acceptance-test-suite/compare/v11.21.0...v11.22.0) (2025-08-19)
+
+
+### Features
+
+* add pageObject for Flow Builder listing ([#433](https://github.com/shopware/acceptance-test-suite/issues/433)) ([1369217](https://github.com/shopware/acceptance-test-suite/commit/13692174e73ebab5c594a418412b043fb203483a))
+
 ## [11.21.0](https://github.com/shopware/acceptance-test-suite/compare/v11.20.1...v11.21.0) (2025-08-14)
 
 
