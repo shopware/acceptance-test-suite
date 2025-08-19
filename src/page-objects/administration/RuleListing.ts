@@ -13,7 +13,7 @@ export class RuleListing implements PageObject {
         this.page = page;
         this.createRuleButton = page.getByText('Create rule');
         this.header = page.locator('.smart-bar__header');
-        this.grid = page.locator('sw-data-grid__table)');
+        this.grid = page.locator('.sw-data-grid__table)');
     }
 
     url() {
