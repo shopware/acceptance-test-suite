@@ -1876,7 +1876,6 @@ export class TestDataService {
                         payload: [],
                     };
                 }
-
                 priorityDeleteOperations[`delete-${record.resource}`].payload.push(record.payload);
             } else {
                 if (!deleteOperations[`delete-${record.resource}`]) {
@@ -1894,11 +1893,13 @@ export class TestDataService {
         const priorityDeleteOperationsResponse = await this.AdminApiClient.post('_action/sync', {
             data: priorityDeleteOperations,
         });
+
         expect(priorityDeleteOperationsResponse.ok()).toBeTruthy();
 
-        await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
+        const restoreSystemConfigResponse = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
             data: this.restoreSystemConfig,
         });
+        expect(restoreSystemConfigResponse.ok()).toBeTruthy();
 
         if (deleteUserIds.length > 0) {
             for (const userId of deleteUserIds) {
