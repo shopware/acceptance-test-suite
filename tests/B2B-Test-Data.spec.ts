@@ -5,7 +5,7 @@ test('Create 10K business partners with 1K employees each (10 workers)', { tag: 
     test.setTimeout(1440000000); // 16 days
     await TestDataService.setCleanUp(false);
 
-    let nextPartnerId = 101;
+    let nextPartnerId = 141;
     const totalPartners = 10000;
     const mutex: { locked: boolean; queue: Array<(value?: unknown) => void> } = { locked: false, queue: [] };
 
