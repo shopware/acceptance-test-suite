@@ -30,6 +30,47 @@ test('Create 10K business partners with 1K employees each (10 workers)', { tag: 
         }
     }
 
+     test.setTimeout(1440000000); // 16 days
+    
+        await TestDataService.setCleanUp(false);
+    
+        const MAX_RETRIES = 20; // Maximum retry attempts for failed requests
+        const TOTAL_ORDERS = 10000; // Total number of orders to create
+        const CONCURRENCY = 15; // Number of concurrent workers
+        const START_INDEX = 20136; // Start index for product creation
+        const COOLDOWN_EVERY_MS = 60_000; // Cooldown period to prevent system overload
+        const COOLDOWN_PAUSE_MS = 1_000; // Cooldown duration
+        const LOG_EVERY = 1_000;
+    
+        //Helpers
+        const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    
+        function isRetryable(err) {
+            const status = err?.response?.status ?? err?.status;
+            // Retry on 429 & 5xx; you can expand this list if needed
+            return status === 429 || (status >= 500 && status < 600) || !status; // network/timeouts
+        }
+    
+        async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
+            let attempt = 0;
+            // eslint-disable-next-line no-constant-condition
+            while (true) {
+                try {
+                    return await fn();
+                } catch (err) {
+                    attempt++;
+                    if (!isRetryable(err) || attempt > MAX_RETRIES) {
+                        console.error(`[FAIL] ${label} after ${attempt} attempts`, err?.message || err);
+                        throw err;
+                    }
+                    // Exponential backoff with jitter
+                    const delay = Math.min(30_000, (250 * 2 ** (attempt - 1)) + Math.floor(Math.random() * 250));
+                    console.warn(`[RETRY] ${label} attempt ${attempt} in ${delay}ms`);
+                    await sleep(delay);
+                }
+            }
+        }
+
     async function getNextPartnerId() {
         await acquireLock();
         const id = nextPartnerId <= totalPartners ? nextPartnerId++ : null;
