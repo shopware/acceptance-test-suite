@@ -74,15 +74,34 @@ export class ProductDetail implements PageObject {
     /**
      * Property Selection
      */
+    public readonly propertyName: (propertyName: string) => Locator;
+    public readonly propertyValueCheckbox: (propertyValueName: string) => Locator;
+    
+    /** @deprecated - Use 'propertyName' instead. */
     public readonly propertyGroupColor: Locator;
+
+    /** @deprecated - Use 'propertyName' instead. */
     public readonly propertyGroupSize: Locator;
 
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionGrid: Locator;
+
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionColorBlue: Locator;
+
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionColorRed: Locator;
+
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionColorGreen: Locator;
+
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionSizeSmall: Locator;
+
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionSizeMedium: Locator;
+
+    /** @deprecated - Use 'propertyValueCheckbox' instead. */
     public readonly propertyOptionSizeLarge: Locator;
 
     /**
@@ -145,6 +164,9 @@ export class ProductDetail implements PageObject {
         this.variantsSaveButton = this.variantsModal.getByRole('button', { name: 'Save variants' });
 
         // Property selection
+        this.propertyName = (propertyName: string) => this.variantsModal.getByText(propertyName);
+        this.propertyValueCheckbox = (propertyValueName: string) => this.variantsModal.getByRole('row', { name: propertyValueName }).getByRole('checkbox');
+        
         this.propertyGroupColor = this.variantsModal.getByText('Color').first();
         this.propertyGroupSize = this.variantsModal.getByText('Size').first();
         this.propertyOptionGrid = this.variantsModal.locator('.sw-property-search__tree-selection__option_grid');
@@ -180,7 +202,7 @@ export class ProductDetail implements PageObject {
     }
 
     url(productId: string) {
-        return `#/sw/product/detail/${productId}/base`
+        return `#/sw/product/detail/${productId}/base`;
     }
 
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
