@@ -8,7 +8,7 @@ test('Create 10K business partners with 1K employees each (10 workers)', { tag: 
     let nextPartnerId = 1838;
     const totalPartners = 10000; // 🔹 10K BPs
     const employeesPerPartner = 1000; // 🔹 1K each
-    const workers = 3;
+    const workers = 4;
     const batchSize = 100; // 🔹 insert 100 employees at once
 
     // Simple mutex for partner id distribution
