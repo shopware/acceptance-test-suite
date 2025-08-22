@@ -1,4 +1,5 @@
 import type { Page, Locator } from 'playwright-core';
+import { expect } from '@playwright/test';
 
 /**
  * Hides the given page elements using `visibility: hidden`, so they become invisible
@@ -107,7 +108,7 @@ export interface Options {
 const defaultOptions: Required<Options> = {
     requestURL: 'api/notification/message?limit=5',
     width: 1440,
-    scrollableElementVertical: '.sw-card-view__content',
+    scrollableElementVertical: '.sw-page__main-content',
     scrollableElementHorizontal: '.sw-data-grid__wrapper',
     additionalHeight: 0,
     waitForSelector: '',
@@ -213,4 +214,19 @@ export async function setViewport(
     await page.setViewportSize({ width: contentWidth, height: totalHeight });
     console.warn(`[Info] Viewport size: width=${contentWidth}, height=${totalHeight}`);
     return;
+}
+
+/**
+ * Takes a screenshot of the desktop content of the page or the provided locator
+ *
+ * @param page - Playwright page object
+ * @param filename - Filename of the screenshot
+ * @param locator - Optional Playwright locator to take a screenshot of instead of the desktop content
+ */
+export async function takeScreenshot(page: Page, filename: string, locator?: Locator) {
+    if (locator) {
+        await expect(locator).toHaveScreenshot(filename);
+    } else {
+        await expect(page.locator('.sw-desktop__content')).toHaveScreenshot(filename);
+    }
 }
