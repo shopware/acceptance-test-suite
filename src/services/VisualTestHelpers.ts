@@ -217,13 +217,13 @@ export async function setViewport(
 }
 
 /**
- * Takes a screenshot of the desktop content of the page or the provided locator
+ * Takes a screenshot of the desktop content of the page or the provided locator and compares it to existing ones.
  *
  * @param page - Playwright page object
  * @param filename - Filename of the screenshot
  * @param locator - Optional Playwright locator to take a screenshot of instead of the desktop content
  */
-export async function takeScreenshot(page: Page, filename: string, locator?: Locator) {
+export async function assertScreenshot(page: Page, filename: string, locator?: Locator) {
     if (locator) {
         await expect(locator).toHaveScreenshot(filename);
     } else {
