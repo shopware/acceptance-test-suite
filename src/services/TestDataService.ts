@@ -597,36 +597,36 @@ export class TestDataService {
     }
 
     /**
-     * Creates a new merchant for the admin with full admin permissions.
+     * Creates a new user for the admin with full admin permissions.
      *
      * @param overrides - Specific data overrides that will be applied to the customer data struct.
      * @param salesChannel - The sales channel for which the customer should be registered.
      */
-    async createMerchant(overrides: Partial<User> = {}, salesChannel: SalesChannel = this.defaultSalesChannel): Promise<User> {
+    async createUser(overrides: Partial<User> = {}, salesChannel: SalesChannel = this.defaultSalesChannel): Promise<User> {
         const language = await this.getLanguageById(salesChannel.languageId);
 
-        const basicMerchantStruct = this.getBasicMerchantStruct(language.localeId, overrides);
+        const basicUserStruct = this.getBasicUserStruct(language.localeId, overrides);
 
         const response = await this.AdminApiClient.post('user?_response=detail', {
-            data: basicMerchantStruct,
+            data: basicUserStruct,
         });
         expect(response.ok()).toBeTruthy();
 
-        const merchantData = await this.getMerchantById(basicMerchantStruct.id);
+        const userData = await this.getUserById(basicUserStruct.id);
 
-        let merchant;
+        let user;
 
-        if (typeof basicMerchantStruct.password !== 'string') {
-            merchant = { ...merchantData };
+        if (typeof basicUserStruct.password !== 'string') {
+            user = { ...userData };
         } else {
-            merchant = {
-                ...merchantData,
-                password: basicMerchantStruct.password,
+            user = {
+                ...userData,
+                password: basicUserStruct.password,
             };
         }
-        this.addCreatedRecord('user', merchant.id);
+        this.addCreatedRecord('user', user.id);
 
-        return merchant;
+        return user;
     }
 
     /**
@@ -1397,13 +1397,13 @@ export class TestDataService {
     }
 
     /**
-     * Assigns an ACL Role to a merchant (user in administration).
+     * Assigns an ACL Role to a user (user in administration).
      *
      * @param aclRoleId - The uuid of the ACL role.
-     * @param adminUserId - The uuid of the admin user (merchant).
+     * @param adminUserId - The uuid of the admin user.
 
      */
-    async assignAclRoleMerchant(aclRoleId: string, adminUserId: string) {
+    async assignAclRoleUser(aclRoleId: string, adminUserId: string) {
 
         await updateAdminUser(adminUserId, this.AdminApiClient, { admin: false });
 
@@ -1424,9 +1424,9 @@ export class TestDataService {
 
         expect(syncAclUserResponse.ok()).toBeTruthy();
 
-        const { data: aclMerchant } = await syncAclUserResponse.json();
+        const { data: aclUser } = await syncAclUserResponse.json();
 
-        return aclMerchant;
+        return aclUser;
     }
 
     /**
@@ -1757,17 +1757,17 @@ export class TestDataService {
     }
 
     /**
-     * Retrieves a merchant by its id.
+     * Retrieves a user by its id.
      *
-     * @param merchantId - The id of the merchant.
+     * @param userId - The id of the user.
      */
-    async getMerchantById(merchantId: string | undefined): Promise<User> {
-        const response = await this.AdminApiClient.get(`user/${merchantId}`);
+    async getUserById(userId: string | undefined): Promise<User> {
+        const response = await this.AdminApiClient.get(`user/${userId}`);
         expect(response.ok()).toBeTruthy();
 
-        const { data: merchant } = (await response.json()) as { data: User };
+        const { data: user } = (await response.json()) as { data: User };
 
-        return merchant;
+        return user;
     }
 
     /**
@@ -2282,22 +2282,22 @@ export class TestDataService {
         return Object.assign({}, basicCustomer, overrides);
     }
 
-    getBasicMerchantStruct(localId: string, overrides: Partial<User> = {}): Partial<User> {
-        const { id: merchantId, uuid: merchantUuid } = this.IdProvider.getIdPair();
-        const merchantName = `${this.namePrefix}merchant_${merchantId}${this.nameSuffix}`;
+    getBasicUserStruct(localId: string, overrides: Partial<User> = {}): Partial<User> {
+        const { id: userId, uuid: userUuid } = this.IdProvider.getIdPair();
+        const userName = `${this.namePrefix}user_${userId}${this.nameSuffix}`;
 
-        const basicMerchant = {
-            id: merchantUuid,
-            username: merchantName,
-            firstName: `${merchantId} merchant`,
-            lastName: `${merchantId} merchant`,
-            email: `merchant${merchantId}@example.com`,
+        const basicUser = {
+            id: userUuid,
+            username: userName,
+            firstName: `${userId} user`,
+            lastName: `${userId} user`,
+            email: `user${userId}@example.com`,
             password: 'shopware',
             localeId: localId,
             timezone: 'Europe/Berlin',
             admin: true,
         };
-        return Object.assign({}, basicMerchant, overrides);
+        return Object.assign({}, basicUser, overrides);
     }
 
     getBasicAclRoleStruct(overrides: Partial<AclRole> = {}): Partial<AclRole> {

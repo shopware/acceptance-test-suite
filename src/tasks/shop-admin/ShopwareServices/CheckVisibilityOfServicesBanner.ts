@@ -6,12 +6,12 @@ import { createNewAdminPageContext } from '../../../services/AdminLoginHelper';
 
 export const CheckVisibilityOfServicesBanner = base.extend<{ CheckVisibilityOfServicesBanner: Task }, FixtureTypes>({
     CheckVisibilityOfServicesBanner: async ({ TestDataService, SalesChannelBaseConfig, browser }, use ) => {
-        const task = (customMerchant?: User) => {
+        const task = (customUser?: User) => {
             return async function CheckVisibilityOfServicesBanner() {
 
-                const merchant = customMerchant ? customMerchant : await TestDataService.createMerchant();
+                const user = customUser ? customUser : await TestDataService.createUser();
 
-                const adminPage = await createNewAdminPageContext(merchant, browser, SalesChannelBaseConfig, TestDataService.AdminApiClient);
+                const adminPage = await createNewAdminPageContext(user, browser, SalesChannelBaseConfig, TestDataService.AdminApiClient);
 
                 const shopwareServicesAdvertisementBanner = adminPage.locator('.sw-settings-services-dashboard-banner__content').first();
                 await expect(shopwareServicesAdvertisementBanner).toBeVisible();

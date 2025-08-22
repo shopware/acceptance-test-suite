@@ -106,13 +106,13 @@ test('Data Service', async ({
     expect(review.title).toEqual('Custom review title');
     expect(review.points).toEqual(5);
 
-    const merchant = await TestDataService.createMerchant({ firstName: 'Han', lastName: 'Solo' });
+    const merchant = await TestDataService.createUser({ firstName: 'Han', lastName: 'Solo' });
     expect(merchant.firstName).toEqual('Han');
     expect(merchant.lastName).toEqual('Solo');
 
-    const merchantWithBasicRole = await TestDataService.createMerchant({ firstName: 'Mi', lastName: 'How' });
+    const merchantWithBasicRole = await TestDataService.createUser({ firstName: 'Mi', lastName: 'How' });
     const aclRole = await TestDataService.createAclRole({ name: 'Custom role' });
-    await TestDataService.assignAclRoleMerchant(aclRole.id, merchantWithBasicRole.id);
+    await TestDataService.assignAclRoleUser(aclRole.id, merchantWithBasicRole.id);
     expect(merchantWithBasicRole.firstName).toEqual('Mi');
     expect(merchantWithBasicRole.lastName).toEqual('How');
     expect(aclRole.name).toEqual('Custom role');
