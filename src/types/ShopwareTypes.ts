@@ -31,6 +31,16 @@ export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingA
     }
 }
 
+export type User = components['schemas']['User'] & {
+    id: string,
+    password: string,
+};
+
+export type AclRole = components['schemas']['AclRole'] & {
+    id: string,
+    privileges: string[],
+};
+
 export type CustomerAddress = components['schemas']['CustomerAddress'] & {
     id: string,
 }
