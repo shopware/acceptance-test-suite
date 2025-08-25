@@ -27,6 +27,13 @@ export class Dashboard implements PageObject {
     public readonly statisticsChart: Locator;
     public readonly page: Page;
 
+    public readonly shopwareServicesAdvertisementBanner: Locator;
+    public readonly shopwareServicesAdvertisementBannerCloseButton: Locator;
+    public readonly shopwareServicesExploreNowButton: Locator;
+
+    public readonly adminMenuUserActions: Locator;
+    public readonly adminMenuLogoutButton: Locator;
+
     constructor(page: Page) {
         this.page = page;
         this.adminMenuView = page.locator('.sw-admin-menu');
@@ -48,9 +55,16 @@ export class Dashboard implements PageObject {
         this.dataSharingSettingsLink = page.locator('.sw-usage-data-consent-banner-reject-accept-message').getByRole('link');
         this.dataSharingAcceptMessageText = page.getByText('Thank you for your participation!');
         this.dataSharingNotAtTheMomentMessageText = page.getByText('You can at any time enter into the agreement and thus contribute to and profit from the constant evolution of our services');
-        this.dataSharingTermsAgreementLabel = page.getByText('By clicking "Agree", you confirm that you are authorized to enter into this agreement on behalf of your company.');
+        this.dataSharingTermsAgreementLabel = page.getByText('By clicking "Agree", you confirm that you are authorised to enter into this agreement on behalf of your company.');
         this.statisticsDateRange = page.locator('.mt-card__subtitle');
         this.statisticsChart = page.locator('.vue-apexcharts');
+
+        this.shopwareServicesAdvertisementBanner = page.locator('.sw-settings-services-dashboard-banner__content').first();
+        this.shopwareServicesAdvertisementBannerCloseButton = this.shopwareServicesAdvertisementBanner.getByLabel('Close');
+        this.shopwareServicesExploreNowButton = this.shopwareServicesAdvertisementBanner.getByRole('button', { name: 'Explore now' });
+
+        this.adminMenuUserActions = page.locator('.sw-admin-menu__user-actions-toggle');
+        this.adminMenuLogoutButton = page.locator('.sw-admin-menu__user-actions').getByRole('link', { name: 'Logout' });
     }
 
     url() {

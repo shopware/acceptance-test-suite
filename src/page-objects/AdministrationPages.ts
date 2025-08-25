@@ -37,6 +37,7 @@ import { CustomerBulkEdit } from './administration/CustomerBulkEdit';
 import { SettingsListing } from './administration/SettingsListing';
 import { DocumentListing } from './administration/DocumentListing';
 import { DocumentDetail } from './administration/DocumentDetail';
+import { ShopwareServices } from './administration/ShopwareServices';
 import { PromotionsListing } from './administration/PromotionListing';
 import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
@@ -81,6 +82,7 @@ export interface AdministrationPageTypes {
     AdminPromotionsListing: PromotionsListing;
     AdminPromotionCreate: PromotionCreate;
     AdminPromotionDetail: PromotionDetail;
+    AdminShopwareServices: ShopwareServices;
 }
 
 export const AdminPageObjects = {
@@ -120,6 +122,7 @@ export const AdminPageObjects = {
     SettingsListing,
     DocumentListing,
     DocumentDetail,
+    ShopwareServices,
     PromotionsListing,
     PromotionCreate,
     PromotionDetail,
@@ -266,6 +269,9 @@ export const test = base.extend<FixtureTypes>({
     },
     AdminDocumentDetail: async ({ AdminPage }, use) => {
         await use(new DocumentDetail(AdminPage));
+    },
+    AdminShopwareServices: async ({ AdminPage }, use) => {
+        await use(new ShopwareServices(AdminPage));
     },
 
     AdminPromotionsListing: async ({ AdminPage, InstanceMeta }, use) => {
