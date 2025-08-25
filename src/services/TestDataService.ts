@@ -118,6 +118,7 @@ export class TestDataService {
         'sales_channel_payment_method',
         'customer',
         'acl_user_role',
+        'category',
     ];
 
     /**
