@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.24.0](https://github.com/shopware/acceptance-test-suite/compare/v11.23.0...v11.24.0) (2025-08-25)
+
+
+### Features
+
+* acceptance test configurations for shopware services ([#432](https://github.com/shopware/acceptance-test-suite/issues/432)) ([5011f42](https://github.com/shopware/acceptance-test-suite/commit/5011f42806ae00807dada84be49aad93be5be0e6))
+* replace static modal property locators with dynamic locators ([#437](https://github.com/shopware/acceptance-test-suite/issues/437)) ([bcd1ebd](https://github.com/shopware/acceptance-test-suite/commit/bcd1ebdcc4c1c89f8583da30b28a9290e1070bc7))
+* screenshot function for visual tests ([#444](https://github.com/shopware/acceptance-test-suite/issues/444)) ([b991d53](https://github.com/shopware/acceptance-test-suite/commit/b991d533eeba1f22ee306349288470a8dee63aea))
+
+
+### Bug Fixes
+
+* **snippets:** Adjust snippets ([#445](https://github.com/shopware/acceptance-test-suite/issues/445)) ([a4c9116](https://github.com/shopware/acceptance-test-suite/commit/a4c9116f669d1fc8788b54dc4db676f0501ef7e9))
+
 ## [11.23.0](https://github.com/shopware/acceptance-test-suite/compare/v11.22.0...v11.23.0) (2025-08-19)
 
 
