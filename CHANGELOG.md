@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.24.1](https://github.com/shopware/acceptance-test-suite/compare/v11.24.0...v11.24.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* priority deletion of category ([#448](https://github.com/shopware/acceptance-test-suite/issues/448)) ([8d83a7b](https://github.com/shopware/acceptance-test-suite/commit/8d83a7ba75691a3f1fe3f3d2a60c1db979b5e440))
+* **snippets:** Fix snippets to please testsuite ([#446](https://github.com/shopware/acceptance-test-suite/issues/446)) ([8515907](https://github.com/shopware/acceptance-test-suite/commit/8515907a116524fb92f4f7ddbfc9697194c3baa1))
+
 ## [11.24.0](https://github.com/shopware/acceptance-test-suite/compare/v11.23.0...v11.24.0) (2025-08-25)
 
 
