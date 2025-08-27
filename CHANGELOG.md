@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.25.0](https://github.com/shopware/acceptance-test-suite/compare/v11.24.1...v11.25.0) (2025-08-27)
+
+
+### Features
+
+* add locator to Rule Detail page object ([#450](https://github.com/shopware/acceptance-test-suite/issues/450)) ([3ffe4f6](https://github.com/shopware/acceptance-test-suite/commit/3ffe4f68564d8ba8f8519606fa9293d7aa6fdb78))
+
 ## [11.24.1](https://github.com/shopware/acceptance-test-suite/compare/v11.24.0...v11.24.1) (2025-08-26)
 
 
