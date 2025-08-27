@@ -27,6 +27,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly assignmentModalAddButton: Locator;
     public readonly assignmentModalSearchField: Locator;
     public readonly conditionORContainer: Locator;
+    public readonly adminMenuAvatar: Locator;
 
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
@@ -50,6 +51,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
         this.assignmentModal = page.locator('.sw-settings-rule-add-assignment-modal');
         this.assignmentModalSearchField = this.assignmentModal.getByRole('textbox');
+        this.adminMenuAvatar = page.locator('.sw-admin-menu__avatar');
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.assignmentModalAddButton = this.assignmentModal.locator('.sw-button--primary').getByText('Add');
         } else {
