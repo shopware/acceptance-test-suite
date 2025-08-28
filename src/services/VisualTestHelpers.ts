@@ -43,21 +43,27 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
 export async function replaceElements(page: Page, selectors: (string | Locator)[]) {
     if (!selectors.length) return;
 
-    for (const selector of selectors) {
-        if (typeof selector === 'string') {
-            // Handle selector strings
-            await page.evaluate((sel) => {
+    // Handle selector strings
+    const stringSelectors = selectors.filter(s => typeof s === 'string') as string[];
+    if (stringSelectors.length) {
+        await page.evaluate((selectors) => {
+            selectors.forEach(sel => {
                 // @ts-expect-error no DOM types in this context
                 const elements = document.querySelectorAll<HTMLElement>(sel);
                 elements.forEach((el: { textContent: string; }) => {
                     el.textContent = '***';
                 });
-            }, selector);
-        } else {
-            // Handle locators
-            const count = await selector.count();
-            for (let i = 0; i < count; i++) {
-                const el = selector.nth(i);
+            });
+        }, stringSelectors);
+    }
+
+    // Handle locators
+    const locatorSelectors = selectors.filter(s => typeof s !== 'string') as Locator[];
+    for (const locator of locatorSelectors) {
+        const count = await locator.count();
+        for (let i = 0; i < count; i++) {
+            const el = locator.nth(i);
+            if (await el.isVisible()) {
                 await el.evaluate(el => {
                     el.textContent = '***';
                 });
@@ -108,7 +114,7 @@ export interface Options {
 const defaultOptions: Required<Options> = {
     requestURL: 'api/notification/message?limit=5',
     width: 1440,
-    scrollableElementVertical: '.sw-page__main-content',
+    scrollableElementVertical: '.sw-card-view__content',
     scrollableElementHorizontal: '.sw-data-grid__wrapper',
     additionalHeight: 0,
     waitForSelector: '',
