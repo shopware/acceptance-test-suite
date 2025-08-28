@@ -1,7 +1,7 @@
 import type { APIResponse } from 'playwright-core';
 import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
-import type { Flow, FlowTemplate, Promotion, User } from '../types/ShopwareTypes';
+import type { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
 
 type Language = components['schemas']['Language'] & {
     id: string,
