@@ -6,7 +6,7 @@ import type { User } from '../types/ShopwareTypes';
 import type { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
 import type { FixtureTypes } from '../types/FixtureTypes';
 
-export async function createNewAdminPageContext(merchant: User, browser: Browser, SalesChannelBaseConfig: DefaultSalesChannelTypes['SalesChannelBaseConfig'], AdminApiContext: FixtureTypes['AdminApiContext']): Promise<Page> {
+export async function createNewAdminPageContext(merchant: User, browser: Browser, SalesChannelBaseConfig: DefaultSalesChannelTypes['SalesChannelBaseConfig'], AdminApiContext: FixtureTypes['AdminApiContext'], ssoLogin = true): Promise<Page> {
 
     const context: BrowserContext = await browser.newContext({
         baseURL: SalesChannelBaseConfig.adminUrl,
@@ -15,9 +15,6 @@ export async function createNewAdminPageContext(merchant: User, browser: Browser
     const adminPage = await context.newPage();
     await adminPage.goto('#/login');
     await mockApiCalls(adminPage);
-
-    await adminPage.getByLabel(/Username|Email address/).fill(merchant.username);
-    await adminPage.getByLabel('Password', { exact: true }).fill(merchant.password);
 
     const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
 
@@ -29,6 +26,18 @@ export async function createNewAdminPageContext(merchant: User, browser: Browser
         }
     }
 
+    if (ssoLogin) {
+        await adminPage.getByLabel(/Login via SSO provider/).click();
+        expect(adminPage.url()).toContain('auth.shopware.in');
+        expect(adminPage.getByRole('heading', { name: 'Log in into Shopware SaaS' })).toBeTruthy();
+        await adminPage.getByLabel(/Username|Email address/).fill(merchant.username);
+        await adminPage.getByLabel('Password', { exact: true }).fill(merchant.password);
+
+    } else {
+        await adminPage.getByLabel(/Username|Email address/).fill(merchant.username);
+        await adminPage.getByLabel('Password', { exact: true }).fill(merchant.password);
+
+    }
     await adminPage.getByRole('button', { name: 'Log in' }).click();
 
     // wait for all plugin js to be loaded
