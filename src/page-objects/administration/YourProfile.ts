@@ -10,6 +10,7 @@ export class YourProfile implements PageObject {
     public readonly lastNameField: Locator;
     public readonly userNameField: Locator;
     public readonly emailField: Locator;
+    public readonly deselectAllButton: Locator;
 
 
     constructor(page: Page) {
@@ -20,6 +21,7 @@ export class YourProfile implements PageObject {
         this.lastNameField = page.getByRole('textbox', { name: 'Last name' });
         this.userNameField = page.getByRole('textbox', { name: 'Username' });
         this.emailField = page.getByRole('textbox', { name: 'Email' });
+        this.deselectAllButton = page.getByRole('button', { name: 'Deselect all' });
 
     }
     url() {
