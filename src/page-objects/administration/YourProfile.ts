@@ -12,7 +12,6 @@ export class YourProfile implements PageObject {
     public readonly emailField: Locator;
     public readonly deselectAllButton: Locator;
 
-
     constructor(page: Page) {
         this.page = page;
         this.contentView = page.locator('.sw-desktop__content');
@@ -22,8 +21,8 @@ export class YourProfile implements PageObject {
         this.userNameField = page.getByRole('textbox', { name: 'Username' });
         this.emailField = page.getByRole('textbox', { name: 'Email' });
         this.deselectAllButton = page.getByRole('button', { name: 'Deselect all' });
-
     }
+    
     url() {
         return '#/sw/profile/index/general';
     }

@@ -43,7 +43,6 @@ import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
 import { YourProfile } from './administration/YourProfile';
 
-
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
