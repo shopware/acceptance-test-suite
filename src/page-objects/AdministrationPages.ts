@@ -269,12 +269,27 @@ export const test = base.extend<FixtureTypes>({
     AdminSettingsListing: async ({ AdminPage }, use) => {
         await use(new SettingsListing(AdminPage));
     },
+
     AdminDocumentListing: async ({ AdminPage }, use) => {
         await use(new DocumentListing(AdminPage));
     },
+
     AdminDocumentDetail: async ({ AdminPage }, use) => {
         await use(new DocumentDetail(AdminPage));
     },
+
+    AdminPromotionsListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionsListing(AdminPage, InstanceMeta));
+    },
+
+    AdminPromotionCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionCreate(AdminPage, InstanceMeta));
+    },
+
+    AdminPromotionDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionDetail(AdminPage, InstanceMeta));
+    },
+
     AdminShopwareServices: async ({ AdminPage }, use) => {
         await use(new ShopwareServices(AdminPage));
     },
