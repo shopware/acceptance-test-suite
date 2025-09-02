@@ -46,7 +46,9 @@ export class AdminApiContext {
             contextOptions['access_token'] = await this.authenticateWithUserPassword(tmpContext, contextOptions);
 
             const userContext = await this.createApiRequestContext(contextOptions);
-            const accessKeyData = await (await userContext.get('_action/access-key/integration')).json() as { accessKey: string, secretAccessKey: string };
+            const accessKeyData = await (await userContext.get('_action/access-key/intergration')).json() as { accessKey: string, secretAccessKey: string };
+
+            console.log(accessKeyData);
 
             const integrationData = {
                 admin: true,
@@ -54,9 +56,13 @@ export class AdminApiContext {
                 ...accessKeyData,
             };
 
-            await userContext.post('integration', {
+            const req = await userContext.post('integration', {
                 data: integrationData,
             });
+            console.log(await req.json());
+            if (!req.ok()) {
+                throw new Error('Could not create new integration for tests');
+            }
 
             contextOptions.client_id = accessKeyData.accessKey;
             contextOptions.client_secret = accessKeyData.secretAccessKey;
