@@ -358,3 +358,9 @@ export const getPromotionWithDiscount = async (promotionId: string, adminApiCont
     const { data: promotion } = (await resp.json()) as { data: Promotion[] };
     return promotion[0];
 };
+
+export const updateAdminUser = async (adminUserId: string, adminApiContext: AdminApiContext, data: Record<string, string | boolean>): Promise<void> => {
+    await adminApiContext.patch(`user/${adminUserId}?_response=basic`, {
+        data: data,
+    });
+}

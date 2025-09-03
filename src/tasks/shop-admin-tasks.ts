@@ -8,6 +8,9 @@ import { BulkEditCustomers } from './shop-admin/Customers/BulkEditCustomers';
 import { AssignEntitiesToRule } from './shop-admin/Rule/AssignEntitiesToRule';
 import { CreateFlow } from './shop-admin/Flow/CreateFlow';
 import { LoginViaReviewsTab } from './shop-customer/Account/LoginViaReviewsTab';
+import { DeactivateShopwareServices } from './shop-admin/ShopwareServices/DeactivateShopwareServices';
+import { CheckVisibilityOfServicesBanner } from './shop-admin/ShopwareServices/CheckVisibilityOfServicesBanner';
+import { CheckAccessToShopwareServices } from './shop-admin/ShopwareServices/CheckAccessToShopwareServices';
 
 export const test = mergeTests(
     SaveProduct,
@@ -18,4 +21,7 @@ export const test = mergeTests(
     AssignEntitiesToRule,
     CreateFlow,
     LoginViaReviewsTab,
+    CheckAccessToShopwareServices,
+    CheckVisibilityOfServicesBanner,
+    DeactivateShopwareServices,
 );

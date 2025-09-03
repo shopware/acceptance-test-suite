@@ -1,22 +1,26 @@
 import type { Page, Locator } from 'playwright-core';
+import { expect } from '@playwright/test';
 
 /**
- * Hides the given page elements using `visibility: hidden`, so they become invisible
- * without affecting the layout (no realignment occurs).
+ * Applies a transformation to elements matched by CSS selectors and locators.
  *
- * @param page - Playwright page object
- * @param selectors - CSS selectors for elements to hide
+ * @param page - Playwright page
+ * @param selectors - CSS selectors or Playwright locators
+ * @param stringHandler - Function to apply for string selectors (runs in page context)
+ * @param locatorHandler - Function to apply for locator elements
  */
-export async function hideElements(page: Page, selectors: (string | Locator)[]) {
+async function applyToElements(
+    page: Page,
+    selectors: (string | Locator)[],
+    stringHandler: (page: Page, selectors: string[]) => Promise<void>,
+    locatorHandler: (el: Locator) => Promise<void>
+) {
     if (!selectors.length) return;
 
-    // Handle selector strings
+    // Handle string selectors
     const stringSelectors = selectors.filter(s => typeof s === 'string') as string[];
     if (stringSelectors.length) {
-        const css = stringSelectors
-            .map(selector => `${selector} { visibility: hidden !important; }`)
-            .join('\n');
-        await page.addStyleTag({ content: css });
+        await stringHandler(page, stringSelectors);
     }
 
     // Handle locators
@@ -25,44 +29,161 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
         const count = await locator.count();
         for (let i = 0; i < count; i++) {
             const el = locator.nth(i);
-            await el.evaluate(el => {
-                // @ts-expect-error no DOM types in this context
-                (el as HTMLElement).style.visibility = 'hidden';
-            });
+            try {
+                await el.waitFor({ state: 'attached', timeout: 5000 });
+                await locatorHandler(el);
+            } catch (e) {
+                console.warn(`[Warning] Could not apply locator handler: ${e}`);
+            }
         }
     }
 }
 
 /**
- * Replaces the text content of selected elements with `***`.
- *
- * @param page - Playwright page object
- * @param selectors - CSS selectors for elements whose content to replace
+ * Hides elements (via `visibility: hidden`).
+ */
+export async function hideElements(page: Page, selectors: (string | Locator)[]) {
+    return applyToElements(
+        page,
+        selectors,
+        // String handler → inject CSS
+        async (page, selectors) => {
+            const css = selectors
+                .map(selector => `${selector} { visibility: hidden !important; }`)
+                .join('\n');
+            await page.addStyleTag({ content: css });
+        },
+        // Locator handler → set style directly
+        async el => {
+            const handle = await el.elementHandle();
+            if (!handle) return;
+            await handle.evaluate(node => {
+                // @ts-expect-error no DOM types in this context
+                (node as HTMLElement).style.visibility = 'hidden';
+            });
+        }
+    );
+}
+
+/**
+ * Replaces text content or input values of elements with `***`.
+ * - Works for inputs, textareas, contenteditables and generic elements.
+ * - Ensures frameworks see the change (dispatches input/change).
+ * - Also masks placeholder so empty fields show *** in screenshots.
  */
 export async function replaceElements(page: Page, selectors: (string | Locator)[]) {
-    if (!selectors.length) return;
-
-    for (const selector of selectors) {
-        if (typeof selector === 'string') {
-            // Handle selector strings
-            await page.evaluate((sel) => {
-                // @ts-expect-error no DOM types in this context
-                const elements = document.querySelectorAll<HTMLElement>(sel);
-                elements.forEach((el: { textContent: string; }) => {
-                    el.textContent = '***';
-                });
-            }, selector);
-        } else {
-            // Handle locators
-            const count = await selector.count();
-            for (let i = 0; i < count; i++) {
-                const el = selector.nth(i);
-                await el.evaluate(el => {
-                    el.textContent = '***';
-                });
-            }
-        }
+    if (!selectors.length) {
+        console.warn(`[Error] No replaceable elements stated.`);
+        return;
     }
+
+    return applyToElements(
+        page,
+        selectors,
+        // String handler → replace text/value via querySelectorAll
+        async (page, selectors) => {
+            await page.evaluate((selectors) => {
+                // @ts-expect-error no DOM types in this context
+                const maskInputLike = (el: HTMLInputElement | HTMLTextAreaElement) => {
+                    // Set value and keep everything in sync for snapshots/frameworks
+                    el.value = '***';
+                    // @ts-expect-error no DOM types in this context
+                    (el as HTMLInputElement).defaultValue = '***';
+                    el.setAttribute('value', '***');
+
+                    // Mask placeholder too so empty fields show ***
+                    if ('placeholder' in el) {
+                        el.setAttribute('placeholder', '***');
+                    }
+
+                    // Let frameworks know something changed
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                };
+                // @ts-expect-error no DOM types in this context
+                const maskGeneric = (el: HTMLElement) => {
+                    if (el.isContentEditable) {
+                        el.textContent = '***';
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                        el.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else {
+                        el.textContent = '***';
+                    }
+                };
+
+                selectors.forEach(sel => {
+                    // @ts-expect-error no DOM types in this context
+                    const elements = document.querySelectorAll<HTMLElement>(sel as string);
+                    elements.forEach((el: never) => {
+                        // @ts-expect-error no DOM types in this context
+                        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+                            maskInputLike(el);
+                        } else {
+                            maskGeneric(el);
+                        }
+                    });
+                });
+            }, selectors);
+        },
+        // Locator handler → replace text/value directly
+        async el => {
+            // If it's editable, prefer fill() – it fires proper events & matches user behavior
+            try {
+                if (await el.isEditable()) {
+                    await el.fill('***', { force: true });
+                    // Also mask placeholder if present (via evaluate on the element)
+                    const handle = await el.elementHandle();
+                    if (handle) {
+                        await handle.evaluate(node => {
+                            // @ts-expect-error no DOM types in this context
+                            if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
+                                if ('placeholder' in node) node.setAttribute('placeholder', '***');
+                            }
+                        });
+                    }
+                    return;
+                }
+            } catch {
+                // Fall through to evaluate-based masking below
+            }
+
+            // Fallback: evaluate on the element to set values/attributes and dispatch events
+            const handle = await el.elementHandle();
+            if (!handle) return;
+            await handle.evaluate(node => {
+                // @ts-expect-error no DOM types in this context
+                const maskInputLike = (inp: HTMLInputElement | HTMLTextAreaElement) => {
+                    inp.value = '***';
+                    // @ts-expect-error no DOM types in this context
+                    (inp as HTMLInputElement).defaultValue = '***';
+                    inp.setAttribute('value', '***');
+                    if ('placeholder' in inp) {
+                        inp.setAttribute('placeholder', '***');
+                    }
+                    inp.dispatchEvent(new Event('input', { bubbles: true }));
+                    inp.dispatchEvent(new Event('change', { bubbles: true }));
+                };
+
+                // @ts-expect-error no DOM types in this context
+                const maskGeneric = (el: HTMLElement) => {
+                    if (el.isContentEditable) {
+                        el.textContent = '***';
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                        el.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else {
+                        el.textContent = '***';
+                    }
+                };
+                // @ts-expect-error no DOM types in this context
+                if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
+                    maskInputLike(node);
+                } else {
+                    // @ts-expect-error no DOM types in this context
+                    maskGeneric(node as HTMLElement);
+                }
+            });
+        }
+    );
 }
 
 /**
@@ -132,7 +253,7 @@ export async function setViewport(
         try {
             await page.waitForResponse(response => response.url().includes(config.requestURL));
         } catch {
-            console.warn(`[Info] Timed out waiting for API request: "${config.requestURL}".`);
+            console.warn(`[Error] Timed out waiting for request: "${config.requestURL}".`);
         }
     }
 
@@ -144,7 +265,7 @@ export async function setViewport(
                 : config.waitForSelector;
             await locator.waitFor({ state: 'visible', timeout: 10000 });
         } catch {
-            console.warn(`[Info] ${config.waitForSelector} not found or timed out.`);
+            console.warn(`[Error] ${config.waitForSelector} not found or timed out.`);
         }
     }
 
@@ -162,7 +283,7 @@ export async function setViewport(
                 contentHeight = await scrollableElementVertical.evaluate(el => el.scrollHeight);
             }
         } catch {
-            console.warn(`[Info] No scrollable element found. Applying default height: ${config.contentHeight}.`);
+            console.warn(`[Warning] Scrollable element not found. Applying default height: ${config.contentHeight}.`);
         }
     }
 
@@ -186,7 +307,7 @@ export async function setViewport(
                 }
             }
         } catch {
-            console.warn(`[Info] No header found.`);
+            console.warn(`[Info] Header not found.`);
         }
     }
 
@@ -205,12 +326,27 @@ export async function setViewport(
                 contentWidth = config.width
             }
         } catch {
-            console.warn(`[Info] No scrollable element found. Applying default width: ${config.width}.`);
+            console.warn(`[Warning] Scrollable element not found. Applying default width: ${config.width}.`);
         }
     }
     const totalHeight = contentHeight + headerHeight + config.additionalHeight;
 
     await page.setViewportSize({ width: contentWidth, height: totalHeight });
-    console.warn(`[Info] Viewport size: width=${contentWidth}, height=${totalHeight}`);
+    console.warn(`[Success] Viewport size: width=${contentWidth}, height=${totalHeight}`);
     return;
+}
+
+/**
+ * Takes a screenshot of the desktop content of the page or the provided locator and compares it to existing ones.
+ *
+ * @param page - Playwright page object
+ * @param filename - Filename of the screenshot
+ * @param locator - Optional Playwright locator to take a screenshot of instead of the desktop content
+ */
+export async function assertScreenshot(page: Page, filename: string, locator?: Locator) {
+    if (locator) {
+        await expect(locator).toHaveScreenshot(filename);
+    } else {
+        await expect(page.locator('.sw-desktop__content')).toHaveScreenshot(filename);
+    }
 }

@@ -17,6 +17,9 @@ import {
     type Tax,
     type ProductCrossSelling,
     type ProductReview,
+    type User,
+    type AclRole,
+    type CmsPage,
 } from '../../src';
 
 test('Data Service', async ({
@@ -79,6 +82,16 @@ test('Data Service', async ({
     expect(cmsPage.name).toEqual(cmsPageName);
     expect(cmsPage.type).toEqual(cmsType);
 
+    const landingPageType = 'landingpage';
+    const landingPageName = 'Custom landing page';
+    const landingPage = await TestDataService.createBasicPageLayout(landingPageType, { name: landingPageName });
+    expect(landingPage.name).toEqual(landingPageName);
+    expect(landingPage.type).toEqual(landingPageType);
+
+    const customCategoryWithLandingPage = await TestDataService.createCategory({ name: 'Category with landing page', cmsPageId: landingPage.id });
+    expect(customCategoryWithLandingPage.cmsPageId).toEqual(landingPage.id);
+    expect(customCategoryWithLandingPage.name).toEqual('Category with landing page');
+
     const parentProduct = await TestDataService.createBasicProduct();
     const propertyGroupColor = await TestDataService.createColorPropertyGroup();
     const propertyGroupText = await TestDataService.createTextPropertyGroup();
@@ -103,6 +116,17 @@ test('Data Service', async ({
     const review = await TestDataService.createProductReview(reviewedProduct.id, { title: 'Custom review title' });
     expect(review.title).toEqual('Custom review title');
     expect(review.points).toEqual(5);
+
+    const merchant = await TestDataService.createUser({ firstName: 'Han', lastName: 'Solo' });
+    expect(merchant.firstName).toEqual('Han');
+    expect(merchant.lastName).toEqual('Solo');
+
+    const merchantWithBasicRole = await TestDataService.createUser({ firstName: 'Mi', lastName: 'How' });
+    const aclRole = await TestDataService.createAclRole({ name: 'Custom role' });
+    await TestDataService.assignAclRoleUser(aclRole.id, merchantWithBasicRole.id);
+    expect(merchantWithBasicRole.firstName).toEqual('Mi');
+    expect(merchantWithBasicRole.lastName).toEqual('How');
+    expect(aclRole.name).toEqual('Custom role');
 
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
@@ -169,9 +193,22 @@ test('Data Service', async ({
     const { data: databaseProductReview } = (await productReviewResponse.json()) as { data: ProductReview };
     expect(databaseProductReview.id).toBe(review.id);
 
+    const merchantResponse = await AdminApiContext.get(`./user/${merchant.id}?_response=detail`);
+    const { data: databaseMerchant } = (await merchantResponse.json()) as { data: User };
+    expect(databaseMerchant.id).toBe(merchant.id);
+
+    const aclRoleResponse = await AdminApiContext.get(`./acl-role/${aclRole.id}?_response=detail`);
+    const { data: databaseAclRole } = (await aclRoleResponse.json()) as { data: AclRole };
+    expect(databaseAclRole.id).toBe(aclRole.id);
+
+    const cmsPageResponse = await AdminApiContext.get(`./cms-page/${cmsPage.id}?_response=detail`);
+    const { data: databaseCmsPage } = (await cmsPageResponse.json()) as { data: CmsPage };
+    expect(databaseCmsPage.id).toBe(cmsPage.id);
+
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
     const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
+
     expect(cleanUpDeleteOperationsResponse.ok()).toBeTruthy();
 
     const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();
@@ -182,7 +219,6 @@ test('Data Service', async ({
     expect(cleanUpDeleteOperations['deleted']['currency']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['country']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['customer_group']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['category']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['property_group']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['property_group_option']).toBeDefined();
     expect(cleanUpDeleteOperations['deleted']['product_manufacturer']).toBeDefined();

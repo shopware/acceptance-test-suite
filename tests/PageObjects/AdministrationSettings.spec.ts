@@ -1,4 +1,5 @@
 import { getFlowId, test } from '../../src';
+import { satisfies } from 'compare-versions';
 
 test('Administration page objects - Settings.', async ({
     InstanceMeta,
@@ -16,6 +17,7 @@ test('Administration page objects - Settings.', async ({
     AdminCustomFieldListing,
     AdminCustomFieldCreate,
     AdminRuleCreate,
+    AdminSettingsListing,
 }) => {
     await ShopAdmin.goesTo(AdminCustomerGroupListing.url(), InstanceMeta.isSaaS);
     await ShopAdmin.expects(AdminCustomerGroupListing.headline).toBeVisible();
@@ -66,4 +68,11 @@ test('Administration page objects - Settings.', async ({
     await ShopAdmin.goesTo(AdminRuleCreate.url(), true);
     await ShopAdmin.expects(AdminRuleCreate.nameInput).toBeVisible();
     await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminSettingsListing.url(), true);
+    await ShopAdmin.expects(AdminSettingsListing.header).toContainText('Settings');
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    if (satisfies(InstanceMeta.version, '>=6.7.1')) {
+        await ShopAdmin.expects(AdminSettingsListing.shopwareServicesLink).toBeVisible();
+    }
 });

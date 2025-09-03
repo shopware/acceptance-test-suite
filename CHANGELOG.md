@@ -1,5 +1,61 @@
 # Changelog
 
+## [11.26.0](https://github.com/shopware/acceptance-test-suite/compare/v11.25.0...v11.26.0) (2025-09-03)
+
+
+### Features
+
+* add pkg-pr-new publish step to workflow ([#457](https://github.com/shopware/acceptance-test-suite/issues/457)) ([d7ec032](https://github.com/shopware/acceptance-test-suite/commit/d7ec03211e7127166d266b552b9ed55312f44965))
+* add your profile page object ([#455](https://github.com/shopware/acceptance-test-suite/issues/455)) ([e8d594f](https://github.com/shopware/acceptance-test-suite/commit/e8d594fff35e6a1969a907ee5a84fbc09accec5e))
+
+
+### Bug Fixes
+
+* increase timeout of services deactivation process ([#452](https://github.com/shopware/acceptance-test-suite/issues/452)) ([6f8f733](https://github.com/shopware/acceptance-test-suite/commit/6f8f733f237ac6058ecd90526ec294543fee9cc4))
+
+## [11.25.0](https://github.com/shopware/acceptance-test-suite/compare/v11.24.1...v11.25.0) (2025-08-27)
+
+
+### Features
+
+* add locator to Rule Detail page object ([#450](https://github.com/shopware/acceptance-test-suite/issues/450)) ([3ffe4f6](https://github.com/shopware/acceptance-test-suite/commit/3ffe4f68564d8ba8f8519606fa9293d7aa6fdb78))
+
+## [11.24.1](https://github.com/shopware/acceptance-test-suite/compare/v11.24.0...v11.24.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* priority deletion of category ([#448](https://github.com/shopware/acceptance-test-suite/issues/448)) ([8d83a7b](https://github.com/shopware/acceptance-test-suite/commit/8d83a7ba75691a3f1fe3f3d2a60c1db979b5e440))
+* **snippets:** Fix snippets to please testsuite ([#446](https://github.com/shopware/acceptance-test-suite/issues/446)) ([8515907](https://github.com/shopware/acceptance-test-suite/commit/8515907a116524fb92f4f7ddbfc9697194c3baa1))
+
+## [11.24.0](https://github.com/shopware/acceptance-test-suite/compare/v11.23.0...v11.24.0) (2025-08-25)
+
+
+### Features
+
+* acceptance test configurations for shopware services ([#432](https://github.com/shopware/acceptance-test-suite/issues/432)) ([5011f42](https://github.com/shopware/acceptance-test-suite/commit/5011f42806ae00807dada84be49aad93be5be0e6))
+* replace static modal property locators with dynamic locators ([#437](https://github.com/shopware/acceptance-test-suite/issues/437)) ([bcd1ebd](https://github.com/shopware/acceptance-test-suite/commit/bcd1ebdcc4c1c89f8583da30b28a9290e1070bc7))
+* screenshot function for visual tests ([#444](https://github.com/shopware/acceptance-test-suite/issues/444)) ([b991d53](https://github.com/shopware/acceptance-test-suite/commit/b991d533eeba1f22ee306349288470a8dee63aea))
+
+
+### Bug Fixes
+
+* **snippets:** Adjust snippets ([#445](https://github.com/shopware/acceptance-test-suite/issues/445)) ([a4c9116](https://github.com/shopware/acceptance-test-suite/commit/a4c9116f669d1fc8788b54dc4db676f0501ef7e9))
+
+## [11.23.0](https://github.com/shopware/acceptance-test-suite/compare/v11.22.0...v11.23.0) (2025-08-19)
+
+
+### Features
+
+* add locators for Rule Builder visual test  ([#428](https://github.com/shopware/acceptance-test-suite/issues/428)) ([e643ce9](https://github.com/shopware/acceptance-test-suite/commit/e643ce9f5baa3940e588df8254d5e651dc9478ca))
+
+## [11.22.0](https://github.com/shopware/acceptance-test-suite/compare/v11.21.0...v11.22.0) (2025-08-19)
+
+
+### Features
+
+* add pageObject for Flow Builder listing ([#433](https://github.com/shopware/acceptance-test-suite/issues/433)) ([1369217](https://github.com/shopware/acceptance-test-suite/commit/13692174e73ebab5c594a418412b043fb203483a))
+
 ## [11.21.0](https://github.com/shopware/acceptance-test-suite/compare/v11.20.1...v11.21.0) (2025-08-14)
 
 
