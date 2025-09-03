@@ -1,11 +1,11 @@
 import { test, expect } from '../src';
 import * as console from 'console';
 
-test('Create 10K business partners with 1K employees each (10 workers)', { tag: ['@B2B', '@BulkCreate'] }, async ({ TestDataService, AdminApiContext, IdProvider }) => {
+test('Create 10K business partners with 100 employees each (10 workers)', { tag: ['@B2B', '@BulkCreate'] }, async ({ TestDataService, AdminApiContext, IdProvider }) => {
     test.setTimeout(1440000000); // 16 days
     await TestDataService.setCleanUp(false);
 
-    let nextPartnerId = 1222;
+    let nextPartnerId = 1265;
     const totalPartners = 10000;
     const mutex: { locked: boolean; queue: Array<(value?: unknown) => void> } = { locked: false, queue: [] };
 
@@ -34,7 +34,7 @@ test('Create 10K business partners with 1K employees each (10 workers)', { tag: 
     }
 
     const workers = 10;
-    const employeesPerPartner = 1000;
+    const employeesPerPartner = 100;
 
     async function worker(workerId: number) {
         const workerStart = Date.now();
