@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.26.0](https://github.com/shopware/acceptance-test-suite/compare/v11.25.0...v11.26.0) (2025-09-03)
+
+
+### Features
+
+* add pkg-pr-new publish step to workflow ([#457](https://github.com/shopware/acceptance-test-suite/issues/457)) ([d7ec032](https://github.com/shopware/acceptance-test-suite/commit/d7ec03211e7127166d266b552b9ed55312f44965))
+* add your profile page object ([#455](https://github.com/shopware/acceptance-test-suite/issues/455)) ([e8d594f](https://github.com/shopware/acceptance-test-suite/commit/e8d594fff35e6a1969a907ee5a84fbc09accec5e))
+
+
+### Bug Fixes
+
+* increase timeout of services deactivation process ([#452](https://github.com/shopware/acceptance-test-suite/issues/452)) ([6f8f733](https://github.com/shopware/acceptance-test-suite/commit/6f8f733f237ac6058ecd90526ec294543fee9cc4))
+
 ## [11.25.0](https://github.com/shopware/acceptance-test-suite/compare/v11.24.1...v11.25.0) (2025-08-27)
 
 

@@ -41,6 +41,7 @@ import { ShopwareServices } from './administration/ShopwareServices';
 import { PromotionsListing } from './administration/PromotionListing';
 import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
+import { YourProfile } from './administration/YourProfile';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -83,6 +84,7 @@ export interface AdministrationPageTypes {
     AdminPromotionCreate: PromotionCreate;
     AdminPromotionDetail: PromotionDetail;
     AdminShopwareServices: ShopwareServices;
+    AdminYourProfile: YourProfile;
 }
 
 export const AdminPageObjects = {
@@ -126,6 +128,7 @@ export const AdminPageObjects = {
     PromotionsListing,
     PromotionCreate,
     PromotionDetail,
+    YourProfile,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -261,17 +264,17 @@ export const test = base.extend<FixtureTypes>({
     AdminCustomerBulkEdit: async ({ AdminPage }, use) => {
         await use(new CustomerBulkEdit(AdminPage));
     },
+
     AdminSettingsListing: async ({ AdminPage }, use) => {
         await use(new SettingsListing(AdminPage));
     },
+
     AdminDocumentListing: async ({ AdminPage }, use) => {
         await use(new DocumentListing(AdminPage));
     },
+
     AdminDocumentDetail: async ({ AdminPage }, use) => {
         await use(new DocumentDetail(AdminPage));
-    },
-    AdminShopwareServices: async ({ AdminPage }, use) => {
-        await use(new ShopwareServices(AdminPage));
     },
 
     AdminPromotionsListing: async ({ AdminPage, InstanceMeta }, use) => {
@@ -284,5 +287,13 @@ export const test = base.extend<FixtureTypes>({
 
     AdminPromotionDetail: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new PromotionDetail(AdminPage, InstanceMeta));
+    },
+
+    AdminShopwareServices: async ({ AdminPage }, use) => {
+        await use(new ShopwareServices(AdminPage));
+    },
+
+    AdminYourProfile: async ({ AdminPage }, use) => {
+        await use(new YourProfile(AdminPage));
     },
 });
