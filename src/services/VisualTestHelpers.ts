@@ -58,7 +58,6 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
             const handle = await el.elementHandle();
             if (!handle) return;
             await handle.evaluate(node => {
-                // @ts-expect-error no DOM types in this context
                 (node as HTMLElement).style.visibility = 'hidden';
             });
         }
@@ -83,11 +82,9 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
         // String handler → replace text/value via querySelectorAll
         async (page, selectors) => {
             await page.evaluate((selectors) => {
-                // @ts-expect-error no DOM types in this context
                 const maskInputLike = (el: HTMLInputElement | HTMLTextAreaElement) => {
                     // Set value and keep everything in sync for snapshots/frameworks
                     el.value = '***';
-                    // @ts-expect-error no DOM types in this context
                     (el as HTMLInputElement).defaultValue = '***';
                     el.setAttribute('value', '***');
 
@@ -100,7 +97,7 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                     el.dispatchEvent(new Event('input', { bubbles: true }));
                     el.dispatchEvent(new Event('change', { bubbles: true }));
                 };
-                // @ts-expect-error no DOM types in this context
+
                 const maskGeneric = (el: HTMLElement) => {
                     if (el.isContentEditable) {
                         el.textContent = '***';
@@ -112,10 +109,10 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                 };
 
                 selectors.forEach(sel => {
-                    // @ts-expect-error no DOM types in this context
                     const elements = document.querySelectorAll<HTMLElement>(sel as string);
+                    // @ts-expect-error
                     elements.forEach((el: never) => {
-                        // @ts-expect-error no DOM types in this context
+                        // @ts-expect-error
                         if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
                             maskInputLike(el);
                         } else {
@@ -135,7 +132,6 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                     const handle = await el.elementHandle();
                     if (handle) {
                         await handle.evaluate(node => {
-                            // @ts-expect-error no DOM types in this context
                             if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
                                 if ('placeholder' in node) node.setAttribute('placeholder', '***');
                             }
@@ -151,10 +147,8 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
             const handle = await el.elementHandle();
             if (!handle) return;
             await handle.evaluate(node => {
-                // @ts-expect-error no DOM types in this context
                 const maskInputLike = (inp: HTMLInputElement | HTMLTextAreaElement) => {
                     inp.value = '***';
-                    // @ts-expect-error no DOM types in this context
                     (inp as HTMLInputElement).defaultValue = '***';
                     inp.setAttribute('value', '***');
                     if ('placeholder' in inp) {
@@ -164,7 +158,6 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                     inp.dispatchEvent(new Event('change', { bubbles: true }));
                 };
 
-                // @ts-expect-error no DOM types in this context
                 const maskGeneric = (el: HTMLElement) => {
                     if (el.isContentEditable) {
                         el.textContent = '***';
@@ -174,11 +167,10 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                         el.textContent = '***';
                     }
                 };
-                // @ts-expect-error no DOM types in this context
+
                 if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
                     maskInputLike(node);
                 } else {
-                    // @ts-expect-error no DOM types in this context
                     maskGeneric(node as HTMLElement);
                 }
             });
@@ -302,6 +294,7 @@ export async function setViewport(
                         [headerHandle, scrollableHandle]
                     );
                     if (!isInside) {
+                        // @ts-expect-error
                         headerHeight = await header.evaluate(el => el.offsetHeight);
                     }
                 }
