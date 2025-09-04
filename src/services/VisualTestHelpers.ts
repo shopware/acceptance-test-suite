@@ -74,7 +74,7 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
 export async function replaceElements(
     page: Page,
     selectors: (string | Locator)[],
-    replaceWith: string = '***'
+    replaceWith = '***'
 ) {
     if (!selectors.length) {
         console.warn(`[Error] No replaceable elements stated.`);
