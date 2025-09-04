@@ -110,9 +110,9 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
 
                 selectors.forEach(sel => {
                     const elements = document.querySelectorAll<HTMLElement>(sel as string);
-                    // @ts-expect-error
+                    // @ts-expect-error no DOM types in this context
                     elements.forEach((el: never) => {
-                        // @ts-expect-error
+                        // @ts-expect-error no DOM types in this context
                         if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
                             maskInputLike(el);
                         } else {
@@ -294,7 +294,7 @@ export async function setViewport(
                         [headerHandle, scrollableHandle]
                     );
                     if (!isInside) {
-                        // @ts-expect-error
+                        // @ts-expect-error no DOM types in this context
                         headerHeight = await header.evaluate(el => el.offsetHeight);
                     }
                 }
