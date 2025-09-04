@@ -66,12 +66,16 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
 }
 
 /**
- * Replaces text content or input values of elements with `***`.
+ * Replaces text content or input values of elements with a given replacement string (default: "***").
  * - Works for inputs, textareas, contenteditables and generic elements.
  * - Ensures frameworks see the change (dispatches input/change).
- * - Also masks placeholder so empty fields show *** in screenshots.
+ * - Also masks placeholder so empty fields show replacement text in screenshots.
  */
-export async function replaceElements(page: Page, selectors: (string | Locator)[]) {
+export async function replaceElements(
+    page: Page,
+    selectors: (string | Locator)[],
+    replaceWith: string = '***'
+) {
     if (!selectors.length) {
         console.warn(`[Error] No replaceable elements stated.`);
         return;
@@ -82,32 +86,28 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
         selectors,
         // String handler → replace text/value via querySelectorAll
         async (page, selectors) => {
-            await page.evaluate((selectors) => {
+            await page.evaluate(({ selectors, replaceWith }) => {
                 // @ts-expect-error no DOM types in this context
                 const maskInputLike = (el: HTMLInputElement | HTMLTextAreaElement) => {
-                    // Set value and keep everything in sync for snapshots/frameworks
-                    el.value = '***';
+                    el.value = replaceWith;
                     // @ts-expect-error no DOM types in this context
-                    (el as HTMLInputElement).defaultValue = '***';
-                    el.setAttribute('value', '***');
+                    (el as HTMLInputElement).defaultValue = replaceWith;
+                    el.setAttribute('value', replaceWith);
 
-                    // Mask placeholder too so empty fields show ***
                     if ('placeholder' in el) {
-                        el.setAttribute('placeholder', '***');
+                        el.setAttribute('placeholder', replaceWith);
                     }
 
-                    // Let frameworks know something changed
                     el.dispatchEvent(new Event('input', { bubbles: true }));
                     el.dispatchEvent(new Event('change', { bubbles: true }));
                 };
+
                 // @ts-expect-error no DOM types in this context
                 const maskGeneric = (el: HTMLElement) => {
+                    el.textContent = replaceWith;
                     if (el.isContentEditable) {
-                        el.textContent = '***';
                         el.dispatchEvent(new Event('input', { bubbles: true }));
                         el.dispatchEvent(new Event('change', { bubbles: true }));
-                    } else {
-                        el.textContent = '***';
                     }
                 };
 
@@ -123,42 +123,39 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                         }
                     });
                 });
-            }, selectors);
+            }, { selectors, replaceWith });
         },
         // Locator handler → replace text/value directly
         async el => {
-            // If it's editable, prefer fill() – it fires proper events & matches user behavior
             try {
                 if (await el.isEditable()) {
-                    await el.fill('***', { force: true });
-                    // Also mask placeholder if present (via evaluate on the element)
+                    await el.fill(replaceWith, { force: true });
                     const handle = await el.elementHandle();
                     if (handle) {
-                        await handle.evaluate(node => {
+                        await handle.evaluate((node, replaceWith) => {
                             // @ts-expect-error no DOM types in this context
                             if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
-                                if ('placeholder' in node) node.setAttribute('placeholder', '***');
+                                if ('placeholder' in node) node.setAttribute('placeholder', replaceWith);
                             }
-                        });
+                        }, replaceWith);
                     }
                     return;
                 }
             } catch {
-                // Fall through to evaluate-based masking below
+                // Fallback below
             }
 
-            // Fallback: evaluate on the element to set values/attributes and dispatch events
             const handle = await el.elementHandle();
             if (!handle) return;
-            await handle.evaluate(node => {
+            await handle.evaluate((node, replaceWith) => {
                 // @ts-expect-error no DOM types in this context
                 const maskInputLike = (inp: HTMLInputElement | HTMLTextAreaElement) => {
-                    inp.value = '***';
+                    inp.value = replaceWith;
                     // @ts-expect-error no DOM types in this context
-                    (inp as HTMLInputElement).defaultValue = '***';
-                    inp.setAttribute('value', '***');
+                    (inp as HTMLInputElement).defaultValue = replaceWith;
+                    inp.setAttribute('value', replaceWith);
                     if ('placeholder' in inp) {
-                        inp.setAttribute('placeholder', '***');
+                        inp.setAttribute('placeholder', replaceWith);
                     }
                     inp.dispatchEvent(new Event('input', { bubbles: true }));
                     inp.dispatchEvent(new Event('change', { bubbles: true }));
@@ -166,14 +163,13 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
 
                 // @ts-expect-error no DOM types in this context
                 const maskGeneric = (el: HTMLElement) => {
+                    el.textContent = replaceWith;
                     if (el.isContentEditable) {
-                        el.textContent = '***';
                         el.dispatchEvent(new Event('input', { bubbles: true }));
                         el.dispatchEvent(new Event('change', { bubbles: true }));
-                    } else {
-                        el.textContent = '***';
                     }
                 };
+
                 // @ts-expect-error no DOM types in this context
                 if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
                     maskInputLike(node);
@@ -181,10 +177,11 @@ export async function replaceElements(page: Page, selectors: (string | Locator)[
                     // @ts-expect-error no DOM types in this context
                     maskGeneric(node as HTMLElement);
                 }
-            });
+            }, replaceWith);
         }
     );
 }
+
 
 /**
  * Calculates the ideal viewport dimensions for a Playwright test based on scrollable content,
