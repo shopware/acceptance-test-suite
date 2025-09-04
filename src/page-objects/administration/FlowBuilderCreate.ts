@@ -5,6 +5,7 @@ import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 
 export class FlowBuilderCreate implements PageObject {
+    public readonly contentView: Locator;
     //header
     public readonly saveButton: Locator;
     public readonly header: Locator;
@@ -52,6 +53,7 @@ export class FlowBuilderCreate implements PageObject {
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.page = page;
         this.instanceMeta = instanceMeta;
+        this.contentView = page.locator('.sw-desktop__content');
         this.saveButton = page.locator('.sw-flow-detail__save');
         this.header = page.locator('h2');
         this.smartBarHeader = page.locator('.smart-bar__header');

@@ -37,9 +37,11 @@ import { CustomerBulkEdit } from './administration/CustomerBulkEdit';
 import { SettingsListing } from './administration/SettingsListing';
 import { DocumentListing } from './administration/DocumentListing';
 import { DocumentDetail } from './administration/DocumentDetail';
+import { ShopwareServices } from './administration/ShopwareServices';
 import { PromotionsListing } from './administration/PromotionListing';
 import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
+import { YourProfile } from './administration/YourProfile';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -81,6 +83,8 @@ export interface AdministrationPageTypes {
     AdminPromotionsListing: PromotionsListing;
     AdminPromotionCreate: PromotionCreate;
     AdminPromotionDetail: PromotionDetail;
+    AdminShopwareServices: ShopwareServices;
+    AdminYourProfile: YourProfile;
 }
 
 export const AdminPageObjects = {
@@ -120,9 +124,11 @@ export const AdminPageObjects = {
     SettingsListing,
     DocumentListing,
     DocumentDetail,
+    ShopwareServices,
     PromotionsListing,
     PromotionCreate,
     PromotionDetail,
+    YourProfile,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -258,12 +264,15 @@ export const test = base.extend<FixtureTypes>({
     AdminCustomerBulkEdit: async ({ AdminPage }, use) => {
         await use(new CustomerBulkEdit(AdminPage));
     },
+
     AdminSettingsListing: async ({ AdminPage }, use) => {
         await use(new SettingsListing(AdminPage));
     },
+
     AdminDocumentListing: async ({ AdminPage }, use) => {
         await use(new DocumentListing(AdminPage));
     },
+
     AdminDocumentDetail: async ({ AdminPage }, use) => {
         await use(new DocumentDetail(AdminPage));
     },
@@ -278,5 +287,13 @@ export const test = base.extend<FixtureTypes>({
 
     AdminPromotionDetail: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new PromotionDetail(AdminPage, InstanceMeta));
+    },
+
+    AdminShopwareServices: async ({ AdminPage }, use) => {
+        await use(new ShopwareServices(AdminPage));
+    },
+
+    AdminYourProfile: async ({ AdminPage }, use) => {
+        await use(new YourProfile(AdminPage));
     },
 });

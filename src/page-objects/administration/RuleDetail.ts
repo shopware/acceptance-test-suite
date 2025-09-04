@@ -6,6 +6,7 @@ import { satisfies } from 'compare-versions';
 
 export class RuleDetail extends RuleCreate implements PageObject {
 
+    public readonly contentView: Locator;
     public readonly shippingMethodAvailabilityRulesCard: Locator;
     public readonly shippingMethodAvailabilityRulesCardLink: Locator;
     public readonly shippingMethodAvailabilityRulesCardTable: Locator;
@@ -22,12 +23,16 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly promotionCustomerRulesCardEmptyState: Locator;
     public readonly promotionCartRulesCard: Locator;
     public readonly promotionCartRulesCardEmptyState: Locator;
+    public readonly assignmentModal: Locator;
     public readonly assignmentModalAddButton: Locator;
     public readonly assignmentModalSearchField: Locator;
+    public readonly conditionORContainer: Locator;
+    public readonly adminMenuAvatar: Locator;
 
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
+        this.contentView = page.locator('.sw-desktop__content');
         this.shippingMethodAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-shipping_method_availability_rule');
         this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole('link');
         this.shippingMethodAvailabilityRulesCardTable = page.locator('.sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule');
@@ -44,12 +49,15 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('alert');
         this.promotionCartRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_cart_rule');
         this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
-        this.assignmentModalSearchField = page.locator('.sw-settings-rule-add-assignment-modal').getByRole('textbox');
+        this.assignmentModal = page.locator('.sw-settings-rule-add-assignment-modal');
+        this.assignmentModalSearchField = this.assignmentModal.getByRole('textbox');
+        this.adminMenuAvatar = page.locator('.sw-admin-menu__avatar');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.assignmentModalAddButton = page.locator('.sw-button--primary').getByText('Add');
+            this.assignmentModalAddButton = this.assignmentModal.locator('.sw-button--primary').getByText('Add');
         } else {
-            this.assignmentModalAddButton = page.locator('.mt-button--primary').getByText('Add');
+            this.assignmentModalAddButton = this.assignmentModal.locator('.mt-button--primary').getByText('Add');
         }
+        this.conditionORContainer = page.locator('.sw-condition-or-container');
     }
 
     async getEntityCard(cardLocator: Locator): Promise<Record<string, Locator>> {

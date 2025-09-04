@@ -2,6 +2,8 @@ import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class FlowBuilderListing implements PageObject {
+    public readonly page: Page;
+    public readonly contentView: Locator;
     public readonly createFlowButton: Locator;
     public readonly firstFlowName: Locator;
     public readonly firstFlowContextButton: Locator;
@@ -16,10 +18,13 @@ export class FlowBuilderListing implements PageObject {
     public readonly successAlert: Locator;
     public readonly successAlertMessage: Locator;
     public readonly searchBar: Locator;
-    public readonly page: Page;
+    public readonly pagination: Locator;
+    public readonly testFlowNameCells: Locator;
+    public readonly flowTemplatesTab: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.contentView = page.locator('.sw-desktop__content');
         this.createFlowButton = page.locator('.sw-flow-list__create');
         this.firstFlowName = page.locator('.sw-data-grid__cell--name a').first();
         this.firstFlowContextButton = page.locator('.sw-data-grid__actions-menu').first();
@@ -36,10 +41,13 @@ export class FlowBuilderListing implements PageObject {
         this.successAlert = page.locator('.sw-alert__body');
         this.successAlertMessage = page.locator('.sw-alert__message');
         this.searchBar = page.locator('.sw-search-bar__input');
+        this.pagination = page.locator('.sw-pagination');
+        this.testFlowNameCells = page.locator('.sw-data-grid__cell--name a').getByText('Test flow');
+        this.flowTemplatesTab = page.locator('.sw-tabs-item').getByText('Flow templates');
     }
 
-    url() {
-        return '#/sw/flow/index/';
+    url(tabName = 'flows') {
+        return `#/sw/flow/index/${tabName}`;
     }
 
     async getLineItemByFlowName(flowName: string): Promise<Record<string, Locator>> {
