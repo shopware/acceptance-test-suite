@@ -17,6 +17,7 @@ test('Administration page objects - General.', async ({
     AdminOrderDetail,
     AdminProductDetail,
     AdminShopwareServices,
+    AdminMedia,
 }) => {
     await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
     await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
@@ -58,6 +59,11 @@ test('Administration page objects - General.', async ({
     if (!InstanceMeta.isSaaS) {
         await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
     }
+
+    await ShopAdmin.goesTo(AdminMedia.url());
+    await ShopAdmin.expects(AdminMedia.uploadFileButton).toBeVisible();
+    await ShopAdmin.expects(AdminMedia.searchInput).toBeVisible();
+    await ShopAdmin.expects(AdminMedia.addNewFolderButton).toBeVisible();
 
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (satisfies(InstanceMeta.version, '>=6.7.1')) {

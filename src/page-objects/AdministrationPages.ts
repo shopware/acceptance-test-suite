@@ -41,6 +41,7 @@ import { ShopwareServices } from './administration/ShopwareServices';
 import { PromotionsListing } from './administration/PromotionListing';
 import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
+import { Media } from './administration/Media';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -83,6 +84,7 @@ export interface AdministrationPageTypes {
     AdminPromotionCreate: PromotionCreate;
     AdminPromotionDetail: PromotionDetail;
     AdminShopwareServices: ShopwareServices;
+    AdminMedia: Media;
 }
 
 export const AdminPageObjects = {
@@ -126,6 +128,7 @@ export const AdminPageObjects = {
     PromotionsListing,
     PromotionCreate,
     PromotionDetail,
+    Media,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -285,4 +288,8 @@ export const test = base.extend<FixtureTypes>({
     AdminPromotionDetail: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new PromotionDetail(AdminPage, InstanceMeta));
     },
+
+    AdminMedia: async ({ AdminPage }, use) => {
+        await use(new Media(AdminPage));
+    }
 });
