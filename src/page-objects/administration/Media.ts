@@ -66,7 +66,7 @@ export class Media implements PageObject {
    */
   getContextMenuItem(itemText: string): Locator {
     return this.page.locator('.sw-context-menu-item', {
-      hasText: itemText
+      hasText: itemText,
     });
   }
 }

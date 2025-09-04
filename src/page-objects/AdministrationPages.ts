@@ -294,7 +294,8 @@ export const test = base.extend<FixtureTypes>({
 
     AdminMedia: async ({ AdminPage }, use) => {
         await use(new Media(AdminPage));
-    }
+    },
+    
     AdminShopwareServices: async ({ AdminPage }, use) => {
         await use(new ShopwareServices(AdminPage));
     },
