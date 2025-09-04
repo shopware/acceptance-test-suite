@@ -33,7 +33,7 @@ test('Create 10K business partners with 100 employees each (10 workers)', { tag:
         return id;
     }
 
-    const workers = 10;
+    const workers = 5;
     const employeesPerPartner = 100;
 
     async function worker(workerId: number) {
