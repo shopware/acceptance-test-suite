@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.27.0](https://github.com/shopware/acceptance-test-suite/compare/v11.26.0...v11.27.0) (2025-09-04)
+
+
+### Features
+
+* replace elements with optional parameter (replace with custom string) ([#463](https://github.com/shopware/acceptance-test-suite/issues/463)) ([eff0d7c](https://github.com/shopware/acceptance-test-suite/commit/eff0d7cd459a657fdaad5128308d7e0623c8492b))
+
 ## [11.26.0](https://github.com/shopware/acceptance-test-suite/compare/v11.25.0...v11.26.0) (2025-09-03)
 
 
