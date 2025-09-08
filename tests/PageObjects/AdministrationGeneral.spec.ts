@@ -54,7 +54,7 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.goesTo(AdminManufacturerListing.url());
     await ShopAdmin.expects(AdminManufacturerListing.addManufacturerButton).toBeVisible();
 
-    await ShopAdmin.goesTo(AdminDashboard.url());
+    await ShopAdmin.goesTo(AdminDashboard.url(), InstanceMeta.isSaaS);
     // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {
         await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
