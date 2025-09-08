@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.28.0](https://github.com/shopware/acceptance-test-suite/compare/v11.27.0...v11.28.0) (2025-09-05)
+
+
+### Features
+
+* add DOM library ([#464](https://github.com/shopware/acceptance-test-suite/issues/464)) ([486332f](https://github.com/shopware/acceptance-test-suite/commit/486332fe081a28443558ce37c2c1a7545a7915d5))
+* add page objects for Themes ([#462](https://github.com/shopware/acceptance-test-suite/issues/462)) ([bf351a9](https://github.com/shopware/acceptance-test-suite/commit/bf351a9a616fb80fd892eb2a6276d2eddd541f16))
+
 ## [11.27.0](https://github.com/shopware/acceptance-test-suite/compare/v11.26.0...v11.27.0) (2025-09-04)
 
 
