@@ -42,6 +42,8 @@ import { PromotionsListing } from './administration/PromotionListing';
 import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
 import { YourProfile } from './administration/YourProfile';
+import { ThemesListing } from './administration/ThemesListing';
+import { ThemesDetail } from './administration/ThemesDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -85,6 +87,8 @@ export interface AdministrationPageTypes {
     AdminPromotionDetail: PromotionDetail;
     AdminShopwareServices: ShopwareServices;
     AdminYourProfile: YourProfile;
+    AdminThemesListing: ThemesListing;
+    AdminThemesDetail: ThemesDetail;
 }
 
 export const AdminPageObjects = {
@@ -129,6 +133,8 @@ export const AdminPageObjects = {
     PromotionCreate,
     PromotionDetail,
     YourProfile,
+    ThemesListing,
+    ThemesDetail,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -295,5 +301,11 @@ export const test = base.extend<FixtureTypes>({
 
     AdminYourProfile: async ({ AdminPage }, use) => {
         await use(new YourProfile(AdminPage));
+    },
+    AdminThemesListing: async ({ AdminPage }, use) => {
+        await use(new ThemesListing(AdminPage));
+    },
+    AdminThemesDetail: async ({ AdminPage }, use) => {
+        await use(new ThemesDetail(AdminPage));
     },
 });
