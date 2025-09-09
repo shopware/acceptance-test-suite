@@ -40,6 +40,7 @@ export default defineConfig([
         rules: {
             "playwright/expect-expect": "off",
             "playwright/no-standalone-expect": "off",
+            "playwright/no-skipped-test": ["warn", { allowConditional: true }],
         },
     },
 ]);
