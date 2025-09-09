@@ -9,7 +9,6 @@ test('Verify sign-up email', { tag: '@Email' }, async ({
     StorefrontAccountLogin,
     StorefrontAccount,
 }) => {
-     
     test.skip(InstanceMeta.isSaaS, 'Skipping test because it requires a local mailpit instance.');
 
     // Login with a new customer
