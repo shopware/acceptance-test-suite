@@ -172,6 +172,24 @@ export async function replaceElements(
     );
 }
 
+export interface ReplaceTarget {
+    selector: string | Locator;
+    replaceWith?: string;
+}
+  
+/**
+ * Replaces elements individually based on an array of targets.
+ * 
+ *@param page - Playwright page
+ *@param targets - Array of objects containing selectors and optional replacement strings. 
+ */
+export async function replaceElementsIndividually(page: Page, targets: ReplaceTarget[]) {
+    for (const target of targets) {
+        const { selector, replaceWith } = target;
+        await replaceElements(page, [selector], replaceWith ?? '***');
+    }
+}
+
 
 /**
  * Calculates the ideal viewport dimensions for a Playwright test based on scrollable content,
