@@ -40,6 +40,7 @@ import type {
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 import { clearDelayedCache } from './Cache';
+import { encode } from 'image-js';
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -405,7 +406,7 @@ export class TestDataService {
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
         const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
-            data: Buffer.from(image.toBuffer()),
+            data: Buffer.from(encode(image)),
             headers: { 'content-type': 'image/png' },
         });
         expect(response.ok()).toBeTruthy();

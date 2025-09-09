@@ -2,11 +2,18 @@ import { Image } from 'image-js';
 
 export function createRandomImage(width = 800, height = 600) {
 
-    const buffer = Buffer.alloc(width * height * 4);
+    const channels = 3; // RGB
+    const data = new Uint8Array(width * height * channels);
 
-    let i = 0;
-    while (i < buffer.length) {
-        buffer[i++] = Math.floor(Math.random() * 256);
+    // Fill the buffer with random bytes 0..255
+    for (let i = 0; i < data.length; i++) {
+        data[i] = (Math.random() * 256) | 0;
     }
-    return new Image(width, height, buffer);
+
+    // Construct the image from your data
+    return new Image(width, height, {
+        colorModel: 'RGB',
+        bitDepth: 8,
+        data,
+    });
 }
