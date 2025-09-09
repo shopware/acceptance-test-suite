@@ -13,7 +13,7 @@ async function applyToElements(
     page: Page,
     selectors: (string | Locator)[],
     stringHandler: (page: Page, selectors: string[]) => Promise<void>,
-    locatorHandler: (el: Locator) => Promise<void>
+    locatorHandler: (el: Locator) => Promise<void>,
 ) {
     if (!selectors.length) return;
 
@@ -60,7 +60,7 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
             await handle.evaluate(node => {
                 (node as HTMLElement).style.visibility = 'hidden';
             });
-        }
+        },
     );
 }
 
@@ -73,7 +73,7 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
 export async function replaceElements(
     page: Page,
     selectors: (string | Locator)[],
-    replaceWith = '***'
+    replaceWith = '***',
 ) {
     if (!selectors.length) {
         console.warn(`[Error] No replaceable elements stated.`);
@@ -168,7 +168,7 @@ export async function replaceElements(
                     maskGeneric(node as HTMLElement);
                 }
             }, replaceWith);
-        }
+        },
     );
 }
 
@@ -244,7 +244,7 @@ const defaultOptions: Required<Options> = {
 
 export async function setViewport(
     page: Page,
-    options: Options = {}
+    options: Options = {},
 ): Promise<void> {
 
     // Merge options with defaults
@@ -304,7 +304,7 @@ export async function setViewport(
                 if (headerHandle && scrollableHandle) {
                     const isInside = await page.evaluate(
                         ([headerEl, containerEl]) => containerEl.contains(headerEl),
-                        [headerHandle, scrollableHandle]
+                        [headerHandle, scrollableHandle],
                     );
                     if (!isInside) {
                         // @ts-expect-error no DOM types in this context

@@ -571,7 +571,7 @@ export class TestDataService {
             salesChannel.countryId,
             salesChannel.paymentMethodId,
             salutation.id,
-            overrides
+            overrides,
         );
 
         const response = await this.AdminApiClient.post('customer?_response=detail', {
@@ -686,7 +686,7 @@ export class TestDataService {
             customer,
             customerAddress,
             salesChannel.id,
-            overrides
+            overrides,
         );
 
         const orderResponse = await this.AdminApiClient.post('order?_response=detail', {
@@ -2239,7 +2239,7 @@ export class TestDataService {
         countryId: string,
         defaultPaymentMethodId: string,
         salutationId: string,
-        overrides: Partial<Customer> = {}
+        overrides: Partial<Customer> = {},
     ): Partial<Customer> {
         const { id: id, uuid: customerUuid } = this.IdProvider.getIdPair();
         const firstName = 'John';
@@ -2406,7 +2406,7 @@ export class TestDataService {
         customer: Customer,
         customerAddress: CustomerAddress,
         salesChannelId = this.defaultSalesChannel.id,
-        overrides: Partial<Order> = {}
+        overrides: Partial<Order> = {},
     ): Partial<Order> {
         const date = new Date();
         const orderDateTime = this.convertDateTime(date);
@@ -2815,7 +2815,7 @@ export class TestDataService {
         currencyId: string,
         languageId: string,
         snippetSetId: string,
-        overrides: Partial<SalesChannelDomain> = {}
+        overrides: Partial<SalesChannelDomain> = {},
     ): Partial<SalesChannelDomain> {
         const appUrl = process.env['APP_URL'];
         const baseUrl = `${appUrl}test-${this.IdProvider.getIdPair().uuid}/`;
