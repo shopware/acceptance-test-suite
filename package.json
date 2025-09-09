@@ -55,6 +55,6 @@
     "eslint-plugin-playwright": "^2.2.2",
     "ts-node": "10.9.2",
     "typescript": "5.9.2",
-    "unbuild": "^3.6.1"
+    "unbuild": "^2.0.0"
   }
 }
