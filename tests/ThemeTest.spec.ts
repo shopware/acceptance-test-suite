@@ -6,5 +6,5 @@ test('Theme compilation.', async ({
     const allCSSResponsePromise = StorefrontPage.waitForResponse(/all\.css/);
     await StorefrontPage.reload();
     const response = await allCSSResponsePromise;
-    await expect(response.status()).toBeLessThan(400);
+    expect(response.status()).toBeLessThan(400);
 });
