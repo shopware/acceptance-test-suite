@@ -1,4 +1,4 @@
-import { Image } from 'image-js';
+import { encode, Image } from 'image-js';
 
 export function createRandomImage(width = 800, height = 600) {
 
@@ -17,3 +17,8 @@ export function createRandomImage(width = 800, height = 600) {
         data,
     });
 }
+
+export function encodeImage(image: Image) {
+    return Buffer.from(encode(image));
+}
+

@@ -1,4 +1,4 @@
-import { createRandomImage } from './ImageHelper';
+import { createRandomImage, encodeImage } from './ImageHelper';
 import { getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
@@ -406,7 +406,7 @@ export class TestDataService {
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
         const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
-            data: Buffer.from(encode(image)),
+            data: encodeImage(image),
             headers: { 'content-type': 'image/png' },
         });
         expect(response.ok()).toBeTruthy();
