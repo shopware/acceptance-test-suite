@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.29.1](https://github.com/shopware/acceptance-test-suite/compare/v11.29.0...v11.29.1) (2025-09-10)
+
+
+### Bug Fixes
+
+* disable services locator tests in SaaS ([#454](https://github.com/shopware/acceptance-test-suite/issues/454)) ([1c80756](https://github.com/shopware/acceptance-test-suite/commit/1c8075690976a83a96085387b190a4052c40d8e9))
+* empty state selector ([#458](https://github.com/shopware/acceptance-test-suite/issues/458)) ([853981f](https://github.com/shopware/acceptance-test-suite/commit/853981f5b3d47611c2452a0313d7f21f4c41bcf7))
+
 ## [11.29.0](https://github.com/shopware/acceptance-test-suite/compare/v11.28.0...v11.29.0) (2025-09-08)
 
 

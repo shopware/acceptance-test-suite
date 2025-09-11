@@ -20,6 +20,7 @@ export interface HelperFixtureTypes {
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     IdProvider: [
+        // eslint-disable-next-line no-empty-pattern
         async ({ }, use, workerInfo) => {
             const seed = process.env.SHOPWARE_ACCESS_KEY_ID || process.env.SHOPWARE_ADMIN_PASSWORD || 'test-suite';
             const idProvider = new IdProvider(workerInfo.parallelIndex, seed);
@@ -32,8 +33,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     SaaSInstanceSetup: [
         async ({ AdminApiContext: context }, use) => {
             const SetupInstance = async function SetupInstance() {
-                // eslint-disable-next-line playwright/no-skipped-test
-                await test.skip(!(await isSaaSInstance(context)), 'Skipping SaaS setup, could not detect SaaS instance');
+                test.skip(!(await isSaaSInstance(context)), 'Skipping SaaS setup, could not detect SaaS instance');
 
                 expect(context.options.admin_username, 'setup requires admin user credentials').toEqual(expect.any(String));
                 expect(context.options.admin_password, 'setup requires admin user credentials').toEqual(expect.any(String));
@@ -42,13 +42,13 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 const instanceStatusResponse = await context.get('./instance/status');
                 const instanceStatus = await instanceStatusResponse.json() as { name: string, inStatusSince: string, tags: [string] };
 
-                await expect(instanceStatus.tags, 'expect instance to have "ci" tag').toContain('ci');
+                expect(instanceStatus.tags, 'expect instance to have "ci" tag').toContain('ci');
 
                 const currency = await getCurrency('USD', context);
                 const language = await getLanguageData('en-US', context);
 
                 await context.post('./_actions/set-default-entities',
-                    { data: { currencyId: currency.id, languageId: language.id } }
+                    { data: { currencyId: currency.id, languageId: language.id } },
                 );
 
                 // we need to be authenticated with an sbp user

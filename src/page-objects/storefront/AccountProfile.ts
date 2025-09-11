@@ -31,7 +31,7 @@ export class AccountProfile implements PageObject {
 
     constructor(
         page: Page,
-        instanceMeta: HelperFixtureTypes['InstanceMeta']
+        instanceMeta: HelperFixtureTypes['InstanceMeta'],
     ) {
         this.page = page;
         this.instanceMeta = instanceMeta;
