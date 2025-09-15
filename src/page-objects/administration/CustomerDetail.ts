@@ -6,6 +6,8 @@ import { satisfies } from 'compare-versions';
 export class CustomerDetail implements PageObject {
     public readonly editButton: Locator;
     public readonly generalTab: Locator;
+    public readonly addressesTab: Locator;
+    public readonly ordersTab: Locator;
     public readonly accountCard: Locator;
     public readonly customFieldCard: Locator;
     public readonly customFieldSetTabs: Locator;
@@ -23,6 +25,8 @@ export class CustomerDetail implements PageObject {
         this.instanceMeta = instanceMeta;
         this.editButton = page.getByRole('button', { name: 'Edit' });
         this.generalTab = page.getByRole('link', { name: 'General' });
+        this.addressesTab = page.getByRole('tab', { name: 'Addresses' });
+        this.ordersTab = page.getByRole('tab', { name: 'Orders' });
         this.accountCard = page.locator('.sw-customer-card');
 
         if (satisfies(instanceMeta.version, '<6.7')) {
