@@ -44,6 +44,7 @@ import { PromotionDetail } from './administration/PromotionDetail';
 import { YourProfile } from './administration/YourProfile';
 import { ThemesListing } from './administration/ThemesListing';
 import { ThemesDetail } from './administration/ThemesDetail';
+import { MediaListing } from './administration/MediaListing';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -89,6 +90,7 @@ export interface AdministrationPageTypes {
     AdminYourProfile: YourProfile;
     AdminThemesListing: ThemesListing;
     AdminThemesDetail: ThemesDetail;
+    AdminMediaListing: MediaListing;
 }
 
 export const AdminPageObjects = {
@@ -135,6 +137,7 @@ export const AdminPageObjects = {
     YourProfile,
     ThemesListing,
     ThemesDetail,
+    MediaListing,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -305,7 +308,12 @@ export const test = base.extend<FixtureTypes>({
     AdminThemesListing: async ({ AdminPage }, use) => {
         await use(new ThemesListing(AdminPage));
     },
+
     AdminThemesDetail: async ({ AdminPage }, use) => {
         await use(new ThemesDetail(AdminPage));
+    },
+
+    AdminMediaListing: async ({ AdminPage }, use) => {
+        await use(new MediaListing(AdminPage));
     },
 });
