@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.30.0](https://github.com/shopware/acceptance-test-suite/compare/v11.29.1...v11.30.0) (2025-09-15)
+
+
+### Features
+
+* add media listing page object ([#473](https://github.com/shopware/acceptance-test-suite/issues/473)) ([5c1f0a3](https://github.com/shopware/acceptance-test-suite/commit/5c1f0a35adbcb1404c276296cd04f47daad6b692))
+* bump npm packages ([#469](https://github.com/shopware/acceptance-test-suite/issues/469)) ([b0b265c](https://github.com/shopware/acceptance-test-suite/commit/b0b265c09bcb73cb45a67583dd55775ed15ab8cc))
+
+
+### Bug Fixes
+
+* add new locators to customer detail page ([#471](https://github.com/shopware/acceptance-test-suite/issues/471)) ([ec27fa0](https://github.com/shopware/acceptance-test-suite/commit/ec27fa07f3e69e310627c7df220beb7d8564e6b5))
+
 ## [11.29.1](https://github.com/shopware/acceptance-test-suite/compare/v11.29.0...v11.29.1) (2025-09-10)
 
 
