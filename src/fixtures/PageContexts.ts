@@ -60,7 +60,7 @@ export const test = base.extend<FixtureTypes>({
             base.slow();
 
             await AdminApiContext.post(
-                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
+                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`,
             );
             await clearDelayedCache(AdminApiContext);
 
@@ -69,7 +69,6 @@ export const test = base.extend<FixtureTypes>({
             if (InstanceMeta.isSaaS) {
                 while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
                     await clearDelayedCache(AdminApiContext);
-                    // eslint-disable-next-line playwright/no-wait-for-timeout
                     await page.waitForTimeout(4000);
                 }
             }

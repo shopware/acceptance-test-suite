@@ -159,7 +159,7 @@ export class AdminApiContext {
     private async handleRequest<PAYLOAD>(
       method: 'get' | 'post' | 'patch' | 'delete' | 'fetch' | 'head',
       url: string,
-      options?: RequestOptions<PAYLOAD>
+      options?: RequestOptions<PAYLOAD>,
     ): Promise<APIResponse> {
         const methodMap = {
             get: this.context.get.bind(this.context),

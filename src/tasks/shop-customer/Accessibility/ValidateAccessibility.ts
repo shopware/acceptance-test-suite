@@ -19,7 +19,7 @@ export const ValidateAccessibility = base.extend<{ ValidateAccessibility: Valida
             assertViolations = true,
             createReport = true,
             ruleTags = ['wcag2a', 'wcag2aa', 'wcag2aaa', 'wcag21a', 'wcag21aa', 'best-practice'],
-            outputDir = 'test-results/AccessibilityReports'
+            outputDir = 'test-results/AccessibilityReports',
         ) => {
             return async function ValidateAccessibility() {
 

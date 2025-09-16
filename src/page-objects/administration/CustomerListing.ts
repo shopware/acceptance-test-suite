@@ -40,6 +40,8 @@ export class CustomerListing implements PageObject {
         const customerGroup = customer.locator('.sw-data-grid__cell--group');
         const customerEmailAddress = customer.locator('.sw-data-grid__cell--email');
         const customerCheckbox = customer.getByRole('checkbox');
+        const customerCreatedTime = customer.locator('.sw-data-grid__cell--createdAt');
+        const customerAvatar = customer.locator('.sw-avatar__circle');
 
         return {
             customerName: customerName,
@@ -50,6 +52,8 @@ export class CustomerListing implements PageObject {
             customerGroup: customerGroup,
             customerEmailAddress: customerEmailAddress,
             customerCheckbox: customerCheckbox,
+            customerCreatedTime: customerCreatedTime,
+            customerAvatar: customerAvatar,
         }
     }
 
