@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.31.0](https://github.com/shopware/acceptance-test-suite/compare/v11.30.0...v11.31.0) (2025-09-24)
+
+
+### Features
+
+* add shopping experiences pages ([#474](https://github.com/shopware/acceptance-test-suite/issues/474)) ([e62f313](https://github.com/shopware/acceptance-test-suite/commit/e62f313584c14ec6da96fd8eb16ccb02b2c12319))
+
 ## [11.30.0](https://github.com/shopware/acceptance-test-suite/compare/v11.29.1...v11.30.0) (2025-09-15)
 
 
