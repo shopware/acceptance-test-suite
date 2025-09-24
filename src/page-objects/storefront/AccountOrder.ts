@@ -12,6 +12,7 @@ export class AccountOrder implements PageObject {
     public readonly orderDetails: Locator;
     public readonly invoiceHTML: Locator;
     public readonly creditItem: Locator;
+    public readonly noOrdersAlert: Locator;
 
     public readonly page: Page;
 
@@ -28,6 +29,7 @@ export class AccountOrder implements PageObject {
         this.orderDetails = page.locator('.order-item-detail');
         this.invoiceHTML = page.getByRole('link', { name: '.html' });
         this.creditItem = page.locator(`.line-item:has-text("${translate('storefront:account:orders.creditItem')}")`);
+        this.noOrdersAlert = page.locator('.alert-warning');
     }
 
     async getOrderByOrderNumber(orderNumber: string): Promise<Record<string, Locator>> {
