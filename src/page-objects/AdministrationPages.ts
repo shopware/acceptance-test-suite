@@ -45,6 +45,9 @@ import { YourProfile } from './administration/YourProfile';
 import { ThemesListing } from './administration/ThemesListing';
 import { ThemesDetail } from './administration/ThemesDetail';
 import { MediaListing } from './administration/MediaListing';
+import {LayoutListing} from './administration/LayoutListing';
+import { LayoutCreate } from './administration/LayoutCreate';
+import { ListingPageLayoutDetail } from './administration/ListingPageLayoutDetail';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -91,6 +94,9 @@ export interface AdministrationPageTypes {
     AdminThemesListing: ThemesListing;
     AdminThemesDetail: ThemesDetail;
     AdminMediaListing: MediaListing;
+    AdminLayoutListing: LayoutListing
+    AdminListingPageLayoutDetail: ListingPageLayoutDetail;
+    AdminLayoutCreate: LayoutCreate;
 }
 
 export const AdminPageObjects = {
@@ -138,6 +144,9 @@ export const AdminPageObjects = {
     ThemesListing,
     ThemesDetail,
     MediaListing,
+    LayoutListing,
+    ListingPageLayoutDetail,
+    LayoutCreate,
 }
 
 export const test = base.extend<FixtureTypes>({
@@ -315,5 +324,17 @@ export const test = base.extend<FixtureTypes>({
 
     AdminMediaListing: async ({ AdminPage }, use) => {
         await use(new MediaListing(AdminPage));
+    },
+
+    AdminLayoutListing: async ({ AdminPage }, use) => {
+        await use(new LayoutListing(AdminPage));
+    },
+
+    AdminListingPageLayoutDetail: async ({ AdminPage }, use) => {
+        await use(new ListingPageLayoutDetail(AdminPage));
+    },
+
+    AdminLayoutCreate: async ({ AdminPage }, use) => {
+        await use(new LayoutCreate(AdminPage));
     },
 });
