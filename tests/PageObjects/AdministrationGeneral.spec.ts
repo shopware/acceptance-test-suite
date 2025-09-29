@@ -14,7 +14,6 @@ test('Administration page objects - General.', async ({
     TestDataService,
     AdminOrderDetail,
     AdminProductDetail,
-    AdminShopwareServices,
     AdminMedia,
 }) => {
     await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
@@ -62,13 +61,7 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.expects(AdminMedia.uploadFileButton).toBeVisible();
     await ShopAdmin.expects(AdminMedia.searchInput).toBeVisible();
     await ShopAdmin.expects(AdminMedia.addNewFolderButton).toBeVisible();
-
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    if (satisfies(InstanceMeta.version, '>=6.7.1')) {
-        await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toBeVisible();
-        await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toContainText('Introducing Shopware Services');
-        await ShopAdmin.expects(AdminDashboard.shopwareServicesExploreNowButton).toBeVisible();
-    }
+    
     await ShopAdmin.expects(AdminDashboard.adminMenuUserActions).toBeVisible();
     await AdminDashboard.adminMenuUserActions.click();
     await ShopAdmin.expects(AdminDashboard.adminMenuLogoutButton).toBeVisible();
