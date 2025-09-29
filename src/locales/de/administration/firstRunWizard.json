@@ -1,0 +1,35 @@
+{
+    "welcome": {
+        "text": "Willkommen bei der Shopware 6 Administration"
+    },
+    "buttons": {
+        "install": "Installieren",
+        "installMigrationAssistant": "Migration Assistant installieren",
+        "installDemoData": "Demodaten installieren"
+    },
+    "headers": {
+        "dataImport": "Erste Schritte mit Shopware 6",
+        "defaultValues": "Standardwerte einrichten",
+        "mailerConfiguration": "E-Mail-Konfiguration",
+        "payPalSetup": "PayPal einrichten",
+        "extensions": "Erweiterungen",
+        "shopwareAccount": "Shopware Account",
+        "shopwareStore": "Shopware Store",
+        "done": "Fertig"
+    },
+    "fields": {
+        "host": "Host",
+        "port": "Port",
+        "username": "Benutzername",
+        "senderAddress": "Absenderadresse",
+        "deliveryAddress": "Zustelladresse",
+        "disableEmailDelivery": "E-Mail-Versand deaktivieren"
+    },
+    "placeholders": {
+        "selectSalesChannels": "Vertriebskanäle auswählen..."
+    },
+    "regions": {
+        "germanRegion": "Deutschland / Österreich / Schweiz",
+        "tools": "Tools"
+    }
+}

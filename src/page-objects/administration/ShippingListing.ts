@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class ShippingListing implements PageObject {
     public readonly header: Locator;
@@ -24,10 +25,10 @@ export class ShippingListing implements PageObject {
         this.deleteButton = page.locator('.sw-context-menu-item--danger');
 
         //warning modal
-        this.modal = page.getByRole('dialog', { name: 'Warning' });
-        this.modalHeader = this.modal.getByRole('heading', { name: 'Warning' });
-        this.modalCancelButton = this.modal.getByRole('button', {name: 'Cancel' });
-        this.modalDeleteButton = this.modal.getByRole('button', {name: 'Delete' });
+        this.modal = page.getByRole('dialog', { name: translate('administration:shipping:dialogs.warning') });
+        this.modalHeader = this.modal.getByRole('heading', { name: translate('administration:shipping:dialogs.warning') });
+        this.modalCancelButton = this.modal.getByRole('button', { name: translate('administration:shipping:dialogs.cancel') });
+        this.modalDeleteButton = this.modal.getByRole('button', { name: translate('administration:shipping:dialogs.delete') });
     }
 
     url() {

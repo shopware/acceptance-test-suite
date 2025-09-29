@@ -1,0 +1,89 @@
+{
+    "common": {
+        "salutation": "Salutation",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "company": "Company",
+        "department": "Department",
+        "back": "Back",
+        "changePassword": "Change password",
+        "passwordUpdated": "Your password has been updated.",
+        "cashOnDelivery": "Cash on delivery",
+        "paidInAdvance": "Paid in advance",
+        "invoice": "Invoice"
+    },
+    "login": {
+        "email": "Your email address",
+        "password": "Your password",
+        "logIn": "Log in",
+        "logOut": "Log out",
+        "forgotPassword": "I have forgotten my password.",
+        "invalidCredentials": "Could not find an account that matches the given credentials.",
+        "successfulLogout": "Successfully logged out."
+    },
+    "profile": {
+        "saveChanges": "Save changes",
+        "changeEmail": "Change email address",
+        "emailConfirmation": "Email address confirmation",
+        "emailUpdated": "Your email address has been updated.",
+        "invalidEmail": "Invalid email address.",
+        "emailUpdateFailure": "Email address could not be changed.",
+        "passwordTooShort": "Input is too short.",
+        "passwordUpdateFailure": "Password could not be changed."
+    },
+    "orders": {
+        "download": "Download",
+        "cancelOrder": "Cancel order",
+        "repeatOrder": "Repeat order",
+        "changePaymentMethod": "Change payment method",
+        "actions": "Actions",
+        "expand": "Expand",
+        "showDetails": "Show details",
+        "creditItem": "CreditItem",
+        "orderNumber": "Order number",
+        "plusVat": "plus",
+        "vatSuffix": "% VAT",
+        "shippingCosts": "Shipping costs:",
+        "totalGross": "Total (gross):"
+    },
+    "addresses": {
+        "street": "Street",
+        "streetAddress": "Street address",
+        "city": "City",
+        "country": "Country",
+        "postalCode": "Postal code",
+        "state": "State",
+        "editAddress": "Edit address",
+        "useAsDefaultBilling": "Use as default billing address",
+        "useAsDefaultShipping": "Use as default shipping address",
+        "deliveryNotPossible": "A delivery to this country is not possible."
+    },
+    "registration": {
+        "continue": "Continue",
+        "differentShippingAddress": "Shipping and billing address do not match."
+    },
+    "general": {
+        "overview": "Overview",
+        "personalData": "Personal data",
+        "defaultPaymentMethod": "Default payment method",
+        "defaultBillingAddress": "Default billing address",
+        "defaultShippingAddress": "Default shipping address",
+        "yourAccount": "Your account",
+        "newsletter": "Yes, I would like to",
+        "newsletterRegistrationSuccess": "You have successfully subscribed to the newsletter.",
+        "cannotDeliverToCountry": "We can not deliver to the country that is stored in your delivery address.",
+        "shippingNotPossible": "Shipping to the selected shipping address is currently not possible."
+    },
+    "recovery": {
+        "title": "Password recovery",
+        "subtitle": "We will send you a confirmation email. Click the link in that email in order to change your password.",
+        "requestEmail": "Request email",
+        "emailSent": "If the provided email address is registered, a confirmation email including a password reset link has been sent.",
+        "invalidLink": "The password reset link seems to be invalid.",
+        "newPassword": "New password",
+        "passwordConfirmation": "Password confirmation"
+    },
+    "payment": {
+        "change": "Change"
+    }
+}

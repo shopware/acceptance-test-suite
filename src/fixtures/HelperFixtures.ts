@@ -5,23 +5,27 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
 import { satisfies } from 'compare-versions';
+import type { TranslateFn, TranslationKey } from '../types/TranslationTypes';
+import { BUNDLED_RESOURCES } from '../locales';
 
 type FeaturesType = Record<string, boolean>;
 
 export interface HelperFixtureTypes {
     IdProvider: IdProvider;
-    SaaSInstanceSetup: () => Promise<void>,
+    SaaSInstanceSetup: () => Promise<void>;
     InstanceMeta: {
-        version: string,
-        isSaaS: boolean,
-        features: FeaturesType,
-    },
+        version: string;
+        isSaaS: boolean;
+        features: FeaturesType;
+    };
+    CustomTranslationResources: typeof BUNDLED_RESOURCES | undefined;
+    Translate: TranslateFn;
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     IdProvider: [
         // eslint-disable-next-line no-empty-pattern
-        async ({ }, use, workerInfo) => {
+        async ({}, use, workerInfo) => {
             const seed = process.env.SHOPWARE_ACCESS_KEY_ID || process.env.SHOPWARE_ADMIN_PASSWORD || 'test-suite';
             const idProvider = new IdProvider(workerInfo.parallelIndex, seed);
 
@@ -40,16 +44,14 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
                 // check tags
                 const instanceStatusResponse = await context.get('./instance/status');
-                const instanceStatus = await instanceStatusResponse.json() as { name: string, inStatusSince: string, tags: [string] };
+                const instanceStatus = (await instanceStatusResponse.json()) as { name: string; inStatusSince: string; tags: [string] };
 
                 expect(instanceStatus.tags, 'expect instance to have "ci" tag').toContain('ci');
 
                 const currency = await getCurrency('USD', context);
                 const language = await getLanguageData('en-US', context);
 
-                await context.post('./_actions/set-default-entities',
-                    { data: { currencyId: currency.id, languageId: language.id } },
-                );
+                await context.post('./_actions/set-default-entities', { data: { currencyId: currency.id, languageId: language.id } });
 
                 // we need to be authenticated with an sbp user
                 const token = await AdminApiContext.authenticateWithUserPassword(context.context, context.options);
@@ -71,7 +73,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             if (satisfies(config.version, '>=6.6.1.0')) {
                 const featuresResponse = await context.get('./_action/feature-flag');
                 expect(featuresResponse.ok(), '/_action/feature-flag request failed').toBeTruthy();
-                const data = (await featuresResponse.json()) as Record<string, { major: boolean, active: boolean }>;
+                const data = (await featuresResponse.json()) as Record<string, { major: boolean; active: boolean }>;
                 for (const k in data) {
                     features[k] = data[k].active;
                 }
@@ -82,6 +84,32 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 isSaaS: await isSaaSInstance(context),
                 features,
             });
+        },
+        { scope: 'worker' },
+    ],
+
+    CustomTranslationResources: [
+        // eslint-disable-next-line no-empty-pattern
+        async ({}, use) => {
+            await use(undefined);
+        },
+        { scope: 'worker' },
+    ],
+
+    Translate: [
+        async ({ CustomTranslationResources }, use) => {
+            const { LanguageHelper, setCurrentContext } = await import('../services/LanguageHelper');
+            const languageHelper = await LanguageHelper.createInstance('en', CustomTranslationResources);
+
+            setCurrentContext({ languageHelper });
+
+            const contextualTranslate: TranslateFn = (key: TranslationKey, options?: Record<string, unknown>): string => {
+                return languageHelper.translate(key, options);
+            };
+
+            await use(contextualTranslate);
+
+            setCurrentContext(null);
         },
         { scope: 'worker' },
     ],

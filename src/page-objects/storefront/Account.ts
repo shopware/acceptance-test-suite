@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
 
@@ -20,21 +21,21 @@ export class Account implements PageObject {
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.page = page;
         this.instanceMeta = instanceMeta;
-        this.headline = page.getByRole('heading', { name: 'Overview' });
-        this.personalDataCardTitle = page.getByRole('heading', { name: 'Personal data' });
-        this.paymentMethodCardTitle = page.getByRole('heading', { name: 'Default payment method' });
-        this.billingAddressCardTitle = page.getByRole('heading', { name: 'Default billing address' });
-        this.shippingAddressCardTitle = page.getByRole('heading', { name: 'Default shipping address' });
-        this.newsletterCheckbox = page.getByLabel('Yes, I would like to');
-        this.newsletterRegistrationSuccessMessage = page.getByText('You have successfully subscribed to the newsletter.');
+        this.headline = page.getByRole('heading', { name: translate('storefront:account:general.overview') });
+        this.personalDataCardTitle = page.getByRole('heading', { name: translate('storefront:account:general.personalData') });
+        this.paymentMethodCardTitle = page.getByRole('heading', { name: translate('storefront:account:general.defaultPaymentMethod') });
+        this.billingAddressCardTitle = page.getByRole('heading', { name: translate('storefront:account:general.defaultBillingAddress') });
+        this.shippingAddressCardTitle = page.getByRole('heading', { name: translate('storefront:account:general.defaultShippingAddress') });
+        this.newsletterCheckbox = page.getByLabel(translate('storefront:account:general.newsletter'));
+        this.newsletterRegistrationSuccessMessage = page.getByText(translate('storefront:account:general.newsletterRegistrationSuccess'));
 
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.customerGroupRequestMessage = page.locator('.alert-content');
         } else {
             this.customerGroupRequestMessage = page.locator('.alert-content-container');
         }
-        this.cannotDeliverToCountryAlert = page.getByText('We can not deliver to the country that is stored in your delivery address.');
-        this.shippingToAddressNotPossibleAlert = page.getByText('Shipping to the selected shipping address is currently not possible.');
+        this.cannotDeliverToCountryAlert = page.getByText(translate('storefront:account:general.cannotDeliverToCountry'));
+        this.shippingToAddressNotPossibleAlert = page.getByText(translate('storefront:account:general.shippingNotPossible'));
     }
 
     async getCustomerGroupAlert(customerGroup: string): Promise<Locator> {

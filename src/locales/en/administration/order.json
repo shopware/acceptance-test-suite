@@ -1,0 +1,15 @@
+{
+    "detail": {
+        "items": "Items",
+        "sendDocument": "Send document",
+        "openActionsMenu": "Open actions menu"
+    },
+    "contextMenu": {
+        "sendDocument": "Send document"
+    },
+    "tabs": {
+        "general": "General",
+        "details": "Details",
+        "documents": "Documents"
+    }
+}

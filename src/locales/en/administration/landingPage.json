@@ -1,0 +1,20 @@
+{
+    "create": {
+        "searchLayoutsPlaceholder": "Search layouts...",
+        "assignLayout": "Assign layout",
+        "createNewLayout": "Create new layout",
+        "selectLayout": "Select layout"
+    },
+    "general": {
+        "name": "Name",
+        "save": "Save",
+        "active": "Active",
+        "salesChannels": "Sales Channels",
+        "seoUrl": "SEO URL"
+    },
+    "layout": {
+        "layout": "Layout",
+        "changeLayout": "Change layout",
+        "editInDesigner": "Edit in designer"
+    }
+}

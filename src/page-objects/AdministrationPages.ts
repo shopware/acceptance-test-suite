@@ -45,7 +45,7 @@ import { YourProfile } from './administration/YourProfile';
 import { ThemesListing } from './administration/ThemesListing';
 import { ThemesDetail } from './administration/ThemesDetail';
 import { MediaListing } from './administration/MediaListing';
-import {LayoutListing} from './administration/LayoutListing';
+import { LayoutListing } from './administration/LayoutListing';
 import { LayoutCreate } from './administration/LayoutCreate';
 import { ListingPageLayoutDetail } from './administration/ListingPageLayoutDetail';
 
@@ -77,9 +77,9 @@ export interface AdministrationPageTypes {
     AdminRuleDetail: RuleDetail;
     AdminRuleCreate: RuleCreate;
     AdminRuleListing: RuleListing;
-    AdminManufacturerCreate: ManufacturerCreate,
-    AdminManufacturerListing: ManufacturerListing,
-    AdminManufacturerDetail: ManufacturerDetail,
+    AdminManufacturerCreate: ManufacturerCreate;
+    AdminManufacturerListing: ManufacturerListing;
+    AdminManufacturerDetail: ManufacturerDetail;
     AdminProductListing: ProductListing;
     AdminProductBulkEdit: ProductBulkEdit;
     AdminCustomerBulkEdit: CustomerBulkEdit;
@@ -94,7 +94,7 @@ export interface AdministrationPageTypes {
     AdminThemesListing: ThemesListing;
     AdminThemesDetail: ThemesDetail;
     AdminMediaListing: MediaListing;
-    AdminLayoutListing: LayoutListing
+    AdminLayoutListing: LayoutListing;
     AdminListingPageLayoutDetail: ListingPageLayoutDetail;
     AdminLayoutCreate: LayoutCreate;
 }
@@ -147,10 +147,9 @@ export const AdminPageObjects = {
     LayoutListing,
     ListingPageLayoutDetail,
     LayoutCreate,
-}
+};
 
 export const test = base.extend<FixtureTypes>({
-
     AdminProductDetail: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new ProductDetail(AdminPage, InstanceMeta));
     },

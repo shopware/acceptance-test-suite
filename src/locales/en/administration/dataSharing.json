@@ -1,0 +1,13 @@
+{
+    "buttons": {
+        "agree": "Agree",
+        "disableDataSharing": "Disable data sharing"
+    },
+    "messages": {
+        "sharingData": "You are sharing data with us",
+        "termsAgreement": "By clicking \"Agree\", you confirm that you are authorised to enter into this agreement on behalf of your company."
+    },
+    "headlines": {
+        "dataConsent": "Data Consent"
+    }
+}

@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class PageNotFound implements PageObject {
     public readonly pageNotFoundImage: Locator;
@@ -11,10 +12,10 @@ export class PageNotFound implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.pageNotFoundImage = page.getByAltText('Page not found');
-        this.headline = page.getByRole('heading', { name: 'Page not found' });
-        this.pageNotFoundMessage = page.getByText(`We are sorry, the page you're looking for could not be found. It may no longer exist or may have been moved.`);
-        this.backToShopButton = page.getByRole('link', { name: 'Back to shop' });
+        this.pageNotFoundImage = page.getByAltText(translate('storefront:pageNotFound:title'));
+        this.headline = page.getByRole('heading', { name: translate('storefront:pageNotFound:title') });
+        this.pageNotFoundMessage = page.getByText(translate('storefront:pageNotFound:message'));
+        this.backToShopButton = page.getByRole('link', { name: translate('storefront:pageNotFound:backToShop') });
     }
 
     url() {
