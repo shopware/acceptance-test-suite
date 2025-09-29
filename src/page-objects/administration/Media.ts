@@ -13,7 +13,6 @@ export class Media implements PageObject {
   public readonly mediaItemContextMenu: Locator;
   public readonly searchInput: Locator;
 
-
   constructor(page: Page) {
     this.page = page;
     this.uploadFileButton = page.getByRole('button', { name: 'Upload file' });
