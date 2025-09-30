@@ -30,34 +30,36 @@ export class Media implements PageObject {
   url() {
     return `#/sw/media/index`;
   }
-  
-  /**
-   * Gets a specific media item by its name
-   * @param name The filename to look for
-   * @returns Locator for the specific media item
-   */
-  getMediaItemByName(name: string): Locator {
-    return this.page.locator(`.sw-media-base-item__name`, { hasText: name }).first();
-  }
 
   /**
-   * Gets the image element by its alt text
+   * Gets the title/name of a media item by its image alt text
    * @param alt The alt text of the image
-   * @returns Locator for the specific image element
+   * @returns Promise that resolves to the title text
    */
-  getImageLocatorByAlt(alt: string): Locator {
-    return this.mediaGridItems.locator(`img[alt="${alt}"]`).first();
+  async getMediaNameByAlt(alt: string): Promise<string> {
+    const mediaItem = this.mediaGridItems.filter({ has: this.page.locator(`img[alt="${alt}"]`) });
+    const titleElement = mediaItem.locator('.sw-media-base-item__name');
+    return await titleElement.textContent() || '';
   }
 
   /**
-   * Gets the context menu button for a specific media item
-   * @param name The filename to look for
+   * Gets a specific media item container by its name/title
+   * @param mediaName The name/title of the media item
+   * @returns Locator for the specific media item container
+   */
+  getMediaItemByName(mediaName: string): Locator {
+    return this.mediaGridItems.filter({ hasText: mediaName });
+  }
+
+  /**
+   * Gets the context menu button for a specific media item by media name
+   * @param mediaName The name/title of the media item
    * @returns Locator for the context menu button
    */
-  getContextMenuForMediaItem(name: string): Locator {
-    return this.mediaGridItems.filter({ hasText: name }).locator('.sw-context-button');
+  getContextMenuButtonByName(mediaName: string): Locator {
+    return this.getMediaItemByName(mediaName).locator('.sw-context-button');
   }
-  
+
   /**
    * Gets a specific context menu item by its text
    * @param itemText The text of the context menu item (e.g., 'Rename', 'Delete', etc.)
