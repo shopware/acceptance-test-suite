@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.32.0](https://github.com/shopware/acceptance-test-suite/compare/v11.31.0...v11.32.0) (2025-10-01)
+
+
+### Features
+
+* add language agnostic ([#478](https://github.com/shopware/acceptance-test-suite/issues/478)) ([03dedc8](https://github.com/shopware/acceptance-test-suite/commit/03dedc85bbd419ad656b15b6b9f6ce5e5d1415bf))
+
+
+### Bug Fixes
+
+* add new locator to media listing ([#481](https://github.com/shopware/acceptance-test-suite/issues/481)) ([8b28fea](https://github.com/shopware/acceptance-test-suite/commit/8b28fea9c0bb712ef76172876118417fceb3b74f))
+* export IdProvider ([#479](https://github.com/shopware/acceptance-test-suite/issues/479)) ([7114642](https://github.com/shopware/acceptance-test-suite/commit/7114642c989840c18afacf3e576fe3ef6a60d591))
+
 ## [11.31.0](https://github.com/shopware/acceptance-test-suite/compare/v11.30.0...v11.31.0) (2025-09-24)
 
 
