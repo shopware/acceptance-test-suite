@@ -1,0 +1,39 @@
+{
+    "general": {
+        "name": "Name",
+        "active": "Aktiv",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "delete": "Löschen",
+        "customFields": "Feld"
+    },
+    "actions": {
+        "createCategory": "Kategorie erstellen",
+        "addLandingPage": "Landingpage hinzufügen",
+        "configureHomePage": "Startseite konfigurieren",
+        "newCategoryAfter": "Kategorie"
+    },
+    "tabs": {
+        "general": "Allgemein",
+        "products": "Produkte",
+        "layout": "Layout",
+        "seo": "SEO"
+    },
+    "fields": {
+        "categoryType": "Kategorietyp",
+        "linkType": "Link-Typ",
+        "entity": "Entität",
+        "openInNewTab": "In neuem Tab öffnen"
+    },
+    "headings": {
+        "landingPages": "Landingpages"
+    },
+    "errors": {
+        "entityTypeNotFound": "Typ"
+    },
+    "entities": {
+        "category": "Kategorie",
+        "product": "Produkt",
+        "landingPage": "Landing page"
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "listing": {
+        "customers": "Customers",
+        "bulkEdit": "Bulk edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "startBulkEdit": "Start bulk edit",
+        "bulkEditItemsSelected": "Bulk edit - {{count}} items selected"
+    },
+    "detail": {
+        "general": "General",
+        "addresses": "Addresses",
+        "orders": "Orders",
+        "accept": "Accept",
+        "decline": "Decline",
+        "edit": "Edit",
+        "customerGroupRequestMessage": "Access to customer group \"{{customerGroup}}\" requested.",
+        "customerGroup": "Customer group",
+        "accountStatus": "Account status",
+        "language": "Language"
+    },
+    "bulkEdit": {
+        "title": "Bulk edit: {{count}} customer",
+        "applyChanges": "Apply changes",
+        "success": "Bulk edit - Success",
+        "close": "Close",
+        "changes": {
+            "customerGroup": "Change: Customer group",
+            "accountStatus": "Change: Account status",
+            "language": "Change: Language",
+            "tags": "Change: Tags",
+            "replyToRequest": "Reply to: Customer group request"
+        },
+        "placeholders": {
+            "selectCustomerGroup": "Select customer group...",
+            "selectLanguage": "Select language...",
+            "selectCustomerGroupRequestReply": "Select customer group request reply..."
+        }
+    }
+}

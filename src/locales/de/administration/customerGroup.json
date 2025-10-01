@@ -1,0 +1,23 @@
+{
+    "listing": {
+        "addCustomerGroup": "Kundengruppe hinzufügen",
+        "customerGroups": "Kundengruppen"
+    },
+    "create": {
+        "title": "Neue Kundengruppe",
+        "saveSuccess": "Die Kundengruppe wurde erfolgreich erstellt.",
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "cardTitle": "Kundengruppe",
+        "customSignupForm": "Individuelles Anmeldeformular",
+        "seoMetaDescription": "SEO-Meta-Beschreibung",
+        "companySignupForm": "Firmenanmeldeformular"
+    },
+    "detail": {
+        "registration": {
+            "accepted": "Akzeptiert",
+            "denied": "Abgelehnt"
+        },
+        "technicalUrl": "Technische URL"
+    }
+}

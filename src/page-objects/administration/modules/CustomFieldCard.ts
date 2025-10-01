@@ -1,6 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import { satisfies } from 'compare-versions';
 import type { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
+import { translate } from '../../../services/LanguageHelper';
 
 /**
  * Returns locators for assigned custom fields on entity detail pages.
@@ -14,9 +15,9 @@ import type { HelperFixtureTypes } from '../../../fixtures/HelperFixtures';
 export async function getCustomFieldCardLocators(page: Page, customFieldSetName: string, customFieldName: string, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
     let customFieldCard: Locator;
     if (satisfies(instanceMeta.version, '<6.7')) {
-        customFieldCard = page.locator('.sw-card').filter({ hasText: 'Custom fields' });
+        customFieldCard = page.locator('.sw-card').filter({ hasText: translate('administration:customField:general.customFields') });
     } else {
-        customFieldCard = page.locator('.mt-card').filter({ hasText: 'Custom fields' });
+        customFieldCard = page.locator('.mt-card').filter({ hasText: translate('administration:customField:general.customFields') });
     }
     const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
     const customFieldLabel = customFieldCard.locator('.sw-custom-field-set-renderer').locator('.sw-field__label').getByText(customFieldName);

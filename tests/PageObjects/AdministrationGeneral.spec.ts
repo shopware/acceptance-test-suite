@@ -1,4 +1,4 @@
-import { test } from '../../src';
+import { test, translate } from '../../src';
 
 test('Administration page objects - General.', async ({
     InstanceMeta,
@@ -40,7 +40,7 @@ test('Administration page objects - General.', async ({
     const order = await TestDataService.createOrder([{ product, quantity: 1 }], customer);
     await ShopAdmin.goesTo(AdminOrderDetail.url(order.id));
     await ShopAdmin.expects(AdminOrderDetail.dataGridContextButton).toBeVisible();
-    await ShopAdmin.expects(AdminOrderDetail.itemsCardHeader).toContainText('Items');
+    await ShopAdmin.expects(AdminOrderDetail.itemsCardHeader).toContainText(translate('administration:order:detail.items'));
     await ShopAdmin.expects(AdminOrderDetail.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));
@@ -59,5 +59,4 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.expects(AdminDashboard.adminMenuUserActions).toBeVisible();
     await AdminDashboard.adminMenuUserActions.click();
     await ShopAdmin.expects(AdminDashboard.adminMenuLogoutButton).toBeVisible();
-
 });

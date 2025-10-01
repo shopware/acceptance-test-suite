@@ -1,0 +1,11 @@
+{
+    "methods": {
+        "cashOnDelivery": "Cash on delivery",
+        "paidInAdvance": "Paid in advance",
+        "invoice": "Invoice"
+    },
+    "actions": {
+        "change": "Change",
+        "completePayment": "Complete payment"
+    }
+}

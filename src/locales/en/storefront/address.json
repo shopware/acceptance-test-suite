@@ -1,0 +1,20 @@
+{
+    "common": {
+        "salutation": "Salutation",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "company": "Company",
+        "department": "Department",
+        "street": "Street",
+        "postalCode": "Postal code"
+    },
+    "actions": {
+        "editAddress": "Edit address",
+        "useAsDefaultBilling": "Use as default billing address",
+        "useAsDefaultShipping": "Use as default shipping address",
+        "addressOptions": "Address options"
+    },
+    "messages": {
+        "deliveryNotPossible": "A delivery to this country is not possible."
+    }
+}

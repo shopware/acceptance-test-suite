@@ -1,0 +1,39 @@
+{
+    "common": {
+        "technicalName": "Technical name",
+        "position": "Position",
+        "labelEnglishGB": "Label (English (GB))"
+    },
+    "listing": {
+        "addNewSet": "Add new set"
+    },
+    "create": {
+        "assignTo": "Assign To",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "detail": {
+        "type": "Type",
+        "modifiableViaStoreApi": "Modifiable via Store API",
+        "placeholderEnglishGB": "Placeholder (English (GB))",
+        "helpTextEnglishGB": "Help text (English (GB))",
+        "availableInShoppingCart": "Available in shopping cart",
+        "select": "Select...",
+        "newCustomField": "New custom field",
+        "editCustomField": "Edit custom field",
+        "add": "Add"
+    },
+    "general": {
+        "customFields": "Custom fields"
+    },
+    "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "applyChanges": "Apply changes"
+    },
+    "dialogs": {
+        "warning": "Warning",
+        "deleteCustomField": "Delete custom field"
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "common": {
+        "back": "Zurück",
+        "cashOnDelivery": "Nachnahme",
+        "paidInAdvance": "Vorkasse",
+        "invoice": "Rechnung",
+        "standard": "Standard",
+        "express": "Express"
+    },
+    "cart": {
+        "addToCart": "In den Warenkorb",
+        "removeFromCart": "Aus dem Warenkorb entfernen",
+        "quantity": "Anzahl",
+        "price": "Preis",
+        "subtotal": "Zwischensumme",
+        "total": "Gesamt",
+        "emptyCart": "Ihr Warenkorb ist leer",
+        "continueShopping": "Weiter einkaufen",
+        "proceedToCheckout": "Zur Kasse",
+        "shoppingCart": "Warenkorb",
+        "goToCheckout": "Zur Kasse gehen",
+        "displayShoppingCart": "Warenkorb anzeigen",
+        "promoCode": "Aktionscode",
+        "stockReached": "nur noch 1x verfügbar"
+    },
+    "confirm": {
+        "confirmOrder": "Bestellung bestätigen",
+        "orderSummary": "Bestellübersicht",
+        "shippingAddress": "Lieferadresse",
+        "billingAddress": "Rechnungsadresse",
+        "shippingMethod": "Versandart",
+        "paymentMethod": "Zahlungsart",
+        "agreeToTerms": "Ich stimme den AGBs zu",
+        "revocationNotice": "Widerrufsbelehrung",
+        "completeOrder": "Bestellung abschließen",
+        "submitOrder": "Bestellung absenden",
+        "termsAndConditions": "Ich habe die allgemeinen Geschäftsbedingungen gelesen und akzeptiert.",
+        "immediateAccessToDigitalProduct": "Ich möchte sofortigen Zugang zu den digitalen Inhalten und erkenne an, dass ich damit mein Widerrufsrecht aufgebe."
+    },
+    "finish": {
+        "thankYou": "Vielen Dank für Ihre Bestellung!",
+        "thankYouForOrder": "Vielen Dank für Ihre Bestellung!",
+        "orderNumber": "Bestellnummer",
+        "orderConfirmation": "Bestellbestätigung",
+        "continueShopping": "Weiter einkaufen",
+        "grandTotal": "Gesamtsumme",
+        "plusVat": "zzgl.",
+        "vatSuffix": "% MwSt."
+    },
+    "orderEdit": {
+        "cancelOrder": "Bestellung stornieren"
+    },
+    "register": {
+        "createAccount": "Konto erstellen",
+        "guestCheckout": "Als Gast bestellen"
+    }
+}

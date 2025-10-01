@@ -3,9 +3,9 @@ import type { PageObject } from '../../types/PageObject';
 import { RuleCreate } from './RuleCreate';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
+import { translate } from '../../services/LanguageHelper';
 
 export class RuleDetail extends RuleCreate implements PageObject {
-
     public readonly contentView: Locator;
     public readonly shippingMethodAvailabilityRulesCard: Locator;
     public readonly shippingMethodAvailabilityRulesCardLink: Locator;
@@ -28,7 +28,6 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly assignmentModalSearchField: Locator;
     public readonly conditionORContainer: Locator;
     public readonly adminMenuAvatar: Locator;
-
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
@@ -77,20 +76,20 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.assignmentModalSearchField = this.assignmentModal.getByRole('textbox');
         this.adminMenuAvatar = page.locator('.sw-admin-menu__avatar');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.assignmentModalAddButton = this.assignmentModal.locator('.sw-button--primary').getByText('Add');
+            this.assignmentModalAddButton = this.assignmentModal.locator('.sw-button--primary').getByText(translate('administration:rule:buttons.add'));
         } else {
-            this.assignmentModalAddButton = this.assignmentModal.locator('.mt-button--primary').getByText('Add');
+            this.assignmentModalAddButton = this.assignmentModal.locator('.mt-button--primary').getByText(translate('administration:rule:buttons.add'));
         }
         this.conditionORContainer = page.locator('.sw-condition-or-container');
     }
 
     async getEntityCard(cardLocator: Locator): Promise<Record<string, Locator>> {
         return {
-            addAssignmentButton: cardLocator.getByText('Add assignment'),
-        }
+            addAssignmentButton: cardLocator.getByText(translate('administration:rule:buttons.addAssignment')),
+        };
     }
 
     url(ruleId?: string, tabName = 'base') {
-        return `#/sw/settings/rule/detail/${ruleId}/${tabName}`
+        return `#/sw/settings/rule/detail/${ruleId}/${tabName}`;
     }
 }

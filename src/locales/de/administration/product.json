@@ -1,0 +1,62 @@
+{
+    "listing": {
+        "addProduct": "Produkt hinzufügen",
+        "bulkEdit": "Massenbearbeitung",
+        "startBulkEdit": "Bearbeiten"
+    },
+    "create": {
+        "title": "Neues Produkt",
+        "saveSuccess": "Das Produkt wurde erfolgreich erstellt."
+    },
+    "detail": {
+        "name": "Name",
+        "description": "Beschreibung",
+        "price": "Preis",
+        "stock": "Lagerbestand",
+        "productNumber": "Produktnummer",
+        "manufacturer": "Hersteller",
+        "tax": "Steuer",
+        "properties": "Eigenschaften",
+        "customFields": "Feld",
+        "colorProperty": "Color",
+        "sizeProperty": "Size",
+        "stockPlaceholder": "Anzahl",
+        "restockTimePlaceholder": "Lagerbestand"
+    },
+    "errors": {
+        "flows": {
+            "productWritten": "Produkt {{productName}} konnte nicht gespeichert werden"
+        },
+        "followingErrorOccurred": "Fehler"
+    },
+    "variants": {
+        "properties": "Eigenschaften"
+    },
+    "flows": {
+        "tag": "Tag:"
+    },
+    "bulkEdit": {
+        "applyChanges": "Anwenden",
+        "success": "Erfolg",
+        "close": "Schließen"
+    },
+    "tabs": {
+        "specifications": "Specifications",
+        "advancedPricing": "Erweitert",
+        "variants": "Variants",
+        "layout": "Layout",
+        "crossSelling": "Cross Selling",
+        "seo": "SEO",
+        "reviews": "Bewertung"
+    },
+    "buttons": {
+        "save": "Speichern",
+        "uploadFile": "Hochladen",
+        "generateVariants": "Generate variants",
+        "next": "Weiter",
+        "saveVariants": "Speichern"
+    },
+    "modals": {
+        "generateVariants": "Generate variants"
+    }
+}
