@@ -1,0 +1,20 @@
+{
+    "common": {
+        "salutation": "Anrede",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "company": "Unternehmen",
+        "department": "Abteilung",
+        "street": "Straße",
+        "postalCode": "Postleitzahl"
+    },
+    "actions": {
+        "editAddress": "Adresse bearbeiten",
+        "useAsDefaultBilling": "Als Standard-Rechnungsadresse verwenden",
+        "useAsDefaultShipping": "Als Standard-Lieferadresse verwenden",
+        "addressOptions": "Adress-Optionen"
+    },
+    "messages": {
+        "deliveryNotPossible": "Eine Lieferung in dieses Land ist nicht möglich."
+    }
+}

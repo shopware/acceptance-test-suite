@@ -1,0 +1,20 @@
+{
+    "common": {
+        "name": "Name",
+        "availabilityRule": "Verfügbarkeitsregel"
+    },
+    "listing": {
+        "addShippingMethod": "Versandart hinzufügen"
+    },
+    "detail": {},
+    "methods": {
+        "standard": "Standard",
+        "express": "Express",
+        "customShippingMethod": "Benutzerdefinierte Versandart"
+    },
+    "dialogs": {
+        "warning": "Warnung",
+        "cancel": "Abbrechen",
+        "delete": "Löschen"
+    }
+}

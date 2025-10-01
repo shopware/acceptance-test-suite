@@ -1,7 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
-export class CheckoutOrderEdit implements PageObject{
+export class CheckoutOrderEdit implements PageObject {
     public readonly completePaymentButton: Locator;
     public readonly orderCancelButton: Locator;
     public readonly dialogOrderCancel: Locator;
@@ -26,18 +27,18 @@ export class CheckoutOrderEdit implements PageObject{
     constructor(page: Page) {
         this.page = page;
 
-        this.completePaymentButton = page.getByRole('button', { name : 'Complete payment' });
-        this.orderCancelButton = page.getByRole('button', { name: 'Cancel order' });
-        this.dialogOrderCancel = page.getByRole('dialog', { name: 'Cancel order' });
-        this.dialogOrderCancelButton = this.dialogOrderCancel.getByRole('button', { name: 'Cancel order' });
-        this.dialogBackButton = this.dialogOrderCancel.getByRole('button', { name: 'Back' });
+        this.completePaymentButton = page.getByRole('button', { name: translate('storefront:payment:actions.completePayment') });
+        this.orderCancelButton = page.getByRole('button', { name: translate('storefront:order:actions.cancelOrder') });
+        this.dialogOrderCancel = page.getByRole('dialog', { name: translate('storefront:order:actions.cancelOrder') });
+        this.dialogOrderCancelButton = this.dialogOrderCancel.getByRole('button', { name: translate('storefront:order:actions.cancelOrder') });
+        this.dialogBackButton = this.dialogOrderCancel.getByRole('button', { name: translate('storefront:order:actions.back') });
 
-        this.paymentCashOnDelivery = page.getByLabel('Cash on delivery');
-        this.paymentPaidInAdvance = page.getByLabel('Paid in advance');
-        this.paymentInvoice = page.getByLabel('Invoice');
+        this.paymentCashOnDelivery = page.getByLabel(translate('storefront:payment:methods.cashOnDelivery'));
+        this.paymentPaidInAdvance = page.getByLabel(translate('storefront:payment:methods.paidInAdvance'));
+        this.paymentInvoice = page.getByLabel(translate('storefront:payment:methods.invoice'));
 
-        this.shippingStandard = page.getByLabel('Standard');
-        this.shippingExpress = page.getByLabel('Express');
+        this.shippingStandard = page.getByLabel(translate('storefront:order:shipping.standard'));
+        this.shippingExpress = page.getByLabel(translate('storefront:order:shipping.express'));
     }
 
     url(orderUuid: string) {

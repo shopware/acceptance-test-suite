@@ -1,0 +1,12 @@
+{
+    "listing": {
+        "addDocument": "Add document"
+    },
+    "types": {
+        "invoice": "invoice"
+    },
+    "detail": {
+        "displayDocumentInMyAccount": "Display document in \"My\"",
+        "save": "Save"
+    }
+}

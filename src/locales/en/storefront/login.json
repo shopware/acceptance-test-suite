@@ -1,0 +1,26 @@
+{
+    "emailAddress": "Your email address",
+    "password": "Your password",
+    "loginButton": "Log in",
+    "forgotPassword": "I have forgotten my password.",
+    "logout": "Log out",
+    "invalidCredentials": "Could not find an account that matches the given credentials.",
+    "successfulLogout": "Successfully logged out.",
+    "passwordUpdated": "Your password has been updated.",
+    "register": {
+        "salutation": "Salutation",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "company": "Company",
+        "department": "Department",
+        "emailAddress": "Email address",
+        "password": "Password",
+        "streetAddress": "Street address",
+        "city": "City",
+        "country": "Country",
+        "postalCode": "Postal code",
+        "state": "State",
+        "differentShippingAddress": "Shipping and billing address do not match.",
+        "continue": "Continue"
+    }
+}
