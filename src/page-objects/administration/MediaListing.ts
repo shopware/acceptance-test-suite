@@ -13,7 +13,7 @@ export class MediaListing implements PageObject {
         this.page = page;
         this.scrollableElementVertical = page.locator('.sw-media-library__scroll-container');
         this.mediaFolder = (title: string) => page.locator('.sw-media-folder-item', { hasText: title });
-        this.emptyState = page.locator('.sw-empty-state__element');
+        this.emptyState = page.locator('.sw-media-library__empty-state');
         this.updatedAtDate = page.locator('.sw-media-quickinfo-metadata-createdAt.sw-media-quickinfo-metadata-item__description');
     }
     url() {
