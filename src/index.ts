@@ -7,6 +7,7 @@ import { test as TestData } from './fixtures/TestData';
 import { test as HelperFixtures } from './fixtures/HelperFixtures';
 import { test as StorefrontPages } from './page-objects/StorefrontPages';
 import { test as AdministrationPages } from './page-objects/AdministrationPages';
+import { test as SetupPages } from './page-objects/SetupPages';
 import { test as DataFixtures } from './data-fixtures/DataFixtures';
 import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
@@ -28,6 +29,7 @@ export * from './services/LanguageHelper';
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
 export { AdminPageObjects } from './page-objects/AdministrationPages';
+export { SetupPageObjects } from './page-objects/SetupPages';
 
 export type { FixtureTypes } from './types/FixtureTypes';
 export type { Task } from './types/Task';
@@ -47,6 +49,7 @@ export const test = mergeTests(
     FeatureService,
     StorefrontPages,
     AdministrationPages,
+    SetupPages,
     DataFixtures,
     ShopAdminTasks,
     ShopCustomerTasks,
