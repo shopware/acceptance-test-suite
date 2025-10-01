@@ -7,6 +7,7 @@ import type { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
 import type { ShopwareDataFixtureTypes } from '../fixtures/ShopwareDataFixtures';
 import type { StorefrontPageTypes } from '../page-objects/StorefrontPages';
 import type { AdministrationPageTypes } from '../page-objects/AdministrationPages';
+import type { SetupPageTypes } from '../page-objects/SetupPages';
 import type { DataFixtureTypes } from '../data-fixtures/DataFixtures';
 import type { FeatureFixtureTypes } from '../fixtures/Feature';
 
@@ -21,4 +22,5 @@ export interface FixtureTypes extends
     ShopwareDataFixtureTypes,
     StorefrontPageTypes,
     AdministrationPageTypes,
+    SetupPageTypes,
     DataFixtureTypes {}
