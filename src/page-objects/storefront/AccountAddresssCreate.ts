@@ -1,8 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
+import { BaseAccount } from './BaseAccount';
 import { translate } from '../../services/LanguageHelper';
 
-export class AccountAddressCreate implements PageObject {
+export class AccountAddressCreate extends BaseAccount {
     public readonly salutationDropdown: Locator;
     public readonly firstNameInput: Locator;
     public readonly lastNameInput: Locator;
@@ -15,18 +15,8 @@ export class AccountAddressCreate implements PageObject {
     public readonly saveAddressButton: Locator;
     public readonly stateDropdown: Locator;
 
-    //Account menu
-    public readonly overviewLink: Locator;
-    public readonly yourProfileLink: Locator;
-    public readonly addressesLink: Locator;
-    public readonly ordersLink: Locator;
-    public readonly subscriptionsLink: Locator;
-    public readonly logoutLink: Locator;
-
-    public readonly page: Page;
-
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.salutationDropdown = page.getByRole('combobox', { name: translate('storefront:address:common.salutation') });
         this.firstNameInput = page.getByRole('textbox', { name: translate('storefront:address:common.firstName') });
         this.lastNameInput = page.getByRole('textbox', { name: translate('storefront:address:common.lastName') });
@@ -38,14 +28,6 @@ export class AccountAddressCreate implements PageObject {
         this.countryDropdown = page.locator('#addressAddressCountry');
         this.stateDropdown = page.locator('#addressAddressCountryState');
         this.saveAddressButton = page.locator('.address-form-submit');
-
-        //Account menu
-        this.overviewLink = page.getByRole('link', { name: 'Overview' });
-        this.yourProfileLink = page.getByRole('link', { name: 'Your profile' });
-        this.addressesLink = page.getByRole('link', { name: 'Addresses' });
-        this.ordersLink = page.getByRole('link', { name: 'Orders' });
-        this.subscriptionsLink = page.getByRole('link', { name: 'Subscriptions' });
-        this.logoutLink = page.getByRole('link', { name: 'Log out' });
     }
 
     url() {

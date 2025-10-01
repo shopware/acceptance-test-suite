@@ -1,8 +1,9 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
+import { BaseAccount } from './BaseAccount';
 import { translate } from '../../services/LanguageHelper';
 
-export class AccountOrder implements PageObject {
+export class AccountOrder extends BaseAccount {
+
     public readonly cartLineItemImages: Locator;
     public readonly orderExpandButton: Locator;
     public readonly digitalProductDownloadButton: Locator;
@@ -14,10 +15,8 @@ export class AccountOrder implements PageObject {
     public readonly creditItem: Locator;
     public readonly noOrdersAlert: Locator;
 
-    public readonly page: Page;
-
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.orderExpandButton = page
             .getByRole('button', { name: new RegExp(`${translate('storefront:account:orders.expand')}|${translate('storefront:account:orders.showDetails')}`) })
             .first();

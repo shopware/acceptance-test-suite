@@ -1,10 +1,10 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
 import { translate } from '../../services/LanguageHelper';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
+import { BaseAccount } from './BaseAccount';
 
-export class AccountAddresses implements PageObject {
+export class AccountAddresses extends BaseAccount {
     public readonly addNewAddressButton: Locator;
     public readonly editBillingAddressButton: Locator;
     public readonly editShippingAddressButton: Locator;
@@ -16,11 +16,10 @@ export class AccountAddresses implements PageObject {
     public readonly addressDropdownButtons: Locator | undefined;
     public readonly availableAddressesUseAsBillingAddress: Locator | undefined;
     public readonly availableAddressesUseAsShippingAddress: Locator | undefined;
-    public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
-        this.page = page;
+    constructor(page: Page,instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        super(page);
         this.instanceMeta = instanceMeta;
         this.addNewAddressButton = page.getByRole('link', { name: /Add (new )?address/ });
         this.editBillingAddressButton = page.getByRole('link', { name: translate('storefront:address:actions.editAddress') }).first();
