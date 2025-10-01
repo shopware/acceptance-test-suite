@@ -23,6 +23,7 @@ export * from './services/ImageHelper';
 export * from './types/ShopwareTypes';
 export * from './services/TestDataService';
 export * from './services/VisualTestHelpers';
+export * from './services/IdProvider';
 export * from './services/LanguageHelper';
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
