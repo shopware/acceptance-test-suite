@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.33.0](https://github.com/shopware/acceptance-test-suite/compare/v11.32.0...v11.33.0) (2025-10-02)
+
+
+### Features
+
+* add Media page objects ([#461](https://github.com/shopware/acceptance-test-suite/issues/461)) ([c4783ca](https://github.com/shopware/acceptance-test-suite/commit/c4783ca9658c81e4be7f6ab771f165b74dec2881))
+
 ## [11.32.0](https://github.com/shopware/acceptance-test-suite/compare/v11.31.0...v11.32.0) (2025-10-01)
 
 

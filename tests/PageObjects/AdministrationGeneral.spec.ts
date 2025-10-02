@@ -14,6 +14,7 @@ test('Administration page objects - General.', async ({
     TestDataService,
     AdminOrderDetail,
     AdminProductDetail,
+    AdminMedia,
 }) => {
     await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
     await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
@@ -56,6 +57,11 @@ test('Administration page objects - General.', async ({
         await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
     }
 
+    await ShopAdmin.goesTo(AdminMedia.url());
+    await ShopAdmin.expects(AdminMedia.uploadFileButton).toBeVisible();
+    await ShopAdmin.expects(AdminMedia.searchInput).toBeVisible();
+    await ShopAdmin.expects(AdminMedia.addNewFolderButton).toBeVisible();
+    
     await ShopAdmin.expects(AdminDashboard.adminMenuUserActions).toBeVisible();
     await AdminDashboard.adminMenuUserActions.click();
     await ShopAdmin.expects(AdminDashboard.adminMenuLogoutButton).toBeVisible();
