@@ -1,8 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
+import { BaseAccount } from './BaseAccount';
 import { translate } from '../../services/LanguageHelper';
 
-export class AccountAddressCreate implements PageObject {
+export class AccountAddressCreate extends BaseAccount {
     public readonly salutationDropdown: Locator;
     public readonly firstNameInput: Locator;
     public readonly lastNameInput: Locator;
@@ -15,10 +15,8 @@ export class AccountAddressCreate implements PageObject {
     public readonly saveAddressButton: Locator;
     public readonly stateDropdown: Locator;
 
-    public readonly page: Page;
-
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.salutationDropdown = page.getByRole('combobox', { name: translate('storefront:address:common.salutation') });
         this.firstNameInput = page.getByRole('textbox', { name: translate('storefront:address:common.firstName') });
         this.lastNameInput = page.getByRole('textbox', { name: translate('storefront:address:common.lastName') });
