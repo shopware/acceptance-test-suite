@@ -1,5 +1,15 @@
 # Changelog
 
+## [11.33.2](https://github.com/shopware/acceptance-test-suite/compare/v11.33.1...v11.33.2) (2025-10-06)
+
+
+### Bug Fixes
+
+* add assertion to assign operations ([#486](https://github.com/shopware/acceptance-test-suite/issues/486)) ([f079c8b](https://github.com/shopware/acceptance-test-suite/commit/f079c8b77cb61d8388784b3e995bc9eac494b21c))
+* country iso uniqueness ([#488](https://github.com/shopware/acceptance-test-suite/issues/488)) ([18521de](https://github.com/shopware/acceptance-test-suite/commit/18521de2dc6850bf423014f8a1df73895b58bcc0))
+* delete created order in test ([#490](https://github.com/shopware/acceptance-test-suite/issues/490)) ([d1c142f](https://github.com/shopware/acceptance-test-suite/commit/d1c142fd3cf9893ecf113ff7915a8968d79758e9))
+* generate random 3 digit id for isoCode ([#485](https://github.com/shopware/acceptance-test-suite/issues/485)) ([6b480d2](https://github.com/shopware/acceptance-test-suite/commit/6b480d24a0a33780107c6caef310341d1dd409e6))
+
 ## [11.33.1](https://github.com/shopware/acceptance-test-suite/compare/v11.33.0...v11.33.1) (2025-10-06)
 
 
