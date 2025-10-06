@@ -13,9 +13,11 @@ import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFro
 import { ProceedFromCartToCheckout } from './shop-customer/Cart/ProceedFromCartToCheckout.ts';
 import { ChangeProductQuantity } from './shop-customer/Cart/ChangeProductQuantity';
 import { ConfirmTermsAndConditions } from './shop-customer/Checkout/ConfirmTermsAndConditions';
+import { SelectPaymentMethod } from './shop-customer/Checkout/SelectPaymentMethod';
 import { SelectCashOnDeliveryPaymentOption } from './shop-customer/Checkout/SelectCashOnDeliveryPaymentOption';
 import { SelectInvoicePaymentOption } from './shop-customer/Checkout/SelectInvoicePaymentOption';
 import { SelectPaidInAdvancePaymentOption } from './shop-customer/Checkout/SelectPaidInAdvancePaymentOption';
+import { SelectShippingMethod } from './shop-customer/Checkout/SelectShippingMethod';
 import { SelectStandardShippingOption } from './shop-customer/Checkout/SelectStandardShippingOption';
 import { SelectExpressShippingOption } from './shop-customer/Checkout/SelectExpressShippingOption';
 import { SubmitOrder } from './shop-customer/Checkout/SubmitOrder';
@@ -40,6 +42,8 @@ export const test = mergeTests(
     ProceedFromProductToCheckout,
     ProceedFromCartToCheckout,
     ConfirmTermsAndConditions,
+    SelectPaymentMethod,
+    SelectShippingMethod,
     SelectInvoicePaymentOption,
     SelectCashOnDeliveryPaymentOption,
     SelectPaidInAdvancePaymentOption,
