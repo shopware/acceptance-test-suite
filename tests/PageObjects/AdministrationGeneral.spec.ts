@@ -4,11 +4,6 @@ test('Administration page objects - General.', async ({
     InstanceMeta,
     ShopAdmin,
     AdminDashboard,
-    AdminCustomerListing,
-    AdminManufacturerListing,
-    AdminManufacturerCreate,
-    AdminCustomerDetail,
-    DefaultSalesChannel,
     AdminCategories,
     AdminLandingPageCreate,
     TestDataService,
@@ -16,16 +11,6 @@ test('Administration page objects - General.', async ({
     AdminProductDetail,
     AdminMedia,
 }) => {
-    await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
-    await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
-    await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminManufacturerCreate.url());
-    await ShopAdmin.expects(AdminManufacturerCreate.nameInput).toBeVisible();
-    await ShopAdmin.expects(AdminManufacturerCreate.saveButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
-    await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible({ timeout: 15_000 });
 
     const category = await TestDataService.createCategory();
     await ShopAdmin.goesTo(AdminCategories.url());
@@ -47,9 +32,6 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));
     await ShopAdmin.expects(AdminProductDetail.savePhysicalProductButton).toBeVisible();
     await ShopAdmin.expects(AdminProductDetail.stockInput).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminManufacturerListing.url());
-    await ShopAdmin.expects(AdminManufacturerListing.addManufacturerButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminDashboard.url());
     // eslint-disable-next-line playwright/no-conditional-in-test

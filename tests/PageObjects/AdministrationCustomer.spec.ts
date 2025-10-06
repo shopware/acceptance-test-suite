@@ -1,0 +1,18 @@
+import { test } from '../../src';
+
+test('Administration page objects - General.', async ({
+    ShopAdmin,
+    AdminCustomerListing,
+    AdminCustomerDetail,
+    TestDataService,
+    }) => {
+
+    const customer = await TestDataService.createCustomer();
+
+    await ShopAdmin.goesTo(AdminCustomerListing.url());
+    await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
+    await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
+
+    await ShopAdmin.goesTo(AdminCustomerDetail.url(customer.id));
+    await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible({ timeout: 15_000 });
+});
