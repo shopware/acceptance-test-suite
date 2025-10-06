@@ -2,7 +2,6 @@
 import { test, expect } from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
 
-
 export class Actor {
     public page: Page;
     public readonly name: string;
@@ -23,7 +22,6 @@ export class Actor {
         /* Storefront buttons and links only use :focus-visible, which locator.focus() doesn't trigger by default. 
         *  Using a keyboard event tricks the browser into using :focus-visible the next time you call locator.focus().
         */
-
         if (tagName === 'BUTTON' || tagName === 'A'){
             await this.page.keyboard.press('Shift');
         }   
@@ -55,9 +53,8 @@ export class Actor {
 
             if(defaultOptionIndex < desiredOptionIndex)
             {        
-                /* need waitForLoadState() for stability because in most cases selecting 
-                 * a radio button either reloads the page or, in the case of product variants 
-                 * will navigate to a new one
+                /* need waitForLoadState() because in most cases selecting a radio button
+                 * either reloads the page or navigates to a new one (product variants)
                  */
                 for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
                     await this.presses(options[i].locator, 'ArrowDown');
