@@ -1972,6 +1972,32 @@ export class TestDataService {
     };
 
     /**
+     * Generates a random alphanumeric string of a specified length.
+     * Ensures at least one numeric character is included.
+     *
+     * @param length - The desired length of the random string (default: 3)
+     * @returns A random alphanumeric string containing at least one digit
+     */
+    generateRandomId(length: number = 3): string {
+        const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const DIGITS = '0123456789';
+        const ALL_CHARS = LETTERS + DIGITS;
+
+        // Generate random characters
+        const chars = Array.from({ length }, () =>
+            ALL_CHARS.charAt(Math.floor(Math.random() * ALL_CHARS.length)),
+        );
+
+        // Ensure at least one digit is present
+        if (!chars.some(char => DIGITS.includes(char))) {
+            const randomIndex = Math.floor(Math.random() * length);
+            chars[randomIndex] = DIGITS.charAt(Math.floor(Math.random() * DIGITS.length));
+        }
+
+        return chars.join('');
+    }
+
+    /**
      * @deprecated Use `getCountry` instead.
      * Retrieves a country Id based on its iso2 code.
      *
@@ -2011,8 +2037,8 @@ export class TestDataService {
         const basicCountry = {
             id: countryUuid,
             name: 'Country-' + countryId,
-            iso: '' + countryId.substring(0, 2),
-            iso3: '' + countryId.substring(0, 3),
+            iso: this.generateRandomId(2),
+            iso3: this.generateRandomId(3),
             active: true,
             shippingAvailable: true,
         };
@@ -2023,29 +2049,11 @@ export class TestDataService {
     getCurrencyStruct(overrides: Partial<Currency> = {}, roundingDecimals: number): Partial<Currency> {
         const { uuid: currencyUuid, id: currencyId } = this.IdProvider.getIdPair();
 
-        // Generate a random 3-character alphanumeric string
-        const randomId: string = (() => {
-            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const digits = '0123456789';
-            const allChars = letters + digits;
-
-            const result = Array.from({ length: 3 }, () =>
-                allChars.charAt(Math.floor(Math.random() * allChars.length)),
-            );
-
-            if (!result.some(char => digits.includes(char))) {
-                const randomIndex = Math.floor(Math.random() * result.length);
-                result[randomIndex] = digits.charAt(Math.floor(Math.random() * digits.length));
-            }
-
-            return result.join('');
-        })();
-
         const basicCurrency = {
             id: currencyUuid,
             name: 'Currency-' + currencyId,
             shortName: 'CUR' + currencyId,
-            isoCode: randomId,
+            isoCode: this.generateRandomId(3),
             symbol: 'C$',
             factor: 2.4,
             itemRounding: {
