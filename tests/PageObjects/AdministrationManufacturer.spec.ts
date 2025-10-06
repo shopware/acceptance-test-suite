@@ -1,6 +1,6 @@
 import { test } from '../../src';
 
-test('Administration page objects - General.', async ({
+test('Administration page objects - Manufacturer.', async ({
     ShopAdmin,
     AdminManufacturerListing,
     AdminManufacturerCreate,

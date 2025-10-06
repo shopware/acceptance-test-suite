@@ -116,7 +116,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: saas # only allow one job at a time
     env:
-      APP_URL: ${{ secrets.SAAS_APP_URL }}
+      APP_URL: https://ci-20251001-0802-gauss-clicky-platform.swstage.store/
       SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
       SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
     steps:
