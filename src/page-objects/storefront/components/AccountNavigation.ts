@@ -1,4 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
+import { translate } from '../../../services/LanguageHelper';
+
 
 export class AccountNavigation {
   public readonly overviewLink: Locator;
@@ -8,10 +10,10 @@ export class AccountNavigation {
   public readonly logoutLink: Locator;
 
   constructor(private readonly page: Page) {
-    this.overviewLink = page.getByRole('link', { name: 'Overview' });
-    this.yourProfileLink = page.getByRole('link', { name: 'Your profile' });
-    this.addressesLink = page.getByRole('link', { name: 'Addresses' });
-    this.ordersLink = page.getByRole('link', { name: 'Orders' });
-    this.logoutLink = page.getByRole('link', { name: 'Log out' });
+    this.overviewLink = page.getByRole('link', { name: translate('storefront:account:navigation.overview') });
+    this.yourProfileLink = page.getByRole('link', { name: translate('storefront:account:navigation.yourProfile') });
+    this.addressesLink = page.getByRole('link', { name: translate('storefront:account:navigation.addresses') });
+    this.ordersLink = page.getByRole('link', { name: translate('storefront:account:navigation.orders') });
+    this.logoutLink = page.getByRole('link', { name: translate('storefront:account:navigation.logout') });
   }
 }

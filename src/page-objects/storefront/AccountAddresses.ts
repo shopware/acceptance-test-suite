@@ -18,7 +18,7 @@ export class AccountAddresses extends BaseAccount {
     public readonly availableAddressesUseAsShippingAddress: Locator | undefined;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(page: Page,instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page);
         this.instanceMeta = instanceMeta;
         this.addNewAddressButton = page.getByRole('link', { name: /Add (new )?address/ });

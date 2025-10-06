@@ -74,6 +74,13 @@
         "defaultBillingAddress": "Hinzufügen",
         "defaultShippingAddress": "Hinzufügen"
     },
+    "navigation": {
+        "overview": "Übersicht",
+        "yourProfile": "Persönliches Profil",
+        "addresses": "Adressen",
+        "orders": "Bestellungen",
+        "logout": "Abmelden"
+    },
     "recovery": {
         "title": "Passwort-Wiederherstellung",
         "subtitle": "Wir senden Ihnen eine Bestätigungs-E-Mail. Klicken Sie auf den Link in dieser E-Mail, um Ihr Passwort zu ändern.",
