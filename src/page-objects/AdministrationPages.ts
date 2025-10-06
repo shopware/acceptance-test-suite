@@ -91,6 +91,7 @@ export interface AdministrationPageTypes {
     AdminPromotionsListing: PromotionsListing;
     AdminPromotionCreate: PromotionCreate;
     AdminPromotionDetail: PromotionDetail;
+    AdminSalesChannelDetail: SalesChannelDetail;
     AdminShopwareServices: ShopwareServices;
     AdminMedia: Media;
     AdminYourProfile: YourProfile;
@@ -100,7 +101,6 @@ export interface AdministrationPageTypes {
     AdminLayoutListing: LayoutListing;
     AdminListingPageLayoutDetail: ListingPageLayoutDetail;
     AdminLayoutCreate: LayoutCreate;
-    AdminSalesChannelDetail: SalesChannelDetail;
 }
 
 export const AdminPageObjects = {

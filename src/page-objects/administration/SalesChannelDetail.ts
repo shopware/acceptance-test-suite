@@ -7,8 +7,7 @@ export class SalesChannelDetail implements PageObject {
     public readonly productsTabLink: Locator;
     public readonly themeTabLink: Locator;
     public readonly analyticsTabLink: Locator;
-    public readonly addDomainButtoon: Locator;
-
+    public readonly addDomainButton: Locator;
 
      constructor(public readonly page: Page) {
 
@@ -16,13 +15,10 @@ export class SalesChannelDetail implements PageObject {
         this.productsTabLink = page.getByRole('tab', { name: 'Products' });
         this.themeTabLink = page.getByRole('tab', { name: 'Theme' });
         this.analyticsTabLink = page.getByRole('tab', { name: 'Analytics' });
-        this.addDomainButtoon = page.getByRole('button', { name: 'Add domain' });
+        this.addDomainButton = page.getByRole('button', { name: 'Add domain' });
      }
-
 
     url(salesChannelId: string) {
         return `#/sw/sales/channel/detail/${salesChannelId}`;
     }
-
-
 }
