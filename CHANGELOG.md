@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.33.1](https://github.com/shopware/acceptance-test-suite/compare/v11.33.0...v11.33.1) (2025-10-06)
+
+
+### Bug Fixes
+
+* additional element for account pages ([#476](https://github.com/shopware/acceptance-test-suite/issues/476)) ([070cdf5](https://github.com/shopware/acceptance-test-suite/commit/070cdf5be246528697c9921b7179188506536fea))
+
 ## [11.33.0](https://github.com/shopware/acceptance-test-suite/compare/v11.32.0...v11.33.0) (2025-10-02)
 
 
