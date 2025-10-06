@@ -47,7 +47,7 @@ export class CheckoutConfirm implements PageObject {
 
         this.paymentCashOnDelivery = page.getByLabel('Cash on delivery');
         this.paymentPaidInAdvance = page.getByLabel('Paid in advance');
-        this.paymentInvoice = page.getByRole('radio', { name: 'Invoice'});
+        this.paymentInvoice = page.getByLabel('Invoice');
 
         this.shippingStandard = page.getByLabel('Standard');
         this.shippingExpress = page.getByLabel('Express');
