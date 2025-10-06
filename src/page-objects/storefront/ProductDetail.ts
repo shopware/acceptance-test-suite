@@ -54,18 +54,10 @@ export class ProductDetail implements PageObject {
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
-    //a11y-poc
-    public readonly propertyName:(propertyName: string) => Locator;
-    public readonly propertyValueRadioButton: (propertyName: Locator, propertyValueName: string) => Locator;
-
     public readonly page: Page;
 
     constructor(page: Page) {
         this.page = page;
-
-        //a11y-poc 
-        this.propertyName = (propertyName: string) => this.page.getByRole('group', { name: `Select ${propertyName}` }); 
-        this.propertyValueRadioButton = (propertyName: Locator, propertyValueName: string) => propertyName.getByRole('radio', { name: propertyValueName });
 
         this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
         this.quantitySelect = page.getByLabel('Quantity', { exact: true });

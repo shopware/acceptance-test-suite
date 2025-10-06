@@ -59,11 +59,9 @@ export class Actor {
                  * a radio button either reloads the page or, in the case of product variants 
                  * will navigate to a new one
                  */
-
                 for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
                     await this.presses(options[i].locator, 'ArrowDown');
                     this.page.waitForLoadState('domcontentloaded'); 
-                    console.log(options[i].locator); //for debugging only
                 }
             }
 
@@ -71,8 +69,6 @@ export class Actor {
                 for(let i = defaultOptionIndex; i > desiredOptionIndex; i--){
                     await this.presses(options[i].locator, 'ArrowUp');
                     this.page.waitForLoadState('domcontentloaded');
-                    console.log(options[i].locator); //for debugging only
-
                 }
             }
         }

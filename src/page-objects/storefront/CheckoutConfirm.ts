@@ -12,11 +12,6 @@ export class CheckoutConfirm implements PageObject {
     /**
      * Payment options
      */
-    
-    //a11y-poc
-    public readonly paymentMethod: Locator;
-    public readonly shippingMethod: Locator;
-
     public readonly paymentCashOnDelivery: Locator;
     public readonly paymentPaidInAdvance: Locator;
     public readonly paymentInvoice: Locator;
@@ -50,10 +45,6 @@ export class CheckoutConfirm implements PageObject {
         this.shippingExpress = page.getByLabel('Express');
 
         this.cartLineItemImages = page.locator('.line-item-img-link');
-
-        //a11y-poc
-        this.paymentMethod = page.locator('.checkout-card', { hasText: 'Payment method' });
-        this.shippingMethod = page.locator('.checkout-card', { hasText: 'Shipping method' });
     }
 
     url() {

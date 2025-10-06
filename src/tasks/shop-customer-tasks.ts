@@ -1,24 +1,5 @@
 import { mergeTests } from '@playwright/test';
 
-//keyboard
-import { AddProductToCart_a11y } from './shop-customer/a11y_poc/keyboard/AddProductToCart_a11y';
-import { ConfirmTermsAndConditions_a11y } from './shop-customer/a11y_poc/keyboard/ConfirmTermsAndConditions_a11y';
-import { Login_a11y } from './shop-customer/a11y_poc/keyboard/Login_a11y';
-import { ProceedFromProductToCheckout_a11y } from './shop-customer/a11y_poc/keyboard/ProceedFromProductToCheckout_a11y';
-import { SelectInvoicePaymentOption_a11y } from './shop-customer/a11y_poc/keyboard/SelectInvoicePaymentOption_a11y';
-import { SelectStandardShippingOption_a11y } from './shop-customer/a11y_poc/keyboard/SelectStandardShippingOption_a11y';
-import { SubmitOrder_a11y } from './shop-customer/a11y_poc/keyboard/SubmitOrder_a11y';
-
-//keyboard plus customAssertions
-import { AddProductToCart_a11yAssert } from './shop-customer/a11y_poc/customAssertions/AddProductToCart_a11yAssert';
-import { ConfirmTermsAndConditions_a11yAssert } from './shop-customer/a11y_poc/customAssertions/ConfirmTermsAndConditions_a11yAssert';
-import { Login_a11yAssert } from './shop-customer/a11y_poc/customAssertions/Login_a11yAssert';
-import { ProceedFromProductToCheckout_a11yAssert } from './shop-customer/a11y_poc/customAssertions/ProceedFromProductToCheckout_a11yAssert';
-import { SelectInvoicePaymentOption_a11yAssert } from './shop-customer/a11y_poc/customAssertions/SelectInvoicePaymentOption_a11yAssert';
-import { SelectStandardShippingOption_a11yAssert } from './shop-customer/a11y_poc/customAssertions/SelectStandardShippingOption_a11yAssert';
-import { SubmitOrder_a11yAssert } from './shop-customer/a11y_poc/customAssertions/SubmitOrder_a11yAssert';
-import { Register_a11yAssert } from './shop-customer/a11y_poc/customAssertions/Register_a11yAssert';
-
 import { Login } from './shop-customer/Account/Login';
 import { Logout } from './shop-customer/Account/Logout';
 import { Register } from './shop-customer/Account/Register';
@@ -48,24 +29,6 @@ import { AddProductToCartFromWishlist, AddProductToWishlist, RemoveProductFromWi
 import { SelectProductFilterOption } from './shop-customer/Product/SelectProductFilterOption';
 
 export const test = mergeTests(
-    AddProductToCart_a11y,
-    ConfirmTermsAndConditions_a11y,
-    Login_a11y,
-    ProceedFromProductToCheckout_a11y,
-    SelectInvoicePaymentOption_a11y,
-    SelectStandardShippingOption_a11y,
-    SubmitOrder_a11y,
-    
-    AddProductToCart_a11yAssert,
-    ConfirmTermsAndConditions_a11yAssert,
-    Login_a11yAssert,
-    ProceedFromProductToCheckout_a11yAssert,
-    SelectInvoicePaymentOption_a11yAssert,
-    SelectStandardShippingOption_a11yAssert,
-    SubmitOrder_a11yAssert,
-    Register_a11yAssert,
-    
-
     Login,
     Logout,
     Register,
