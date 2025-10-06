@@ -1084,11 +1084,15 @@ export class TestDataService {
      * @param manufacturerId - The uuid of the manufacturer.
      */
     async assignProductManufacturer(productId: string, manufacturerId: string) {
-        await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        const assignProductManufacturerResponse = await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 manufacturerId: manufacturerId,
             },
         });
+        expect(assignProductManufacturerResponse.ok()).toBeTruthy();
+
+        const { data: productManufacturer } = await assignProductManufacturerResponse.json();
+        return productManufacturer;
     }
 
     /**
@@ -1138,7 +1142,7 @@ export class TestDataService {
      * @param categoryId - The uuid of the category.
      */
     async assignProductCategory(productId: string, categoryId: string) {
-        return await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        const assignProductCategoryResponse = await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 categories: [
                     {
@@ -1147,6 +1151,11 @@ export class TestDataService {
                 ],
             },
         });
+        expect(assignProductCategoryResponse.ok()).toBeTruthy();
+
+        const { data: productCategory } = await assignProductCategoryResponse.json();
+
+        return productCategory;
     }
 
     /**
@@ -1156,7 +1165,7 @@ export class TestDataService {
      * @param tagId - The uuid of the tag.
      */
     async assignProductTag(productId: string, tagId: string) {
-        return await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        const assignProductTagResponse = await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 tags: [
                     {
@@ -1165,6 +1174,10 @@ export class TestDataService {
                 ],
             },
         });
+        expect(assignProductTagResponse.ok()).toBeTruthy();
+
+        const { data: productTag } = await assignProductTagResponse.json();
+        return productTag;
     }
 
     /**
@@ -1182,7 +1195,6 @@ export class TestDataService {
         expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: manufacturerMedia } = await mediaResponse.json();
-
         return manufacturerMedia;
     }
 
