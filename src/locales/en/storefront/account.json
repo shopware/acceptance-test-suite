@@ -74,6 +74,13 @@
         "cannotDeliverToCountry": "We can not deliver to the country that is stored in your delivery address.",
         "shippingNotPossible": "Shipping to the selected shipping address is currently not possible."
     },
+    "navigation": {
+        "overview": "Overview",
+        "yourProfile": "Your profile",
+        "addresses": "Addresses",
+        "orders": "Orders",
+        "logout": "Log out"
+    },
     "recovery": {
         "title": "Password recovery",
         "subtitle": "We will send you a confirmation email. Click the link in that email in order to change your password.",

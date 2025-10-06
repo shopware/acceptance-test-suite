@@ -1,8 +1,9 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
+import { BaseAccount } from './BaseAccount';
 import { translate } from '../../services/LanguageHelper';
 
-export class AccountOrder implements PageObject {
+export class AccountOrder extends BaseAccount {
+
     public readonly cartLineItemImages: Locator;
     public readonly orderExpandButton: Locator;
     public readonly digitalProductDownloadButton: Locator;
@@ -12,11 +13,10 @@ export class AccountOrder implements PageObject {
     public readonly orderDetails: Locator;
     public readonly invoiceHTML: Locator;
     public readonly creditItem: Locator;
-
-    public readonly page: Page;
+    public readonly noOrdersAlert: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.orderExpandButton = page
             .getByRole('button', { name: new RegExp(`${translate('storefront:account:orders.expand')}|${translate('storefront:account:orders.showDetails')}`) })
             .first();
@@ -28,6 +28,7 @@ export class AccountOrder implements PageObject {
         this.orderDetails = page.locator('.order-item-detail');
         this.invoiceHTML = page.getByRole('link', { name: '.html' });
         this.creditItem = page.locator(`.line-item:has-text("${translate('storefront:account:orders.creditItem')}")`);
+        this.noOrdersAlert = page.locator('.alert-warning');
     }
 
     async getOrderByOrderNumber(orderNumber: string): Promise<Record<string, Locator>> {

@@ -1,9 +1,9 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { BaseAccount } from './BaseAccount';
 import { translate } from '../../services/LanguageHelper';
 
-export class AccountProfile implements PageObject {
+export class AccountProfile extends BaseAccount {
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
     public readonly salutationSelect: Locator;
@@ -31,6 +31,7 @@ export class AccountProfile implements PageObject {
     public readonly passwordUpdateFailureAlert: Locator;
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        super(page);
         this.page = page;
         this.instanceMeta = instanceMeta;
         this.salutationSelect = page.getByLabel(translate('storefront:account:common.salutation'));
