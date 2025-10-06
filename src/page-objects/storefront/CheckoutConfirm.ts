@@ -10,16 +10,21 @@ export class CheckoutConfirm implements PageObject {
     public readonly submitOrderButton: Locator;
 
     /**
-     * Payment options
+     * Payment and Shipping options
      */
+    public readonly paymentMethodRadioGroup: Locator;
+    public readonly shippingMethodRadioGroup: Locator;
+
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentCashOnDelivery: Locator;
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentPaidInAdvance: Locator;
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentInvoice: Locator;
 
-    /**
-     * Shipping options
-     */
+    /**  @deprecated - Use 'shippingMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly shippingStandard: Locator;
+    /**  @deprecated - Use 'shippingMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly shippingExpress: Locator;
 
     /**
@@ -37,9 +42,12 @@ export class CheckoutConfirm implements PageObject {
         this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
         this.submitOrderButton = page.getByRole('button', { name: 'Submit order' });
 
+        this.paymentMethodRadioGroup = page.locator('.checkout-card', { hasText: 'Payment method' });
+        this.shippingMethodRadioGroup = page.locator('.checkout-card', { hasText: 'Shipping method' });
+
         this.paymentCashOnDelivery = page.getByLabel('Cash on delivery');
         this.paymentPaidInAdvance = page.getByLabel('Paid in advance');
-        this.paymentInvoice = page.getByLabel('Invoice');
+        this.paymentInvoice = page.getByRole('radio', { name: 'Invoice'});
 
         this.shippingStandard = page.getByLabel('Standard');
         this.shippingExpress = page.getByLabel('Express');
