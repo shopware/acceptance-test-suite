@@ -1,6 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { translate } from '../../services/LanguageHelper';
+import { resolveSrv } from 'node:dns';
 
 export class CheckoutFinish implements PageObject {
     public readonly headline: Locator;
@@ -40,11 +41,11 @@ export class CheckoutFinish implements PageObject {
         return orderNumber;
     }
 
-    getOrderId() {
+    getOrderId(): string {
         const url = this.page.url();
         const [, searchString] = url.split('?');
         const params = new URLSearchParams(searchString);
 
-        return params.get('orderId');
+        return params.get('orderId') ?? '';
     }
 }
