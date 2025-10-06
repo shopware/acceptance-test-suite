@@ -9,7 +9,7 @@ export const AddProductToCart = base.extend<{ AddProductToCart: Task }, FixtureT
             return async function AddProductToCart() {
                 await StorefrontProductDetail.quantitySelect.fill(quantity);
 
-                await StorefrontProductDetail.addToCartButton.click();
+                await ShopCustomer.presses(StorefrontProductDetail.addToCartButton, 'Enter');
 
                 await ShopCustomer.expects(StorefrontProductDetail.offCanvasCartTitle).toBeVisible();
                 await ShopCustomer.expects(StorefrontProductDetail.offCanvasCart.getByText(ProductData.name)).toBeVisible();

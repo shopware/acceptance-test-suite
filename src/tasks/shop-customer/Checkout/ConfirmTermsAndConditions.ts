@@ -6,7 +6,7 @@ export const ConfirmTermsAndConditions = base.extend<{ ConfirmTermsAndConditions
     ConfirmTermsAndConditions: async ({ ShopCustomer, StorefrontCheckoutConfirm }, use)=> {
         const task = () => {
             return async function ConfirmTermsAndConditions() {
-                await StorefrontCheckoutConfirm.termsAndConditionsCheckbox.check();
+                await ShopCustomer.presses(StorefrontCheckoutConfirm.termsAndConditionsCheckbox,'Space');
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.termsAndConditionsCheckbox).toBeChecked();
             }
         };

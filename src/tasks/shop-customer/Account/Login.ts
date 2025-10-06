@@ -11,10 +11,10 @@ export const Login = base.extend<{ Login: Task }, FixtureTypes>({
                 const customer = customCustomer ? customCustomer : DefaultSalesChannel.customer;
 
                 await ShopCustomer.goesTo(StorefrontAccountLogin.url());
-
-                await StorefrontAccountLogin.emailInput.fill(customer.email);
-                await StorefrontAccountLogin.passwordInput.fill(customer.password);
-                await StorefrontAccountLogin.loginButton.click();
+                
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.emailInput, customer.email);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.passwordInput, customer.password);
+                await ShopCustomer.presses(StorefrontAccountLogin.loginButton, 'Enter');
 
                 await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toBeVisible();
             }
