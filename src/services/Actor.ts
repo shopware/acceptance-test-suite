@@ -25,16 +25,15 @@ export class Actor {
         */
 
         if (tagName === 'BUTTON' || tagName === 'A'){
-            await this.page.keyboard.press('Tab');
+            await this.page.keyboard.press('Shift');
         }   
 
         await locator.focus();
         await expect(locator).toBeFocused();        
-
         await expect(locator).toHaveVisibleFocus(); 
     }
 
-    async selectsValue(radioGroup: Locator, inputLabel: string){
+    async selectsRadioButton(radioGroup: Locator, inputLabel: string){
 
         const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
 
@@ -83,12 +82,7 @@ export class Actor {
     
     async presses(locator: Locator, key: string) {
         const stepTitle = `${this.name} presses ${key} on ${locator}`;
-        await test.step(stepTitle, async () =>{
-            
-            //actionability checks - are they even necessary as focus() cannot work on nonvisible/non-enabled elements
-            await expect(locator).toBeVisible();      
-            await expect(locator).toBeEnabled();
-            
+        await test.step(stepTitle, async () =>{ 
             await this.a11y_checks(locator);
             await locator.press(key);
         });
@@ -97,7 +91,6 @@ export class Actor {
     async fillsIn(locator: Locator, input: string) {
         const stepTitle = `${this.name} fills ${locator} with text "${input}"`;
         await test.step(stepTitle, async () =>{
-            //fill() auto-checks if visible/enabled/editable
             await this.a11y_checks(locator);
             await locator.fill(input);
         });
