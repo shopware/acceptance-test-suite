@@ -2011,11 +2011,29 @@ export class TestDataService {
     getCurrencyStruct(overrides: Partial<Currency> = {}, roundingDecimals: number): Partial<Currency> {
         const { uuid: currencyUuid, id: currencyId } = this.IdProvider.getIdPair();
 
+        // Generate a random 3-character alphanumeric string
+        const randomId: string = (() => {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const digits = '0123456789';
+            const allChars = letters + digits;
+
+            const result = Array.from({ length: 3 }, () =>
+                allChars.charAt(Math.floor(Math.random() * allChars.length)),
+            );
+
+            if (!result.some(char => digits.includes(char))) {
+                const randomIndex = Math.floor(Math.random() * result.length);
+                result[randomIndex] = digits.charAt(Math.floor(Math.random() * digits.length));
+            }
+
+            return result.join('');
+        })();
+
         const basicCurrency = {
             id: currencyUuid,
             name: 'Currency-' + currencyId,
             shortName: 'CUR' + currencyId,
-            isoCode: '' + currencyId.substring(0, 3),
+            isoCode: randomId,
             symbol: 'C$',
             factor: 2.4,
             itemRounding: {
