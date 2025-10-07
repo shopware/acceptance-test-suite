@@ -1,4 +1,4 @@
-import { request } from '@playwright/test';
+import { expect, request } from '@playwright/test';
 import type { APIRequestContext, APIResponse } from 'playwright-core';
 
 type HTTPHeaders = Record<string, string>;
@@ -112,6 +112,8 @@ export class AdminApiContext {
                 scope: 'write',
             },
         });
+
+        expect(authResponse.ok(), 'Authentication with user credentials failed').toBeTruthy();
 
         const authData = (await authResponse.json()) as { access_token?: string };
 
