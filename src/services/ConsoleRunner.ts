@@ -13,6 +13,10 @@ function findRoot(start: string): string | null {
 }
 
 function resolveRoot(): string {
+  // Print the Shopware version for debugging if available
+  if (process.env.SHOPWARE_VERSION) {
+    console.log(`Running for Shopware version: ${process.env.SHOPWARE_VERSION}`);
+  }
   const start =
   process.env.SHOPWARE_PROJECT_ROOT ||
   process.env.SHOPWARE_ROOT ||
@@ -58,7 +62,7 @@ export function runConsole(...args: string[]): string {
       `Console failed: ${PHP} ${full.join(' ')}\n` +
       (timedOut ? 'Timed out\n' : '') +
       (res.stderr || '') +
-      (res.stdout ? `\nstdout:\n${res.stdout}` : '')
+      (res.stdout ? `\nstdout:\n${res.stdout}` : ''),
     );
   }
   return res.stdout || '';
