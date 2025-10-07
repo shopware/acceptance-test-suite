@@ -14,10 +14,14 @@ function findRoot(start: string): string | null {
 
 function resolveRoot(): string {
   const start =
-    process.env.SHOPWARE_PROJECT_ROOT ||
-    process.env.SHOPWARE_ROOT ||
-    process.env.PROJECT_ROOT ||
-    (process.env.GITHUB_WORKSPACE ? path.join(process.env.GITHUB_WORKSPACE, 'shopware') : process.cwd());
+  process.env.SHOPWARE_PROJECT_ROOT ||
+  process.env.SHOPWARE_ROOT ||
+  process.env.PROJECT_ROOT ||
+  (process.env.GITHUB_WORKSPACE
+    ? process.env.CI
+      ? process.env.GITHUB_WORKSPACE
+      : path.join(process.env.GITHUB_WORKSPACE, 'shopware')
+    : process.cwd());
 
   const root = findRoot(start);
   if (!root) {
@@ -43,12 +47,12 @@ export function runConsole(...args: string[]): string {
   if (!args.length) throw new Error('runConsole: missing command.');
   const full = [path.join('bin', 'console'), ...args];
   const res = spawnSync(PHP, full, {
-    cwd: PROJECT_ROOT,
-    timeout: DEFAULT_TIMEOUT,
-    encoding: 'utf-8',
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
-  const timedOut = !!res.error && (res.error as any).code === 'ETIMEDOUT';
+  cwd: PROJECT_ROOT,
+  timeout: DEFAULT_TIMEOUT,
+  encoding: 'utf-8',
+  stdio: ['ignore', 'pipe', 'pipe'],
+});
+  const timedOut = !!res.error && (res.error as { code?: string }).code === 'ETIMEDOUT';
   if (res.status !== 0 || timedOut) {
     throw new Error(
       `Console failed: ${PHP} ${full.join(' ')}\n` +
