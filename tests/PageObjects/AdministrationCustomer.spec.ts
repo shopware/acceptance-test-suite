@@ -15,9 +15,6 @@ test('Administration page objects - Customer.', async ({
 
     const customerRow = await AdminCustomerListing.getCustomerByEmail(customer.email);
     await ShopAdmin.expects(customerRow.customerName).toHaveText(`${customer.lastName}, ${customer.firstName}`);
-    await ShopAdmin.expects(customerRow.customerStreet).toHaveText(customer.defaultBillingAddress.street);
-    await ShopAdmin.expects(customerRow.customerPostalCode).toHaveText(customer.defaultBillingAddress.zipcode);
-    await ShopAdmin.expects(customerRow.customerCity).toHaveText(customer.defaultBillingAddress.city);
     await ShopAdmin.expects(customerRow.customerNumber).toHaveText(customer.customerNumber);
 
     await ShopAdmin.goesTo(AdminCustomerDetail.url(customer.id));

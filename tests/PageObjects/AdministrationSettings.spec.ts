@@ -20,7 +20,7 @@ test('Administration page objects - Settings.', async ({
     AdminSettingsListing,
     Translate,
 }) => {
-    await ShopAdmin.goesTo(AdminCustomerGroupListing.url(), InstanceMeta.isSaaS);
+    await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
     await ShopAdmin.expects(AdminCustomerGroupListing.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
 
