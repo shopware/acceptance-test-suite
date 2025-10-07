@@ -50,7 +50,6 @@ export const test = base.extend<FixtureTypes>({
         // Cleanup created user
         await AdminApiContext.delete(`user/${uuid}`);
 
-        console.log('Test Foo');
     },
 
     StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta, CustomTranslationResources }, use) => {
