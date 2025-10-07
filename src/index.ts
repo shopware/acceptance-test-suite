@@ -12,6 +12,7 @@ import { test as ShopAdminTasks } from './tasks/shop-admin-tasks';
 import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
 import { test as FeatureService } from './fixtures/Feature';
 import { test as ShopwareDataFixture } from './fixtures/ShopwareDataFixtures';
+import exp from 'constants';
 
 // Export only runtime values from @playwright/test to avoid strip-only mode errors
 export { expect, mergeTests } from '@playwright/test';
@@ -25,6 +26,7 @@ export * from './services/TestDataService';
 export * from './services/VisualTestHelpers';
 export * from './services/IdProvider';
 export * from './services/LanguageHelper';
+export * from './services/ConsoleRunner';
 
 export { StorefrontPageObjects } from './page-objects/StorefrontPages';
 export { AdminPageObjects } from './page-objects/AdministrationPages';
