@@ -5,7 +5,6 @@ test('Administration page objects - General.', async ({
     ShopAdmin,
     AdminDashboard,
     AdminCustomerListing,
-    AdminManufacturerListing,
     AdminManufacturerCreate,
     AdminCustomerDetail,
     DefaultSalesChannel,
