@@ -13,7 +13,7 @@ test('Administration page objects - Customer.', async ({
     await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
     const customerRow = await AdminCustomerListing.getCustomerByEmail(customer.email);
-    await ShopAdmin.expects(customerRow.customerEmail).toHaveText(customer.email);
+    await ShopAdmin.expects(customerRow.customerEmailAddress).toHaveText(customer.email);
 
     await ShopAdmin.goesTo(AdminCustomerDetail.url(customer.id));
     await ShopAdmin.expects(AdminCustomerDetail.generalTab).toBeVisible();
