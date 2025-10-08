@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.34.0](https://github.com/shopware/acceptance-test-suite/compare/v11.33.2...v11.34.0) (2025-10-08)
+
+
+### Features
+
+* add sales channel detail page ([#431](https://github.com/shopware/acceptance-test-suite/issues/431)) ([3ed4da0](https://github.com/shopware/acceptance-test-suite/commit/3ed4da0dba307ebb6b99a108b00526ade130b1e1))
+* task check visibility of products ([#495](https://github.com/shopware/acceptance-test-suite/issues/495)) ([ddfc1b6](https://github.com/shopware/acceptance-test-suite/commit/ddfc1b6b423bcc173ca4dd3949c70d1b15235dc4))
+
+
+### Bug Fixes
+
+* add token assertion ([#496](https://github.com/shopware/acceptance-test-suite/issues/496)) ([45b0c9e](https://github.com/shopware/acceptance-test-suite/commit/45b0c9e0def3dc308d1262b9e3a16e412437ec10))
+
 ## [11.33.2](https://github.com/shopware/acceptance-test-suite/compare/v11.33.1...v11.33.2) (2025-10-06)
 
 
