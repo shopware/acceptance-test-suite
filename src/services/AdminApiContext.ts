@@ -254,7 +254,7 @@ export class AdminApiContext {
 
         let response = await methodMap[method](url, withAuth);
 
-        if (response.status() === 401) {
+        if (response.status() === 401 || response.status() === 400) {
             await this.reauthenticate();
             const updatedOptions: RequestOptions<PAYLOAD> = {
                 ...options,
