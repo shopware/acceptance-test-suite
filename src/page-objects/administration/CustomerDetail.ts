@@ -20,6 +20,7 @@ export class CustomerDetail implements PageObject {
     public readonly tagItems: Locator;
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
+    public readonly customerEmail: Locator;
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.page = page;
@@ -29,6 +30,7 @@ export class CustomerDetail implements PageObject {
         this.addressesTab = page.getByRole('tab', { name: translate('administration:customer:detail.addresses') });
         this.ordersTab = page.getByRole('tab', { name: translate('administration:customer:detail.orders') });
         this.accountCard = page.locator('.sw-customer-card');
+        this.customerEmail = page.locator('.sw-customer-card-email-link');
 
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.customFieldCard = page.locator('.sw-card').getByText(translate('administration:customField:general.customFields'));
