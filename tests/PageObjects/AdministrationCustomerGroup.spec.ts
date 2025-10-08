@@ -19,7 +19,7 @@ test('Administration page objects - CustomerGroup.', async ({
     await ShopAdmin.goesTo(AdminCustomerGroupDetail.url(customerGroup.id));
     await ShopAdmin.expects(AdminCustomerGroupDetail.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupDetail.saveButton).toBeVisible();
-    await ShopAdmin.expects(AdminCustomerGroupDetail.customerGroupNameField).toBeVisible()
+    await ShopAdmin.expects(AdminCustomerGroupDetail.customerGroupNameField).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomerGroupCreate.url());
     await ShopAdmin.expects(AdminCustomerGroupCreate.customerGroupNameField).toBeVisible();
