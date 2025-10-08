@@ -16,6 +16,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ }, use) => {
             const adminApiContext = await AdminApiContext.create();
             await use(adminApiContext);
+            await adminApiContext.dispose();
         },
         { scope: 'worker' },
     ],
