@@ -46,8 +46,6 @@ export class AdminApiContext {
         const contextOptions = {
             ...this.defaultOptions,
             ...options,
-            authMaxRetries: options?.authMaxRetries ?? this.defaultOptions.authMaxRetries,
-            authBaseDelayMs: options?.authBaseDelayMs ?? this.defaultOptions.authBaseDelayMs,
         };
 
         const tmpContext = await this.createApiRequestContext(contextOptions);
