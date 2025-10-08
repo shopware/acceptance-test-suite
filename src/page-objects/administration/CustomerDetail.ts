@@ -26,7 +26,7 @@ export class CustomerDetail implements PageObject {
         this.page = page;
         this.instanceMeta = instanceMeta;
         this.editButton = page.getByRole('button', { name: translate('administration:customer:detail.edit') });
-        this.generalTab = page.getByRole('link', { name: 'General' });
+        this.generalTab = page.getByRole('tab', { name: translate('administration:customer:detail.general') });
         this.addressesTab = page.getByRole('tab', { name: translate('administration:customer:detail.addresses') });
         this.ordersTab = page.getByRole('tab', { name: translate('administration:customer:detail.orders') });
         this.accountCard = page.locator('.sw-customer-card');

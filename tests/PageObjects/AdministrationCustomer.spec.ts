@@ -16,6 +16,7 @@ test('Administration page objects - Customer.', async ({
     await ShopAdmin.expects(customerRow.customerEmailAddress).toHaveText(customer.email);
 
     await ShopAdmin.goesTo(AdminCustomerDetail.url(customer.id));
+    await ShopAdmin.expects(AdminCustomerDetail.generalTab).toBeVisible();
     await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible({ timeout: 15_000 });
     await ShopAdmin.expects(AdminCustomerDetail.customerEmail).toBeVisible();
 });
