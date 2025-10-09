@@ -3,10 +3,10 @@ import type { Task } from '../../../types/Task';
 import type { FixtureTypes} from '../../../types/FixtureTypes';
 export const ChangeStorefrontCurrency = base.extend<{ ChangeStorefrontCurrency: Task }, FixtureTypes>({
     ChangeStorefrontCurrency: async ({ StorefrontHome }, use) => {
-        const task = (isoCode: string) => {
+        const task = (currencyName: string) => {
             return async function ChangeStorefrontCurrency() {
                 await StorefrontHome.currenciesDropdown.click();
-                await StorefrontHome.currenciesDropdown.getByText(' '+isoCode).click();
+                await StorefrontHome.currenciesDropdown.getByText(currencyName).click();
 
             }
         };
