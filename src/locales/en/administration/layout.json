@@ -1,0 +1,25 @@
+{
+    "listing": {
+        "createNewLayout": "Create new layout"
+    },
+    "create": {
+        "shopPage": "Shop page",
+        "landingPage": "Landing page",
+        "listingPage": "Listing page",
+        "productPage": "Product page",
+        "cancel": "Cancel",
+        "save": "Save",
+        "fullWidth": "Full width",
+        "sidebar": "Sidebar",
+        "back": "Back",
+        "layoutName": "Layout name",
+        "createLayout": "Create layout"
+    },
+    "detail": {
+        "save": "Save",
+        "settings": "Settings",
+        "blocks": "Blocks",
+        "navigator": "Navigator",
+        "layoutAssignment": "Layout assignment"
+    }
+}

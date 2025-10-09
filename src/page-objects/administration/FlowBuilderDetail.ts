@@ -4,9 +4,9 @@ import { FlowBuilderCreate } from './FlowBuilderCreate';
 import { satisfies } from 'compare-versions';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getTooltipText } from './modules/TooltipText';
+import { translate } from '../../services/LanguageHelper';
 
 export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
-
     public readonly saveButtonLoader: Locator;
     public readonly saveButton: Locator;
     public readonly generalTab: Locator;
@@ -35,7 +35,7 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
         }
         this.saveButton = page.locator('.sw-flow-detail__save');
         this.flowTab = page.locator('.sw-flow-detail__tab-flow');
-        this.templateName = page.getByLabel('Name');
+        this.templateName = page.getByLabel(translate('administration:flowBuilder:detail.name'));
         this.actionContentTag = page.locator('.sw-flow-sequence-action__content').locator('.tag');
         this.skeletonLoader = page.locator('.sw-skeleton');
         this.messageClose = page.locator('.mt-banner__close');

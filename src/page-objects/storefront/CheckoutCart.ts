@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class CheckoutCart implements PageObject {
     public readonly headline: Locator;
@@ -16,12 +17,12 @@ export class CheckoutCart implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.headline = page.getByRole('heading', { name: 'Shopping cart' });
-        this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
-        this.enterPromoInput = page.getByLabel('Promo code');
+        this.headline = page.getByRole('heading', { name: translate('storefront:checkout:cart.shoppingCart') });
+        this.goToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
+        this.enterPromoInput = page.getByLabel(translate('storefront:checkout:cart.promoCode'));
         this.grandTotalPrice = page.locator('dt:has-text("Grand total") + dd:visible');
-        this.emptyCartAlert = page.getByText('Your shopping cart is empty.');
-        this.stockReachedAlert = page.getByText('only available 1 times');
+        this.emptyCartAlert = page.getByText(translate('storefront:checkout:cart.emptyCart'));
+        this.stockReachedAlert = page.getByText(translate('storefront:checkout:cart.stockReached'));
         this.cartLineItemImages = page.locator('.line-item-img-link');
         this.unitPriceInfo = page.locator('.line-item-unit-price-value');
         this.cartQuantityNumber = page.locator('input[name="quantity"]');
@@ -32,7 +33,7 @@ export class CheckoutCart implements PageObject {
     }
 
     async getLineItemByProductNumber(productNumber: string): Promise<Record<string, Locator>> {
-        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber })
+        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber });
         const lineItemImage = lineItem.locator('line-item-img-container');
         const productNameLabel = lineItem.locator('.line-item-label');
         const productNumberLabel = lineItem.locator('.line-item-product-number');
@@ -55,6 +56,6 @@ export class CheckoutCart implements PageObject {
             productUnitPriceValue: productUnitPriceValue,
             productTotalPriceValue: productTotalPriceValue,
             removeButton: removeButton,
-        }
+        };
     }
 }

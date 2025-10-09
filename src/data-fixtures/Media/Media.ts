@@ -3,6 +3,7 @@ import type { FixtureTypes } from '../../types/FixtureTypes';
 import { createRandomImage } from '../../services/ImageHelper';
 import type { components } from '@shopware/api-client/admin-api-types';
 import fs from 'fs';
+import { encode } from 'image-js';
 
 /**
  * @deprecated - Use TestDataService.createMediaPNG() instead.
@@ -24,7 +25,7 @@ export const MediaData = base.extend<FixtureTypes>({
             }
         }
 
-        fs.writeFileSync(imageFilePath, image.toBuffer());
+        fs.writeFileSync(imageFilePath, encode(image));
 
         // Create empty media and use the mediaId for Upload
         const mediaResponse = await AdminApiContext.post('media?_response', {

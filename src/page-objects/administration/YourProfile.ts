@@ -1,8 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class YourProfile implements PageObject {
-
     public readonly contentView: Locator;
     public readonly page: Page;
     public readonly searchPreferencesTab: Locator;
@@ -15,14 +15,14 @@ export class YourProfile implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.contentView = page.locator('.sw-desktop__content');
-        this.searchPreferencesTab = page.locator('.sw-tabs-item').filter({ hasText: 'Search preferences' });
-        this.firstNameField = page.getByRole('textbox', { name: 'First name' });
-        this.lastNameField = page.getByRole('textbox', { name: 'Last name' });
-        this.userNameField = page.getByRole('textbox', { name: 'Username' });
-        this.emailField = page.getByRole('textbox', { name: 'Email' });
-        this.deselectAllButton = page.getByRole('button', { name: 'Deselect all' });
+        this.searchPreferencesTab = page.locator('.sw-tabs-item').filter({ hasText: translate('administration:yourProfile:tabs.searchPreferences') });
+        this.firstNameField = page.getByRole('textbox', { name: translate('administration:yourProfile:fields.firstName') });
+        this.lastNameField = page.getByRole('textbox', { name: translate('administration:yourProfile:fields.lastName') });
+        this.userNameField = page.getByRole('textbox', { name: translate('administration:yourProfile:fields.username') });
+        this.emailField = page.getByRole('textbox', { name: translate('administration:yourProfile:fields.email') });
+        this.deselectAllButton = page.getByRole('button', { name: translate('administration:yourProfile:buttons.deselectAll') });
     }
-    
+
     url() {
         return '#/sw/profile/index/general';
     }

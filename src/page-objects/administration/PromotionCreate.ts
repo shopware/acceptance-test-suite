@@ -1,9 +1,9 @@
 import type { Page, Locator } from '@playwright/test';
 import type { PageObject } from '../../types/PageObject';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { translate } from '../../services/LanguageHelper';
 
 export class PromotionCreate implements PageObject {
-
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
@@ -27,13 +27,13 @@ export class PromotionCreate implements PageObject {
         this.smartBar = page.locator('.smart-bar__content');
         this.smartBarHeader = this.smartBar.locator('.smart-bar__header');
         this.languageSelect = this.smartBar.locator('.sw-entity-single-select__selection');
-        this.saveButton = this.smartBar.getByRole('button', { name: 'Save' });
-        this.cancelButton = this.smartBar.getByRole('button', { name: 'Cancel' });
+        this.saveButton = this.smartBar.getByRole('button', { name: translate('administration:promotion:actions.save') });
+        this.cancelButton = this.smartBar.getByRole('button', { name: translate('administration:promotion:actions.cancel') });
 
         // General
         this.generalCard = page.locator('.sw-promotion-v2-detail-base__card-general');
         this.nameInput = this.generalCard.locator('.sw-promotion-v2-detail-base__field-name').getByRole('textbox');
-        this.priorityInput = this.generalCard.getByLabel('Priority');
+        this.priorityInput = this.generalCard.getByLabel(translate('administration:promotion:fields.priority'));
     }
 
     /**
@@ -42,4 +42,4 @@ export class PromotionCreate implements PageObject {
     url() {
         return '#/sw/promotion/v2/create/base';
     }
-}  
+}

@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class DocumentListing implements PageObject {
     public readonly addDocumentButton: Locator;
@@ -8,8 +9,8 @@ export class DocumentListing implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.addDocumentButton = page.getByRole('button', { name: 'Add document' });
-        this.invoiceLink = page.getByRole('link', { name: 'invoice', exact: true });
+        this.addDocumentButton = page.getByRole('button', { name: translate('administration:document:listing.addDocument') });
+        this.invoiceLink = page.getByRole('link', { name: translate('administration:document:types.invoice'), exact: true });
     }
 
     url() {

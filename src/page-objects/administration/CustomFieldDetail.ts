@@ -3,6 +3,7 @@ import { CustomFieldCreate } from './CustomFieldCreate';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
+import { translate } from '../../services/LanguageHelper';
 
 export class CustomFieldDetail extends CustomFieldCreate {
     public readonly newCustomFieldButton: Locator;
@@ -30,32 +31,32 @@ export class CustomFieldDetail extends CustomFieldCreate {
         this.instanceMeta = instanceMeta;
 
         //Custom field section
-        this.newCustomFieldButton = page.getByRole('button', { name: 'New custom field' });
+        this.newCustomFieldButton = page.getByRole('button', { name: translate('administration:customField:detail.newCustomField') });
         this.customFieldDeleteListButton = page.locator('.sw-custom-field-list__delete-button');
 
         //Dialog - New custom field / Edit custom field
-        this.newCustomFieldDialog = page.getByRole('dialog', { name: 'New custom field' });
-        this.customFieldAddButton = this.newCustomFieldDialog.getByRole('button', { name: 'Add' });
-        this.customFieldTechnicalNameInput = this.newCustomFieldDialog.getByLabel('Technical name');
-        this.customFieldPositionInput = this.newCustomFieldDialog.getByLabel('Position');
+        this.newCustomFieldDialog = page.getByRole('dialog', { name: translate('administration:customField:detail.newCustomField') });
+        this.customFieldAddButton = this.newCustomFieldDialog.getByRole('button', { name: translate('administration:customField:detail.add') });
+        this.customFieldTechnicalNameInput = this.newCustomFieldDialog.getByLabel(translate('administration:customField:common.technicalName'));
+        this.customFieldPositionInput = this.newCustomFieldDialog.getByLabel(translate('administration:customField:common.position'));
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByLabel('Type');
+            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByLabel(translate('administration:customField:detail.type'));
         } else {
-            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByRole('textbox', { name: 'Select...' });
+            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByRole('textbox', { name: translate('administration:customField:detail.select') });
         }
-        this.customFieldModifyByStoreApiCheckbox = this.newCustomFieldDialog.getByLabel('Modifiable via Store API');
-        this.customFieldCancelButton = this.newCustomFieldDialog.getByRole('button', { name: 'Cancel' });
-        this.customFieldLabelEnglishGBInput = this.newCustomFieldDialog.getByLabel('Label (English (GB))');
-        this.customFieldPlaceholderEnglishGBInput = this.newCustomFieldDialog.getByLabel('Placeholder (English (GB))');
-        this.customFieldHelpTextEnglishGBInput = this.newCustomFieldDialog.getByLabel('Help text (English (GB))');
-        this.customFieldEditDialog = page.getByRole('dialog', { name: 'Edit custom field' });
-        this.customFieldEditAvailableInShoppingCartCheckbox = this.customFieldEditDialog.getByLabel('Available in shopping cart');
-        this.customFieldEditApplyButton = this.customFieldEditDialog.getByRole('button', { name: 'Apply changes' });
+        this.customFieldModifyByStoreApiCheckbox = this.newCustomFieldDialog.getByLabel(translate('administration:customField:detail.modifiableViaStoreApi'));
+        this.customFieldCancelButton = this.newCustomFieldDialog.getByRole('button', { name: translate('administration:customField:actions.cancel') });
+        this.customFieldLabelEnglishGBInput = this.newCustomFieldDialog.getByLabel(translate('administration:customField:common.labelEnglishGB'));
+        this.customFieldPlaceholderEnglishGBInput = this.newCustomFieldDialog.getByLabel(translate('administration:customField:detail.placeholderEnglishGB'));
+        this.customFieldHelpTextEnglishGBInput = this.newCustomFieldDialog.getByLabel(translate('administration:customField:detail.helpTextEnglishGB'));
+        this.customFieldEditDialog = page.getByRole('dialog', { name: translate('administration:customField:detail.editCustomField') });
+        this.customFieldEditAvailableInShoppingCartCheckbox = this.customFieldEditDialog.getByLabel(translate('administration:customField:detail.availableInShoppingCart'));
+        this.customFieldEditApplyButton = this.customFieldEditDialog.getByRole('button', { name: translate('administration:customField:actions.applyChanges') });
 
         //Dialog - delete field
-        this.customFieldDeleteDialog = page.getByRole('dialog', { name: 'Delete custom field' });
-        this.customFieldDeleteCancelButton = this.customFieldDeleteDialog.getByRole('button', { name: 'Cancel' });
-        this.customFieldDeleteButton = this.customFieldDeleteDialog.getByRole('button', { name: 'Delete' });
+        this.customFieldDeleteDialog = page.getByRole('dialog', { name: translate('administration:customField:dialogs.deleteCustomField') });
+        this.customFieldDeleteCancelButton = this.customFieldDeleteDialog.getByRole('button', { name: translate('administration:customField:actions.cancel') });
+        this.customFieldDeleteButton = this.customFieldDeleteDialog.getByRole('button', { name: translate('administration:customField:actions.delete') });
     }
 
     async getLineItemByCustomFieldName(customFieldName: string): Promise<Record<string, Locator>> {
@@ -63,11 +64,11 @@ export class CustomFieldDetail extends CustomFieldCreate {
         const customFieldCheckbox = lineItem.locator('.icon--regular-checkmark-xxs');
         const customFieldLabelText = lineItem.getByRole('textbox');
         const customFieldContextButton = lineItem.locator('.sw-context-button__button');
-        const customFieldEditButton = this.page.locator('.sw-context-menu__content').getByRole('link', { name: 'Edit'});
-        const customFieldDeleteButton = this.page.locator('.sw-context-menu__content').getByRole('link', { name: 'Delete'});
-        const warningDialog = this.page.getByRole('dialog', { name: 'Delete custom field' });
-        const warningDialogCancelButton = warningDialog.getByRole('button', { name: 'Cancel' });
-        const warningDialogDeleteButton = warningDialog.getByRole('button', { name: 'Delete' });
+        const customFieldEditButton = this.page.locator('.sw-context-menu__content').getByRole('link', { name: translate('administration:customField:actions.edit') });
+        const customFieldDeleteButton = this.page.locator('.sw-context-menu__content').getByRole('link', { name: translate('administration:customField:actions.delete') });
+        const warningDialog = this.page.getByRole('dialog', { name: translate('administration:customField:dialogs.deleteCustomField') });
+        const warningDialogCancelButton = warningDialog.getByRole('button', { name: translate('administration:customField:actions.cancel') });
+        const warningDialogDeleteButton = warningDialog.getByRole('button', { name: translate('administration:customField:actions.delete') });
 
         return {
             customFieldLabelText: customFieldLabelText,
@@ -78,11 +79,11 @@ export class CustomFieldDetail extends CustomFieldCreate {
             warningDialog: warningDialog,
             warningDialogCancelButton: warningDialogCancelButton,
             warningDialogDeleteButton: warningDialogDeleteButton,
-        }
+        };
     }
 
     url(customFieldUuid?: string) {
-        return `#/sw/settings/custom/field/detail/${customFieldUuid}`
+        return `#/sw/settings/custom/field/detail/${customFieldUuid}`;
     }
     async getSelectFieldListitem(selectField: Locator, listItem: string) {
         return getSelectFieldListitem(this.page, selectField, listItem, this.instanceMeta);

@@ -1,0 +1,17 @@
+{
+    "listing": {
+        "customerGroups": "Customer groups"
+    },
+    "detail": {
+        "technicalUrl": "Technical URL"
+    },
+    "create": {
+        "title": "New customer group",
+        "cardTitle": "Customer group",
+        "save": "Save",
+        "cancel": "Cancel",
+        "customSignupForm": "Custom signup form",
+        "companySignupForm": "Company signup form",
+        "seoMetaDescription": "SEO meta description"
+    }
+}

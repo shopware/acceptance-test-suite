@@ -1,12 +1,12 @@
 import { test as base, expect } from '@playwright/test';
 import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
+import type { FixtureTypes } from '../../../types/FixtureTypes';
+import { translate } from '../../../services/LanguageHelper';
 
 export const SaveProduct = base.extend<{ SaveProduct: Task }, FixtureTypes>({
-    SaveProduct: async ({ ShopAdmin, AdminProductDetail }, use ) => {
+    SaveProduct: async ({ ShopAdmin, AdminProductDetail }, use) => {
         const task = () => {
             return async function SaveProduct() {
-
                 await AdminProductDetail.savePhysicalProductButton.click();
 
                 // Wait until product is saved via API
@@ -18,9 +18,9 @@ export const SaveProduct = base.extend<{ SaveProduct: Task }, FixtureTypes>({
                 await ShopAdmin.expects(AdminProductDetail.savePhysicalProductButton).toContainText('Save');
                 await ShopAdmin.expects(AdminProductDetail.saveButtonCheckMark).toBeHidden();
                 await ShopAdmin.expects(AdminProductDetail.saveButtonLoadingSpinner).toBeHidden();
-                await ShopAdmin.expects(AdminProductDetail.page.getByText('The following error occurred:')).toBeHidden();
-            }
-        }
+                await ShopAdmin.expects(AdminProductDetail.page.getByText(translate('administration:product:errors.followingErrorOccurred'))).toBeHidden();
+            };
+        };
 
         await use(task);
     },

@@ -1,0 +1,37 @@
+{
+    "listing": {
+        "addFlow": "Flow hinzufügen",
+        "delete": "Löschen",
+        "downloadFlow": "Herunterladen",
+        "testFlow": "Test",
+        "flowTemplates": "Vorlage"
+    },
+    "create": {
+        "title": "Neuer Flow",
+        "saveSuccess": "Der Flow wurde erfolgreich erstellt.",
+        "addAction": "Hinzufügen",
+        "addConditionIf": "Hinzufügen",
+        "addActionThen": "Hinzufügen",
+        "newFlow": "New flow",
+        "name": "Name",
+        "description": "Beschreibung",
+        "priority": "Priority",
+        "active": "Aktiv",
+        "tags": "Tags"
+    },
+    "detail": {
+        "priority": "Priorität",
+        "trigger": "Trigger",
+        "actions": "Aktionen",
+        "name": "Name"
+    },
+    "templates": {
+        "title": "Flow-Vorlagen",
+        "useTemplate": "Vorlage verwenden",
+        "createFromTemplate": "Erstellen",
+        "createNewFlowFromTemplate": "Erstellen"
+    },
+    "messages": {
+        "deleteConfirmation": "Löschen"
+    }
+}

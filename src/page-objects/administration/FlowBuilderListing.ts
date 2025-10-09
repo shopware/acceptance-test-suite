@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class FlowBuilderListing implements PageObject {
     public readonly page: Page;
@@ -34,16 +35,17 @@ export class FlowBuilderListing implements PageObject {
         this.contextMenuEdit = this.flowContextMenu.locator('.sw-flow-list__item-edit');
         this.contextMenuDelete = this.flowContextMenu.locator('.sw-flow-list__item-delete');
         this.flowDownloadModal = page.locator('.sw-flow-download-modal');
-        this.flowDeleteButton = page.getByRole('dialog')
-            .filter( {hasText: 'If you delete this flow, no more actions will be performed for the trigger. Are you sure you want to delete this flow?'} )
-            .getByRole('button', { name: 'Delete' });
-        this.downloadFlowButton = page.getByRole('button', { name: 'Download flow' });
+        this.flowDeleteButton = page
+            .getByRole('dialog')
+            .filter({ hasText: translate('administration:flowBuilder:messages.deleteConfirmation') })
+            .getByRole('button', { name: translate('administration:flowBuilder:listing.delete') });
+        this.downloadFlowButton = page.getByRole('button', { name: translate('administration:flowBuilder:listing.downloadFlow') });
         this.successAlert = page.locator('.sw-alert__body');
         this.successAlertMessage = page.locator('.sw-alert__message');
         this.searchBar = page.locator('.sw-search-bar__input');
         this.pagination = page.locator('.sw-pagination');
-        this.testFlowNameCells = page.locator('.sw-data-grid__cell--name a').getByText('Test flow');
-        this.flowTemplatesTab = page.locator('.sw-tabs-item').getByText('Flow templates');
+        this.testFlowNameCells = page.locator('.sw-data-grid__cell--name a').getByText(translate('administration:flowBuilder:listing.testFlow'));
+        this.flowTemplatesTab = page.locator('.sw-tabs-item').getByText(translate('administration:flowBuilder:listing.flowTemplates'));
     }
 
     url(tabName = 'flows') {

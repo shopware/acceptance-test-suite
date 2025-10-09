@@ -1,0 +1,28 @@
+{
+    "create": {
+        "title": "Neue Landingpage",
+        "saveSuccess": "Die Landingpage wurde erfolgreich erstellt.",
+        "searchLayoutsPlaceholder": "Suchen",
+        "assignLayout": "Layout",
+        "createNewLayout": "Erstellen",
+        "selectLayout": "Auswählen"
+    },
+    "detail": {
+        "name": "Name",
+        "active": "Aktiv",
+        "salesChannel": "Verkaufskanal",
+        "url": "URL"
+    },
+    "general": {
+        "name": "Name",
+        "save": "Speichern",
+        "active": "Aktiv",
+        "salesChannels": "Sales Channels",
+        "seoUrl": "URL"
+    },
+    "layout": {
+        "layout": "Layout",
+        "changeLayout": "Layout",
+        "editInDesigner": "Bearbeiten"
+    }
+}
