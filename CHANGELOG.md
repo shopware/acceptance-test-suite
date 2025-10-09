@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.34.1](https://github.com/shopware/acceptance-test-suite/compare/v11.34.0...v11.34.1) (2025-10-09)
+
+
+### Bug Fixes
+
+* add missing snippet to de and en ([#501](https://github.com/shopware/acceptance-test-suite/issues/501)) ([14f3c0c](https://github.com/shopware/acceptance-test-suite/commit/14f3c0c1ac5036acafb08d30e6283ee727c8034c))
+* change isoCode to name ([#500](https://github.com/shopware/acceptance-test-suite/issues/500)) ([6b1aaa8](https://github.com/shopware/acceptance-test-suite/commit/6b1aaa82a00378c27653268ef41bd4fe727857eb))
+
 ## [11.34.0](https://github.com/shopware/acceptance-test-suite/compare/v11.33.2...v11.34.0) (2025-10-08)
 
 
