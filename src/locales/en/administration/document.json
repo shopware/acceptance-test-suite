@@ -6,7 +6,7 @@
         "invoice": "invoice"
     },
     "detail": {
-        "displayDocumentInMyAccount": "Display document in \"My\"",
+        "displayDocumentInMyAccount": "Display document in \"My account\"",
         "save": "Save"
     }
 }

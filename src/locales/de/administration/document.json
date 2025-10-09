@@ -6,7 +6,7 @@
         "invoice": "Rechnung"
     },
     "detail": {
-        "displayDocumentInMyAccount": "Display document in \"My\"",
+        "displayDocumentInMyAccount": "Dokument in \"Mein Konto\" Bereich anzeigen",
         "save": "Speichern"
     }
 }
