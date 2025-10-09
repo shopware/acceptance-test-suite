@@ -1,8 +1,9 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { BaseAccount } from './BaseAccount';
+import { translate } from '../../services/LanguageHelper';
 
-export class AccountProfile implements PageObject {
+export class AccountProfile extends BaseAccount {
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
     public readonly salutationSelect: Locator;
@@ -29,24 +30,22 @@ export class AccountProfile implements PageObject {
     public readonly emailUpdateFailureAlert: Locator;
     public readonly passwordUpdateFailureAlert: Locator;
 
-    constructor(
-        page: Page,
-        instanceMeta: HelperFixtureTypes['InstanceMeta']
-    ) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        super(page);
         this.page = page;
         this.instanceMeta = instanceMeta;
-        this.salutationSelect = page.getByLabel('Salutation');
-        this.firstNameInput = page.getByLabel('First name');
-        this.lastNameInput = page.getByLabel('Last name');
-        this.saveProfileButton = page.locator('#profilePersonalForm').getByRole('button', { name: 'Save changes' })
+        this.salutationSelect = page.getByLabel(translate('storefront:account:common.salutation'));
+        this.firstNameInput = page.getByLabel(translate('storefront:account:common.firstName'));
+        this.lastNameInput = page.getByLabel(translate('storefront:account:common.lastName'));
+        this.saveProfileButton = page.locator('#profilePersonalForm').getByRole('button', { name: translate('storefront:account:profile.saveChanges') });
 
-        this.changeEmailButton = page.getByRole('button', { name: 'Change email address' });
+        this.changeEmailButton = page.getByRole('button', { name: translate('storefront:account:profile.changeEmail') });
         this.emailAddressInput = page.locator('input[id="personalMail"]');
-        this.emailAddressConfirmInput = page.getByLabel('Email address confirmation');
+        this.emailAddressConfirmInput = page.getByLabel(translate('storefront:account:profile.emailConfirmation'));
         this.emailConfirmPasswordInput = page.locator('input[id="personalMailPasswordCurrent"]');
-        this.saveEmailAddressButton = page.locator('#profileMailForm').getByRole('button', { name: 'Save changes' });
+        this.saveEmailAddressButton = page.locator('#profileMailForm').getByRole('button', { name: translate('storefront:account:profile.saveChanges') });
 
-        this.changePasswordButton = page.getByRole('button', { name: 'Change password' });
+        this.changePasswordButton = page.getByRole('button', { name: translate('storefront:account:common.changePassword') });
         this.newPasswordInput = page.locator('input[id="newPassword"]');
 
         if (instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
@@ -57,24 +56,24 @@ export class AccountProfile implements PageObject {
             this.currentPasswordInput = page.locator('input[id="password"]');
         }
 
-        this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: 'Save changes' });
+        this.saveNewPasswordButton = page.locator('#profilePasswordForm').getByRole('button', { name: translate('storefront:account:profile.saveChanges') });
         this.loginDataEmailAddress = page.locator('.account-profile-mail');
 
-        this.emailUpdateMessage = page.getByText('Your email address has been updated.');
-        this.passwordUpdateMessage = page.getByText('Your password has been updated.');
+        this.emailUpdateMessage = page.getByText(translate('storefront:account:profile.emailUpdated'));
+        this.passwordUpdateMessage = page.getByText(translate('storefront:account:common.passwordUpdated'));
 
         if (instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
-            this.emailValidationAlert = page.getByText('Invalid email address.');
+            this.emailValidationAlert = page.getByText(translate('storefront:account:profile.invalidEmail'));
         } else {
             this.emailValidationAlert = page.locator('.was-validated');
         }
 
-        this.emailUpdateFailureAlert = page.getByText('Email address could not be changed.');
+        this.emailUpdateFailureAlert = page.getByText(translate('storefront:account:profile.emailUpdateFailure'));
 
         if (instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
-            this.passwordUpdateFailureAlert = page.getByText('Input is too short.');
+            this.passwordUpdateFailureAlert = page.getByText(translate('storefront:account:profile.passwordTooShort'));
         } else {
-            this.passwordUpdateFailureAlert = page.getByText('Password could not be changed.');
+            this.passwordUpdateFailureAlert = page.getByText(translate('storefront:account:profile.passwordUpdateFailure'));
         }
     }
 

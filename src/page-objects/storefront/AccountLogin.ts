@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class AccountLogin implements PageObject {
     public readonly emailInput: Locator;
@@ -51,42 +52,48 @@ export class AccountLogin implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.emailInput = page.getByLabel('Your email address');
-        this.passwordInput = page.getByLabel('Your password');
-        this.loginButton = page.getByRole('button', { name: 'Log in' });
-        this.forgotPasswordLink = page.getByRole('link', { name: 'I have forgotten my password.' });
-        this.logoutLink = page.getByRole('link', { name: 'Log out'});
-        this.invalidCredentialsAlert = page.getByText('Could not find an account that matches the given credentials.');
+        this.emailInput = page.getByLabel(translate('storefront:login:emailAddress'));
+        this.passwordInput = page.getByLabel(translate('storefront:login:password'));
+        this.loginButton = page.getByRole('button', { name: translate('storefront:login:loginButton') });
+        this.forgotPasswordLink = page.getByRole('link', { name: translate('storefront:login:forgotPassword') });
+        this.logoutLink = page.getByRole('link', { name: translate('storefront:login:logout') });
+        this.invalidCredentialsAlert = page.getByText(translate('storefront:login:invalidCredentials'));
 
         this.personalFormArea = page.locator('.register-personal');
         this.billingAddressFormArea = page.locator('.register-billing');
         this.accountTypeSelect = this.personalFormArea.locator('.contact-select');
-        this.salutationSelect = this.personalFormArea.locator('.form-group').filter({ has: page.getByLabel('Salutation') }).locator('.form-select');
-        this.firstNameInput = this.personalFormArea.getByLabel('First name');
-        this.lastNameInput = this.personalFormArea.getByLabel('Last name');
-        this.companyInput = this.personalFormArea.getByLabel('Company');
-        this.departmentInput = this.personalFormArea.getByLabel('Department');
+        this.salutationSelect = this.personalFormArea
+            .locator('.form-group')
+            .filter({ has: page.getByLabel(translate('storefront:login:register.salutation')) })
+            .locator('.form-select');
+        this.firstNameInput = this.personalFormArea.getByLabel(translate('storefront:login:register.firstName'));
+        this.lastNameInput = this.personalFormArea.getByLabel(translate('storefront:login:register.lastName'));
+        this.companyInput = this.personalFormArea.getByLabel(translate('storefront:login:register.company'));
+        this.departmentInput = this.personalFormArea.getByLabel(translate('storefront:login:register.department'));
         this.vatRegNoInput = this.personalFormArea.locator('input[id="vatIds"]');
-        this.registerEmailInput = this.personalFormArea.getByLabel('Email address');
-        this.registerPasswordInput = this.personalFormArea.getByLabel('Password');
-        this.streetAddressInput = this.billingAddressFormArea.getByLabel('Street address');
-        this.cityInput = this.billingAddressFormArea.getByLabel('City');
-        this.countryInput = this.billingAddressFormArea.getByLabel('Country');
-        this.postalCodeInput = this.billingAddressFormArea.getByLabel('Postal code');
-        this.differentShippingAddressCheckbox = page.getByRole('checkbox', { name: 'Shipping and billing address do not match.' });
+        this.registerEmailInput = this.personalFormArea.getByLabel(translate('storefront:login:register.emailAddress'));
+        this.registerPasswordInput = this.personalFormArea.getByLabel(translate('storefront:login:register.password'));
+        this.streetAddressInput = this.billingAddressFormArea.getByLabel(translate('storefront:login:register.streetAddress'));
+        this.cityInput = this.billingAddressFormArea.getByLabel(translate('storefront:login:register.city'));
+        this.countryInput = this.billingAddressFormArea.getByLabel(translate('storefront:login:register.country'));
+        this.postalCodeInput = this.billingAddressFormArea.getByLabel(translate('storefront:login:register.postalCode'));
+        this.differentShippingAddressCheckbox = page.getByRole('checkbox', { name: translate('storefront:login:register.differentShippingAddress') });
         this.registerShippingAddressFormArea = page.locator('.register-shipping');
-        this.shippingAddressSalutationSelect = this.registerShippingAddressFormArea.locator('.form-group').filter({ has: page.getByLabel('Salutation') }).locator('.form-select');
-        this.shippingAddressFirstNameInput = this.registerShippingAddressFormArea.getByLabel('First name');
-        this.shippingAddressLastNameInput = this.registerShippingAddressFormArea.getByLabel('Last name');
-        this.shippingAddressStreetAddressInput = this.registerShippingAddressFormArea.getByLabel('Street address');
-        this.shippingAddressCityInput = this.registerShippingAddressFormArea.getByLabel('City');
-        this.shippingAddressCountryInput = this.registerShippingAddressFormArea.getByLabel('Country');
-        this.shippingAddressPostalCodeInput = this.registerShippingAddressFormArea.getByLabel('Postal code');
-        this.shippingAddressStateInput = this.registerShippingAddressFormArea.getByLabel('State');
-        this.registerButton = page.getByRole('button', { name: 'Continue' });
-        this.logoutLink = page.getByRole('link', { name: 'Log out'});
-        this.successAlert = page.getByText('Successfully logged out.');
-        this.passwordUpdatedAlert = page.getByText('Your password has been updated.');
+        this.shippingAddressSalutationSelect = this.registerShippingAddressFormArea
+            .locator('.form-group')
+            .filter({ has: page.getByLabel(translate('storefront:login:register.salutation')) })
+            .locator('.form-select');
+        this.shippingAddressFirstNameInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.firstName'));
+        this.shippingAddressLastNameInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.lastName'));
+        this.shippingAddressStreetAddressInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.streetAddress'));
+        this.shippingAddressCityInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.city'));
+        this.shippingAddressCountryInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.country'));
+        this.shippingAddressPostalCodeInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.postalCode'));
+        this.shippingAddressStateInput = this.registerShippingAddressFormArea.getByLabel(translate('storefront:login:register.state'));
+        this.registerButton = page.getByRole('button', { name: translate('storefront:login:register.continue') });
+        this.logoutLink = page.getByRole('link', { name: translate('storefront:login:logout') });
+        this.successAlert = page.getByText(translate('storefront:login:successfulLogout'));
+        this.passwordUpdatedAlert = page.getByText(translate('storefront:login:passwordUpdated'));
 
         this.greCaptchaV2Container = this.page.locator('.grecaptcha-v2-container');
         this.greCaptchaV2Input = this.page.locator('.grecaptcha-v2-input');

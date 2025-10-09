@@ -2,12 +2,17 @@ import { expect } from '@playwright/test';
 import type { Browser, BrowserContext, Page } from '@playwright/test';
 import { mockApiCalls } from './ApiMocks';
 import { clearDelayedCache } from './Cache';
+import { translate } from './LanguageHelper';
 import type { User } from '../types/ShopwareTypes';
 import type { DefaultSalesChannelTypes } from '../fixtures/DefaultSalesChannel';
 import type { FixtureTypes } from '../types/FixtureTypes';
 
-export async function createNewAdminPageContext(merchant: User, browser: Browser, SalesChannelBaseConfig: DefaultSalesChannelTypes['SalesChannelBaseConfig'], AdminApiContext: FixtureTypes['AdminApiContext']): Promise<Page> {
-
+export async function createNewAdminPageContext(
+    merchant: User,
+    browser: Browser,
+    SalesChannelBaseConfig: DefaultSalesChannelTypes['SalesChannelBaseConfig'],
+    AdminApiContext: FixtureTypes['AdminApiContext'],
+): Promise<Page> {
     const context: BrowserContext = await browser.newContext({
         baseURL: SalesChannelBaseConfig.adminUrl,
         serviceWorkers: 'block',
@@ -16,20 +21,25 @@ export async function createNewAdminPageContext(merchant: User, browser: Browser
     await adminPage.goto('#/login');
     await mockApiCalls(adminPage);
 
-    await adminPage.getByLabel(/Username|Email address/).fill(merchant.username);
-    await adminPage.getByLabel('Password', { exact: true }).fill(merchant.password);
+    // Create locators at runtime when language is properly set
+    const usernamePattern = new RegExp(`${translate('administration:login:username')}|${translate('administration:login:emailAddress')}`);
+    const passwordLabel = translate('administration:login:password');
 
-    const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
+    await adminPage.getByLabel(usernamePattern).fill(merchant.username);
+    await adminPage.getByLabel(passwordLabel, { exact: true }).fill(merchant.password);
+
+    const config = (await (await AdminApiContext.get('./_info/config')).json()) as { bundles: Record<string, { js: string[] | undefined }> };
 
     const jsLoadingPromises = [];
     for (const i in config.bundles) {
         if (config.bundles[i]?.js && config.bundles[i]?.js?.length) {
             const js = config?.bundles[i]?.js ?? [];
-            jsLoadingPromises.push(...js.map(url => adminPage.waitForResponse(url)));
+            jsLoadingPromises.push(...js.map((url) => adminPage.waitForResponse(url)));
         }
     }
 
-    await adminPage.getByRole('button', { name: 'Log in' }).click();
+    const loginButtonLabel = translate('administration:login:loginButton');
+    await adminPage.getByRole('button', { name: loginButtonLabel }).click();
 
     // wait for all plugin js to be loaded
     await Promise.all(jsLoadingPromises);

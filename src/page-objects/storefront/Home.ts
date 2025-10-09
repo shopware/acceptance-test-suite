@@ -1,8 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class Home implements PageObject {
-
     public readonly categoryTitle: Locator;
 
     public readonly accountMenuButton: Locator;
@@ -70,7 +70,7 @@ export class Home implements PageObject {
     public readonly priceFilterButton: Locator;
     public readonly resetAllButton: Locator;
     public readonly freeShippingFilter: Locator;
-    public readonly productList : Locator;
+    public readonly productList: Locator;
     public readonly productItemNames: Locator;
     public readonly productRatingButton: Locator;
     public readonly productRatingList: Locator;
@@ -79,7 +79,7 @@ export class Home implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.categoryTitle = page.locator('.cms-element-text h1');
-        this.accountMenuButton = page.getByLabel('Your account');
+        this.accountMenuButton = page.getByLabel(translate('storefront:home:account.yourAccount'));
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
         this.productListItems = page.locator('.product-box');
@@ -88,12 +88,12 @@ export class Home implements PageObject {
         this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
         this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
         this.consentCookieBannerContainer = page.locator('.cookie-permission-container');
-        this.consentOnlyTechnicallyRequiredButton = page.getByRole('button', { name: 'Only technically required', exact: true });
-        this.consentConfigureButton = page.getByRole('button', { name: 'Configure', exact: true });
-        this.consentAcceptAllCookiesButton = page.getByRole('button', { name: 'Accept all cookies', exact: true });
-        this.consentCookiePreferences = page.getByLabel('Cookie preferences');
+        this.consentOnlyTechnicallyRequiredButton = page.getByRole('button', { name: translate('storefront:home:consent.onlyTechnicallyRequired'), exact: true });
+        this.consentConfigureButton = page.getByRole('button', { name: translate('storefront:home:consent.configure'), exact: true });
+        this.consentAcceptAllCookiesButton = page.getByRole('button', { name: translate('storefront:home:consent.acceptAllCookies'), exact: true });
+        this.consentCookiePreferences = page.getByLabel(translate('storefront:home:consent.cookiePreferences'));
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
-        this.consentDialog = page.getByRole('dialog').filter({ hasText: 'Cookie preferences' });
+        this.consentDialog = page.getByRole('dialog').filter({ hasText: translate('storefront:home:consent.cookiePreferences') });
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
             name: 'Technically required',
             exact: true,
@@ -102,8 +102,8 @@ export class Home implements PageObject {
             name: 'Statistics',
             exact: true,
         });
-        this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing', exact: true });
-        this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('checkbox', { name: 'Marketing', exact: true });
+        this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
+        this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
         this.consentDialogSaveButton = this.consentDialog.getByRole('button', {
             name: 'Save',
             exact: true,
@@ -122,11 +122,11 @@ export class Home implements PageObject {
 
         //product filters
         this.filterMultiSelect = page.locator('.filter-multi-select');
-        this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: 'Manufacturer' });
+        this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.manufacturer') });
         this.propertyFilters = page.locator('.filter-multi-select-properties');
-        this.priceFilterButton = page.getByRole('button', { name: 'Price' }).first();
-        this.resetAllButton = page.getByRole('button', { name: 'Reset all' });
-        this.freeShippingFilter = page.getByRole('checkbox', { name: 'Free shipping' });
+        this.priceFilterButton = page.getByRole('button', { name: translate('storefront:home:filters.price') }).first();
+        this.resetAllButton = page.getByRole('button', { name: translate('storefront:home:filters.resetAll') });
+        this.freeShippingFilter = page.getByRole('checkbox', { name: translate('storefront:home:filters.freeShipping') });
         this.productList = page.locator('.cms-listing-row');
         this.productItemNames = this.productList.locator('.product-name');
         this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');

@@ -1,0 +1,26 @@
+{
+    "emailAddress": "Ihre E-Mail-Adresse",
+    "password": "Ihr Passwort",
+    "loginButton": "Anmelden",
+    "forgotPassword": "Ich habe mein Passwort vergessen.",
+    "logout": "Abmelden",
+    "invalidCredentials": "Es konnte kein Konto gefunden werden, das den angegebenen Anmeldedaten entspricht.",
+    "successfulLogout": "Erfolgreich abgemeldet.",
+    "passwordUpdated": "Ihr Passwort wurde aktualisiert.",
+    "register": {
+        "salutation": "Anrede",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "company": "Unternehmen",
+        "department": "Abteilung",
+        "emailAddress": "E-Mail-Adresse",
+        "password": "Passwort",
+        "streetAddress": "Straße und Hausnummer",
+        "city": "Stadt",
+        "country": "Land",
+        "postalCode": "Postleitzahl",
+        "state": "Bundesland",
+        "differentShippingAddress": "Liefer- und Rechnungsadresse sind nicht identisch.",
+        "continue": "Weiter"
+    }
+}

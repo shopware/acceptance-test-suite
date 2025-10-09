@@ -1,4 +1,4 @@
-import { request } from '@playwright/test';
+import { expect, request } from '@playwright/test';
 import type { APIRequestContext, APIResponse } from 'playwright-core';
 
 type HTTPHeaders = Record<string, string>;
@@ -95,6 +95,8 @@ export class AdminApiContext {
 
         const authData = (await authResponse.json()) as { access_token?: string };
 
+        expect(authResponse.ok(), 'Should authenticate with client credentials').toBeTruthy();
+
         if (!authData['access_token']) {
             throw new Error(`Failed to authenticate with client_id: ${options.client_id}`);
         }
@@ -114,6 +116,8 @@ export class AdminApiContext {
         });
 
         const authData = (await authResponse.json()) as { access_token?: string };
+
+        expect(authResponse.ok(), 'Should authenticate with user credentials').toBeTruthy();
 
         if (!authData['access_token']) {
             throw new Error(`Failed to authenticate with user: ${options.admin_username}`);
@@ -159,7 +163,7 @@ export class AdminApiContext {
     private async handleRequest<PAYLOAD>(
       method: 'get' | 'post' | 'patch' | 'delete' | 'fetch' | 'head',
       url: string,
-      options?: RequestOptions<PAYLOAD>
+      options?: RequestOptions<PAYLOAD>,
     ): Promise<APIResponse> {
         const methodMap = {
             get: this.context.get.bind(this.context),

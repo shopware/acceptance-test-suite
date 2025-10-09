@@ -1,0 +1,22 @@
+{
+    "listing": {
+        "addManufacturer": "Hersteller hinzufügen"
+    },
+    "create": {
+        "name": "Name",
+        "website": "Website",
+        "save": "Speichern",
+        "cancel": "Abbrechen"
+    },
+    "detail": {
+        "customFields": "Zusatzfelder"
+    },
+    "actions": {
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "cancel": "Abbrechen"
+    },
+    "dialogs": {
+        "warning": "Warnung"
+    }
+}

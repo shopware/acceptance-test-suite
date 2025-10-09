@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class CheckoutConfirm implements PageObject {
     public readonly headline: Locator;
@@ -30,19 +31,19 @@ export class CheckoutConfirm implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.headline = page.getByRole('heading', { name: 'Complete order' });
-        this.termsAndConditionsCheckbox = page.getByLabel('I have read and accepted the general terms and conditions.');
-        this.immediateAccessToDigitalProductCheckbox = page.getByLabel('I want immediate access to the digital content and I acknowledge that thereby I waive my right to cancel.');
+        this.headline = page.getByRole('heading', { name: translate('storefront:checkout:confirm.completeOrder') });
+        this.termsAndConditionsCheckbox = page.getByLabel(translate('storefront:checkout:confirm.termsAndConditions'));
+        this.immediateAccessToDigitalProductCheckbox = page.getByLabel(translate('storefront:checkout:confirm.immediateAccessToDigitalProduct'));
         this.grandTotalPrice = page.locator(`dt:has-text('Grand total') + dd`);
         this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
-        this.submitOrderButton = page.getByRole('button', { name: 'Submit order' });
+        this.submitOrderButton = page.getByRole('button', { name: translate('storefront:checkout:confirm.submitOrder') });
 
-        this.paymentCashOnDelivery = page.getByLabel('Cash on delivery');
-        this.paymentPaidInAdvance = page.getByLabel('Paid in advance');
-        this.paymentInvoice = page.getByLabel('Invoice');
+        this.paymentCashOnDelivery = page.getByLabel(translate('storefront:checkout:common.cashOnDelivery'));
+        this.paymentPaidInAdvance = page.getByLabel(translate('storefront:checkout:common.paidInAdvance'));
+        this.paymentInvoice = page.getByLabel(translate('storefront:checkout:common.invoice'));
 
-        this.shippingStandard = page.getByLabel('Standard');
-        this.shippingExpress = page.getByLabel('Express');
+        this.shippingStandard = page.getByLabel(translate('storefront:checkout:common.standard'));
+        this.shippingExpress = page.getByLabel(translate('storefront:checkout:common.express'));
 
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }

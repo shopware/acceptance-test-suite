@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class AccountRecover implements PageObject {
     public readonly passwordRecoveryForm: Locator;
@@ -20,16 +21,16 @@ export class AccountRecover implements PageObject {
         this.page = page;
         this.passwordRecoveryForm = page.locator('.account-recover-password-form');
         const cardTitle = this.passwordRecoveryForm.locator('.card-title');
-        this.title = cardTitle.getByText('Password recovery');
-        this.subtitle = cardTitle.getByText('We will send you a confirmation email. Click the link in that email in order to change your password.');
-        this.emailInput = this.passwordRecoveryForm.getByLabel('Your email address');
-        this.requestEmailButton = this.passwordRecoveryForm.getByRole('button', { name: 'Request email' });
-        this.backButton = this.passwordRecoveryForm.getByRole('link', { name: 'Back' });
-        this.passwordResetEmailSentMessage = page.getByText('If the provided email address is registered, a confirmation email including a password reset link has been sent.');
-        this.newPasswordInput = page.getByLabel('New password');
-        this.newPasswordConfirmInput = page.getByLabel('Password confirmation');
-        this.changePasswordButton = page.getByRole('button', { name: 'Change password' });
-        this.invalidLinkMessage = page.getByText('The password reset link seems to be invalid.');
+        this.title = cardTitle.getByText(translate('storefront:recover:passwordRecovery'));
+        this.subtitle = cardTitle.getByText(translate('storefront:recover:subtitle'));
+        this.emailInput = this.passwordRecoveryForm.getByLabel(translate('storefront:login:emailAddress'));
+        this.requestEmailButton = this.passwordRecoveryForm.getByRole('button', { name: translate('storefront:recover:requestEmail') });
+        this.backButton = this.passwordRecoveryForm.getByRole('link', { name: translate('storefront:recover:back') });
+        this.passwordResetEmailSentMessage = page.getByText(translate('storefront:recover:emailSent'));
+        this.newPasswordInput = page.getByLabel(translate('storefront:recover:newPassword'));
+        this.newPasswordConfirmInput = page.getByLabel(translate('storefront:recover:passwordConfirmation'));
+        this.changePasswordButton = page.getByRole('button', { name: translate('storefront:recover:changePassword') });
+        this.invalidLinkMessage = page.getByText(translate('storefront:recover:invalidLink'));
     }
 
     url(recoverLink?: string) {

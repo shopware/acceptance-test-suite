@@ -1,0 +1,18 @@
+{
+    "addToCart": "Add to shopping cart",
+    "quantity": "Quantity",
+    "addToWishlist": "Add to wishlist",
+    "removeFromWishlist": "Remove from wishlist",
+    "deliveryTime": "Ready to ship today,\\nDelivery time appr. 1-3 workdays",
+    "review": {
+        "tabTitle": "Reviews",
+        "title": "Title",
+        "text": "Your review",
+        "emptyText": "No reviews found. Share your insights with others.",
+        "submitMessage": "Thank you for submitting your review. We will examine the review and eventually unlock it, please be patient."
+    },
+    "listing": {
+        "sorting": "Sorting",
+        "noProductsFound": "No products found."
+    }
+}

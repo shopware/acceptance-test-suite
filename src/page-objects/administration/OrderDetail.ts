@@ -1,8 +1,9 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import type {HelperFixtureTypes} from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 import { satisfies } from 'compare-versions';
+import { translate } from '../../services/LanguageHelper';
 
 export class OrderDetail implements PageObject {
     public readonly saveButton: Locator;
@@ -38,21 +39,21 @@ export class OrderDetail implements PageObject {
         this.lineItemsTable = page.locator('.sw-data-grid__table');
         this.documentType = page.locator('.sw-data-grid__cell--documentType-name');
         this.contextMenu = page.locator('.sw-context-menu');
-        this.contextMenuSendDocument = this.contextMenu.getByText('Send document');
-        this.contextMenuButton = page.getByLabel('Open actions menu');
+        this.contextMenuSendDocument = this.contextMenu.getByText(translate('administration:order:contextMenu.sendDocument'));
+        this.contextMenuButton = page.getByLabel(translate('administration:order:detail.openActionsMenu'));
         this.sendDocumentModal = page.locator('.sw-order-send-document-modal');
-        this.sendDocumentButton = page.getByRole('button').getByText('Send document');
+        this.sendDocumentButton = page.getByRole('button').getByText(translate('administration:order:detail.sendDocument'));
         this.sentCheckmark = page.locator('.icon--regular-checkmark-xs');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.itemsCardHeader = page.locator('.sw-card__header').getByText('Items');
+            this.itemsCardHeader = page.locator('.sw-card__header').getByText(translate('administration:order:detail.items'));
         } else {
-            this.itemsCardHeader = page.locator('.mt-card__header').getByText('Items');
+            this.itemsCardHeader = page.locator('.mt-card__header').getByText(translate('administration:order:detail.items'));
         }
 
         //Tabs
-        this.generalTabLink = page.getByRole('tab', { name: 'General' });
-        this.detailsTabLink = page.getByRole('tab', { name: 'Details' });
-        this.documentsTabLink = page.getByRole('tab', { name: 'Documents' });
+        this.generalTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.general') });
+        this.detailsTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.details') });
+        this.documentsTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.documents') });
     }
 
     url(orderId: string, tabName = 'general') {

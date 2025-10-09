@@ -1,0 +1,22 @@
+{
+    "listing": {
+        "addManufacturer": "Add manufacturer"
+    },
+    "create": {
+        "name": "Name",
+        "website": "Website",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "detail": {
+        "customFields": "Custom fields"
+    },
+    "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel"
+    },
+    "dialogs": {
+        "warning": "Warning"
+    }
+}
