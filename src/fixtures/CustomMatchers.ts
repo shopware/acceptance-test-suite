@@ -1,4 +1,5 @@
-import { expect as baseExpect, Locator } from '@playwright/test';
+import { expect as baseExpect } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 
 // Extend Playwright's expect with custom matchers
 export const expect = baseExpect.extend({
@@ -45,7 +46,6 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PlaywrightTest {
     interface Matchers<R> {
-      toHaveColour(expected: string): Promise<R>;
       toHaveVisibleFocus(): Promise<R>;
     }
   }

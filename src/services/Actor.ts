@@ -58,14 +58,14 @@ export class Actor {
                  */
                 for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
                     await this.presses(options[i].locator, 'ArrowDown');
-                    this.page.waitForLoadState('domcontentloaded'); 
+                    await this.page.waitForLoadState('domcontentloaded'); 
                 }
             }
 
             else{
                 for(let i = defaultOptionIndex; i > desiredOptionIndex; i--){
                     await this.presses(options[i].locator, 'ArrowUp');
-                    this.page.waitForLoadState('domcontentloaded');
+                    await this.page.waitForLoadState('domcontentloaded');
                 }
             }
         }
