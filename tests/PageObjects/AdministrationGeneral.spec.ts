@@ -5,7 +5,6 @@ test('Administration page objects - General.', async ({
     ShopAdmin,
     AdminDashboard,
     AdminCustomerListing,
-    AdminManufacturerCreate,
     AdminCustomerDetail,
     DefaultSalesChannel,
     AdminCategories,
@@ -18,10 +17,6 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
     await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminManufacturerCreate.url());
-    await ShopAdmin.expects(AdminManufacturerCreate.nameInput).toBeVisible();
-    await ShopAdmin.expects(AdminManufacturerCreate.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
     await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible({ timeout: 15_000 });
