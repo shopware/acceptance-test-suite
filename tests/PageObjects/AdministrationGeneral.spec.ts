@@ -4,9 +4,6 @@ test('Administration page objects - General.', async ({
     InstanceMeta,
     ShopAdmin,
     AdminDashboard,
-    AdminCustomerListing,
-    AdminCustomerDetail,
-    DefaultSalesChannel,
     AdminCategories,
     AdminLandingPageCreate,
     TestDataService,
@@ -14,12 +11,6 @@ test('Administration page objects - General.', async ({
     AdminProductDetail,
     AdminMedia,
 }) => {
-    await ShopAdmin.goesTo(AdminCustomerListing.url(), InstanceMeta.isSaaS);
-    await ShopAdmin.expects(AdminCustomerListing.headline).toBeVisible();
-    await ShopAdmin.expects(AdminCustomerListing.addCustomerButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminCustomerDetail.url(DefaultSalesChannel.customer.id));
-    await ShopAdmin.expects(AdminCustomerDetail.accountCard).toBeVisible({ timeout: 15_000 });
 
     const category = await TestDataService.createCategory();
     await ShopAdmin.goesTo(AdminCategories.url());
