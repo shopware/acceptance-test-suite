@@ -17,16 +17,16 @@ export const expect = baseExpect.extend({
         const computedStyle = window.getComputedStyle(element);
         return computedStyle.borderStyle !== 'none' && 
           computedStyle.borderWidth !== '0px' && 
-          computedStyle.borderColor !== "transparent" &&
-          !computedStyle.borderColor.includes("rgba(0, 0, 0, 0)");
+          computedStyle.borderColor !== 'transparent' &&
+          !computedStyle.borderColor.includes('rgba(0, 0, 0, 0)');
       });
 
       const outlineStyle = await locator.evaluate((element) => {
         const computedStyle = window.getComputedStyle(element);
         return computedStyle.outline !== 'none' && 
           computedStyle.outlineWidth !== '0px' &&
-          computedStyle.borderColor !== "transparent" &&
-          !computedStyle.borderColor.includes("rgba(0, 0, 0, 0)");
+          computedStyle.borderColor !== 'transparent' &&
+          !computedStyle.borderColor.includes('rgba(0, 0, 0, 0)');
       });
 
       if (!boxShadowStyle && !borderStyle && !outlineStyle) {
