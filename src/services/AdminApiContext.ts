@@ -26,7 +26,7 @@ export class AdminApiContext {
     public readonly options: Required<AdminApiContextOptions>;
 
     private static readonly defaultOptions: Required<AdminApiContextOptions> = {
-        app_url: process.env['ADMIN_API_URL'] || process.env['APP_URL'] || 'http://localhost',
+        app_url: process.env['ADMIN_API_URL'] || process.env['APP_URL'] || 'http://localhost:8000',
         client_id: process.env['SHOPWARE_ACCESS_KEY_ID'] ?? '',
         client_secret: process.env['SHOPWARE_SECRET_ACCESS_KEY'] ?? '',
         admin_username: process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin',
@@ -50,9 +50,7 @@ export class AdminApiContext {
 
         const tmpContext = await this.createApiRequestContext(contextOptions);
 
-        // If there’s already a token passed in, just use it.
         if (!contextOptions.access_token) {
-            // robust auth with retry
             contextOptions.access_token = await this.authenticateWithRetry(tmpContext, contextOptions);
         }
 
@@ -97,7 +95,6 @@ export class AdminApiContext {
         });
     }
 
-    // === Retry wrapper for acquiring token ===
     private static async authenticateWithRetry(
         tmpContext: APIRequestContext,
         options: Required<AdminApiContextOptions>,
@@ -109,13 +106,11 @@ export class AdminApiContext {
 
         for (let attempt = 0; attempt <= max; attempt++) {
             try {
-                // First, try client credentials when available
                 if (options.client_id && options.client_secret) {
                     const token = await this.authenticateWithClientCredentials(tmpContext, options);
                     if (token) return token;
                 }
 
-                // Fallback: use admin user/password to mint a user token and then (optionally) create/fetch an integration
                 if (options.admin_username && options.admin_password) {
                     const userToken = await this.authenticateWithUserPassword(tmpContext, options);
                     if (userToken) return userToken;
@@ -126,13 +121,11 @@ export class AdminApiContext {
                 lastError = err;
                 if (attempt === max) break;
 
-                // small decorrelated jitter backoff
                 const delay = baseDelay * Math.pow(2, attempt) + Math.floor(Math.random() * baseDelay);
                 await new Promise((r) => setTimeout(r, delay));
             }
         }
 
-        // bubble up the last error for visibility
         throw lastError instanceof Error
             ? lastError
             : new Error(`Authentication failed after ${max + 1} attempts: ${String(lastError)}`);
@@ -183,7 +176,6 @@ export class AdminApiContext {
     }
 
     private async reauthenticate(): Promise<void> {
-        // Build a temporary context without Authorization to do auth calls
         const tmp = await AdminApiContext.createApiRequestContext({
             ...this.options,
             access_token: '',
@@ -191,7 +183,6 @@ export class AdminApiContext {
 
         this.options.access_token = await AdminApiContext.authenticateWithRetry(tmp, this.options);
 
-        // Recreate the authed context so subsequent calls include the new token
         this.context = await AdminApiContext.createApiRequestContext(this.options);
     }
 
