@@ -21,50 +21,52 @@ export class Actor {
     }
 
     async selectsRadioButton(radioGroup: Locator, inputLabel: string){
+        const stepTitle = `${this.name} selects radio button ${inputLabel}`;
+        await test.step(stepTitle, async () =>{
+            const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
 
-        const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
+            if(!(await desiredOption.isChecked()))
+            {
+                const options: { label: string; locator: Locator; isChecked: boolean }[] = [];
 
-        if(!(await desiredOption.isChecked()))
-        {
-            const options: { label: string; locator: Locator; isChecked: boolean }[] = [];
+                for (const labelEl of await radioGroup.locator('label').all()) {
+                    
+                    const label = await labelEl.innerText();
+                    const radioButton = radioGroup.getByRole('radio', { name: label });
+                    const isChecked = await radioButton.isChecked();
 
-            for (const labelEl of await radioGroup.locator('label').all()) {
-                
-                const label = await labelEl.innerText();
-                const radioButton = radioGroup.getByRole('radio', { name: label });
-                const isChecked = await radioButton.isChecked();
+                    options.push({ label, locator: radioButton, isChecked });
+                } 
 
-                options.push({ label, locator: radioButton, isChecked });
-            } 
+                const defaultOptionIndex = options.findIndex(opt => opt.isChecked);
+                const desiredOptionIndex = options.findIndex(opt => opt.label === inputLabel);
 
-            const defaultOptionIndex = options.findIndex(opt => opt.isChecked);
-            const desiredOptionIndex = options.findIndex(opt => opt.label === inputLabel);
+                if(defaultOptionIndex < desiredOptionIndex)
+                {        
+                    /* Need waitForLoadState() because in most cases selecting a radio button
+                    *     either reloads the page or navigates to a new one (product variants)
+                    */
+                    for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
+                        await this.presses(options[i].locator, 'ArrowDown');
+                        await this.page.waitForLoadState('domcontentloaded'); 
+                    }
+                }
 
-            if(defaultOptionIndex < desiredOptionIndex)
-            {        
-                /* Need waitForLoadState() because in most cases selecting a radio button
-                 *     either reloads the page or navigates to a new one (product variants)
-                 */
-                for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
-                    await this.presses(options[i].locator, 'ArrowDown');
-                    await this.page.waitForLoadState('domcontentloaded'); 
+                else{
+                    for(let i = defaultOptionIndex; i > desiredOptionIndex; i--){
+                        await this.presses(options[i].locator, 'ArrowUp');
+                        await this.page.waitForLoadState('domcontentloaded');
+                    }
                 }
             }
-
-            else{
-                for(let i = defaultOptionIndex; i > desiredOptionIndex; i--){
-                    await this.presses(options[i].locator, 'ArrowUp');
-                    await this.page.waitForLoadState('domcontentloaded');
-                }
-            }
-        }
-        
-        await this.a11y_checks(desiredOption);
+            
+            await this.a11y_checks(desiredOption);
+        });
     }
     
     async presses(locator: Locator, key?: string) {
 
-        const tagName = await locator.evaluate(el => el.tagName);;
+        const tagName = await locator.evaluate(el => el.tagName);
 
         /* Storefront buttons and links only use :focus-visible, which locator.focus() doesn't trigger by default. 
         *      Using a keyboard event triggers :focus-visible the next time you call locator.focus().
@@ -79,7 +81,7 @@ export class Actor {
         const defaultKey = (tagName === 'BUTTON' || tagName === 'A') ? 'Enter' : 'Space';
         const inputKey = key ?? defaultKey;
 
-        const stepTitle = `${this.name} presses ${key} on ${locator}`;
+        const stepTitle = `${this.name} presses ${inputKey} on ${locator}`;
         await test.step(stepTitle, async () =>{ 
             await this.a11y_checks(locator);            
             await locator.press(inputKey);
