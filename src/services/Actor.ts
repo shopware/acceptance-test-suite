@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 
 export class Actor {
     public page: Page;
