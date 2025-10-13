@@ -1,5 +1,5 @@
 import { expect as baseExpect } from '@playwright/test';
-import type { Locator } from '@playwright/test';
+import type { Locator } from 'playwright-core';
 
 // Extend Playwright's expect with custom matchers
 export const expect = baseExpect.extend({
