@@ -5,7 +5,9 @@ import type { Locator } from '@playwright/test';
 export const expect = baseExpect.extend({
   async toHaveVisibleFocus(locator: Locator) {
     try {
-      // Check for common focus indicators using box-shadow, border or outline
+      /* Check for common focus indicators using box-shadow, border or outline
+       *    Source: https://www.thegreenreport.blog/articles/testing-focus-order-and-visibility-for-wcag-compliance/testing-focus-order-and-visibility-for-wcag-compliance.html    
+      */
       const boxShadowStyle = await locator.evaluate((element) => {
         const computedStyle = window.getComputedStyle(element);
         return computedStyle.boxShadow !== 'none';
@@ -13,12 +15,18 @@ export const expect = baseExpect.extend({
 
       const borderStyle = await locator.evaluate((element) => {
         const computedStyle = window.getComputedStyle(element);
-        return computedStyle.borderStyle !== 'none' && computedStyle.borderWidth !== '0px';
+        return computedStyle.borderStyle !== 'none' && 
+          computedStyle.borderWidth !== '0px' && 
+          computedStyle.borderColor !== "transparent" &&
+          !computedStyle.borderColor.includes("rgba(0, 0, 0, 0)");
       });
 
       const outlineStyle = await locator.evaluate((element) => {
         const computedStyle = window.getComputedStyle(element);
-        return computedStyle.outline !== 'none' && computedStyle.outlineWidth !== '0px';
+        return computedStyle.outline !== 'none' && 
+          computedStyle.outlineWidth !== '0px' &&
+          computedStyle.borderColor !== "transparent" &&
+          !computedStyle.borderColor.includes("rgba(0, 0, 0, 0)");
       });
 
       if (!boxShadowStyle && !borderStyle && !outlineStyle) {
@@ -29,7 +37,7 @@ export const expect = baseExpect.extend({
       }
 
       return {
-        message: () => `expected ${locator} to have visible focus`,
+        message: () => `${locator} has visible focus`,
         pass: true,
       };
     } catch (error) {
