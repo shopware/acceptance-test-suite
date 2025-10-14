@@ -11,5 +11,16 @@
         "general": "Allgemein",
         "details": "Details",
         "documents": "Dokumente"
+    },
+    "listing": {
+      "addOrder": "Bestellung anlegen"
+    },
+    "actions": {
+      "view": "Anzeigen",
+      "delete": "Löschen",
+      "cancel": "Abbrechen"
+    },
+    "dialogs": {
+      "warning": "Warnung"
     }
 }

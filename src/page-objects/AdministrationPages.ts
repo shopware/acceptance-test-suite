@@ -50,6 +50,7 @@ import { LayoutListing } from './administration/LayoutListing';
 import { LayoutCreate } from './administration/LayoutCreate';
 import { ListingPageLayoutDetail } from './administration/ListingPageLayoutDetail';
 import { SalesChannelDetail } from './administration/SalesChannelDetail';
+import { OrderListing } from './administration/OrderListing';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -101,6 +102,7 @@ export interface AdministrationPageTypes {
     AdminLayoutListing: LayoutListing;
     AdminListingPageLayoutDetail: ListingPageLayoutDetail;
     AdminLayoutCreate: LayoutCreate;
+    AdminOrderListing: OrderListing;
 }
 
 export const AdminPageObjects = {
@@ -153,6 +155,7 @@ export const AdminPageObjects = {
     LayoutListing,
     ListingPageLayoutDetail,
     LayoutCreate,
+    OrderListing,
 };
 
 export const test = base.extend<FixtureTypes>({
@@ -350,5 +353,9 @@ export const test = base.extend<FixtureTypes>({
 
     AdminSalesChannelDetail: async ({ AdminPage }, use) => {
         await use(new SalesChannelDetail(AdminPage));
+    },
+
+    AdminOrderListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new OrderListing(AdminPage, InstanceMeta));
     },
 });

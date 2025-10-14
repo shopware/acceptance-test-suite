@@ -12,5 +12,9 @@
     },
     "userMenu": {
         "logout": "Logout"
+    },
+    "order": {
+      "orderTitle": "Orders",
+      "orderOverview": "Overview"
     }
 }

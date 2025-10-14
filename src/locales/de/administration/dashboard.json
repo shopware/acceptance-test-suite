@@ -12,5 +12,9 @@
     },
     "userMenu": {
         "logout": "Abmelden"
-    }
+    },
+    "order": {
+      "orderTitle": "Bestellungen",
+      "orderOverview": "Übersicht"
+  }
 }
