@@ -48,7 +48,7 @@ export class Actor {
                     */
                     for(let i = defaultOptionIndex; i < desiredOptionIndex; i++){
                         await this.presses(options[i].locator, 'ArrowDown');
-                        await this.page.waitForLoadState('domcontentloaded'); 
+                        await this.page.waitForLoadState('domcontentloaded');
                     }
                 }
 
@@ -66,6 +66,7 @@ export class Actor {
     
     async presses(locator: Locator, key?: string) {
 
+        let defaultKey: string = 'Space';
         const tagName = await locator.evaluate(el => el.tagName);
 
         /* Storefront buttons and links only use :focus-visible, which locator.focus() doesn't trigger by default. 
@@ -73,12 +74,13 @@ export class Actor {
         */
         if (tagName === 'BUTTON' || tagName === 'A'){
             await this.page.keyboard.press('Shift');
+
+            /* Be aware that a native <button> fires on key down with 'Enter' but on key up with 'Space'.
+            *     Source: https://adrianroselli.com/2022/04/brief-note-on-buttons-enter-and-space.html     
+            */ 
+            defaultKey = 'Enter';
         } 
-        
-        /* Be aware that a native <button> fires on key down with 'Enter' but on key up with 'Space'.
-        *     Source: https://adrianroselli.com/2022/04/brief-note-on-buttons-enter-and-space.html     
-        */ 
-        const defaultKey = (tagName === 'BUTTON' || tagName === 'A') ? 'Enter' : 'Space';
+
         const inputKey = key ?? defaultKey;
 
         const stepTitle = `${this.name} presses ${inputKey} on ${locator}`;
