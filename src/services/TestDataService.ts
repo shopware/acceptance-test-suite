@@ -40,7 +40,6 @@ import type {
 } from '../types/ShopwareTypes';
 import { expect } from '@playwright/test';
 import { clearDelayedCache } from './Cache';
-import { encode } from 'image-js';
 
 export interface SalesChannelRecord {
     salesChannelId: string;

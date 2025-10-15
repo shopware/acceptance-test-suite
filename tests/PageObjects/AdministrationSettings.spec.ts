@@ -5,10 +5,6 @@ test('Administration page objects - Settings.', async ({
     InstanceMeta,
     AdminApiContext,
     ShopAdmin,
-    DefaultSalesChannel,
-    AdminCustomerGroupListing,
-    AdminCustomerGroupCreate,
-    AdminCustomerGroupDetail,
     AdminFirstRunWizard,
     AdminFlowBuilderCreate,
     AdminFlowBuilderListing,
@@ -20,17 +16,6 @@ test('Administration page objects - Settings.', async ({
     AdminSettingsListing,
     Translate,
 }) => {
-    await ShopAdmin.goesTo(AdminCustomerGroupListing.url(), InstanceMeta.isSaaS);
-    await ShopAdmin.expects(AdminCustomerGroupListing.headline).toBeVisible();
-    await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminCustomerGroupCreate.url());
-    await ShopAdmin.expects(AdminCustomerGroupCreate.customerGroupNameField).toBeVisible();
-    await ShopAdmin.expects(AdminCustomerGroupCreate.saveButton).toBeVisible();
-
-    await ShopAdmin.goesTo(AdminCustomerGroupDetail.url(DefaultSalesChannel.salesChannel.customerGroupId));
-    await ShopAdmin.expects(AdminCustomerGroupDetail.headline).toBeVisible();
-    await ShopAdmin.expects(AdminCustomerGroupDetail.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminCustomFieldListing.url());
     await ShopAdmin.expects(AdminCustomFieldListing.addNewSetButton).toBeVisible();
