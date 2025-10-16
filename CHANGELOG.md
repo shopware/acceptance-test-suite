@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.35.0](https://github.com/shopware/acceptance-test-suite/compare/v11.34.1...v11.35.0) (2025-10-16)
+
+
+### Features
+
+* order listing page object ([#504](https://github.com/shopware/acceptance-test-suite/issues/504)) ([491bf49](https://github.com/shopware/acceptance-test-suite/commit/491bf4998c1786b142d905b20377f7a87075ace7))
+* refactor token management ([#498](https://github.com/shopware/acceptance-test-suite/issues/498)) ([cb8f7b1](https://github.com/shopware/acceptance-test-suite/commit/cb8f7b1a713734aa325dfd626f19bd929accd8e7))
+
 ## [11.34.1](https://github.com/shopware/acceptance-test-suite/compare/v11.34.0...v11.34.1) (2025-10-09)
 
 
