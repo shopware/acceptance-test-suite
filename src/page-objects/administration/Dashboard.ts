@@ -7,6 +7,7 @@ export class Dashboard implements PageObject {
     public readonly adminMenuView: Locator;
     public readonly adminMenuCatalog: Locator;
     public readonly adminMenuOrder: Locator;
+    public readonly adminMenuOrderOverview: Locator;
     public readonly adminMenuCustomer: Locator;
     public readonly adminMenuContent: Locator;
     public readonly adminMenuMarketing: Locator;
@@ -40,6 +41,7 @@ export class Dashboard implements PageObject {
         this.contentView = page.locator('.sw-desktop__content');
         this.adminMenuCatalog = page.locator('.sw-catalogue');
         this.adminMenuOrder = page.locator('.sw-order');
+        this.adminMenuOrderOverview = this.adminMenuOrder.getByTitle(translate('administration:dashboard:order.orderOverview' ));
         this.adminMenuCustomer = page.locator('.sw-customer');
         this.adminMenuContent = page.locator('.sw-content');
         this.adminMenuMarketing = page.locator('.sw-marketing');

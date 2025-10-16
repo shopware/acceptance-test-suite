@@ -1,7 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { translate } from '../../services/LanguageHelper';
-import { resolveSrv } from 'node:dns';
 
 export class CheckoutFinish implements PageObject {
     public readonly headline: Locator;

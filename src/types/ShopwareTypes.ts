@@ -172,6 +172,7 @@ export interface TaxRules {
 
 export type Order = Omit<components['schemas']['Order'], 'deliveries' | 'price'> & {
     id: string,
+    orderNumber: string,
     orderCustomer: {
         firstName: string,
         lastName: string,

@@ -14,6 +14,7 @@ test('Shopware Services', async ({ InstanceMeta, ShopAdmin, AdminDashboard, Admi
         await ShopAdmin.expects(AdminShopwareServices.header).toBeVisible();
         try {
             await ShopAdmin.expects(AdminShopwareServices.deactivateServicesButton).toBeVisible();
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             await AdminShopwareServices.activateServicesButton.click();
         }
@@ -24,12 +25,14 @@ test('Shopware Services', async ({ InstanceMeta, ShopAdmin, AdminDashboard, Admi
         const disableResponsePromise = AdminShopwareServices.page.waitForResponse(`${process.env['APP_URL']}api/services/disable`);
         await AdminShopwareServices.deactivateServicesConfirmButton.click();
         const disableResponse = await disableResponsePromise;
+        // eslint-disable-next-line playwright/no-conditional-expect
         expect(disableResponse.ok()).toBeTruthy();
         // enable the services again for further tests
         await ShopAdmin.expects(AdminShopwareServices.activateServicesButton).toBeVisible({ timeout: 15000 });
         const enableResponsePromise = AdminShopwareServices.page.waitForResponse(`${process.env['APP_URL']}api/services/enable`);
         await AdminShopwareServices.activateServicesButton.click();
         const enableResponse = await enableResponsePromise;
+        // eslint-disable-next-line playwright/no-conditional-expect
         expect(enableResponse.ok()).toBeTruthy();
         await AdminShopwareServices.page.reload();
         await ShopAdmin.expects(AdminShopwareServices.deactivateServicesButton).toBeVisible({ timeout: 15000 });
