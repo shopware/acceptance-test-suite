@@ -11,5 +11,16 @@
         "general": "General",
         "details": "Details",
         "documents": "Documents"
+    },
+    "listing": {
+        "addOrder": "Add order"
+    },
+    "actions": {
+      "view": "View",
+      "delete": "Delete",
+      "cancel": "Cancel"
+    },
+    "dialogs": {
+      "warning": "Warning"
     }
 }
