@@ -12,6 +12,9 @@ export class CheckoutCart implements PageObject {
     public readonly cartLineItemImages: Locator;
     public readonly unitPriceInfo: Locator;
     public readonly cartQuantityNumber: Locator;
+    public readonly productNameLabel: Locator;
+    public readonly productNumberLabel: Locator;
+    public readonly productDeliveryDateLabel: Locator;
 
     public readonly page: Page;
 
@@ -26,6 +29,9 @@ export class CheckoutCart implements PageObject {
         this.cartLineItemImages = page.locator('.line-item-img-link');
         this.unitPriceInfo = page.locator('.line-item-unit-price-value');
         this.cartQuantityNumber = page.locator('input[name="quantity"]');
+        this.productNameLabel = page.locator('.line-item-label');
+        this.productNumberLabel = page.locator('.line-item-product-number');
+        this.productDeliveryDateLabel = page.locator('.line-item-delivery-date');
     }
 
     url() {

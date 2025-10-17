@@ -19,6 +19,9 @@ export class ProductDetail implements PageObject {
     public readonly offCanvasLineItemImages: Locator;
     public readonly offCanvasSummaryTotalPrice: Locator;
     public readonly offCanvas: Locator;
+    public readonly offCanvasLineItemLabel: Locator;
+    public readonly offCanvasLineItemProductNumber: Locator;
+    public readonly offCanvasLineItemDeliveryDate: Locator;
 
     public readonly wishlistAddedButton: Locator;
     public readonly wishlistNotAddedButton: Locator;
@@ -28,6 +31,7 @@ export class ProductDetail implements PageObject {
     public readonly productDetailConfiguratorOptionInputs: Locator;
 
     public readonly productName: Locator;
+    public readonly productDescriptionTitle: Locator;
 
     //Reviews Tab
     public readonly reviewsTab: Locator;
@@ -74,7 +78,10 @@ export class ProductDetail implements PageObject {
         this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
         this.offCanvasLineItemImages = page.locator('.line-item-img-link');
         this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
-
+        this.offCanvasLineItemLabel = page.locator('.line-item-label');
+        this.offCanvasLineItemProductNumber = page.locator('.line-item-product-number');
+        this.offCanvasLineItemDeliveryDate = page.locator('.line-item-delivery-date');
+        
         this.wishlistAddedButton = page.locator('.product-wishlist-added');
         this.wishlistNotAddedButton = page.locator('.product-wishlist-not-added');
 
@@ -83,6 +90,7 @@ export class ProductDetail implements PageObject {
         this.productDetailConfiguratorOptionInputs = page.locator('.product-detail-configurator-option-input');
 
         this.productName = page.locator('.product-detail-name');
+        this.productDescriptionTitle = page.locator('.product-detail-description-title');
 
         this.productReviewRating = page.locator('.product-detail-reviews .product-review-rating');
         this.productReviewsLink = page.locator('.product-detail-reviews .product-detail-reviews-link');
