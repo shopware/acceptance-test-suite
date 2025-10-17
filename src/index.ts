@@ -13,6 +13,8 @@ import { test as ShopCustomerTasks } from './tasks/shop-customer-tasks';
 import { test as FeatureService } from './fixtures/Feature';
 import { test as ShopwareDataFixture } from './fixtures/ShopwareDataFixtures';
 
+import './fixtures/CustomMatchers';
+
 // Export only runtime values from @playwright/test to avoid strip-only mode errors
 export { expect, mergeTests } from '@playwright/test';
 // Export types from playwright-core for strip-only mode compatibility

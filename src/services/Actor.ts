@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import type { Page } from 'playwright-core';
+import type { Page, Locator } from 'playwright-core';
 
 export class Actor {
     public page: Page;
@@ -13,6 +13,90 @@ export class Actor {
     }
 
     expects = expect;
+
+    async a11y_checks(locator: Locator){
+        await locator.focus();
+        await expect(locator).toBeFocused();        
+        await expect(locator).toHaveVisibleFocus(); 
+    }
+
+    async fillsIn(locator: Locator, input: string) {
+        const stepTitle = `${this.name} fills ${locator} with text "${input}"`;
+        await test.step(stepTitle, async () =>{
+            await this.a11y_checks(locator);
+            await locator.fill(input);
+        });
+    }
+
+    async presses(locator: Locator, key?: string) {
+
+        let defaultKey: string = 'Space';
+        const tagName = await locator.evaluate(el => el.tagName);
+
+        /** 
+         * Storefront buttons and links only use :focus-visible, which locator.focus() doesn't trigger by default. 
+         *     Using a keyboard event triggers :focus-visible the next time you call locator.focus().
+         */
+        if (tagName === 'BUTTON' || tagName === 'A'){
+            await this.page.keyboard.press('Shift');
+
+            /** 
+             * Be aware that a native <button> fires on key down with 'Enter' but on key up with 'Space'.
+             *     Source: https://adrianroselli.com/2022/04/brief-note-on-buttons-enter-and-space.html     
+             */ 
+            defaultKey = 'Enter';
+        } 
+
+        const inputKey = key ?? defaultKey;
+
+        const stepTitle = `${this.name} presses ${inputKey} on ${locator}`;
+        await test.step(stepTitle, async () =>{ 
+            await this.a11y_checks(locator);            
+            await locator.press(inputKey);
+        });
+    }
+
+    async selectsRadioButton(radioGroup: Locator, inputLabel: string){
+        const stepTitle = `${this.name} selects radio button ${inputLabel}`;
+        await test.step(stepTitle, async () =>{
+            const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
+
+            if(!(await desiredOption.isChecked()))
+            {
+                const options: { label: string; locator: Locator; isChecked: boolean }[] = [];
+
+                for (const labelEl of await radioGroup.locator('label').all()) {
+                    
+                    const label = await labelEl.innerText();
+                    const radioButton = radioGroup.getByRole('radio', { name: label });
+                    const isChecked = await radioButton.isChecked();
+
+                    options.push({ label, locator: radioButton, isChecked });
+                } 
+
+                const defaultOptionIndex = options.findIndex(opt => opt.isChecked);
+                const desiredOptionIndex = options.findIndex(opt => opt.label === inputLabel);
+
+                if (defaultOptionIndex === -1) {
+                    throw new Error(`No option is selected by default.`);
+                }
+
+                const step = defaultOptionIndex < desiredOptionIndex ? 1 : -1;
+                const inputKey = step === 1 ? 'ArrowDown' : 'ArrowUp'; 
+
+                /** 
+                 * Need waitForLoadState() because in most cases selecting a radio button
+                 *     either reloads the page or navigates to a new one (product variants)
+                 */
+                for(let i = defaultOptionIndex; i !== desiredOptionIndex; i += step){
+                    await this.presses(options[i].locator, inputKey);
+                    await this.page.waitForLoadState('domcontentloaded');
+                }
+            }
+            
+            await this.a11y_checks(desiredOption);
+        });
+    }
 
     async attemptsTo(task: () => Promise<void>) {
         const stepTitle = `${this.name} attempts to ${this.camelCaseToLowerCase(task.name)}`;
