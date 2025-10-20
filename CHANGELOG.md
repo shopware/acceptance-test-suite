@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.36.0](https://github.com/shopware/acceptance-test-suite/compare/v11.35.0...v11.36.0) (2025-10-17)
+
+
+### Features
+
+* Add keyboard-centric functionality as well as a custom matcher for visible focus to extend our coverage for accessibility checks ([#410](https://github.com/shopware/acceptance-test-suite/issues/410)) ([3734133](https://github.com/shopware/acceptance-test-suite/commit/37341333ff0fd81eca9a21f749aaee3f1d7191ad))
+
 ## [11.35.0](https://github.com/shopware/acceptance-test-suite/compare/v11.34.1...v11.35.0) (2025-10-16)
 
 
