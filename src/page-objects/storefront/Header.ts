@@ -7,6 +7,10 @@ export class Header implements PageObject {
     public readonly languagesMenuOptions: Locator;
     public readonly currenciesDropdown: Locator;
     public readonly currenciesMenuOptions: Locator;
+    public readonly searchInput: Locator;
+
+    //skip links
+    public readonly skipToMainContentLink: Locator;
 
     //wishlist
     public readonly wishlistIcon: Locator;
@@ -19,7 +23,11 @@ export class Header implements PageObject {
         this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
         this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
         this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
-        this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });        
+        this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
+        this.searchInput = page.getByRole('combobox', { name: 'Search' });        
+
+        //skip links
+        this.skipToMainContentLink = page.getByRole('link', { name: 'Skip to main content' });
 
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');
