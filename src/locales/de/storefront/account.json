@@ -1,0 +1,109 @@
+{
+    "common": {
+        "salutation": "Anrede",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "company": "Firma",
+        "department": "Abteilung",
+        "back": "Zurück",
+        "changePassword": "Passwort ändern",
+        "passwordUpdated": "Ihr Passwort wurde aktualisiert.",
+        "cashOnDelivery": "Nachnahme",
+        "paidInAdvance": "Vorauskasse",
+        "invoice": "Rechnung"
+    },
+    "login": {
+        "email": "Ihre E-Mail-Adresse",
+        "password": "Ihr Passwort",
+        "logIn": "Anmelden",
+        "logOut": "Abmelden",
+        "forgotPassword": "Ich habe mein Passwort vergessen.",
+        "invalidCredentials": "Es konnte kein Konto gefunden werden, das den angegebenen Anmeldedaten entspricht.",
+        "successfulLogout": "Erfolgreich abgemeldet."
+    },
+    "profile": {
+        "saveChanges": "Änderungen speichern",
+        "changeEmail": "E-Mail-Adresse ändern",
+        "emailConfirmation": "E-Mail-Adresse bestätigen",
+        "emailUpdated": "Ihre E-Mail-Adresse wurde aktualisiert.",
+        "invalidEmail": "Ungültige E-Mail-Adresse.",
+        "emailUpdateFailure": "E-Mail-Adresse konnte nicht geändert werden.",
+        "passwordTooShort": "Eingabe ist zu kurz.",
+        "passwordUpdateFailure": "Passwort konnte nicht geändert werden."
+    },
+    "orders": {
+        "download": "Herunterladen",
+        "cancelOrder": "Bestellung stornieren",
+        "repeatOrder": "Bestellung wiederholen",
+        "changePaymentMethod": "Zahlungsmethode ändern",
+        "actions": "Aktionen",
+        "expand": "Erweitern",
+        "showDetails": "Details anzeigen",
+        "creditItem": "Gutschrift",
+        "orderNumber": "Bestellnummer",
+        "plusVat": "zzgl.",
+        "vatSuffix": "% MwSt.",
+        "shippingCosts": "Versandkosten:",
+        "totalGross": "Gesamtsumme (brutto):"
+    },
+    "addresses": {
+        "street": "Straße",
+        "streetAddress": "Straßenadresse",
+        "city": "Stadt",
+        "country": "Land",
+        "postalCode": "Postleitzahl",
+        "state": "Bundesland",
+        "editAddress": "Adresse bearbeiten",
+        "useAsDefaultBilling": "Als Standard-Rechnungsadresse verwenden",
+        "useAsDefaultShipping": "Als Standard-Versandadresse verwenden",
+        "deliveryNotPossible": "Eine Lieferung in dieses Land ist nicht möglich."
+    },
+    "registration": {
+        "continue": "Weiter",
+        "differentShippingAddress": "Versand- und Rechnungsadresse stimmen nicht überein."
+    },
+    "general": {
+        "yourAccount": "Ihr Konto",
+        "newsletter": "Ja, ich möchte",
+        "newsletterRegistrationSuccess": "Sie haben sich erfolgreich für den Newsletter angemeldet.",
+        "cannotDeliverToCountry": "Wir können nicht in das Land liefern, das in Ihrer Lieferadresse gespeichert ist.",
+        "shippingNotPossible": "Der Versand an die ausgewählte Versandadresse ist derzeit nicht möglich.",
+        "overview": "Übersicht",
+        "personalData": "Persönliche Daten",
+        "defaultPaymentMethod": "Zahlung",
+        "defaultBillingAddress": "Hinzufügen",
+        "defaultShippingAddress": "Hinzufügen"
+    },
+    "navigation": {
+        "overview": "Übersicht",
+        "yourProfile": "Persönliches Profil",
+        "addresses": "Adressen",
+        "orders": "Bestellungen",
+        "logout": "Abmelden"
+    },
+    "recovery": {
+        "title": "Passwort-Wiederherstellung",
+        "subtitle": "Wir senden Ihnen eine Bestätigungs-E-Mail. Klicken Sie auf den Link in dieser E-Mail, um Ihr Passwort zu ändern.",
+        "requestEmail": "E-Mail anfordern",
+        "emailSent": "Falls die angegebene E-Mail-Adresse registriert ist, wurde eine Bestätigungs-E-Mail mit einem Link zum Zurücksetzen des Passworts gesendet.",
+        "invalidLink": "Der Link zum Zurücksetzen des Passworts scheint ungültig zu sein.",
+        "newPassword": "Neues Passwort",
+        "passwordConfirmation": "Passwort bestätigen"
+    },
+    "payment": {
+        "change": "Ändern"
+    },
+    "tasks": {
+        "registration": {
+            "defaultStreet": "Ebbinghof 10",
+            "defaultCity": "Schöppingen",
+            "defaultCountry": "Deutschland",
+            "defaultDepartment": "Betrieb",
+            "defaultVatRegNo": "DE1234567890"
+        },
+        "deprecation": {
+            "registerGuestDeprecated": "Verwenden Sie stattdessen `Register.ts`.",
+            "isCommercialDeprecated": "Das 'isCommercial'-Argument ist veraltet und wird in einer zukünftigen Version entfernt. Bitte vermeiden Sie dessen Verwendung und verlassen Sie sich stattdessen auf das `isCommercial`-Feld in `RegistrationData`."
+        }
+    }
+}

@@ -1,7 +1,8 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { CustomerGroupCreate } from './CustomerGroupCreate';
-import { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { translate } from '../../services/LanguageHelper';
 
 export class CustomerGroupDetail extends CustomerGroupCreate implements PageObject {
     public readonly headline: Locator;
@@ -9,11 +10,11 @@ export class CustomerGroupDetail extends CustomerGroupCreate implements PageObje
     public readonly technicalUrl: Locator;
     public readonly saleschannelUrl: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page, instanceMeta);
         this.headline = page.locator('.smart-bar__header');
         this.selectedSalesChannel = page.locator('.sw-select-selection-list');
-        this.technicalUrl = page.getByLabel('Technical URL');
+        this.technicalUrl = page.getByLabel(translate('administration:customerGroup:detail.technicalUrl'));
         this.saleschannelUrl = page.getByLabel(/.*URL/).last();
     }
 

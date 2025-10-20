@@ -1,0 +1,13 @@
+{
+    "buttons": {
+        "agree": "Zustimmen",
+        "disableDataSharing": "Datenfreigabe deaktivieren"
+    },
+    "messages": {
+        "sharingData": "Sie teilen Daten mit uns",
+        "termsAgreement": "Durch Klicken auf \"Zustimmen\" bestätigen Sie, dass Sie berechtigt sind, diese Vereinbarung im Namen Ihres Unternehmens abzuschließen."
+    },
+    "headlines": {
+        "dataConsent": "Dateneinverständnis"
+    }
+}

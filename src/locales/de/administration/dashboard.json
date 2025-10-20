@@ -1,0 +1,20 @@
+{
+    "dataSharing": {
+        "agree": "Zustimmen",
+        "notAtTheMoment": "Momentan nicht",
+        "acceptMessage": "Vielen Dank für Ihre Teilnahme!",
+        "notAtTheMomentMessage": "Sie können jederzeit der Vereinbarung beitreten und so zur ständigen Weiterentwicklung unserer Dienste beitragen und davon profitieren",
+        "agreementText": "Durch Klicken auf \"Zustimmen\" bestätigen Sie, dass Sie berechtigt sind, diese Vereinbarung im Namen Ihres Unternehmens einzugehen."
+    },
+    "shopwareServices": {
+        "close": "Schließen",
+        "exploreNow": "Jetzt erkunden"
+    },
+    "userMenu": {
+        "logout": "Abmelden"
+    },
+    "order": {
+      "orderTitle": "Bestellungen",
+      "orderOverview": "Übersicht"
+  }
+}

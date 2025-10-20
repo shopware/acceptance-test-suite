@@ -1,0 +1,20 @@
+{
+    "common": {
+        "name": "Name",
+        "availabilityRule": "Availability rule"
+    },
+    "listing": {
+        "addShippingMethod": "Add shipping method"
+    },
+    "detail": {},
+    "methods": {
+        "standard": "Standard",
+        "express": "Express",
+        "customShippingMethod": "Custom shipping method"
+    },
+    "dialogs": {
+        "warning": "Warning",
+        "cancel": "Cancel",
+        "delete": "Delete"
+    }
+}

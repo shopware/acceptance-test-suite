@@ -1,8 +1,10 @@
-import { test as base, expect, Page, BrowserContext } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
+import type { Page, BrowserContext } from 'playwright-core';
 import type { FixtureTypes } from '../types/FixtureTypes';
-import { mockApiCalls } from '../services/ApiMocks';
 import { isThemeCompiled } from '../services/ShopInfo';
 import { clearDelayedCache } from '../services/Cache';
+import { createNewAdminPageContext } from '../services/AdminLoginHelper';
+import { LanguageHelper, setCurrentContext } from '../services/LanguageHelper';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -13,15 +15,9 @@ export interface PageContextTypes {
 }
 
 export const test = base.extend<FixtureTypes>({
-
-    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
-        const context = await browser.newContext({
-            baseURL: SalesChannelBaseConfig.adminUrl,
-            serviceWorkers: 'block',
-        });
-        const page = await context.newPage();
-
-        await mockApiCalls(page);
+    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
+        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const { id, uuid } = IdProvider.getIdPair();
 
@@ -43,99 +39,47 @@ export const test = base.extend<FixtureTypes>({
 
         expect(response.ok()).toBeTruthy();
 
-        await page.goto('#/login');
+        const page = await createNewAdminPageContext(adminUser, browser, SalesChannelBaseConfig, AdminApiContext);
 
-        await page.addStyleTag({
-            content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-        });
-
-        await expect(page.url()).toContain('login');
-        await expect(page.getByLabel(/Username|Email address/)).toBeVisible({ timeout: 90000 });
-
-        await page.getByLabel(/Username|Email address/).fill(adminUser.username);
-        await page.getByLabel('Password', { exact: true }).fill(adminUser.password);
-
-        const config = await (await AdminApiContext.get('./_info/config')).json() as { bundles: Record<string, { js: string[] | undefined }> };
-
-        const jsLoadingPromises = [];
-        for (const i in config.bundles) {
-            if (config.bundles[i]?.js && config.bundles[i]?.js?.length) {
-                const js = config?.bundles[i]?.js ?? [];
-                jsLoadingPromises.push(...js.map(url => page.waitForResponse(url)));
-            }
-        }
-
-        await page.getByRole('button', { name: 'Log in' }).click();
-
-        // wait for all plugin js to be loaded
-        await Promise.all(jsLoadingPromises);
-
-        // Override page reload to also remove the Symfony toolbar
-        const originalReload = page.reload.bind(page);
-        page.reload = async () => {
-            const res = await originalReload();
-            await page.addStyleTag({
-                content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-            });
-            return res;
-        };
-
-        await clearDelayedCache(AdminApiContext);
-
-        await expect(page.locator('.sw-skeleton')).toHaveCount(0);
-
-        await page.waitForURL((url) => {
-            return url.hash !== '#login';
-        });
-
-        await expect(page.getByText('Administrator').first()).toBeVisible({ timeout: 60000 });
-
-        // Run the test
+        LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
+        setCurrentContext(page.context() as unknown as Record<string, unknown>);
         await use(page);
-
         await page.close();
-        await context.close();
+        setCurrentContext(null);
 
         // Cleanup created user
         await AdminApiContext.delete(`user/${uuid}`);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta }, use) => {
+    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta, CustomTranslationResources }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
+        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+
+        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
             baseURL: url,
+            locale,
+            extraHTTPHeaders: { 'Accept-Language': locale },
         });
 
+        LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
+
+        // Set context for this execution thread
+        setCurrentContext(context as unknown as Record<string, unknown>);
+
         let page;
-        if (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+        if (!(await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url))) {
             base.slow();
 
-            await AdminApiContext.post(
-                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
-            );
+            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
             await clearDelayedCache(AdminApiContext);
 
             page = await context.newPage();
 
             if (InstanceMeta.isSaaS) {
-                while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+                while (!(await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url))) {
                     await clearDelayedCache(AdminApiContext);
-                    // eslint-disable-next-line playwright/no-wait-for-timeout
                     await page.waitForTimeout(4000);
                 }
             }
@@ -148,19 +92,29 @@ export const test = base.extend<FixtureTypes>({
         await use(page);
 
         await page.close();
+        setCurrentContext(null);
         await context.close();
     },
 
-    InstallPage: async ({ browser }, use) => {
+    InstallPage: async ({ browser, CustomTranslationResources }, use) => {
+        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+
+        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
             baseURL: process.env['APP_URL'],
+            locale,
+            extraHTTPHeaders: { 'Accept-Language': locale },
         });
+
+        LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
+        setCurrentContext(context as unknown as Record<string, unknown>);
+
         const page = await context.newPage();
 
         await use(page);
-
         await page.close();
+        setCurrentContext(null);
         await context.close();
     },
 

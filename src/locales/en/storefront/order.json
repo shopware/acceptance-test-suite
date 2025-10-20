@@ -1,0 +1,10 @@
+{
+    "actions": {
+        "cancelOrder": "Cancel order",
+        "back": "Back"
+    },
+    "shipping": {
+        "standard": "Standard",
+        "express": "Express"
+    }
+}

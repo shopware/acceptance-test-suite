@@ -1,0 +1,11 @@
+{
+    "methods": {
+        "cashOnDelivery": "Nachnahme",
+        "paidInAdvance": "Vorkasse",
+        "invoice": "Rechnung"
+    },
+    "actions": {
+        "change": "Ändern",
+        "completePayment": "Zahlung abschließen"
+    }
+}

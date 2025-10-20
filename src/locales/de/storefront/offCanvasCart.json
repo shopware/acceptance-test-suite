@@ -1,0 +1,18 @@
+{
+    "title": "Warenkorb",
+    "emptyCart": "Ihr Warenkorb ist leer",
+    "quantity": "Anzahl",
+    "remove": "Entfernen",
+    "subtotal": "Zwischensumme",
+    "goToCart": "Zum Warenkorb",
+    "continueShopping": "Weiter einkaufen",
+    "addedToCart": "Zum Warenkorb hinzugefügt",
+    "general": {
+        "title": "Titel"
+    },
+    "buttons": {
+        "goToCheckout": "Zur Kasse gehen",
+        "goToCart": "Display shopping cart",
+        "continueShopping": "Fortfahren"
+    }
+}

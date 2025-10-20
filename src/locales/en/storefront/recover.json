@@ -1,0 +1,11 @@
+{
+    "passwordRecovery": "Password recovery",
+    "subtitle": "We will send you a confirmation email. Click the link in that email in order to change your password.",
+    "requestEmail": "Request email",
+    "back": "Back",
+    "emailSent": "If the provided email address is registered, a confirmation email including a password reset link has been sent.",
+    "newPassword": "New password",
+    "passwordConfirmation": "Password confirmation",
+    "changePassword": "Change password",
+    "invalidLink": "The password reset link seems to be invalid."
+}

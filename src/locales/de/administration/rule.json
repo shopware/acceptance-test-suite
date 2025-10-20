@@ -1,0 +1,19 @@
+{
+    "fields": {
+        "priority": "Priorität",
+        "name": "Name"
+    },
+    "buttons": {
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "add": "Hinzufügen",
+        "addAssignment": "Zuweisung hinzufügen",
+        "createRule": "Regel erstellen"
+    },
+    "errors": {
+        "unknownRuleType": "Typ"
+    },
+    "testData": {
+        "ruleDescription": "Beschreibung"
+    }
+}

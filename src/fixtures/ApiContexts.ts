@@ -12,6 +12,7 @@ export interface ApiContextTypes {
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     AdminApiContext: [
+        // eslint-disable-next-line no-empty-pattern
         async ({ }, use) => {
             const adminApiContext = await AdminApiContext.create();
             await use(adminApiContext);
@@ -34,6 +35,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     MailpitApiContext: [
+        // eslint-disable-next-line no-empty-pattern
         async ({ }, use) => {
             const mailpitApiContext = await MailpitApiContext.create(process.env['MAILPIT_BASE_URL'] as string);
 

@@ -1,0 +1,18 @@
+{
+    "account": {
+        "yourAccount": "Ihr Konto"
+    },
+    "consent": {
+        "onlyTechnicallyRequired": "Nur technisch erforderlich",
+        "configure": "Konfigurieren",
+        "acceptAllCookies": "Alle Cookies akzeptieren",
+        "cookiePreferences": "Cookie-Einstellungen",
+        "marketing": "Marketing"
+    },
+    "filters": {
+        "manufacturer": "Hersteller",
+        "price": "Preis",
+        "resetAll": "Alle zurücksetzen",
+        "freeShipping": "Kostenloser Versand"
+    }
+}

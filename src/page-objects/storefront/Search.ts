@@ -1,4 +1,4 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 
 export class Search implements PageObject {
@@ -6,7 +6,10 @@ export class Search implements PageObject {
     public readonly headline: Locator;
     public readonly productImages: Locator;
 
-    constructor(public readonly page: Page) {
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
         this.headline = page.locator('h1.search-headline');
         this.productImages = page.locator('.product-image-wrapper');
     }

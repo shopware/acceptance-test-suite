@@ -1,34 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "lib": ["ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "types": ["node"],
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true
-  },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test-results",
-    "playwright-report",
-    "blob-report",
-    "playwright/.cache",
-  ],
-  "files": [
-    "src/index.ts",
-  ]
+    "compilerOptions": {
+        "target": "ES6",
+        "lib": ["ESNext", "DOM"],
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "types": ["node"],
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist", "test-results", "playwright-report", "blob-report", "playwright/.cache"],
+    "files": ["src/index.ts"]
 }

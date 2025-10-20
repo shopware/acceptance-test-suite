@@ -1,0 +1,13 @@
+{
+    "common": {
+        "name": "Name",
+        "availabilityRule": "Verfügbarkeitsregel",
+        "cashOnDelivery": "Nachnahme",
+        "paidInAdvance": "Vorauskasse",
+        "invoice": "Rechnung"
+    },
+    "detail": {},
+    "methods": {
+        "customPaymentMethod": "Benutzerdefinierte Zahlungsmethode"
+    }
+}

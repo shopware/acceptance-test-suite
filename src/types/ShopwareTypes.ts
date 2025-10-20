@@ -31,6 +31,16 @@ export type Customer = Omit<components['schemas']['Customer'], 'defaultShippingA
     }
 }
 
+export type User = components['schemas']['User'] & {
+    id: string,
+    password: string,
+};
+
+export type AclRole = components['schemas']['AclRole'] & {
+    id: string,
+    privileges: string[],
+};
+
 export type CustomerAddress = components['schemas']['CustomerAddress'] & {
     id: string,
 }
@@ -162,6 +172,7 @@ export interface TaxRules {
 
 export type Order = Omit<components['schemas']['Order'], 'deliveries' | 'price'> & {
     id: string,
+    orderNumber: string,
     orderCustomer: {
         firstName: string,
         lastName: string,
@@ -205,6 +216,8 @@ export type Promotion = Omit<components['schemas']['Promotion'], 'discounts'> & 
         value: number,
         considerAdvancedRules: boolean,
     }],
+    active: boolean,
+    code: string,
 };
 
 export type PromotionDiscount = components['schemas']['PromotionDiscount'] & {
@@ -274,15 +287,17 @@ export type Tax = components['schemas']['Tax'] &{
 };
 
 // custom types below
+// Rule Types
+export const RuleType = {
+    shippingAvailability: 'shippingMethodAvailabilityRule',
+    taxAvailability: 'taxProviderAvailabilityRule',
+    paymentAvailability: 'paymentMethodAvailabilityRule',
+    promotionOrder: 'promotionOrderRule',
+    promotionCustomer: 'promotionCustomerRule',
+    promotionCart: 'promotionCartRule',
+} as const;
 
-export enum RuleType {
-    shippingAvailability = 'shippingMethodAvailabilityRule',
-    taxAvailability = 'taxProviderAvailabilityRule',
-    paymentAvailability = 'paymentMethodAvailabilityRule',
-    promotionOrder = 'promotionOrderRule',
-    promotionCustomer = 'promotionCustomerRule',
-    promotionCart = 'promotionCartRule',
-}
+export type RuleType = typeof RuleType[keyof typeof RuleType];
 
 export interface RuleAssignmentEntity {
     entity: {
@@ -290,6 +305,20 @@ export interface RuleAssignmentEntity {
     name: string;
 }
     ruleType: RuleType
+}
+
+export interface FlowConfig {
+    name: string;
+    description: string;
+    priority: string;
+    active: boolean;
+    triggerSearchTerm: string
+    triggerLabel: string;
+    condition: string;
+    trueAction: string;
+    trueActionIdentifier: string;
+    falseAction: string;
+    falseActionIdentifier: string;
 }
 
 export interface CategoryData {

@@ -21,11 +21,16 @@ test('Storefront page objects', async ({
     StorefrontSearch,
     TestDataService,
     InstanceMeta,
+    CheckVisibilityInHome,
+    StorefrontHome,
 }) => {
 
     const product = await TestDataService.createBasicProduct();
     const category = await TestDataService.createCategory();
     await TestDataService.assignProductCategory(product.id, category.id);
+
+    await ShopCustomer.goesTo(StorefrontHome.url())
+    await ShopCustomer.attemptsTo(CheckVisibilityInHome(product.name));
 
     await ShopCustomer.goesTo(StorefrontCategory.url(category.name));
     await ShopCustomer.expects(StorefrontCategory.sortingSelect).toBeVisible();
@@ -50,6 +55,8 @@ test('Storefront page objects', async ({
 
     await ShopCustomer.attemptsTo(ConfirmTermsAndConditions());
     await ShopCustomer.attemptsTo(SubmitOrder());
+    const orderId = StorefrontCheckoutFinish.getOrderId();
+    TestDataService.addCreatedRecord('order', orderId);
     await ShopCustomer.expects(StorefrontCheckoutFinish.headline).toBeVisible();
 
     await ShopCustomer.goesTo(StorefrontAccount.url());

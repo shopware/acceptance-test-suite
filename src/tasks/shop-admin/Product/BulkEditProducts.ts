@@ -1,7 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
-import { Product } from 'src/types/ShopwareTypes';
+import type { Product } from 'src/types/ShopwareTypes';
 
 interface Change {
     value: string;
@@ -39,7 +39,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     await AdminProductBulkEdit.changeManufacturerCheckbox.click();
                     await AdminProductBulkEdit.manufacturerDropdown.click();
                     const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
-                        response.url().includes(`product-manufacturer`) && response.status() === 200 && response.request().method() === 'POST'
+                        response.url().includes(`product-manufacturer`) && response.status() === 200 && response.request().method() === 'POST',
                     );
                     await AdminProductBulkEdit.manufacturerDropdownInput.fill(changes['manufacturer'].value);
 
@@ -81,7 +81,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     if (changes['tags'].method != 'Clear') {
                         await AdminProductBulkEdit.tagsInput.click();
                         const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
-                            response.url().includes(`search/tag`) && response.status() === 200 && response.request().method() === 'POST'
+                            response.url().includes(`search/tag`) && response.status() === 200 && response.request().method() === 'POST',
                         );
                         await AdminProductBulkEdit.tagsInput.fill(changes['tags'].value);
 
@@ -100,7 +100,7 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     if (changes['saleschannel'].method != 'Clear') {
                         await AdminProductBulkEdit.salesChannelInput.click();
                         const responsePromise = AdminProductBulkEdit.page.waitForResponse(response =>
-                            response.url().includes(`search/sales-channel`) && response.status() === 200 && response.request().method() === 'POST'
+                            response.url().includes(`search/sales-channel`) && response.status() === 200 && response.request().method() === 'POST',
                         );
                         await AdminProductBulkEdit.salesChannelInput.fill(changes['saleschannel'].value);
 

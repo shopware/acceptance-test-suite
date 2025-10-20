@@ -1,0 +1,41 @@
+{
+    "listing": {
+        "addPromotion": "Promotion hinzufügen"
+    },
+    "create": {
+        "title": "Neue Promotion",
+        "saveSuccess": "Die Promotion wurde erfolgreich erstellt."
+    },
+    "detail": {
+        "name": "Name",
+        "active": "Aktiv",
+        "code": "Code",
+        "discountType": "Rabatttyp",
+        "value": "Wert",
+        "validFrom": "Gültig ab",
+        "validUntil": "Gültig bis"
+    },
+    "actions": {
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "addPromotion": "Promotion hinzufügen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "duplicate": "Duplizieren",
+        "addDiscount": "Rabatt hinzufügen"
+    },
+    "fields": {
+        "priority": "Priorität"
+    },
+    "tabs": {
+        "general": "Allgemein",
+        "conditions": "Bedingungen",
+        "discounts": "Rabatte"
+    },
+    "headings": {
+        "promotionCodes": "Promotion-Codes"
+    },
+    "cards": {
+        "preConditions": "Vorbedingungen"
+    }
+}

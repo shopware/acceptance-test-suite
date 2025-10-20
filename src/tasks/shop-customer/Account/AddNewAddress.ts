@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes} from '../../../types/FixtureTypes';
-import { Address } from '../../../types/ShopwareTypes';
+import type { Address } from '../../../types/ShopwareTypes';
 
 export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>({
     AddNewAddress: async ({ StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use)=> {
