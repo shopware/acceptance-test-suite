@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class Header implements PageObject {
     public readonly mainNavigationLink: Locator;
@@ -27,7 +28,7 @@ export class Header implements PageObject {
         this.searchInput = page.getByRole('combobox', { name: 'Search' });        
 
         //skip links
-        this.skipToMainContentLink = page.getByRole('link', { name: 'Skip to main content' });
+        this.skipToMainContentLink = page.getByRole('link', { name: translate('storefront:header:skipToContentLink'), exact: true });
 
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');

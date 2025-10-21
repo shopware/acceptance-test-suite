@@ -29,6 +29,7 @@ import storefrontProduct from './en/storefront/product.json' with { type: 'json'
 import storefrontNavigation from './en/storefront/navigation.json' with { type: 'json' };
 import storefrontContact from './en/storefront/contact.json' with { type: 'json' };
 import storefrontConsent from './en/storefront/consent.json' with { type: 'json' };
+import StorefrontHeader from './en/storefront/header.json' with { type: 'json' };
 import storefrontHome from './en/storefront/home.json' with { type: 'json' };
 import storefrontLogin from './en/storefront/login.json' with { type: 'json' };
 import storefrontOrder from './en/storefront/order.json' with { type: 'json' };
@@ -67,6 +68,7 @@ import deStorefrontAddress from './de/storefront/address.json' with { type: 'jso
 import deStorefrontCheckout from './de/storefront/checkout.json' with { type: 'json' };
 import deStorefrontConsent from './de/storefront/consent.json' with { type: 'json' };
 import deStorefrontContact from './de/storefront/contact.json' with { type: 'json' };
+import deStorefrontHeader from './de/storefront/header.json' with { type: 'json' };
 import deStorefrontHome from './de/storefront/home.json' with { type: 'json' };
 import deStorefrontLogin from './de/storefront/login.json' with { type: 'json' };
 import deStorefrontNavigation from './de/storefront/navigation.json' with { type: 'json' };
@@ -149,6 +151,7 @@ export const BUNDLED_RESOURCES = {
         'storefront/checkout': deStorefrontCheckout,
         'storefront/consent': deStorefrontConsent,
         'storefront/contact': deStorefrontContact,
+        'storefront/header': deStorefrontHeader,
         'storefront/home': deStorefrontHome,
         'storefront/login': deStorefrontLogin,
         'storefront/navigation': deStorefrontNavigation,
@@ -195,6 +198,7 @@ export const baseNamespaces = {
         navigation: storefrontNavigation,
         contact: storefrontContact,
         consent: storefrontConsent,
+        header: StorefrontHeader,
         home: storefrontHome,
         login: storefrontLogin,
         order: storefrontOrder,
