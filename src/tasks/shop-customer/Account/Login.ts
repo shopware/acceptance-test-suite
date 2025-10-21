@@ -14,7 +14,7 @@ export const Login = base.extend<{ Login: Task }, FixtureTypes>({
                 
                 await ShopCustomer.fillsIn(StorefrontAccountLogin.emailInput, customer.email);
                 await ShopCustomer.fillsIn(StorefrontAccountLogin.passwordInput, customer.password);
-                await ShopCustomer.presses(StorefrontAccountLogin.loginButton, 'Enter');
+                await ShopCustomer.presses(StorefrontAccountLogin.loginButton);
 
                 await ShopCustomer.expects(StorefrontAccount.personalDataCardTitle).toBeVisible();
             }

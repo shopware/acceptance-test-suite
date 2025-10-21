@@ -16,13 +16,13 @@ export class Header implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.mainNavigationLink = page.locator('.main-navigation-link-text');
-        this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
-        this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
-        this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
-        this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });        
+        this.languagesDropdown = page.locator('.top-bar-language').getByRole('button'); 
+        this.languagesMenuOptions = page.locator('.top-bar-language').getByRole('list');
+        this.currenciesDropdown = page.getByRole('button', { name: 'Change currency' });
+        this.currenciesMenuOptions = page.locator('.top-bar-currency').getByRole('list');       
 
         //wishlist
-        this.wishlistIcon = page.locator('.header-wishlist-icon');
+        this.wishlistIcon = page.getByRole('link', { name: 'Wishlist' });
         this.wishlistBasket = page.locator('.header-wishlist-badge');
     }
     

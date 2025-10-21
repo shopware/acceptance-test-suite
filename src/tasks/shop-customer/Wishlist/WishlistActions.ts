@@ -8,7 +8,7 @@ export const AddProductToCartFromWishlist = base.extend<{ AddProductToCartFromWi
         const task = (ProductData: Product) => {
             return async function AddProductToCartFromWishlist() {
                 const listedItem = await StorefrontWishlist.getListingItemByProductName(ProductData.name);
-                await listedItem.productAddToShoppingCart.click();
+                await ShopCustomer.presses(listedItem.productAddToShoppingCart);
                 await StorefrontWishlist.page.waitForResponse((response) => response.url().includes(`checkout/offcanvas`) && response.ok());
                 await ShopCustomer.expects(StorefrontOffCanvasCart.itemCount).toBeVisible();
                 const offcanvasItem = await StorefrontOffCanvasCart.getLineItemByProductNumber(ProductData.productNumber);
@@ -23,11 +23,11 @@ export const AddProductToCartFromWishlist = base.extend<{ AddProductToCartFromWi
 });
 
 export const RemoveProductFromWishlist = base.extend<{ RemoveProductFromWishlist: Task }, FixtureTypes>({
-    RemoveProductFromWishlist: async ({ StorefrontHome , StorefrontWishlist}, use) => {
+    RemoveProductFromWishlist: async ({ ShopCustomer, StorefrontHome, StorefrontWishlist}, use) => {
         const task = (ProductData: Product) => {
             return async function RemoveProductFromWishlist() {
                 const listedItem = await StorefrontHome.getListingItemByProductName(ProductData.name);
-                await listedItem.wishlistAddedIcon.click();
+                await ShopCustomer.presses(listedItem.wishlistAddedIcon);
                 await StorefrontWishlist.page.waitForResponse((response) => response.url().includes(`remove/${ProductData.id}`) && response.ok());
             }
         };
@@ -41,7 +41,7 @@ export const AddProductToWishlist = base.extend<{ AddProductToWishlist: Task }, 
         const task = (ProductData: Product) => {
             return async function AddProductToWishlist() {
                 const listedItem = await StorefrontHome.getListingItemByProductName(ProductData.name);
-                await listedItem.wishlistNotAddedIcon.click();
+                await ShopCustomer.presses(listedItem.wishlistNotAddedIcon);
                 await ShopCustomer.expects(listedItem.wishlistAddedIcon).toBeVisible();
             }
         };

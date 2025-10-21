@@ -4,6 +4,9 @@ import type { Product } from '../../types/ShopwareTypes';
 import { translate } from '../../services/LanguageHelper';
 
 export class ProductDetail implements PageObject {
+
+    public readonly propertyRadioGroup:(propertyName: string) => Locator;
+
     public readonly addToCartButton: Locator;
     public readonly quantitySelect: Locator;
     public readonly productSingleImage: Locator;
@@ -58,6 +61,8 @@ export class ProductDetail implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
+        
+        this.propertyRadioGroup = (propertyName: string) => this.page.getByRole('group', { name: `Select ${propertyName}` }); 
 
         this.addToCartButton = page.getByRole('button', { name: translate('storefront:product:addToCart') });
         this.quantitySelect = page.getByLabel(translate('storefront:product:quantity'), { exact: true });

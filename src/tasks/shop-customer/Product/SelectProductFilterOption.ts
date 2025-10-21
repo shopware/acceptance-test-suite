@@ -4,12 +4,12 @@ import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
 
 export const SelectProductFilterOption = base.extend<{ SelectProductFilterOption: Task }, FixtureTypes>({
-    SelectProductFilterOption: async ({ StorefrontHome }, use) => {
+    SelectProductFilterOption: async ({ ShopCustomer, StorefrontHome }, use) => {
         const task = (filterButton: Locator, optionName: string) => {
             return async function SelectProductFilterOption() {
-                await filterButton.click();
+                await ShopCustomer.presses(filterButton);
                 const optionLocator = await StorefrontHome.getFilterItemByFilterName(optionName);
-                await optionLocator.click();
+                await ShopCustomer.presses(optionLocator);
             }
         };
 

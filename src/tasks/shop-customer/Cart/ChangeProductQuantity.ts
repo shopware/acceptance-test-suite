@@ -9,8 +9,8 @@ export const ChangeProductQuantity = base.extend<{ ChangeProductQuantity: Task }
     }, use) => {
         const task = (quantity: string) => {
             return async function ChangeProductQuantityOnCart() {
-                await StorefrontCheckoutCart.cartQuantityNumber.fill(quantity);
-                await StorefrontCheckoutCart.cartQuantityNumber.press('Enter');
+                await ShopCustomer.fillsIn(StorefrontCheckoutCart.cartQuantityNumber, quantity);
+                await ShopCustomer.presses(StorefrontCheckoutCart.cartQuantityNumber);
                 await ShopCustomer.expects(StorefrontCheckoutCart.cartQuantityNumber).toHaveValue(quantity);
             }
         }

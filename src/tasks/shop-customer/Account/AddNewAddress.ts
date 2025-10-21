@@ -4,25 +4,27 @@ import type { FixtureTypes} from '../../../types/FixtureTypes';
 import type { Address } from '../../../types/ShopwareTypes';
 
 export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>({
-    AddNewAddress: async ({ StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use)=> {
+    AddNewAddress: async ({ ShopCustomer, StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use)=> {
         const task = (address: Address) => {
             return async function AddNewAddress() {
-                await StorefrontAccountAddresses.addNewAddressButton.click();
+                await ShopCustomer.presses(StorefrontAccountAddresses.addNewAddressButton);
 
-                await StorefrontAccountAddressCreate.firstNameInput.fill(address.firstName);
-                await StorefrontAccountAddressCreate.lastNameInput.fill(address.lastName);
-                await StorefrontAccountAddressCreate.companyInput.fill(address.company);
-                await StorefrontAccountAddressCreate.departmentInput.fill(address.department);
-                await StorefrontAccountAddressCreate.streetInput.fill(address.street);
-                await StorefrontAccountAddressCreate.zipcodeInput.fill(address.zipCode);
-                await StorefrontAccountAddressCreate.cityInput.fill(address.city);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.firstNameInput, address.firstName);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.lastNameInput, address.lastName);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.companyInput, address.company);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.departmentInput, address.department);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.streetInput, address.street);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.zipcodeInput, address.zipCode);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.cityInput, address.city);
+                await ShopCustomer.presses(StorefrontAccountAddressCreate.countryDropdown);
                 await StorefrontAccountAddressCreate.countryDropdown.selectOption({label: address.country});
 
                 if (address.state) {
+                    await ShopCustomer.presses(StorefrontAccountAddressCreate.stateDropdown);
                     await StorefrontAccountAddressCreate.stateDropdown.selectOption({label: address.state});
                 }
 
-                await StorefrontAccountAddressCreate.saveAddressButton.click();
+                await ShopCustomer.presses(StorefrontAccountAddressCreate.saveAddressButton);
             }
         };
 

@@ -10,7 +10,7 @@ export const Logout = base.extend<{ Logout: Task }, FixtureTypes>({
                 await ShopCustomer.goesTo(StorefrontAccountLogin.url());
                 await ShopCustomer.expects(StorefrontAccountLogin.loginButton).not.toBeVisible();
 
-                await StorefrontAccountLogin.logoutLink.click();
+                await ShopCustomer.presses(StorefrontAccountLogin.logoutLink);
                 await ShopCustomer.expects(StorefrontAccountLogin.successAlert).toBeVisible();
             }
         };

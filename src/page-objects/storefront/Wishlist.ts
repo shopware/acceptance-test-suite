@@ -20,7 +20,7 @@ export class Wishlist extends Home implements PageObject {
     async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {
         const baseItems = await super.getListingItemByProductName(productListingName);
         const listingItem = this.page.getByRole('listitem').filter({ has: this.page.getByText(productListingName) });
-        const removeFromWishlistButton = listingItem.locator('.icon-wishlist-remove');
+        const removeFromWishlistButton = listingItem.getByRole('button', { name: `Remove ${productListingName} from wishlist` });
     
         return {
             ...baseItems,

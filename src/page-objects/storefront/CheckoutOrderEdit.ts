@@ -22,6 +22,10 @@ export class CheckoutOrderEdit implements PageObject {
     public readonly shippingStandard: Locator;
     public readonly shippingExpress: Locator;
 
+    //a11y-poc
+    public readonly paymentMethod: Locator;
+    public readonly shippingMethod: Locator;
+
     public readonly page: Page;
 
     constructor(page: Page) {
@@ -39,6 +43,10 @@ export class CheckoutOrderEdit implements PageObject {
 
         this.shippingStandard = page.getByLabel(translate('storefront:order:shipping.standard'));
         this.shippingExpress = page.getByLabel(translate('storefront:order:shipping.express'));
+
+        //a11y-poc
+        this.paymentMethod = page.locator('.checkout-card', { hasText: 'Payment method' });
+        this.shippingMethod = page.locator('.checkout-card', { hasText: 'Shipping method' });
     }
 
     url(orderUuid: string) {
