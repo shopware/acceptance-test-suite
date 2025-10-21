@@ -13,21 +13,15 @@ const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
     'en-US': { countryCode: 'US', currencyCode: 'USD', languageCode: 'en-US' },
     'en-GB': { countryCode: 'GB', currencyCode: 'GBP', languageCode: 'en-GB' },
     'de-DE': { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
-
-    de_DE: { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
-    en_US: { countryCode: 'US', currencyCode: 'USD', languageCode: 'en-US' },
-    en_GB: { countryCode: 'GB', currencyCode: 'GBP', languageCode: 'en-GB' },
-
-    'de_DE.UTF-8': { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
-    'en_US.UTF-8': { countryCode: 'US', currencyCode: 'USD', languageCode: 'en-US' },
-    'en_GB.UTF-8': { countryCode: 'GB', currencyCode: 'GBP', languageCode: 'en-GB' },
 } as const;
 
 let cachedLocale: string | null = null;
 
 export const getLocale = (): string => {
     if (cachedLocale === null) {
-        cachedLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+        const rawLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+        const locale = rawLocale.split('.')[0].replace(/_/g, '-');
+        cachedLocale = LOCALE_MAPPINGS[locale] ? locale : 'en-GB';
     }
     return cachedLocale;
 };
@@ -38,30 +32,17 @@ export const resetLocaleCache = (): void => {
 
 export const getLanguageCode = (locale: string): string => {
     const mapping = LOCALE_MAPPINGS[locale];
-    console.log('===mapping', mapping);
-    if (mapping) {
-        return mapping.languageCode;
-    }
-    const cleanLocale = locale.split('.')[0];
-    if (cleanLocale.includes('-')) {
-        return cleanLocale;
-    }
-    return cleanLocale.replace(/_/g, '-');
+    return mapping ? mapping.languageCode : 'en-GB';
 };
 
 export const getCountryCodeFromLocale = (locale: string): string => {
     const mapping = LOCALE_MAPPINGS[locale];
-    if (mapping) {
-        return mapping.countryCode;
-    }
-    const cleanLocale = locale.split('.')[0];
-    const parts = cleanLocale.includes('-') ? cleanLocale.split('-') : cleanLocale.split('_');
-    return parts.length > 1 ? parts[1].toUpperCase() : 'DE';
+    return mapping ? mapping.countryCode : 'GB';
 };
 
 export const getCurrencyCodeFromLocale = (locale: string): string => {
     const mapping = LOCALE_MAPPINGS[locale];
-    return mapping ? mapping.currencyCode : 'EUR';
+    return mapping ? mapping.currencyCode : 'GBP';
 };
 
 type Language = components['schemas']['Language'] & {

@@ -47,8 +47,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 const instanceStatus = (await instanceStatusResponse.json()) as { name: string; inStatusSince: string; tags: [string] };
 
                 expect(instanceStatus.tags, 'expect instance to have "ci" tag').toContain('ci');
-                console.log('===process.env', process.env);
-                console.log('===getLocale', getLocale());
                 const languageCode = getLanguageCode(getLocale());
                 const currencyCode = getCurrencyCodeFromLocale(getLocale());
                 const currency = await getCurrency(currencyCode, context);
