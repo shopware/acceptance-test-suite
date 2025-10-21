@@ -38,6 +38,7 @@ export const resetLocaleCache = (): void => {
 
 export const getLanguageCode = (locale: string): string => {
     const mapping = LOCALE_MAPPINGS[locale];
+    console.log('===mapping', mapping);
     if (mapping) {
         return mapping.languageCode;
     }
