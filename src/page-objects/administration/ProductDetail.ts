@@ -2,10 +2,10 @@ import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { translate } from '../../services/LanguageHelper';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 
 export class ProductDetail implements PageObject {
-
     public readonly contentView: Locator;
     public readonly productHeadline: Locator;
 
@@ -76,7 +76,7 @@ export class ProductDetail implements PageObject {
      */
     public readonly propertyName: (propertyName: string) => Locator;
     public readonly propertyValueCheckbox: (propertyValueName: string) => Locator;
-    
+
     /** @deprecated - Use 'propertyName' instead. */
     public readonly propertyGroupColor: Locator;
 
@@ -127,7 +127,7 @@ export class ProductDetail implements PageObject {
         this.variantsTabLink = page.getByRole('tab', { name: 'Variants' });
         this.layoutTabLink = page.getByRole('tab', { name: 'Layout' });
         this.crossSellingTabLink = page.getByRole('tab', { name: 'Cross Selling' });
-        this.SEOTabLink = page.getByRole('tab', { name: 'SEO' })
+        this.SEOTabLink = page.getByRole('tab', { name: 'SEO' });
         this.reviewsTabLink = page.getByRole('tab', { name: 'Reviews' });
 
         // General Info
@@ -137,8 +137,8 @@ export class ProductDetail implements PageObject {
         this.priceGrossInput = page.locator('#sw-price-field-gross').first();
 
         // Deliverability
-        this.stockInput = page.getByPlaceholder('Enter quantity in stock...');
-        this.restockTimeInput = page.getByPlaceholder('Enter restock time in days...');
+        this.stockInput = page.getByPlaceholder(translate('administration:product:detail.stockPlaceholder'));
+        this.restockTimeInput = page.getByPlaceholder(translate('administration:product:detail.restockTimePlaceholder'));
 
         // Visibility
         this.activeForAllSalesChannelsToggle = page.locator('.sw-field--product-active').getByRole('checkbox');
@@ -166,9 +166,9 @@ export class ProductDetail implements PageObject {
         // Property selection
         this.propertyName = (propertyName: string) => this.variantsModal.getByText(propertyName);
         this.propertyValueCheckbox = (propertyValueName: string) => this.variantsModal.getByRole('row', { name: propertyValueName }).getByRole('checkbox');
-        
-        this.propertyGroupColor = this.variantsModal.getByText('Color').first();
-        this.propertyGroupSize = this.variantsModal.getByText('Size').first();
+
+        this.propertyGroupColor = this.variantsModal.getByText(translate('administration:product:detail.colorProperty')).first();
+        this.propertyGroupSize = this.variantsModal.getByText(translate('administration:product:detail.sizeProperty')).first();
         this.propertyOptionGrid = this.variantsModal.locator('.sw-property-search__tree-selection__option_grid');
         this.propertyOptionColorBlue = this.propertyOptionGrid.getByRole('row', { name: 'Blue' }).getByRole('checkbox');
         this.propertyOptionColorRed = this.propertyOptionGrid.getByRole('row', { name: 'Red' }).getByRole('checkbox');
@@ -178,9 +178,9 @@ export class ProductDetail implements PageObject {
         this.propertyOptionSizeLarge = this.propertyOptionGrid.getByRole('row', { name: 'Large' }).getByRole('checkbox');
 
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+            this.customFieldCard = page.locator('.sw-card').getByText(translate('administration:customField:general.customFields'));
         } else {
-            this.customFieldCard = page.locator('.mt-card').getByText('Custom fields');
+            this.customFieldCard = page.locator('.mt-card').getByText(translate('administration:customField:general.customFields'));
         }
     }
 
@@ -198,7 +198,7 @@ export class ProductDetail implements PageObject {
         return {
             customFieldSetTab: customFieldSetTab,
             customFieldSetTabCustomContent: customFieldSetTabCustomContent,
-        }
+        };
     }
 
     url(productId: string) {

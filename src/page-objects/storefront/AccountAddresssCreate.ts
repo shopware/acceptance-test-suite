@@ -1,7 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
+import { BaseAccount } from './BaseAccount';
+import { translate } from '../../services/LanguageHelper';
 
-export class AccountAddressCreate implements PageObject {
+export class AccountAddressCreate extends BaseAccount {
     public readonly salutationDropdown: Locator;
     public readonly firstNameInput: Locator;
     public readonly lastNameInput: Locator;
@@ -14,17 +15,15 @@ export class AccountAddressCreate implements PageObject {
     public readonly saveAddressButton: Locator;
     public readonly stateDropdown: Locator;
 
-    public readonly page: Page;
-
     constructor(page: Page) {
-        this.page = page;
-        this.salutationDropdown = page.getByRole('combobox', { name: 'Salutation' });
-        this.firstNameInput = page.getByRole('textbox', { name: 'First name' });
-        this.lastNameInput = page.getByRole('textbox', { name: 'Last name' });
-        this.companyInput = page.getByRole('textbox', { name: 'Company' });
-        this.departmentInput = page.getByRole('textbox', { name: 'Department' });
-        this.streetInput = page.getByRole('textbox', { name: 'Street' });
-        this.zipcodeInput = page.getByRole('textbox', { name: 'Postal code' });
+        super(page);
+        this.salutationDropdown = page.getByRole('combobox', { name: translate('storefront:address:common.salutation') });
+        this.firstNameInput = page.getByRole('textbox', { name: translate('storefront:address:common.firstName') });
+        this.lastNameInput = page.getByRole('textbox', { name: translate('storefront:address:common.lastName') });
+        this.companyInput = page.getByRole('textbox', { name: translate('storefront:address:common.company') });
+        this.departmentInput = page.getByRole('textbox', { name: translate('storefront:address:common.department') });
+        this.streetInput = page.getByRole('textbox', { name: translate('storefront:address:common.street') });
+        this.zipcodeInput = page.getByRole('textbox', { name: translate('storefront:address:common.postalCode') });
         this.cityInput = page.locator('#addressAddressCity');
         this.countryDropdown = page.locator('#addressAddressCountry');
         this.stateDropdown = page.locator('#addressAddressCountryState');

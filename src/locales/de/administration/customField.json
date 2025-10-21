@@ -1,0 +1,48 @@
+{
+    "common": {
+        "technicalName": "Technischer Name",
+        "type": "Typ",
+        "required": "Erforderlich",
+        "position": "Position",
+        "customFieldSet": "Eigene Felder Set",
+        "labelEnglishGB": "Label (English (GB))"
+    },
+    "listing": {
+        "addCustomField": "Eigenes Feld hinzufügen",
+        "addNewSet": "Hinzufügen"
+    },
+    "create": {
+        "title": "Neues eigenes Feld",
+        "saveSuccess": "Das eigene Feld wurde erfolgreich erstellt.",
+        "assignTo": "Assign To",
+        "save": "Speichern",
+        "cancel": "Abbrechen"
+    },
+    "detail": {
+        "label": "Beschriftung",
+        "helpText": "Hilfetext",
+        "placeholder": "Platzhalter",
+        "type": "Typ",
+        "modifiableViaStoreApi": "Modifiable via Store API",
+        "placeholderEnglishGB": "Placeholder (English (GB))",
+        "helpTextEnglishGB": "Hilfe",
+        "availableInShoppingCart": "Verfügbar",
+        "select": "Auswählen",
+        "newCustomField": "Feld",
+        "editCustomField": "Bearbeiten",
+        "add": "Hinzufügen"
+    },
+    "general": {
+        "customFields": "Feld"
+    },
+    "actions": {
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "cancel": "Abbrechen",
+        "applyChanges": "Anwenden"
+    },
+    "dialogs": {
+        "warning": "Warnung",
+        "deleteCustomField": "Löschen"
+    }
+}

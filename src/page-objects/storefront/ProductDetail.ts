@@ -1,9 +1,9 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import type { Product } from '../../types/ShopwareTypes';
+import { translate } from '../../services/LanguageHelper';
 
 export class ProductDetail implements PageObject {
-
     public readonly addToCartButton: Locator;
     public readonly quantitySelect: Locator;
     public readonly productSingleImage: Locator;
@@ -59,8 +59,8 @@ export class ProductDetail implements PageObject {
     constructor(page: Page) {
         this.page = page;
 
-        this.addToCartButton = page.getByRole('button', { name: 'Add to shopping cart' });
-        this.quantitySelect = page.getByLabel('Quantity', { exact: true });
+        this.addToCartButton = page.getByRole('button', { name: translate('storefront:product:addToCart') });
+        this.quantitySelect = page.getByLabel(translate('storefront:product:quantity'), { exact: true });
         this.productSingleImage = page.locator('.gallery-slider-single-image');
         this.productSinglePrice = page.locator('.product-detail-price');
         this.productPriceRangesRow = page.locator('.product-block-prices-row');
@@ -69,9 +69,9 @@ export class ProductDetail implements PageObject {
         this.productListingPricePercentage = page.locator('.list-price-percentage');
 
         this.offCanvas = page.locator('offcanvas-body');
-        this.offCanvasCartTitle = page.getByText('Shopping cart', { exact: true });
+        this.offCanvasCartTitle = page.getByText(translate('storefront:checkout:cart.shoppingCart'), { exact: true });
         this.offCanvasCart = page.getByRole('dialog');
-        this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
+        this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
         this.offCanvasLineItemImages = page.locator('.line-item-img-link');
         this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
 
@@ -86,19 +86,19 @@ export class ProductDetail implements PageObject {
 
         this.productReviewRating = page.locator('.product-detail-reviews .product-review-rating');
         this.productReviewsLink = page.locator('.product-detail-reviews .product-detail-reviews-link');
-        this.reviewsTab = this.page.getByRole('tab', { name: 'Reviews' });
+        this.reviewsTab = this.page.getByRole('tab', { name: translate('storefront:product:review.tabTitle') });
         this.reviewTeaserButton = this.page.locator('.product-detail-review-teaser-btn');
         this.reviewTeaserText = this.page.locator('.product-detail-review-teaser .h4');
         this.reviewListingItems = this.page.locator('.product-detail-review-item');
-        this.reviewEmptyListingText = this.page.getByText('No reviews found. Share your insights with others.');
+        this.reviewEmptyListingText = this.page.getByText(translate('storefront:product:review.emptyText'));
         this.reviewLoginForm = this.page.locator('.product-detail-review-login');
-        this.forgottenPasswordLink = this.page.getByRole('link', { name: 'I have forgotten my password.' });
-        this.reviewLoginButton = this.page.getByRole('button', { name: 'Log in' });
-        this.reviewEmailInput = this.page.getByLabel('Your email address');
-        this.reviewPasswordInput = this.page.getByLabel('Your password');
+        this.forgottenPasswordLink = this.page.getByRole('link', { name: translate('storefront:account:login.forgotPassword') });
+        this.reviewLoginButton = this.page.getByRole('button', { name: translate('storefront:account:login.logIn') });
+        this.reviewEmailInput = this.page.getByLabel(translate('storefront:account:login.email'));
+        this.reviewPasswordInput = this.page.getByLabel(translate('storefront:account:login.password'));
         this.reviewForm = this.page.locator('.product-detail-review-form');
-        this.reviewTitleInput = this.page.getByLabel('Title');
-        this.reviewReviewTextInput = this.page.getByLabel('Your review');
+        this.reviewTitleInput = this.page.getByLabel(translate('storefront:product:review.title'));
+        this.reviewReviewTextInput = this.page.getByLabel(translate('storefront:product:review.text'));
         this.reviewSubmitButton = this.page.locator('.btn-review-submit');
         this.reviewRatingPoints = this.page.locator('.product-detail-review-form-star');
         this.reviewRatingText = this.page.locator('.product-detail-review-form-rating-text');
@@ -106,7 +106,7 @@ export class ProductDetail implements PageObject {
         this.reviewItemRatingPoints = this.page.locator('.product-detail-review-item-points .point-full');
         this.reviewItemTitle = this.page.locator('.product-detail-review-item-title');
         this.reviewItemContent = this.page.locator('.product-detail-review-item-content');
-        this.reviewSubmitMessage = this.page.getByText('Thank you for submitting your review. We will examine the review and eventually unlock it, please be patient.');
+        this.reviewSubmitMessage = this.page.getByText(translate('storefront:product:review.submitMessage'));
     }
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {
@@ -119,7 +119,7 @@ export class ProductDetail implements PageObject {
             reviewFilterOptionCheckbox: reviewFilterOptionCheckbox,
             reviewFilterOptionText: reviewFilterOptionText,
             reviewFilterOptionPercentage: reviewFilterOptionPercentage,
-        }
+        };
     }
 
     url(productData: Product) {
@@ -128,6 +128,6 @@ export class ProductDetail implements PageObject {
             namePath = productData.translated.name.replaceAll('_', '-');
         }
 
-       return `${namePath}/${productData.productNumber}`;
+        return `${namePath}/${productData.productNumber}`;
     }
 }

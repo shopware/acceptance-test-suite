@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class CheckoutFinish implements PageObject {
     public readonly headline: Locator;
@@ -13,10 +14,10 @@ export class CheckoutFinish implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.headline = page.getByRole('heading', { name: 'Thank you for your order' });
+        this.headline = page.getByRole('heading', { name: translate('storefront:checkout:finish.thankYouForOrder') });
         this.orderNumberText = page.getByText(this.orderNumberRegex);
-        this.grandTotalPrice = page.locator('dt:has-text("Grand total") + dd');
-        this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
+        this.grandTotalPrice = page.locator(`dt:has-text("${translate('storefront:checkout:finish.grandTotal')}") + dd`);
+        this.taxPrice = page.locator(`dt:text-matches('${translate('storefront:checkout:finish.plusVat')} [0-9]\\+\\?${translate('storefront:checkout:finish.vatSuffix')}') + dd`);
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }
 
@@ -39,11 +40,11 @@ export class CheckoutFinish implements PageObject {
         return orderNumber;
     }
 
-    getOrderId() {
+    getOrderId(): string {
         const url = this.page.url();
         const [, searchString] = url.split('?');
         const params = new URLSearchParams(searchString);
 
-        return params.get('orderId');
+        return params.get('orderId') ?? '';
     }
 }

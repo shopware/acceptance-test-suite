@@ -1,0 +1,10 @@
+{
+    "general": {
+        "title": "Shopping cart"
+    },
+    "buttons": {
+        "goToCheckout": "Go to checkout",
+        "goToCart": "Display shopping cart",
+        "continueShopping": "Continue shopping"
+    }
+}

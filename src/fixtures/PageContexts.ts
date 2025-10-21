@@ -4,6 +4,7 @@ import type { FixtureTypes } from '../types/FixtureTypes';
 import { isThemeCompiled } from '../services/ShopInfo';
 import { clearDelayedCache } from '../services/Cache';
 import { createNewAdminPageContext } from '../services/AdminLoginHelper';
+import { LanguageHelper, setCurrentContext } from '../services/LanguageHelper';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -14,8 +15,9 @@ export interface PageContextTypes {
 }
 
 export const test = base.extend<FixtureTypes>({
-
-    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
+    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
+        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const { id, uuid } = IdProvider.getIdPair();
 
@@ -39,37 +41,45 @@ export const test = base.extend<FixtureTypes>({
 
         const page = await createNewAdminPageContext(adminUser, browser, SalesChannelBaseConfig, AdminApiContext);
 
-        // Run the test
+        LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
+        setCurrentContext(page.context() as unknown as Record<string, unknown>);
         await use(page);
-
         await page.close();
+        setCurrentContext(null);
 
         // Cleanup created user
         await AdminApiContext.delete(`user/${uuid}`);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta }, use) => {
+    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta, CustomTranslationResources }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
+        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+
+        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
             baseURL: url,
+            locale,
+            extraHTTPHeaders: { 'Accept-Language': locale },
         });
 
+        LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
+
+        // Set context for this execution thread
+        setCurrentContext(context as unknown as Record<string, unknown>);
+
         let page;
-        if (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+        if (!(await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url))) {
             base.slow();
 
-            await AdminApiContext.post(
-                `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`
-            );
+            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
             await clearDelayedCache(AdminApiContext);
 
             page = await context.newPage();
 
             if (InstanceMeta.isSaaS) {
-                while (!await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url)) {
+                while (!(await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url))) {
                     await clearDelayedCache(AdminApiContext);
-                    // eslint-disable-next-line playwright/no-wait-for-timeout
                     await page.waitForTimeout(4000);
                 }
             }
@@ -82,19 +92,29 @@ export const test = base.extend<FixtureTypes>({
         await use(page);
 
         await page.close();
+        setCurrentContext(null);
         await context.close();
     },
 
-    InstallPage: async ({ browser }, use) => {
+    InstallPage: async ({ browser, CustomTranslationResources }, use) => {
+        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+
+        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
             baseURL: process.env['APP_URL'],
+            locale,
+            extraHTTPHeaders: { 'Accept-Language': locale },
         });
+
+        LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
+        setCurrentContext(context as unknown as Record<string, unknown>);
+
         const page = await context.newPage();
 
         await use(page);
-
         await page.close();
+        setCurrentContext(null);
         await context.close();
     },
 

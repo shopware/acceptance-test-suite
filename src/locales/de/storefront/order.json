@@ -1,0 +1,10 @@
+{
+    "actions": {
+        "cancelOrder": "Bestellung stornieren",
+        "back": "Zurück"
+    },
+    "shipping": {
+        "standard": "Standard",
+        "express": "Express"
+    }
+}

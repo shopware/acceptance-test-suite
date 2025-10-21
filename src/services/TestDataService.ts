@@ -1,4 +1,4 @@
-import { createRandomImage } from './ImageHelper';
+import { createRandomImage, encodeImage } from './ImageHelper';
 import { getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
@@ -405,7 +405,7 @@ export class TestDataService {
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
         const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
-            data: Buffer.from(image.toBuffer()),
+            data: encodeImage(image),
             headers: { 'content-type': 'image/png' },
         });
         expect(response.ok()).toBeTruthy();
@@ -571,7 +571,7 @@ export class TestDataService {
             salesChannel.countryId,
             salesChannel.paymentMethodId,
             salutation.id,
-            overrides
+            overrides,
         );
 
         const response = await this.AdminApiClient.post('customer?_response=detail', {
@@ -686,7 +686,7 @@ export class TestDataService {
             customer,
             customerAddress,
             salesChannel.id,
-            overrides
+            overrides,
         );
 
         const orderResponse = await this.AdminApiClient.post('order?_response=detail', {
@@ -1083,11 +1083,15 @@ export class TestDataService {
      * @param manufacturerId - The uuid of the manufacturer.
      */
     async assignProductManufacturer(productId: string, manufacturerId: string) {
-        await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        const assignProductManufacturerResponse = await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 manufacturerId: manufacturerId,
             },
         });
+        expect(assignProductManufacturerResponse.ok()).toBeTruthy();
+
+        const { data: productManufacturer } = await assignProductManufacturerResponse.json();
+        return productManufacturer;
     }
 
     /**
@@ -1137,7 +1141,7 @@ export class TestDataService {
      * @param categoryId - The uuid of the category.
      */
     async assignProductCategory(productId: string, categoryId: string) {
-        return await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        const assignProductCategoryResponse = await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 categories: [
                     {
@@ -1146,6 +1150,11 @@ export class TestDataService {
                 ],
             },
         });
+        expect(assignProductCategoryResponse.ok()).toBeTruthy();
+
+        const { data: productCategory } = await assignProductCategoryResponse.json();
+
+        return productCategory;
     }
 
     /**
@@ -1155,7 +1164,7 @@ export class TestDataService {
      * @param tagId - The uuid of the tag.
      */
     async assignProductTag(productId: string, tagId: string) {
-        return await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
+        const assignProductTagResponse = await this.AdminApiClient.patch(`product/${productId}?_response=basic`, {
             data: {
                 tags: [
                     {
@@ -1164,6 +1173,10 @@ export class TestDataService {
                 ],
             },
         });
+        expect(assignProductTagResponse.ok()).toBeTruthy();
+
+        const { data: productTag } = await assignProductTagResponse.json();
+        return productTag;
     }
 
     /**
@@ -1181,7 +1194,6 @@ export class TestDataService {
         expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: manufacturerMedia } = await mediaResponse.json();
-
         return manufacturerMedia;
     }
 
@@ -1959,6 +1971,32 @@ export class TestDataService {
     };
 
     /**
+     * Generates a random alphanumeric string of a specified length.
+     * Ensures at least one numeric character is included.
+     *
+     * @param length - The desired length of the random string (default: 3)
+     * @returns A random alphanumeric string containing at least one digit
+     */
+    generateRandomId(length: number = 3): string {
+        const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const DIGITS = '0123456789';
+        const ALL_CHARS = LETTERS + DIGITS;
+
+        // Generate random characters
+        const chars = Array.from({ length }, () =>
+            ALL_CHARS.charAt(Math.floor(Math.random() * ALL_CHARS.length)),
+        );
+
+        // Ensure at least one digit is present
+        if (!chars.some(char => DIGITS.includes(char))) {
+            const randomIndex = Math.floor(Math.random() * length);
+            chars[randomIndex] = DIGITS.charAt(Math.floor(Math.random() * DIGITS.length));
+        }
+
+        return chars.join('');
+    }
+
+    /**
      * @deprecated Use `getCountry` instead.
      * Retrieves a country Id based on its iso2 code.
      *
@@ -1998,8 +2036,8 @@ export class TestDataService {
         const basicCountry = {
             id: countryUuid,
             name: 'Country-' + countryId,
-            iso: '' + countryId.substring(0, 2),
-            iso3: '' + countryId.substring(0, 3),
+            iso: this.generateRandomId(2),
+            iso3: this.generateRandomId(3),
             active: true,
             shippingAvailable: true,
         };
@@ -2014,7 +2052,7 @@ export class TestDataService {
             id: currencyUuid,
             name: 'Currency-' + currencyId,
             shortName: 'CUR' + currencyId,
-            isoCode: '' + currencyId.substring(0, 3),
+            isoCode: this.generateRandomId(3),
             symbol: 'C$',
             factor: 2.4,
             itemRounding: {
@@ -2239,7 +2277,7 @@ export class TestDataService {
         countryId: string,
         defaultPaymentMethodId: string,
         salutationId: string,
-        overrides: Partial<Customer> = {}
+        overrides: Partial<Customer> = {},
     ): Partial<Customer> {
         const { id: id, uuid: customerUuid } = this.IdProvider.getIdPair();
         const firstName = 'John';
@@ -2406,7 +2444,7 @@ export class TestDataService {
         customer: Customer,
         customerAddress: CustomerAddress,
         salesChannelId = this.defaultSalesChannel.id,
-        overrides: Partial<Order> = {}
+        overrides: Partial<Order> = {},
     ): Partial<Order> {
         const date = new Date();
         const orderDateTime = this.convertDateTime(date);
@@ -2815,7 +2853,7 @@ export class TestDataService {
         currencyId: string,
         languageId: string,
         snippetSetId: string,
-        overrides: Partial<SalesChannelDomain> = {}
+        overrides: Partial<SalesChannelDomain> = {},
     ): Partial<SalesChannelDomain> {
         const appUrl = process.env['APP_URL'];
         const baseUrl = `${appUrl}test-${this.IdProvider.getIdPair().uuid}/`;

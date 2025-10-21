@@ -2,6 +2,7 @@ import type { Page, Locator } from 'playwright-core';
 import { ManufacturerCreate } from './ManufacturerCreate';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { satisfies } from 'compare-versions';
+import { translate } from '../../services/LanguageHelper';
 
 export class ManufacturerDetail extends ManufacturerCreate {
     public readonly customFieldCard: Locator;
@@ -12,9 +13,9 @@ export class ManufacturerDetail extends ManufacturerCreate {
         super(page, instanceMeta);
 
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.customFieldCard = page.locator('.sw-card').getByText('Custom fields');
+            this.customFieldCard = page.locator('.sw-card').getByText(translate('administration:manufacturer:detail.customFields'));
         } else {
-            this.customFieldCard = page.locator('.mt-card').getByText('Custom fields');
+            this.customFieldCard = page.locator('.mt-card').getByText(translate('administration:manufacturer:detail.customFields'));
         }
 
         this.customFieldSetTabs = this.customFieldCard.locator('.sw-tabs-item');
@@ -24,9 +25,9 @@ export class ManufacturerDetail extends ManufacturerCreate {
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
         let customFieldCard: Locator;
         if (satisfies(this.instanceMeta.version, '<6.7')) {
-            customFieldCard = this.page.locator('.mt-card').filter({ hasText: 'Custom fields' });
+            customFieldCard = this.page.locator('.mt-card').filter({ hasText: translate('administration:manufacturer:detail.customFields') });
         } else {
-            customFieldCard = this.page.locator('.mt-card').filter({ hasText: 'Custom fields' });
+            customFieldCard = this.page.locator('.mt-card').filter({ hasText: translate('administration:manufacturer:detail.customFields') });
         }
 
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
@@ -35,10 +36,10 @@ export class ManufacturerDetail extends ManufacturerCreate {
         return {
             customFieldSetTab: customFieldSetTab,
             customFieldSetTabCustomContent: customFieldSetTabCustomContent,
-        }
+        };
     }
 
     url(manufacturerUuid?: string) {
-        return `#/sw/manufacturer/detail/${manufacturerUuid}`
+        return `#/sw/manufacturer/detail/${manufacturerUuid}`;
     }
 }

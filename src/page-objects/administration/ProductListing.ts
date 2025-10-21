@@ -1,8 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class ProductListing implements PageObject {
-
     /**
      * Multi selection
      */
@@ -19,10 +19,10 @@ export class ProductListing implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.productsTable = page.locator('.sw-data-grid__table');
-        this.bulkEditButton = page.getByRole('button', {name: 'Bulk edit'});
+        this.bulkEditButton = page.getByRole('button', { name: translate('administration:product:listing.bulkEdit') });
 
         this.bulkEditModal = page.locator('.sw-product-bulk-edit-modal');
-        this.startBulkEditButton = this.bulkEditModal.getByRole('button', {name: 'Start bulk edit'});
+        this.startBulkEditButton = this.bulkEditModal.getByRole('button', { name: translate('administration:product:listing.startBulkEdit') });
     }
 
     /**
@@ -37,11 +37,11 @@ export class ProductListing implements PageObject {
             for (const searchTerm of searchTerms) {
                 if (tempTerm != '') {
                     tempTerm += '+';
-                } 
+                }
                 tempTerm += searchTerm;
-            } 
+            }
             url += `?limit=25&page=1&term=${tempTerm}`;
-        } 
+        }
         return url;
     }
 
@@ -58,7 +58,7 @@ export class ProductListing implements PageObject {
         const productActiveSelector = 'sw-icon__regular-checkmark-xs';
         const productInactiveSelector = 'sw-icon__regular-times-s';
         const productPriceSelector = '.sw-data-grid__cell--price-EUR';
-        
+
         return {
             selectionCheckbox: productTableRow.getByRole('checkbox'),
             productName: productTableRow.locator(productNameSelector),

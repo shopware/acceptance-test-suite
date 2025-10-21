@@ -1,0 +1,14 @@
+{
+    "tabs": {
+        "searchPreferences": "Search preferences"
+    },
+    "fields": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "username": "Username",
+        "email": "Email"
+    },
+    "buttons": {
+        "deselectAll": "Deselect all"
+    }
+}

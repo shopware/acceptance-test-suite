@@ -2,9 +2,9 @@ import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { satisfies } from 'compare-versions';
 import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
+import { translate } from '../../services/LanguageHelper';
 
 export class FirstRunWizard implements PageObject {
-
     public readonly nextButton: Locator;
     public readonly configureLaterButton: Locator;
     public readonly skipButton: Locator;
@@ -72,18 +72,18 @@ export class FirstRunWizard implements PageObject {
         this.backButton = page.getByText('Back', { exact: true });
 
         // LanguagePack part
-        this.installLanguagePackButton = page.getByRole('button', { name: 'Install' });
-        this.welcomeText = page.locator('.headline-welcome', { hasText: 'Welcome to the Shopware 6 Administration' });
+        this.installLanguagePackButton = page.getByRole('button', { name: translate('administration:firstRunWizard:buttons.install') });
+        this.welcomeText = page.locator('.headline-welcome', { hasText: translate('administration:firstRunWizard:welcome.text') });
         this.pluginCardInfo = page.locator('.sw-plugin-card__info');
 
         // Data import part
-        this.installMigrationAssistantButton = page.getByRole('button', { name: 'Install Migration Assistant' });
-        this.installDemoDataButton = page.getByRole('button', { name: 'Install demo data' });
-        this.dataImportHeader = page.locator('.sw-modal__title', { hasText: 'Getting started with Shopware 6' });
+        this.installMigrationAssistantButton = page.getByRole('button', { name: translate('administration:firstRunWizard:buttons.installMigrationAssistant') });
+        this.installDemoDataButton = page.getByRole('button', { name: translate('administration:firstRunWizard:buttons.installDemoData') });
+        this.dataImportHeader = page.locator('.sw-modal__title', { hasText: translate('administration:firstRunWizard:headers.dataImport') });
         this.dataImportCard = page.locator('.sw-first-run-wizard-data-import__card');
 
         // Default values part
-        this.defaultValuesHeader = page.locator('.sw-modal__title', { hasText: 'Setup default values' });
+        this.defaultValuesHeader = page.locator('.sw-modal__title', { hasText: translate('administration:firstRunWizard:headers.defaultValues') });
         this.salesChannelSelectionMultiSelect = page.getByPlaceholder('Select Sales Channels...');
         this.salesChannelSelectionList = page.locator('.sw-popover__wrapper').getByRole('listitem');
 
@@ -123,7 +123,7 @@ export class FirstRunWizard implements PageObject {
         this.shopwareAccountHeader = page.locator('.sw-modal__title', { hasText: 'Shopware Account' });
         this.emailAddressInputField = page.getByPlaceholder('Enter your email address...', { exact: true });
         this.passwordInputField = page.getByPlaceholder('Enter your password...', { exact: true });
-        this.forgotPasswordLink = page.getByText('Did you forget your password?', { exact: true })
+        this.forgotPasswordLink = page.getByText('Did you forget your password?', { exact: true });
 
         // Shopware store part
         this.shopwareStoreHeader = page.locator('.sw-modal__title', { hasText: 'Shopware Store' });

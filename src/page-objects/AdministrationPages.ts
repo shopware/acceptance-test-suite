@@ -41,9 +41,16 @@ import { ShopwareServices } from './administration/ShopwareServices';
 import { PromotionsListing } from './administration/PromotionListing';
 import { PromotionCreate } from './administration/PromotionCreate';
 import { PromotionDetail } from './administration/PromotionDetail';
+import { Media } from './administration/Media';
 import { YourProfile } from './administration/YourProfile';
 import { ThemesListing } from './administration/ThemesListing';
 import { ThemesDetail } from './administration/ThemesDetail';
+import { MediaListing } from './administration/MediaListing';
+import { LayoutListing } from './administration/LayoutListing';
+import { LayoutCreate } from './administration/LayoutCreate';
+import { ListingPageLayoutDetail } from './administration/ListingPageLayoutDetail';
+import { SalesChannelDetail } from './administration/SalesChannelDetail';
+import { OrderListing } from './administration/OrderListing';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -73,9 +80,9 @@ export interface AdministrationPageTypes {
     AdminRuleDetail: RuleDetail;
     AdminRuleCreate: RuleCreate;
     AdminRuleListing: RuleListing;
-    AdminManufacturerCreate: ManufacturerCreate,
-    AdminManufacturerListing: ManufacturerListing,
-    AdminManufacturerDetail: ManufacturerDetail,
+    AdminManufacturerCreate: ManufacturerCreate;
+    AdminManufacturerListing: ManufacturerListing;
+    AdminManufacturerDetail: ManufacturerDetail;
     AdminProductListing: ProductListing;
     AdminProductBulkEdit: ProductBulkEdit;
     AdminCustomerBulkEdit: CustomerBulkEdit;
@@ -85,10 +92,17 @@ export interface AdministrationPageTypes {
     AdminPromotionsListing: PromotionsListing;
     AdminPromotionCreate: PromotionCreate;
     AdminPromotionDetail: PromotionDetail;
+    AdminSalesChannelDetail: SalesChannelDetail;
     AdminShopwareServices: ShopwareServices;
+    AdminMedia: Media;
     AdminYourProfile: YourProfile;
     AdminThemesListing: ThemesListing;
     AdminThemesDetail: ThemesDetail;
+    AdminMediaListing: MediaListing;
+    AdminLayoutListing: LayoutListing;
+    AdminListingPageLayoutDetail: ListingPageLayoutDetail;
+    AdminLayoutCreate: LayoutCreate;
+    AdminOrderListing: OrderListing;
 }
 
 export const AdminPageObjects = {
@@ -128,14 +142,21 @@ export const AdminPageObjects = {
     SettingsListing,
     DocumentListing,
     DocumentDetail,
+    SalesChannelDetail,
     ShopwareServices,
     PromotionsListing,
     PromotionCreate,
     PromotionDetail,
+    Media,
     YourProfile,
     ThemesListing,
     ThemesDetail,
-}
+    MediaListing,
+    LayoutListing,
+    ListingPageLayoutDetail,
+    LayoutCreate,
+    OrderListing,
+};
 
 export const test = base.extend<FixtureTypes>({
 
@@ -295,6 +316,10 @@ export const test = base.extend<FixtureTypes>({
         await use(new PromotionDetail(AdminPage, InstanceMeta));
     },
 
+    AdminMedia: async ({ AdminPage }, use) => {
+        await use(new Media(AdminPage));
+    },
+
     AdminShopwareServices: async ({ AdminPage }, use) => {
         await use(new ShopwareServices(AdminPage));
     },
@@ -305,7 +330,32 @@ export const test = base.extend<FixtureTypes>({
     AdminThemesListing: async ({ AdminPage }, use) => {
         await use(new ThemesListing(AdminPage));
     },
+
     AdminThemesDetail: async ({ AdminPage }, use) => {
         await use(new ThemesDetail(AdminPage));
+    },
+
+    AdminMediaListing: async ({ AdminPage }, use) => {
+        await use(new MediaListing(AdminPage));
+    },
+
+    AdminLayoutListing: async ({ AdminPage }, use) => {
+        await use(new LayoutListing(AdminPage));
+    },
+
+    AdminListingPageLayoutDetail: async ({ AdminPage }, use) => {
+        await use(new ListingPageLayoutDetail(AdminPage));
+    },
+
+    AdminLayoutCreate: async ({ AdminPage }, use) => {
+        await use(new LayoutCreate(AdminPage));
+    },
+
+    AdminSalesChannelDetail: async ({ AdminPage }, use) => {
+        await use(new SalesChannelDetail(AdminPage));
+    },
+
+    AdminOrderListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new OrderListing(AdminPage, InstanceMeta));
     },
 });

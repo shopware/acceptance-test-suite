@@ -1,0 +1,40 @@
+{
+    "detail": {
+        "addToCart": "In den Warenkorb",
+        "addToWishlist": "Auf die Wunschliste",
+        "availableFrom": "Verfügbar ab",
+        "deliveryTime": "Lieferzeit",
+        "description": "Beschreibung",
+        "price": "Preis",
+        "quantity": "Anzahl",
+        "relatedProducts": "Verwandte Produkte",
+        "reviews": "Bewertungen",
+        "specifications": "Spezifikationen",
+        "stock": "Lagerbestand"
+    },
+    "listing": {
+        "filter": "Filter",
+        "noResults": "Keine Ergebnisse gefunden",
+        "showMore": "Mehr anzeigen",
+        "sortBy": "Sortieren nach",
+        "sorting": "Sortierung",
+        "noProductsFound": "Keine Produkte gefunden."
+    },
+    "search": {
+        "noResults": "Keine Suchergebnisse",
+        "placeholder": "Suchbegriff eingeben",
+        "results": "Suchergebnisse"
+    },
+    "addToCart": "In den Warenkorb",
+    "addToWishlist": "Auf die Wunschliste",
+    "removeFromWishlist": "Von der Wunschliste entfernen",
+    "deliveryTime": "Lieferzeit",
+    "quantity": "Anzahl",
+    "review": {
+        "tabTitle": "Bewertungen",
+        "title": "Titel",
+        "text": "Bewertungstext",
+        "emptyText": "Noch keine Bewertungen vorhanden",
+        "submitMessage": "Bewertung abgesendet"
+    }
+}
