@@ -5,16 +5,16 @@ import type { components } from '@shopware/api-client/admin-api-types';
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
-    enGBLocaleId: string;
-    enGBLanguageId: string;
-    eurCurrencyId: string;
+    currentLocaleId: string; // Dynamic locale ID based on environment variable
+    currentLanguageId: string; // Dynamic language ID based on environment variable
+    currentCurrencyId: string; // Dynamic currency ID based on environment variable
     defaultCurrencyId: string;
     defaultLanguageId: string;
     invoicePaymentMethodId: string;
     defaultShippingMethod: string;
     taxId: string;
-    deCountryId: string;
-    enGBSnippetSetId: string;
+    currentCountryId: string; // Dynamic country ID based on environment variable
+    currentSnippetSetId: string; // Dynamic snippet set ID based on environment variable
     defaultThemeId: string;
     appUrl: string | undefined;
     adminUrl: string;
@@ -26,30 +26,29 @@ export interface DefaultSalesChannelTypes {
         salesChannel: SalesChannel;
         customer: Customer;
         url: string;
-    },
+    };
     DefaultStorefront: {
         salesChannel: SalesChannel;
         customer: Customer;
         url: string;
-    },
+    };
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
-
     SalesChannelBaseConfig: [
         async ({ Country, Currency, Language, PaymentMethod, ShippingMethod, SnippetSet, Tax, Theme }, use) => {
             await use({
-                enGBLocaleId: Language.translationCode.id,
-                enGBLanguageId: Language.id,
+                currentLocaleId: Language.translationCode.id,
+                currentLanguageId: Language.id,
                 storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
-                eurCurrencyId: Currency.id,
+                currentCurrencyId: Currency.id,
                 defaultCurrencyId: 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
                 defaultLanguageId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b',
                 invoicePaymentMethodId: PaymentMethod.id,
                 defaultShippingMethod: ShippingMethod.id,
                 taxId: Tax.id,
-                deCountryId: Country.id,
-                enGBSnippetSetId: SnippetSet.id,
+                currentCountryId: Country.id,
+                currentSnippetSetId: SnippetSet.id,
                 defaultThemeId: Theme.id,
                 appUrl: process.env['APP_URL'],
                 adminUrl: process.env['ADMIN_URL'] || `${process.env['APP_URL']}admin/`,
@@ -74,18 +73,18 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             await AdminApiContext.delete(`./customer/${customerUuid}`);
 
             // get the missing languages ids or all if the sales channel does not exist. This is required for 6.5.x support
-            const wantedLanguages = new Set([SalesChannelBaseConfig.enGBLanguageId, SalesChannelBaseConfig.defaultLanguageId]);
+            const wantedLanguages = new Set([SalesChannelBaseConfig.currentLanguageId, SalesChannelBaseConfig.defaultLanguageId]);
             const languages: { id: string }[] = [];
             const result = await AdminApiContext.get(`./sales-channel/${uuid}/languages`);
             if (result.ok()) {
-                const salesChannelLanguages = await result.json() as { data: { id: string }[] };
-                wantedLanguages.forEach(l => {
-                    if (!salesChannelLanguages.data.find(i => i.id === l)) {
+                const salesChannelLanguages = (await result.json()) as { data: { id: string }[] };
+                wantedLanguages.forEach((l) => {
+                    if (!salesChannelLanguages.data.find((i) => i.id === l)) {
                         languages.push({ id: l });
                     }
                 });
             } else {
-                wantedLanguages.forEach(l => {
+                wantedLanguages.forEach((l) => {
                     languages.push({ id: l });
                 });
             }
@@ -100,12 +99,12 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                 id: uuid,
                                 name: `${id} acceptance test`,
                                 typeId: SalesChannelBaseConfig.storefrontTypeId,
-                                languageId: SalesChannelBaseConfig.enGBLanguageId,
+                                languageId: SalesChannelBaseConfig.currentLanguageId,
 
-                                currencyId: SalesChannelBaseConfig.eurCurrencyId,
+                                currencyId: SalesChannelBaseConfig.currentCurrencyId,
                                 paymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
                                 shippingMethodId: SalesChannelBaseConfig.defaultShippingMethod,
-                                countryId: SalesChannelBaseConfig.deCountryId,
+                                countryId: SalesChannelBaseConfig.currentCountryId,
 
                                 accessKey: 'SWSC' + uuid,
 
@@ -119,13 +118,15 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                     productAssignmentType: 'product',
                                 },
 
-                                domains: [{
-                                    id: domainUuid,
-                                    url: baseUrl,
-                                    languageId: SalesChannelBaseConfig.enGBLanguageId,
-                                    snippetSetId: SalesChannelBaseConfig.enGBSnippetSetId,
-                                    currencyId: SalesChannelBaseConfig.eurCurrencyId,
-                                }],
+                                domains: [
+                                    {
+                                        id: domainUuid,
+                                        url: baseUrl,
+                                        languageId: SalesChannelBaseConfig.currentLanguageId,
+                                        snippetSetId: SalesChannelBaseConfig.currentSnippetSetId,
+                                        currencyId: SalesChannelBaseConfig.currentCurrencyId,
+                                    },
+                                ],
 
                                 customerGroup: {
                                     id: customerGroupUuid,
@@ -133,10 +134,10 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                 },
 
                                 languages,
-                                countries: [{ id: SalesChannelBaseConfig.deCountryId }],
+                                countries: [{ id: SalesChannelBaseConfig.currentCountryId }],
                                 shippingMethods: [{ id: SalesChannelBaseConfig.defaultShippingMethod }],
                                 paymentMethods: [{ id: SalesChannelBaseConfig.invoicePaymentMethodId }],
-                                currencies: [{ id: SalesChannelBaseConfig.eurCurrencyId }],
+                                currencies: [{ id: SalesChannelBaseConfig.currentCurrencyId }],
                             },
                         ],
                     },
@@ -153,7 +154,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 email: `customer_${id}@example.com`,
                 password: 'shopware',
                 salutationId: salutations.data[0].id,
-                languageId: SalesChannelBaseConfig.enGBLanguageId,
+                languageId: SalesChannelBaseConfig.currentLanguageId,
 
                 defaultShippingAddress: {
                     firstName: `${id} admin`,
@@ -161,7 +162,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                     city: 'not',
                     street: 'not',
                     zipcode: 'not',
-                    countryId: SalesChannelBaseConfig.deCountryId,
+                    countryId: SalesChannelBaseConfig.currentCountryId,
                     salutationId: salutations.data[0].id,
                 },
                 defaultBillingAddress: {
@@ -170,7 +171,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                     city: 'not',
                     street: 'not',
                     zipcode: 'not',
-                    countryId: SalesChannelBaseConfig.deCountryId,
+                    countryId: SalesChannelBaseConfig.currentCountryId,
                     salutationId: salutations.data[0].id,
                 },
 
@@ -187,10 +188,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 data: customerData,
             });
 
-            const [customerResp, salesChannelResp] = await Promise.all([
-                customerRespPromise,
-                salesChannelPromise,
-            ]);
+            const [customerResp, salesChannelResp] = await Promise.all([customerRespPromise, salesChannelPromise]);
 
             expect(customerResp.ok()).toBeTruthy();
             expect(salesChannelResp.ok()).toBeTruthy();

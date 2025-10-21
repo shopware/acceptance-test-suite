@@ -10,7 +10,7 @@ export class DocumentDetail implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.showInAccountSwitch = page.getByRole('checkbox', { name: 'Display document in "My account"' });
+        this.showInAccountSwitch = page.getByRole('checkbox', { name: translate('administration:document:detail.displayDocumentInMyAccount') });
         this.saveButton = page.getByRole('button', { name: translate('administration:document:detail.save') });
         this.documentTypeSelect = page.locator('.sw-settings-document-detail__select-type');
     }

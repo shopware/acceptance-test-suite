@@ -2,6 +2,7 @@ import { AsyncLocalStorage } from 'async_hooks';
 import { createInstance } from 'i18next';
 import type { TranslationKey, I18nextInstance } from '../types/TranslationTypes';
 import { BUNDLED_RESOURCES } from '../locales';
+import { getLocale } from './ShopwareDataHelpers';
 
 // Map a raw input (e.g. "en-GB,fr;q=0.8") to a folder like "en" / "de"
 function normalizeLanguage(input?: string) {
@@ -123,7 +124,7 @@ let globalTranslator: LanguageHelper | null = null;
 async function getGlobalTranslator(customResources?: typeof BUNDLED_RESOURCES): Promise<LanguageHelper | null> {
     if (!globalTranslator) {
         try {
-            const language = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en';
+            const language = getLocale();
             globalTranslator = await LanguageHelper.createInstance(language, customResources);
         } catch (error) {
             console.warn('Could not initialize global translator, using fallback:', error);
@@ -136,8 +137,7 @@ async function getGlobalTranslator(customResources?: typeof BUNDLED_RESOURCES): 
 function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES): string {
     const [area, namespace, ...keyPath] = key.split(':');
 
-    // Use language from environment or default to 'en'
-    const language = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en';
+    const language = getLocale();
     const normalizedLang = language.toLowerCase().startsWith('de') ? 'de' : 'en';
 
     const resources = customResources?.[normalizedLang] || BUNDLED_RESOURCES[normalizedLang];

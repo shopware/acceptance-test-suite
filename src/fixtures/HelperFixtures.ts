@@ -2,7 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { IdProvider } from '../services/IdProvider';
 import { isSaaSInstance } from '../services/ShopInfo';
 import type { FixtureTypes } from '../types/FixtureTypes';
-import { getCurrency, getLanguageData } from '../services/ShopwareDataHelpers';
+import { getCurrency, getCurrencyCodeFromLocale, getLanguageCode, getLanguageData, getLocale } from '../services/ShopwareDataHelpers';
 import { AdminApiContext } from '../services/AdminApiContext';
 import { satisfies } from 'compare-versions';
 import type { TranslateFn, TranslationKey } from '../types/TranslationTypes';
@@ -48,8 +48,10 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
                 expect(instanceStatus.tags, 'expect instance to have "ci" tag').toContain('ci');
 
-                const currency = await getCurrency('USD', context);
-                const language = await getLanguageData('en-US', context);
+                const languageCode = getLanguageCode(getLocale());
+                const currencyCode = getCurrencyCodeFromLocale(getLocale());
+                const currency = await getCurrency(currencyCode, context);
+                const language = await getLanguageData(languageCode, context);
 
                 await context.post('./_actions/set-default-entities', { data: { currencyId: currency.id, languageId: language.id } });
 
@@ -99,7 +101,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     Translate: [
         async ({ CustomTranslationResources }, use) => {
             const { LanguageHelper, setCurrentContext } = await import('../services/LanguageHelper');
-            const languageHelper = await LanguageHelper.createInstance('en', CustomTranslationResources);
+            const languageCode = getLanguageCode(getLocale());
+            const languageHelper = await LanguageHelper.createInstance(languageCode.split('-')[0], CustomTranslationResources);
 
             setCurrentContext({ languageHelper });
 

@@ -1,19 +1,13 @@
 import { test as base, expect } from '@playwright/test';
 import type { FixtureTypes } from '../../types/FixtureTypes';
 import type { Order } from '../../types/ShopwareTypes';
-import {
-    getCurrency,
-    getSalutationId,
-    getStateMachineId,
-    getStateMachineStateId,
-} from '../../services/ShopwareDataHelpers';
+import { getCurrency, getSalutationId, getStateMachineId, getStateMachineStateId } from '../../services/ShopwareDataHelpers';
 
 /**
  * @deprecated - Use TestDataService.createOrder() instead.
  */
 export const OrderData = base.extend<FixtureTypes>({
     OrderData: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, DefaultSalesChannel, ProductData }, use) => {
-
         //Create Requests
         const requests = {
             currencyEUR: getCurrency('EUR', AdminApiContext),
@@ -40,8 +34,8 @@ export const OrderData = base.extend<FixtureTypes>({
         const orderResponse = await AdminApiContext.post('./order?_response=detail', {
             data: {
                 billingAddressId: addressId,
-                currencyId: SalesChannelBaseConfig.eurCurrencyId,
-                languageId: SalesChannelBaseConfig.enGBLanguageId,
+                currencyId: SalesChannelBaseConfig.currentCurrencyId,
+                languageId: SalesChannelBaseConfig.currentLanguageId,
                 salesChannelId: DefaultSalesChannel.salesChannel.id,
                 stateId: orderStateStateMachineStateId,
                 orderDateTime: '2024-02-01 07:00:00',
@@ -73,7 +67,7 @@ export const OrderData = base.extend<FixtureTypes>({
                         street: `${orderId} street`,
                         zipcode: `${orderId} zipcode`,
                         city: `${orderId} city`,
-                        countryId: SalesChannelBaseConfig.deCountryId,
+                        countryId: SalesChannelBaseConfig.currentCountryId,
                         company: `${orderId} company`,
                         vatId: null,
                         phoneNumber: `${orderId}`,
@@ -157,6 +151,7 @@ export const OrderData = base.extend<FixtureTypes>({
                                     percentage: 100,
                                 },
                             ],
+                            // prettier-ignore
                             listPrice: 8.00,
                             isCalculated: true,
                             referencePriceDefinition: null,
@@ -175,7 +170,7 @@ export const OrderData = base.extend<FixtureTypes>({
                             street: 'Shortstreet 5',
                             zipcode: '12345',
                             city: 'Doe City',
-                            countryId: SalesChannelBaseConfig.deCountryId,
+                            countryId: SalesChannelBaseConfig.currentCountryId,
                             phoneNumber: '123 456 789',
                         },
                         shippingDateEarliest: '2024-03-01 07:00:00',

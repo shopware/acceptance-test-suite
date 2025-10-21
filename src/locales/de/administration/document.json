@@ -3,7 +3,7 @@
         "addDocument": "Dokument hinzufügen"
     },
     "types": {
-        "invoice": "Rechnung"
+        "invoice": "invoice"
     },
     "detail": {
         "displayDocumentInMyAccount": "Dokument in \"Mein Konto\" Bereich anzeigen",
