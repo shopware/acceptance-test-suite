@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.37.0](https://github.com/shopware/acceptance-test-suite/compare/v11.36.0...v11.37.0) (2025-10-22)
+
+
+### Features
+
+* add abstract locators for shopping cart ([#507](https://github.com/shopware/acceptance-test-suite/issues/507)) ([dfe3a8d](https://github.com/shopware/acceptance-test-suite/commit/dfe3a8d40e58715a313fe7751cefba919cc1bb7c))
+
 ## [11.36.0](https://github.com/shopware/acceptance-test-suite/compare/v11.35.0...v11.36.0) (2025-10-17)
 
 
