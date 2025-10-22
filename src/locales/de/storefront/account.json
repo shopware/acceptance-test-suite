@@ -54,6 +54,7 @@
         "postalCode": "Postleitzahl",
         "state": "Bundesland",
         "editAddress": "Adresse bearbeiten",
+        "addNewAddress": "Neue Adresse hinzufügen",
         "useAsDefaultBilling": "Als Standard-Rechnungsadresse verwenden",
         "useAsDefaultShipping": "Als Standard-Versandadresse verwenden",
         "deliveryNotPossible": "Eine Lieferung in dieses Land ist nicht möglich."

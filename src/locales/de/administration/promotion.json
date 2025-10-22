@@ -33,9 +33,9 @@
         "discounts": "Rabatte"
     },
     "headings": {
-        "promotionCodes": "Promotion-Codes"
+        "promotionCodes": "Aktionscodes"
     },
     "cards": {
-        "preConditions": "Vorbedingungen"
+        "preConditions": "Voraussetzungen"
     }
 }

@@ -5,16 +5,16 @@ import type { components } from '@shopware/api-client/admin-api-types';
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
-    currentLocaleId: string; // Dynamic locale ID based on environment variable
-    currentLanguageId: string; // Dynamic language ID based on environment variable
-    currentCurrencyId: string; // Dynamic currency ID based on environment variable
+    currentLocaleId: string;
+    currentLanguageId: string;
+    currentCurrencyId: string;
     defaultCurrencyId: string;
     defaultLanguageId: string;
     invoicePaymentMethodId: string;
     defaultShippingMethod: string;
     taxId: string;
-    currentCountryId: string; // Dynamic country ID based on environment variable
-    currentSnippetSetId: string; // Dynamic snippet set ID based on environment variable
+    currentCountryId: string;
+    currentSnippetSetId: string;
     defaultThemeId: string;
     appUrl: string | undefined;
     adminUrl: string;

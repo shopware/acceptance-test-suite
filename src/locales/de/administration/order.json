@@ -1,6 +1,6 @@
 {
     "detail": {
-        "items": "Artikel",
+        "items": "Positionen",
         "sendDocument": "Dokument senden",
         "openActionsMenu": "Aktionsmenü öffnen"
     },
@@ -13,14 +13,14 @@
         "documents": "Dokumente"
     },
     "listing": {
-      "addOrder": "Bestellung anlegen"
+        "addOrder": "Bestellung anlegen"
     },
     "actions": {
-      "view": "Anzeigen",
-      "delete": "Löschen",
-      "cancel": "Abbrechen"
+        "view": "Anzeigen",
+        "delete": "Löschen",
+        "cancel": "Abbrechen"
     },
     "dialogs": {
-      "warning": "Warnung"
+        "warning": "Warnung"
     }
 }
