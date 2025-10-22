@@ -19,8 +19,8 @@ export class ProductDetail implements PageObject {
     public readonly offCanvasLineItemImages: Locator;
     public readonly offCanvasSummaryTotalPrice: Locator;
     public readonly offCanvas: Locator;
-    public readonly offCanvasLineItemLabel: Locator;
-    public readonly offCanvasLineItemProductNumber: Locator;
+    public readonly offCanvasLineItemLabel:(productName:string) => Locator;
+    public readonly offCanvasLineItemProductNumber:(productNumber:string) => Locator;
     public readonly offCanvasLineItemDeliveryDate: Locator;
 
     public readonly wishlistAddedButton: Locator;
@@ -78,8 +78,8 @@ export class ProductDetail implements PageObject {
         this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
         this.offCanvasLineItemImages = page.locator('.line-item-img-link');
         this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
-        this.offCanvasLineItemLabel = page.locator('.line-item-label');
-        this.offCanvasLineItemProductNumber = page.locator('.line-item-product-number');
+        this.offCanvasLineItemLabel = (productName: string) => page.getByRole('link', { name: productName });
+        this.offCanvasLineItemProductNumber = (productNumber: string) => page.getByText(productNumber);
         this.offCanvasLineItemDeliveryDate = page.locator('.line-item-delivery-date');
         
         this.wishlistAddedButton = page.locator('.product-wishlist-added');
