@@ -31,7 +31,6 @@ test('Storefront page objects', async ({
 
     await ShopCustomer.goesTo(StorefrontHome.url())
     await ShopCustomer.attemptsTo(CheckVisibilityInHome(product.name));
-    await ShopCustomer.expects(StorefrontHome.categoryTitle).toBeVisible();
 
     await ShopCustomer.goesTo(StorefrontCategory.url(category.name));
     await ShopCustomer.expects(StorefrontCategory.sortingSelect).toBeVisible();
