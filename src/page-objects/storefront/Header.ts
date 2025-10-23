@@ -25,7 +25,7 @@ export class Header implements PageObject {
         this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
         this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
         this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
-        this.searchInput = page.getByRole('combobox', { name: 'Search' });        
+        this.searchInput = page.getByLabel(translate('storefront:header:searchInputAriaLabel'));        
 
         //skip links
         this.skipToMainContentLink = page.getByRole('link', { name: translate('storefront:header:skipToContentLink'), exact: true });
