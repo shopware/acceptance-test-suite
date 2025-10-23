@@ -100,9 +100,6 @@ export class TestDataService {
     public get shouldCleanUp() {
         return this._shouldCleanUp;
     }
-    public set shouldCleanUp(value) {
-        this._shouldCleanUp = value;
-    }
 
 
 
@@ -1846,7 +1843,7 @@ export class TestDataService {
      * @param shouldCleanUp - The config setting for the automated data clean up. Default is "true".
      */
     setCleanUp(shouldCleanUp = true) {
-        this.shouldCleanUp = shouldCleanUp;
+        this._shouldCleanUp = shouldCleanUp;
     }
 
     /**
