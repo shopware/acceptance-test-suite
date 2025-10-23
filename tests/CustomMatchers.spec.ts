@@ -3,7 +3,7 @@ import { test } from '../src';
 test('Check for visible focus', async ({ ShopCustomer, StorefrontHome, StorefrontHeader }) => {
 
     await ShopCustomer.goesTo(StorefrontHome.url());
-    await ShopCustomer.expects(StorefrontHome.categoryTitle).toBeVisible();
+    await StorefrontHome.categoryTitle.waitFor({ state: 'visible' });
 
     await test.step('Detect outline', async () => {
         await StorefrontHome.page.keyboard.press('Tab');
