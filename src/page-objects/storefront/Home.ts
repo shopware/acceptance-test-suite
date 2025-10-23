@@ -132,13 +132,13 @@ export class Home implements PageObject {
         this.productList = page.locator('.cms-listing-row');
         this.productItemNames = this.productList.locator('.product-name');
         this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
-        this.productRatingList = page.locator('.filter-rating-select-list-item');
+        this.productRatingList = page.locator('.filter-multi-select-rating').getByRole('list');
         this.loader = page.locator('.has-element-loader');
         this.productVariantCharacteristicsOptions = page.locator('.product-variant-characteristics-option');
     }
 
     async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
-        return this.productRatingList.filter({ hasText: `min. ${rating}/5` });
+        return this.productRatingList.getByLabel(`min. ${rating}/5`);
     }
 
     async getFilterItemByFilterName(filterName: string): Promise<Locator> {
