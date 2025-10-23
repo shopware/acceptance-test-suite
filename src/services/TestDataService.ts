@@ -96,7 +96,15 @@ export class TestDataService {
      *
      * @private
      */
-    private shouldCleanUp = true;
+    private _shouldCleanUp = true;
+    public get shouldCleanUp() {
+        return this._shouldCleanUp;
+    }
+    public set shouldCleanUp(value) {
+        this._shouldCleanUp = value;
+    }
+
+
 
     /**
      * Configuration of higher priority entities for the cleanup operation.
