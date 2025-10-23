@@ -42,7 +42,7 @@ export default defineConfig({
     reporter: process.env.CI ? [['html'], ['github']] : 'html',
     use: {
         baseURL: process.env['APP_URL'],
-        trace: 'on',
+        trace: 'retain-on-failure',
         video: 'off',
         locale: browserLocale,
     },
