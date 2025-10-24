@@ -56,6 +56,8 @@ export const test = base.extend<FixtureTypes>({
         const { url, salesChannel } = DefaultSalesChannel;
         const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
+        // eslint-disable-next-line no-console
+        console.info(`Creating StorefrontPage with locale: ${locale}, salesChannelLanguageId: ${salesChannel.languageId}`);
 
         const context = await browser.newContext({
             baseURL: url,

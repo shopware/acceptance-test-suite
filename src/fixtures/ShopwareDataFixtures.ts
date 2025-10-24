@@ -86,8 +86,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     Language: [
         async ({ AdminApiContext }, use) => {
-            const languageCode = getLanguageCode(getLocale());
+            const locale = getLocale();
+            const languageCode = getLanguageCode(locale);
             const language = await getLanguageData(languageCode, AdminApiContext);
+            // eslint-disable-next-line no-console
+            console.info(`Configuring Shopware language: ${languageCode} (locale: ${locale}, languageId: ${language.id})`);
 
             await use(language);
         },

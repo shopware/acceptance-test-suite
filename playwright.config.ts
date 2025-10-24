@@ -24,7 +24,8 @@ if (!process.env['WEBSERVER_COMMAND']) {
         process.env['WEBSERVER_COMMAND'] = 'sleep 999d';
     }
 }
-
+// eslint-disable-next-line no-console
+console.log('===process.env: ', process.env);
 // Determine locale from environment
 const envLang = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
 const browserLocale = envLang.startsWith('de') ? 'de-DE' : 'en-GB';
