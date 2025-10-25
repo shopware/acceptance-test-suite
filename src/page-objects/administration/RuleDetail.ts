@@ -99,8 +99,8 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.conditionLineItemGoodsTotalValue = page.locator('.sw-condition-line-item-goods-total').getByRole('textbox');
         this.conditionLineItemGoodsTotalFilter = page.locator('.sw-condition-line-item-goods-total__filter').getByRole('button');
         this.conditionDateRangeOperator = page.locator('.sw-condition-date-range').locator('.sw-single-select__selection-text');
-        this.conditionDateRangeDateFieldFirst = page.locator('.sw-condition-date-range').locator('.flatpickr-input').first();
-        this.conditionDateRangeDateFieldSecond = page.locator('.sw-condition-date-range').locator('.flatpickr-input').last();
+        this.conditionDateRangeDateFieldFirst = page.locator('.mt-datepicker__wrapper').locator('.dp__input').first();
+        this.conditionDateRangeDateFieldSecond = page.locator('.mt-datepicker__wrapper').locator('.dp__input').nth(1);
         this.conditionCustomerSurnameOperator = page.locator('.sw-condition__condition-type-customerLastName').locator('.sw-single-select__selection-text');
         this.conditionCustomerSurnameValue = page.locator('.sw-condition__condition-type-customerLastName').getByRole('textbox');
         this.conditionCartLineItemTaxationMatchOperator = page.locator('.sw-condition-base-line-item__matches-all');
