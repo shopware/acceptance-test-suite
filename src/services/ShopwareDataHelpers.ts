@@ -15,19 +15,10 @@ const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
     'de-DE': { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
 } as const;
 
-let cachedLocale: string | null = null;
-
 export const getLocale = (): string => {
-    if (cachedLocale === null) {
-        const rawLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
-        const locale = rawLocale.split('.')[0].replace(/_/g, '-');
-        cachedLocale = LOCALE_MAPPINGS[locale] ? locale : 'en-GB';
-    }
-    return cachedLocale;
-};
-
-export const resetLocaleCache = (): void => {
-    cachedLocale = null;
+    const rawLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+    const locale = rawLocale.split('.')[0].replace(/_/g, '-');
+    return LOCALE_MAPPINGS[locale] ? locale : 'en-GB';
 };
 
 export const getLanguageCode = (locale: string): string => {
