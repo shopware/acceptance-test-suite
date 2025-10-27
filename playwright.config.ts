@@ -24,8 +24,6 @@ if (!process.env['WEBSERVER_COMMAND']) {
         process.env['WEBSERVER_COMMAND'] = 'sleep 999d';
     }
 }
-// eslint-disable-next-line no-console
-console.log('===process.env: ', process.env);
 // Determine locale from environment
 const envLang = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
 const browserLocale = envLang.startsWith('de') ? 'de-DE' : 'en-GB';
@@ -43,7 +41,7 @@ export default defineConfig({
     reporter: process.env.CI ? [['html'], ['github']] : 'html',
     use: {
         baseURL: process.env['APP_URL'],
-        trace: 'retain-on-failure',
+        trace: 'on',
         video: 'off',
         locale: browserLocale,
     },

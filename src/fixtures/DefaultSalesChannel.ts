@@ -69,10 +69,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const { uuid: customerUuid } = IdProvider.getWorkerDerivedStableId('customer');
 
             const baseUrl = `${SalesChannelBaseConfig.appUrl}test-${uuid}/`;
-            // eslint-disable-next-line no-console
-            console.info(`Creating sales channel with currentLanguageId: ${SalesChannelBaseConfig.currentLanguageId}, snippetSetId: ${SalesChannelBaseConfig.currentSnippetSetId}`);
-            // eslint-disable-next-line no-console
-            console.info('SalesChannelBaseConfig.defaultLanguageId: ', SalesChannelBaseConfig.defaultLanguageId);
             await AdminApiContext.delete(`./customer/${customerUuid}`);
 
             // get the missing languages ids or all if the sales channel does not exist. This is required for 6.5.x support

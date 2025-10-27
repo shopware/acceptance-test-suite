@@ -111,31 +111,31 @@ jobs:
                   path: test-results/
                   retention-days: 7
 
-    # test-saas:
-    #     timeout-minutes: 15
-    #     runs-on: ubuntu-latest
-    #     concurrency: saas # only allow one job at a time
-    #     env:
-    #         APP_URL: ${{ secrets.SAAS_APP_URL }}
-    #         SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
-    #         SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
-    #     steps:
-    #         - uses: actions/checkout@v4
-    #         - uses: actions/setup-node@v4
-    #           with:
-    #               node-version: lts/*
-    #         - name: Install dependencies
-    #           run: npm ci
-    #         - name: Install Playwright Browsers
-    #           run: npx playwright install --with-deps
-    #         - name: Run Playwright tests
-    #           run: npx playwright test --repeat-each 2
-    #         - uses: actions/upload-artifact@v4
-    #           if: always()
-    #           with:
-    #               name: playwright-report-saas
-    #               path: test-results/
-    #               retention-days: 1
+    test-saas:
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        concurrency: saas # only allow one job at a time
+        env:
+            APP_URL: ${{ secrets.SAAS_APP_URL }}
+            SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
+            SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+            - name: Install dependencies
+              run: npm ci
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps
+            - name: Run Playwright tests
+              run: npx playwright test --repeat-each 2
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report-saas
+                  path: test-results/
+                  retention-days: 1
 
     test-saas-in-german:
         timeout-minutes: 15
@@ -156,7 +156,7 @@ jobs:
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
             - name: Run Playwright tests
-              run: npx playwright test --repeat-each 2
+              run: npx playwright test
             - uses: actions/upload-artifact@v4
               if: always()
               with:
