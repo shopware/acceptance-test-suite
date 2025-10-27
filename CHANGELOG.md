@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.38.0](https://github.com/shopware/acceptance-test-suite/compare/v11.37.0...v11.38.0) (2025-10-23)
+
+
+### Features
+
+* make TestDataService shouldCleanup property accessible ([#511](https://github.com/shopware/acceptance-test-suite/issues/511)) ([36ef1af](https://github.com/shopware/acceptance-test-suite/commit/36ef1afea3aa71fc4583cc8faedcd1d11ec8822f))
+
+## [11.37.0](https://github.com/shopware/acceptance-test-suite/compare/v11.36.0...v11.37.0) (2025-10-22)
+
+
+### Features
+
+* add abstract locators for shopping cart ([#507](https://github.com/shopware/acceptance-test-suite/issues/507)) ([dfe3a8d](https://github.com/shopware/acceptance-test-suite/commit/dfe3a8d40e58715a313fe7751cefba919cc1bb7c))
+
 ## [11.36.0](https://github.com/shopware/acceptance-test-suite/compare/v11.35.0...v11.36.0) (2025-10-17)
 
 
