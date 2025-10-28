@@ -119,21 +119,6 @@ export function getCurrentContext(): Record<string, unknown> | null {
     return contextStore.getStore() as Record<string, unknown> | null;
 }
 
-let globalTranslator: LanguageHelper | null = null;
-
-async function getGlobalTranslator(customResources?: typeof BUNDLED_RESOURCES): Promise<LanguageHelper | null> {
-    if (!globalTranslator) {
-        try {
-            const language = getLocale();
-            globalTranslator = await LanguageHelper.createInstance(language, customResources);
-        } catch (error) {
-            console.warn('Could not initialize global translator, using fallback:', error);
-            return null;
-        }
-    }
-    return globalTranslator;
-}
-
 function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES): string {
     const [area, namespace, ...keyPath] = key.split(':');
 
@@ -172,17 +157,8 @@ export function translate(key: TranslationKey, options?: Record<string, unknown>
         }
     }
 
-    if (globalTranslator) {
-        return globalTranslator.translate(key, options);
-    }
-
-    if (!globalTranslator) {
-        getGlobalTranslator().catch(() => {}); // Fire and forget initialization
-    }
-
+    // No global translator cache - always use fallback
     return fallbackTranslate(key);
 }
 
-if (typeof window === 'undefined') {
-    getGlobalTranslator().catch(() => {});
-}
+// No global translator initialization needed - fallback translate reads locale dynamically

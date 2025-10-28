@@ -140,7 +140,7 @@ jobs:
     test-saas-in-german:
         timeout-minutes: 15
         runs-on: ubuntu-latest
-        concurrency: saas-de # only allow one job at a time
+        concurrency: saas
         env:
             APP_URL: ${{ secrets.SAAS_APP_URL }}
             SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
