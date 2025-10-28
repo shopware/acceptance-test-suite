@@ -8,6 +8,7 @@ export const LoginViaReviewsTab = base.extend<{ LoginViaReviewsTab: Task }, Fixt
         const task = (product: Product, customCustomer?: Customer) => {
             return async function LoginViaReviewsTab() {
 
+                const loginResponse = await StorefrontProductDetail.page.request.post('account/login');
                 const customer = customCustomer ? customCustomer : DefaultSalesChannel.customer;
 
                 await ShopCustomer.goesTo(StorefrontProductDetail.url(product));
@@ -17,7 +18,8 @@ export const LoginViaReviewsTab = base.extend<{ LoginViaReviewsTab: Task }, Fixt
                 await ShopCustomer.fillsIn(StorefrontProductDetail.reviewEmailInput, customer.email);
                 await ShopCustomer.fillsIn(StorefrontProductDetail.reviewPasswordInput, customer.password);
                 await ShopCustomer.presses(StorefrontProductDetail.reviewLoginButton);
-
+                await ShopCustomer.expects(loginResponse).toBeTruthy();
+                
                 await ShopCustomer.expects(StorefrontProductDetail.productName).toHaveText(product.name);
             }
         };

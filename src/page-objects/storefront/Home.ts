@@ -123,15 +123,15 @@ export class Home implements PageObject {
         this.wishlistBasket = page.locator('.header-wishlist-badge');
 
         //product filters
-        this.filterMultiSelect = page.locator('.filter-multi-select');
+        this.filterMultiSelect = page.getByLabel('Filter products').getByRole('list');//page.locator('.filter-multi-select');
         this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.manufacturer') });
         this.propertyFilters = page.locator('.filter-multi-select-properties');
         this.priceFilterButton = page.getByRole('button', { name: translate('storefront:home:filters.price') }).first();
         this.resetAllButton = page.getByRole('button', { name: translate('storefront:home:filters.resetAll') });
-        this.freeShippingFilter = page.getByRole('checkbox', { name: translate('storefront:home:filters.freeShipping') });
+        this.freeShippingFilter = this.filterMultiSelect.getByRole('checkbox', { name: 'Add filter: Free shipping' });
         this.productList = page.locator('.cms-listing-row');
         this.productItemNames = this.productList.locator('.product-name');
-        this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
+        this.productRatingButton = this.filterMultiSelect.getByRole('button', { name: 'Filter by minimum rating' });
         this.productRatingList = page.locator('.filter-multi-select-rating').getByRole('list');
         this.loader = page.locator('.has-element-loader');
         this.productVariantCharacteristicsOptions = page.locator('.product-variant-characteristics-option');
