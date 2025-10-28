@@ -96,7 +96,12 @@ export class TestDataService {
      *
      * @private
      */
-    private shouldCleanUp = true;
+    private _shouldCleanUp = true;
+    public get shouldCleanUp() {
+        return this._shouldCleanUp;
+    }
+
+
 
     /**
      * Configuration of higher priority entities for the cleanup operation.
@@ -1837,7 +1842,7 @@ export class TestDataService {
      * @param shouldCleanUp - The config setting for the automated data clean up. Default is "true".
      */
     setCleanUp(shouldCleanUp = true) {
-        this.shouldCleanUp = shouldCleanUp;
+        this._shouldCleanUp = shouldCleanUp;
     }
 
     /**
