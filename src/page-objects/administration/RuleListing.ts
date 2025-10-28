@@ -9,7 +9,7 @@ export class RuleListing implements PageObject {
     public readonly page: Page;
     public readonly gridCell: Locator;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
         this.page = page;
         this.createRuleButton = page.getByText(translate('administration:rule:buttons.createRule'));
         this.header = page.locator('.smart-bar__header');
