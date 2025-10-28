@@ -1,25 +1,60 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import {HelperFixtureTypes} from '../../fixtures/HelperFixtures';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 import { getCustomFieldCardLocators } from './modules/CustomFieldCard';
 import { getSelectFieldListitem } from './modules/SelectFieldListitem';
 import { satisfies } from 'compare-versions';
+import { translate } from '../../services/LanguageHelper';
 
 export class OrderDetail implements PageObject {
     public readonly saveButton: Locator;
     public readonly dataGridContextButton: Locator;
     public readonly orderTag: Locator;
+    public readonly lineItem: Locator;
+    public readonly lineItemsTable: Locator;
+    public readonly documentType: Locator;
+    public readonly contextMenuButton: Locator;
+    public readonly contextMenu: Locator;
+    public readonly contextMenuSendDocument: Locator;
+    public readonly sendDocumentModal: Locator;
+    public readonly sendDocumentButton: Locator;
     public readonly itemsCardHeader: Locator;
+    public readonly sentCheckmark: Locator;
 
-    constructor(public readonly page: Page, public readonly instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    /**
+     * Tabs
+     */
+    public readonly generalTabLink: Locator;
+    public readonly detailsTabLink: Locator;
+    public readonly documentsTabLink: Locator;
+    public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
+
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        this.page = page;
+        this.instanceMeta = instanceMeta;
         this.saveButton = page.locator('.sw-order-detail__smart-bar-save-button');
         this.dataGridContextButton = page.locator('.sw-data-grid__actions-menu').and(page.getByRole('button'));
         this.orderTag = page.locator('.sw-select-selection-list__item');
+        this.lineItem = page.locator('.sw-data-grid__row');
+        this.lineItemsTable = page.locator('.sw-data-grid__table');
+        this.documentType = page.locator('.sw-data-grid__cell--documentType-name');
+        this.contextMenu = page.locator('.sw-context-menu');
+        this.contextMenuSendDocument = this.contextMenu.getByText(translate('administration:order:contextMenu.sendDocument'));
+        this.contextMenuButton = page.getByLabel(translate('administration:order:detail.openActionsMenu'));
+        this.sendDocumentModal = page.locator('.sw-order-send-document-modal');
+        this.sendDocumentButton = page.getByRole('button').getByText(translate('administration:order:detail.sendDocument'));
+        this.sentCheckmark = page.locator('.icon--regular-checkmark-xs');
         if (satisfies(instanceMeta.version, '<6.7')) {
-            this.itemsCardHeader = page.locator('.sw-card__header').getByText('Items');
+            this.itemsCardHeader = page.locator('.sw-card__header').getByText(translate('administration:order:detail.items'));
         } else {
-            this.itemsCardHeader = page.locator('.mt-card__header').getByText('Items');
+            this.itemsCardHeader = page.locator('.mt-card__header').getByText(translate('administration:order:detail.items'));
         }
+
+        //Tabs
+        this.generalTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.general') });
+        this.detailsTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.details') });
+        this.documentsTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.documents') });
     }
 
     url(orderId: string, tabName = 'general') {

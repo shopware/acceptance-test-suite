@@ -1,8 +1,8 @@
-import type {Page, Locator} from '@playwright/test';
-import type {PageObject} from '../../types/PageObject';
+import type { Page, Locator } from 'playwright-core';
+import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class LandingPageDetail implements PageObject {
-
     /**
      * General
      */
@@ -25,23 +25,26 @@ export class LandingPageDetail implements PageObject {
     public readonly layoutResetButton: Locator;
     public readonly layoutAssignmentStatus: Locator;
     public readonly layoutAssignmentContentSection: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
         //Common
         this.loadingSpinner = page.locator('.sw-loader');
-        this.saveLandingPageButton = page.getByRole('button', {name: 'Save'});
+        this.saveLandingPageButton = page.getByRole('button', { name: translate('administration:landingPage:general.save') });
         //General
-        this.nameInput = page.getByLabel('Name');
-        this.landingPageStatus = page.getByRole('checkbox', {name: 'Active'});
-        this.salesChannelSelectionList = page.locator('.sw-select')
-            .filter({hasText: 'Sales Channels'})
+        this.nameInput = page.getByLabel(translate('administration:landingPage:general.name'));
+        this.landingPageStatus = page.getByRole('checkbox', { name: translate('administration:landingPage:general.active') });
+        this.salesChannelSelectionList = page
+            .locator('.sw-select')
+            .filter({ hasText: translate('administration:landingPage:general.salesChannels') })
             .locator('.sw-select-selection-list');
         this.filtersResultPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
-        this.seoUrlInput = page.getByLabel('SEO URL');
+        this.seoUrlInput = page.getByLabel(translate('administration:landingPage:general.seoUrl'));
         //Layout
-        this.layoutTab = page.getByRole('tab', {name: 'Layout'});
-        this.changeLayoutButton = page.getByRole('button', {name: 'Change layout'});
-        this.editInDesignerButton = page.getByRole('button', {name: 'Edit in designer'});
+        this.layoutTab = page.getByRole('tab', { name: translate('administration:landingPage:layout.layout') });
+        this.changeLayoutButton = page.getByRole('button', { name: translate('administration:landingPage:layout.changeLayout') });
+        this.editInDesignerButton = page.getByRole('button', { name: translate('administration:landingPage:layout.editInDesigner') });
         const layoutAssignmentCard = page.locator('.sw-category-layout-card');
         this.layoutAssignmentCardHeadline = layoutAssignmentCard.locator('.sw-category-layout-card__desc-headline');
         this.layoutResetButton = layoutAssignmentCard.locator('.sw-category-detail-layout__layout-reset');

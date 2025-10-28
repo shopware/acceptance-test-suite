@@ -1,0 +1,19 @@
+{
+    "title": "Contact",
+    "form": {
+        "contact": "Contact",
+        "salutation": "Salutation",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "emailAddress": "Your email address",
+        "phone": "Phone",
+        "subject": "Subject",
+        "comment": "Comment",
+        "submit": "Submit",
+        "privacyPolicy": "By selecting continue you confirm that you have read and agree to our"
+    },
+    "email": {
+        "from": "doNotReply@localhost.com",
+        "subject": "Your sign-up"
+    }
+}

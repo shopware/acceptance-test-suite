@@ -12,9 +12,10 @@ x-env: &env
   SALES_CHANNEL_URL: http://localhost:${PORT:-8011}
   MAILER_DSN: smtp://mailpit:1025
   MAILPIT_BASE_URL: http://localhost:8013
+  SERVICES_ENABLED: 1
   # TEST_WEB_INSTALLER: 1
   # SHOPWARE_SKIP_WEBINSTALLER: 0
-  # SHOPWARE_DISABLE_UPDATE_CHECK: '0'
+  SHOPWARE_DISABLE_UPDATE_CHECK: '1'
   # SW_RECOVERY_NEXT_VERSION: 6.6.9999999.9999999
   # SW_RECOVERY_NEXT_BRANCH: dev-trunk
   # SW_RECOVERY_REPOSITORY: '{"type": "path", "url": "custom/packages/*", "options": { "symlink": true } }'

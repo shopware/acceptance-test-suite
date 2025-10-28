@@ -34,6 +34,23 @@ import { ManufacturerDetail } from './administration/ManufacturerDetail';
 import { ProductListing } from './administration/ProductListing';
 import { ProductBulkEdit } from './administration/ProductBulkEdit';
 import { CustomerBulkEdit } from './administration/CustomerBulkEdit';
+import { SettingsListing } from './administration/SettingsListing';
+import { DocumentListing } from './administration/DocumentListing';
+import { DocumentDetail } from './administration/DocumentDetail';
+import { ShopwareServices } from './administration/ShopwareServices';
+import { PromotionsListing } from './administration/PromotionListing';
+import { PromotionCreate } from './administration/PromotionCreate';
+import { PromotionDetail } from './administration/PromotionDetail';
+import { Media } from './administration/Media';
+import { YourProfile } from './administration/YourProfile';
+import { ThemesListing } from './administration/ThemesListing';
+import { ThemesDetail } from './administration/ThemesDetail';
+import { MediaListing } from './administration/MediaListing';
+import { LayoutListing } from './administration/LayoutListing';
+import { LayoutCreate } from './administration/LayoutCreate';
+import { ListingPageLayoutDetail } from './administration/ListingPageLayoutDetail';
+import { SalesChannelDetail } from './administration/SalesChannelDetail';
+import { OrderListing } from './administration/OrderListing';
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -63,12 +80,29 @@ export interface AdministrationPageTypes {
     AdminRuleDetail: RuleDetail;
     AdminRuleCreate: RuleCreate;
     AdminRuleListing: RuleListing;
-    AdminManufacturerCreate: ManufacturerCreate,
-    AdminManufacturerListing: ManufacturerListing,
-    AdminManufacturerDetail: ManufacturerDetail,
+    AdminManufacturerCreate: ManufacturerCreate;
+    AdminManufacturerListing: ManufacturerListing;
+    AdminManufacturerDetail: ManufacturerDetail;
     AdminProductListing: ProductListing;
     AdminProductBulkEdit: ProductBulkEdit;
     AdminCustomerBulkEdit: CustomerBulkEdit;
+    AdminSettingsListing: SettingsListing;
+    AdminDocumentListing: DocumentListing;
+    AdminDocumentDetail: DocumentDetail;
+    AdminPromotionsListing: PromotionsListing;
+    AdminPromotionCreate: PromotionCreate;
+    AdminPromotionDetail: PromotionDetail;
+    AdminSalesChannelDetail: SalesChannelDetail;
+    AdminShopwareServices: ShopwareServices;
+    AdminMedia: Media;
+    AdminYourProfile: YourProfile;
+    AdminThemesListing: ThemesListing;
+    AdminThemesDetail: ThemesDetail;
+    AdminMediaListing: MediaListing;
+    AdminLayoutListing: LayoutListing;
+    AdminListingPageLayoutDetail: ListingPageLayoutDetail;
+    AdminLayoutCreate: LayoutCreate;
+    AdminOrderListing: OrderListing;
 }
 
 export const AdminPageObjects = {
@@ -105,7 +139,24 @@ export const AdminPageObjects = {
     ProductListing,
     ProductBulkEdit,
     CustomerBulkEdit,
-}
+    SettingsListing,
+    DocumentListing,
+    DocumentDetail,
+    SalesChannelDetail,
+    ShopwareServices,
+    PromotionsListing,
+    PromotionCreate,
+    PromotionDetail,
+    Media,
+    YourProfile,
+    ThemesListing,
+    ThemesDetail,
+    MediaListing,
+    LayoutListing,
+    ListingPageLayoutDetail,
+    LayoutCreate,
+    OrderListing,
+};
 
 export const test = base.extend<FixtureTypes>({
 
@@ -141,8 +192,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new FirstRunWizard(AdminPage, InstanceMeta));
     },
 
-    AdminFlowBuilderCreate: async ({ AdminPage }, use) => {
-        await use(new FlowBuilderCreate(AdminPage));
+    AdminFlowBuilderCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new FlowBuilderCreate(AdminPage, InstanceMeta));
     },
 
     AdminFlowBuilderListing: async ({ AdminPage }, use) => {
@@ -239,5 +290,72 @@ export const test = base.extend<FixtureTypes>({
 
     AdminCustomerBulkEdit: async ({ AdminPage }, use) => {
         await use(new CustomerBulkEdit(AdminPage));
+    },
+
+    AdminSettingsListing: async ({ AdminPage }, use) => {
+        await use(new SettingsListing(AdminPage));
+    },
+
+    AdminDocumentListing: async ({ AdminPage }, use) => {
+        await use(new DocumentListing(AdminPage));
+    },
+
+    AdminDocumentDetail: async ({ AdminPage }, use) => {
+        await use(new DocumentDetail(AdminPage));
+    },
+
+    AdminPromotionsListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionsListing(AdminPage, InstanceMeta));
+    },
+
+    AdminPromotionCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionCreate(AdminPage, InstanceMeta));
+    },
+
+    AdminPromotionDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new PromotionDetail(AdminPage, InstanceMeta));
+    },
+
+    AdminMedia: async ({ AdminPage }, use) => {
+        await use(new Media(AdminPage));
+    },
+
+    AdminShopwareServices: async ({ AdminPage }, use) => {
+        await use(new ShopwareServices(AdminPage));
+    },
+
+    AdminYourProfile: async ({ AdminPage }, use) => {
+        await use(new YourProfile(AdminPage));
+    },
+    AdminThemesListing: async ({ AdminPage }, use) => {
+        await use(new ThemesListing(AdminPage));
+    },
+
+    AdminThemesDetail: async ({ AdminPage }, use) => {
+        await use(new ThemesDetail(AdminPage));
+    },
+
+    AdminMediaListing: async ({ AdminPage }, use) => {
+        await use(new MediaListing(AdminPage));
+    },
+
+    AdminLayoutListing: async ({ AdminPage }, use) => {
+        await use(new LayoutListing(AdminPage));
+    },
+
+    AdminListingPageLayoutDetail: async ({ AdminPage }, use) => {
+        await use(new ListingPageLayoutDetail(AdminPage));
+    },
+
+    AdminLayoutCreate: async ({ AdminPage }, use) => {
+        await use(new LayoutCreate(AdminPage));
+    },
+
+    AdminSalesChannelDetail: async ({ AdminPage }, use) => {
+        await use(new SalesChannelDetail(AdminPage));
+    },
+
+    AdminOrderListing: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new OrderListing(AdminPage, InstanceMeta));
     },
 });

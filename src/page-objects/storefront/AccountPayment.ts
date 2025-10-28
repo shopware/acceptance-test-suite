@@ -1,5 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class AccountPayment implements PageObject {
     public readonly cashOnDeliveryOption: Locator;
@@ -7,11 +8,14 @@ export class AccountPayment implements PageObject {
     public readonly invoiceOption: Locator;
     public readonly changeDefaultPaymentButton: Locator;
 
-    constructor(public readonly page: Page) {
-        this.cashOnDeliveryOption = page.getByLabel('Cash on delivery');
-        this.paidInAdvanceOption = page.getByLabel('Paid in advance');
-        this.invoiceOption = page.getByLabel('Invoice');
-        this.changeDefaultPaymentButton = page.getByRole('button', { name: 'Change', exact: true });
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
+        this.cashOnDeliveryOption = page.getByLabel(translate('storefront:payment:methods.cashOnDelivery'));
+        this.paidInAdvanceOption = page.getByLabel(translate('storefront:payment:methods.paidInAdvance'));
+        this.invoiceOption = page.getByLabel(translate('storefront:payment:methods.invoice'));
+        this.changeDefaultPaymentButton = page.getByRole('button', { name: translate('storefront:payment:actions.change'), exact: true });
     }
 
     url() {

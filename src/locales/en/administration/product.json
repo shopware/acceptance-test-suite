@@ -1,0 +1,46 @@
+{
+    "detail": {
+        "customFields": "Custom fields",
+        "colorProperty": "Color",
+        "sizeProperty": "Size",
+        "stockPlaceholder": "Enter quantity in stock...",
+        "restockTimePlaceholder": "Enter restock time in days..."
+    },
+    "variants": {
+        "properties": "Properties"
+    },
+    "flows": {
+        "tag": "Tag:"
+    },
+    "errors": {
+        "followingErrorOccurred": "The following error occurred:"
+    },
+    "bulkEdit": {
+        "applyChanges": "Apply changes",
+        "success": "Bulk edit - Success",
+        "close": "Close"
+    },
+    "listing": {
+        "bulkEdit": "Bulk edit",
+        "startBulkEdit": "Start bulk edit"
+    },
+    "tabs": {
+        "specifications": "Specifications",
+        "advancedPricing": "Advanced pricing",
+        "variants": "Variants",
+        "layout": "Layout",
+        "crossSelling": "Cross Selling",
+        "seo": "SEO",
+        "reviews": "Reviews"
+    },
+    "buttons": {
+        "save": "Save",
+        "uploadFile": "Upload file",
+        "generateVariants": "Generate variants",
+        "next": "Next",
+        "saveVariants": "Save variants"
+    },
+    "modals": {
+        "generateVariants": "Generate variants"
+    }
+}

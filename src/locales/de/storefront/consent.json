@@ -1,0 +1,21 @@
+{
+    "cookie": {
+        "title": "Cookie-Einstellungen",
+        "description": "Wir verwenden Cookies, um Ihnen die bestmögliche Nutzung unserer Website zu ermöglichen.",
+        "acceptAll": "Alle akzeptieren",
+        "acceptSelected": "Auswahl akzeptieren",
+        "decline": "Ablehnen",
+        "necessary": "Notwendig",
+        "functional": "Funktional",
+        "statistics": "Statistiken",
+        "acceptAllCookies": "Alle Cookies akzeptieren",
+        "configure": "Konfigurieren",
+        "onlyTechnicallyRequired": "Nur technisch erforderliche",
+        "preferences": "Cookie-Einstellungen",
+        "marketing": "Marketing"
+    },
+    "privacy": {
+        "policy": "Datenschutzrichtlinie",
+        "readMore": "Mehr lesen"
+    }
+}

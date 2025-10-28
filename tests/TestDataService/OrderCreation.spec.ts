@@ -1,4 +1,4 @@
-import { test, expect, type Order, APIResponse } from '../../src';
+import { test, expect, type Order, type APIResponse } from '../../src';
 
 test('Order creation with TestDataService', async ({
     TestDataService, AdminApiContext,
@@ -12,12 +12,17 @@ test('Order creation with TestDataService', async ({
     expect(customer.firstName).toEqual('Luke');
     expect(customer.lastName).toEqual('Skywalker');
 
-    const promotion = await TestDataService.createPromotionWithCode({ code: 'myCode', discounts: [{ scope: 'cart', type: 'absolute', value: 10, considerAdvancedRules: false }] });
-    expect(promotion.code).toEqual('myCode');
+    const promotionWithCode = await TestDataService.createPromotionWithCode({ code: 'code1234', discounts: [{ scope: 'cart', type: 'absolute', value: 10, considerAdvancedRules: false }] });
+    expect(promotionWithCode.code).toEqual('code1234');
+    expect(promotionWithCode.discounts[0].type).toEqual('absolute');
+
+    const promoCode = `myCode+${TestDataService.IdProvider.getIdPair().id}`;
+    const promotion = await TestDataService.createPromotionWithCode({ code: promoCode, discounts: [{ scope: 'cart', type: 'absolute', value: 10, considerAdvancedRules: false }] });
+    expect(promotion.code).toEqual(promoCode);
     expect(promotion.discounts[0].type).toEqual('absolute');
 
     const order = await TestDataService.createOrder(
-        [{ product: product, quantity: 5 }, { product: promotion, quantity: 1, overrides: { promotionId: undefined } }], // We unset the promotionId here, since it's write-protected
+        [{ product: product, quantity: 5 }, { product: promotion, quantity: 1 }],
         customer,
         { orderNumber: '123456789' },
     );

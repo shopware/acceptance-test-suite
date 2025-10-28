@@ -1,0 +1,12 @@
+{
+    "listing": {
+        "addDocument": "Dokument hinzufügen"
+    },
+    "types": {
+        "invoice": "Rechnung"
+    },
+    "detail": {
+        "displayDocumentInMyAccount": "Dokument in \"Mein Konto\" Bereich anzeigen",
+        "save": "Speichern"
+    }
+}

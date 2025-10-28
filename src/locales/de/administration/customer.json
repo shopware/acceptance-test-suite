@@ -1,0 +1,40 @@
+{
+    "listing": {
+        "customers": "Kunden",
+        "bulkEdit": "Massenbearbeitung",
+        "startBulkEdit": "Massenbearbeitung starten",
+        "cancel": "Abbrechen",
+        "delete": "Löschen",
+        "bulkEditItemsSelected": "Bearbeiten"
+    },
+    "detail": {
+        "edit": "Bearbeiten",
+        "general": "Allgemein",
+        "addresses": "Adressen",
+        "orders": "Bestellungen",
+        "accept": "Akzeptieren",
+        "decline": "Ablehnen",
+        "accountStatus": "Kontostatus",
+        "customerGroup": "Kundengruppe",
+        "language": "Sprache",
+        "customerGroupRequestMessage": "Kundengruppe-Anfrage-Nachricht"
+    },
+    "bulkEdit": {
+        "title": "Massenbearbeitung - {{count}} Kunden",
+        "applyChanges": "Änderungen anwenden",
+        "success": "Massenbearbeitung - Erfolgreich",
+        "close": "Schließen",
+        "changes": {
+            "customerGroup": "Ändern: Kundengruppe",
+            "accountStatus": "Ändern: Kontostatus",
+            "language": "Ändern: Sprache",
+            "replyToRequest": "Antworten auf: Kundengruppen-Anfrage",
+            "tags": "Ändern: Tags"
+        },
+        "placeholders": {
+            "selectCustomerGroup": "Kundengruppe auswählen...",
+            "selectLanguage": "Sprache auswählen...",
+            "selectCustomerGroupRequestReply": "Antwort auf Kundengruppen-Anfrage auswählen..."
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "tabs": {
+        "general": "General",
+        "conditions": "Conditions",
+        "discounts": "Discounts"
+    },
+    "cards": {
+        "preConditions": "Pre-conditions"
+    },
+    "headings": {
+        "promotionCodes": "Promotion codes"
+    },
+    "actions": {
+        "addPromotion": "Add promotion",
+        "addDiscount": "Add discount",
+        "duplicate": "Duplicate",
+        "delete": "Delete",
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "fields": {
+        "priority": "Priority"
+    }
+}

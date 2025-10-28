@@ -1,0 +1,20 @@
+{
+    "form": {
+        "contact": "Kontakt",
+        "salutation": "Anrede",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "email": "Ihre E-Mail-Adresse",
+        "phone": "Telefon",
+        "subject": "Betreff",
+        "comment": "Kommentar",
+        "submit": "Senden",
+        "privacyPolicy": "Durch die Auswahl von 'Weiter' bestätigen Sie, dass Sie unsere gelesen und akzeptiert haben",
+        "emailAddress": "E-Mail-Adresse"
+    },
+    "email": {
+        "from": "doNotReply@localhost.com",
+        "subject": "Ihre Anmeldung"
+    },
+    "title": "Titel"
+}

@@ -1,12 +1,12 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class ProductBulkEdit implements PageObject {
-
     /**
      * Bulk edit values
      */
-    
+
     public readonly changeManufacturerRow: Locator;
     public readonly changeManufacturerCheckbox: Locator;
     public readonly manufacturerDropdown: Locator;
@@ -16,7 +16,7 @@ export class ProductBulkEdit implements PageObject {
     public readonly changeActiveRow: Locator;
     public readonly changeActiveCheckbox: Locator;
     public readonly activeToggle: Locator;
-    
+
     public readonly changePriceRow: Locator;
     public readonly changePriceCheckbox: Locator;
     public readonly grossPriceInput: Locator;
@@ -59,8 +59,10 @@ export class ProductBulkEdit implements PageObject {
     public readonly confirmModalLoadingSpinner: Locator;
     public readonly confirmModalSuccessHeader: Locator;
     public readonly confirmModalSuccessCloseButton: Locator;
+    public readonly page: Page;
 
-    constructor(public readonly page: Page) {
+    constructor(page: Page) {
+        this.page = page;
 
         // Manufacturer
         this.changeManufacturerRow = page.locator('.sw-bulk-edit-change-field-manufacturerId');
@@ -112,15 +114,15 @@ export class ProductBulkEdit implements PageObject {
         this.salesChannelChangeMethodInput = this.changeSalesChannelRow.locator('.sw-single-select__selection-input');
         this.salesChannelInput = this.changeSalesChannelRow.getByRole('combobox');
 
-        this.applyChangesButton = page.getByRole('button', {name: 'Apply changes'});
+        this.applyChangesButton = page.getByRole('button', { name: translate('administration:product:bulkEdit.applyChanges') });
 
         this.confirmModal = page.locator('.sw-bulk-edit-save-modal');
-        this.confirmModalApplyChangesButton = this.confirmModal.getByRole('button', {name: 'Apply changes'});
+        this.confirmModalApplyChangesButton = this.confirmModal.getByRole('button', { name: translate('administration:product:bulkEdit.applyChanges') });
         this.confirmModalLoadingSpinner = this.confirmModal.locator('.sw-bulk-edit-save-modal__loading-icon');
-        this.confirmModalSuccessHeader = this.confirmModal.getByRole('heading', {name: 'Bulk edit - Success'});
-        
+        this.confirmModalSuccessHeader = this.confirmModal.getByRole('heading', { name: translate('administration:product:bulkEdit.success') });
+
         // There are two close buttons, the button itself and the X, we use the X here
-        this.confirmModalSuccessCloseButton = this.confirmModal.getByRole('button', {name: 'Close'}).first();
+        this.confirmModalSuccessCloseButton = this.confirmModal.getByRole('button', { name: translate('administration:product:bulkEdit.close') }).first();
     }
 
     url() {
@@ -130,6 +132,6 @@ export class ProductBulkEdit implements PageObject {
     }
 
     async getDropdownEntry(entry: string): Promise<Locator> {
-        return this.page.locator(`.sw-select-result`, { hasText: entry } );
-    } 
+        return this.page.locator(`.sw-select-result`, { hasText: entry });
+    }
 }

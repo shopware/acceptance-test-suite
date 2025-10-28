@@ -1,0 +1,13 @@
+{
+    "common": {
+        "name": "Name",
+        "availabilityRule": "Availability rule",
+        "cashOnDelivery": "Cash on delivery",
+        "paidInAdvance": "Paid in advance",
+        "invoice": "Invoice"
+    },
+    "detail": {},
+    "methods": {
+        "customPaymentMethod": "Custom payment method"
+    }
+}

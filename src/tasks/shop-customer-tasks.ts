@@ -26,6 +26,8 @@ import { SearchForTerm } from './shop-customer/Search/SearchForTerm';
 
 import { ValidateAccessibility } from './shop-customer/Accessibility/ValidateAccessibility';
 import { AddProductToCartFromWishlist, AddProductToWishlist, RemoveProductFromWishlist } from './shop-customer/Wishlist/WishlistActions';
+import { SelectProductFilterOption } from './shop-customer/Product/SelectProductFilterOption';
+import { CheckVisibilityInHome } from './shop-customer/Listing/CheckVisibilityInHome';
 
 export const test = mergeTests(
     Login,
@@ -52,4 +54,6 @@ export const test = mergeTests(
     RemoveProductFromWishlist,
     AddProductToCartFromWishlist,
     AddProductToWishlist,
+    SelectProductFilterOption,
+    CheckVisibilityInHome,
 );

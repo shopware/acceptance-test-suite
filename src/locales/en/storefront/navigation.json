@@ -1,0 +1,21 @@
+{
+    "pageNotFound": {
+        "title": "Page not found",
+        "backToShop": "Back to shop"
+    },
+    "home": {
+        "yourAccount": "Your account",
+        "manufacturerFilter": "Manufacturer",
+        "priceFilter": "Price",
+        "resetAll": "Reset all",
+        "freeShipping": "Free shipping"
+    },
+    "footer": {
+        "contactForm": "contact form"
+    },
+    "category": {
+        "sorting": "Sorting",
+        "addToCart": "Add to shopping cart",
+        "noProductsFound": "No products found."
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "pageNotFound": {
+        "title": "Seite nicht gefunden",
+        "backToShop": "Zurück zum Shop"
+    },
+    "home": {
+        "yourAccount": "Ihr Konto",
+        "manufacturerFilter": "Hersteller",
+        "priceFilter": "Preis",
+        "resetAll": "Alle zurücksetzen",
+        "freeShipping": "Kostenloser Versand"
+    },
+    "footer": {
+        "contactForm": "Kontaktformular"
+    },
+    "category": {
+        "sorting": "Sortierung",
+        "addToCart": "In den Warenkorb legen",
+        "noProductsFound": "Keine Produkte gefunden."
+    }
+}

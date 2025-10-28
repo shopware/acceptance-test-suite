@@ -1,0 +1,23 @@
+{
+    "headings": {
+        "futureProofStore": "Future proof your store with Shopware Services"
+    },
+    "buttons": {
+        "activateServices": "Activate Services",
+        "grantPermissions": "Grant permissions",
+        "deactivate": "Deactivate",
+        "exploreNow": "Explore now"
+    },
+    "modals": {
+        "deactivateServices": "Deactivate Shopware Services"
+    },
+    "messages": {
+        "accessDenied": "Access denied"
+    },
+    "links": {
+        "shopwareServices": "Shopware Services"
+    },
+    "dashboard": {
+        "shopwareServicesIntroduction": "Introducing Shopware Services"
+    }
+}

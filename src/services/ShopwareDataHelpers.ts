@@ -1,7 +1,7 @@
-import { APIResponse } from '@playwright/test';
+import type { APIResponse } from 'playwright-core';
 import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
-import { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
+import type { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
 
 type Language = components['schemas']['Language'] & {
     id: string,
@@ -10,7 +10,7 @@ type Language = components['schemas']['Language'] & {
 
 export const getLanguageData = async (
     languageCode: string,
-    adminApiContext: AdminApiContext
+    adminApiContext: AdminApiContext,
 ): Promise<Language> => {
 
     const resp = await adminApiContext.post('search/language', {
@@ -358,3 +358,9 @@ export const getPromotionWithDiscount = async (promotionId: string, adminApiCont
     const { data: promotion } = (await resp.json()) as { data: Promotion[] };
     return promotion[0];
 };
+
+export const updateAdminUser = async (adminUserId: string, adminApiContext: AdminApiContext, data: Record<string, string | boolean>): Promise<void> => {
+    await adminApiContext.patch(`user/${adminUserId}?_response=basic`, {
+        data: data,
+    });
+}

@@ -1,5 +1,6 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class OffCanvasCart implements PageObject {
     public readonly headline: Locator;
@@ -13,17 +14,20 @@ export class OffCanvasCart implements PageObject {
     public readonly shippingCosts: Locator;
     public readonly cartQuantityNumber: Locator;
 
-    constructor(public readonly page: Page) {
-        this.headline = page.getByRole('heading', { name: 'Shopping cart' });
+    public readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
+        this.headline = page.getByRole('heading', { name: translate('storefront:checkout:cart.shoppingCart') });
         this.itemCount = page.locator('.offcanvas-cart-header-count');
-        this.goToCheckoutButton = page.getByRole('link', { name: 'Go to checkout' });
-        this.goToCartButton = page.getByRole('link', { name: 'Display shopping cart' });
-        this.continueShoppingButton = page.getByRole('button', { name: 'Continue shopping' });
+        this.goToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
+        this.goToCartButton = page.getByRole('link', { name: translate('storefront:checkout:cart.displayShoppingCart') });
+        this.continueShoppingButton = page.getByRole('button', { name: translate('storefront:checkout:cart.continueShopping') });
         this.enterPromoInput = page.locator('input[id="addPromotionOffcanvasCartInput"]');
         this.submitDiscountButton = page.locator('#addPromotionOffcanvasCart');
         this.subTotalPrice = page.locator('dt:has-text("Subtotal") + dd:visible');
         this.shippingCosts = page.locator('dt:has-text("Shipping costs") + dd:visible');
-        this.cartQuantityNumber = page.getByLabel('Quantity', { exact: true });
+        this.cartQuantityNumber = page.getByLabel(translate('storefront:product:quantity'), { exact: true });
     }
 
     url() {
@@ -33,7 +37,7 @@ export class OffCanvasCart implements PageObject {
     }
 
     async getLineItemByProductNumber(productNumber: string): Promise<Record<string, Locator>> {
-        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber })
+        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber });
         const lineItemImage = lineItem.locator('line-item-img-container');
         const productNameLabel = lineItem.locator('.line-item-label');
         const productNumberLabel = lineItem.locator('.line-item-product-number');
@@ -60,6 +64,6 @@ export class OffCanvasCart implements PageObject {
             removeButton: removeButton,
             wishlistAddedButton: wishlistAddedButton,
             wishlistNotAddedButton: wishlistNotAddedButton,
-        }
+        };
     }
 }
