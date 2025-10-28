@@ -4,7 +4,6 @@ import { translate } from '../../services/LanguageHelper';
 
 export class Home implements PageObject {
     public readonly categoryTitle: Locator;
-
     public readonly accountMenuButton: Locator;
     public readonly closeGuestSessionButton: Locator;
     public readonly productImages: Locator;
@@ -78,7 +77,7 @@ export class Home implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.categoryTitle = page.locator('.cms-element-text h1');
+        this.categoryTitle = page.getByRole('heading', { level: 1 });
         this.accountMenuButton = page.getByLabel(translate('storefront:home:account.yourAccount'));
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
