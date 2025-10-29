@@ -804,7 +804,7 @@ export class TestDataService {
     /**
      * Creates a new basic rule with the condition cart amount >= 1.
      *
-     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     * @param overrides - Specific data overrides that will be applied to the basic rule data struct.
      */
     async createBasicRule(overrides: Partial<Rule> = {}, conditionType = 'cartCartAmount', operator = '>=', amount = 1): Promise<Rule> {
         const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
