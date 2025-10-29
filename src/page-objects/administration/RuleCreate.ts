@@ -16,7 +16,6 @@ export class RuleCreate implements PageObject {
     public readonly filtersResultPopoverSelectionList: Locator;
     public readonly saveButton: Locator;
     public readonly cancelButton: Locator;
-    public readonly smartBarHeader: Locator;
     public readonly valueNotAvailableTooltip: Locator;
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
@@ -35,7 +34,6 @@ export class RuleCreate implements PageObject {
         this.filtersResultPopoverSelectionList = page.locator('.sw-select-result-list__content').getByRole('listitem');
         this.saveButton = page.getByRole('button', { name: translate('administration:rule:buttons.save') });
         this.cancelButton = page.getByRole('button', { name: translate('administration:rule:buttons.cancel') });
-        this.smartBarHeader = page.locator('.smart-bar__header');
         this.valueNotAvailableTooltip = page.locator('.sw-tooltip');
     }
 
