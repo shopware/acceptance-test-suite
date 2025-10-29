@@ -994,7 +994,7 @@ export class TestDataService {
         const salesChannelId = this.defaultSalesChannel.id;
         const currencyId = this.defaultCurrencyId;
         const languageId = this.defaultLanguageId;
-        const snippetSetId = await getSnippetSetId('en-GB', this.AdminApiClient);
+        const snippetSetId = await getSnippetSetId(this.AdminApiClient);
 
         const salesChannelDomainStruct = this.getSalesChannelDomainStruct(salesChannelId, currencyId, languageId, snippetSetId, overrides);
 
@@ -1422,7 +1422,6 @@ export class TestDataService {
 
      */
     async assignAclRoleUser(aclRoleId: string, adminUserId: string) {
-
         await updateAdminUser(adminUserId, this.AdminApiClient, { admin: false });
 
         const syncAclUserResponse = await this.AdminApiClient.post('./_action/sync', {
@@ -1871,7 +1870,6 @@ export class TestDataService {
         }
 
         this.createdRecords.forEach((record) => {
-
             if (record.resource === 'user') {
                 if (!deleteUserIds.includes(record.payload.id)) {
                     deleteUserIds.push(record.payload.id);
@@ -1988,12 +1986,10 @@ export class TestDataService {
         const ALL_CHARS = LETTERS + DIGITS;
 
         // Generate random characters
-        const chars = Array.from({ length }, () =>
-            ALL_CHARS.charAt(Math.floor(Math.random() * ALL_CHARS.length)),
-        );
+        const chars = Array.from({ length }, () => ALL_CHARS.charAt(Math.floor(Math.random() * ALL_CHARS.length)));
 
         // Ensure at least one digit is present
-        if (!chars.some(char => DIGITS.includes(char))) {
+        if (!chars.some((char) => DIGITS.includes(char))) {
             const randomIndex = Math.floor(Math.random() * length);
             chars[randomIndex] = DIGITS.charAt(Math.floor(Math.random() * DIGITS.length));
         }

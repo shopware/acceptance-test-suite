@@ -4,135 +4,162 @@ on:
 
 name: test
 jobs:
-  versions:
-    name: Determine Shopware versions to test
-    runs-on: ubuntu-24.04
-    outputs:
-      first-version: ${{ steps.versions.outputs.first-version }}
-      latest-version: ${{ steps.versions.outputs.latest-version }}
-      lts-first-version: ${{ steps.versions.outputs.lts-first-version }}
-      lts-latest-version: ${{ steps.versions.outputs.lts-latest-version }}
-    steps:
-      - name: Generate versions
-        id: versions
-        uses: shopware/github-actions/versions@main
+    versions:
+        name: Determine Shopware versions to test
+        runs-on: ubuntu-24.04
+        outputs:
+            first-version: ${{ steps.versions.outputs.first-version }}
+            latest-version: ${{ steps.versions.outputs.latest-version }}
+            lts-first-version: ${{ steps.versions.outputs.lts-first-version }}
+            lts-latest-version: ${{ steps.versions.outputs.lts-latest-version }}
+        steps:
+            - name: Generate versions
+              id: versions
+              uses: shopware/github-actions/versions@main
 
-  eslint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
-      - run: npm ci
-      - run: npm run lint
+    eslint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  registry-url: 'https://registry.npmjs.org'
+            - run: npm ci
+            - run: npm run lint
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
-      - run: npm ci
-      - run: npm run build
-      - run: npx pkg-pr-new publish
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  registry-url: 'https://registry.npmjs.org'
+            - run: npm ci
+            - run: npm run build
+            - run: npx pkg-pr-new publish
 
-  test:
-    name: test shopware ${{ matrix.SHOPWARE_VERSION_ID }}
-    timeout-minutes: 25
-    runs-on: ubuntu-latest
-    needs: [ versions ]
-    permissions:
-      packages: read
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
-            SHOPWARE_VERSION_ID: 'lts-latest'
-            PORT: 8011
-          - SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
-            SHOPWARE_VERSION_ID: 'first'
-            PORT: 8021
-          - SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
-            SHOPWARE_VERSION_ID: 'latest'
-            PORT: 8031
-    env:
-      WEBSERVER_COMMAND: '' # this will disable the log output
-      SHOPWARE_VERSION: ${{ matrix.SHOPWARE_VERSION }}
-      PORT: ${{ matrix.PORT }}
-    steps:
-    - uses: actions/checkout@v4
+    test:
+        name: test shopware ${{ matrix.SHOPWARE_VERSION_ID }}
+        timeout-minutes: 25
+        runs-on: ubuntu-latest
+        needs: [versions]
+        permissions:
+            packages: read
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
+                      SHOPWARE_VERSION_ID: 'lts-latest'
+                      PORT: 8011
+                    - SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
+                      SHOPWARE_VERSION_ID: 'first'
+                      PORT: 8021
+                    - SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
+                      SHOPWARE_VERSION_ID: 'latest'
+                      PORT: 8031
+        env:
+            WEBSERVER_COMMAND: '' # this will disable the log output
+            SHOPWARE_VERSION: ${{ matrix.SHOPWARE_VERSION }}
+            PORT: ${{ matrix.PORT }}
+        steps:
+            - uses: actions/checkout@v4
 
-    - id: changed-test-files
-      uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
-      with:
-        files: |
-          tests/**/*.spec.ts
+            - id: changed-test-files
+              uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
+              with:
+                  files: |
+                      tests/**/*.spec.ts
 
-    - name: Login into Github Container Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            - name: Login into Github Container Registry
+              run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    - name: Start Shopware ${{ matrix.SHOPWARE_VERSION }}
-      run: docker compose up --pull=always --quiet-pull --wait
+            - name: Start Shopware ${{ matrix.SHOPWARE_VERSION }}
+              run: docker compose up --pull=always --quiet-pull --wait
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
 
-    - name: Install dependencies
-      run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps
 
-    - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
-      env:
-        APP_URL: http://localhost:${{ matrix.PORT }}
-      run: npx playwright test --repeat-each 4
+            - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
+              env:
+                  APP_URL: http://localhost:${{ matrix.PORT }}
+              run: npx playwright test --repeat-each 4
 
-    - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}
-      if: steps.changed-test-files.outputs.all_changed_files_count > 0
-      env:
-        APP_URL: http://localhost:${{ matrix.PORT }}
-      run: >-
-        npx playwright test
-        --repeat-each 10
-        --
-        ${{ steps.changed-test-files.outputs.all_changed_files }}
+            - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}
+              if: steps.changed-test-files.outputs.all_changed_files_count > 0
+              env:
+                  APP_URL: http://localhost:${{ matrix.PORT }}
+              run: >-
+                  npx playwright test
+                  --repeat-each 10
+                  --
+                  ${{ steps.changed-test-files.outputs.all_changed_files }}
 
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report-${{ matrix.SHOPWARE_VERSION }}
-        path: test-results/
-        retention-days: 7
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report-${{ matrix.SHOPWARE_VERSION }}
+                  path: test-results/
+                  retention-days: 7
 
-  test-saas:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    concurrency: saas # only allow one job at a time
-    env:
-      APP_URL: ${{ secrets.SAAS_APP_URL }}
-      SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
-      SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test --repeat-each 2
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report-saas
-        path: test-results/
-        retention-days: 1
+    test-saas:
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        concurrency: saas # only allow one job at a time
+        env:
+            APP_URL: ${{ secrets.SAAS_APP_URL }}
+            SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
+            SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+            - name: Install dependencies
+              run: npm ci
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps
+            - name: Run Playwright tests
+              run: npx playwright test --repeat-each 2
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report-saas
+                  path: test-results/
+                  retention-days: 1
+
+    test-saas-in-german:
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        concurrency: saas
+        env:
+            APP_URL: ${{ secrets.SAAS_APP_URL }}
+            SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
+            SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
+            LANG: de_DE.UTF-8
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+            - name: Install dependencies
+              run: npm ci
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps
+            - name: Run Playwright tests
+              run: npx playwright test
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report-saas-de
+                  path: test-results/
+                  retention-days: 1

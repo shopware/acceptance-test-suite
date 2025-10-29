@@ -20,7 +20,7 @@
         "customFields": "Feld",
         "colorProperty": "Color",
         "sizeProperty": "Size",
-        "stockPlaceholder": "Anzahl",
+        "stockPlaceholder": "Gib den Lagerbestand ein ...",
         "restockTimePlaceholder": "Lagerbestand"
     },
     "errors": {
@@ -58,5 +58,13 @@
     },
     "modals": {
         "generateVariants": "Generate variants"
+    },
+    "propertyValues": {
+        "blue": "Blau",
+        "red": "Rot",
+        "green": "Grün",
+        "small": "Klein",
+        "medium": "Mittel",
+        "large": "Groß"
     }
 }

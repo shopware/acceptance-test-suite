@@ -3,24 +3,55 @@ import { AdminApiContext } from './AdminApiContext';
 import type { components } from '@shopware/api-client/admin-api-types';
 import type { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
 
-type Language = components['schemas']['Language'] & {
-    id: string,
-    translationCode: components['schemas']['Locale'] & { id: string },
+interface LocaleMapping {
+    countryCode: string;
+    currencyCode: string;
+    languageCode: string;
 }
 
-export const getLanguageData = async (
-    languageCode: string,
-    adminApiContext: AdminApiContext,
-): Promise<Language> => {
+const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
+    'en-US': { countryCode: 'US', currencyCode: 'USD', languageCode: 'en-US' },
+    'en-GB': { countryCode: 'GB', currencyCode: 'GBP', languageCode: 'en-GB' },
+    'de-DE': { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
+} as const;
 
+export const getLocale = (): string => {
+    const rawLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+    const locale = rawLocale.split('.')[0].replace(/_/g, '-');
+    return LOCALE_MAPPINGS[locale] ? locale : 'en-GB';
+};
+
+export const getLanguageCode = (locale: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale];
+    return mapping ? mapping.languageCode : 'en-GB';
+};
+
+export const getCountryCodeFromLocale = (locale: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale];
+    return mapping ? mapping.countryCode : 'GB';
+};
+
+export const getCurrencyCodeFromLocale = (locale: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale];
+    return mapping ? mapping.currencyCode : 'GBP';
+};
+
+type Language = components['schemas']['Language'] & {
+    id: string;
+    translationCode: components['schemas']['Locale'] & { id: string };
+};
+
+export const getLanguageData = async (languageCode: string, adminApiContext: AdminApiContext): Promise<Language> => {
     const resp = await adminApiContext.post('search/language', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'translationCode.code',
-                value: languageCode,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'translationCode.code',
+                    value: languageCode,
+                },
+            ],
             associations: { translationCode: {} },
         },
     });
@@ -34,15 +65,18 @@ export const getLanguageData = async (
     return result.data[0];
 };
 
-export const getSnippetSetId = async (languageCode: string, adminApiContext: AdminApiContext): Promise<string> => {
+export const getSnippetSetId = async (adminApiContext: AdminApiContext): Promise<string> => {
+    const languageCode = getLanguageCode(getLocale());
     const resp = await adminApiContext.post('search/snippet-set', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'iso',
-                value: languageCode,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'iso',
+                    value: languageCode,
+                },
+            ],
         },
     });
 
@@ -52,18 +86,20 @@ export const getSnippetSetId = async (languageCode: string, adminApiContext: Adm
 };
 
 type Currency = components['schemas']['Currency'] & {
-    id: string,
-}
+    id: string;
+};
 
 export const getCurrency = async (isoCode: string, adminApiContext: AdminApiContext): Promise<Currency> => {
     const resp = await adminApiContext.post('search/currency', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'isoCode',
-                value: isoCode,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'isoCode',
+                    value: isoCode,
+                },
+            ],
         },
     });
 
@@ -92,11 +128,13 @@ export const getPaymentMethodId = async (adminApiContext: AdminApiContext, handl
     const resp = await adminApiContext.post('search/payment-method', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'handlerIdentifier',
-                value: handler,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'handlerIdentifier',
+                    value: handler,
+                },
+            ],
         },
     });
 
@@ -115,11 +153,13 @@ export const getDefaultShippingMethodId = async (adminApiContext: AdminApiContex
     const resp = await adminApiContext.post('search/shipping-method', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'name',
-                value: 'Standard',
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'name',
+                    value: 'Standard',
+                },
+            ],
         },
     });
 
@@ -132,11 +172,13 @@ export const getShippingMethodId = async (name: string, adminApiContext: AdminAp
     const resp = await adminApiContext.post('search/shipping-method', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'name',
-                value: name,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'name',
+                    value: name,
+                },
+            ],
         },
     });
 
@@ -149,16 +191,17 @@ export const getCountryId = async (iso2: string, adminApiContext: AdminApiContex
     const resp = await adminApiContext.post('search/country', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'iso',
-                value: iso2,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'iso',
+                    value: iso2,
+                },
+            ],
         },
     });
 
     const result = (await resp.json()) as { data: { id: string }[]; total: number };
-
     return result.data[0].id;
 };
 
@@ -166,11 +209,13 @@ export const getThemeId = async (technicalName: string, adminApiContext: AdminAp
     const resp = await adminApiContext.post('search/theme', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'technicalName',
-                value: technicalName,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'technicalName',
+                    value: technicalName,
+                },
+            ],
         },
     });
 
@@ -183,11 +228,13 @@ export const getSalutationId = async (salutationKey: string, adminApiContext: Ad
     const resp = await adminApiContext.post('search/salutation', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'salutationKey',
-                value: salutationKey,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'salutationKey',
+                    value: salutationKey,
+                },
+            ],
         },
     });
 
@@ -200,11 +247,13 @@ export const getStateMachineId = async (technicalName: string, adminApiContext: 
     const resp = await adminApiContext.post('search/state-machine', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'technicalName',
-                value: technicalName,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'technicalName',
+                    value: technicalName,
+                },
+            ],
         },
     });
 
@@ -217,11 +266,13 @@ export const getStateMachineStateId = async (stateMachineId: string, adminApiCon
     const resp = await adminApiContext.post('search/state-machine-state', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'stateMachineId',
-                value: stateMachineId,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'stateMachineId',
+                    value: stateMachineId,
+                },
+            ],
         },
     });
 
@@ -234,11 +285,13 @@ export const getFlowId = async (flowName: string, adminApiContext: AdminApiConte
     const resp = await adminApiContext.post('./search/flow', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'name',
-                value: flowName,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'name',
+                    value: flowName,
+                },
+            ],
         },
     });
 
@@ -258,11 +311,13 @@ export const getMediaId = async (fileName: string, adminApiContext: AdminApiCont
     const resp = await adminApiContext.post('./search/media', {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'fileName',
-                value: fileName,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'fileName',
+                    value: fileName,
+                },
+            ],
         },
     });
 
@@ -274,14 +329,16 @@ export const getFlowTemplate = async (flowTemplateId: string, adminApiContext: A
     const flowTemplateResponse = await adminApiContext.post(`search/flow-template`, {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'id',
-                value: flowTemplateId,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'id',
+                    value: flowTemplateId,
+                },
+            ],
         },
     });
-    const result = (await flowTemplateResponse.json());
+    const result = await flowTemplateResponse.json();
     return result.data[0];
 };
 
@@ -289,38 +346,40 @@ export const getFlow = async (flowId: string, adminApiContext: AdminApiContext):
     const flowResponse = await adminApiContext.post(`search/flow`, {
         data: {
             limit: 1,
-            filter: [{
-                type: 'equals',
-                field: 'id',
-                value: flowId,
-            }],
-            associations: { sequences: {}  },
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'id',
+                    value: flowId,
+                },
+            ],
+            associations: { sequences: {} },
         },
     });
-    const result = (await flowResponse.json());
+    const result = await flowResponse.json();
     return result.data[0];
 };
 
-export const compareFlowTemplateWithFlow = async (flowId:string, flowTemplateId: string, adminApiContext: AdminApiContext): Promise<boolean> => {
+export const compareFlowTemplateWithFlow = async (flowId: string, flowTemplateId: string, adminApiContext: AdminApiContext): Promise<boolean> => {
     const flowTemplateData: FlowTemplate = await getFlowTemplate(flowTemplateId, adminApiContext);
     const flowData: Flow = await getFlow(flowId, adminApiContext);
     // compare triggers
-    if (flowTemplateData.config.eventName != flowData.eventName){
+    if (flowTemplateData.config.eventName != flowData.eventName) {
         return false;
     }
     // compare sequences
     let i = 0;
     for (const sequenceTemplate of flowTemplateData.config.sequences) {
-        if (sequenceTemplate.actionName != flowData.sequences[i].actionName){
+        if (sequenceTemplate.actionName != flowData.sequences[i].actionName) {
             return false;
         }
-        if (JSON.stringify(sequenceTemplate.config) != JSON.stringify(flowData.sequences[i].config)){
+        if (JSON.stringify(sequenceTemplate.config) != JSON.stringify(flowData.sequences[i].config)) {
             return false;
         }
         i++;
     }
     return true;
-}
+};
 
 export function extractIdFromUrl(url: string): string | null {
     const segments = url.split('/');
@@ -340,18 +399,20 @@ export const getPromotionWithDiscount = async (promotionId: string, adminApiCont
         data: {
             limit: 1,
             associations: {
-              discounts: {
-                  limit: 10,
-                  type: 'equals',
-                  field: 'promotionId',
-                  value: promotionId,
-              },
+                discounts: {
+                    limit: 10,
+                    type: 'equals',
+                    field: 'promotionId',
+                    value: promotionId,
+                },
             },
-            filter: [{
-                type: 'equals',
-                field: 'id',
-                value: promotionId,
-            }],
+            filter: [
+                {
+                    type: 'equals',
+                    field: 'id',
+                    value: promotionId,
+                },
+            ],
         },
     });
 
@@ -363,4 +424,4 @@ export const updateAdminUser = async (adminUserId: string, adminApiContext: Admi
     await adminApiContext.patch(`user/${adminUserId}?_response=basic`, {
         data: data,
     });
-}
+};

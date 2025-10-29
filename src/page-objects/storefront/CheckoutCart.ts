@@ -23,7 +23,7 @@ export class CheckoutCart implements PageObject {
         this.headline = page.getByRole('heading', { name: translate('storefront:checkout:cart.shoppingCart') });
         this.goToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
         this.enterPromoInput = page.getByLabel(translate('storefront:checkout:cart.promoCode'));
-        this.grandTotalPrice = page.locator('dt:has-text("Grand total") + dd:visible');
+        this.grandTotalPrice = page.locator(`dt:has-text("${translate('storefront:checkout:finish.grandTotal')}") + dd:visible`);
         this.emptyCartAlert = page.getByText(translate('storefront:checkout:cart.emptyCart'));
         this.stockReachedAlert = page.getByText(translate('storefront:checkout:cart.stockReached'));
         this.cartLineItemImages = page.locator('.line-item-img-link');

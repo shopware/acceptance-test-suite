@@ -21,7 +21,7 @@ export class AccountAddresses extends BaseAccount {
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         super(page);
         this.instanceMeta = instanceMeta;
-        this.addNewAddressButton = page.getByRole('link', { name: /Add (new )?address/ });
+        this.addNewAddressButton = page.getByRole('link', { name: translate('storefront:account:addresses.addNewAddress') });
         this.editBillingAddressButton = page.getByRole('link', { name: translate('storefront:address:actions.editAddress') }).first();
         this.editShippingAddressButton = page.getByRole('link', { name: translate('storefront:address:actions.editAddress') }).nth(1);
         this.useDefaultBillingAddressButton = page.getByRole('button', { name: translate('storefront:address:actions.useAsDefaultBilling') });
