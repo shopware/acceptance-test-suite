@@ -62,7 +62,7 @@ export class LanguageHelper {
             const i18nextKey = `${area}/${namespace}:${keyParts.join(':')}`;
             return this.i18nInstance.t(i18nextKey, options);
         }
-        return fallbackTranslate(key, this.resources);
+        return fallbackTranslate(key, this.resources, options);
     }
 
     static async createInstance(rawLanguage: string, customResources?: typeof BUNDLED_RESOURCES): Promise<LanguageHelper> {
@@ -119,7 +119,7 @@ export function getCurrentContext(): Record<string, unknown> | null {
     return contextStore.getStore() as Record<string, unknown> | null;
 }
 
-function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES): string {
+function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES, options?: Record<string, unknown>): string {
     const [area, namespace, ...keyPath] = key.split(':');
 
     const language = getLocale();
@@ -142,7 +142,17 @@ function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED
             }
         }
 
-        return typeof value === 'string' ? value : key;
+        if (typeof value === 'string') {
+            // Perform simple variable interpolation for placeholders like {{count}}
+            if (options) {
+                return value.replace(/\{\{(\w+)\}\}/g, (match, varName) => {
+                    const replacement = options[varName];
+                    return replacement !== undefined ? String(replacement) : match;
+                });
+            }
+            return value;
+        }
+        return key;
     }
 
     return key;
@@ -157,8 +167,9 @@ export function translate(key: TranslationKey, options?: Record<string, unknown>
         }
     }
 
-    // No global translator cache - always use fallback
-    return fallbackTranslate(key);
+    // No context available (e.g., called from page object constructors)
+    // Use fallback translation with interpolation support
+    return fallbackTranslate(key, undefined, options);
 }
 
 // No global translator initialization needed - fallback translate reads locale dynamically

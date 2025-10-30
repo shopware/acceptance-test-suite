@@ -6,13 +6,14 @@ import type { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
 interface LocaleMapping {
     countryCode: string;
     currencyCode: string;
+    currencySymbol: string;
     languageCode: string;
 }
 
 const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
-    'en-US': { countryCode: 'US', currencyCode: 'USD', languageCode: 'en-US' },
-    'en-GB': { countryCode: 'GB', currencyCode: 'GBP', languageCode: 'en-GB' },
-    'de-DE': { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
+    'en-US': { countryCode: 'US', currencyCode: 'USD', currencySymbol: '$', languageCode: 'en-US' },
+    'en-GB': { countryCode: 'GB', currencyCode: 'GBP', currencySymbol: '£', languageCode: 'en-GB' },
+    'de-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'de-DE' },
 } as const;
 
 export const getLocale = (): string => {
@@ -34,6 +35,11 @@ export const getCountryCodeFromLocale = (locale: string): string => {
 export const getCurrencyCodeFromLocale = (locale: string): string => {
     const mapping = LOCALE_MAPPINGS[locale];
     return mapping ? mapping.currencyCode : 'GBP';
+};
+
+export const getCurrencySymbolFromLocale = (locale: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale];
+    return mapping ? mapping.currencySymbol : '£';
 };
 
 type Language = components['schemas']['Language'] & {
