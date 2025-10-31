@@ -101,8 +101,6 @@ export class TestDataService {
         return this._shouldCleanUp;
     }
 
-
-
     /**
      * Configuration of higher priority entities for the cleanup operation.
      * These entities will be deleted before others.
@@ -1450,8 +1448,8 @@ export class TestDataService {
      * Retrieves a language based on its code.
      * @param languageCode
      */
-    async getLanguageData(languageCode: string): Promise<Language> {
-        return await getLanguageData(languageCode, this.AdminApiClient);
+    async getLanguageData(languageCode?: string): Promise<Language> {
+        return await getLanguageData(this.AdminApiClient, languageCode);
     }
 
     /**

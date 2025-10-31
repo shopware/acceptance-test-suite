@@ -74,8 +74,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     Currency: [
         async ({ AdminApiContext }, use) => {
-            const currencyCode = getCurrencyCodeFromLocale(getLocale());
-            const currency = await getCurrency(currencyCode, AdminApiContext);
+            const currency = await getCurrency(AdminApiContext);
 
             await use({
                 id: currency.id,
@@ -88,7 +87,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ AdminApiContext }, use) => {
             const locale = getLocale();
             const languageCode = getLanguageCode(locale);
-            const language = await getLanguageData(languageCode, AdminApiContext);
+            const language = await getLanguageData(AdminApiContext, languageCode);
 
             await use(language);
         },

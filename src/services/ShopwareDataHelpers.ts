@@ -13,6 +13,7 @@ interface LocaleMapping {
 const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
     'en-US': { countryCode: 'US', currencyCode: 'USD', currencySymbol: '$', languageCode: 'en-US' },
     'en-GB': { countryCode: 'GB', currencyCode: 'GBP', currencySymbol: '£', languageCode: 'en-GB' },
+    'en-IE': { countryCode: 'IE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'en-GB' },
     'de-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'de-DE' },
 } as const;
 
@@ -47,7 +48,8 @@ type Language = components['schemas']['Language'] & {
     translationCode: components['schemas']['Locale'] & { id: string };
 };
 
-export const getLanguageData = async (languageCode: string, adminApiContext: AdminApiContext): Promise<Language> => {
+export const getLanguageData = async (adminApiContext: AdminApiContext, languageCode?: string): Promise<Language> => {
+    const code = languageCode || getLanguageCode(getLocale());
     const resp = await adminApiContext.post('search/language', {
         data: {
             limit: 1,
@@ -55,7 +57,7 @@ export const getLanguageData = async (languageCode: string, adminApiContext: Adm
                 {
                     type: 'equals',
                     field: 'translationCode.code',
-                    value: languageCode,
+                    value: code,
                 },
             ],
             associations: { translationCode: {} },
@@ -65,14 +67,14 @@ export const getLanguageData = async (languageCode: string, adminApiContext: Adm
     const result = await resp.json();
 
     if (result.data.length === 0) {
-        throw new Error(`Language ${languageCode} not found`);
+        throw new Error(`Language ${code} not found`);
     }
 
     return result.data[0];
 };
 
-export const getSnippetSetId = async (adminApiContext: AdminApiContext): Promise<string> => {
-    const languageCode = getLanguageCode(getLocale());
+export const getSnippetSetId = async (adminApiContext: AdminApiContext, languageCode?: string): Promise<string> => {
+    const code = languageCode || getLanguageCode(getLocale());
     const resp = await adminApiContext.post('search/snippet-set', {
         data: {
             limit: 1,
@@ -80,7 +82,7 @@ export const getSnippetSetId = async (adminApiContext: AdminApiContext): Promise
                 {
                     type: 'equals',
                     field: 'iso',
-                    value: languageCode,
+                    value: code,
                 },
             ],
         },
@@ -95,7 +97,8 @@ type Currency = components['schemas']['Currency'] & {
     id: string;
 };
 
-export const getCurrency = async (isoCode: string, adminApiContext: AdminApiContext): Promise<Currency> => {
+export const getCurrency = async (adminApiContext: AdminApiContext, isoCode?: string): Promise<Currency> => {
+    const code = isoCode || getCurrencyCodeFromLocale(getLocale());
     const resp = await adminApiContext.post('search/currency', {
         data: {
             limit: 1,
@@ -103,7 +106,7 @@ export const getCurrency = async (isoCode: string, adminApiContext: AdminApiCont
                 {
                     type: 'equals',
                     field: 'isoCode',
-                    value: isoCode,
+                    value: code,
                 },
             ],
         },
@@ -112,7 +115,7 @@ export const getCurrency = async (isoCode: string, adminApiContext: AdminApiCont
     const result = await resp.json();
 
     if (result.data.length === 0) {
-        throw new Error(`Currency ${isoCode} not found`);
+        throw new Error(`Currency ${code} not found`);
     }
 
     return result.data[0];

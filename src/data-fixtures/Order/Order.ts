@@ -10,7 +10,7 @@ export const OrderData = base.extend<FixtureTypes>({
     OrderData: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, DefaultSalesChannel, ProductData }, use) => {
         //Create Requests
         const requests = {
-            currencyEUR: getCurrency('EUR', AdminApiContext),
+            currencyEUR: getCurrency(AdminApiContext),
             mrSalutationId: getSalutationId('mr', AdminApiContext),
             orderStateId: getStateMachineId('order.state', AdminApiContext),
             orderTransactionStateId: getStateMachineId('order_transaction.state', AdminApiContext),
