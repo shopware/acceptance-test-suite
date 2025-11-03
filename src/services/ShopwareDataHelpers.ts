@@ -17,6 +17,35 @@ const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
     'de-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'de-DE' },
 } as const;
 
+export const COUNTRY_ADDRESS_DATA = {
+    DE: {
+        street: 'Ebbinghof 10',
+        city: 'Schöppingen',
+        country: 'Germany',
+        postalCode: '48624',
+        vatRegNo: 'DE1234567890',
+    },
+    US: {
+        street: '1600 Pennsylvania Avenue NW',
+        city: 'Washington',
+        country: 'United States',
+        postalCode: '20500',
+        vatRegNo: 'US123456789',
+    },
+    GB: {
+        street: '10 Downing Street',
+        city: 'London',
+        country: 'United Kingdom',
+        postalCode: 'SW1A 2AA',
+        vatRegNo: 'GB123456789',
+    },
+};
+
+export const getCountryAddressData = (countryCode?: string) => {
+    const code = countryCode || getCountryCodeFromLocale(getLocale());
+    return COUNTRY_ADDRESS_DATA[code as keyof typeof COUNTRY_ADDRESS_DATA] || COUNTRY_ADDRESS_DATA.GB;
+};
+
 export const getLocale = (): string => {
     const rawLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
     const locale = rawLocale.split('.')[0].replace(/_/g, '-');

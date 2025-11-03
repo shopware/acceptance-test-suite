@@ -2,42 +2,14 @@ import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
 import type { RegistrationData } from '../../../types/ShopwareTypes';
-import { getCountryCodeFromLocale, getLocale } from '../../../services/ShopwareDataHelpers';
-
-const COUNTRY_REGISTRATION_DATA = {
-    DE: {
-        street: 'Ebbinghof 10',
-        city: 'Schöppingen',
-        country: 'Germany',
-        postalCode: '48624',
-        vatRegNo: 'DE1234567890',
-    },
-    US: {
-        street: '1600 Pennsylvania Avenue NW',
-        city: 'Washington',
-        country: 'United States',
-        postalCode: '20500',
-        vatRegNo: 'US123456789',
-    },
-    GB: {
-        street: '10 Downing Street',
-        city: 'London',
-        country: 'United Kingdom',
-        postalCode: 'SW1A 2AA',
-        vatRegNo: 'GB123456789',
-    },
-};
-
-const getDefaultRegistrationDataForCountry = (countryCode: string) => {
-    return COUNTRY_REGISTRATION_DATA[countryCode as keyof typeof COUNTRY_REGISTRATION_DATA] || COUNTRY_REGISTRATION_DATA.GB;
-};
+import { getCountryAddressData, getCountryCodeFromLocale, getLocale } from '../../../services/ShopwareDataHelpers';
 
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
     Register: async ({ StorefrontAccountLogin, IdProvider, TestDataService }, use) => {
         let registeredEmail = '';
 
         const countryCode = getCountryCodeFromLocale(getLocale());
-        const countryDefaults = getDefaultRegistrationDataForCountry(countryCode);
+        const countryDefaults = getCountryAddressData(countryCode);
 
         const defaultRegistrationData: RegistrationData = {
             isCommercial: false,
