@@ -24,12 +24,14 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             vatRegNo: 'DE1234567890',
         };
 
-        const task = (overrides?: Partial<RegistrationData>,
-                    /**
-                      * @deprecated The 'isCommercial' argument is deprecated and will be removed in a future version. 
-                      * Please avoid using it and rely on the `isCommercial` field in `RegistrationData` instead.
-                      */
-            isCommercial?: boolean) => {
+        const task = (
+            overrides?: Partial<RegistrationData>,
+            /**
+             * @deprecated The 'isCommercial' argument is deprecated and will be removed in a future version.
+             * Please avoid using it and rely on the `isCommercial` field in `RegistrationData` instead.
+             */
+            isCommercial?: boolean
+        ) => {
             return async function Register() {
                 const registrationData = { ...defaultRegistrationData, ...overrides };
 
@@ -39,8 +41,8 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
                 await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
 
-                  // Deprecation warning for the 'isCommercial' argument
-                  if (registrationData.isCommercial || isCommercial) {
+                // Deprecation warning for the 'isCommercial' argument
+                if (registrationData.isCommercial || isCommercial) {
                     await StorefrontAccountLogin.companyInput.fill(registrationData.company);
                     await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
                     await StorefrontAccountLogin.vatRegNoInput.fill(registrationData.vatRegNo);
@@ -55,6 +57,8 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await StorefrontAccountLogin.streetAddressInput.fill(registrationData.street);
                 await StorefrontAccountLogin.postalCodeInput.fill(registrationData.postalCode);
                 await StorefrontAccountLogin.cityInput.fill(registrationData.city);
+                console.log('registrationData.country', registrationData.country);
+                console.log('await StorefrontAccountLogin.countryInput', await StorefrontAccountLogin.countryInput.allTextContents());
                 await StorefrontAccountLogin.countryInput.selectOption({ label: registrationData.country });
 
                 await StorefrontAccountLogin.registerButton.click();
