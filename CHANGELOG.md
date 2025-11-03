@@ -11,6 +11,8 @@
 
 * add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509)) ([a36dba0](https://github.com/shopware/acceptance-test-suite/commit/a36dba0b0944a7c551f388f5f3a745e1c6233046))
 * `getCurrency()` parameter order changed: now expects `(adminApiContext, isoCode?)` instead of `(isoCode, adminApiContext)`
+* `getLanguageData()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(languageCode, adminApiContext)`
+* `getSnippetSetId()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(adminApiContext)`
 * changes for RuleBuilderCreate test  ([#319](https://github.com/shopware/acceptance-test-suite/issues/319)) ([ef982be](https://github.com/shopware/acceptance-test-suite/commit/ef982be7aa26b233d743f450d79b925a49be5b7b))
 
 
