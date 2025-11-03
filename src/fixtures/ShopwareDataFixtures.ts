@@ -10,7 +10,6 @@ import {
     getTaxId,
     getThemeId,
     getCountryCodeFromLocale,
-    getCurrencyCodeFromLocale,
     getLanguageCode,
     getLocale,
 } from '../services/ShopwareDataHelpers';
