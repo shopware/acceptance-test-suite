@@ -58,7 +58,7 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
              * @deprecated The 'isCommercial' argument is deprecated and will be removed in a future version.
              * Please avoid using it and rely on the `isCommercial` field in `RegistrationData` instead.
              */
-            isCommercial?: boolean
+            isCommercial?: boolean,
         ) => {
             return async function Register() {
                 const registrationData = { ...defaultRegistrationData, ...overrides };
