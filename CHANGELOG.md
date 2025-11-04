@@ -1,6 +1,6 @@
 # Changelog
 
-## [12.0.0](https://github.com/shopware/acceptance-test-suite/compare/v11.38.0...v12.0.0) (2025-10-29)
+## [12.0.0](https://github.com/shopware/acceptance-test-suite/compare/v11.38.0...v12.0.0) (2025-11-04)
 
 
 ### ⚠ BREAKING CHANGES
