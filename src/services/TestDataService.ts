@@ -1,5 +1,5 @@
 import { createRandomImage, encodeImage } from './ImageHelper';
-import { getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
+import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
@@ -100,8 +100,6 @@ export class TestDataService {
     public get shouldCleanUp() {
         return this._shouldCleanUp;
     }
-
-
 
     /**
      * Configuration of higher priority entities for the cleanup operation.
@@ -1450,8 +1448,8 @@ export class TestDataService {
      * Retrieves a language based on its code.
      * @param languageCode
      */
-    async getLanguageData(languageCode: string): Promise<Language> {
-        return await getLanguageData(languageCode, this.AdminApiClient);
+    async getLanguageData(languageCode?: string): Promise<Language> {
+        return await getLanguageData(this.AdminApiClient, languageCode);
     }
 
     /**
@@ -2284,6 +2282,8 @@ export class TestDataService {
         const firstName = 'John';
         const lastName = 'Goldblum';
 
+        const addressData = getCountryAddressData();
+
         const basicCustomer = {
             id: customerUuid,
             email: `customer_${id}@example.com`,
@@ -2294,18 +2294,18 @@ export class TestDataService {
             defaultShippingAddress: {
                 firstName: firstName,
                 lastName: lastName,
-                city: 'Schöppingen',
-                street: 'Ebbinghoff 10',
-                zipcode: '48624',
+                city: addressData.city,
+                street: addressData.street,
+                zipcode: addressData.postalCode,
                 countryId: countryId,
                 salutationId: salutationId,
             },
             defaultBillingAddress: {
                 firstName: firstName,
                 lastName: lastName,
-                city: 'Schöppingen',
-                street: 'Ebbinghoff 10',
-                zipcode: '48624',
+                city: addressData.city,
+                street: addressData.street,
+                zipcode: addressData.postalCode,
                 countryId: countryId,
                 salutationId: salutationId,
             },

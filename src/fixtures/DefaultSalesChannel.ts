@@ -39,10 +39,10 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ Country, Currency, Language, PaymentMethod, ShippingMethod, SnippetSet, Tax, Theme }, use) => {
             await use({
                 currentLocaleId: Language.translationCode.id,
-                currentLanguageId: Language.id,
                 storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
                 currentCurrencyId: Currency.id,
                 defaultCurrencyId: 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
+                currentLanguageId: Language.id,
                 defaultLanguageId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b',
                 invoicePaymentMethodId: PaymentMethod.id,
                 defaultShippingMethod: ShippingMethod.id,

@@ -1,5 +1,25 @@
 # Changelog
 
+## [12.0.0](https://github.com/shopware/acceptance-test-suite/compare/v11.38.0...v12.0.0) (2025-11-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509))
+
+### Features
+
+* add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509)) ([a36dba0](https://github.com/shopware/acceptance-test-suite/commit/a36dba0b0944a7c551f388f5f3a745e1c6233046))
+* `getCurrency()` parameter order changed: now expects `(adminApiContext, isoCode?)` instead of `(isoCode, adminApiContext)`
+* `getLanguageData()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(languageCode, adminApiContext)`
+* `getSnippetSetId()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(adminApiContext)`
+* changes for RuleBuilderCreate test  ([#319](https://github.com/shopware/acceptance-test-suite/issues/319)) ([ef982be](https://github.com/shopware/acceptance-test-suite/commit/ef982be7aa26b233d743f450d79b925a49be5b7b))
+
+
+### Bug Fixes
+
+* use oidc auth for publish ([#514](https://github.com/shopware/acceptance-test-suite/issues/514)) ([226c85a](https://github.com/shopware/acceptance-test-suite/commit/226c85af877bad341e91898a32c938d68eb68e68))
+
 ## [11.38.0](https://github.com/shopware/acceptance-test-suite/compare/v11.37.0...v11.38.0) (2025-10-23)
 
 

@@ -6,14 +6,48 @@ import type { Flow, FlowTemplate, Promotion } from '../types/ShopwareTypes';
 interface LocaleMapping {
     countryCode: string;
     currencyCode: string;
+    currencySymbol: string;
     languageCode: string;
 }
 
 const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
-    'en-US': { countryCode: 'US', currencyCode: 'USD', languageCode: 'en-US' },
-    'en-GB': { countryCode: 'GB', currencyCode: 'GBP', languageCode: 'en-GB' },
-    'de-DE': { countryCode: 'DE', currencyCode: 'EUR', languageCode: 'de-DE' },
+    'en-US': { countryCode: 'US', currencyCode: 'USD', currencySymbol: '$', languageCode: 'en-US' },
+    'en-GB': { countryCode: 'GB', currencyCode: 'GBP', currencySymbol: '£', languageCode: 'en-GB' },
+    'en-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'en-GB' },
+    'de-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'de-DE' },
 } as const;
+
+export const COUNTRY_ADDRESS_DATA = {
+    DE: {
+        street: 'Ebbinghof 10',
+        city: 'Schöppingen',
+        country: 'Germany',
+        postalCode: '48624',
+        vatRegNo: 'DE1234567890',
+    },
+    US: {
+        street: '1600 Pennsylvania Avenue NW',
+        city: 'Washington',
+        country: 'United States',
+        postalCode: '20500',
+        vatRegNo: 'US123456789',
+    },
+    GB: {
+        street: '10 Downing Street',
+        city: 'London',
+        country: 'United Kingdom',
+        postalCode: 'SW1A 2AA',
+        vatRegNo: 'GB123456789',
+    },
+};
+
+export const getCountryAddressData = (countryCode?: string) => {
+    const code = countryCode || getCountryCodeFromLocale(getLocale());
+    if (code in COUNTRY_ADDRESS_DATA) {
+        return COUNTRY_ADDRESS_DATA[code as keyof typeof COUNTRY_ADDRESS_DATA];
+    }
+    return COUNTRY_ADDRESS_DATA.GB;
+};
 
 export const getLocale = (): string => {
     const rawLocale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
@@ -36,12 +70,18 @@ export const getCurrencyCodeFromLocale = (locale: string): string => {
     return mapping ? mapping.currencyCode : 'GBP';
 };
 
+export const getCurrencySymbolFromLocale = (locale: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale];
+    return mapping ? mapping.currencySymbol : '£';
+};
+
 type Language = components['schemas']['Language'] & {
     id: string;
     translationCode: components['schemas']['Locale'] & { id: string };
 };
 
-export const getLanguageData = async (languageCode: string, adminApiContext: AdminApiContext): Promise<Language> => {
+export const getLanguageData = async (adminApiContext: AdminApiContext, languageCode?: string): Promise<Language> => {
+    const code = languageCode || getLanguageCode(getLocale());
     const resp = await adminApiContext.post('search/language', {
         data: {
             limit: 1,
@@ -49,7 +89,7 @@ export const getLanguageData = async (languageCode: string, adminApiContext: Adm
                 {
                     type: 'equals',
                     field: 'translationCode.code',
-                    value: languageCode,
+                    value: code,
                 },
             ],
             associations: { translationCode: {} },
@@ -59,14 +99,14 @@ export const getLanguageData = async (languageCode: string, adminApiContext: Adm
     const result = await resp.json();
 
     if (result.data.length === 0) {
-        throw new Error(`Language ${languageCode} not found`);
+        throw new Error(`Language ${code} not found`);
     }
 
     return result.data[0];
 };
 
-export const getSnippetSetId = async (adminApiContext: AdminApiContext): Promise<string> => {
-    const languageCode = getLanguageCode(getLocale());
+export const getSnippetSetId = async (adminApiContext: AdminApiContext, languageCode?: string): Promise<string> => {
+    const code = languageCode || getLanguageCode(getLocale());
     const resp = await adminApiContext.post('search/snippet-set', {
         data: {
             limit: 1,
@@ -74,7 +114,7 @@ export const getSnippetSetId = async (adminApiContext: AdminApiContext): Promise
                 {
                     type: 'equals',
                     field: 'iso',
-                    value: languageCode,
+                    value: code,
                 },
             ],
         },
@@ -89,7 +129,8 @@ type Currency = components['schemas']['Currency'] & {
     id: string;
 };
 
-export const getCurrency = async (isoCode: string, adminApiContext: AdminApiContext): Promise<Currency> => {
+export const getCurrency = async (adminApiContext: AdminApiContext, isoCode?: string): Promise<Currency> => {
+    const code = isoCode || getCurrencyCodeFromLocale(getLocale());
     const resp = await adminApiContext.post('search/currency', {
         data: {
             limit: 1,
@@ -97,7 +138,7 @@ export const getCurrency = async (isoCode: string, adminApiContext: AdminApiCont
                 {
                     type: 'equals',
                     field: 'isoCode',
-                    value: isoCode,
+                    value: code,
                 },
             ],
         },
@@ -106,7 +147,7 @@ export const getCurrency = async (isoCode: string, adminApiContext: AdminApiCont
     const result = await resp.json();
 
     if (result.data.length === 0) {
-        throw new Error(`Currency ${isoCode} not found`);
+        throw new Error(`Currency ${code} not found`);
     }
 
     return result.data[0];
