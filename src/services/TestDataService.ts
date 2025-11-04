@@ -1,5 +1,5 @@
 import { createRandomImage, encodeImage } from './ImageHelper';
-import { getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
+import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
 import type { AdminApiContext } from './AdminApiContext';
 import type { IdProvider } from './IdProvider';
 import type {
@@ -96,7 +96,10 @@ export class TestDataService {
      *
      * @private
      */
-    private shouldCleanUp = true;
+    private _shouldCleanUp = true;
+    public get shouldCleanUp() {
+        return this._shouldCleanUp;
+    }
 
     /**
      * Configuration of higher priority entities for the cleanup operation.
@@ -799,7 +802,7 @@ export class TestDataService {
     /**
      * Creates a new basic rule with the condition cart amount >= 1.
      *
-     * @param overrides - Specific data overrides that will be applied to the payment method data struct.
+     * @param overrides - Specific data overrides that will be applied to the basic rule data struct.
      */
     async createBasicRule(overrides: Partial<Rule> = {}, conditionType = 'cartCartAmount', operator = '>=', amount = 1): Promise<Rule> {
         const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
@@ -989,7 +992,7 @@ export class TestDataService {
         const salesChannelId = this.defaultSalesChannel.id;
         const currencyId = this.defaultCurrencyId;
         const languageId = this.defaultLanguageId;
-        const snippetSetId = await getSnippetSetId('en-GB', this.AdminApiClient);
+        const snippetSetId = await getSnippetSetId(this.AdminApiClient);
 
         const salesChannelDomainStruct = this.getSalesChannelDomainStruct(salesChannelId, currencyId, languageId, snippetSetId, overrides);
 
@@ -1417,7 +1420,6 @@ export class TestDataService {
 
      */
     async assignAclRoleUser(aclRoleId: string, adminUserId: string) {
-
         await updateAdminUser(adminUserId, this.AdminApiClient, { admin: false });
 
         const syncAclUserResponse = await this.AdminApiClient.post('./_action/sync', {
@@ -1446,8 +1448,8 @@ export class TestDataService {
      * Retrieves a language based on its code.
      * @param languageCode
      */
-    async getLanguageData(languageCode: string): Promise<Language> {
-        return await getLanguageData(languageCode, this.AdminApiClient);
+    async getLanguageData(languageCode?: string): Promise<Language> {
+        return await getLanguageData(this.AdminApiClient, languageCode);
     }
 
     /**
@@ -1838,7 +1840,7 @@ export class TestDataService {
      * @param shouldCleanUp - The config setting for the automated data clean up. Default is "true".
      */
     setCleanUp(shouldCleanUp = true) {
-        this.shouldCleanUp = shouldCleanUp;
+        this._shouldCleanUp = shouldCleanUp;
     }
 
     /**
@@ -1866,7 +1868,6 @@ export class TestDataService {
         }
 
         this.createdRecords.forEach((record) => {
-
             if (record.resource === 'user') {
                 if (!deleteUserIds.includes(record.payload.id)) {
                     deleteUserIds.push(record.payload.id);
@@ -1983,12 +1984,10 @@ export class TestDataService {
         const ALL_CHARS = LETTERS + DIGITS;
 
         // Generate random characters
-        const chars = Array.from({ length }, () =>
-            ALL_CHARS.charAt(Math.floor(Math.random() * ALL_CHARS.length)),
-        );
+        const chars = Array.from({ length }, () => ALL_CHARS.charAt(Math.floor(Math.random() * ALL_CHARS.length)));
 
         // Ensure at least one digit is present
-        if (!chars.some(char => DIGITS.includes(char))) {
+        if (!chars.some((char) => DIGITS.includes(char))) {
             const randomIndex = Math.floor(Math.random() * length);
             chars[randomIndex] = DIGITS.charAt(Math.floor(Math.random() * DIGITS.length));
         }
@@ -2283,6 +2282,8 @@ export class TestDataService {
         const firstName = 'John';
         const lastName = 'Goldblum';
 
+        const addressData = getCountryAddressData();
+
         const basicCustomer = {
             id: customerUuid,
             email: `customer_${id}@example.com`,
@@ -2293,18 +2294,18 @@ export class TestDataService {
             defaultShippingAddress: {
                 firstName: firstName,
                 lastName: lastName,
-                city: 'Schöppingen',
-                street: 'Ebbinghoff 10',
-                zipcode: '48624',
+                city: addressData.city,
+                street: addressData.street,
+                zipcode: addressData.postalCode,
                 countryId: countryId,
                 salutationId: salutationId,
             },
             defaultBillingAddress: {
                 firstName: firstName,
                 lastName: lastName,
-                city: 'Schöppingen',
-                street: 'Ebbinghoff 10',
-                zipcode: '48624',
+                city: addressData.city,
+                street: addressData.street,
+                zipcode: addressData.postalCode,
                 countryId: countryId,
                 salutationId: salutationId,
             },

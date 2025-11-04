@@ -42,5 +42,13 @@
     },
     "modals": {
         "generateVariants": "Generate variants"
+    },
+    "propertyValues": {
+        "blue": "Blue",
+        "red": "Red",
+        "green": "Green",
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large"
     }
 }

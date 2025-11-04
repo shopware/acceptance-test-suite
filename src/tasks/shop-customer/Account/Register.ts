@@ -2,10 +2,14 @@ import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes } from '../../../types/FixtureTypes';
 import type { RegistrationData } from '../../../types/ShopwareTypes';
+import { getCountryAddressData, getCountryCodeFromLocale, getLocale } from '../../../services/ShopwareDataHelpers';
 
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
     Register: async ({ ShopCustomer, StorefrontAccountLogin, IdProvider, TestDataService }, use) => {
         let registeredEmail = '';
+
+        const countryCode = getCountryCodeFromLocale(getLocale());
+        const countryDefaults = getCountryAddressData(countryCode);
 
         const defaultRegistrationData: RegistrationData = {
             isCommercial: false,
@@ -15,21 +19,19 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
             lastName: 'Goldblum',
             email: `${IdProvider.getIdPair().uuid}@test.com`,
             password: 'shopware',
-            street: 'Ebbinghof 10',
-            city: 'Schöppingen',
-            country: 'Germany',
-            postalCode: '48624',
+            ...countryDefaults,
             company: 'shopware',
             department: 'Operations',
-            vatRegNo: 'DE1234567890',
         };
 
-        const task = (overrides?: Partial<RegistrationData>,
+        const task = (
+            overrides?: Partial<RegistrationData>,
             /**
-             * @deprecated The 'isCommercial' argument is deprecated and will be removed in a future version. 
-             *     Please avoid using it and rely on the `isCommercial` field in `RegistrationData` instead.
+             * @deprecated The 'isCommercial' argument is deprecated and will be removed in a future version.
+             * Please avoid using it and rely on the `isCommercial` field in `RegistrationData` instead.
              */
-            isCommercial?: boolean) => {
+            isCommercial?: boolean,
+        ) => {
             return async function Register() {
                 const registrationData = { ...defaultRegistrationData, ...overrides };
 
@@ -41,8 +43,8 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
                 await ShopCustomer.fillsIn(StorefrontAccountLogin.lastNameInput, registrationData.lastName);
 
 
-                  // Deprecation warning for the 'isCommercial' argument
-                  if (registrationData.isCommercial || isCommercial) {
+                // Deprecation warning for the 'isCommercial' argument
+                if (registrationData.isCommercial || isCommercial) {
                     await ShopCustomer.fillsIn(StorefrontAccountLogin.companyInput,registrationData.company);
                     await ShopCustomer.fillsIn(StorefrontAccountLogin.departmentInput,registrationData.department);
                     await ShopCustomer.fillsIn(StorefrontAccountLogin.vatRegNoInput,registrationData.vatRegNo);

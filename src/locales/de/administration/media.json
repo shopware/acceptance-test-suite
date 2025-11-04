@@ -1,0 +1,13 @@
+{
+    "buttons": {
+        "uploadFile": "Dateien hochladen",
+        "addNewFolder": "Neuen Ordner hinzufügen"
+    },
+    "search": {
+        "placeholder": "Durchsuche den aktuellen Ordner ..."
+    },
+    "actions": {
+        "rename": "Umbenennen",
+        "delete": "Löschen"
+    }
+}

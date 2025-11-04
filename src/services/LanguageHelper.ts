@@ -2,6 +2,7 @@ import { AsyncLocalStorage } from 'async_hooks';
 import { createInstance } from 'i18next';
 import type { TranslationKey, I18nextInstance } from '../types/TranslationTypes';
 import { BUNDLED_RESOURCES } from '../locales';
+import { getLocale } from './ShopwareDataHelpers';
 
 // Map a raw input (e.g. "en-GB,fr;q=0.8") to a folder like "en" / "de"
 function normalizeLanguage(input?: string) {
@@ -61,7 +62,7 @@ export class LanguageHelper {
             const i18nextKey = `${area}/${namespace}:${keyParts.join(':')}`;
             return this.i18nInstance.t(i18nextKey, options);
         }
-        return fallbackTranslate(key, this.resources);
+        return fallbackTranslate(key, this.resources, options);
     }
 
     static async createInstance(rawLanguage: string, customResources?: typeof BUNDLED_RESOURCES): Promise<LanguageHelper> {
@@ -118,26 +119,10 @@ export function getCurrentContext(): Record<string, unknown> | null {
     return contextStore.getStore() as Record<string, unknown> | null;
 }
 
-let globalTranslator: LanguageHelper | null = null;
-
-async function getGlobalTranslator(customResources?: typeof BUNDLED_RESOURCES): Promise<LanguageHelper | null> {
-    if (!globalTranslator) {
-        try {
-            const language = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en';
-            globalTranslator = await LanguageHelper.createInstance(language, customResources);
-        } catch (error) {
-            console.warn('Could not initialize global translator, using fallback:', error);
-            return null;
-        }
-    }
-    return globalTranslator;
-}
-
-function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES): string {
+function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES, options?: Record<string, unknown>): string {
     const [area, namespace, ...keyPath] = key.split(':');
 
-    // Use language from environment or default to 'en'
-    const language = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en';
+    const language = getLocale();
     const normalizedLang = language.toLowerCase().startsWith('de') ? 'de' : 'en';
 
     const resources = customResources?.[normalizedLang] || BUNDLED_RESOURCES[normalizedLang];
@@ -157,7 +142,17 @@ function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED
             }
         }
 
-        return typeof value === 'string' ? value : key;
+        if (typeof value === 'string') {
+            // Perform simple variable interpolation for placeholders like {{count}}
+            if (options) {
+                return value.replace(/\{\{(\w+)\}\}/g, (match, varName) => {
+                    const replacement = options[varName];
+                    return replacement !== undefined ? String(replacement) : match;
+                });
+            }
+            return value;
+        }
+        return key;
     }
 
     return key;
@@ -172,17 +167,9 @@ export function translate(key: TranslationKey, options?: Record<string, unknown>
         }
     }
 
-    if (globalTranslator) {
-        return globalTranslator.translate(key, options);
-    }
-
-    if (!globalTranslator) {
-        getGlobalTranslator().catch(() => {}); // Fire and forget initialization
-    }
-
-    return fallbackTranslate(key);
+    // No context available (e.g., called from page object constructors)
+    // Use fallback translation with interpolation support
+    return fallbackTranslate(key, undefined, options);
 }
 
-if (typeof window === 'undefined') {
-    getGlobalTranslator().catch(() => {});
-}
+// No global translator initialization needed - fallback translate reads locale dynamically

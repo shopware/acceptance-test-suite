@@ -10,6 +10,7 @@ import administrationLogin from './en/administration/login.json' with { type: 'j
 import administrationFlowBuilder from './en/administration/flowBuilder.json' with { type: 'json' };
 import administrationDashboard from './en/administration/dashboard.json' with { type: 'json' };
 import administrationManufacturer from './en/administration/manufacturer.json' with { type: 'json' };
+import administrationMedia from './en/administration/media.json' with { type: 'json' };
 import administrationOrder from './en/administration/order.json' with { type: 'json' };
 import administrationPayment from './en/administration/payment.json' with { type: 'json' };
 import administrationPromotion from './en/administration/promotion.json' with { type: 'json' };
@@ -29,6 +30,7 @@ import storefrontProduct from './en/storefront/product.json' with { type: 'json'
 import storefrontNavigation from './en/storefront/navigation.json' with { type: 'json' };
 import storefrontContact from './en/storefront/contact.json' with { type: 'json' };
 import storefrontConsent from './en/storefront/consent.json' with { type: 'json' };
+import storefrontHeader from './en/storefront/header.json' with { type: 'json' };
 import storefrontHome from './en/storefront/home.json' with { type: 'json' };
 import storefrontLogin from './en/storefront/login.json' with { type: 'json' };
 import storefrontOrder from './en/storefront/order.json' with { type: 'json' };
@@ -51,6 +53,7 @@ import deAdministrationLandingPage from './de/administration/landingPage.json' w
 import deAdministrationLayout from './de/administration/layout.json' with { type: 'json' };
 import deAdministrationLogin from './de/administration/login.json' with { type: 'json' };
 import deAdministrationManufacturer from './de/administration/manufacturer.json' with { type: 'json' };
+import deAdministrationMedia from './de/administration/media.json' with { type: 'json' };
 import deAdministrationOrder from './de/administration/order.json' with { type: 'json' };
 import deAdministrationPayment from './de/administration/payment.json' with { type: 'json' };
 import deAdministrationProduct from './de/administration/product.json' with { type: 'json' };
@@ -67,6 +70,7 @@ import deStorefrontAddress from './de/storefront/address.json' with { type: 'jso
 import deStorefrontCheckout from './de/storefront/checkout.json' with { type: 'json' };
 import deStorefrontConsent from './de/storefront/consent.json' with { type: 'json' };
 import deStorefrontContact from './de/storefront/contact.json' with { type: 'json' };
+import deStorefrontHeader from './de/storefront/header.json' with { type: 'json' };
 import deStorefrontHome from './de/storefront/home.json' with { type: 'json' };
 import deStorefrontLogin from './de/storefront/login.json' with { type: 'json' };
 import deStorefrontNavigation from './de/storefront/navigation.json' with { type: 'json' };
@@ -86,12 +90,13 @@ export const BUNDLED_RESOURCES = {
         'administration/customField': administrationCustomField,
         'administration/dataSharing': administrationDataSharing,
         'administration/document': administrationDocument,
-            'administration/landingPage': administrationLandingPage,
-            'administration/layout': administrationLayout,
-            'administration/login': administrationLogin,
+        'administration/landingPage': administrationLandingPage,
+        'administration/layout': administrationLayout,
+        'administration/login': administrationLogin,
         'administration/flowBuilder': administrationFlowBuilder,
         'administration/dashboard': administrationDashboard,
         'administration/manufacturer': administrationManufacturer,
+        'administration/media': administrationMedia,
         'administration/order': administrationOrder,
         'administration/payment': administrationPayment,
         'administration/promotion': administrationPromotion,
@@ -111,6 +116,7 @@ export const BUNDLED_RESOURCES = {
         'storefront/navigation': storefrontNavigation,
         'storefront/contact': storefrontContact,
         'storefront/consent': storefrontConsent,
+        'storefront/header': storefrontHeader,
         'storefront/home': storefrontHome,
         'storefront/login': storefrontLogin,
         'storefront/order': storefrontOrder,
@@ -134,6 +140,7 @@ export const BUNDLED_RESOURCES = {
         'administration/layout': deAdministrationLayout,
         'administration/login': deAdministrationLogin,
         'administration/manufacturer': deAdministrationManufacturer,
+        'administration/media': deAdministrationMedia,
         'administration/order': deAdministrationOrder,
         'administration/payment': deAdministrationPayment,
         'administration/product': deAdministrationProduct,
@@ -149,6 +156,7 @@ export const BUNDLED_RESOURCES = {
         'storefront/checkout': deStorefrontCheckout,
         'storefront/consent': deStorefrontConsent,
         'storefront/contact': deStorefrontContact,
+        'storefront/header': deStorefrontHeader,
         'storefront/home': deStorefrontHome,
         'storefront/login': deStorefrontLogin,
         'storefront/navigation': deStorefrontNavigation,
@@ -175,6 +183,7 @@ export const baseNamespaces = {
         flowBuilder: administrationFlowBuilder,
         dashboard: administrationDashboard,
         manufacturer: administrationManufacturer,
+        media: administrationMedia,
         order: administrationOrder,
         payment: administrationPayment,
         promotion: administrationPromotion,
@@ -195,6 +204,7 @@ export const baseNamespaces = {
         navigation: storefrontNavigation,
         contact: storefrontContact,
         consent: storefrontConsent,
+        header: storefrontHeader,
         home: storefrontHome,
         login: storefrontLogin,
         order: storefrontOrder,

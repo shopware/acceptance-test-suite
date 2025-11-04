@@ -5,6 +5,7 @@ import { isThemeCompiled } from '../services/ShopInfo';
 import { clearDelayedCache } from '../services/Cache';
 import { createNewAdminPageContext } from '../services/AdminLoginHelper';
 import { LanguageHelper, setCurrentContext } from '../services/LanguageHelper';
+import { getLocale } from '../services/ShopwareDataHelpers';
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -16,7 +17,7 @@ export interface PageContextTypes {
 
 export const test = base.extend<FixtureTypes>({
     AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
-        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
+        const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const { id, uuid } = IdProvider.getIdPair();
@@ -26,7 +27,7 @@ export const test = base.extend<FixtureTypes>({
             username: `admin_${id}`,
             firstName: `${id} admin`,
             lastName: `${id} admin`,
-            localeId: SalesChannelBaseConfig.enGBLocaleId,
+            localeId: SalesChannelBaseConfig.currentLocaleId,
             email: `admin_${id}@example.com`,
             timezone: 'Europe/Berlin',
             password: 'shopware',
@@ -53,8 +54,7 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta, CustomTranslationResources }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
-        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
-
+        const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
@@ -97,8 +97,7 @@ export const test = base.extend<FixtureTypes>({
     },
 
     InstallPage: async ({ browser, CustomTranslationResources }, use) => {
-        const locale = process.env.LANG || process.env.LANGUAGE || process.env.lang || 'en-GB';
-
+        const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({

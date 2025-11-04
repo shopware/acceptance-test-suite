@@ -1,5 +1,6 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
+import { translate } from '../../services/LanguageHelper';
 
 export class Header implements PageObject {
     public readonly mainNavigationLink: Locator;
@@ -7,6 +8,10 @@ export class Header implements PageObject {
     public readonly languagesMenuOptions: Locator;
     public readonly currenciesDropdown: Locator;
     public readonly currenciesMenuOptions: Locator;
+    public readonly searchInput: Locator;
+
+    //skip links
+    public readonly skipToMainContentLink: Locator;
 
     //wishlist
     public readonly wishlistIcon: Locator;
@@ -20,6 +25,10 @@ export class Header implements PageObject {
         this.languagesMenuOptions = page.locator('.top-bar-language').getByRole('list');
         this.currenciesDropdown = page.getByRole('button', { name: 'Change currency' });
         this.currenciesMenuOptions = page.locator('.top-bar-currency').getByRole('list');       
+        this.searchInput = page.getByLabel(translate('storefront:header:searchInputAriaLabel'));        
+
+        //skip links
+        this.skipToMainContentLink = page.getByRole('link', { name: translate('storefront:header:skipToContentLink'), exact: true });
 
         //wishlist
         this.wishlistIcon = page.getByRole('link', { name: 'Wishlist' });

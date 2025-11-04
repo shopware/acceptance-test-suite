@@ -1,0 +1,13 @@
+{
+    "buttons": {
+        "uploadFile": "Upload file",
+        "addNewFolder": "Add new folder"
+    },
+    "search": {
+        "placeholder": "Search current folder..."
+    },
+    "actions": {
+        "rename": "Rename",
+        "delete": "Delete"
+    }
+}

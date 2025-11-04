@@ -9,6 +9,9 @@ import {
     getSnippetSetId,
     getTaxId,
     getThemeId,
+    getCountryCodeFromLocale,
+    getLanguageCode,
+    getLocale,
 } from '../services/ShopwareDataHelpers';
 
 export interface Country {
@@ -56,10 +59,10 @@ export interface ShopwareDataFixtureTypes {
 }
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
-
     Country: [
         async ({ AdminApiContext }, use) => {
-            const countryId = await getCountryId('de', AdminApiContext);
+            const countryCode = getCountryCodeFromLocale(getLocale());
+            const countryId = await getCountryId(countryCode, AdminApiContext);
 
             await use({
                 id: countryId,
@@ -70,7 +73,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     Currency: [
         async ({ AdminApiContext }, use) => {
-            const currency = await getCurrency('EUR', AdminApiContext);
+            const currency = await getCurrency(AdminApiContext);
 
             await use({
                 id: currency.id,
@@ -81,7 +84,9 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     Language: [
         async ({ AdminApiContext }, use) => {
-            const language = await getLanguageData('en-GB', AdminApiContext);
+            const locale = getLocale();
+            const languageCode = getLanguageCode(locale);
+            const language = await getLanguageData(AdminApiContext, languageCode);
 
             await use(language);
         },
@@ -112,7 +117,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     SnippetSet: [
         async ({ AdminApiContext }, use) => {
-            const snippedSetId = await getSnippetSetId('en-GB', AdminApiContext);
+            const snippedSetId = await getSnippetSetId(AdminApiContext);
 
             await use({
                 id: snippedSetId,
@@ -142,5 +147,4 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         },
         { scope: 'worker' },
     ],
-
 });

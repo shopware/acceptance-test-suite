@@ -33,13 +33,13 @@
         "agreeToTerms": "Ich stimme den AGBs zu",
         "revocationNotice": "Widerrufsbelehrung",
         "completeOrder": "Bestellung abschließen",
-        "submitOrder": "Bestellung absenden",
-        "termsAndConditions": "Ich habe die allgemeinen Geschäftsbedingungen gelesen und akzeptiert.",
-        "immediateAccessToDigitalProduct": "Ich möchte sofortigen Zugang zu den digitalen Inhalten und erkenne an, dass ich damit mein Widerrufsrecht aufgebe."
+        "submitOrder": "Zahlungspflichtig bestellen",
+        "termsAndConditions": "Ich habe die AGB gelesen und bin mit ihnen einverstanden.",
+        "immediateAccessToDigitalProduct": "Ja, ich möchte sofort Zugang zu dem digitalen Inhalt und weiß, dass mein Widerrufsrecht mit dem Zugang erlischt."
     },
     "finish": {
-        "thankYou": "Vielen Dank für Ihre Bestellung!",
-        "thankYouForOrder": "Vielen Dank für Ihre Bestellung!",
+        "thankYou": "Vielen Dank für Ihre Bestellung",
+        "thankYouForOrder": "Vielen Dank für Ihre Bestellung",
         "orderNumber": "Bestellnummer",
         "orderConfirmation": "Bestellbestätigung",
         "continueShopping": "Weiter einkaufen",

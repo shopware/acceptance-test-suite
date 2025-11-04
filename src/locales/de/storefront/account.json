@@ -35,7 +35,7 @@
         "download": "Herunterladen",
         "cancelOrder": "Bestellung stornieren",
         "repeatOrder": "Bestellung wiederholen",
-        "changePaymentMethod": "Zahlungsmethode ändern",
+        "changePaymentMethod": "Zahlungsart ändern",
         "actions": "Aktionen",
         "expand": "Erweitern",
         "showDetails": "Details anzeigen",
@@ -54,6 +54,7 @@
         "postalCode": "Postleitzahl",
         "state": "Bundesland",
         "editAddress": "Adresse bearbeiten",
+        "addNewAddress": "Neue Adresse hinzufügen",
         "useAsDefaultBilling": "Als Standard-Rechnungsadresse verwenden",
         "useAsDefaultShipping": "Als Standard-Versandadresse verwenden",
         "deliveryNotPossible": "Eine Lieferung in dieses Land ist nicht möglich."

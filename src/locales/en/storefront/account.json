@@ -54,6 +54,7 @@
         "postalCode": "Postal code",
         "state": "State",
         "editAddress": "Edit address",
+        "addNewAddress": "Add new address",
         "useAsDefaultBilling": "Use as default billing address",
         "useAsDefaultShipping": "Use as default shipping address",
         "deliveryNotPossible": "A delivery to this country is not possible."
