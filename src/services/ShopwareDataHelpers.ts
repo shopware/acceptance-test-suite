@@ -43,7 +43,10 @@ export const COUNTRY_ADDRESS_DATA = {
 
 export const getCountryAddressData = (countryCode?: string) => {
     const code = countryCode || getCountryCodeFromLocale(getLocale());
-    return COUNTRY_ADDRESS_DATA[code as keyof typeof COUNTRY_ADDRESS_DATA] || COUNTRY_ADDRESS_DATA.GB;
+    if (code in COUNTRY_ADDRESS_DATA) {
+        return COUNTRY_ADDRESS_DATA[code as keyof typeof COUNTRY_ADDRESS_DATA];
+    }
+    return COUNTRY_ADDRESS_DATA.GB;
 };
 
 export const getLocale = (): string => {
