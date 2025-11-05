@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.1](https://github.com/shopware/acceptance-test-suite/compare/v12.0.0...v12.0.1) (2025-11-05)
+
+
+### Bug Fixes
+
+* update locale_mappings:  languageCode of en-US locale to en-GB ([#515](https://github.com/shopware/acceptance-test-suite/issues/515)) ([99eb5cd](https://github.com/shopware/acceptance-test-suite/commit/99eb5cdeaae4962a6797c30b3b53d4d0951e1f84))
+
 ## [12.0.0](https://github.com/shopware/acceptance-test-suite/compare/v11.38.0...v12.0.0) (2025-11-04)
 
 
