@@ -11,7 +11,7 @@ interface LocaleMapping {
 }
 
 const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
-    'en-US': { countryCode: 'US', currencyCode: 'USD', currencySymbol: '$', languageCode: 'en-US' },
+    'en-US': { countryCode: 'US', currencyCode: 'USD', currencySymbol: '$', languageCode: 'en-GB' },
     'en-GB': { countryCode: 'GB', currencyCode: 'GBP', currencySymbol: '£', languageCode: 'en-GB' },
     'en-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'en-GB' },
     'de-DE': { countryCode: 'DE', currencyCode: 'EUR', currencySymbol: '€', languageCode: 'de-DE' },
