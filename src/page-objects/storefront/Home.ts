@@ -215,7 +215,7 @@ export class Home implements PageObject {
     }
 
     async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {
-        const listingItem = this.page.getByRole('listitem').filter({ has: this.page.getByText(productListingName) });
+        const listingItem = this.page.getByRole('listitem').filter({ hasText: productListingName });
         const productImage = listingItem.locator('.product-image-link');
         const productRating = listingItem.locator('.product-rating');
         const productVariantCharacteristics = listingItem.locator('.product-variant-characteristics');
@@ -224,9 +224,7 @@ export class Home implements PageObject {
         const productCheapestPrice = listingItem.locator('.product-cheapest-price');
         const productPrice = listingItem.locator('.product-price');
         const productName = listingItem.locator('.product-name');
-        const productAddToShoppingCart = listingItem.getByRole('button', {
-            name: 'Add to shopping cart',
-        });
+        const productAddToShoppingCart = listingItem.getByRole('button', { name: translate('storefront:home:listing.addToShoppingCart')});
         const productListingPrice = listingItem.locator('.list-price-price');
         const productListingPricePercentage = listingItem.locator('.list-price-percentage');
         const productListingPriceBadge = listingItem.locator('.badge-discount');

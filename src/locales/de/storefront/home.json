@@ -18,5 +18,8 @@
         "resetAll": "Alle zurücksetzen",
         "freeShipping": "Filter hinzufügen: Versandkostenfrei",
         "rating": "Mindestbewertung"
+    },
+    "listing":{
+        "addToShoppingCart": "In den Warenkorb"
     }
 }

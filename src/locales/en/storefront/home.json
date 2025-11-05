@@ -18,5 +18,8 @@
         "resetAll": "Reset all",
         "freeShipping": "Add filter: Free shipping",
         "rating": "minimum rating"
+    },
+    "listing":{
+        "addToShoppingCart": "Add to shopping cart"
     }
 }
