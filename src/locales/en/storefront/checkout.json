@@ -1,9 +1,11 @@
 {
     "common": {
         "back": "Back",
+        "paymentMethod": "Payment method",
         "cashOnDelivery": "Cash on delivery",
         "paidInAdvance": "Paid in advance",
         "invoice": "Invoice",
+        "shippingMethod": "Shipping method",
         "standard": "Standard",
         "express": "Express"
     },

@@ -83,10 +83,10 @@ export class Home implements PageObject {
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
         this.productImages = page.locator('.product-image-wrapper');
         this.productListItems = page.locator('.product-box');
-        this.languagesDropdown =  page.locator('.top-bar-language').getByRole('button'); 
-        this.languagesMenuOptions = page.locator('.top-bar-language').getByRole('list');
-        this.currenciesDropdown = page.getByRole('button', { name: 'Change currency' });  
-        this.currenciesMenuOptions = page.locator('.top-bar-currency').getByRole('list');
+        this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
+        this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
+        this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
+        this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
         this.consentCookieBannerContainer = page.locator('.cookie-permission-container');
         this.consentOnlyTechnicallyRequiredButton = page.getByRole('button', { name: translate('storefront:home:consent.onlyTechnicallyRequired'), exact: true });
         this.consentConfigureButton = page.getByRole('button', { name: translate('storefront:home:consent.configure'), exact: true });
@@ -94,7 +94,7 @@ export class Home implements PageObject {
         this.consentCookiePreferences = page.getByLabel(translate('storefront:home:consent.cookiePreferences'));
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
         this.consentDialog = page.getByRole('dialog').filter({ hasText: translate('storefront:home:consent.cookiePreferences') });
-        this.consentDialogCloseButton = this.consentDialog.getByRole('button', { name: 'Close cookie preferences' });
+        this.consentDialogCloseButton = this.consentDialog.getByRole('button', { name: translate('storefront:home:consent.close') });
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
             name: 'Technically required',
             exact: true,
@@ -118,21 +118,23 @@ export class Home implements PageObject {
         this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
 
         //wishlist
-        this.wishlistIcon = page.getByRole('link', { name: 'Wishlist' });//page.locator('.header-wishlist-icon');
+        this.wishlistIcon = page.locator('.header-wishlist-icon');
         this.wishlistBasket = page.locator('.header-wishlist-badge');
 
         //product filters
-        this.filterMultiSelect = page.getByLabel('Filter products').getByRole('list');//page.locator('.filter-multi-select');
+        this.filterMultiSelect = page.getByLabel(translate('storefront:home:filters.filterPanel')).getByRole('list');
+        this.freeShippingFilter = this.filterMultiSelect.getByLabel(translate('storefront:home:filters.freeShipping'));
         this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.manufacturer') });
+        this.priceFilterButton = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.price') }).first();
+        this.productRatingButton = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.rating') });
+        this.productRatingList = this.filterMultiSelect.locator('.filter-multi-select-rating').getByRole('list');
         this.propertyFilters = page.locator('.filter-multi-select-properties');
-        this.priceFilterButton = page.getByRole('button', { name: translate('storefront:home:filters.price') }).first();
         this.resetAllButton = page.getByRole('button', { name: translate('storefront:home:filters.resetAll') });
-        this.freeShippingFilter = this.filterMultiSelect.getByRole('checkbox', { name: 'Add filter: Free shipping' });
+
+        this.loader = page.locator('.has-element-loader');
+
         this.productList = page.locator('.cms-listing-row');
         this.productItemNames = this.productList.locator('.product-name');
-        this.productRatingButton = this.filterMultiSelect.getByRole('button', { name: 'Filter by minimum rating' });
-        this.productRatingList = page.locator('.filter-multi-select-rating').getByRole('list');
-        this.loader = page.locator('.has-element-loader');
         this.productVariantCharacteristicsOptions = page.locator('.product-variant-characteristics-option');
     }
 
@@ -145,11 +147,11 @@ export class Home implements PageObject {
     }
 
     async getFilterButtonByFilterName(filterName: string): Promise<Locator> {
-        return this.filterMultiSelect.getByRole('button', { name: `Filter by ${filterName}` });
+        return this.filterMultiSelect.getByRole('button', { name: `${translate('storefront:home:filters.labelPrefix').concat(filterName)}` });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
-        const menuNavigationItem = this.page.locator('.nav-main').getByRole('link', { name: categoryName, exact: true });//this.page.locator('.nav-main').getByText(categoryName, { exact: true });
+        const menuNavigationItem = this.page.locator('.nav-main').getByRole('link', { name: categoryName, exact: true });
         /** @deprecated - Remove, because it is obsolete.
          * The Offcanvas can only be tested on mobile viewport.
          * The content is only loaded if the navigation is triggered.

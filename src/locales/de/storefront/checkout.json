@@ -1,9 +1,11 @@
 {
     "common": {
         "back": "Zurück",
+        "paymentMethod": "Zahlungsart",
         "cashOnDelivery": "Nachnahme",
         "paidInAdvance": "Vorkasse",
         "invoice": "Rechnung",
+        "shippingMethod": "Versandart",
         "standard": "Standard",
         "express": "Express"
     },
@@ -28,8 +30,6 @@
         "orderSummary": "Bestellübersicht",
         "shippingAddress": "Lieferadresse",
         "billingAddress": "Rechnungsadresse",
-        "shippingMethod": "Versandart",
-        "paymentMethod": "Zahlungsart",
         "agreeToTerms": "Ich stimme den AGBs zu",
         "revocationNotice": "Widerrufsbelehrung",
         "completeOrder": "Bestellung abschließen",

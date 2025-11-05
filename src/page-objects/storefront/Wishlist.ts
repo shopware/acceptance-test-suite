@@ -1,6 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { Home } from './Home';
+import { translate } from '../../services/LanguageHelper';
 
 export class Wishlist extends Home implements PageObject {
     public readonly wishListHeader: Locator;
@@ -20,7 +21,7 @@ export class Wishlist extends Home implements PageObject {
     async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {
         const baseItems = await super.getListingItemByProductName(productListingName);
         const listingItem = this.page.getByRole('listitem').filter({ has: this.page.getByText(productListingName) });
-        const removeFromWishlistButton = listingItem.getByRole('button', { name: `Remove ${productListingName} from wishlist` });
+        const removeFromWishlistButton = listingItem.getByTitle(translate('storefront:wishlist:removeProduct'));//listingItem.getByRole('button', { name: `Remove ${productListingName} from wishlist` });
     
         return {
             ...baseItems,

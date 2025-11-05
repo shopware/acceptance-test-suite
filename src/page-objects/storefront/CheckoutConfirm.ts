@@ -43,8 +43,8 @@ export class CheckoutConfirm implements PageObject {
         this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
         this.submitOrderButton = page.getByRole('button', { name: translate('storefront:checkout:confirm.submitOrder') });
 
-        this.paymentMethodRadioGroup = page.locator('.checkout-card', { hasText: 'Payment method' });
-        this.shippingMethodRadioGroup = page.locator('.checkout-card', { hasText: 'Shipping method' });
+        this.paymentMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.paymentMethod') });
+        this.shippingMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.shippingMethod') });
 
         this.paymentCashOnDelivery = page.getByLabel(translate('storefront:checkout:common.cashOnDelivery'));
         this.paymentPaidInAdvance = page.getByLabel(translate('storefront:checkout:common.paidInAdvance'));

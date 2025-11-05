@@ -5,8 +5,6 @@ import { translate } from '../../services/LanguageHelper';
 
 export class ProductDetail implements PageObject {
 
-    public readonly propertyRadioGroup:(propertyName: string) => Locator;
-
     public readonly addToCartButton: Locator;
     public readonly quantitySelect: Locator;
     public readonly productSingleImage: Locator;
@@ -29,6 +27,7 @@ export class ProductDetail implements PageObject {
     public readonly wishlistAddedButton: Locator;
     public readonly wishlistNotAddedButton: Locator;
 
+    public readonly propertyRadioGroup:(propertyName: string) => Locator;
     public readonly productDetailConfigurator: Locator;
     public readonly productDetailConfiguratorGroupTitle: Locator;
     public readonly productDetailConfiguratorOptionInputs: Locator;
@@ -66,8 +65,6 @@ export class ProductDetail implements PageObject {
     constructor(page: Page) {
         this.page = page;
         
-        this.propertyRadioGroup = (propertyName: string) => this.page.getByRole('group', { name: `Select ${propertyName}` }); 
-
         this.addToCartButton = page.getByRole('button', { name: translate('storefront:product:addToCart') });
         this.quantitySelect = page.getByLabel(translate('storefront:product:quantity'), { exact: true });
         this.productSingleImage = page.locator('.gallery-slider-single-image');
@@ -90,8 +87,13 @@ export class ProductDetail implements PageObject {
         this.wishlistAddedButton = page.locator('.product-wishlist-added');
         this.wishlistNotAddedButton = page.locator('.product-wishlist-not-added');
 
+        this.propertyRadioGroup = (propertyName: string) => this.page.getByRole('group', { name: propertyName });
+
+        /**  @deprecated - Obsolete with propertyRadioGroup */
         this.productDetailConfigurator = page.locator('.product-detail-configurator');
+        /**  @deprecated - Use 'propertyRadioGroup' instead. */
         this.productDetailConfiguratorGroupTitle = page.locator('.product-detail-configurator-group-title');
+        /**  @deprecated - Obsolete with propertyRadioGroup */
         this.productDetailConfiguratorOptionInputs = page.locator('.product-detail-configurator-option-input');
 
         this.productName = page.locator('.product-detail-name');

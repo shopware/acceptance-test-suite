@@ -3,6 +3,7 @@
         "yourAccount": "Your account"
     },
     "consent": {
+        "close": "Close cookie preferences",
         "onlyTechnicallyRequired": "Only technically required",
         "configure": "Configure",
         "acceptAllCookies": "Accept all cookies",
@@ -10,9 +11,12 @@
         "marketing": "Marketing"
     },
     "filters": {
+        "filterPanel": "Filter products",
+        "labelPrefix": "Filter by ",
         "manufacturer": "Manufacturer",
         "price": "Price",
         "resetAll": "Reset all",
-        "freeShipping": "Free shipping"
+        "freeShipping": "Add filter: Free shipping",
+        "rating": "minimum rating"
     }
 }
