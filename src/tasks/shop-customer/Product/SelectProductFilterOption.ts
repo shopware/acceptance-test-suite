@@ -9,7 +9,9 @@ export const SelectProductFilterOption = base.extend<{ SelectProductFilterOption
             return async function SelectProductFilterOption() {
                 await ShopCustomer.presses(filterButton);
                 const optionLocator = await StorefrontHome.getFilterItemByFilterName(optionName);
+                ShopCustomer.expects(optionLocator).not.toBeChecked();
                 await ShopCustomer.presses(optionLocator);
+                ShopCustomer.expects(optionLocator).toBeChecked();
             }
         };
 
