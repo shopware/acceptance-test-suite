@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.2](https://github.com/shopware/acceptance-test-suite/compare/v12.0.1...v12.0.2) (2025-11-07)
+
+
+### Bug Fixes
+
+* adjust selectors work for mt-datepicker ([#517](https://github.com/shopware/acceptance-test-suite/issues/517)) ([d66fc93](https://github.com/shopware/acceptance-test-suite/commit/d66fc93438b5ea849dcdca2e032d5de0d0aeae4a))
+
 ## [12.0.1](https://github.com/shopware/acceptance-test-suite/compare/v12.0.0...v12.0.1) (2025-11-05)
 
 
