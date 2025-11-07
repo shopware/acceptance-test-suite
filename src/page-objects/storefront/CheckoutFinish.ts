@@ -16,8 +16,8 @@ export class CheckoutFinish implements PageObject {
         this.page = page;
         this.headline = page.getByRole('heading', { name: translate('storefront:checkout:finish.thankYouForOrder') });
         this.orderNumberText = page.getByText(this.orderNumberRegex);
-        this.grandTotalPrice = page.locator(`dt:has-text("${translate('storefront:checkout:finish.grandTotal')}") + dd`);
-        this.taxPrice = page.locator(`dt:text-matches('${translate('storefront:checkout:finish.plusVat')} [0-9]\\+\\?${translate('storefront:checkout:finish.vatSuffix')}') + dd`);
+        this.grandTotalPrice = page.locator(`dt:has-text("${translate('storefront:checkout:common.grandTotal')}") + dd`);
+        this.taxPrice = page.locator(`dt:text-matches("${translate('storefront:checkout:common.plusVat')} [0-9]\\+\\?${translate('storefront:checkout:common.vatSuffix')}") + dd`);
         this.cartLineItemImages = page.locator('.line-item-img-link');
     }
 

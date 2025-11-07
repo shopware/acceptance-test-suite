@@ -5,7 +5,10 @@
         "paidInAdvance": "Paid in advance",
         "invoice": "Invoice",
         "standard": "Standard",
-        "express": "Express"
+        "express": "Express",
+        "grandTotal": "Grand total",
+        "plusVat": "plus",
+        "vatSuffix": "% VAT"
     },
     "cart": {
         "shoppingCart": "Shopping cart",
@@ -24,10 +27,7 @@
         "immediateAccessToDigitalProduct": "I want immediate access to the digital content and I acknowledge that thereby I waive my right to cancel."
     },
     "finish": {
-        "thankYouForOrder": "Thank you for your order",
-        "grandTotal": "Grand total",
-        "plusVat": "plus",
-        "vatSuffix": "% VAT"
+        "thankYouForOrder": "Thank you for your order"
     },
     "orderEdit": {
         "cancelOrder": "Cancel order"

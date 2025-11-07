@@ -28,7 +28,7 @@ export const COUNTRY_ADDRESS_DATA = {
     US: {
         street: '1600 Pennsylvania Avenue NW',
         city: 'Washington',
-        country: 'United States',
+        country: 'United States of America',
         postalCode: '20500',
         vatRegNo: 'US123456789',
     },
