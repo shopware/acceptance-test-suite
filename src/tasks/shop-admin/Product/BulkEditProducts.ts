@@ -52,8 +52,11 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
 
                 if (changes['releaseDate'] != null) {
                     await AdminProductBulkEdit.changeReleaseDateCheckbox.click();
+                    await AdminProductBulkEdit.releaseDateInput.click();
                     await AdminProductBulkEdit.releaseDateInput.fill(changes['releaseDate'].value);
                     await AdminProductBulkEdit.releaseDateInput.press('Enter');
+                    // Check if the value was set correctly
+                    expect(await AdminProductBulkEdit.releaseDateInput.inputValue()).toBe(changes['releaseDate'].value);
                 }
 
                 if (changes['stock'] != null) {
