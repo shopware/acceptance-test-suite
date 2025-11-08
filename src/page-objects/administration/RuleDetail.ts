@@ -113,7 +113,11 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.conditionCartLineItemTaxationValue = page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-select-selection-list__item');
         this.conditionTimeRangeValueFirst = page.locator('.sw-condition-time-range').getByRole('textbox').first()
         this.conditionTimeRangeValueSecond = page.locator('.sw-condition-time-range').getByRole('textbox').last()
-        this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.sw-select__selection');
+        if (satisfies(instanceMeta.version, '<6.7.4.1')) {
+            this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.sw-select__selection');        
+        } else {
+            this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.mt-select-selection-list__input');
+        }
         this.conditionFilterModal = page.locator('.sw-modal__header').getByText('Filter');
         this.conditionFilterModalCloseButtonX = page.locator('.sw-modal__header').getByRole('button');
         this.conditionCartLineItemInStockOperator = page.locator('.sw-condition__condition-type-cartLineItemStock').locator('.sw-single-select__selection-text');

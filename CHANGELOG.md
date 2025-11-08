@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.1.0](https://github.com/shopware/acceptance-test-suite/compare/v12.0.2...v12.1.0) (2025-11-07)
+
+
+### Features
+
+* update selectors for dynamic field rendering with meteor components ([#521](https://github.com/shopware/acceptance-test-suite/issues/521)) ([4294c2c](https://github.com/shopware/acceptance-test-suite/commit/4294c2c4992b12a7df89ad48a71d2ffcfa04c22f))
+
 ## [12.0.2](https://github.com/shopware/acceptance-test-suite/compare/v12.0.1...v12.0.2) (2025-11-07)
 
 
