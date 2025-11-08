@@ -28,7 +28,7 @@ export const COUNTRY_ADDRESS_DATA = {
     US: {
         street: '1600 Pennsylvania Avenue NW',
         city: 'Washington',
-        country: 'United States',
+        country: 'United States of America',
         postalCode: '20500',
         vatRegNo: 'US123456789',
     },
@@ -55,24 +55,39 @@ export const getLocale = (): string => {
     return LOCALE_MAPPINGS[locale] ? locale : 'en-GB';
 };
 
-export const getLanguageCode = (locale: string): string => {
-    const mapping = LOCALE_MAPPINGS[locale];
+export const getLanguageCode = (locale?: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale ?? getLocale()];
     return mapping ? mapping.languageCode : 'en-GB';
 };
 
-export const getCountryCodeFromLocale = (locale: string): string => {
-    const mapping = LOCALE_MAPPINGS[locale];
+export const getCountryCodeFromLocale = (locale?: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale ?? getLocale()];
     return mapping ? mapping.countryCode : 'GB';
 };
 
-export const getCurrencyCodeFromLocale = (locale: string): string => {
-    const mapping = LOCALE_MAPPINGS[locale];
+export const getCurrencyCodeFromLocale = (locale?: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale ?? getLocale()];
     return mapping ? mapping.currencyCode : 'GBP';
 };
 
-export const getCurrencySymbolFromLocale = (locale: string): string => {
-    const mapping = LOCALE_MAPPINGS[locale];
+export const getCurrencySymbolFromLocale = (locale?: string): string => {
+    const mapping = LOCALE_MAPPINGS[locale ?? getLocale()];
     return mapping ? mapping.currencySymbol : '£';
+};
+
+export const formatPrice = (price: number, locale?: string, currencyCode?: string): string => {
+    const currentLocale = locale || getLocale();
+    const currency = currencyCode || getCurrencyCodeFromLocale(currentLocale);
+
+    const formatter = new Intl.NumberFormat(currentLocale, {
+        style: 'currency',
+        currency: currency,
+        currencyDisplay: 'symbol',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+
+    return formatter.format(price).replace(/\u00A0/g, ' ');
 };
 
 type Language = components['schemas']['Language'] & {

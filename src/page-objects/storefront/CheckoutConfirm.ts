@@ -34,8 +34,8 @@ export class CheckoutConfirm implements PageObject {
         this.headline = page.getByRole('heading', { name: translate('storefront:checkout:confirm.completeOrder') });
         this.termsAndConditionsCheckbox = page.getByLabel(translate('storefront:checkout:confirm.termsAndConditions'));
         this.immediateAccessToDigitalProductCheckbox = page.getByLabel(translate('storefront:checkout:confirm.immediateAccessToDigitalProduct'));
-        this.grandTotalPrice = page.locator(`dt:has-text('Grand total') + dd`);
-        this.taxPrice = page.locator(`dt:text-matches('plus [0-9]\\+\\?% VAT') + dd`);
+        this.grandTotalPrice = page.locator(`dt:has-text('${translate('storefront:checkout:common.grandTotal')}') + dd`);
+        this.taxPrice = page.locator(`dt:text-matches("${translate('storefront:checkout:common.plusVat')} [0-9]\\+\\?${translate('storefront:checkout:common.vatSuffix')}") + dd`);
         this.submitOrderButton = page.getByRole('button', { name: translate('storefront:checkout:confirm.submitOrder') });
 
         this.paymentCashOnDelivery = page.getByLabel(translate('storefront:checkout:common.cashOnDelivery'));
