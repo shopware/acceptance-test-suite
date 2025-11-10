@@ -7,22 +7,19 @@
         "invoice": "Rechnung",
         "shippingMethod": "Versandart",
         "standard": "Standard",
-        "express": "Express"
+        "express": "Express",
+        "grandTotal": "Gesamtsumme",
+        "plusVat": "zzgl.",
+        "vatSuffix": " % MwSt."
     },
     "cart": {
-        "addToCart": "In den Warenkorb",
-        "removeFromCart": "Aus dem Warenkorb entfernen",
-        "quantity": "Anzahl",
-        "price": "Preis",
-        "subtotal": "Zwischensumme",
-        "total": "Gesamt",
-        "emptyCart": "Ihr Warenkorb ist leer",
-        "continueShopping": "Weiter einkaufen",
-        "proceedToCheckout": "Zur Kasse",
         "shoppingCart": "Warenkorb",
         "goToCheckout": "Zur Kasse gehen",
         "displayShoppingCart": "Warenkorb anzeigen",
+        "continueShopping": "Weiter einkaufen",
         "promoCode": "Aktionscode",
+        "emptyCart": "Ihr Warenkorb ist leer.",
+        "quantity": "Anzahl",
         "stockReached": "nur noch 1x verfügbar"
     },
     "confirm": {
@@ -38,20 +35,9 @@
         "immediateAccessToDigitalProduct": "Ja, ich möchte sofort Zugang zu dem digitalen Inhalt und weiß, dass mein Widerrufsrecht mit dem Zugang erlischt."
     },
     "finish": {
-        "thankYou": "Vielen Dank für Ihre Bestellung",
-        "thankYouForOrder": "Vielen Dank für Ihre Bestellung",
-        "orderNumber": "Bestellnummer",
-        "orderConfirmation": "Bestellbestätigung",
-        "continueShopping": "Weiter einkaufen",
-        "grandTotal": "Gesamtsumme",
-        "plusVat": "zzgl.",
-        "vatSuffix": "% MwSt."
+        "thankYouForOrder": "Vielen Dank für Ihre Bestellung"
     },
     "orderEdit": {
         "cancelOrder": "Bestellung stornieren"
-    },
-    "register": {
-        "createAccount": "Konto erstellen",
-        "guestCheckout": "Als Gast bestellen"
     }
 }

@@ -25,7 +25,7 @@ export class DataSharing implements PageObject {
 
         this.dataSharingAgreeButton = page.getByRole('button', { name: translate('administration:dataSharing:buttons.agree') });
         this.dataSharingDisableButton = page.getByRole('button', { name: translate('administration:dataSharing:buttons.disableDataSharing') });
-        this.dataSharingSuccessMessageLabel = page.getByText('You are sharing data with us', { exact: true });
+        this.dataSharingSuccessMessageLabel = page.getByText(translate('administration:dataSharing:messages.sharingData'), { exact: true });
         this.dataSharingTermsAgreementLabel = page.getByText(translate('administration:dataSharing:messages.termsAgreement'));
     }
 

@@ -149,7 +149,7 @@ export class ProductDetail implements PageObject {
         if (satisfies(instanceMeta.version, '<6.7')) {
             this.releaseDateInput = page.locator('.sw-product-detail-base__labelling-card').locator('.form-control');
         } else {
-            this.releaseDateInput = page.locator('.dp__input_readonly');
+            this.releaseDateInput = page.locator('.dp__input');
         }
 
         // Media upload interactions

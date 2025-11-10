@@ -14,13 +14,18 @@ import { translate } from '../../../services/LanguageHelper';
  */
 export async function getCustomFieldCardLocators(page: Page, customFieldSetName: string, customFieldName: string, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
     let customFieldCard: Locator;
+    let customFieldLabel: Locator;
     if (satisfies(instanceMeta.version, '<6.7')) {
         customFieldCard = page.locator('.sw-card').filter({ hasText: translate('administration:customField:general.customFields') });
     } else {
         customFieldCard = page.locator('.mt-card').filter({ hasText: translate('administration:customField:general.customFields') });
     }
     const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
-    const customFieldLabel = customFieldCard.locator('.sw-custom-field-set-renderer').locator('.sw-field__label').getByText(customFieldName);
+    if (satisfies(instanceMeta.version, '<6.7.4.1')) {
+        customFieldLabel = customFieldCard.locator('.sw-custom-field-set-renderer').locator('.sw-field__label').getByText(customFieldName);
+    } else {
+        customFieldLabel = customFieldCard.locator('.sw-custom-field-set-renderer').locator('.mt-field__label').getByText(customFieldName);
+    }
     const customFieldSelect = customFieldCard.locator(`.sw-custom-field-set-renderer-tab-content__${customFieldSetName}`);
 
     return {

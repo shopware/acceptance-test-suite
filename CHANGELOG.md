@@ -1,5 +1,26 @@
 # Changelog
 
+## [12.1.0](https://github.com/shopware/acceptance-test-suite/compare/v12.0.2...v12.1.0) (2025-11-07)
+
+
+### Features
+
+* update selectors for dynamic field rendering with meteor components ([#521](https://github.com/shopware/acceptance-test-suite/issues/521)) ([4294c2c](https://github.com/shopware/acceptance-test-suite/commit/4294c2c4992b12a7df89ad48a71d2ffcfa04c22f))
+
+## [12.0.2](https://github.com/shopware/acceptance-test-suite/compare/v12.0.1...v12.0.2) (2025-11-07)
+
+
+### Bug Fixes
+
+* adjust selectors work for mt-datepicker ([#517](https://github.com/shopware/acceptance-test-suite/issues/517)) ([d66fc93](https://github.com/shopware/acceptance-test-suite/commit/d66fc93438b5ea849dcdca2e032d5de0d0aeae4a))
+
+## [12.0.1](https://github.com/shopware/acceptance-test-suite/compare/v12.0.0...v12.0.1) (2025-11-05)
+
+
+### Bug Fixes
+
+* update locale_mappings:  languageCode of en-US locale to en-GB ([#515](https://github.com/shopware/acceptance-test-suite/issues/515)) ([99eb5cd](https://github.com/shopware/acceptance-test-suite/commit/99eb5cdeaae4962a6797c30b3b53d4d0951e1f84))
+
 ## [12.0.0](https://github.com/shopware/acceptance-test-suite/compare/v11.38.0...v12.0.0) (2025-11-04)
 
 
