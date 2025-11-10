@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.1.1](https://github.com/shopware/acceptance-test-suite/compare/v12.1.0...v12.1.1) (2025-11-08)
+
+
+### Bug Fixes
+
+* update locale-mappings and correct translationKeys ([#519](https://github.com/shopware/acceptance-test-suite/issues/519)) ([b0f71f9](https://github.com/shopware/acceptance-test-suite/commit/b0f71f9ca614a2f85ca697ec2a588fb8ce70f3f6))
+
 ## [12.1.0](https://github.com/shopware/acceptance-test-suite/compare/v12.0.2...v12.1.0) (2025-11-07)
 
 
