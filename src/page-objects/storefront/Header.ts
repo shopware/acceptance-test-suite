@@ -4,6 +4,7 @@ import { translate } from '../../services/LanguageHelper';
 
 export class Header implements PageObject {
     public readonly mainNavigationLink: Locator;
+    public readonly topBarNav: Locator;
     public readonly languagesDropdown: Locator;
     public readonly languagesMenuOptions: Locator;
     public readonly currenciesDropdown: Locator;
@@ -21,17 +22,18 @@ export class Header implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.mainNavigationLink = page.locator('.main-navigation-link-text');
-        this.languagesDropdown = page.locator('.top-bar-language').filter({ has: page.getByRole('button') });
-        this.languagesMenuOptions = page.locator('.top-bar-language').filter({ has: page.getByRole('list') });
-        this.currenciesDropdown = page.locator('.top-bar-currency').filter({ has: page.getByRole('button') });
-        this.currenciesMenuOptions = page.locator('.top-bar-currency').filter({ has: page.getByRole('list') });
+        this.topBarNav = page.getByRole('navigation', { name: translate('storefront:header:topBarNav') });
+        this.languagesDropdown = this.topBarNav.locator('.top-bar-language').getByRole('button', { name: translate('storefront:header:languageDropdown') });
+        this.languagesMenuOptions = this.topBarNav.locator('.top-bar-language').getByRole('list');
+        this.currenciesDropdown = this.topBarNav.locator('.top-bar-currency').getByRole('button', { name: translate('storefront:header:currencyDropdown') });
+        this.currenciesMenuOptions = this.topBarNav.locator('.top-bar-currency').getByRole('list');       
         this.searchInput = page.getByLabel(translate('storefront:header:searchInputAriaLabel'));        
 
         //skip links
         this.skipToMainContentLink = page.getByRole('link', { name: translate('storefront:header:skipToContentLink'), exact: true });
 
         //wishlist
-        this.wishlistIcon = page.locator('.header-wishlist-icon');
+        this.wishlistIcon = page.getByRole('link', { name: translate('storefront:header:wishlistIcon') });
         this.wishlistBasket = page.locator('.header-wishlist-badge');
     }
     

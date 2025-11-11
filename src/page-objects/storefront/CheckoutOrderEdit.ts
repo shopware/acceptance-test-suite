@@ -10,16 +10,21 @@ export class CheckoutOrderEdit implements PageObject {
     public readonly dialogBackButton: Locator;
 
     /**
-     * Payment options
+     * Payment and Shipping options
      */
+    public readonly paymentMethodRadioGroup: Locator;
+    public readonly shippingMethodRadioGroup: Locator;
+
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentCashOnDelivery: Locator;
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentPaidInAdvance: Locator;
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentInvoice: Locator;
 
-    /**
-     * Shipping options
-     */
+    /**  @deprecated - Use 'shippingMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly shippingStandard: Locator;
+    /**  @deprecated - Use 'shippingMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly shippingExpress: Locator;
 
     public readonly page: Page;
@@ -32,6 +37,9 @@ export class CheckoutOrderEdit implements PageObject {
         this.dialogOrderCancel = page.getByRole('dialog', { name: translate('storefront:order:actions.cancelOrder') });
         this.dialogOrderCancelButton = this.dialogOrderCancel.getByRole('button', { name: translate('storefront:order:actions.cancelOrder') });
         this.dialogBackButton = this.dialogOrderCancel.getByRole('button', { name: translate('storefront:order:actions.back') });
+
+        this.paymentMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.paymentMethod') });
+        this.shippingMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.shippingMethod') });
 
         this.paymentCashOnDelivery = page.getByLabel(translate('storefront:payment:methods.cashOnDelivery'));
         this.paymentPaidInAdvance = page.getByLabel(translate('storefront:payment:methods.paidInAdvance'));

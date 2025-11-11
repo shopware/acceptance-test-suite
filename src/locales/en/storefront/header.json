@@ -1,4 +1,8 @@
 {
+    "topBarNav": "Shop settings",
+    "currencyDropdown": "Change currency",
+    "languageDropdown": "Change language",
     "skipToContentLink": "Skip to main content",
-    "searchInputAriaLabel": "Enter search term..."
+    "searchInputAriaLabel": "Enter search term...",
+    "wishlistIcon": "Wishlist"
 }

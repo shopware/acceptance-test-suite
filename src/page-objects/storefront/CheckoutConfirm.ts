@@ -11,16 +11,21 @@ export class CheckoutConfirm implements PageObject {
     public readonly submitOrderButton: Locator;
 
     /**
-     * Payment options
+     * Payment and Shipping options
      */
+    public readonly paymentMethodRadioGroup: Locator;
+    public readonly shippingMethodRadioGroup: Locator;
+
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentCashOnDelivery: Locator;
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentPaidInAdvance: Locator;
+    /**  @deprecated - Use 'paymentMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly paymentInvoice: Locator;
 
-    /**
-     * Shipping options
-     */
+    /**  @deprecated - Use 'shippingMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly shippingStandard: Locator;
+    /**  @deprecated - Use 'shippingMethodRadioGroup' with selectsRadioButton() instead. */
     public readonly shippingExpress: Locator;
 
     /**
@@ -37,6 +42,9 @@ export class CheckoutConfirm implements PageObject {
         this.grandTotalPrice = page.locator(`dt:has-text('${translate('storefront:checkout:common.grandTotal')}') + dd`);
         this.taxPrice = page.locator(`dt:text-matches("${translate('storefront:checkout:common.plusVat')} [0-9]\\+\\?${translate('storefront:checkout:common.vatSuffix')}") + dd`);
         this.submitOrderButton = page.getByRole('button', { name: translate('storefront:checkout:confirm.submitOrder') });
+
+        this.paymentMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.paymentMethod') });
+        this.shippingMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.shippingMethod') });
 
         this.paymentCashOnDelivery = page.getByLabel(translate('storefront:checkout:common.cashOnDelivery'));
         this.paymentPaidInAdvance = page.getByLabel(translate('storefront:checkout:common.paidInAdvance'));

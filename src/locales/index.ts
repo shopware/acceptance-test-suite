@@ -38,6 +38,7 @@ import storefrontPageNotFound from './en/storefront/pageNotFound.json' with { ty
 import storefrontPayment from './en/storefront/payment.json' with { type: 'json' };
 import storefrontRecover from './en/storefront/recover.json' with { type: 'json' };
 import storefrontOffCanvasCart from './en/storefront/offCanvasCart.json' with { type: 'json' };
+import storefrontWishlist from './en/storefront/wishlist.json' with { type: 'json' };
 
 // German locales - Administration
 import deAdministrationCategory from './de/administration/category.json' with { type: 'json' };
@@ -80,6 +81,7 @@ import deStorefrontPageNotFound from './de/storefront/pageNotFound.json' with { 
 import deStorefrontPayment from './de/storefront/payment.json' with { type: 'json' };
 import deStorefrontProduct from './de/storefront/product.json' with { type: 'json' };
 import deStorefrontRecover from './de/storefront/recover.json' with { type: 'json' };
+import deStorefrontWishlist from './de/storefront/wishlist.json' with { type: 'json' };
 
 // Bundle all resources for i18next (no filesystem operations needed!)
 export const BUNDLED_RESOURCES = {
@@ -124,6 +126,7 @@ export const BUNDLED_RESOURCES = {
         'storefront/payment': storefrontPayment,
         'storefront/recover': storefrontRecover,
         'storefront/offCanvasCart': storefrontOffCanvasCart,
+        'storefront/wishlist': storefrontWishlist,
     },
     de: {
         // Administration
@@ -166,6 +169,7 @@ export const BUNDLED_RESOURCES = {
         'storefront/payment': deStorefrontPayment,
         'storefront/product': deStorefrontProduct,
         'storefront/recover': deStorefrontRecover,
+        'storefront/wishlist': deStorefrontWishlist,
     },
 } as const;
 
@@ -212,5 +216,6 @@ export const baseNamespaces = {
         payment: storefrontPayment,
         recover: storefrontRecover,
         offCanvasCart: storefrontOffCanvasCart,
+        wishlist: storefrontWishlist,
     },
 } as const;

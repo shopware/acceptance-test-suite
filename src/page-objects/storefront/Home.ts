@@ -32,6 +32,7 @@ export class Home implements PageObject {
     public readonly consentCookiePreferences: Locator;
     public readonly consentCookiePermissionContent: Locator;
     public readonly consentDialog: Locator;
+    public readonly consentDialogCloseButton: Locator;
     public readonly consentDialogTechnicallyRequiredCheckbox: Locator;
     public readonly consentDialogStatisticsCheckbox: Locator;
     /**
@@ -93,6 +94,7 @@ export class Home implements PageObject {
         this.consentCookiePreferences = page.getByLabel(translate('storefront:home:consent.cookiePreferences'));
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
         this.consentDialog = page.getByRole('dialog').filter({ hasText: translate('storefront:home:consent.cookiePreferences') });
+        this.consentDialogCloseButton = this.consentDialog.getByRole('button', { name: translate('storefront:home:consent.close') });
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
             name: 'Technically required',
             exact: true,
@@ -120,22 +122,24 @@ export class Home implements PageObject {
         this.wishlistBasket = page.locator('.header-wishlist-badge');
 
         //product filters
-        this.filterMultiSelect = page.locator('.filter-multi-select');
+        this.filterMultiSelect = page.getByLabel(translate('storefront:home:filters.filterPanel')).getByRole('list');
+        this.freeShippingFilter = this.filterMultiSelect.getByLabel(translate('storefront:home:filters.freeShipping'));
         this.manufacturerFilter = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.manufacturer') });
+        this.priceFilterButton = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.price') }).first();
+        this.productRatingButton = this.filterMultiSelect.getByRole('button', { name: translate('storefront:home:filters.rating') });
+        this.productRatingList = this.filterMultiSelect.locator('.filter-multi-select-rating').getByRole('list');
         this.propertyFilters = page.locator('.filter-multi-select-properties');
-        this.priceFilterButton = page.getByRole('button', { name: translate('storefront:home:filters.price') }).first();
         this.resetAllButton = page.getByRole('button', { name: translate('storefront:home:filters.resetAll') });
-        this.freeShippingFilter = page.getByRole('checkbox', { name: translate('storefront:home:filters.freeShipping') });
+
+        this.loader = page.locator('.has-element-loader');
+
         this.productList = page.locator('.cms-listing-row');
         this.productItemNames = this.productList.locator('.product-name');
-        this.productRatingButton = this.filterMultiSelect.locator('.btn:has-text("Rating min.")');
-        this.productRatingList = page.locator('.filter-rating-select-list-item');
-        this.loader = page.locator('.has-element-loader');
         this.productVariantCharacteristicsOptions = page.locator('.product-variant-characteristics-option');
     }
 
     async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
-        return this.productRatingList.filter({ hasText: `min. ${rating}/5` });
+        return this.productRatingList.getByLabel(`min. ${rating}/5`);
     }
 
     async getFilterItemByFilterName(filterName: string): Promise<Locator> {
@@ -143,11 +147,11 @@ export class Home implements PageObject {
     }
 
     async getFilterButtonByFilterName(filterName: string): Promise<Locator> {
-        return this.filterMultiSelect.getByRole('button', { name: filterName });
+        return this.filterMultiSelect.getByRole('button', { name: `${translate('storefront:home:filters.labelPrefix').concat(filterName)}` });
     }
 
     async getMenuItemByCategoryName(categoryName: string): Promise<Record<string, Locator>> {
-        const menuNavigationItem = this.page.locator('.nav-main').getByText(categoryName, { exact: true });
+        const menuNavigationItem = this.page.locator('.nav-main').getByRole('link', { name: categoryName, exact: true });
         /** @deprecated - Remove, because it is obsolete.
          * The Offcanvas can only be tested on mobile viewport.
          * The content is only loaded if the navigation is triggered.
@@ -211,7 +215,7 @@ export class Home implements PageObject {
     }
 
     async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {
-        const listingItem = this.page.getByRole('listitem').filter({ has: this.page.getByText(productListingName) });
+        const listingItem = this.page.getByRole('listitem').filter({ hasText: productListingName });
         const productImage = listingItem.locator('.product-image-link');
         const productRating = listingItem.locator('.product-rating');
         const productVariantCharacteristics = listingItem.locator('.product-variant-characteristics');
@@ -220,9 +224,7 @@ export class Home implements PageObject {
         const productCheapestPrice = listingItem.locator('.product-cheapest-price');
         const productPrice = listingItem.locator('.product-price');
         const productName = listingItem.locator('.product-name');
-        const productAddToShoppingCart = listingItem.getByRole('button', {
-            name: 'Add to shopping cart',
-        });
+        const productAddToShoppingCart = listingItem.getByRole('button', { name: translate('storefront:home:listing.addToShoppingCart')});
         const productListingPrice = listingItem.locator('.list-price-price');
         const productListingPricePercentage = listingItem.locator('.list-price-percentage');
         const productListingPriceBadge = listingItem.locator('.badge-discount');

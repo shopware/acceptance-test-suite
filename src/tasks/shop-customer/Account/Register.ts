@@ -5,7 +5,7 @@ import type { RegistrationData } from '../../../types/ShopwareTypes';
 import { getCountryAddressData, getCountryCodeFromLocale, getLocale } from '../../../services/ShopwareDataHelpers';
 
 export const Register = base.extend<{ Register: Task }, FixtureTypes>({
-    Register: async ({ StorefrontAccountLogin, IdProvider, TestDataService }, use) => {
+    Register: async ({ ShopCustomer, StorefrontAccountLogin, IdProvider, TestDataService }, use) => {
         let registeredEmail = '';
 
         const countryCode = getCountryCodeFromLocale(getLocale());
@@ -37,29 +37,33 @@ export const Register = base.extend<{ Register: Task }, FixtureTypes>({
 
                 registeredEmail = registrationData.email;
 
+                await ShopCustomer.presses(StorefrontAccountLogin.salutationSelect);
                 await StorefrontAccountLogin.salutationSelect.selectOption(registrationData.salutation);
-                await StorefrontAccountLogin.firstNameInput.fill(registrationData.firstName);
-                await StorefrontAccountLogin.lastNameInput.fill(registrationData.lastName);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.firstNameInput, registrationData.firstName);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.lastNameInput, registrationData.lastName);
+
 
                 // Deprecation warning for the 'isCommercial' argument
                 if (registrationData.isCommercial || isCommercial) {
-                    await StorefrontAccountLogin.companyInput.fill(registrationData.company);
-                    await StorefrontAccountLogin.departmentInput.fill(registrationData.department);
-                    await StorefrontAccountLogin.vatRegNoInput.fill(registrationData.vatRegNo);
+                    await ShopCustomer.fillsIn(StorefrontAccountLogin.companyInput,registrationData.company);
+                    await ShopCustomer.fillsIn(StorefrontAccountLogin.departmentInput,registrationData.department);
+                    await ShopCustomer.fillsIn(StorefrontAccountLogin.vatRegNoInput,registrationData.vatRegNo);
                 }
 
-                await StorefrontAccountLogin.registerEmailInput.fill(registrationData.email);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.registerEmailInput,registrationData.email);
+
 
                 if (!registrationData.isGuest) {
-                    await StorefrontAccountLogin.registerPasswordInput.fill(registrationData.password);
+                    await ShopCustomer.fillsIn(StorefrontAccountLogin.registerPasswordInput,registrationData.password);
                 }
 
-                await StorefrontAccountLogin.streetAddressInput.fill(registrationData.street);
-                await StorefrontAccountLogin.postalCodeInput.fill(registrationData.postalCode);
-                await StorefrontAccountLogin.cityInput.fill(registrationData.city);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.streetAddressInput,registrationData.street);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.postalCodeInput,registrationData.postalCode);
+                await ShopCustomer.fillsIn(StorefrontAccountLogin.cityInput,registrationData.city);
+                await ShopCustomer.presses(StorefrontAccountLogin.countryInput);
                 await StorefrontAccountLogin.countryInput.selectOption({ label: registrationData.country });
 
-                await StorefrontAccountLogin.registerButton.click();
+                await ShopCustomer.presses(StorefrontAccountLogin.registerButton);
 
                 const customer = await TestDataService.getCustomerByEmail(registeredEmail);
                 if (customer) {

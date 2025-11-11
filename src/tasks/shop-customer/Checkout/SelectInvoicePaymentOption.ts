@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import type { Task } from '../../../types/Task';
 import type { FixtureTypes} from '../../../types/FixtureTypes';
 
+/**  @deprecated - Use 'SelectPaymentOption' instead. */
 export const SelectInvoicePaymentOption = base.extend<{ SelectInvoicePaymentOption: Task }, FixtureTypes>({
     SelectInvoicePaymentOption: async ({ ShopCustomer, StorefrontCheckoutConfirm }, use)=> {
         const task = () => {

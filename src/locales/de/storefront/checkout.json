@@ -1,9 +1,11 @@
 {
     "common": {
         "back": "Zurück",
+        "paymentMethod": "Zahlungsart",
         "cashOnDelivery": "Nachnahme",
         "paidInAdvance": "Vorkasse",
         "invoice": "Rechnung",
+        "shippingMethod": "Versandart",
         "standard": "Standard",
         "express": "Express",
         "grandTotal": "Gesamtsumme",
@@ -21,6 +23,12 @@
         "stockReached": "nur noch 1x verfügbar"
     },
     "confirm": {
+        "confirmOrder": "Bestellung bestätigen",
+        "orderSummary": "Bestellübersicht",
+        "shippingAddress": "Lieferadresse",
+        "billingAddress": "Rechnungsadresse",
+        "agreeToTerms": "Ich stimme den AGBs zu",
+        "revocationNotice": "Widerrufsbelehrung",
         "completeOrder": "Bestellung abschließen",
         "submitOrder": "Zahlungspflichtig bestellen",
         "termsAndConditions": "Ich habe die AGB gelesen und bin mit ihnen einverstanden.",

@@ -3,6 +3,7 @@
         "yourAccount": "Ihr Konto"
     },
     "consent": {
+        "close": "Cookie-Voreinstellungen schließen",
         "onlyTechnicallyRequired": "Nur technisch erforderlich",
         "configure": "Konfigurieren",
         "acceptAllCookies": "Alle Cookies akzeptieren",
@@ -10,9 +11,15 @@
         "marketing": "Marketing"
     },
     "filters": {
+        "filterPanel": "Produkte filtern",
+        "labelPrefix": "Filtern nach ",
         "manufacturer": "Hersteller",
         "price": "Preis",
         "resetAll": "Alle zurücksetzen",
-        "freeShipping": "Kostenloser Versand"
+        "freeShipping": "Filter hinzufügen: Versandkostenfrei",
+        "rating": "Mindestbewertung"
+    },
+    "listing":{
+        "addToShoppingCart": "In den Warenkorb"
     }
 }
