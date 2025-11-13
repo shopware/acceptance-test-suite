@@ -51,6 +51,8 @@ import { LayoutCreate } from "./administration/LayoutCreate";
 import { ListingPageLayoutDetail } from "./administration/ListingPageLayoutDetail";
 import { SalesChannelDetail } from "./administration/SalesChannelDetail";
 import { OrderListing } from "./administration/OrderListing";
+import { DataSharingConsentModal } from "./administration/DataSharingConsentModal";
+
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
@@ -103,6 +105,7 @@ export interface AdministrationPageTypes {
     AdminListingPageLayoutDetail: ListingPageLayoutDetail;
     AdminLayoutCreate: LayoutCreate;
     AdminOrderListing: OrderListing;
+    AdminDataSharingConsentModal: DataSharingConsentModal;
 }
 
 export const AdminPageObjects = {
@@ -156,6 +159,7 @@ export const AdminPageObjects = {
     ListingPageLayoutDetail,
     LayoutCreate,
     OrderListing,
+    DataSharingConsentModal,
 };
 
 export const test = base.extend<FixtureTypes>({
@@ -356,5 +360,9 @@ export const test = base.extend<FixtureTypes>({
 
     AdminOrderListing: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new OrderListing(AdminPage, InstanceMeta));
+    },
+
+    AdminDataSharingConsentModal: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new DataSharingConsentModal(AdminPage, InstanceMeta));
     },
 });
