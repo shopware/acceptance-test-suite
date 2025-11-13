@@ -19,6 +19,9 @@ export class OrderDetail implements PageObject {
     public readonly sendDocumentButton: Locator;
     public readonly itemsCardHeader: Locator;
     public readonly sentCheckmark: Locator;
+    public readonly orderPaymentStatus: Locator;
+    public readonly orderDeliveryStatus: Locator;
+    public readonly orderStatus: Locator;
 
     /**
      * Tabs
@@ -49,7 +52,10 @@ export class OrderDetail implements PageObject {
         } else {
             this.itemsCardHeader = page.locator('.mt-card__header').getByText(translate('administration:order:detail.items'));
         }
-
+        this.orderPaymentStatus = page.locator('.sw-order-state-select-v2__order_transaction');
+        this.orderDeliveryStatus = page.locator('.sw-order-state-select-v2__order_delivery');
+        this.orderStatus = page.locator('.sw-order-state__progress-select');
+        
         //Tabs
         this.generalTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.general') });
         this.detailsTabLink = page.getByRole('tab', { name: translate('administration:order:tabs.details') });
