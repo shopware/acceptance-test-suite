@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.1.2](https://github.com/shopware/acceptance-test-suite/compare/v12.1.1...v12.1.2) (2025-11-13)
+
+
+### Bug Fixes
+
+* add order status locators ([#525](https://github.com/shopware/acceptance-test-suite/issues/525)) ([f1bf3de](https://github.com/shopware/acceptance-test-suite/commit/f1bf3de503c0396f8920c47fdb8bea245f960a13))
+
 ## [12.1.1](https://github.com/shopware/acceptance-test-suite/compare/v12.1.0...v12.1.1) (2025-11-08)
 
 
