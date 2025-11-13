@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.1.3](https://github.com/shopware/acceptance-test-suite/compare/v12.1.2...v12.1.3) (2025-11-13)
+
+
+### Bug Fixes
+
+* review filter rating locator ([#528](https://github.com/shopware/acceptance-test-suite/issues/528)) ([27c678a](https://github.com/shopware/acceptance-test-suite/commit/27c678af29ee28024b2a27422529974619edb3fc))
+
 ## [12.1.2](https://github.com/shopware/acceptance-test-suite/compare/v12.1.1...v12.1.2) (2025-11-13)
 
 
