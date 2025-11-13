@@ -139,7 +139,7 @@ export class Home implements PageObject {
     }
 
     async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
-        return this.productRatingList.getByLabel(`min. ${rating}/5`);
+        return this.productRatingList.getByText(`min. ${rating}/5`);
     }
 
     async getFilterItemByFilterName(filterName: string): Promise<Locator> {
