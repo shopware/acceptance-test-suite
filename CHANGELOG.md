@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.1.4](https://github.com/shopware/acceptance-test-suite/compare/v12.1.3...v12.1.4) (2025-11-14)
+
+
+### Bug Fixes
+
+* flaky checkout button click ([#530](https://github.com/shopware/acceptance-test-suite/issues/530)) ([a39db18](https://github.com/shopware/acceptance-test-suite/commit/a39db18b5feca7b4bbf3c6cf795e467527d7e94d))
+
 ## [12.1.3](https://github.com/shopware/acceptance-test-suite/compare/v12.1.2...v12.1.3) (2025-11-13)
 
 
