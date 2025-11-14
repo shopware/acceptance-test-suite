@@ -10,7 +10,7 @@ export const ProceedFromCartToCheckout = base.extend<{ ProceedFromCartToCheckout
     }, use) => {
         const task = () => {
             return async function ProceedFromCartToCheckout() {
-                await ShopCustomer.presses(StorefrontCheckoutCart.goToCheckoutButton);
+                await StorefrontCheckoutCart.goToCheckoutButton.click();
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.headline).toBeVisible();
             }
         }
