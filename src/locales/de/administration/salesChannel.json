@@ -1,0 +1,11 @@
+{
+    "tabs": {
+        "general": "Allgemein",
+        "products": "Produkte",
+        "theme": "Theme",
+        "analytics": "Analyse"
+    },
+    "buttons": {
+        "addDomain": "Domain hinzufügen"
+    }
+}

@@ -19,7 +19,7 @@ export class ShippingListing implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.header = page.locator('.smart-bar__header');
-        this.addShippingMethod = page.getByText('Add shipping method', { exact: true });
+        this.addShippingMethod = page.getByText(translate('administration:shipping:listing.addShippingMethod'), { exact: true });
         this.contextMenu = page.locator('.sw-data-grid-settings__trigger');
         this.editButton = page.locator('.sw-settings-shipping-list__edit-action');
         this.deleteButton = page.locator('.sw-context-menu-item--danger');

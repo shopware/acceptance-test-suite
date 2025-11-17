@@ -20,7 +20,7 @@
         "country": "Land",
         "postalCode": "Postleitzahl",
         "state": "Bundesland",
-        "differentShippingAddress": "Liefer- und Rechnungsadresse sind nicht identisch.",
+        "differentShippingAddress": "Lieferadresse weicht von Rechnungsadresse ab.",
         "continue": "Weiter"
     }
 }

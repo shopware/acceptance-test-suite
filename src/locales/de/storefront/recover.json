@@ -3,9 +3,9 @@
     "subtitle": "Wir senden Ihnen eine Bestätigungs-E-Mail. Klicken Sie auf den Link in dieser E-Mail, um Ihr Passwort zu ändern.",
     "requestEmail": "E-Mail anfordern",
     "back": "Zurück",
-    "emailSent": "Falls die angegebene E-Mail-Adresse registriert ist, wurde eine Bestätigungs-E-Mail mit einem Link zur Passwort-Zurücksetzung gesendet.",
+    "emailSent": "Falls die angegebene E-Mail-Adresse registriert ist, wurde eine Bestätigungs-E-Mail mit einem Link zum Zurücksetzen des Passworts gesendet.",
     "newPassword": "Neues Passwort",
-    "passwordConfirmation": "Passwort-Bestätigung",
+    "passwordConfirmation": "Passwort bestätigen",
     "changePassword": "Passwort ändern",
-    "invalidLink": "Der Link zur Passwort-Zurücksetzung scheint ungültig zu sein."
+    "invalidLink": "Der Link zum Zurücksetzen des Passworts scheint ungültig zu sein."
 }

@@ -5,10 +5,13 @@
     "consent": {
         "close": "Close cookie preferences",
         "onlyTechnicallyRequired": "Only technically required",
+        "technicallyRequired": "Technically required",
         "configure": "Configure",
         "acceptAllCookies": "Accept all cookies",
         "cookiePreferences": "Cookie preferences",
-        "marketing": "Marketing"
+        "marketing": "Marketing",
+        "statistics": "Statistics",
+        "save": "Save"
     },
     "filters": {
         "filterPanel": "Filter products",
@@ -17,9 +20,10 @@
         "price": "Price",
         "resetAll": "Reset all",
         "freeShipping": "Add filter: Free shipping",
-        "rating": "minimum rating"
+        "rating": "minimum rating",
+        "minRating": "min. {{rating}}/5"
     },
-    "listing":{
+    "listing": {
         "addToShoppingCart": "Add to shopping cart"
     }
 }

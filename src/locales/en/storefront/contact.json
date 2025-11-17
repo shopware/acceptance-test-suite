@@ -1,5 +1,8 @@
 {
     "title": "Contact",
+    "link": {
+        "contactForm": "Contact form"
+    },
     "form": {
         "contact": "Contact",
         "salutation": "Salutation",

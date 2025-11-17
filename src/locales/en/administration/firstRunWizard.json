@@ -5,7 +5,13 @@
     "buttons": {
         "install": "Install",
         "installMigrationAssistant": "Install Migration Assistant",
-        "installDemoData": "Install demo data"
+        "installDemoData": "Install demo data",
+        "next": "Next",
+        "skip": "Skip",
+        "finish": "Finish",
+        "back": "Back",
+        "configureLater": "Configure later",
+        "configureOwnSmtpServer": "Configure own SMTP server"
     },
     "headers": {
         "dataImport": "Getting started with Shopware 6",
@@ -21,15 +27,24 @@
         "host": "Host",
         "port": "Port",
         "username": "Username",
+        "password": "Password",
         "senderAddress": "Sender address",
         "deliveryAddress": "Delivery address",
         "disableEmailDelivery": "Disable email delivery"
     },
     "placeholders": {
-        "selectSalesChannels": "Select Sales Channels..."
+        "selectSalesChannels": "Select Sales Channels...",
+        "enterEmailAddress": "Enter your email address...",
+        "enterPassword": "Enter your password..."
     },
     "regions": {
         "germanRegion": "Germany / Austria / Switzerland",
         "tools": "Tools"
+    },
+    "text": {
+        "smtpServer": "SMTP server",
+        "globalRecommendations": "Global recommendations",
+        "allDone": "All done!",
+        "forgotPassword": "Did you forget your password?"
     }
 }

@@ -5,10 +5,13 @@
     "consent": {
         "close": "Cookie-Voreinstellungen schließen",
         "onlyTechnicallyRequired": "Nur technisch erforderlich",
+        "technicallyRequired": "Technisch erforderlich",
         "configure": "Konfigurieren",
         "acceptAllCookies": "Alle Cookies akzeptieren",
         "cookiePreferences": "Cookie-Einstellungen",
-        "marketing": "Marketing"
+        "marketing": "Marketing",
+        "statistics": "Statistiken",
+        "save": "Speichern"
     },
     "filters": {
         "filterPanel": "Produkte filtern",
@@ -17,9 +20,10 @@
         "price": "Preis",
         "resetAll": "Alle zurücksetzen",
         "freeShipping": "Filter hinzufügen: Versandkostenfrei",
-        "rating": "Mindestbewertung"
+        "rating": "Mindestbewertung",
+        "minRating": "mind. {{rating}}/5"
     },
-    "listing":{
+    "listing": {
         "addToShoppingCart": "In den Warenkorb"
     }
 }

@@ -22,6 +22,7 @@ import administrationCustomerGroup from './en/administration/customerGroup.json'
 import administrationFirstRunWizard from './en/administration/firstRunWizard.json' with { type: 'json' };
 import administrationShopwareServices from './en/administration/shopwareServices.json' with { type: 'json' };
 import administrationProduct from './en/administration/product.json' with { type: 'json' };
+import administrationSalesChannel from './en/administration/salesChannel.json' with { type: 'json' };
 
 import storefrontAccount from './en/storefront/account.json' with { type: 'json' };
 import storefrontAddress from './en/storefront/address.json' with { type: 'json' };
@@ -64,6 +65,7 @@ import deAdministrationSettings from './de/administration/settings.json' with { 
 import deAdministrationShipping from './de/administration/shipping.json' with { type: 'json' };
 import deAdministrationShopwareServices from './de/administration/shopwareServices.json' with { type: 'json' };
 import deAdministrationYourProfile from './de/administration/yourProfile.json' with { type: 'json' };
+import deAdministrationSalesChannel from './de/administration/salesChannel.json' with { type: 'json' };
 
 // German locales - Storefront
 import deStorefrontAccount from './de/storefront/account.json' with { type: 'json' };
@@ -110,6 +112,7 @@ export const BUNDLED_RESOURCES = {
         'administration/firstRunWizard': administrationFirstRunWizard,
         'administration/shopwareServices': administrationShopwareServices,
         'administration/product': administrationProduct,
+        'administration/salesChannel': administrationSalesChannel,
         // Storefront
         'storefront/account': storefrontAccount,
         'storefront/address': storefrontAddress,
@@ -153,6 +156,7 @@ export const BUNDLED_RESOURCES = {
         'administration/shipping': deAdministrationShipping,
         'administration/shopwareServices': deAdministrationShopwareServices,
         'administration/yourProfile': deAdministrationYourProfile,
+        'administration/salesChannel': deAdministrationSalesChannel,
         // Storefront
         'storefront/account': deStorefrontAccount,
         'storefront/address': deStorefrontAddress,
@@ -199,6 +203,7 @@ export const baseNamespaces = {
         firstRunWizard: administrationFirstRunWizard,
         shopwareServices: administrationShopwareServices,
         product: administrationProduct,
+        salesChannel: administrationSalesChannel,
     },
     storefront: {
         account: storefrontAccount,

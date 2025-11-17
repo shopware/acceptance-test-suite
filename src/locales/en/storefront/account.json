@@ -73,7 +73,8 @@
         "newsletter": "Yes, I would like to",
         "newsletterRegistrationSuccess": "You have successfully subscribed to the newsletter.",
         "cannotDeliverToCountry": "We can not deliver to the country that is stored in your delivery address.",
-        "shippingNotPossible": "Shipping to the selected shipping address is currently not possible."
+        "shippingNotPossible": "Shipping to the selected shipping address is currently not possible.",
+        "customerGroupAccessRequested": "Access to customer group \"{{customerGroup}}\" requested."
     },
     "navigation": {
         "overview": "Overview",

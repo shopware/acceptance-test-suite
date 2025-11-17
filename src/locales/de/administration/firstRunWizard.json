@@ -1,16 +1,22 @@
 {
     "welcome": {
-        "text": "Willkommen bei der Shopware 6 Administration"
+        "text": "Willkommen in der Shopware 6 Administration"
     },
     "buttons": {
         "install": "Installieren",
-        "installMigrationAssistant": "Migration Assistant installieren",
-        "installDemoData": "Demodaten installieren"
+        "installMigrationAssistant": "Migrations-Assistenten installieren",
+        "installDemoData": "Demodaten installieren",
+        "next": "Weiter",
+        "skip": "Überspringen",
+        "finish": "Fertig",
+        "back": "Zurück",
+        "configureLater": "Später einstellen",
+        "configureOwnSmtpServer": "Eigenen SMTP-Server konfigurieren"
     },
     "headers": {
-        "dataImport": "Erste Schritte mit Shopware 6",
-        "defaultValues": "Standardwerte einrichten",
-        "mailerConfiguration": "E-Mail-Konfiguration",
+        "dataImport": "Dein Start in Shopware 6",
+        "defaultValues": "Standardwerte definieren",
+        "mailerConfiguration": "Mailer-Einstellungen",
         "payPalSetup": "PayPal einrichten",
         "extensions": "Erweiterungen",
         "shopwareAccount": "Shopware Account",
@@ -21,15 +27,24 @@
         "host": "Host",
         "port": "Port",
         "username": "Benutzername",
+        "password": "Passwort",
         "senderAddress": "Absenderadresse",
         "deliveryAddress": "Zustelladresse",
         "disableEmailDelivery": "E-Mail-Versand deaktivieren"
     },
     "placeholders": {
-        "selectSalesChannels": "Vertriebskanäle auswählen..."
+        "selectSalesChannels": "Verkaufskanäle zuweisen ...",
+        "enterEmailAddress": "Gib Deine E-Mail-Adresse ein ...",
+        "enterPassword": "Gib Dein Passwort ein ..."
     },
     "regions": {
         "germanRegion": "Deutschland / Österreich / Schweiz",
         "tools": "Tools"
+    },
+    "text": {
+        "smtpServer": "SMTP-Server",
+        "globalRecommendations": "Globale Empfehlungen",
+        "allDone": "Herzlichen Glückwunsch!",
+        "forgotPassword": "Du hast Dein Passwort vergessen?"
     }
 }

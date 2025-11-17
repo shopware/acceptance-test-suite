@@ -26,7 +26,7 @@ export class RuleCreate implements PageObject {
         this.header = page.locator('.smart-bar__header');
         this.nameInput = page.getByLabel(translate('administration:rule:fields.name'));
         this.priorityInput = page.getByLabel(translate('administration:rule:fields.priority'));
-        this.descriptionInput = page.getByLabel('Description');
+        this.descriptionInput = page.getByLabel(translate('administration:rule:fields.description'));
         this.typeItem = page.locator('.sw-settings-rule-detail__type-field').locator('.sw-select-selection-list__item');
         this.tagItem = page.locator('.sw-settings-rule-detail__tags-field').locator('.sw-select-selection-list__item');
         this.conditionTypeSelectionInput = page.locator('.sw-condition-type-select').locator('.sw-single-select__selection');

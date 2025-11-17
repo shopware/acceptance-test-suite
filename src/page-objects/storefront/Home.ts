@@ -96,26 +96,26 @@ export class Home implements PageObject {
         this.consentDialog = page.getByRole('dialog').filter({ hasText: translate('storefront:home:consent.cookiePreferences') });
         this.consentDialogCloseButton = this.consentDialog.getByRole('button', { name: translate('storefront:home:consent.close') });
         this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
-            name: 'Technically required',
+            name: translate('storefront:home:consent.technicallyRequired'),
             exact: true,
         });
         this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', {
-            name: 'Statistics',
+            name: translate('storefront:home:consent.statistics'),
             exact: true,
         });
         this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
         this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
         this.consentDialogSaveButton = this.consentDialog.getByRole('button', {
-            name: 'Save',
+            name: translate('storefront:home:consent.save'),
             exact: true,
         });
         this.consentDialogAcceptAllCookiesButton = this.consentDialog.getByRole('button', {
-            name: 'Accept all cookies',
+            name: translate('storefront:home:consent.acceptAllCookies'),
             exact: true,
         });
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
         this.mainNavigationLink = page.locator('.main-navigation-link-text');
-        this.contactFormLink = this.page.getByRole('listitem').getByTitle('Contact form', { exact: true });
+        this.contactFormLink = this.page.getByRole('listitem').getByTitle(translate('storefront:contact:link.contactForm'), { exact: true });
 
         //wishlist
         this.wishlistIcon = page.locator('.header-wishlist-icon');
@@ -139,7 +139,7 @@ export class Home implements PageObject {
     }
 
     async getRatingItemLocatorByRating(rating: number): Promise<Locator> {
-        return this.productRatingList.getByText(`min. ${rating}/5`);
+        return this.productRatingList.getByText(translate('storefront:home:filters.minRating', { rating }));
     }
 
     async getFilterItemByFilterName(filterName: string): Promise<Locator> {
@@ -224,7 +224,7 @@ export class Home implements PageObject {
         const productCheapestPrice = listingItem.locator('.product-cheapest-price');
         const productPrice = listingItem.locator('.product-price');
         const productName = listingItem.locator('.product-name');
-        const productAddToShoppingCart = listingItem.getByRole('button', { name: translate('storefront:home:listing.addToShoppingCart')});
+        const productAddToShoppingCart = listingItem.getByRole('button', { name: translate('storefront:home:listing.addToShoppingCart') });
         const productListingPrice = listingItem.locator('.list-price-price');
         const productListingPricePercentage = listingItem.locator('.list-price-percentage');
         const productListingPriceBadge = listingItem.locator('.badge-discount');
