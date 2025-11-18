@@ -6,7 +6,7 @@ export const ProceedFromProductToCheckout = base.extend<{ ProceedFromProductToCh
     ProceedFromProductToCheckout: async ({ ShopCustomer, StorefrontProductDetail, StorefrontCheckoutConfirm }, use)=> {
         const task = () => {
             return async function ProceedFromProductToCheckout() {
-                await ShopCustomer.presses(StorefrontProductDetail.offCanvasCartGoToCheckoutButton);
+                await StorefrontProductDetail.offCanvasCartGoToCheckoutButton.click();
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.headline).toBeVisible();
             }
         };
