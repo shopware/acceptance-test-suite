@@ -73,7 +73,8 @@
         "personalData": "Persönliche Daten",
         "defaultPaymentMethod": "Zahlung",
         "defaultBillingAddress": "Hinzufügen",
-        "defaultShippingAddress": "Hinzufügen"
+        "defaultShippingAddress": "Hinzufügen",
+        "customerGroupAccessRequested": "Zugang zur Kundengruppe \"{{customerGroup}}\" angefragt."
     },
     "navigation": {
         "overview": "Übersicht",

@@ -20,7 +20,7 @@
         "language": "Language"
     },
     "bulkEdit": {
-        "title": "Bulk edit: {{count}} customer",
+        "headline": "Bulk edit: {{count}} customer",
         "applyChanges": "Apply changes",
         "success": "Bulk edit - Success",
         "close": "Close",

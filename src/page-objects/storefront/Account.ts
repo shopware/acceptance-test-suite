@@ -38,7 +38,7 @@ export class Account extends BaseAccount {
     }
 
     async getCustomerGroupAlert(customerGroup: string): Promise<Locator> {
-        return this.customerGroupRequestMessage.getByText(`Access to customer group "${customerGroup}" requested.`);
+        return this.customerGroupRequestMessage.getByText(translate('storefront:account:general.customerGroupAccessRequested', { customerGroup }));
     }
 
     url() {

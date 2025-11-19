@@ -43,7 +43,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly conditionLineItemGoodsTotalFilter: Locator;
     public readonly conditionFilterModal: Locator;
     public readonly conditionCartLineItemInStockOperator: Locator;
-    public readonly conditionCartLineItemInStockValue: Locator
+    public readonly conditionCartLineItemInStockValue: Locator;
     public readonly conditionFilterModalCloseButtonX: Locator;
     public readonly conditionORContainer: Locator;
     public readonly adminMenuAvatar: Locator;
@@ -57,39 +57,48 @@ export class RuleDetail extends RuleCreate implements PageObject {
         if (satisfies(instanceMeta.version, '<6.7.3')) {
             this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole('alert');
         } else {
-            this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole( 'heading', { name: 'This rule is not in use', level: 2 });
+            this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole('heading', {
+                name: translate('administration:rule:text.ruleNotInUse'),
+                level: 2,
+            });
         }
         this.shippingMethodAvailabilityRulesCardSearchField = this.shippingMethodAvailabilityRulesCard.getByRole('textbox');
         this.taxProviderRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-tax_provider');
         if (satisfies(instanceMeta.version, '<6.7.3')) {
             this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole('alert');
         } else {
-            this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole( 'heading', { name: 'This rule is not in use', level: 2 });
+            this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole('heading', { name: translate('administration:rule:text.ruleNotInUse'), level: 2 });
         }
         this.paymentMethodsAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-payment_method');
         if (satisfies(instanceMeta.version, '<6.7.3')) {
             this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole('alert');
         } else {
-            this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole( 'heading', { name: 'This rule is not in use', level: 2 });
+            this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole('heading', {
+                name: translate('administration:rule:text.ruleNotInUse'),
+                level: 2,
+            });
         }
         this.paymentMethodsAvailabilityRulesCardLink = page.locator('.sw-settings-rule-detail-assignments__card-payment_method').getByRole('link');
         this.promotionOrderRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_order_rule');
         if (satisfies(instanceMeta.version, '<6.7.3')) {
             this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole('alert');
         } else {
-            this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole( 'heading', { name: 'This rule is not in use', level: 2 });
+            this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole('heading', { name: translate('administration:rule:text.ruleNotInUse'), level: 2 });
         }
         this.promotionCustomerRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_customer_rule');
         if (satisfies(instanceMeta.version, '<6.7.3')) {
             this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('alert');
         } else {
-            this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole( 'heading', { name: 'This rule is not in use', level: 2 });
+            this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('heading', {
+                name: translate('administration:rule:text.ruleNotInUse'),
+                level: 2,
+            });
         }
         this.promotionCartRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_cart_rule');
         if (satisfies(instanceMeta.version, '<6.7.3')) {
             this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
         } else {
-            this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole( 'heading', { name: 'This rule is not in use', level: 2 });
+            this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('heading', { name: translate('administration:rule:text.ruleNotInUse'), level: 2 });
         }
         this.assignmentModal = page.locator('.sw-settings-rule-add-assignment-modal');
         this.assignmentModalSearchField = this.assignmentModal.getByRole('textbox');
@@ -109,16 +118,16 @@ export class RuleDetail extends RuleCreate implements PageObject {
         this.conditionCustomerSurnameOperator = page.locator('.sw-condition__condition-type-customerLastName').locator('.sw-single-select__selection-text');
         this.conditionCustomerSurnameValue = page.locator('.sw-condition__condition-type-customerLastName').getByRole('textbox');
         this.conditionCartLineItemTaxationMatchOperator = page.locator('.sw-condition-base-line-item__matches-all');
-        this.conditionCartLineItemTaxationOperator =page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-single-select__selection-text');
+        this.conditionCartLineItemTaxationOperator = page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-single-select__selection-text');
         this.conditionCartLineItemTaxationValue = page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-select-selection-list__item');
-        this.conditionTimeRangeValueFirst = page.locator('.sw-condition-time-range').getByRole('textbox').first()
-        this.conditionTimeRangeValueSecond = page.locator('.sw-condition-time-range').getByRole('textbox').last()
+        this.conditionTimeRangeValueFirst = page.locator('.sw-condition-time-range').getByRole('textbox').first();
+        this.conditionTimeRangeValueSecond = page.locator('.sw-condition-time-range').getByRole('textbox').last();
         if (satisfies(instanceMeta.version, '<6.7.4.1')) {
-            this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.sw-select__selection');        
+            this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.sw-select__selection');
         } else {
             this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.mt-select-selection-list__input');
         }
-        this.conditionFilterModal = page.locator('.sw-modal__header').getByText('Filter');
+        this.conditionFilterModal = page.locator('.sw-modal__header').getByText(translate('administration:rule:text.filter'));
         this.conditionFilterModalCloseButtonX = page.locator('.sw-modal__header').getByRole('button');
         this.conditionCartLineItemInStockOperator = page.locator('.sw-condition__condition-type-cartLineItemStock').locator('.sw-single-select__selection-text');
         this.conditionCartLineItemInStockValue = page.locator('.sw-condition__condition-type-cartLineItemStock').getByRole('textbox');

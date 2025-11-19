@@ -41,7 +41,7 @@ export class PromotionsListing implements PageObject {
         this.promotionsTable = page.locator('.sw-data-grid__table');
 
         // Sidebar
-        this.sidebarRefreshButton = page.getByTitle('Refresh');
+        this.sidebarRefreshButton = page.getByTitle(translate('administration:promotion:sidebar.refresh'));
 
         // Selectors specific for versions before 6.7
         if (satisfies(instanceMeta.version, '<6.7')) {

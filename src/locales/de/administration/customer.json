@@ -20,15 +20,15 @@
         "customerGroupRequestMessage": "Kundengruppe-Anfrage-Nachricht"
     },
     "bulkEdit": {
-        "title": "Massenbearbeitung - {{count}} Kunden",
+        "headline": "Mehrfachbearbeitung: {{count}} Kunde",
         "applyChanges": "Änderungen anwenden",
-        "success": "Massenbearbeitung - Erfolgreich",
+        "success": "Mehrfachänderung - Erfolg",
         "close": "Schließen",
         "changes": {
             "customerGroup": "Ändern: Kundengruppe",
             "accountStatus": "Ändern: Kontostatus",
             "language": "Ändern: Sprache",
-            "replyToRequest": "Antworten auf: Kundengruppen-Anfrage",
+            "replyToRequest": "Antworten auf: Kundengruppenanfrage",
             "tags": "Ändern: Tags"
         },
         "placeholders": {

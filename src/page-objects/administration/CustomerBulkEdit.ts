@@ -81,7 +81,7 @@ export class CustomerBulkEdit implements PageObject {
     }
 
     async getPageHeadline(customerCount: number): Promise<Locator> {
-        return this.page.getByRole('heading', { name: `Bulk edit: ${customerCount} customer` });
+        return this.page.getByRole('heading', { name: translate('administration:customer:bulkEdit.headline', { count: customerCount }) });
     }
 
     async getCustomFieldInputByName(customFieldName: string): Promise<Locator> {

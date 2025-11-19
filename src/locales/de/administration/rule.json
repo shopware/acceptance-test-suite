@@ -1,7 +1,8 @@
 {
     "fields": {
         "priority": "Priorität",
-        "name": "Name"
+        "name": "Name",
+        "description": "Beschreibung"
     },
     "buttons": {
         "save": "Speichern",
@@ -15,5 +16,9 @@
     },
     "testData": {
         "ruleDescription": "Beschreibung"
+    },
+    "text": {
+        "ruleNotInUse": "Diese Regel wird nicht verwendet",
+        "filter": "Filter"
     }
 }
