@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.1.6](https://github.com/shopware/acceptance-test-suite/compare/v12.1.5...v12.1.6) (2025-11-19)
+
+
+### Bug Fixes
+
+* add translation key for new hard code texts ([#532](https://github.com/shopware/acceptance-test-suite/issues/532)) ([3545309](https://github.com/shopware/acceptance-test-suite/commit/3545309fb1966a4be73646a68048d879cc945432))
+
 ## [12.1.5](https://github.com/shopware/acceptance-test-suite/compare/v12.1.4...v12.1.5) (2025-11-18)
 
 
