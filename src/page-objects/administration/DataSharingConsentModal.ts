@@ -5,6 +5,7 @@ import { translate } from '../../services/LanguageHelper';
 export class DataSharingConsentModal implements PageObject {
 
     public readonly page: Page;
+    public readonly consentModal: Locator;
     public readonly shareAllButton: Locator;
     public readonly shareNothingButton: Locator;
     public readonly savePreferencesButton: Locator;
@@ -19,6 +20,8 @@ export class DataSharingConsentModal implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
+
+        this.consentModal = page.getByRole('dialog', { name: translate('administration:dashboard:dataSharingModal.title') });
 
         this.shareAllButton = page.getByRole('button', { name: translate('administration:dashboard:dataSharingModal.shareAll') });
         this.shareNothingButton = page.getByRole('button', { name: translate('administration:dashboard:dataSharingModal.shareAll') });
