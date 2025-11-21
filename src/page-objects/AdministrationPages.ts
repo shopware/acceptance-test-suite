@@ -362,7 +362,7 @@ export const test = base.extend<FixtureTypes>({
         await use(new OrderListing(AdminPage, InstanceMeta));
     },
 
-    AdminDataSharingConsentModal: async ({ AdminPage, InstanceMeta }, use) => {
-        await use(new DataSharingConsentModal(AdminPage, InstanceMeta));
+    AdminDataSharingConsentModal: async ({ AdminPage }, use) => {
+        await use(new DataSharingConsentModal(AdminPage));
     },
 });
