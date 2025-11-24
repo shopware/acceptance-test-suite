@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.1.7](https://github.com/shopware/acceptance-test-suite/compare/v12.1.6...v12.1.7) (2025-11-24)
+
+
+### Bug Fixes
+
+* add additional date range locator for rule builder ([#539](https://github.com/shopware/acceptance-test-suite/issues/539)) ([245659c](https://github.com/shopware/acceptance-test-suite/commit/245659c8bd149684940644ed224171ab6ff8bdcc))
+* specify date range condition use time locator ([#537](https://github.com/shopware/acceptance-test-suite/issues/537)) ([b08f89d](https://github.com/shopware/acceptance-test-suite/commit/b08f89d8cd93e14f5bce8992d57703715ad5d6f3))
+
 ## [12.1.6](https://github.com/shopware/acceptance-test-suite/compare/v12.1.5...v12.1.6) (2025-11-19)
 
 
