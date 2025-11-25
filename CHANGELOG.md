@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.2.0](https://github.com/shopware/acceptance-test-suite/compare/v12.1.7...v12.2.0) (2025-11-25)
+
+
+### Features
+
+* Optimize TestDataService cleanup operations ([#541](https://github.com/shopware/acceptance-test-suite/issues/541)) ([b1276e5](https://github.com/shopware/acceptance-test-suite/commit/b1276e544f798418b8042113ff1e08a250d0ed62))
+
 ## [12.1.7](https://github.com/shopware/acceptance-test-suite/compare/v12.1.6...v12.1.7) (2025-11-24)
 
 
