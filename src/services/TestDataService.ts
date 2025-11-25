@@ -1903,17 +1903,20 @@ export class TestDataService {
                 deleteOperations[`delete-${record.resource}`].payload.push(record.payload);
             }
         });
+        
+        if (Object.keys(priorityDeleteOperations).length > 0) {
+            const priorityDeleteOperationsResponse = await this.AdminApiClient.post('_action/sync', {
+                data: priorityDeleteOperations,
+            });
+            expect(priorityDeleteOperationsResponse.ok()).toBeTruthy();
+        }
 
-        const priorityDeleteOperationsResponse = await this.AdminApiClient.post('_action/sync', {
-            data: priorityDeleteOperations,
-        });
-
-        expect(priorityDeleteOperationsResponse.ok()).toBeTruthy();
-
-        const restoreSystemConfigResponse = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
-            data: this.restoreSystemConfig,
-        });
-        expect(restoreSystemConfigResponse.ok()).toBeTruthy();
+        if (Object.keys(this.restoreSystemConfig).length > 0) {
+            const restoreSystemConfigResponse = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
+                data: this.restoreSystemConfig,
+            });
+            expect(restoreSystemConfigResponse.ok()).toBeTruthy();
+        }
 
         if (deleteUserIds.length > 0) {
             for (const userId of deleteUserIds) {
