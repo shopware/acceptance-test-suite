@@ -7,7 +7,7 @@ export const ProceedFromCartToCheckout = base.extend<{ ProceedFromCartToCheckout
         ShopCustomer,
         StorefrontCheckoutCart,
         StorefrontCheckoutConfirm,
-        StorefrontPage
+        StorefrontPage,
     }, use) => {
         const task = () => {
             return async function ProceedFromCartToCheckout() {
