@@ -8,7 +8,7 @@ export const ProceedFromProductToCheckout = base.extend<{ ProceedFromProductToCh
             return async function ProceedFromProductToCheckout() {
                 await StorefrontProductDetail.offCanvasCartGoToCheckoutButton.scrollIntoViewIfNeeded();
                 await ShopCustomer.presses(StorefrontProductDetail.offCanvasCartGoToCheckoutButton);
-                await StorefrontCheckoutConfirm.page.waitForURL('commit');
+                await StorefrontCheckoutConfirm.page.waitForURL('**/checkout/confirm', { waitUntil: 'commit' });
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.headline).toBeVisible();
             }
         };
