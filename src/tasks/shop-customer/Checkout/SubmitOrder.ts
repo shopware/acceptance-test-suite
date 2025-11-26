@@ -3,7 +3,7 @@ import type { Task } from '../../../types/Task';
 import type { FixtureTypes} from '../../../types/FixtureTypes';
 
 export const SubmitOrder = base.extend<{ SubmitOrder: Task }, FixtureTypes>({
-    SubmitOrder: async ({ ShopCustomer, StorefrontCheckoutConfirm, StorefrontCheckoutFinish, StorefrontPage, }, use)=> {
+    SubmitOrder: async ({ ShopCustomer, StorefrontCheckoutConfirm, StorefrontCheckoutFinish, StorefrontPage }, use)=> {
         const task = () => {
             return async function SubmitOrder() {
                 await ShopCustomer.presses(StorefrontCheckoutConfirm.submitOrderButton);
