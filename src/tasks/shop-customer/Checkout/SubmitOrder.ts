@@ -6,7 +6,8 @@ export const SubmitOrder = base.extend<{ SubmitOrder: Task }, FixtureTypes>({
     SubmitOrder: async ({ ShopCustomer, StorefrontCheckoutConfirm, StorefrontCheckoutFinish }, use)=> {
         const task = () => {
             return async function SubmitOrder() {
-                await StorefrontCheckoutConfirm.submitOrderButton.click();
+                await ShopCustomer.presses(StorefrontCheckoutConfirm.submitOrderButton);
+                await StorefrontCheckoutFinish.page.waitForURL('**/checkout/finish**', { waitUntil: 'commit' });
                 await ShopCustomer.expects(StorefrontCheckoutFinish.headline).toBeVisible();
             }
         };
