@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.2.1](https://github.com/shopware/acceptance-test-suite/compare/v12.2.0...v12.2.1) (2025-11-27)
+
+
+### Bug Fixes
+
+* presses and navigation stability ([#544](https://github.com/shopware/acceptance-test-suite/issues/544)) ([7a5f6bf](https://github.com/shopware/acceptance-test-suite/commit/7a5f6bfcc4af666790118028b9255fb2a2d666ed))
+
 ## [12.2.0](https://github.com/shopware/acceptance-test-suite/compare/v12.1.7...v12.2.0) (2025-11-25)
 
 
