@@ -7,12 +7,11 @@ export const ProceedFromCartToCheckout = base.extend<{ ProceedFromCartToCheckout
         ShopCustomer,
         StorefrontCheckoutCart,
         StorefrontCheckoutConfirm,
-        StorefrontPage,
     }, use) => {
         const task = () => {
             return async function ProceedFromCartToCheckout() {
                 await ShopCustomer.presses(StorefrontCheckoutCart.goToCheckoutButton);
-                await StorefrontPage.waitForURL('**/checkout/confirm', { waitUntil: 'commit' });
+                await StorefrontCheckoutConfirm.page.waitForURL('**/checkout/confirm', { waitUntil: 'commit' });
                 await ShopCustomer.expects(StorefrontCheckoutConfirm.headline).toBeVisible();
             }
         }
