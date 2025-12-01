@@ -1,14 +1,14 @@
-ARG PHP_VERSION=8.3
+ARG PHP_VERSION=8.4
 ARG SHOPWARE_BUILD_SOURCE="branch"
 
-FROM shopware/docker-base:${PHP_VERSION}-nginx-otel AS base-image
-FROM shopware/shopware-cli:latest-php-${PHP_VERSION} AS shopware-cli
+FROM ghcr.io/shopware/docker-base:${PHP_VERSION}-nginx-otel AS base-image
+FROM ghcr.io/shopware/shopware-cli:latest-php-${PHP_VERSION} AS shopware-cli
 
 FROM shopware-cli AS checkout-tag
 
 ARG SHOPWARE_VERSION
 
-RUN shopware-cli project create /src ${SHOPWARE_VERSION#v} --verbose
+RUN shopware-cli project create /src ${SHOPWARE_VERSION#v} --verbose --no-audit
 
 FROM shopware-cli AS checkout-branch
 
@@ -17,7 +17,7 @@ ARG COMPOSER_ROOT_VERSION="6.7.9999999-dev"
 
 ENV COMPOSER_ROOT_VERSION=${COMPOSER_ROOT_VERSION}
 
-ADD https://github.com/shopware/shopware.git#${SHOPWARE_VERSION} /src
+RUN shopware-cli project create /src dev-${SHOPWARE_VERSION} --verbose --no-audit
 
 FROM shopware-cli AS checkout-local
 
@@ -27,7 +27,7 @@ ENV COMPOSER_ROOT_VERSION=${COMPOSER_ROOT_VERSION}
 
 COPY . /src
 
-FROM checkout-${SHOPWARE_BUILD_SOURCE} AS prepare-general
+FROM checkout-${SHOPWARE_BUILD_SOURCE} AS prepare
 SHELL ["/usr/bin/env", "bash", "-c"]
 
 WORKDIR /src
@@ -40,30 +40,17 @@ composer require --ignore-platform-reqs --no-interaction "shopware/deployment-he
 composer dump-autoload
 EOF
 
-FROM prepare-general AS prepare-tag
-
-FROM prepare-general AS prepare-branch
+FROM prepare AS build
 SHELL ["/usr/bin/env", "bash", "-c"]
 
-RUN <<EOF
-set -euxo pipefail
-
-shopware-cli project storefront-build /src --force-install-dependencies --skip-theme-compile
-shopware-cli project admin-build /src
-
-cd src/Storefront/Resources/app/storefront
-
-npm install
-node copy-to-vendor.js
-EOF
-
-FROM prepare-branch AS prepare-local
-
-FROM prepare-${SHOPWARE_BUILD_SOURCE} AS build
+WORKDIR /src
 
 RUN --mount=type=cache,target=/root/.composer \
-    --mount=type=cache,target=/root/.npm \
-    shopware-cli project ci --with-dev-dependencies .
+    --mount=type=cache,target=/root/.npm <<EOF
+set -euxo pipefail
+
+shopware-cli project ci . --with-dev-dependencies
+EOF
 
 FROM base-image AS final
 
