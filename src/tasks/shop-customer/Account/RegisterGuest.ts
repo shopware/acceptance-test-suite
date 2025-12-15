@@ -15,7 +15,7 @@ export const RegisterGuest = base.extend<{ RegisterGuest: Task }, FixtureTypes>(
             lastName: 'Goldblum',
             email: 'invalid',
             password: 'shopware',
-            street: 'Ebbinghof 10',
+            street: 'Ebbinghoff 10',
             city: 'Schöppingen',
             country: 'Germany',
             postalCode: '48624',
