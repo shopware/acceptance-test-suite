@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.2.2](https://github.com/shopware/acceptance-test-suite/compare/v12.2.1...v12.2.2) (2025-12-15)
+
+
+### Bug Fixes
+
+* typo in default address in de locale ([#550](https://github.com/shopware/acceptance-test-suite/issues/550)) ([435a105](https://github.com/shopware/acceptance-test-suite/commit/435a1056a0745cd7f738e12d916b3329393798e2))
+
 ## [12.2.1](https://github.com/shopware/acceptance-test-suite/compare/v12.2.0...v12.2.1) (2025-11-27)
 
 
