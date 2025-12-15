@@ -19,7 +19,7 @@ const LOCALE_MAPPINGS: Readonly<Record<string, LocaleMapping>> = {
 
 export const COUNTRY_ADDRESS_DATA = {
     DE: {
-        street: 'Ebbinghof 10',
+        street: 'Ebbinghoff 10',
         city: 'Schöppingen',
         country: 'Germany',
         postalCode: '48624',
