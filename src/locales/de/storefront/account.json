@@ -97,7 +97,7 @@
     },
     "tasks": {
         "registration": {
-            "defaultStreet": "Ebbinghof 10",
+            "defaultStreet": "Ebbinghoff 10",
             "defaultCity": "Schöppingen",
             "defaultCountry": "Deutschland",
             "defaultDepartment": "Betrieb",
