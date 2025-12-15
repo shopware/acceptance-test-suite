@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.2.3](https://github.com/shopware/acceptance-test-suite/compare/v12.2.2...v12.2.3) (2025-12-15)
+
+
+### Bug Fixes
+
+* typos in default addresses ([#552](https://github.com/shopware/acceptance-test-suite/issues/552)) ([d2b8d83](https://github.com/shopware/acceptance-test-suite/commit/d2b8d8305fafe278a89184ca74b5c4a1fbaed8d8))
+
 ## [12.2.2](https://github.com/shopware/acceptance-test-suite/compare/v12.2.1...v12.2.2) (2025-12-15)
 
 
