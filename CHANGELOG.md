@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.3.0](https://github.com/shopware/acceptance-test-suite/compare/v12.2.3...v12.3.0) (2025-12-18)
+
+
+### Features
+
+* enhance cookie configuration ui ([#554](https://github.com/shopware/acceptance-test-suite/issues/554)) ([c46aa33](https://github.com/shopware/acceptance-test-suite/commit/c46aa332f6bd95e24a900322bfc5a2841dd6a413))
+
 ## [12.2.3](https://github.com/shopware/acceptance-test-suite/compare/v12.2.2...v12.2.3) (2025-12-15)
 
 
