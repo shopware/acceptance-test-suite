@@ -9,6 +9,7 @@ import { AddNewAddress } from './shop-customer/Account/AddNewAddress';
 
 import { AddProductToCart } from './shop-customer/Product/AddProductToCart';
 import { ProceedFromProductToCheckout } from './shop-customer/Product/ProceedFromProductToCheckout';
+import { CloseTheOffCanvasCart } from './shop-customer/Cart/CloseTheOffCanvasCart';
 
 import { ProceedFromCartToCheckout } from './shop-customer/Cart/ProceedFromCartToCheckout.ts';
 import { ChangeProductQuantity } from './shop-customer/Cart/ChangeProductQuantity';
@@ -39,6 +40,7 @@ export const test = mergeTests(
     ChangeStorefrontCurrency,
     AddNewAddress,
     AddProductToCart,
+    CloseTheOffCanvasCart,
     ChangeProductQuantity,
     ProceedFromProductToCheckout,
     ProceedFromCartToCheckout,
