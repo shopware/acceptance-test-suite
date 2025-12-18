@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.4.0](https://github.com/shopware/acceptance-test-suite/compare/v12.3.0...v12.4.0) (2025-12-18)
+
+
+### Features
+
+* make closing the off canvas cart a task ([#556](https://github.com/shopware/acceptance-test-suite/issues/556)) ([3d6e912](https://github.com/shopware/acceptance-test-suite/commit/3d6e912cb175326d35e6fba5cfb8cd5d42d2131d))
+
 ## [12.3.0](https://github.com/shopware/acceptance-test-suite/compare/v12.2.3...v12.3.0) (2025-12-18)
 
 
