@@ -2,6 +2,7 @@ import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { Home } from './Home';
 import { translate } from '../../services/LanguageHelper';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class Wishlist extends Home implements PageObject {
     public readonly wishListHeader: Locator;
@@ -10,8 +11,8 @@ export class Wishlist extends Home implements PageObject {
 
     public readonly page: Page;
 
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        super(page, instanceMeta);
         this.page = page;
         this.wishListHeader = page.locator('.wishlist-headline');
         this.removeAlert = page.locator('.alert-success');
