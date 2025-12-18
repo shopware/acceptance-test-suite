@@ -85,8 +85,8 @@ export const StorefrontPageObjects = {
 
 export const test = base.extend<FixtureTypes>({
 
-    StorefrontHome: async ({ StorefrontPage }, use) => {
-        await use(new Home(StorefrontPage));
+    StorefrontHome: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new Home(StorefrontPage, InstanceMeta ));
     },
 
     StorefrontProductDetail: async ({ StorefrontPage }, use) => {
@@ -153,8 +153,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new Search(StorefrontPage));
     },
 
-    StorefrontSearchSuggest: async ({ StorefrontPage }, use) => {
-        await use(new SearchSuggest(StorefrontPage));
+    StorefrontSearchSuggest: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new SearchSuggest(StorefrontPage, InstanceMeta));
     },
 
     StorefrontCustomRegister: async ({ StorefrontPage }, use) => {
@@ -173,8 +173,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new ContactForm(StorefrontPage, InstanceMeta));
     },
   
-    StorefrontWishlist: async ({ StorefrontPage }, use) => {
-        await use(new Wishlist(StorefrontPage));
+    StorefrontWishlist: async ({ StorefrontPage, InstanceMeta }, use) => {
+        await use(new Wishlist(StorefrontPage, InstanceMeta));
     },
 
     StorefrontFooter: async ({ StorefrontPage }, use) => {

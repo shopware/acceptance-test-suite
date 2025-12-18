@@ -1,6 +1,7 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { Home } from './Home';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class SearchSuggest extends Home implements PageObject {
     public readonly searchSuggestLineItemImages: Locator;
@@ -15,8 +16,8 @@ export class SearchSuggest extends Home implements PageObject {
 
     public readonly page: Page;
 
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+        super(page, instanceMeta);
         this.page = page;
         this.searchSuggestLineItemImages = page.locator('.search-suggest-product-image-container');
         this.searchInput = page.locator('.header-search-input');

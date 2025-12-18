@@ -1,6 +1,8 @@
 import type { Page, Locator } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
 import { translate } from '../../services/LanguageHelper';
+import { satisfies } from 'compare-versions';
+import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
 
 export class Home implements PageObject {
     public readonly categoryTitle: Locator;
@@ -75,9 +77,11 @@ export class Home implements PageObject {
     public readonly productRatingButton: Locator;
     public readonly productRatingList: Locator;
     public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
-    constructor(page: Page) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
         this.page = page;
+        this.instanceMeta = instanceMeta;
         this.categoryTitle = page.getByRole('heading', { level: 1 });
         this.accountMenuButton = page.getByLabel(translate('storefront:home:account.yourAccount'));
         this.closeGuestSessionButton = page.locator('.account-aside-btn');
@@ -95,16 +99,6 @@ export class Home implements PageObject {
         this.consentCookiePermissionContent = page.locator('.cookie-permission-content');
         this.consentDialog = page.getByRole('dialog').filter({ hasText: translate('storefront:home:consent.cookiePreferences') });
         this.consentDialogCloseButton = this.consentDialog.getByRole('button', { name: translate('storefront:home:consent.close') });
-        this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
-            name: translate('storefront:home:consent.technicallyRequired'),
-            exact: true,
-        });
-        this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', {
-            name: translate('storefront:home:consent.statistics'),
-            exact: true,
-        });
-        this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
-        this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
         this.consentDialogSaveButton = this.consentDialog.getByRole('button', {
             name: translate('storefront:home:consent.save'),
             exact: true,
@@ -113,6 +107,31 @@ export class Home implements PageObject {
             name: translate('storefront:home:consent.acceptAllCookies'),
             exact: true,
         });
+
+        if (satisfies(instanceMeta.version, '<6.7.6.0')) {
+            this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('checkbox', {
+                name: translate('storefront:home:consent.technicallyRequired'),
+                exact: true,
+            });
+            this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('checkbox', {
+                name: translate('storefront:home:consent.statistics'),
+                exact: true,
+            });
+            this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
+            this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('checkbox', { name: translate('storefront:home:consent.marketing'), exact: true });
+        } else {
+            this.consentDialogTechnicallyRequiredCheckbox = this.consentDialog.getByRole('switch', {
+                name: translate('storefront:home:consent.technicallyRequired'),
+                exact: true,
+            });
+            this.consentDialogStatisticsCheckbox = this.consentDialog.getByRole('switch', {
+                name: translate('storefront:home:consent.statistics'),
+                exact: true,
+            });
+            this.consentDialogMarketingdCheckbox = this.consentDialog.getByRole('switch', { name: translate('storefront:home:consent.marketing'), exact: true });
+            this.consentDialogMarketingCheckbox = this.consentDialog.getByRole('switch', { name: translate('storefront:home:consent.marketing'), exact: true });
+        }
+
         this.offcanvasBackdrop = page.locator('.offcanvas-backdrop');
         this.mainNavigationLink = page.locator('.main-navigation-link-text');
         this.contactFormLink = this.page.getByRole('listitem').getByTitle(translate('storefront:contact:link.contactForm'), { exact: true });

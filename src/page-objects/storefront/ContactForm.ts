@@ -41,7 +41,7 @@ export class ContactForm extends Home implements PageObject {
     public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
-        super(page);
+        super(page, instanceMeta);
         this.instanceMeta = instanceMeta;
         this.contactWrapper = this.page.locator('.card').filter({ has: this.page.getByText(translate('storefront:contact:title')) });
         this.formFieldFeedback = this.contactWrapper.locator('.form-field-feedback');
