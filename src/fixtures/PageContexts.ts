@@ -52,7 +52,7 @@ export const test = base.extend<FixtureTypes>({
         await AdminApiContext.delete(`user/${uuid}`);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, InstanceMeta, CustomTranslationResources }, use) => {
+    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
         const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
@@ -69,7 +69,7 @@ export const test = base.extend<FixtureTypes>({
         setCurrentContext(context as unknown as Record<string, unknown>);
 
         let page;
-        if (!(await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url))) {
+        if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
             base.slow();
 
             await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
@@ -78,7 +78,7 @@ export const test = base.extend<FixtureTypes>({
             page = await context.newPage();
 
             if (InstanceMeta.isSaaS) {
-                while (!(await isThemeCompiled(AdminApiContext, DefaultSalesChannel.url))) {
+                while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
                     await clearDelayedCache(AdminApiContext);
                     await page.waitForTimeout(4000);
                 }
