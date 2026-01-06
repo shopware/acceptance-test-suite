@@ -14,7 +14,7 @@ export class Actor {
 
     expects = expect;
 
-    async a11y_checks(locator: Locator){
+    async a11y_checks(locator: Locator) {
         await locator.focus();
         await expect(locator).toBeFocused();        
         await expect(locator).toHaveVisibleFocus(); 
