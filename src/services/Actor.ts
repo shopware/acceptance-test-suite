@@ -67,7 +67,7 @@ export class Actor {
                 return;
             }
         
-            const checkedRadio = radioGroup.getByRole('radio', { checked: true });
+            let checkedRadio = radioGroup.getByRole('radio', { checked: true });
         
             if (!(await checkedRadio.count())) {
                 throw new Error('No radio button is selected by default.');
@@ -83,8 +83,10 @@ export class Actor {
                     throw new Error(`Could not reach radio button "${inputLabel}" via keyboard navigation.`);
                 }
         
-                await this.page.keyboard.press('ArrowDown');
+                await this.presses(checkedRadio, 'ArrowDown');
                 await this.page.waitForLoadState('domcontentloaded');
+
+                checkedRadio = radioGroup.getByRole('radio', { checked: true });
         
                 iterations++;
             }
