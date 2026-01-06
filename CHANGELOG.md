@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.4.1](https://github.com/shopware/acceptance-test-suite/compare/v12.4.0...v12.4.1) (2026-01-06)
+
+
+### Bug Fixes
+
+* refactor Actor.selectsRadioButton function ([#562](https://github.com/shopware/acceptance-test-suite/issues/562)) ([4dabe71](https://github.com/shopware/acceptance-test-suite/commit/4dabe711f5e7668d2f9eb60e32a2b8c0a8c4e198))
+* use StoreApiContext for isThemeCompiled ([#559](https://github.com/shopware/acceptance-test-suite/issues/559)) ([64290d6](https://github.com/shopware/acceptance-test-suite/commit/64290d6bccda9ed9d2b5507e51c207852c0166b9))
+
 ## [12.4.0](https://github.com/shopware/acceptance-test-suite/compare/v12.3.0...v12.4.0) (2025-12-18)
 
 
