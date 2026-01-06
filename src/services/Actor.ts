@@ -73,7 +73,7 @@ export class Actor {
                 throw new Error('No radio button is selected by default.');
             }
         
-            await checkedRadio.first().focus();
+            await checkedRadio.focus();
         
             const maxIterations = await radioGroup.getByRole('radio').count();
             let iterations = 0;
