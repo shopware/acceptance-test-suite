@@ -80,9 +80,7 @@ export class Actor {
         
             while (!(await desiredOption.isChecked())) {
                 if (iterations >= maxIterations) {
-                    throw new Error(
-                        `Could not reach radio button "${inputLabel}" via keyboard navigation.`
-                    );
+                    throw new Error(`Could not reach radio button "${inputLabel}" via keyboard navigation.`);
                 }
         
                 await this.page.keyboard.press('ArrowDown');
