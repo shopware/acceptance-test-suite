@@ -56,47 +56,44 @@ export class Actor {
         });
     }
 
-    async selectsRadioButton(radioGroup: Locator, inputLabel: string){
+    async selectsRadioButton(radioGroup: Locator, inputLabel: string) {
         const stepTitle = `${this.name} selects radio button ${inputLabel}`;
-        await test.step(stepTitle, async () =>{
-            const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
-
-            if(!(await desiredOption.isChecked()))
-            {
-                const options: { label: string; locator: Locator; isChecked: boolean }[] = [];
-
-                for (const labelEl of await radioGroup.locator('label').all()) {
-                    
-                    const label = await labelEl.innerText();
-                    const radioButton = radioGroup.getByRole('radio', { name: label });
-                    const isChecked = await radioButton.isChecked();
-
-                    options.push({ label, locator: radioButton, isChecked });
-                } 
-
-                const defaultOptionIndex = options.findIndex(opt => opt.isChecked);
-                const desiredOptionIndex = options.findIndex(opt => opt.label === inputLabel);
-
-                if (defaultOptionIndex === -1) {
-                    throw new Error(`No option is selected by default.`);
-                }
-
-                const step = defaultOptionIndex < desiredOptionIndex ? 1 : -1;
-                const inputKey = step === 1 ? 'ArrowDown' : 'ArrowUp'; 
-
-                /** 
-                 * Need waitForLoadState() because in most cases selecting a radio button
-                 *     either reloads the page or navigates to a new one (product variants)
-                 */
-                for(let i = defaultOptionIndex; i !== desiredOptionIndex; i += step){
-                    await this.presses(options[i].locator, inputKey);
-                    await this.page.waitForLoadState('domcontentloaded');
-                }
-            }
-            
+      
+        await test.step(stepTitle, async () => {
+          const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
+      
+          if (await desiredOption.isChecked()) {
             await this.a11y_checks(desiredOption);
+            return;
+          }
+      
+          const checkedRadio = radioGroup.getByRole('radio', { checked: true });
+      
+          if (!(await checkedRadio.count())) {
+            throw new Error('No radio button is selected by default.');
+          }
+      
+          await checkedRadio.first().focus();
+      
+          const maxIterations = await radioGroup.getByRole('radio').count();
+          let iterations = 0;
+      
+          while (!(await desiredOption.isChecked())) {
+            if (iterations >= maxIterations) {
+              throw new Error(
+                `Could not reach radio button "${inputLabel}" via keyboard navigation.`
+              );
+            }
+      
+            await this.page.keyboard.press('ArrowDown');
+            await this.page.waitForLoadState('domcontentloaded');
+      
+            iterations++;
+          }
+      
+          await this.a11y_checks(desiredOption);
         });
-    }
+      }
 
     async attemptsTo(task: () => Promise<void>) {
         const stepTitle = `${this.name} attempts to ${this.camelCaseToLowerCase(task.name)}`;
