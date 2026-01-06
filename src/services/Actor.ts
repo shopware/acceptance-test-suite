@@ -60,40 +60,40 @@ export class Actor {
         const stepTitle = `${this.name} selects radio button ${inputLabel}`;
       
         await test.step(stepTitle, async () => {
-          const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
-      
-          if (await desiredOption.isChecked()) {
-            await this.a11y_checks(desiredOption);
-            return;
-          }
-      
-          const checkedRadio = radioGroup.getByRole('radio', { checked: true });
-      
-          if (!(await checkedRadio.count())) {
-            throw new Error('No radio button is selected by default.');
-          }
-      
-          await checkedRadio.first().focus();
-      
-          const maxIterations = await radioGroup.getByRole('radio').count();
-          let iterations = 0;
-      
-          while (!(await desiredOption.isChecked())) {
-            if (iterations >= maxIterations) {
-              throw new Error(
-                `Could not reach radio button "${inputLabel}" via keyboard navigation.`
-              );
+            const desiredOption = radioGroup.getByRole('radio', { name: inputLabel });
+        
+            if (await desiredOption.isChecked()) {
+                await this.a11y_checks(desiredOption);
+                return;
             }
-      
-            await this.page.keyboard.press('ArrowDown');
-            await this.page.waitForLoadState('domcontentloaded');
-      
-            iterations++;
-          }
-      
-          await this.a11y_checks(desiredOption);
+        
+            const checkedRadio = radioGroup.getByRole('radio', { checked: true });
+        
+            if (!(await checkedRadio.count())) {
+                throw new Error('No radio button is selected by default.');
+            }
+        
+            await checkedRadio.first().focus();
+        
+            const maxIterations = await radioGroup.getByRole('radio').count();
+            let iterations = 0;
+        
+            while (!(await desiredOption.isChecked())) {
+                if (iterations >= maxIterations) {
+                    throw new Error(
+                        `Could not reach radio button "${inputLabel}" via keyboard navigation.`
+                    );
+                }
+        
+                await this.page.keyboard.press('ArrowDown');
+                await this.page.waitForLoadState('domcontentloaded');
+        
+                iterations++;
+            }
+        
+            await this.a11y_checks(desiredOption);
         });
-      }
+    }
 
     async attemptsTo(task: () => Promise<void>) {
         const stepTitle = `${this.name} attempts to ${this.camelCaseToLowerCase(task.name)}`;
