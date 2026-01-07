@@ -10,6 +10,7 @@ export const CloseTheOffCanvasCart = base.extend<{ CloseTheOffCanvasCart: Task }
         const task = () => {
             return async function CloseTheOffCanvasCart() {
                 await ShopCustomer.presses(StorefrontOffCanvasCart.continueShoppingButton);
+                await ShopCustomer.expects(StorefrontOffCanvasCart.continueShoppingButton).not.toBeVisible();
             }
         }
 
