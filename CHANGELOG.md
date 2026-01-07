@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.4.2](https://github.com/shopware/acceptance-test-suite/compare/v12.4.1...v12.4.2) (2026-01-07)
+
+
+### Bug Fixes
+
+* remove unnecessary scroll function calls ([#565](https://github.com/shopware/acceptance-test-suite/issues/565)) ([b8983be](https://github.com/shopware/acceptance-test-suite/commit/b8983bee934798ca6681e7f2258a9eadb706b77c))
+* use scrollIntoViewIfNeeded() in a11y_checks ([#563](https://github.com/shopware/acceptance-test-suite/issues/563)) ([68a49c2](https://github.com/shopware/acceptance-test-suite/commit/68a49c21226a1b8da804404e70ed6af186f6cf0a))
+
 ## [12.4.1](https://github.com/shopware/acceptance-test-suite/compare/v12.4.0...v12.4.1) (2026-01-06)
 
 
