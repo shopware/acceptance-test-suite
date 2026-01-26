@@ -39,7 +39,7 @@ export async function createNewAdminPageContext(
     }
 
     const loginButtonLabel = translate('administration:login:loginButton');
-    await adminPage.getByRole('button', { name: loginButtonLabel }).click();
+    await adminPage.getByRole('button', { name: loginButtonLabel, exact: true }).click();
 
     // wait for all plugin js to be loaded
     await Promise.all(jsLoadingPromises);
