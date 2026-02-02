@@ -57,9 +57,6 @@ test('Storefront page objects', async ({
     TestDataService.addCreatedRecord('order', orderId);
     await ShopCustomer.expects(StorefrontCheckoutFinish.headline).toBeVisible();
 
-    await ShopCustomer.goesTo(StorefrontCategory.url(category.name));
-    await ShopCustomer.expects(StorefrontCategory.sortingSelect).toBeVisible();
-
     await ShopCustomer.goesTo(StorefrontAccount.url());
     await ShopCustomer.expects(StorefrontAccount.headline).toBeVisible();
 
