@@ -22,7 +22,6 @@ test('Storefront page objects', async ({
     TestDataService,
     InstanceMeta,
     CheckVisibilityInHome,
-    StorefrontHome,
 }) => {
 
     const category = await TestDataService.createCategory();
