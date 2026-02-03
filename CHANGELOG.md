@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.4.3](https://github.com/shopware/acceptance-test-suite/compare/v12.4.2...v12.4.3) (2026-02-03)
+
+
+### Bug Fixes
+
+* Add exact match check to Admin Log in button ([#568](https://github.com/shopware/acceptance-test-suite/issues/568)) ([1bfe6d9](https://github.com/shopware/acceptance-test-suite/commit/1bfe6d90f05cfeaa87eca1553652246b8252e6ac))
+
 ## [12.4.2](https://github.com/shopware/acceptance-test-suite/compare/v12.4.1...v12.4.2) (2026-01-07)
 
 
