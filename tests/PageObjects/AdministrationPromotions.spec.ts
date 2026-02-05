@@ -1,6 +1,5 @@
 import { test } from '../../src';
 
-/* eslint-disable playwright/no-skipped-test */
 test.skip('Promotions Listing - Empty state', async ({
     ShopAdmin, 
     AdminPromotionsListing,

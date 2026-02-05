@@ -2281,7 +2281,7 @@ export class TestDataService {
         salutationId: string,
         overrides: Partial<Customer> = {},
     ): Partial<Customer> {
-        const { id: id, uuid: customerUuid } = this.IdProvider.getIdPair();
+        const { id, uuid: customerUuid } = this.IdProvider.getIdPair();
         const firstName = 'John';
         const lastName = 'Goldblum';
 

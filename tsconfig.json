@@ -6,7 +6,6 @@
         "moduleResolution": "Bundler",
         "rootDir": "./src",
         "outDir": "./dist",
-        "baseUrl": "./",
         "types": ["node"],
         "declaration": true,
         "declarationMap": true,

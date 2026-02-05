@@ -1,42 +1,38 @@
 on:
-  push:
-    branches:
-      - trunk
+    push:
+        branches:
+            - trunk
 name: release-please
 
 permissions:
-  id-token: write
+    id-token: write
 
 jobs:
-  release-please:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: octo-sts/action@v1.0.0
-        id: sts-release
-        with:
-          scope: shopware/acceptance-test-suite
-          identity: release
-      - uses: googleapis/release-please-action@v4
-        id: release
-        with:
-          release-type: node
-          token: ${{ steps.sts-release.outputs.token }}
-      # The logic below handles the npm publication:
-      - uses: actions/checkout@v4
-        # these if statements ensure that a publication only occurs when
-        # a new release is created:
-        if: ${{ steps.release.outputs.release_created }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: "https://registry.npmjs.org"
-        if: ${{ steps.release.outputs.release_created }}
-      # Ensure npm 11.5.1 or later is installed
-      - name: Update npm
-        run: npm install -g npm@latest
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm ci
-        if: ${{ steps.release.outputs.release_created }}
-      # authentication happens automatically via OIDC. See https://www.npmjs.com/package/@shopware-ag/acceptance-test-suite/access for more details.
-      - run: npm publish
-        if: ${{ steps.release.outputs.release_created }}
+    release-please:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: octo-sts/action@v1.0.0
+              id: sts-release
+              with:
+                  scope: shopware/acceptance-test-suite
+                  identity: release
+            - uses: googleapis/release-please-action@v4
+              id: release
+              with:
+                  release-type: node
+                  token: ${{ steps.sts-release.outputs.token }}
+            # The logic below handles the npm publication:
+            - uses: actions/checkout@v6
+              # these if statements ensure that a publication only occurs when
+              # a new release is created:
+              if: ${{ steps.release.outputs.release_created }}
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: 'lts/*'
+                  cache: 'npm'
+              if: ${{ steps.release.outputs.release_created }}
+            - run: npm ci
+              if: ${{ steps.release.outputs.release_created }}
+            # authentication happens automatically via OIDC. See https://www.npmjs.com/package/@shopware-ag/acceptance-test-suite/access for more details.
+            - run: npm publish
+              if: ${{ steps.release.outputs.release_created }}

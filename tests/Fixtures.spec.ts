@@ -1,5 +1,3 @@
-/* eslint-disable playwright/no-conditional-in-test */
-/* eslint-disable playwright/no-conditional-expect */
 import { test, expect } from '../src/index';
 import { satisfies } from 'compare-versions';
 
