@@ -11,7 +11,7 @@ jobs:
     release-please:
         runs-on: ubuntu-latest
         steps:
-            - uses: octo-sts/action@v1.0.0
+            - uses: octo-sts/action@v1.1.1
               id: sts-release
               with:
                   scope: shopware/acceptance-test-suite
