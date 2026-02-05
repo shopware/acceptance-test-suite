@@ -24,9 +24,7 @@ test('Administration page objects - Settings.', async ({
     await ShopAdmin.expects(AdminCustomFieldCreate.technicalNameInput).toBeVisible();
     await ShopAdmin.expects(AdminCustomFieldCreate.saveButton).toBeVisible();
 
-    // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {
-        // eslint-disable-next-line playwright/no-conditional-in-test
         if (!InstanceMeta.version.match(/6\.5\.*/)) {
             await ShopAdmin.goesTo(AdminDataSharing.url());
             await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
@@ -56,7 +54,6 @@ test('Administration page objects - Settings.', async ({
 
     await ShopAdmin.goesTo(AdminSettingsListing.url(), true);
     await ShopAdmin.expects(AdminSettingsListing.header).toContainText(Translate('administration:settings:header.settings'));
-    // eslint-disable-next-line playwright/no-conditional-in-test
     if (satisfies(InstanceMeta.version, '>=6.7.1')) {
         await ShopAdmin.expects(AdminSettingsListing.shopwareServicesLink).toBeVisible();
     }

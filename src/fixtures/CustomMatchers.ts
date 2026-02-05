@@ -51,7 +51,6 @@ export const expect = baseExpect.extend({
 
 // Extend Playwright's Expect interface for TypeScript support
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PlaywrightTest {
     interface Matchers<R> {
       toHaveVisibleFocus(): Promise<R>;

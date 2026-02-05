@@ -1,2 +1,4 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-export type Task = (...args: any[]) => () => Promise<void>;
+/**
+ * Generic task type that accepts any parameters
+ */
+export type Task<TArgs extends unknown[] = never[]> = (...args: TArgs) => () => Promise<void>;

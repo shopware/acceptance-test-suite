@@ -51,7 +51,6 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.expects(AdminProductDetail.stockInput).toBeVisible();
 
     await ShopAdmin.goesTo(AdminDashboard.url());
-    // eslint-disable-next-line playwright/no-conditional-in-test
     if (!InstanceMeta.isSaaS) {
         await ShopAdmin.expects(AdminDashboard.welcomeHeadline).toBeVisible();
     }

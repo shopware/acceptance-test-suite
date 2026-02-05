@@ -40,7 +40,6 @@ test('Order creation with TestDataService', async ({
     const shippingCosts = 12.99;
     const totalPrice = 50 + shippingCosts;
 
-    // eslint-disable-next-line playwright/no-conditional-in-test
     if (deliveryStruct.shippingCosts != null) {
         deliveryStruct.shippingCosts.unitPrice = shippingCosts;
         deliveryStruct.shippingCosts.totalPrice = shippingCosts;

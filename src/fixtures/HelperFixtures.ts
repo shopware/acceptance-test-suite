@@ -24,7 +24,6 @@ export interface HelperFixtureTypes {
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     IdProvider: [
-        // eslint-disable-next-line no-empty-pattern
         async ({}, use, workerInfo) => {
             const seed = process.env.SHOPWARE_ACCESS_KEY_ID || process.env.SHOPWARE_ADMIN_PASSWORD || 'test-suite';
             const idProvider = new IdProvider(workerInfo.parallelIndex, seed);
@@ -88,7 +87,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     CustomTranslationResources: [
-        // eslint-disable-next-line no-empty-pattern
         async ({}, use) => {
             await use(undefined);
         },

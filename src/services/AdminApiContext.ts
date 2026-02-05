@@ -6,6 +6,7 @@ type HTTPHeaders = Record<string, string>;
 interface RequestOptions<PAYLOAD> {
     [key: string]: unknown;
     data?: PAYLOAD;
+    headers?: Record<string, string>;
 }
 
 export interface AdminApiContextOptions {
@@ -238,7 +239,7 @@ export class AdminApiContext {
             ...options,
             data: options?.data ?? undefined,
             headers: {
-                ...(options?.headers || {}),
+                ...options?.headers,
                 Authorization: `Bearer ${this.options.access_token}`,
             },
         };
@@ -251,7 +252,7 @@ export class AdminApiContext {
                 ...options,
                 data: options?.data ?? undefined,
                 headers: {
-                    ...(options?.headers || {}),
+                    ...options?.headers,
                     Authorization: `Bearer ${this.options['access_token']}`,
                 },
             };
