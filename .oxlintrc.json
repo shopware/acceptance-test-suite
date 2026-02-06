@@ -122,13 +122,13 @@
         {
             "files": ["tests/**", "**/*.{spec,test}.{js,jsx,ts,tsx}"],
             "jsPlugins": ["eslint-plugin-playwright"]
+        },
+        {
+            // Empty patterns are common in Playwright fixtures for dependency injection
+            "files": ["src/fixtures/**/*.ts", "src/data-fixtures/**/*.ts"],
+            "rules": {
+                "no-empty-pattern": "off"
+            }
         }
-        // {
-        //     // Empty patterns are common in Playwright fixtures for dependency injection
-        //     "files": ["src/fixtures/**/*.ts", "src/data-fixtures/**/*.ts"],
-        //     "rules": {
-        //         "no-empty-pattern": "off"
-        //     }
-        // }
     ]
 }

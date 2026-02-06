@@ -2,8 +2,7 @@ pre-commit:
     parallel: true
     commands:
         lint:
-            glob: "*.{ts,js,mjs}"
-            run: npx oxlint --type-aware {staged_files}
+            run: npx oxlint --type-aware
         format:
             glob: "*.{ts,js,mjs,json,md}"
             run: npx oxfmt --write {staged_files}
