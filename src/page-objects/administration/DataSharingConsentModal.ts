@@ -21,23 +21,22 @@ export class DataSharingConsentModal implements PageObject {
     constructor(page: Page) {
         this.page = page;
 
-        this.consentModal = page.getByRole('dialog', { name: translate('administration:dashboard:dataSharingModal.title') });
+        this.consentModal = page.getByRole('dialog', { name: 'Help us improve' });
 
-        this.shareAllButton = page.getByRole('button', { name: translate('administration:dashboard:dataSharingModal.shareAll') });
-        this.shareNothingButton = page.getByRole('button', { name: translate('administration:dashboard:dataSharingModal.shareAll') });
-        this.savePreferencesButton = page.getByRole('button', { name: translate('administration:dashboard:dataSharingModal.savePreferences') });
+        this.shareAllButton = page.getByRole('button', { name: 'Share all' });
+        this.shareNothingButton = page.getByRole('button', { name: 'Share nothing' });
+        this.savePreferencesButton = page.getByRole('button', { name: 'Save preferences' });
 
-        this.shareStoreDataHeadline = page.getByRole('heading', { name: translate('administration:dashboard:dataSharingModal.shareStoreDataHeadline') });
-        this.shareStoreDataText = page.getByText(translate('administration:dashboard:dataSharingModal.shareStoreDataText'));
-        this.shareStoreDataCheckbox = page.getByRole('checkbox', { name: translate('administration:dashboard:dataSharingModal.shareStoreDataCheckbox') });
+        this.shareStoreDataHeadline = page.getByRole('heading', { name: 'Store data' });
+        this.shareStoreDataText = page.getByText('Combined data from orders, diagnostics, and store data helps us improve features. Please confirm you’re authorized to give consent for your company.');
+        this.shareStoreDataCheckbox = page.getByRole('checkbox', { name: 'Share store data' });
 
-        this.shareUserTrackingDataHeadline = page.getByRole('heading', { name: translate('administration:dashboard:dataSharingModal.shareUserTrackingDataHeadline') });
-        this.shareUserTrackingDataText = page.getByText(translate('administration:dashboard:dataSharingModal.shareUserTrackingDataText'));
-        this.shareUserTrackingDataCheckbox = page.getByRole('checkbox', { name: translate('administration:dashboard:dataSharingModal.shareUserTrackingDataCheckbox') });
+        this.shareUserTrackingDataHeadline = page.getByRole('heading', { name: 'My data' });
+        this.shareUserTrackingDataText = page.getByText('We use data about how you interact with the Administration to improve its usability and performance.');
+        this.shareUserTrackingDataCheckbox = page.getByRole('checkbox', { name: 'Share my data' });
 
-        this.dataUseDetailsLink = page.getByText(translate('administration:dashboard:dataSharingModal.dataUseDetailsLinkText'));
-        this.privacyPolicyLink = page.getByText(translate('administration:dashboard:dataSharingModal.privacyPolicyLinkText'));
-
+        this.dataUseDetailsLink = page.getByRole('link', { name: 'shopware.com/en/data-use-details' });
+        this.privacyPolicyLink = page.getByRole('link', { name: 'Privacy Policy' });
     }
 
     url() {

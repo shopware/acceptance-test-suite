@@ -6,20 +6,6 @@
         "notAtTheMomentMessage": "Sie können jederzeit der Vereinbarung beitreten und so zur ständigen Weiterentwicklung unserer Dienste beitragen und davon profitieren",
         "agreementText": "Durch Klicken auf \"Zustimmen\" bestätigen Sie, dass Sie berechtigt sind, diese Vereinbarung im Namen Ihres Unternehmens einzugehen."
     },
-    "dataSharingModal": {
-      "title": "Hilf uns, besser zu werden",
-      "shareAll": "Alles teilen",
-      "shareNothing": "Nichts teilen",
-      "savePreferences": "Einstellungen speichern",
-      "shareStoreDataHeadline": "Shopdaten",
-      "shareStoreDataText": "Kombinierte Daten aus Bestellungen, Diagnosedaten und Shop-Daten helfen uns, Funktionen zu verbessern. Bitte bestätige, dass Du berechtigt bist, im Namen Deines Unternehmens zuzustimmen.",
-      "shareStoreDataCheckbox": "Shopdaten teilen",
-      "shareUserTrackingDataHeadline": "Meine Daten",
-      "shareUserTrackingDataText": "Wir erheben deine Daten, wie Du mit der Administration interagierst, um deren Benutzerfreundlichkeit und Leistung zu verbessern.",
-      "shareUserTrackingDataCheckbox": "Meine Daten teilen",
-      "privacyPolicyLinkText": "Datenschutzrichtlinie",
-      "dataUseDetailsLinkText": "shopware.com/de/rechtliches/data-use-details/"
-    },
     "shopwareServices": {
         "close": "Schließen",
         "exploreNow": "Jetzt erkunden"
