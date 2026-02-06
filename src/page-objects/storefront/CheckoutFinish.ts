@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class CheckoutFinish implements PageObject {
     public readonly headline: Locator;
@@ -14,15 +14,15 @@ export class CheckoutFinish implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.headline = page.getByRole('heading', { name: translate('storefront:checkout:finish.thankYouForOrder') });
+        this.headline = page.getByRole("heading", { name: translate("storefront:checkout:finish.thankYouForOrder") });
         this.orderNumberText = page.getByText(this.orderNumberRegex);
-        this.grandTotalPrice = page.locator(`dt:has-text("${translate('storefront:checkout:common.grandTotal')}") + dd`);
-        this.taxPrice = page.locator(`dt:text-matches("${translate('storefront:checkout:common.plusVat')} [0-9]\\+\\?${translate('storefront:checkout:common.vatSuffix')}") + dd`);
-        this.cartLineItemImages = page.locator('.line-item-img-link');
+        this.grandTotalPrice = page.locator(`dt:has-text("${translate("storefront:checkout:common.grandTotal")}") + dd`);
+        this.taxPrice = page.locator(`dt:text-matches("${translate("storefront:checkout:common.plusVat")} [0-9]\\+\\?${translate("storefront:checkout:common.vatSuffix")}") + dd`);
+        this.cartLineItemImages = page.locator(".line-item-img-link");
     }
 
     url() {
-        return 'checkout/finish';
+        return "checkout/finish";
     }
 
     async getOrderNumber(): Promise<string | null> {
@@ -42,9 +42,9 @@ export class CheckoutFinish implements PageObject {
 
     getOrderId(): string {
         const url = this.page.url();
-        const [, searchString] = url.split('?');
+        const [, searchString] = url.split("?");
         const params = new URLSearchParams(searchString);
 
-        return params.get('orderId') ?? '';
+        return params.get("orderId") ?? "";
     }
 }

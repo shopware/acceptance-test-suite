@@ -1,5 +1,5 @@
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '../../types/FixtureTypes';
+import { test as base, expect } from "@playwright/test";
+import type { FixtureTypes } from "../../types/FixtureTypes";
 
 export const CartWithProductData = base.extend<FixtureTypes>({
     CartWithProductData: async ({ StoreApiContext, DefaultSalesChannel, ProductData }, use) => {
@@ -7,20 +7,20 @@ export const CartWithProductData = base.extend<FixtureTypes>({
         await StoreApiContext.login(DefaultSalesChannel.customer);
 
         // Create new cart for the shop customer.
-        const cartResponse = await StoreApiContext.post('checkout/cart', {
+        const cartResponse = await StoreApiContext.post("checkout/cart", {
             data: {
-                name: 'default-customer-cart',
+                name: "default-customer-cart",
             },
         });
 
         expect(cartResponse.ok()).toBeTruthy();
 
         // Create new line items in the cart.
-        const lineItemResponse = await StoreApiContext.post('checkout/cart/line-item', {
+        const lineItemResponse = await StoreApiContext.post("checkout/cart/line-item", {
             data: {
                 items: [
                     {
-                        type: 'product',
+                        type: "product",
                         referencedId: ProductData.id,
                         quantity: 10,
                     },

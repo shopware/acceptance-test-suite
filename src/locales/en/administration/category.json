@@ -9,7 +9,7 @@
     },
     "actions": {
         "createCategory": "Create category",
-        "addLandingPage": "Add landing page", 
+        "addLandingPage": "Add landing page",
         "configureHomePage": "Configure home page",
         "newCategoryAfter": "New category after"
     },

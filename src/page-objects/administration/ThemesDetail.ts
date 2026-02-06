@@ -1,8 +1,7 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
 
 export class ThemesDetail implements PageObject {
-
     public readonly contentView: Locator;
     public readonly page: Page;
     public readonly scrollableElement: Locator;
@@ -11,13 +10,13 @@ export class ThemesDetail implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.contentView = page.locator('.sw-page__content');
-        this.scrollableElement = page.locator('.sw-page__main-content-inner')
-        this.themeCard = (headline: string) => page.locator('.mt-card__header', { hasText: headline});
-        this.sidebarButton = page.locator('.sw-sidebar-navigation-item').first();
+        this.contentView = page.locator(".sw-page__content");
+        this.scrollableElement = page.locator(".sw-page__main-content-inner");
+        this.themeCard = (headline: string) => page.locator(".mt-card__header", { hasText: headline });
+        this.sidebarButton = page.locator(".sw-sidebar-navigation-item").first();
     }
-    
+
     url() {
-        return '#/sw/theme/manager/index';
+        return "#/sw/theme/manager/index";
     }
 }

@@ -1,12 +1,6 @@
-import { test } from '../../src';
+import { test } from "../../src";
 
-test('Administration page objects - Manufacturer.', async ({
-    TestDataService,
-    ShopAdmin,
-    AdminManufacturerListing,
-    AdminManufacturerCreate,
-}) => {
-
+test("Administration page objects - Manufacturer.", async ({ TestDataService, ShopAdmin, AdminManufacturerListing, AdminManufacturerCreate }) => {
     const manufacturer = await TestDataService.createBasicManufacturer();
 
     await ShopAdmin.goesTo(AdminManufacturerListing.url());

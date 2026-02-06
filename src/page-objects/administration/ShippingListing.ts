@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class ShippingListing implements PageObject {
     public readonly header: Locator;
@@ -18,20 +18,20 @@ export class ShippingListing implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.header = page.locator('.smart-bar__header');
-        this.addShippingMethod = page.getByText(translate('administration:shipping:listing.addShippingMethod'), { exact: true });
-        this.contextMenu = page.locator('.sw-data-grid-settings__trigger');
-        this.editButton = page.locator('.sw-settings-shipping-list__edit-action');
-        this.deleteButton = page.locator('.sw-context-menu-item--danger');
+        this.header = page.locator(".smart-bar__header");
+        this.addShippingMethod = page.getByText(translate("administration:shipping:listing.addShippingMethod"), { exact: true });
+        this.contextMenu = page.locator(".sw-data-grid-settings__trigger");
+        this.editButton = page.locator(".sw-settings-shipping-list__edit-action");
+        this.deleteButton = page.locator(".sw-context-menu-item--danger");
 
         //warning modal
-        this.modal = page.getByRole('dialog', { name: translate('administration:shipping:dialogs.warning') });
-        this.modalHeader = this.modal.getByRole('heading', { name: translate('administration:shipping:dialogs.warning') });
-        this.modalCancelButton = this.modal.getByRole('button', { name: translate('administration:shipping:dialogs.cancel') });
-        this.modalDeleteButton = this.modal.getByRole('button', { name: translate('administration:shipping:dialogs.delete') });
+        this.modal = page.getByRole("dialog", { name: translate("administration:shipping:dialogs.warning") });
+        this.modalHeader = this.modal.getByRole("heading", { name: translate("administration:shipping:dialogs.warning") });
+        this.modalCancelButton = this.modal.getByRole("button", { name: translate("administration:shipping:dialogs.cancel") });
+        this.modalDeleteButton = this.modal.getByRole("button", { name: translate("administration:shipping:dialogs.delete") });
     }
 
     url() {
-        return '#/sw/settings/shipping/index/';
+        return "#/sw/settings/shipping/index/";
     }
 }

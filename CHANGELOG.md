@@ -2,896 +2,773 @@
 
 ## [12.4.3](https://github.com/shopware/acceptance-test-suite/compare/v12.4.2...v12.4.3) (2026-02-03)
 
-
 ### Bug Fixes
 
-* Add exact match check to Admin Log in button ([#568](https://github.com/shopware/acceptance-test-suite/issues/568)) ([1bfe6d9](https://github.com/shopware/acceptance-test-suite/commit/1bfe6d90f05cfeaa87eca1553652246b8252e6ac))
+- Add exact match check to Admin Log in button ([#568](https://github.com/shopware/acceptance-test-suite/issues/568)) ([1bfe6d9](https://github.com/shopware/acceptance-test-suite/commit/1bfe6d90f05cfeaa87eca1553652246b8252e6ac))
 
 ## [12.4.2](https://github.com/shopware/acceptance-test-suite/compare/v12.4.1...v12.4.2) (2026-01-07)
 
-
 ### Bug Fixes
 
-* remove unnecessary scroll function calls ([#565](https://github.com/shopware/acceptance-test-suite/issues/565)) ([b8983be](https://github.com/shopware/acceptance-test-suite/commit/b8983bee934798ca6681e7f2258a9eadb706b77c))
-* use scrollIntoViewIfNeeded() in a11y_checks ([#563](https://github.com/shopware/acceptance-test-suite/issues/563)) ([68a49c2](https://github.com/shopware/acceptance-test-suite/commit/68a49c21226a1b8da804404e70ed6af186f6cf0a))
+- remove unnecessary scroll function calls ([#565](https://github.com/shopware/acceptance-test-suite/issues/565)) ([b8983be](https://github.com/shopware/acceptance-test-suite/commit/b8983bee934798ca6681e7f2258a9eadb706b77c))
+- use scrollIntoViewIfNeeded() in a11y_checks ([#563](https://github.com/shopware/acceptance-test-suite/issues/563)) ([68a49c2](https://github.com/shopware/acceptance-test-suite/commit/68a49c21226a1b8da804404e70ed6af186f6cf0a))
 
 ## [12.4.1](https://github.com/shopware/acceptance-test-suite/compare/v12.4.0...v12.4.1) (2026-01-06)
 
-
 ### Bug Fixes
 
-* refactor Actor.selectsRadioButton function ([#562](https://github.com/shopware/acceptance-test-suite/issues/562)) ([4dabe71](https://github.com/shopware/acceptance-test-suite/commit/4dabe711f5e7668d2f9eb60e32a2b8c0a8c4e198))
-* use StoreApiContext for isThemeCompiled ([#559](https://github.com/shopware/acceptance-test-suite/issues/559)) ([64290d6](https://github.com/shopware/acceptance-test-suite/commit/64290d6bccda9ed9d2b5507e51c207852c0166b9))
+- refactor Actor.selectsRadioButton function ([#562](https://github.com/shopware/acceptance-test-suite/issues/562)) ([4dabe71](https://github.com/shopware/acceptance-test-suite/commit/4dabe711f5e7668d2f9eb60e32a2b8c0a8c4e198))
+- use StoreApiContext for isThemeCompiled ([#559](https://github.com/shopware/acceptance-test-suite/issues/559)) ([64290d6](https://github.com/shopware/acceptance-test-suite/commit/64290d6bccda9ed9d2b5507e51c207852c0166b9))
 
 ## [12.4.0](https://github.com/shopware/acceptance-test-suite/compare/v12.3.0...v12.4.0) (2025-12-18)
 
-
 ### Features
 
-* make closing the off canvas cart a task ([#556](https://github.com/shopware/acceptance-test-suite/issues/556)) ([3d6e912](https://github.com/shopware/acceptance-test-suite/commit/3d6e912cb175326d35e6fba5cfb8cd5d42d2131d))
+- make closing the off canvas cart a task ([#556](https://github.com/shopware/acceptance-test-suite/issues/556)) ([3d6e912](https://github.com/shopware/acceptance-test-suite/commit/3d6e912cb175326d35e6fba5cfb8cd5d42d2131d))
 
 ## [12.3.0](https://github.com/shopware/acceptance-test-suite/compare/v12.2.3...v12.3.0) (2025-12-18)
 
-
 ### Features
 
-* enhance cookie configuration ui ([#554](https://github.com/shopware/acceptance-test-suite/issues/554)) ([c46aa33](https://github.com/shopware/acceptance-test-suite/commit/c46aa332f6bd95e24a900322bfc5a2841dd6a413))
+- enhance cookie configuration ui ([#554](https://github.com/shopware/acceptance-test-suite/issues/554)) ([c46aa33](https://github.com/shopware/acceptance-test-suite/commit/c46aa332f6bd95e24a900322bfc5a2841dd6a413))
 
 ## [12.2.3](https://github.com/shopware/acceptance-test-suite/compare/v12.2.2...v12.2.3) (2025-12-15)
 
-
 ### Bug Fixes
 
-* typos in default addresses ([#552](https://github.com/shopware/acceptance-test-suite/issues/552)) ([d2b8d83](https://github.com/shopware/acceptance-test-suite/commit/d2b8d8305fafe278a89184ca74b5c4a1fbaed8d8))
+- typos in default addresses ([#552](https://github.com/shopware/acceptance-test-suite/issues/552)) ([d2b8d83](https://github.com/shopware/acceptance-test-suite/commit/d2b8d8305fafe278a89184ca74b5c4a1fbaed8d8))
 
 ## [12.2.2](https://github.com/shopware/acceptance-test-suite/compare/v12.2.1...v12.2.2) (2025-12-15)
 
-
 ### Bug Fixes
 
-* typo in default address in de locale ([#550](https://github.com/shopware/acceptance-test-suite/issues/550)) ([435a105](https://github.com/shopware/acceptance-test-suite/commit/435a1056a0745cd7f738e12d916b3329393798e2))
+- typo in default address in de locale ([#550](https://github.com/shopware/acceptance-test-suite/issues/550)) ([435a105](https://github.com/shopware/acceptance-test-suite/commit/435a1056a0745cd7f738e12d916b3329393798e2))
 
 ## [12.2.1](https://github.com/shopware/acceptance-test-suite/compare/v12.2.0...v12.2.1) (2025-11-27)
 
-
 ### Bug Fixes
 
-* presses and navigation stability ([#544](https://github.com/shopware/acceptance-test-suite/issues/544)) ([7a5f6bf](https://github.com/shopware/acceptance-test-suite/commit/7a5f6bfcc4af666790118028b9255fb2a2d666ed))
+- presses and navigation stability ([#544](https://github.com/shopware/acceptance-test-suite/issues/544)) ([7a5f6bf](https://github.com/shopware/acceptance-test-suite/commit/7a5f6bfcc4af666790118028b9255fb2a2d666ed))
 
 ## [12.2.0](https://github.com/shopware/acceptance-test-suite/compare/v12.1.7...v12.2.0) (2025-11-25)
 
-
 ### Features
 
-* Optimize TestDataService cleanup operations ([#541](https://github.com/shopware/acceptance-test-suite/issues/541)) ([b1276e5](https://github.com/shopware/acceptance-test-suite/commit/b1276e544f798418b8042113ff1e08a250d0ed62))
+- Optimize TestDataService cleanup operations ([#541](https://github.com/shopware/acceptance-test-suite/issues/541)) ([b1276e5](https://github.com/shopware/acceptance-test-suite/commit/b1276e544f798418b8042113ff1e08a250d0ed62))
 
 ## [12.1.7](https://github.com/shopware/acceptance-test-suite/compare/v12.1.6...v12.1.7) (2025-11-24)
 
-
 ### Bug Fixes
 
-* add additional date range locator for rule builder ([#539](https://github.com/shopware/acceptance-test-suite/issues/539)) ([245659c](https://github.com/shopware/acceptance-test-suite/commit/245659c8bd149684940644ed224171ab6ff8bdcc))
-* specify date range condition use time locator ([#537](https://github.com/shopware/acceptance-test-suite/issues/537)) ([b08f89d](https://github.com/shopware/acceptance-test-suite/commit/b08f89d8cd93e14f5bce8992d57703715ad5d6f3))
+- add additional date range locator for rule builder ([#539](https://github.com/shopware/acceptance-test-suite/issues/539)) ([245659c](https://github.com/shopware/acceptance-test-suite/commit/245659c8bd149684940644ed224171ab6ff8bdcc))
+- specify date range condition use time locator ([#537](https://github.com/shopware/acceptance-test-suite/issues/537)) ([b08f89d](https://github.com/shopware/acceptance-test-suite/commit/b08f89d8cd93e14f5bce8992d57703715ad5d6f3))
 
 ## [12.1.6](https://github.com/shopware/acceptance-test-suite/compare/v12.1.5...v12.1.6) (2025-11-19)
 
-
 ### Bug Fixes
 
-* add translation key for new hard code texts ([#532](https://github.com/shopware/acceptance-test-suite/issues/532)) ([3545309](https://github.com/shopware/acceptance-test-suite/commit/3545309fb1966a4be73646a68048d879cc945432))
+- add translation key for new hard code texts ([#532](https://github.com/shopware/acceptance-test-suite/issues/532)) ([3545309](https://github.com/shopware/acceptance-test-suite/commit/3545309fb1966a4be73646a68048d879cc945432))
 
 ## [12.1.5](https://github.com/shopware/acceptance-test-suite/compare/v12.1.4...v12.1.5) (2025-11-18)
 
-
 ### Bug Fixes
 
-* flaky button press at SubmitOrder ([#535](https://github.com/shopware/acceptance-test-suite/issues/535)) ([43fab43](https://github.com/shopware/acceptance-test-suite/commit/43fab4386cf9c92d4fe3247614c21b4f3438ef6c))
-* flaky checkout button click at ProceedFromProductToCheckout ([#533](https://github.com/shopware/acceptance-test-suite/issues/533)) ([6fb306b](https://github.com/shopware/acceptance-test-suite/commit/6fb306b6b68fa03ea3dcac95cb1616b159daa541))
+- flaky button press at SubmitOrder ([#535](https://github.com/shopware/acceptance-test-suite/issues/535)) ([43fab43](https://github.com/shopware/acceptance-test-suite/commit/43fab4386cf9c92d4fe3247614c21b4f3438ef6c))
+- flaky checkout button click at ProceedFromProductToCheckout ([#533](https://github.com/shopware/acceptance-test-suite/issues/533)) ([6fb306b](https://github.com/shopware/acceptance-test-suite/commit/6fb306b6b68fa03ea3dcac95cb1616b159daa541))
 
 ## [12.1.4](https://github.com/shopware/acceptance-test-suite/compare/v12.1.3...v12.1.4) (2025-11-14)
 
-
 ### Bug Fixes
 
-* flaky checkout button click ([#530](https://github.com/shopware/acceptance-test-suite/issues/530)) ([a39db18](https://github.com/shopware/acceptance-test-suite/commit/a39db18b5feca7b4bbf3c6cf795e467527d7e94d))
+- flaky checkout button click ([#530](https://github.com/shopware/acceptance-test-suite/issues/530)) ([a39db18](https://github.com/shopware/acceptance-test-suite/commit/a39db18b5feca7b4bbf3c6cf795e467527d7e94d))
 
 ## [12.1.3](https://github.com/shopware/acceptance-test-suite/compare/v12.1.2...v12.1.3) (2025-11-13)
 
-
 ### Bug Fixes
 
-* review filter rating locator ([#528](https://github.com/shopware/acceptance-test-suite/issues/528)) ([27c678a](https://github.com/shopware/acceptance-test-suite/commit/27c678af29ee28024b2a27422529974619edb3fc))
+- review filter rating locator ([#528](https://github.com/shopware/acceptance-test-suite/issues/528)) ([27c678a](https://github.com/shopware/acceptance-test-suite/commit/27c678af29ee28024b2a27422529974619edb3fc))
 
 ## [12.1.2](https://github.com/shopware/acceptance-test-suite/compare/v12.1.1...v12.1.2) (2025-11-13)
 
-
 ### Bug Fixes
 
-* add order status locators ([#525](https://github.com/shopware/acceptance-test-suite/issues/525)) ([f1bf3de](https://github.com/shopware/acceptance-test-suite/commit/f1bf3de503c0396f8920c47fdb8bea245f960a13))
+- add order status locators ([#525](https://github.com/shopware/acceptance-test-suite/issues/525)) ([f1bf3de](https://github.com/shopware/acceptance-test-suite/commit/f1bf3de503c0396f8920c47fdb8bea245f960a13))
 
 ## [12.1.1](https://github.com/shopware/acceptance-test-suite/compare/v12.1.0...v12.1.1) (2025-11-08)
 
-
 ### Bug Fixes
 
-* update locale-mappings and correct translationKeys ([#519](https://github.com/shopware/acceptance-test-suite/issues/519)) ([b0f71f9](https://github.com/shopware/acceptance-test-suite/commit/b0f71f9ca614a2f85ca697ec2a588fb8ce70f3f6))
+- update locale-mappings and correct translationKeys ([#519](https://github.com/shopware/acceptance-test-suite/issues/519)) ([b0f71f9](https://github.com/shopware/acceptance-test-suite/commit/b0f71f9ca614a2f85ca697ec2a588fb8ce70f3f6))
 
 ## [12.1.0](https://github.com/shopware/acceptance-test-suite/compare/v12.0.2...v12.1.0) (2025-11-07)
 
-
 ### Features
 
-* update selectors for dynamic field rendering with meteor components ([#521](https://github.com/shopware/acceptance-test-suite/issues/521)) ([4294c2c](https://github.com/shopware/acceptance-test-suite/commit/4294c2c4992b12a7df89ad48a71d2ffcfa04c22f))
+- update selectors for dynamic field rendering with meteor components ([#521](https://github.com/shopware/acceptance-test-suite/issues/521)) ([4294c2c](https://github.com/shopware/acceptance-test-suite/commit/4294c2c4992b12a7df89ad48a71d2ffcfa04c22f))
 
 ## [12.0.2](https://github.com/shopware/acceptance-test-suite/compare/v12.0.1...v12.0.2) (2025-11-07)
 
-
 ### Bug Fixes
 
-* adjust selectors work for mt-datepicker ([#517](https://github.com/shopware/acceptance-test-suite/issues/517)) ([d66fc93](https://github.com/shopware/acceptance-test-suite/commit/d66fc93438b5ea849dcdca2e032d5de0d0aeae4a))
+- adjust selectors work for mt-datepicker ([#517](https://github.com/shopware/acceptance-test-suite/issues/517)) ([d66fc93](https://github.com/shopware/acceptance-test-suite/commit/d66fc93438b5ea849dcdca2e032d5de0d0aeae4a))
 
 ## [12.0.1](https://github.com/shopware/acceptance-test-suite/compare/v12.0.0...v12.0.1) (2025-11-05)
 
-
 ### Bug Fixes
 
-* update locale_mappings:  languageCode of en-US locale to en-GB ([#515](https://github.com/shopware/acceptance-test-suite/issues/515)) ([99eb5cd](https://github.com/shopware/acceptance-test-suite/commit/99eb5cdeaae4962a6797c30b3b53d4d0951e1f84))
+- update locale_mappings: languageCode of en-US locale to en-GB ([#515](https://github.com/shopware/acceptance-test-suite/issues/515)) ([99eb5cd](https://github.com/shopware/acceptance-test-suite/commit/99eb5cdeaae4962a6797c30b3b53d4d0951e1f84))
 
 ## [12.0.0](https://github.com/shopware/acceptance-test-suite/compare/v11.38.0...v12.0.0) (2025-11-04)
 
-
 ### ⚠ BREAKING CHANGES
 
-* add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509))
+- add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509))
 
 ### Features
 
-* add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509)) ([a36dba0](https://github.com/shopware/acceptance-test-suite/commit/a36dba0b0944a7c551f388f5f3a745e1c6233046))
-* `getCurrency()` parameter order changed: now expects `(adminApiContext, isoCode?)` instead of `(isoCode, adminApiContext)`
-* `getLanguageData()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(languageCode, adminApiContext)`
-* `getSnippetSetId()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(adminApiContext)`
-* changes for RuleBuilderCreate test  ([#319](https://github.com/shopware/acceptance-test-suite/issues/319)) ([ef982be](https://github.com/shopware/acceptance-test-suite/commit/ef982be7aa26b233d743f450d79b925a49be5b7b))
-
+- add environment-based language and currency configuration for admin and storefront ([#509](https://github.com/shopware/acceptance-test-suite/issues/509)) ([a36dba0](https://github.com/shopware/acceptance-test-suite/commit/a36dba0b0944a7c551f388f5f3a745e1c6233046))
+- `getCurrency()` parameter order changed: now expects `(adminApiContext, isoCode?)` instead of `(isoCode, adminApiContext)`
+- `getLanguageData()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(languageCode, adminApiContext)`
+- `getSnippetSetId()` parameter order changed: now expects `(adminApiContext, languageCode?)` instead of `(adminApiContext)`
+- changes for RuleBuilderCreate test ([#319](https://github.com/shopware/acceptance-test-suite/issues/319)) ([ef982be](https://github.com/shopware/acceptance-test-suite/commit/ef982be7aa26b233d743f450d79b925a49be5b7b))
 
 ### Bug Fixes
 
-* use oidc auth for publish ([#514](https://github.com/shopware/acceptance-test-suite/issues/514)) ([226c85a](https://github.com/shopware/acceptance-test-suite/commit/226c85af877bad341e91898a32c938d68eb68e68))
+- use oidc auth for publish ([#514](https://github.com/shopware/acceptance-test-suite/issues/514)) ([226c85a](https://github.com/shopware/acceptance-test-suite/commit/226c85af877bad341e91898a32c938d68eb68e68))
 
 ## [11.38.0](https://github.com/shopware/acceptance-test-suite/compare/v11.37.0...v11.38.0) (2025-10-23)
 
-
 ### Features
 
-* make TestDataService shouldCleanup property accessible ([#511](https://github.com/shopware/acceptance-test-suite/issues/511)) ([36ef1af](https://github.com/shopware/acceptance-test-suite/commit/36ef1afea3aa71fc4583cc8faedcd1d11ec8822f))
+- make TestDataService shouldCleanup property accessible ([#511](https://github.com/shopware/acceptance-test-suite/issues/511)) ([36ef1af](https://github.com/shopware/acceptance-test-suite/commit/36ef1afea3aa71fc4583cc8faedcd1d11ec8822f))
 
 ## [11.37.0](https://github.com/shopware/acceptance-test-suite/compare/v11.36.0...v11.37.0) (2025-10-22)
 
-
 ### Features
 
-* add abstract locators for shopping cart ([#507](https://github.com/shopware/acceptance-test-suite/issues/507)) ([dfe3a8d](https://github.com/shopware/acceptance-test-suite/commit/dfe3a8d40e58715a313fe7751cefba919cc1bb7c))
+- add abstract locators for shopping cart ([#507](https://github.com/shopware/acceptance-test-suite/issues/507)) ([dfe3a8d](https://github.com/shopware/acceptance-test-suite/commit/dfe3a8d40e58715a313fe7751cefba919cc1bb7c))
 
 ## [11.36.0](https://github.com/shopware/acceptance-test-suite/compare/v11.35.0...v11.36.0) (2025-10-17)
 
-
 ### Features
 
-* Add keyboard-centric functionality as well as a custom matcher for visible focus to extend our coverage for accessibility checks ([#410](https://github.com/shopware/acceptance-test-suite/issues/410)) ([3734133](https://github.com/shopware/acceptance-test-suite/commit/37341333ff0fd81eca9a21f749aaee3f1d7191ad))
+- Add keyboard-centric functionality as well as a custom matcher for visible focus to extend our coverage for accessibility checks ([#410](https://github.com/shopware/acceptance-test-suite/issues/410)) ([3734133](https://github.com/shopware/acceptance-test-suite/commit/37341333ff0fd81eca9a21f749aaee3f1d7191ad))
 
 ## [11.35.0](https://github.com/shopware/acceptance-test-suite/compare/v11.34.1...v11.35.0) (2025-10-16)
 
-
 ### Features
 
-* order listing page object ([#504](https://github.com/shopware/acceptance-test-suite/issues/504)) ([491bf49](https://github.com/shopware/acceptance-test-suite/commit/491bf4998c1786b142d905b20377f7a87075ace7))
-* refactor token management ([#498](https://github.com/shopware/acceptance-test-suite/issues/498)) ([cb8f7b1](https://github.com/shopware/acceptance-test-suite/commit/cb8f7b1a713734aa325dfd626f19bd929accd8e7))
+- order listing page object ([#504](https://github.com/shopware/acceptance-test-suite/issues/504)) ([491bf49](https://github.com/shopware/acceptance-test-suite/commit/491bf4998c1786b142d905b20377f7a87075ace7))
+- refactor token management ([#498](https://github.com/shopware/acceptance-test-suite/issues/498)) ([cb8f7b1](https://github.com/shopware/acceptance-test-suite/commit/cb8f7b1a713734aa325dfd626f19bd929accd8e7))
 
 ## [11.34.1](https://github.com/shopware/acceptance-test-suite/compare/v11.34.0...v11.34.1) (2025-10-09)
 
-
 ### Bug Fixes
 
-* add missing snippet to de and en ([#501](https://github.com/shopware/acceptance-test-suite/issues/501)) ([14f3c0c](https://github.com/shopware/acceptance-test-suite/commit/14f3c0c1ac5036acafb08d30e6283ee727c8034c))
-* change isoCode to name ([#500](https://github.com/shopware/acceptance-test-suite/issues/500)) ([6b1aaa8](https://github.com/shopware/acceptance-test-suite/commit/6b1aaa82a00378c27653268ef41bd4fe727857eb))
+- add missing snippet to de and en ([#501](https://github.com/shopware/acceptance-test-suite/issues/501)) ([14f3c0c](https://github.com/shopware/acceptance-test-suite/commit/14f3c0c1ac5036acafb08d30e6283ee727c8034c))
+- change isoCode to name ([#500](https://github.com/shopware/acceptance-test-suite/issues/500)) ([6b1aaa8](https://github.com/shopware/acceptance-test-suite/commit/6b1aaa82a00378c27653268ef41bd4fe727857eb))
 
 ## [11.34.0](https://github.com/shopware/acceptance-test-suite/compare/v11.33.2...v11.34.0) (2025-10-08)
 
-
 ### Features
 
-* add sales channel detail page ([#431](https://github.com/shopware/acceptance-test-suite/issues/431)) ([3ed4da0](https://github.com/shopware/acceptance-test-suite/commit/3ed4da0dba307ebb6b99a108b00526ade130b1e1))
-* task check visibility of products ([#495](https://github.com/shopware/acceptance-test-suite/issues/495)) ([ddfc1b6](https://github.com/shopware/acceptance-test-suite/commit/ddfc1b6b423bcc173ca4dd3949c70d1b15235dc4))
-
+- add sales channel detail page ([#431](https://github.com/shopware/acceptance-test-suite/issues/431)) ([3ed4da0](https://github.com/shopware/acceptance-test-suite/commit/3ed4da0dba307ebb6b99a108b00526ade130b1e1))
+- task check visibility of products ([#495](https://github.com/shopware/acceptance-test-suite/issues/495)) ([ddfc1b6](https://github.com/shopware/acceptance-test-suite/commit/ddfc1b6b423bcc173ca4dd3949c70d1b15235dc4))
 
 ### Bug Fixes
 
-* add token assertion ([#496](https://github.com/shopware/acceptance-test-suite/issues/496)) ([45b0c9e](https://github.com/shopware/acceptance-test-suite/commit/45b0c9e0def3dc308d1262b9e3a16e412437ec10))
+- add token assertion ([#496](https://github.com/shopware/acceptance-test-suite/issues/496)) ([45b0c9e](https://github.com/shopware/acceptance-test-suite/commit/45b0c9e0def3dc308d1262b9e3a16e412437ec10))
 
 ## [11.33.2](https://github.com/shopware/acceptance-test-suite/compare/v11.33.1...v11.33.2) (2025-10-06)
 
-
 ### Bug Fixes
 
-* add assertion to assign operations ([#486](https://github.com/shopware/acceptance-test-suite/issues/486)) ([f079c8b](https://github.com/shopware/acceptance-test-suite/commit/f079c8b77cb61d8388784b3e995bc9eac494b21c))
-* country iso uniqueness ([#488](https://github.com/shopware/acceptance-test-suite/issues/488)) ([18521de](https://github.com/shopware/acceptance-test-suite/commit/18521de2dc6850bf423014f8a1df73895b58bcc0))
-* delete created order in test ([#490](https://github.com/shopware/acceptance-test-suite/issues/490)) ([d1c142f](https://github.com/shopware/acceptance-test-suite/commit/d1c142fd3cf9893ecf113ff7915a8968d79758e9))
-* generate random 3 digit id for isoCode ([#485](https://github.com/shopware/acceptance-test-suite/issues/485)) ([6b480d2](https://github.com/shopware/acceptance-test-suite/commit/6b480d24a0a33780107c6caef310341d1dd409e6))
+- add assertion to assign operations ([#486](https://github.com/shopware/acceptance-test-suite/issues/486)) ([f079c8b](https://github.com/shopware/acceptance-test-suite/commit/f079c8b77cb61d8388784b3e995bc9eac494b21c))
+- country iso uniqueness ([#488](https://github.com/shopware/acceptance-test-suite/issues/488)) ([18521de](https://github.com/shopware/acceptance-test-suite/commit/18521de2dc6850bf423014f8a1df73895b58bcc0))
+- delete created order in test ([#490](https://github.com/shopware/acceptance-test-suite/issues/490)) ([d1c142f](https://github.com/shopware/acceptance-test-suite/commit/d1c142fd3cf9893ecf113ff7915a8968d79758e9))
+- generate random 3 digit id for isoCode ([#485](https://github.com/shopware/acceptance-test-suite/issues/485)) ([6b480d2](https://github.com/shopware/acceptance-test-suite/commit/6b480d24a0a33780107c6caef310341d1dd409e6))
 
 ## [11.33.1](https://github.com/shopware/acceptance-test-suite/compare/v11.33.0...v11.33.1) (2025-10-06)
 
-
 ### Bug Fixes
 
-* additional element for account pages ([#476](https://github.com/shopware/acceptance-test-suite/issues/476)) ([070cdf5](https://github.com/shopware/acceptance-test-suite/commit/070cdf5be246528697c9921b7179188506536fea))
+- additional element for account pages ([#476](https://github.com/shopware/acceptance-test-suite/issues/476)) ([070cdf5](https://github.com/shopware/acceptance-test-suite/commit/070cdf5be246528697c9921b7179188506536fea))
 
 ## [11.33.0](https://github.com/shopware/acceptance-test-suite/compare/v11.32.0...v11.33.0) (2025-10-02)
 
-
 ### Features
 
-* add Media page objects ([#461](https://github.com/shopware/acceptance-test-suite/issues/461)) ([c4783ca](https://github.com/shopware/acceptance-test-suite/commit/c4783ca9658c81e4be7f6ab771f165b74dec2881))
+- add Media page objects ([#461](https://github.com/shopware/acceptance-test-suite/issues/461)) ([c4783ca](https://github.com/shopware/acceptance-test-suite/commit/c4783ca9658c81e4be7f6ab771f165b74dec2881))
 
 ## [11.32.0](https://github.com/shopware/acceptance-test-suite/compare/v11.31.0...v11.32.0) (2025-10-01)
 
-
 ### Features
 
-* add language agnostic ([#478](https://github.com/shopware/acceptance-test-suite/issues/478)) ([03dedc8](https://github.com/shopware/acceptance-test-suite/commit/03dedc85bbd419ad656b15b6b9f6ce5e5d1415bf))
-
+- add language agnostic ([#478](https://github.com/shopware/acceptance-test-suite/issues/478)) ([03dedc8](https://github.com/shopware/acceptance-test-suite/commit/03dedc85bbd419ad656b15b6b9f6ce5e5d1415bf))
 
 ### Bug Fixes
 
-* add new locator to media listing ([#481](https://github.com/shopware/acceptance-test-suite/issues/481)) ([8b28fea](https://github.com/shopware/acceptance-test-suite/commit/8b28fea9c0bb712ef76172876118417fceb3b74f))
-* export IdProvider ([#479](https://github.com/shopware/acceptance-test-suite/issues/479)) ([7114642](https://github.com/shopware/acceptance-test-suite/commit/7114642c989840c18afacf3e576fe3ef6a60d591))
+- add new locator to media listing ([#481](https://github.com/shopware/acceptance-test-suite/issues/481)) ([8b28fea](https://github.com/shopware/acceptance-test-suite/commit/8b28fea9c0bb712ef76172876118417fceb3b74f))
+- export IdProvider ([#479](https://github.com/shopware/acceptance-test-suite/issues/479)) ([7114642](https://github.com/shopware/acceptance-test-suite/commit/7114642c989840c18afacf3e576fe3ef6a60d591))
 
 ## [11.31.0](https://github.com/shopware/acceptance-test-suite/compare/v11.30.0...v11.31.0) (2025-09-24)
 
-
 ### Features
 
-* add shopping experiences pages ([#474](https://github.com/shopware/acceptance-test-suite/issues/474)) ([e62f313](https://github.com/shopware/acceptance-test-suite/commit/e62f313584c14ec6da96fd8eb16ccb02b2c12319))
+- add shopping experiences pages ([#474](https://github.com/shopware/acceptance-test-suite/issues/474)) ([e62f313](https://github.com/shopware/acceptance-test-suite/commit/e62f313584c14ec6da96fd8eb16ccb02b2c12319))
 
 ## [11.30.0](https://github.com/shopware/acceptance-test-suite/compare/v11.29.1...v11.30.0) (2025-09-15)
 
-
 ### Features
 
-* add media listing page object ([#473](https://github.com/shopware/acceptance-test-suite/issues/473)) ([5c1f0a3](https://github.com/shopware/acceptance-test-suite/commit/5c1f0a35adbcb1404c276296cd04f47daad6b692))
-* bump npm packages ([#469](https://github.com/shopware/acceptance-test-suite/issues/469)) ([b0b265c](https://github.com/shopware/acceptance-test-suite/commit/b0b265c09bcb73cb45a67583dd55775ed15ab8cc))
-
+- add media listing page object ([#473](https://github.com/shopware/acceptance-test-suite/issues/473)) ([5c1f0a3](https://github.com/shopware/acceptance-test-suite/commit/5c1f0a35adbcb1404c276296cd04f47daad6b692))
+- bump npm packages ([#469](https://github.com/shopware/acceptance-test-suite/issues/469)) ([b0b265c](https://github.com/shopware/acceptance-test-suite/commit/b0b265c09bcb73cb45a67583dd55775ed15ab8cc))
 
 ### Bug Fixes
 
-* add new locators to customer detail page ([#471](https://github.com/shopware/acceptance-test-suite/issues/471)) ([ec27fa0](https://github.com/shopware/acceptance-test-suite/commit/ec27fa07f3e69e310627c7df220beb7d8564e6b5))
+- add new locators to customer detail page ([#471](https://github.com/shopware/acceptance-test-suite/issues/471)) ([ec27fa0](https://github.com/shopware/acceptance-test-suite/commit/ec27fa07f3e69e310627c7df220beb7d8564e6b5))
 
 ## [11.29.1](https://github.com/shopware/acceptance-test-suite/compare/v11.29.0...v11.29.1) (2025-09-10)
 
-
 ### Bug Fixes
 
-* disable services locator tests in SaaS ([#454](https://github.com/shopware/acceptance-test-suite/issues/454)) ([1c80756](https://github.com/shopware/acceptance-test-suite/commit/1c8075690976a83a96085387b190a4052c40d8e9))
-* empty state selector ([#458](https://github.com/shopware/acceptance-test-suite/issues/458)) ([853981f](https://github.com/shopware/acceptance-test-suite/commit/853981f5b3d47611c2452a0313d7f21f4c41bcf7))
+- disable services locator tests in SaaS ([#454](https://github.com/shopware/acceptance-test-suite/issues/454)) ([1c80756](https://github.com/shopware/acceptance-test-suite/commit/1c8075690976a83a96085387b190a4052c40d8e9))
+- empty state selector ([#458](https://github.com/shopware/acceptance-test-suite/issues/458)) ([853981f](https://github.com/shopware/acceptance-test-suite/commit/853981f5b3d47611c2452a0313d7f21f4c41bcf7))
 
 ## [11.29.0](https://github.com/shopware/acceptance-test-suite/compare/v11.28.0...v11.29.0) (2025-09-08)
 
-
 ### Features
 
-* replace elements with individual replacements ([#466](https://github.com/shopware/acceptance-test-suite/issues/466)) ([0543da6](https://github.com/shopware/acceptance-test-suite/commit/0543da6ced7f48e5a34fda671914c9be10630402))
+- replace elements with individual replacements ([#466](https://github.com/shopware/acceptance-test-suite/issues/466)) ([0543da6](https://github.com/shopware/acceptance-test-suite/commit/0543da6ced7f48e5a34fda671914c9be10630402))
 
 ## [11.28.0](https://github.com/shopware/acceptance-test-suite/compare/v11.27.0...v11.28.0) (2025-09-05)
 
-
 ### Features
 
-* add DOM library ([#464](https://github.com/shopware/acceptance-test-suite/issues/464)) ([486332f](https://github.com/shopware/acceptance-test-suite/commit/486332fe081a28443558ce37c2c1a7545a7915d5))
-* add page objects for Themes ([#462](https://github.com/shopware/acceptance-test-suite/issues/462)) ([bf351a9](https://github.com/shopware/acceptance-test-suite/commit/bf351a9a616fb80fd892eb2a6276d2eddd541f16))
+- add DOM library ([#464](https://github.com/shopware/acceptance-test-suite/issues/464)) ([486332f](https://github.com/shopware/acceptance-test-suite/commit/486332fe081a28443558ce37c2c1a7545a7915d5))
+- add page objects for Themes ([#462](https://github.com/shopware/acceptance-test-suite/issues/462)) ([bf351a9](https://github.com/shopware/acceptance-test-suite/commit/bf351a9a616fb80fd892eb2a6276d2eddd541f16))
 
 ## [11.27.0](https://github.com/shopware/acceptance-test-suite/compare/v11.26.0...v11.27.0) (2025-09-04)
 
-
 ### Features
 
-* replace elements with optional parameter (replace with custom string) ([#463](https://github.com/shopware/acceptance-test-suite/issues/463)) ([eff0d7c](https://github.com/shopware/acceptance-test-suite/commit/eff0d7cd459a657fdaad5128308d7e0623c8492b))
+- replace elements with optional parameter (replace with custom string) ([#463](https://github.com/shopware/acceptance-test-suite/issues/463)) ([eff0d7c](https://github.com/shopware/acceptance-test-suite/commit/eff0d7cd459a657fdaad5128308d7e0623c8492b))
 
 ## [11.26.0](https://github.com/shopware/acceptance-test-suite/compare/v11.25.0...v11.26.0) (2025-09-03)
 
-
 ### Features
 
-* add pkg-pr-new publish step to workflow ([#457](https://github.com/shopware/acceptance-test-suite/issues/457)) ([d7ec032](https://github.com/shopware/acceptance-test-suite/commit/d7ec03211e7127166d266b552b9ed55312f44965))
-* add your profile page object ([#455](https://github.com/shopware/acceptance-test-suite/issues/455)) ([e8d594f](https://github.com/shopware/acceptance-test-suite/commit/e8d594fff35e6a1969a907ee5a84fbc09accec5e))
-
+- add pkg-pr-new publish step to workflow ([#457](https://github.com/shopware/acceptance-test-suite/issues/457)) ([d7ec032](https://github.com/shopware/acceptance-test-suite/commit/d7ec03211e7127166d266b552b9ed55312f44965))
+- add your profile page object ([#455](https://github.com/shopware/acceptance-test-suite/issues/455)) ([e8d594f](https://github.com/shopware/acceptance-test-suite/commit/e8d594fff35e6a1969a907ee5a84fbc09accec5e))
 
 ### Bug Fixes
 
-* increase timeout of services deactivation process ([#452](https://github.com/shopware/acceptance-test-suite/issues/452)) ([6f8f733](https://github.com/shopware/acceptance-test-suite/commit/6f8f733f237ac6058ecd90526ec294543fee9cc4))
+- increase timeout of services deactivation process ([#452](https://github.com/shopware/acceptance-test-suite/issues/452)) ([6f8f733](https://github.com/shopware/acceptance-test-suite/commit/6f8f733f237ac6058ecd90526ec294543fee9cc4))
 
 ## [11.25.0](https://github.com/shopware/acceptance-test-suite/compare/v11.24.1...v11.25.0) (2025-08-27)
 
-
 ### Features
 
-* add locator to Rule Detail page object ([#450](https://github.com/shopware/acceptance-test-suite/issues/450)) ([3ffe4f6](https://github.com/shopware/acceptance-test-suite/commit/3ffe4f68564d8ba8f8519606fa9293d7aa6fdb78))
+- add locator to Rule Detail page object ([#450](https://github.com/shopware/acceptance-test-suite/issues/450)) ([3ffe4f6](https://github.com/shopware/acceptance-test-suite/commit/3ffe4f68564d8ba8f8519606fa9293d7aa6fdb78))
 
 ## [11.24.1](https://github.com/shopware/acceptance-test-suite/compare/v11.24.0...v11.24.1) (2025-08-26)
 
-
 ### Bug Fixes
 
-* priority deletion of category ([#448](https://github.com/shopware/acceptance-test-suite/issues/448)) ([8d83a7b](https://github.com/shopware/acceptance-test-suite/commit/8d83a7ba75691a3f1fe3f3d2a60c1db979b5e440))
-* **snippets:** Fix snippets to please testsuite ([#446](https://github.com/shopware/acceptance-test-suite/issues/446)) ([8515907](https://github.com/shopware/acceptance-test-suite/commit/8515907a116524fb92f4f7ddbfc9697194c3baa1))
+- priority deletion of category ([#448](https://github.com/shopware/acceptance-test-suite/issues/448)) ([8d83a7b](https://github.com/shopware/acceptance-test-suite/commit/8d83a7ba75691a3f1fe3f3d2a60c1db979b5e440))
+- **snippets:** Fix snippets to please testsuite ([#446](https://github.com/shopware/acceptance-test-suite/issues/446)) ([8515907](https://github.com/shopware/acceptance-test-suite/commit/8515907a116524fb92f4f7ddbfc9697194c3baa1))
 
 ## [11.24.0](https://github.com/shopware/acceptance-test-suite/compare/v11.23.0...v11.24.0) (2025-08-25)
 
-
 ### Features
 
-* acceptance test configurations for shopware services ([#432](https://github.com/shopware/acceptance-test-suite/issues/432)) ([5011f42](https://github.com/shopware/acceptance-test-suite/commit/5011f42806ae00807dada84be49aad93be5be0e6))
-* replace static modal property locators with dynamic locators ([#437](https://github.com/shopware/acceptance-test-suite/issues/437)) ([bcd1ebd](https://github.com/shopware/acceptance-test-suite/commit/bcd1ebdcc4c1c89f8583da30b28a9290e1070bc7))
-* screenshot function for visual tests ([#444](https://github.com/shopware/acceptance-test-suite/issues/444)) ([b991d53](https://github.com/shopware/acceptance-test-suite/commit/b991d533eeba1f22ee306349288470a8dee63aea))
-
+- acceptance test configurations for shopware services ([#432](https://github.com/shopware/acceptance-test-suite/issues/432)) ([5011f42](https://github.com/shopware/acceptance-test-suite/commit/5011f42806ae00807dada84be49aad93be5be0e6))
+- replace static modal property locators with dynamic locators ([#437](https://github.com/shopware/acceptance-test-suite/issues/437)) ([bcd1ebd](https://github.com/shopware/acceptance-test-suite/commit/bcd1ebdcc4c1c89f8583da30b28a9290e1070bc7))
+- screenshot function for visual tests ([#444](https://github.com/shopware/acceptance-test-suite/issues/444)) ([b991d53](https://github.com/shopware/acceptance-test-suite/commit/b991d533eeba1f22ee306349288470a8dee63aea))
 
 ### Bug Fixes
 
-* **snippets:** Adjust snippets ([#445](https://github.com/shopware/acceptance-test-suite/issues/445)) ([a4c9116](https://github.com/shopware/acceptance-test-suite/commit/a4c9116f669d1fc8788b54dc4db676f0501ef7e9))
+- **snippets:** Adjust snippets ([#445](https://github.com/shopware/acceptance-test-suite/issues/445)) ([a4c9116](https://github.com/shopware/acceptance-test-suite/commit/a4c9116f669d1fc8788b54dc4db676f0501ef7e9))
 
 ## [11.23.0](https://github.com/shopware/acceptance-test-suite/compare/v11.22.0...v11.23.0) (2025-08-19)
 
-
 ### Features
 
-* add locators for Rule Builder visual test  ([#428](https://github.com/shopware/acceptance-test-suite/issues/428)) ([e643ce9](https://github.com/shopware/acceptance-test-suite/commit/e643ce9f5baa3940e588df8254d5e651dc9478ca))
+- add locators for Rule Builder visual test ([#428](https://github.com/shopware/acceptance-test-suite/issues/428)) ([e643ce9](https://github.com/shopware/acceptance-test-suite/commit/e643ce9f5baa3940e588df8254d5e651dc9478ca))
 
 ## [11.22.0](https://github.com/shopware/acceptance-test-suite/compare/v11.21.0...v11.22.0) (2025-08-19)
 
-
 ### Features
 
-* add pageObject for Flow Builder listing ([#433](https://github.com/shopware/acceptance-test-suite/issues/433)) ([1369217](https://github.com/shopware/acceptance-test-suite/commit/13692174e73ebab5c594a418412b043fb203483a))
+- add pageObject for Flow Builder listing ([#433](https://github.com/shopware/acceptance-test-suite/issues/433)) ([1369217](https://github.com/shopware/acceptance-test-suite/commit/13692174e73ebab5c594a418412b043fb203483a))
 
 ## [11.21.0](https://github.com/shopware/acceptance-test-suite/compare/v11.20.1...v11.21.0) (2025-08-14)
 
-
 ### Features
 
-* add admin promotions page and tests ([#422](https://github.com/shopware/acceptance-test-suite/issues/422)) ([7d8e1bd](https://github.com/shopware/acceptance-test-suite/commit/7d8e1bd9a98d58ca5e09969909910a8864a6ce95))
+- add admin promotions page and tests ([#422](https://github.com/shopware/acceptance-test-suite/issues/422)) ([7d8e1bd](https://github.com/shopware/acceptance-test-suite/commit/7d8e1bd9a98d58ca5e09969909910a8864a6ce95))
 
 ## [11.20.1](https://github.com/shopware/acceptance-test-suite/compare/v11.20.0...v11.20.1) (2025-08-14)
 
-
 ### Bug Fixes
 
-* Replace TypeScript parameter properties and fix all type imports for strip-only mode ([#434](https://github.com/shopware/acceptance-test-suite/issues/434)) ([e13f096](https://github.com/shopware/acceptance-test-suite/commit/e13f0962542907e29cf5f42faabcf50b36a31df1))
+- Replace TypeScript parameter properties and fix all type imports for strip-only mode ([#434](https://github.com/shopware/acceptance-test-suite/issues/434)) ([e13f096](https://github.com/shopware/acceptance-test-suite/commit/e13f0962542907e29cf5f42faabcf50b36a31df1))
 
 ## [11.20.0](https://github.com/shopware/acceptance-test-suite/compare/v11.19.2...v11.20.0) (2025-08-01)
 
-
 ### Features
 
-* add abstractions for flow builder create test ([#298](https://github.com/shopware/acceptance-test-suite/issues/298)) ([a43302a](https://github.com/shopware/acceptance-test-suite/commit/a43302a5c6fe7833a81b286d06edc80b956877e0))
+- add abstractions for flow builder create test ([#298](https://github.com/shopware/acceptance-test-suite/issues/298)) ([a43302a](https://github.com/shopware/acceptance-test-suite/commit/a43302a5c6fe7833a81b286d06edc80b956877e0))
 
 ## [11.19.2](https://github.com/shopware/acceptance-test-suite/compare/v11.19.1...v11.19.2) (2025-07-30)
 
-
 ### Bug Fixes
 
-* change version condition to only expect the text-editor in 6.8 ([#426](https://github.com/shopware/acceptance-test-suite/issues/426)) ([29c74ec](https://github.com/shopware/acceptance-test-suite/commit/29c74ec65e5a8afc3a5c40bfe1538bba3270578c))
+- change version condition to only expect the text-editor in 6.8 ([#426](https://github.com/shopware/acceptance-test-suite/issues/426)) ([29c74ec](https://github.com/shopware/acceptance-test-suite/commit/29c74ec65e5a8afc3a5c40bfe1538bba3270578c))
 
 ## [11.19.1](https://github.com/shopware/acceptance-test-suite/compare/v11.19.0...v11.19.1) (2025-07-29)
 
-
 ### Bug Fixes
 
-* only use mt-text-editor in 6.8 ([#423](https://github.com/shopware/acceptance-test-suite/issues/423)) ([5c91a8f](https://github.com/shopware/acceptance-test-suite/commit/5c91a8f57192c0759872aaab950bd0ec617dbaac))
+- only use mt-text-editor in 6.8 ([#423](https://github.com/shopware/acceptance-test-suite/issues/423)) ([5c91a8f](https://github.com/shopware/acceptance-test-suite/commit/5c91a8f57192c0759872aaab950bd0ec617dbaac))
 
 ## [11.19.0](https://github.com/shopware/acceptance-test-suite/compare/v11.18.0...v11.19.0) (2025-07-25)
 
-
 ### Features
 
-* add helper functions for visual tests ([#421](https://github.com/shopware/acceptance-test-suite/issues/421)) ([c496840](https://github.com/shopware/acceptance-test-suite/commit/c49684040154ca2aeca16c2e1fdc782b22052923))
-* Add locators for Categories visual test ([#419](https://github.com/shopware/acceptance-test-suite/issues/419)) ([6cd23dd](https://github.com/shopware/acceptance-test-suite/commit/6cd23ddf0a7e98efc79997f5f819e8d4300a8831))
-* add settings page object ([#395](https://github.com/shopware/acceptance-test-suite/issues/395)) ([1eafdfd](https://github.com/shopware/acceptance-test-suite/commit/1eafdfdb66cb894316bf014471d1e87224abd78f))
+- add helper functions for visual tests ([#421](https://github.com/shopware/acceptance-test-suite/issues/421)) ([c496840](https://github.com/shopware/acceptance-test-suite/commit/c49684040154ca2aeca16c2e1fdc782b22052923))
+- Add locators for Categories visual test ([#419](https://github.com/shopware/acceptance-test-suite/issues/419)) ([6cd23dd](https://github.com/shopware/acceptance-test-suite/commit/6cd23ddf0a7e98efc79997f5f819e8d4300a8831))
+- add settings page object ([#395](https://github.com/shopware/acceptance-test-suite/issues/395)) ([1eafdfd](https://github.com/shopware/acceptance-test-suite/commit/1eafdfdb66cb894316bf014471d1e87224abd78f))
 
 ## [11.18.0](https://github.com/shopware/acceptance-test-suite/compare/v11.17.1...v11.18.0) (2025-07-15)
 
-
 ### Features
 
-* add page objects for documents test ([#373](https://github.com/shopware/acceptance-test-suite/issues/373)) ([8812dc7](https://github.com/shopware/acceptance-test-suite/commit/8812dc75f887e4f7f143726db0424167649aa61c))
+- add page objects for documents test ([#373](https://github.com/shopware/acceptance-test-suite/issues/373)) ([8812dc7](https://github.com/shopware/acceptance-test-suite/commit/8812dc75f887e4f7f143726db0424167649aa61c))
 
 ## [11.17.1](https://github.com/shopware/acceptance-test-suite/compare/v11.17.0...v11.17.1) (2025-07-07)
 
-
 ### Bug Fixes
 
-* add replace elements helper and fix hide elements ([#417](https://github.com/shopware/acceptance-test-suite/issues/417)) ([b2567b6](https://github.com/shopware/acceptance-test-suite/commit/b2567b6eac8457528be37b493cada6f2f8b36409))
+- add replace elements helper and fix hide elements ([#417](https://github.com/shopware/acceptance-test-suite/issues/417)) ([b2567b6](https://github.com/shopware/acceptance-test-suite/commit/b2567b6eac8457528be37b493cada6f2f8b36409))
 
 ## [11.17.0](https://github.com/shopware/acceptance-test-suite/compare/v11.16.3...v11.17.0) (2025-07-03)
 
-
 ### Features
 
-* add HideElementsForScreenshot helper ([#413](https://github.com/shopware/acceptance-test-suite/issues/413)) ([ecf7933](https://github.com/shopware/acceptance-test-suite/commit/ecf7933103e61de50e550eaa851c996153d562d2))
+- add HideElementsForScreenshot helper ([#413](https://github.com/shopware/acceptance-test-suite/issues/413)) ([ecf7933](https://github.com/shopware/acceptance-test-suite/commit/ecf7933103e61de50e550eaa851c996153d562d2))
 
 ## [11.16.3](https://github.com/shopware/acceptance-test-suite/compare/v11.16.2...v11.16.3) (2025-07-03)
 
-
 ### Bug Fixes
 
-* add all tabs to the admin order detail page ([#414](https://github.com/shopware/acceptance-test-suite/issues/414)) ([8b4ccdb](https://github.com/shopware/acceptance-test-suite/commit/8b4ccdbfbb95aefb292b66667d5e4e7c47001b02))
+- add all tabs to the admin order detail page ([#414](https://github.com/shopware/acceptance-test-suite/issues/414)) ([8b4ccdb](https://github.com/shopware/acceptance-test-suite/commit/8b4ccdbfbb95aefb292b66667d5e4e7c47001b02))
 
 ## [11.16.2](https://github.com/shopware/acceptance-test-suite/compare/v11.16.1...v11.16.2) (2025-07-02)
 
-
 ### Bug Fixes
 
-* add SelectProductFilterOption task ([#411](https://github.com/shopware/acceptance-test-suite/issues/411)) ([12a5780](https://github.com/shopware/acceptance-test-suite/commit/12a57801b993769da05184bbd807e7301f1854fb))
+- add SelectProductFilterOption task ([#411](https://github.com/shopware/acceptance-test-suite/issues/411)) ([12a5780](https://github.com/shopware/acceptance-test-suite/commit/12a57801b993769da05184bbd807e7301f1854fb))
 
 ## [11.16.1](https://github.com/shopware/acceptance-test-suite/compare/v11.16.0...v11.16.1) (2025-07-01)
 
-
 ### Bug Fixes
 
-* add all tabs to the admin product detail page ([#407](https://github.com/shopware/acceptance-test-suite/issues/407)) ([bb8bda5](https://github.com/shopware/acceptance-test-suite/commit/bb8bda55b7c1d023ad24e2836f64aba55022c21f))
+- add all tabs to the admin product detail page ([#407](https://github.com/shopware/acceptance-test-suite/issues/407)) ([bb8bda5](https://github.com/shopware/acceptance-test-suite/commit/bb8bda55b7c1d023ad24e2836f64aba55022c21f))
 
 ## [11.16.0](https://github.com/shopware/acceptance-test-suite/compare/v11.15.4...v11.16.0) (2025-06-26)
 
-
 ### Features
 
-* new locators for product detail page and a new task ([#405](https://github.com/shopware/acceptance-test-suite/issues/405)) ([3b5fdef](https://github.com/shopware/acceptance-test-suite/commit/3b5fdefe8c01fad80de96eca1ae5504eee0e1b4d))
+- new locators for product detail page and a new task ([#405](https://github.com/shopware/acceptance-test-suite/issues/405)) ([3b5fdef](https://github.com/shopware/acceptance-test-suite/commit/3b5fdefe8c01fad80de96eca1ae5504eee0e1b4d))
 
 ## [11.15.4](https://github.com/shopware/acceptance-test-suite/compare/v11.15.3...v11.15.4) (2025-06-04)
 
-
 ### Bug Fixes
 
-* customer bulk edit tags ([#399](https://github.com/shopware/acceptance-test-suite/issues/399)) ([960a165](https://github.com/shopware/acceptance-test-suite/commit/960a1659ded1da0b5db5d78f4d4a9c36767e3031))
+- customer bulk edit tags ([#399](https://github.com/shopware/acceptance-test-suite/issues/399)) ([960a165](https://github.com/shopware/acceptance-test-suite/commit/960a1659ded1da0b5db5d78f4d4a9c36767e3031))
 
 ## [11.15.3](https://github.com/shopware/acceptance-test-suite/compare/v11.15.2...v11.15.3) (2025-05-15)
 
-
 ### Bug Fixes
 
-* add locator itemCardHeader to OrderDetails page ([#390](https://github.com/shopware/acceptance-test-suite/issues/390)) ([223cf44](https://github.com/shopware/acceptance-test-suite/commit/223cf44f28e3a8c28d7da97c0b26b8ff64b3652d))
+- add locator itemCardHeader to OrderDetails page ([#390](https://github.com/shopware/acceptance-test-suite/issues/390)) ([223cf44](https://github.com/shopware/acceptance-test-suite/commit/223cf44f28e3a8c28d7da97c0b26b8ff64b3652d))
 
 ## [11.15.2](https://github.com/shopware/acceptance-test-suite/compare/v11.15.1...v11.15.2) (2025-05-12)
 
-
 ### Bug Fixes
 
-* increase SaaS timeout to 120sec ([#388](https://github.com/shopware/acceptance-test-suite/issues/388)) ([7d386df](https://github.com/shopware/acceptance-test-suite/commit/7d386df29d32bb4e8e55b034ef3076aa6b6b4db8))
-* increase timeout for SaaS ([#384](https://github.com/shopware/acceptance-test-suite/issues/384)) ([0b2b3c7](https://github.com/shopware/acceptance-test-suite/commit/0b2b3c756dcffc2970a9a0f6fab00033e9e146e6))
+- increase SaaS timeout to 120sec ([#388](https://github.com/shopware/acceptance-test-suite/issues/388)) ([7d386df](https://github.com/shopware/acceptance-test-suite/commit/7d386df29d32bb4e8e55b034ef3076aa6b6b4db8))
+- increase timeout for SaaS ([#384](https://github.com/shopware/acceptance-test-suite/issues/384)) ([0b2b3c7](https://github.com/shopware/acceptance-test-suite/commit/0b2b3c756dcffc2970a9a0f6fab00033e9e146e6))
 
 ## [11.15.1](https://github.com/shopware/acceptance-test-suite/compare/v11.15.0...v11.15.1) (2025-05-07)
 
-
 ### Bug Fixes
 
-* add possibility to get all available address options buttons ([#383](https://github.com/shopware/acceptance-test-suite/issues/383)) ([4998c5b](https://github.com/shopware/acceptance-test-suite/commit/4998c5b74a5afddd114d2e2ba6b03a32bc5b0f31))
-* product filter and product review ([#369](https://github.com/shopware/acceptance-test-suite/issues/369)) ([1c4c040](https://github.com/shopware/acceptance-test-suite/commit/1c4c04083f1a569cbad8d6827069cd9449cce42e))
+- add possibility to get all available address options buttons ([#383](https://github.com/shopware/acceptance-test-suite/issues/383)) ([4998c5b](https://github.com/shopware/acceptance-test-suite/commit/4998c5b74a5afddd114d2e2ba6b03a32bc5b0f31))
+- product filter and product review ([#369](https://github.com/shopware/acceptance-test-suite/issues/369)) ([1c4c040](https://github.com/shopware/acceptance-test-suite/commit/1c4c04083f1a569cbad8d6827069cd9449cce42e))
 
 ## [11.15.0](https://github.com/shopware/acceptance-test-suite/compare/v11.14.0...v11.15.0) (2025-04-25)
 
-
 ### Features
 
-* add header and footer pages ([#375](https://github.com/shopware/acceptance-test-suite/issues/375)) ([dc9d7ef](https://github.com/shopware/acceptance-test-suite/commit/dc9d7ef36f3c9c23e4dfb3333eda7b30a3e90679))
+- add header and footer pages ([#375](https://github.com/shopware/acceptance-test-suite/issues/375)) ([dc9d7ef](https://github.com/shopware/acceptance-test-suite/commit/dc9d7ef36f3c9c23e4dfb3333eda7b30a3e90679))
 
 ## [11.14.0](https://github.com/shopware/acceptance-test-suite/compare/v11.13.2...v11.14.0) (2025-04-15)
 
-
 ### Features
 
-* bump api-client version to 1.2.1 ([#364](https://github.com/shopware/acceptance-test-suite/issues/364)) ([4bbfb36](https://github.com/shopware/acceptance-test-suite/commit/4bbfb3629dba6e8c236b6d0e02fedf66e2bdb284))
-
+- bump api-client version to 1.2.1 ([#364](https://github.com/shopware/acceptance-test-suite/issues/364)) ([4bbfb36](https://github.com/shopware/acceptance-test-suite/commit/4bbfb3629dba6e8c236b6d0e02fedf66e2bdb284))
 
 ### Bug Fixes
 
-* add locator for 6.6.x ([#371](https://github.com/shopware/acceptance-test-suite/issues/371)) ([9d19f06](https://github.com/shopware/acceptance-test-suite/commit/9d19f06d67337afa757f032e2f363ff27ac8aa3b))
+- add locator for 6.6.x ([#371](https://github.com/shopware/acceptance-test-suite/issues/371)) ([9d19f06](https://github.com/shopware/acceptance-test-suite/commit/9d19f06d67337afa757f032e2f363ff27ac8aa3b))
 
 ## [11.13.2](https://github.com/shopware/acceptance-test-suite/compare/v11.13.1...v11.13.2) (2025-04-14)
 
-
 ### Bug Fixes
 
-* search term encoding ([#367](https://github.com/shopware/acceptance-test-suite/issues/367)) ([ff76834](https://github.com/shopware/acceptance-test-suite/commit/ff76834c0d0e78de0d4de133e862cd9ceb0ebd1d))
+- search term encoding ([#367](https://github.com/shopware/acceptance-test-suite/issues/367)) ([ff76834](https://github.com/shopware/acceptance-test-suite/commit/ff76834c0d0e78de0d4de133e862cd9ceb0ebd1d))
 
 ## [11.13.1](https://github.com/shopware/acceptance-test-suite/compare/v11.13.0...v11.13.1) (2025-04-10)
 
-
 ### Bug Fixes
 
-* search term blank space replacement ([#365](https://github.com/shopware/acceptance-test-suite/issues/365)) ([85c5129](https://github.com/shopware/acceptance-test-suite/commit/85c5129747c71705c01ad97c06595fd8747fa755))
+- search term blank space replacement ([#365](https://github.com/shopware/acceptance-test-suite/issues/365)) ([85c5129](https://github.com/shopware/acceptance-test-suite/commit/85c5129747c71705c01ad97c06595fd8747fa755))
 
 ## [11.13.0](https://github.com/shopware/acceptance-test-suite/compare/v11.12.5...v11.13.0) (2025-03-20)
 
-
 ### Features
 
-* NEXT-39675 - Flow Builder Templates page object ([#246](https://github.com/shopware/acceptance-test-suite/issues/246)) ([5e8e81d](https://github.com/shopware/acceptance-test-suite/commit/5e8e81dd00153fc4bf0bc416e0cf926c05952237))
+- NEXT-39675 - Flow Builder Templates page object ([#246](https://github.com/shopware/acceptance-test-suite/issues/246)) ([5e8e81d](https://github.com/shopware/acceptance-test-suite/commit/5e8e81dd00153fc4bf0bc416e0cf926c05952237))
 
 ## [11.12.5](https://github.com/shopware/acceptance-test-suite/compare/v11.12.4...v11.12.5) (2025-03-17)
 
-
 ### Bug Fixes
 
-* locator compatibility for ExpectNotification.ts ([#361](https://github.com/shopware/acceptance-test-suite/issues/361)) ([399bbe1](https://github.com/shopware/acceptance-test-suite/commit/399bbe136cdb8f7e2e0f34097c72d7211e196aef))
+- locator compatibility for ExpectNotification.ts ([#361](https://github.com/shopware/acceptance-test-suite/issues/361)) ([399bbe1](https://github.com/shopware/acceptance-test-suite/commit/399bbe136cdb8f7e2e0f34097c72d7211e196aef))
 
 ## [11.12.4](https://github.com/shopware/acceptance-test-suite/compare/v11.12.3...v11.12.4) (2025-03-06)
 
-
 ### Bug Fixes
 
-* locator compatibility for category selection list ([#357](https://github.com/shopware/acceptance-test-suite/issues/357)) ([ce755b9](https://github.com/shopware/acceptance-test-suite/commit/ce755b996ec6cce60a9a50073c12c8cb161d06af))
+- locator compatibility for category selection list ([#357](https://github.com/shopware/acceptance-test-suite/issues/357)) ([ce755b9](https://github.com/shopware/acceptance-test-suite/commit/ce755b996ec6cce60a9a50073c12c8cb161d06af))
 
 ## [11.12.3](https://github.com/shopware/acceptance-test-suite/compare/v11.12.2...v11.12.3) (2025-03-06)
 
-
 ### Bug Fixes
 
-* locator compatibility for saleschannel selection list ([#355](https://github.com/shopware/acceptance-test-suite/issues/355)) ([04b830b](https://github.com/shopware/acceptance-test-suite/commit/04b830b843635303b9102cc312724dfae92173bb))
+- locator compatibility for saleschannel selection list ([#355](https://github.com/shopware/acceptance-test-suite/issues/355)) ([04b830b](https://github.com/shopware/acceptance-test-suite/commit/04b830b843635303b9102cc312724dfae92173bb))
 
 ## [11.12.2](https://github.com/shopware/acceptance-test-suite/compare/v11.12.1...v11.12.2) (2025-03-06)
 
-
 ### Bug Fixes
 
-* locator compatibility for release date input ([#353](https://github.com/shopware/acceptance-test-suite/issues/353)) ([afa9a51](https://github.com/shopware/acceptance-test-suite/commit/afa9a51ec79322d692fbce5efb8ee69b4ce3de88))
+- locator compatibility for release date input ([#353](https://github.com/shopware/acceptance-test-suite/issues/353)) ([afa9a51](https://github.com/shopware/acceptance-test-suite/commit/afa9a51ec79322d692fbce5efb8ee69b4ce3de88))
 
 ## [11.12.1](https://github.com/shopware/acceptance-test-suite/compare/v11.12.0...v11.12.1) (2025-03-06)
 
-
 ### Bug Fixes
 
-* make createlinktypecategory 6.7 compatible ([#351](https://github.com/shopware/acceptance-test-suite/issues/351)) ([23ccec0](https://github.com/shopware/acceptance-test-suite/commit/23ccec055319d849897076294128c5f511c3e2f7))
+- make createlinktypecategory 6.7 compatible ([#351](https://github.com/shopware/acceptance-test-suite/issues/351)) ([23ccec0](https://github.com/shopware/acceptance-test-suite/commit/23ccec055319d849897076294128c5f511c3e2f7))
 
 ## [11.12.0](https://github.com/shopware/acceptance-test-suite/compare/v11.11.1...v11.12.0) (2025-03-05)
 
-
 ### Features
 
-* **perf:** replace goto with document.location for hash urls ([#346](https://github.com/shopware/acceptance-test-suite/issues/346)) ([c57439c](https://github.com/shopware/acceptance-test-suite/commit/c57439cb209278c0e455d2fbc2aa725b1c80a81a))
+- **perf:** replace goto with document.location for hash urls ([#346](https://github.com/shopware/acceptance-test-suite/issues/346)) ([c57439c](https://github.com/shopware/acceptance-test-suite/commit/c57439cb209278c0e455d2fbc2aa725b1c80a81a))
 
 ## [11.11.1](https://github.com/shopware/acceptance-test-suite/compare/v11.11.0...v11.11.1) (2025-03-05)
 
-
 ### Bug Fixes
 
-* locator compatibility for variants ([#348](https://github.com/shopware/acceptance-test-suite/issues/348)) ([44c16d4](https://github.com/shopware/acceptance-test-suite/commit/44c16d43b1bca7b23bbb6eae7fc6d76fa251562d))
+- locator compatibility for variants ([#348](https://github.com/shopware/acceptance-test-suite/issues/348)) ([44c16d4](https://github.com/shopware/acceptance-test-suite/commit/44c16d43b1bca7b23bbb6eae7fc6d76fa251562d))
 
 ## [11.11.0](https://github.com/shopware/acceptance-test-suite/compare/v11.10.1...v11.11.0) (2025-03-04)
 
-
 ### Features
 
-* Introduce ADMIN_API_URL environment variable for customizable admin API endpoint ([#296](https://github.com/shopware/acceptance-test-suite/issues/296)) ([0492f5f](https://github.com/shopware/acceptance-test-suite/commit/0492f5fa6fd7c64ba95aa00fb0c6a193b8cff3cd))
+- Introduce ADMIN_API_URL environment variable for customizable admin API endpoint ([#296](https://github.com/shopware/acceptance-test-suite/issues/296)) ([0492f5f](https://github.com/shopware/acceptance-test-suite/commit/0492f5fa6fd7c64ba95aa00fb0c6a193b8cff3cd))
 
 ## [11.10.1](https://github.com/shopware/acceptance-test-suite/compare/v11.10.0...v11.10.1) (2025-03-03)
 
-
 ### Bug Fixes
 
-* add locator and module to RuleCreate ([#342](https://github.com/shopware/acceptance-test-suite/issues/342)) ([be5d1e0](https://github.com/shopware/acceptance-test-suite/commit/be5d1e0bda77bbab55d339dd12aa69718f772d12))
-* clear delayed cache after theme assignment ([#343](https://github.com/shopware/acceptance-test-suite/issues/343)) ([e19f046](https://github.com/shopware/acceptance-test-suite/commit/e19f0461a3ab7e2a8e9a2c8dc21bb1cc455a4c71))
+- add locator and module to RuleCreate ([#342](https://github.com/shopware/acceptance-test-suite/issues/342)) ([be5d1e0](https://github.com/shopware/acceptance-test-suite/commit/be5d1e0bda77bbab55d339dd12aa69718f772d12))
+- clear delayed cache after theme assignment ([#343](https://github.com/shopware/acceptance-test-suite/issues/343)) ([e19f046](https://github.com/shopware/acceptance-test-suite/commit/e19f0461a3ab7e2a8e9a2c8dc21bb1cc455a4c71))
 
 ## [11.10.0](https://github.com/shopware/acceptance-test-suite/compare/v11.9.3...v11.10.0) (2025-03-03)
 
-
 ### Features
 
-* add Admin modules and locators for custom field test ([#312](https://github.com/shopware/acceptance-test-suite/issues/312)) ([5fd5000](https://github.com/shopware/acceptance-test-suite/commit/5fd50007f6709e166d770c7826a5410fa872d870))
+- add Admin modules and locators for custom field test ([#312](https://github.com/shopware/acceptance-test-suite/issues/312)) ([5fd5000](https://github.com/shopware/acceptance-test-suite/commit/5fd50007f6709e166d770c7826a5410fa872d870))
 
 ## [11.9.3](https://github.com/shopware/acceptance-test-suite/compare/v11.9.2...v11.9.3) (2025-02-28)
 
-
 ### Bug Fixes
 
-* adjust the Password input selector ([#339](https://github.com/shopware/acceptance-test-suite/issues/339)) ([7380aee](https://github.com/shopware/acceptance-test-suite/commit/7380aee4f29ea92ace2853ac50821b7014b6fa7b))
-* always check storefront availability after theme assign ([#337](https://github.com/shopware/acceptance-test-suite/issues/337)) ([6e5832d](https://github.com/shopware/acceptance-test-suite/commit/6e5832dc46728815bfc592a0ed1703cb1af604f1))
+- adjust the Password input selector ([#339](https://github.com/shopware/acceptance-test-suite/issues/339)) ([7380aee](https://github.com/shopware/acceptance-test-suite/commit/7380aee4f29ea92ace2853ac50821b7014b6fa7b))
+- always check storefront availability after theme assign ([#337](https://github.com/shopware/acceptance-test-suite/issues/337)) ([6e5832d](https://github.com/shopware/acceptance-test-suite/commit/6e5832dc46728815bfc592a0ed1703cb1af604f1))
 
 ## [11.9.2](https://github.com/shopware/acceptance-test-suite/compare/v11.9.1...v11.9.2) (2025-02-28)
 
-
 ### Bug Fixes
 
-* adjust OrderCreation.spec.js in order not to update write-protected line-item properties, increase minimum version for feature toggle route and adjust integration test routine ([#334](https://github.com/shopware/acceptance-test-suite/issues/334)) ([b0e403f](https://github.com/shopware/acceptance-test-suite/commit/b0e403f464707c62a625bbc74fafbea3c94341be))
-* adjust the Password input selector ([#338](https://github.com/shopware/acceptance-test-suite/issues/338)) ([d05f081](https://github.com/shopware/acceptance-test-suite/commit/d05f081599e3e289c760a22a3e0cec71ee257391))
+- adjust OrderCreation.spec.js in order not to update write-protected line-item properties, increase minimum version for feature toggle route and adjust integration test routine ([#334](https://github.com/shopware/acceptance-test-suite/issues/334)) ([b0e403f](https://github.com/shopware/acceptance-test-suite/commit/b0e403f464707c62a625bbc74fafbea3c94341be))
+- adjust the Password input selector ([#338](https://github.com/shopware/acceptance-test-suite/issues/338)) ([d05f081](https://github.com/shopware/acceptance-test-suite/commit/d05f081599e3e289c760a22a3e0cec71ee257391))
 
 ## [11.9.1](https://github.com/shopware/acceptance-test-suite/compare/v11.9.0...v11.9.1) (2025-02-24)
 
-
 ### Bug Fixes
 
-* address manager options button locator ([7b030df](https://github.com/shopware/acceptance-test-suite/commit/7b030dfc0f22d1790ce73ed4e8270e7139ed4c9e))
+- address manager options button locator ([7b030df](https://github.com/shopware/acceptance-test-suite/commit/7b030dfc0f22d1790ce73ed4e8270e7139ed4c9e))
 
 ## [11.9.0](https://github.com/shopware/acceptance-test-suite/compare/v11.8.1...v11.9.0) (2025-02-21)
 
-
 ### Features
 
-* move sales channel default data to fixtures ([#305](https://github.com/shopware/acceptance-test-suite/issues/305)) ([#308](https://github.com/shopware/acceptance-test-suite/issues/308)) ([2df2936](https://github.com/shopware/acceptance-test-suite/commit/2df293684022848944300e11004fdcde442a2045))
+- move sales channel default data to fixtures ([#305](https://github.com/shopware/acceptance-test-suite/issues/305)) ([#308](https://github.com/shopware/acceptance-test-suite/issues/308)) ([2df2936](https://github.com/shopware/acceptance-test-suite/commit/2df293684022848944300e11004fdcde442a2045))
 
 ## [11.8.1](https://github.com/shopware/acceptance-test-suite/compare/v11.8.0...v11.8.1) (2025-02-21)
 
-
 ### Bug Fixes
 
-* **meteor:** make mt-card change retrocompatible ([#328](https://github.com/shopware/acceptance-test-suite/issues/328)) ([75e2f54](https://github.com/shopware/acceptance-test-suite/commit/75e2f54cd54560fb252fbf2601847ce413304414))
+- **meteor:** make mt-card change retrocompatible ([#328](https://github.com/shopware/acceptance-test-suite/issues/328)) ([75e2f54](https://github.com/shopware/acceptance-test-suite/commit/75e2f54cd54560fb252fbf2601847ce413304414))
 
 ## [11.8.0](https://github.com/shopware/acceptance-test-suite/compare/v11.7.2...v11.8.0) (2025-02-20)
 
-
 ### Features
 
-* Replace textareas ([cd8807b](https://github.com/shopware/acceptance-test-suite/commit/cd8807b74d5ec7598dc20b718ceb8c1a6de54ade))
-
+- Replace textareas ([cd8807b](https://github.com/shopware/acceptance-test-suite/commit/cd8807b74d5ec7598dc20b718ceb8c1a6de54ade))
 
 ### Bug Fixes
 
-* Correct select class when create category ([04729ac](https://github.com/shopware/acceptance-test-suite/commit/04729ac525ad6d65622d481f5825131bd212967f))
+- Correct select class when create category ([04729ac](https://github.com/shopware/acceptance-test-suite/commit/04729ac525ad6d65622d481f5825131bd212967f))
 
 ## [11.7.2](https://github.com/shopware/acceptance-test-suite/compare/v11.7.1...v11.7.2) (2025-02-20)
 
-
 ### Bug Fixes
 
-* replace sw-card with mt-card ([ddda176](https://github.com/shopware/acceptance-test-suite/commit/ddda176d5d814b17e73d487e4d1a520f901ea8c8))
+- replace sw-card with mt-card ([ddda176](https://github.com/shopware/acceptance-test-suite/commit/ddda176d5d814b17e73d487e4d1a520f901ea8c8))
 
 ## [11.7.1](https://github.com/shopware/acceptance-test-suite/compare/v11.7.0...v11.7.1) (2025-02-14)
 
-
 ### Bug Fixes
 
-* reorg contact form locators to make it compatible with 6.6.x with accessability tweak enabled ([#320](https://github.com/shopware/acceptance-test-suite/issues/320)) ([a046bfc](https://github.com/shopware/acceptance-test-suite/commit/a046bfc83c97935fdbc9a949a8f6014925719d3d))
+- reorg contact form locators to make it compatible with 6.6.x with accessability tweak enabled ([#320](https://github.com/shopware/acceptance-test-suite/issues/320)) ([a046bfc](https://github.com/shopware/acceptance-test-suite/commit/a046bfc83c97935fdbc9a949a8f6014925719d3d))
 
 ## [11.7.0](https://github.com/shopware/acceptance-test-suite/compare/v11.6.1...v11.7.0) (2025-02-12)
 
-
 ### Features
 
-* create storefront wishlist page and wishlist tasks ([#295](https://github.com/shopware/acceptance-test-suite/issues/295)) ([2a06c23](https://github.com/shopware/acceptance-test-suite/commit/2a06c23818afb204b2b369c6a12e6b47dbbf3256))
-
+- create storefront wishlist page and wishlist tasks ([#295](https://github.com/shopware/acceptance-test-suite/issues/295)) ([2a06c23](https://github.com/shopware/acceptance-test-suite/commit/2a06c23818afb204b2b369c6a12e6b47dbbf3256))
 
 ### Bug Fixes
 
-* adjust text editor selector ([#316](https://github.com/shopware/acceptance-test-suite/issues/316)) ([e324b5e](https://github.com/shopware/acceptance-test-suite/commit/e324b5e7674c95acf6514f42bbdefacc5adc8d44))
-* deprecated getCountryId and add getCountry ([#315](https://github.com/shopware/acceptance-test-suite/issues/315)) ([3224796](https://github.com/shopware/acceptance-test-suite/commit/3224796d5c2f0d6b703c1d498f0a33f2dfd93fbb))
+- adjust text editor selector ([#316](https://github.com/shopware/acceptance-test-suite/issues/316)) ([e324b5e](https://github.com/shopware/acceptance-test-suite/commit/e324b5e7674c95acf6514f42bbdefacc5adc8d44))
+- deprecated getCountryId and add getCountry ([#315](https://github.com/shopware/acceptance-test-suite/issues/315)) ([3224796](https://github.com/shopware/acceptance-test-suite/commit/3224796d5c2f0d6b703c1d498f0a33f2dfd93fbb))
 
 ## [11.6.1](https://github.com/shopware/acceptance-test-suite/compare/v11.6.0...v11.6.1) (2025-02-11)
 
-
 ### Bug Fixes
 
-* make contact form locators compatible with 6.7. and 6.6. ([#309](https://github.com/shopware/acceptance-test-suite/issues/309)) ([2a8550a](https://github.com/shopware/acceptance-test-suite/commit/2a8550ab35b98999189c0c8c22a8c235a85c4ad4))
-* replace deleteRegisteredUser with addCreatedRecord ([8359e9e](https://github.com/shopware/acceptance-test-suite/commit/8359e9e201501dd0f3650621965943d48db7e1ec))
-* retain headers in current requests ([dc9ca9b](https://github.com/shopware/acceptance-test-suite/commit/dc9ca9b2853cad752594aa5d28c4d50f31b7d234))
-* update page objects for 6.7 compatibility ([f9835f5](https://github.com/shopware/acceptance-test-suite/commit/f9835f5bb6fa8334ccfb361e6711781a4f729da3))
+- make contact form locators compatible with 6.7. and 6.6. ([#309](https://github.com/shopware/acceptance-test-suite/issues/309)) ([2a8550a](https://github.com/shopware/acceptance-test-suite/commit/2a8550ab35b98999189c0c8c22a8c235a85c4ad4))
+- replace deleteRegisteredUser with addCreatedRecord ([8359e9e](https://github.com/shopware/acceptance-test-suite/commit/8359e9e201501dd0f3650621965943d48db7e1ec))
+- retain headers in current requests ([dc9ca9b](https://github.com/shopware/acceptance-test-suite/commit/dc9ca9b2853cad752594aa5d28c4d50f31b7d234))
+- update page objects for 6.7 compatibility ([f9835f5](https://github.com/shopware/acceptance-test-suite/commit/f9835f5bb6fa8334ccfb361e6711781a4f729da3))
 
 ## [11.6.0](https://github.com/shopware/acceptance-test-suite/compare/v11.5.0...v11.6.0) (2025-02-05)
 
-
 ### Features
 
-* add contact form page object and other corresponding locator adding2 ([#303](https://github.com/shopware/acceptance-test-suite/issues/303)) ([13c2aab](https://github.com/shopware/acceptance-test-suite/commit/13c2aab04539c76d3d78ae7d0644b08c6a9d6222))
-* add page not found page ([#301](https://github.com/shopware/acceptance-test-suite/issues/301)) ([89db0f9](https://github.com/shopware/acceptance-test-suite/commit/89db0f94b3c15e0e2c16e507141a444a153309d1))
+- add contact form page object and other corresponding locator adding2 ([#303](https://github.com/shopware/acceptance-test-suite/issues/303)) ([13c2aab](https://github.com/shopware/acceptance-test-suite/commit/13c2aab04539c76d3d78ae7d0644b08c6a9d6222))
+- add page not found page ([#301](https://github.com/shopware/acceptance-test-suite/issues/301)) ([89db0f9](https://github.com/shopware/acceptance-test-suite/commit/89db0f94b3c15e0e2c16e507141a444a153309d1))
 
 ### Bug Fixes
 
-* add locators for listing price to existing page objects ([#304](https://github.com/shopware/acceptance-test-suite/issues/304)) ([9532a88](https://github.com/shopware/acceptance-test-suite/commit/9532a881ea19dbc05dc3a3f418f14464ee182569))
-* add variantListingConfig to shopware types and omit the original one ([#302](https://github.com/shopware/acceptance-test-suite/issues/302)) ([724f199](https://github.com/shopware/acceptance-test-suite/commit/724f19965d8b1a5647a304df4561949162b03293))
-* remove commercial only locator method ([#307](https://github.com/shopware/acceptance-test-suite/issues/307)) ([ba108ea](https://github.com/shopware/acceptance-test-suite/commit/ba108ea999e25e825c46ec308202b247d077c089))
+- add locators for listing price to existing page objects ([#304](https://github.com/shopware/acceptance-test-suite/issues/304)) ([9532a88](https://github.com/shopware/acceptance-test-suite/commit/9532a881ea19dbc05dc3a3f418f14464ee182569))
+- add variantListingConfig to shopware types and omit the original one ([#302](https://github.com/shopware/acceptance-test-suite/issues/302)) ([724f199](https://github.com/shopware/acceptance-test-suite/commit/724f19965d8b1a5647a304df4561949162b03293))
+- remove commercial only locator method ([#307](https://github.com/shopware/acceptance-test-suite/issues/307)) ([ba108ea](https://github.com/shopware/acceptance-test-suite/commit/ba108ea999e25e825c46ec308202b247d077c089))
 
 ## [11.5.0](https://github.com/shopware/acceptance-test-suite/compare/v11.4.3...v11.5.0) (2025-02-04)
 
-
 ### Features
 
-* add contact form page object and other corresponding locator addings ([#294](https://github.com/shopware/acceptance-test-suite/issues/294)) ([38983bf](https://github.com/shopware/acceptance-test-suite/commit/38983bf1091c02d9618e70e5285608cc5bb4bda7))
-* add functions for changing the payment method on an existing order ([#299](https://github.com/shopware/acceptance-test-suite/issues/299)) ([6719019](https://github.com/shopware/acceptance-test-suite/commit/6719019c0989e36408e1967b2e8d32d1e3f5b024))
+- add contact form page object and other corresponding locator addings ([#294](https://github.com/shopware/acceptance-test-suite/issues/294)) ([38983bf](https://github.com/shopware/acceptance-test-suite/commit/38983bf1091c02d9618e70e5285608cc5bb4bda7))
+- add functions for changing the payment method on an existing order ([#299](https://github.com/shopware/acceptance-test-suite/issues/299)) ([6719019](https://github.com/shopware/acceptance-test-suite/commit/6719019c0989e36408e1967b2e8d32d1e3f5b024))
 
 ## [11.4.3](https://github.com/shopware/acceptance-test-suite/compare/v11.4.2...v11.4.3) (2025-01-28)
 
-
 ### Bug Fixes
 
-* add additional locator for account order page ([#292](https://github.com/shopware/acceptance-test-suite/issues/292)) ([5e0adee](https://github.com/shopware/acceptance-test-suite/commit/5e0adeef7408c3f89a8aa496a38511903465dad1))
+- add additional locator for account order page ([#292](https://github.com/shopware/acceptance-test-suite/issues/292)) ([5e0adee](https://github.com/shopware/acceptance-test-suite/commit/5e0adeef7408c3f89a8aa496a38511903465dad1))
 
 ## [11.4.2](https://github.com/shopware/acceptance-test-suite/compare/v11.4.1...v11.4.2) (2025-01-27)
 
-
 ### Bug Fixes
 
-* use new access token in the current handleRequest call ([#290](https://github.com/shopware/acceptance-test-suite/issues/290)) ([93fcf95](https://github.com/shopware/acceptance-test-suite/commit/93fcf95139ee10552ac97adc0b85f3bf2d85b4a7))
+- use new access token in the current handleRequest call ([#290](https://github.com/shopware/acceptance-test-suite/issues/290)) ([93fcf95](https://github.com/shopware/acceptance-test-suite/commit/93fcf95139ee10552ac97adc0b85f3bf2d85b4a7))
 
 ## [11.4.1](https://github.com/shopware/acceptance-test-suite/compare/v11.4.0...v11.4.1) (2025-01-24)
 
-
 ### Bug Fixes
 
-* generate a new access token if existing one is expired ([#285](https://github.com/shopware/acceptance-test-suite/issues/285)) ([03adeed](https://github.com/shopware/acceptance-test-suite/commit/03adeed1f71d30783173a43fce12aec3a96d3a6d))
+- generate a new access token if existing one is expired ([#285](https://github.com/shopware/acceptance-test-suite/issues/285)) ([03adeed](https://github.com/shopware/acceptance-test-suite/commit/03adeed1f71d30783173a43fce12aec3a96d3a6d))
 
 ## [11.4.0](https://github.com/shopware/acceptance-test-suite/compare/v11.3.3...v11.4.0) (2025-01-24)
 
-
 ### Features
 
-* add tax rate creation method via TestDataService ([#281](https://github.com/shopware/acceptance-test-suite/issues/281)) ([776a1f4](https://github.com/shopware/acceptance-test-suite/commit/776a1f4d299f7a7c75a783ea24035f1e3af54651))
-
+- add tax rate creation method via TestDataService ([#281](https://github.com/shopware/acceptance-test-suite/issues/281)) ([776a1f4](https://github.com/shopware/acceptance-test-suite/commit/776a1f4d299f7a7c75a783ea24035f1e3af54651))
 
 ### Bug Fixes
 
-* style with prettier ([ad352bb](https://github.com/shopware/acceptance-test-suite/commit/ad352bb40ed826c82356eedd87406c5dce789e74))
-* Use string as oauth scope as it is spec compliant ([b7aae53](https://github.com/shopware/acceptance-test-suite/commit/b7aae53329842b50ce8cfca01a0a3ead19fd4d7a))
-* add searchForTerm task to shop customer ([#283](https://github.com/shopware/acceptance-test-suite/issues/283)) ([7be4b6f](https://github.com/shopware/acceptance-test-suite/commit/7be4b6f11e9374cd4a08aa6e2801ec36665dd576))
+- style with prettier ([ad352bb](https://github.com/shopware/acceptance-test-suite/commit/ad352bb40ed826c82356eedd87406c5dce789e74))
+- Use string as oauth scope as it is spec compliant ([b7aae53](https://github.com/shopware/acceptance-test-suite/commit/b7aae53329842b50ce8cfca01a0a3ead19fd4d7a))
+- add searchForTerm task to shop customer ([#283](https://github.com/shopware/acceptance-test-suite/issues/283)) ([7be4b6f](https://github.com/shopware/acceptance-test-suite/commit/7be4b6f11e9374cd4a08aa6e2801ec36665dd576))
 
 ## [11.3.3](https://github.com/shopware/acceptance-test-suite/compare/v11.3.2...v11.3.3) (2025-01-21)
 
-
 ### Bug Fixes
 
-* NEXT-40281 - add some locators and extend search suggest from home ([b0f5312](https://github.com/shopware/acceptance-test-suite/commit/b0f5312c097344c049da66dc302fa20912ce5795))
-* NEXT-40281 - added some new locators and method to search suggest ([4e49199](https://github.com/shopware/acceptance-test-suite/commit/4e49199f8e1dc874d74225bc5dd8fe9d8963a720))
+- NEXT-40281 - add some locators and extend search suggest from home ([b0f5312](https://github.com/shopware/acceptance-test-suite/commit/b0f5312c097344c049da66dc302fa20912ce5795))
+- NEXT-40281 - added some new locators and method to search suggest ([4e49199](https://github.com/shopware/acceptance-test-suite/commit/4e49199f8e1dc874d74225bc5dd8fe9d8963a720))
 
 ## [11.3.2](https://github.com/shopware/acceptance-test-suite/compare/v11.3.1...v11.3.2) (2025-01-20)
 
-
 ### Bug Fixes
 
-* add additional locator for main navigation ([#276](https://github.com/shopware/acceptance-test-suite/issues/276)) ([f0cf928](https://github.com/shopware/acceptance-test-suite/commit/f0cf9286c99254f3bc0017e1767ae66f9960a278))
+- add additional locator for main navigation ([#276](https://github.com/shopware/acceptance-test-suite/issues/276)) ([f0cf928](https://github.com/shopware/acceptance-test-suite/commit/f0cf9286c99254f3bc0017e1767ae66f9960a278))
 
 ## [11.3.1](https://github.com/shopware/acceptance-test-suite/compare/v11.3.0...v11.3.1) (2025-01-20)
 
-
 ### Bug Fixes
 
-* Change locators for accessibility changes in forms ([fe1942c](https://github.com/shopware/acceptance-test-suite/commit/fe1942cda5fd2bb4508ed6afc95171072cf3fc08))
+- Change locators for accessibility changes in forms ([fe1942c](https://github.com/shopware/acceptance-test-suite/commit/fe1942cda5fd2bb4508ed6afc95171072cf3fc08))
 
 ## [11.3.0](https://github.com/shopware/acceptance-test-suite/compare/v11.2.1...v11.3.0) (2025-01-20)
 
-
 ### Features
 
-* NEXT-40275 - add account address creation page ([#271](https://github.com/shopware/acceptance-test-suite/issues/271)) ([efa74f0](https://github.com/shopware/acceptance-test-suite/commit/efa74f051d47470f0a25c682ad45ee0c7bc7243e))
-
+- NEXT-40275 - add account address creation page ([#271](https://github.com/shopware/acceptance-test-suite/issues/271)) ([efa74f0](https://github.com/shopware/acceptance-test-suite/commit/efa74f051d47470f0a25c682ad45ee0c7bc7243e))
 
 ### Bug Fixes
 
-* revert 6.7 locator compatibility for customer group pages in admin ([#272](https://github.com/shopware/acceptance-test-suite/issues/272)) ([ba5ff25](https://github.com/shopware/acceptance-test-suite/commit/ba5ff256e077a19470ef2bfeaa5845ce9852afe8))
+- revert 6.7 locator compatibility for customer group pages in admin ([#272](https://github.com/shopware/acceptance-test-suite/issues/272)) ([ba5ff25](https://github.com/shopware/acceptance-test-suite/commit/ba5ff256e077a19470ef2bfeaa5845ce9852afe8))
 
 ## [11.2.1](https://github.com/shopware/acceptance-test-suite/compare/v11.2.0...v11.2.1) (2025-01-20)
 
-
 ### Bug Fixes
 
-* remove account type selection ([#269](https://github.com/shopware/acceptance-test-suite/issues/269)) ([025b1a8](https://github.com/shopware/acceptance-test-suite/commit/025b1a873fe3f90b9e7caf16245dae9f432dcff4))
+- remove account type selection ([#269](https://github.com/shopware/acceptance-test-suite/issues/269)) ([025b1a8](https://github.com/shopware/acceptance-test-suite/commit/025b1a873fe3f90b9e7caf16245dae9f432dcff4))
 
 ## [11.2.0](https://github.com/shopware/acceptance-test-suite/compare/v11.1.6...v11.2.0) (2025-01-17)
 
-
 ### Features
 
-* refactor registration task for guest users ([#267](https://github.com/shopware/acceptance-test-suite/issues/267)) ([ea374cc](https://github.com/shopware/acceptance-test-suite/commit/ea374cc02dec560ae6b1413875a81bc8a83b38a6))
+- refactor registration task for guest users ([#267](https://github.com/shopware/acceptance-test-suite/issues/267)) ([ea374cc](https://github.com/shopware/acceptance-test-suite/commit/ea374cc02dec560ae6b1413875a81bc8a83b38a6))
 
 ## [11.1.6](https://github.com/shopware/acceptance-test-suite/compare/v11.1.5...v11.1.6) (2025-01-17)
 
-
 ### Bug Fixes
 
-* add 6.7 locators ([#263](https://github.com/shopware/acceptance-test-suite/issues/263)) ([03d2dc4](https://github.com/shopware/acceptance-test-suite/commit/03d2dc4a00780d9be9d85cb90495969e01c815fc))
-* add new selectors for mt-text-editor ([a531b12](https://github.com/shopware/acceptance-test-suite/commit/a531b12e2400012c8791ced7a2b8c94d8d99c2df))
+- add 6.7 locators ([#263](https://github.com/shopware/acceptance-test-suite/issues/263)) ([03d2dc4](https://github.com/shopware/acceptance-test-suite/commit/03d2dc4a00780d9be9d85cb90495969e01c815fc))
+- add new selectors for mt-text-editor ([a531b12](https://github.com/shopware/acceptance-test-suite/commit/a531b12e2400012c8791ced7a2b8c94d8d99c2df))
 
 ## [11.1.5](https://github.com/shopware/acceptance-test-suite/compare/v11.1.4...v11.1.5) (2025-01-09)
 
-
 ### Bug Fixes
 
-* locator compatibility of product image ([2d3c938](https://github.com/shopware/acceptance-test-suite/commit/2d3c9383d89a0d0c2cc4c76f60a3d27ebe4f6e13))
+- locator compatibility of product image ([2d3c938](https://github.com/shopware/acceptance-test-suite/commit/2d3c9383d89a0d0c2cc4c76f60a3d27ebe4f6e13))
 
 ## [11.1.4](https://github.com/shopware/acceptance-test-suite/compare/v11.1.3...v11.1.4) (2025-01-08)
 
-
 ### Bug Fixes
 
-* locator compatibility of product image on the home page ([#259](https://github.com/shopware/acceptance-test-suite/issues/259)) ([e82ae37](https://github.com/shopware/acceptance-test-suite/commit/e82ae379b37bbbc15f79e90c8f883acb853e03fc))
+- locator compatibility of product image on the home page ([#259](https://github.com/shopware/acceptance-test-suite/issues/259)) ([e82ae37](https://github.com/shopware/acceptance-test-suite/commit/e82ae379b37bbbc15f79e90c8f883acb853e03fc))
 
 ## [11.1.3](https://github.com/shopware/acceptance-test-suite/compare/v11.1.2...v11.1.3) (2025-01-06)
 
-
 ### Bug Fixes
 
-* add additional locator for smtp input fields within first run wizard page object ([#257](https://github.com/shopware/acceptance-test-suite/issues/257)) ([c7a3bd6](https://github.com/shopware/acceptance-test-suite/commit/c7a3bd634a397b76b8f97a317e1c4eb206988921))
-* Update checkmark icon locator ([#256](https://github.com/shopware/acceptance-test-suite/issues/256)) ([605396f](https://github.com/shopware/acceptance-test-suite/commit/605396f390b6811be38d706bc5b27348341b16b2))
+- add additional locator for smtp input fields within first run wizard page object ([#257](https://github.com/shopware/acceptance-test-suite/issues/257)) ([c7a3bd6](https://github.com/shopware/acceptance-test-suite/commit/c7a3bd634a397b76b8f97a317e1c4eb206988921))
+- Update checkmark icon locator ([#256](https://github.com/shopware/acceptance-test-suite/issues/256)) ([605396f](https://github.com/shopware/acceptance-test-suite/commit/605396f390b6811be38d706bc5b27348341b16b2))
 
 ## [11.1.2](https://github.com/shopware/acceptance-test-suite/compare/v11.1.1...v11.1.2) (2025-01-06)
 
-
 ### Bug Fixes
 
-* add additional locator for smtp input fields within FRW page object ([#254](https://github.com/shopware/acceptance-test-suite/issues/254)) ([e51af38](https://github.com/shopware/acceptance-test-suite/commit/e51af38d56db936cec8fb79322d74546e30032f4))
+- add additional locator for smtp input fields within FRW page object ([#254](https://github.com/shopware/acceptance-test-suite/issues/254)) ([e51af38](https://github.com/shopware/acceptance-test-suite/commit/e51af38d56db936cec8fb79322d74546e30032f4))
 
 ## [11.1.1](https://github.com/shopware/acceptance-test-suite/compare/v11.1.0...v11.1.1) (2025-01-03)
 
-
 ### Bug Fixes
 
-* locator compatibility for bulk edit products ([#251](https://github.com/shopware/acceptance-test-suite/issues/251)) ([42e6b11](https://github.com/shopware/acceptance-test-suite/commit/42e6b118f16b1ca544618b1c97a5e306020ac9a7))
-* locator compatibility for customer group registration ([#250](https://github.com/shopware/acceptance-test-suite/issues/250)) ([53cf2ab](https://github.com/shopware/acceptance-test-suite/commit/53cf2ab8abea05592a2bddfa2570a47bda469c96))
-* make first run wizard locator 6.7 compatible ([#252](https://github.com/shopware/acceptance-test-suite/issues/252)) ([324c821](https://github.com/shopware/acceptance-test-suite/commit/324c8211991e80d0933c850ee31ccae249c8f476))
+- locator compatibility for bulk edit products ([#251](https://github.com/shopware/acceptance-test-suite/issues/251)) ([42e6b11](https://github.com/shopware/acceptance-test-suite/commit/42e6b118f16b1ca544618b1c97a5e306020ac9a7))
+- locator compatibility for customer group registration ([#250](https://github.com/shopware/acceptance-test-suite/issues/250)) ([53cf2ab](https://github.com/shopware/acceptance-test-suite/commit/53cf2ab8abea05592a2bddfa2570a47bda469c96))
+- make first run wizard locator 6.7 compatible ([#252](https://github.com/shopware/acceptance-test-suite/issues/252)) ([324c821](https://github.com/shopware/acceptance-test-suite/commit/324c8211991e80d0933c850ee31ccae249c8f476))
 
 ## [11.1.0](https://github.com/shopware/acceptance-test-suite/compare/v11.0.0...v11.1.0) (2024-12-20)
 
-
 ### Features
 
-* add features data to InstanceMeta fixture ([e6d4392](https://github.com/shopware/acceptance-test-suite/commit/e6d4392ec0e504d3b61e609f6c79c3ec2fa7b793))
+- add features data to InstanceMeta fixture ([e6d4392](https://github.com/shopware/acceptance-test-suite/commit/e6d4392ec0e504d3b61e609f6c79c3ec2fa7b793))
 
 ## [11.0.0](https://github.com/shopware/acceptance-test-suite/compare/v10.2.3...v11.0.0) (2024-12-19)
 
-
 ### ⚠ BREAKING CHANGES
 
-* remove SetSystemConfigValues use TestDataService.setSystemConfig instead
-* fix system config api usage
+- remove SetSystemConfigValues use TestDataService.setSystemConfig instead
+- fix system config api usage
 
 ### Bug Fixes
 
-* add AccountRecover and AccountLogin objects for forgot password ([cf65ffe](https://github.com/shopware/acceptance-test-suite/commit/cf65ffe76e09871742089b32307d70ca29d17808))
-* fix system config api usage ([6352f54](https://github.com/shopware/acceptance-test-suite/commit/6352f54c6dfb0a5c83b5a9a61acb1cea33183901))
-* Refactor Rule assignment task and types ([#237](https://github.com/shopware/acceptance-test-suite/issues/237)) ([49a585f](https://github.com/shopware/acceptance-test-suite/commit/49a585f6088da7825f0bd65f99b9ee68b876dd8e))
-
+- add AccountRecover and AccountLogin objects for forgot password ([cf65ffe](https://github.com/shopware/acceptance-test-suite/commit/cf65ffe76e09871742089b32307d70ca29d17808))
+- fix system config api usage ([6352f54](https://github.com/shopware/acceptance-test-suite/commit/6352f54c6dfb0a5c83b5a9a61acb1cea33183901))
+- Refactor Rule assignment task and types ([#237](https://github.com/shopware/acceptance-test-suite/issues/237)) ([49a585f](https://github.com/shopware/acceptance-test-suite/commit/49a585f6088da7825f0bd65f99b9ee68b876dd8e))
 
 ### Code Refactoring
 
-* remove SetSystemConfigValues use TestDataService.setSystemConfig instead ([52fc176](https://github.com/shopware/acceptance-test-suite/commit/52fc176cfc57405271a6a00ee3effa7993859e39))
+- remove SetSystemConfigValues use TestDataService.setSystemConfig instead ([52fc176](https://github.com/shopware/acceptance-test-suite/commit/52fc176cfc57405271a6a00ee3effa7993859e39))
 
 ## [10.2.3](https://github.com/shopware/acceptance-test-suite/compare/v10.2.2...v10.2.3) (2024-12-18)
 
-
 ### Bug Fixes
 
-* NEXT-39784 - fix review feedback ([6217445](https://github.com/shopware/acceptance-test-suite/commit/621744514cd05eda6af4795ed6ca5382a937a201))
+- NEXT-39784 - fix review feedback ([6217445](https://github.com/shopware/acceptance-test-suite/commit/621744514cd05eda6af4795ed6ca5382a937a201))
 
 ## [10.2.2](https://github.com/shopware/acceptance-test-suite/compare/v10.2.1...v10.2.2) (2024-12-18)
 
-
 ### Bug Fixes
 
-* make consent buttons validation more exact ([#241](https://github.com/shopware/acceptance-test-suite/issues/241)) ([b064045](https://github.com/shopware/acceptance-test-suite/commit/b0640457d964ffb7fce4c099ad7f93714b4db60f))
+- make consent buttons validation more exact ([#241](https://github.com/shopware/acceptance-test-suite/issues/241)) ([b064045](https://github.com/shopware/acceptance-test-suite/commit/b0640457d964ffb7fce4c099ad7f93714b4db60f))
 
 ## [10.2.1](https://github.com/shopware/acceptance-test-suite/compare/v10.2.0...v10.2.1) (2024-12-17)
 
-
 ### Bug Fixes
 
-* Refactor form locators ([#238](https://github.com/shopware/acceptance-test-suite/issues/238)) ([2c3e650](https://github.com/shopware/acceptance-test-suite/commit/2c3e6509bb0e33133164dc32e768fe75102796cc)) 
+- Refactor form locators ([#238](https://github.com/shopware/acceptance-test-suite/issues/238)) ([2c3e650](https://github.com/shopware/acceptance-test-suite/commit/2c3e6509bb0e33133164dc32e768fe75102796cc))
 
 ## [10.2.0](https://github.com/shopware/acceptance-test-suite/compare/v10.1.0...v10.2.0) (2024-12-16)
 
-
 ### Features
 
-* add account recover page ([#235](https://github.com/shopware/acceptance-test-suite/issues/235)) ([c70ae47](https://github.com/shopware/acceptance-test-suite/commit/c70ae474205d4afbcabdb8f686e1ed860f36652d))
-* add some locators to AccountProfile ([bbfc459](https://github.com/shopware/acceptance-test-suite/pull/232/commits/bbfc459a24fb4cc53acfe44790071a4afcfcf2ce))
-
+- add account recover page ([#235](https://github.com/shopware/acceptance-test-suite/issues/235)) ([c70ae47](https://github.com/shopware/acceptance-test-suite/commit/c70ae474205d4afbcabdb8f686e1ed860f36652d))
+- add some locators to AccountProfile ([bbfc459](https://github.com/shopware/acceptance-test-suite/pull/232/commits/bbfc459a24fb4cc53acfe44790071a4afcfcf2ce))
 
 ### Bug Fixes
 
-* type check to stop IDE complaint ([#228](https://github.com/shopware/acceptance-test-suite/issues/228)) ([4eab21c](https://github.com/shopware/acceptance-test-suite/commit/4eab21c21236b652618789b982cf608b14f8533f))
-
+- type check to stop IDE complaint ([#228](https://github.com/shopware/acceptance-test-suite/issues/228)) ([4eab21c](https://github.com/shopware/acceptance-test-suite/commit/4eab21c21236b652618789b982cf608b14f8533f))
 
 ### Miscellaneous Chores
 
-* release 10.2.0 ([1a60727](https://github.com/shopware/acceptance-test-suite/commit/1a60727110063843e5f504bc96ff635e06c074fe))
+- release 10.2.0 ([1a60727](https://github.com/shopware/acceptance-test-suite/commit/1a60727110063843e5f504bc96ff635e06c074fe))
 
 ## [10.1.0](https://github.com/shopware/acceptance-test-suite/compare/v10.0.1...v10.1.0) (2024-12-13)
 
-
 ### Features
 
-* add pageObject and task for RuleAssignment tests and TestDataService refactoring ([3ec2ef8](https://github.com/shopware/acceptance-test-suite/commit/3ec2ef8664a622c8f9a74bde3d337173cd1a1f61))
+- add pageObject and task for RuleAssignment tests and TestDataService refactoring ([3ec2ef8](https://github.com/shopware/acceptance-test-suite/commit/3ec2ef8664a622c8f9a74bde3d337173cd1a1f61))
 
 ## [10.0.1](https://github.com/shopware/acceptance-test-suite/compare/v10.0.0...v10.0.1) (2024-12-13)
 

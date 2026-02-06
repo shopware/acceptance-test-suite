@@ -1,7 +1,7 @@
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '../types/FixtureTypes';
-import type { Customer, SalesChannel } from '../types/ShopwareTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
+import { test as base, expect } from "@playwright/test";
+import type { FixtureTypes } from "../types/FixtureTypes";
+import type { Customer, SalesChannel } from "../types/ShopwareTypes";
+import type { components } from "@shopware/api-client/admin-api-types";
 
 interface StoreBaseConfig {
     storefrontTypeId: string;
@@ -39,34 +39,34 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ Country, Currency, Language, PaymentMethod, ShippingMethod, SnippetSet, Tax, Theme }, use) => {
             await use({
                 currentLocaleId: Language.translationCode.id,
-                storefrontTypeId: '8a243080f92e4c719546314b577cf82b',
+                storefrontTypeId: "8a243080f92e4c719546314b577cf82b",
                 currentCurrencyId: Currency.id,
-                defaultCurrencyId: 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
+                defaultCurrencyId: "b7d2554b0ce847cd82f3ac9bd1c0dfca",
                 currentLanguageId: Language.id,
-                defaultLanguageId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b',
+                defaultLanguageId: "2fbb5fe2e29a4d70aa5854ce7ce3e20b",
                 invoicePaymentMethodId: PaymentMethod.id,
                 defaultShippingMethod: ShippingMethod.id,
                 taxId: Tax.id,
                 currentCountryId: Country.id,
                 currentSnippetSetId: SnippetSet.id,
                 defaultThemeId: Theme.id,
-                appUrl: process.env['APP_URL'],
-                adminUrl: process.env['ADMIN_URL'] || `${process.env['APP_URL']}admin/`,
+                appUrl: process.env["APP_URL"],
+                adminUrl: process.env["ADMIN_URL"] || `${process.env["APP_URL"]}admin/`,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     DefaultSalesChannel: [
         async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig }, use) => {
             // thread id seems to be random
 
-            const { id, uuid } = IdProvider.getWorkerDerivedStableId('salesChannel');
+            const { id, uuid } = IdProvider.getWorkerDerivedStableId("salesChannel");
 
-            const { uuid: rootCategoryUuid } = IdProvider.getWorkerDerivedStableId('category');
-            const { uuid: customerGroupUuid } = IdProvider.getWorkerDerivedStableId('customerGroup');
-            const { uuid: domainUuid } = IdProvider.getWorkerDerivedStableId('domain');
-            const { uuid: customerUuid } = IdProvider.getWorkerDerivedStableId('customer');
+            const { uuid: rootCategoryUuid } = IdProvider.getWorkerDerivedStableId("category");
+            const { uuid: customerGroupUuid } = IdProvider.getWorkerDerivedStableId("customerGroup");
+            const { uuid: domainUuid } = IdProvider.getWorkerDerivedStableId("domain");
+            const { uuid: customerUuid } = IdProvider.getWorkerDerivedStableId("customer");
 
             const baseUrl = `${SalesChannelBaseConfig.appUrl}test-${uuid}/`;
             await AdminApiContext.delete(`./customer/${customerUuid}`);
@@ -88,11 +88,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 });
             }
 
-            const syncResp = await AdminApiContext.post('./_action/sync', {
+            const syncResp = await AdminApiContext.post("./_action/sync", {
                 data: {
-                    'write-sales-channel': {
-                        entity: 'sales_channel',
-                        action: 'upsert',
+                    "write-sales-channel": {
+                        entity: "sales_channel",
+                        action: "upsert",
                         payload: [
                             {
                                 id: uuid,
@@ -105,7 +105,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                 shippingMethodId: SalesChannelBaseConfig.defaultShippingMethod,
                                 countryId: SalesChannelBaseConfig.currentCountryId,
 
-                                accessKey: 'SWSC' + uuid,
+                                accessKey: "SWSC" + uuid,
 
                                 homeEnabled: true,
 
@@ -113,8 +113,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                                     id: rootCategoryUuid,
                                     name: `${id} Acceptance test`,
                                     displayNestedProducts: true,
-                                    type: 'page',
-                                    productAssignmentType: 'product',
+                                    type: "page",
+                                    productAssignmentType: "product",
                                 },
 
                                 domains: [
@@ -146,30 +146,30 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             const salesChannelPromise = AdminApiContext.get(`./sales-channel/${uuid}`);
             const salutationResponse = await AdminApiContext.get(`./salutation`);
-            const salutations = (await salutationResponse.json()) as { data: components['schemas']['Salutation'][] };
+            const salutations = (await salutationResponse.json()) as { data: components["schemas"]["Salutation"][] };
 
             const customerData = {
                 id: customerUuid,
                 email: `customer_${id}@example.com`,
-                password: 'shopware',
+                password: "shopware",
                 salutationId: salutations.data[0].id,
                 languageId: SalesChannelBaseConfig.currentLanguageId,
 
                 defaultShippingAddress: {
                     firstName: `${id} admin`,
                     lastName: `${id} admin`,
-                    city: 'not',
-                    street: 'not',
-                    zipcode: 'not',
+                    city: "not",
+                    street: "not",
+                    zipcode: "not",
                     countryId: SalesChannelBaseConfig.currentCountryId,
                     salutationId: salutations.data[0].id,
                 },
                 defaultBillingAddress: {
                     firstName: `${id} admin`,
                     lastName: `${id} admin`,
-                    city: 'not',
-                    street: 'not',
-                    zipcode: 'not',
+                    city: "not",
+                    street: "not",
+                    zipcode: "not",
                     countryId: SalesChannelBaseConfig.currentCountryId,
                     salutationId: salutations.data[0].id,
                 },
@@ -183,7 +183,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 defaultPaymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
             };
 
-            const customerRespPromise = AdminApiContext.post('./customer?_response', {
+            const customerRespPromise = AdminApiContext.post("./customer?_response", {
                 data: customerData,
             });
 
@@ -201,6 +201,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 url: baseUrl,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 });

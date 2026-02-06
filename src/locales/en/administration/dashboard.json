@@ -14,7 +14,7 @@
         "logout": "Logout"
     },
     "order": {
-      "orderTitle": "Orders",
-      "orderOverview": "Overview"
+        "orderTitle": "Orders",
+        "orderOverview": "Overview"
     }
 }

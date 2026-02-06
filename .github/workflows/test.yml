@@ -23,8 +23,8 @@ jobs:
             - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
-                  node-version: 'lts/*'
-                  cache: 'npm'
+                  node-version: "lts/*"
+                  cache: "npm"
             - run: npm ci
             - run: npm run lint
             - run: npm run typecheck
@@ -35,8 +35,8 @@ jobs:
             - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
-                  node-version: 'lts/*'
-                  cache: 'npm'
+                  node-version: "lts/*"
+                  cache: "npm"
             - run: npm ci
             - run: npm run build
             - run: npx pkg-pr-new publish
@@ -53,18 +53,18 @@ jobs:
             matrix:
                 include:
                     - SHOPWARE_VERSION: ${{ needs.versions.outputs.lts-latest-version }}
-                      SHOPWARE_VERSION_ID: 'lts-latest'
+                      SHOPWARE_VERSION_ID: "lts-latest"
                       PORT: 8011
                     - SHOPWARE_VERSION: ${{ needs.versions.outputs.first-version }}
-                      SHOPWARE_VERSION_ID: 'first'
+                      SHOPWARE_VERSION_ID: "first"
                       PORT: 8021
                     - SHOPWARE_VERSION: ${{ needs.versions.outputs.latest-version }}
-                      SHOPWARE_VERSION_ID: 'latest'
+                      SHOPWARE_VERSION_ID: "latest"
                       PORT: 8031
         env:
-            WEBSERVER_COMMAND: '' # this will disable the log output
+            WEBSERVER_COMMAND: "" # this will disable the log output
             SHOPWARE_VERSION: ${{ matrix.SHOPWARE_VERSION }}
-            SHOPWARE_BUILD_SOURCE: 'tag'
+            SHOPWARE_BUILD_SOURCE: "tag"
             PORT: ${{ matrix.PORT }}
         steps:
             - uses: actions/checkout@v6
@@ -83,8 +83,8 @@ jobs:
 
             - uses: actions/setup-node@v6
               with:
-                  node-version: 'lts/*'
-                  cache: 'npm'
+                  node-version: "lts/*"
+                  cache: "npm"
 
             - name: Install dependencies
               run: npm ci
@@ -126,8 +126,8 @@ jobs:
             - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
-                  node-version: 'lts/*'
-                  cache: 'npm'
+                  node-version: "lts/*"
+                  cache: "npm"
             - name: Install dependencies
               run: npm ci
             - name: Install Playwright Browsers

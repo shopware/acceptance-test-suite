@@ -1,8 +1,8 @@
-import { type AdminApiContext } from './AdminApiContext';
-import { type StoreApiContext } from './StoreApiContext';
+import { type AdminApiContext } from "./AdminApiContext";
+import { type StoreApiContext } from "./StoreApiContext";
 
 export const isSaaSInstance = async (adminApiContext: AdminApiContext): Promise<boolean> => {
-    const instanceFeatures = await adminApiContext.get('./instance/features');
+    const instanceFeatures = await adminApiContext.get("./instance/features");
     return instanceFeatures.ok();
 };
 

@@ -1,7 +1,7 @@
-import { createRandomImage, encodeImage } from './ImageHelper';
-import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from './ShopwareDataHelpers';
-import type { AdminApiContext } from './AdminApiContext';
-import type { IdProvider } from './IdProvider';
+import { createRandomImage, encodeImage } from "./ImageHelper";
+import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from "./ShopwareDataHelpers";
+import type { AdminApiContext } from "./AdminApiContext";
+import type { IdProvider } from "./IdProvider";
 import type {
     AclRole,
     Category,
@@ -37,9 +37,9 @@ import type {
     Tag,
     Tax,
     User,
-} from '../types/ShopwareTypes';
-import { expect } from '@playwright/test';
-import { clearDelayedCache } from './Cache';
+} from "../types/ShopwareTypes";
+import { expect } from "@playwright/test";
+import { clearDelayedCache } from "./Cache";
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -60,7 +60,7 @@ export interface SimpleLineItem {
 
 export interface SyncApiOperation {
     entity: string;
-    action: 'upsert' | 'delete';
+    action: "upsert" | "delete";
     payload: Record<string, unknown>[];
 }
 
@@ -80,8 +80,8 @@ export class TestDataService {
     public readonly AdminApiClient: AdminApiContext;
     public readonly IdProvider: IdProvider;
 
-    public readonly namePrefix: string = 'Test-';
-    public readonly nameSuffix: string = '';
+    public readonly namePrefix: string = "Test-";
+    public readonly nameSuffix: string = "";
 
     public readonly defaultSalesChannel: SalesChannel;
     public readonly defaultTaxId: string;
@@ -109,19 +109,19 @@ export class TestDataService {
      * @private
      */
     private highPriorityEntities = [
-        'order',
-        'product',
-        'product_download',
-        'product_cross_selling',
-        'landing_page',
-        'shipping_method',
-        'sales_channel_domain',
-        'sales_channel_currency',
-        'sales_channel_country',
-        'sales_channel_payment_method',
-        'customer',
-        'acl_user_role',
-        'category',
+        "order",
+        "product",
+        "product_download",
+        "product_cross_selling",
+        "landing_page",
+        "shipping_method",
+        "sales_channel_domain",
+        "sales_channel_currency",
+        "sales_channel_country",
+        "sales_channel_payment_method",
+        "customer",
+        "acl_user_role",
+        "category",
     ];
 
     /**
@@ -172,23 +172,23 @@ export class TestDataService {
      */
     async createBasicProduct(overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
         if (!taxId) {
-            return Promise.reject('Missing tax ID for creating product.');
+            return Promise.reject("Missing tax ID for creating product.");
         }
 
         if (!currencyId) {
-            return Promise.reject('Missing currency ID for creating product.');
+            return Promise.reject("Missing currency ID for creating product.");
         }
 
         const basicProduct = this.getBasicProductStruct(taxId, currencyId, overrides);
 
-        const productResponse = await this.AdminApiClient.post('./product?_response=detail', {
+        const productResponse = await this.AdminApiClient.post("./product?_response=detail", {
             data: basicProduct,
         });
         expect(productResponse.ok()).toBeTruthy();
 
         const { data: product } = (await productResponse.json()) as { data: Product };
 
-        this.addCreatedRecord('product', product.id);
+        this.addCreatedRecord("product", product.id);
 
         return product;
     }
@@ -202,14 +202,14 @@ export class TestDataService {
     async createProductCrossSelling(productId: string, overrides: Partial<ProductCrossSelling> = {}): Promise<ProductCrossSelling> {
         const crossSellingStruct = this.getBasicCrossSellingStruct(productId, overrides);
 
-        const response = await this.AdminApiClient.post('product-cross-selling?_response=detail', {
+        const response = await this.AdminApiClient.post("product-cross-selling?_response=detail", {
             data: crossSellingStruct,
         });
         expect(response.ok()).toBeTruthy();
 
         const { data: productCrossSelling } = (await response.json()) as { data: ProductCrossSelling };
 
-        this.addCreatedRecord('product_cross_selling', productCrossSelling.id);
+        this.addCreatedRecord("product_cross_selling", productCrossSelling.id);
 
         return productCrossSelling;
     }
@@ -240,7 +240,7 @@ export class TestDataService {
      * @param taxId - The uuid of the tax rule to use for the product pricing.
      * @param currencyId - The uuid of the currency to use for the product pricing.
      */
-    async createDigitalProduct(content = 'Lorem ipsum dolor', overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
+    async createDigitalProduct(content = "Lorem ipsum dolor", overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
         const product = await this.createBasicProduct(overrides, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
@@ -259,10 +259,10 @@ export class TestDataService {
      */
     async createProductWithPriceRange(overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
         if (!currencyId) {
-            return Promise.reject('Missing currency ID for creating product.');
+            return Promise.reject("Missing currency ID for creating product.");
         }
 
-        const rule = await this.getRule('Always valid (Default)');
+        const rule = await this.getRule("Always valid (Default)");
 
         const priceRange = this.getProductPriceRangeStruct(currencyId, rule.id);
         const productOverrides = Object.assign({}, priceRange, overrides);
@@ -286,7 +286,7 @@ export class TestDataService {
             for (const propertyGroupOption of propertyGroupOptions) {
                 propertyGroupOptionsCollection.push({ id: propertyGroupOption.id });
 
-                const productConfiguratorResponse = await this.AdminApiClient.post('product-configurator-setting?_response=detail', {
+                const productConfiguratorResponse = await this.AdminApiClient.post("product-configurator-setting?_response=detail", {
                     data: {
                         id: this.IdProvider.getIdPair().uuid,
                         productId: parentProduct.id,
@@ -305,7 +305,7 @@ export class TestDataService {
         for (const productVariantCombination of productVariantCombinations) {
             const variantOverrides = {
                 parentId: parentProduct.id,
-                productNumber: parentProduct.productNumber + '.' + index,
+                productNumber: parentProduct.productNumber + "." + index,
                 options: productVariantCombination,
             };
 
@@ -314,7 +314,7 @@ export class TestDataService {
             index++;
         }
 
-        await this.AdminApiClient.post('_action/indexing/product.indexer?_response=detail', {
+        await this.AdminApiClient.post("_action/indexing/product.indexer?_response=detail", {
             data: {
                 offset: 0,
             },
@@ -332,7 +332,7 @@ export class TestDataService {
     async createProductReview(productId: string, overrides: Partial<ProductReview> = {}): Promise<ProductReview> {
         const basicProductReview = this.getBasicProductReviewStruct(productId, overrides);
 
-        const productReviewResponse = await this.AdminApiClient.post('product-review?_response=detail', {
+        const productReviewResponse = await this.AdminApiClient.post("product-review?_response=detail", {
             data: basicProductReview,
         });
         expect(productReviewResponse.ok()).toBeTruthy();
@@ -349,14 +349,14 @@ export class TestDataService {
     async createBasicManufacturer(overrides: Partial<Manufacturer> = {}): Promise<Manufacturer> {
         const basicManufacturer = this.getBasicManufacturerStruct(overrides);
 
-        const manufacturerResponse = await this.AdminApiClient.post('./product-manufacturer?_response=detail', {
+        const manufacturerResponse = await this.AdminApiClient.post("./product-manufacturer?_response=detail", {
             data: basicManufacturer,
         });
         expect(manufacturerResponse.ok()).toBeTruthy();
 
         const { data: manufacturer } = (await manufacturerResponse.json()) as { data: Manufacturer };
 
-        this.addCreatedRecord('product_manufacturer', manufacturer.id);
+        this.addCreatedRecord("product_manufacturer", manufacturer.id);
 
         return manufacturer;
     }
@@ -384,14 +384,14 @@ export class TestDataService {
     async createCategory(overrides: Partial<Category> = {}, parentId = this.defaultCategoryId): Promise<Category> {
         const basicCategory = this.getBasicCategoryStruct(overrides, parentId);
 
-        const response = await this.AdminApiClient.post('category?_response=detail', {
+        const response = await this.AdminApiClient.post("category?_response=detail", {
             data: basicCategory,
         });
         expect(response.ok()).toBeTruthy();
 
         const { data: category } = (await response.json()) as { data: Category };
 
-        this.addCreatedRecord('category', category.id);
+        this.addCreatedRecord("category", category.id);
 
         return category;
     }
@@ -409,11 +409,11 @@ export class TestDataService {
 
         const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
             data: encodeImage(image),
-            headers: { 'content-type': 'image/png' },
+            headers: { "content-type": "image/png" },
         });
         expect(response.ok()).toBeTruthy();
 
-        this.addCreatedRecord('media', media.id);
+        this.addCreatedRecord("media", media.id);
 
         return media;
     }
@@ -423,17 +423,17 @@ export class TestDataService {
      *
      * @param content - The content of the text file.
      */
-    async createMediaTXT(content = 'Lorem ipsum dolor'): Promise<Media> {
+    async createMediaTXT(content = "Lorem ipsum dolor"): Promise<Media> {
         const media = await this.createMediaResource();
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
         const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=txt&fileName=${filename}`, {
             data: content,
-            headers: { 'content-type': 'application/octet-stream' },
+            headers: { "content-type": "application/octet-stream" },
         });
         expect(response.ok()).toBeTruthy();
 
-        this.addCreatedRecord('media', media.id);
+        this.addCreatedRecord("media", media.id);
 
         return media;
     }
@@ -445,7 +445,7 @@ export class TestDataService {
     async createMediaResource(): Promise<Media> {
         const id = this.IdProvider.getIdPair().id;
 
-        const mediaResponse = await this.AdminApiClient.post('media?_response=detail', {
+        const mediaResponse = await this.AdminApiClient.post("media?_response=detail", {
             data: {
                 private: false,
                 alt: `Alt-${id}`,
@@ -468,33 +468,33 @@ export class TestDataService {
         const id = this.IdProvider.getIdPair().id;
         const colorPropertyGroup = {
             name: `${this.namePrefix}Color-${id}${this.nameSuffix}`,
-            description: 'Color',
-            displayType: 'color',
-            sortingType: 'name',
+            description: "Color",
+            displayType: "color",
+            sortingType: "name",
             options: [
                 {
-                    name: 'Blue',
-                    colorHexCode: '#2148d6',
+                    name: "Blue",
+                    colorHexCode: "#2148d6",
                 },
                 {
-                    name: 'Red',
-                    colorHexCode: '#bf0f2a',
+                    name: "Red",
+                    colorHexCode: "#bf0f2a",
                 },
                 {
-                    name: 'Green',
-                    colorHexCode: '#12bf0f',
+                    name: "Green",
+                    colorHexCode: "#12bf0f",
                 },
             ],
         };
 
-        const propertyGroupResponse = await this.AdminApiClient.post('property-group?_response=detail', {
+        const propertyGroupResponse = await this.AdminApiClient.post("property-group?_response=detail", {
             data: Object.assign({}, colorPropertyGroup, overrides),
         });
         expect(propertyGroupResponse.ok()).toBeTruthy();
 
         const { data: propertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
 
-        this.addCreatedRecord('property_group', propertyGroup.id);
+        this.addCreatedRecord("property_group", propertyGroup.id);
 
         return propertyGroup;
     }
@@ -508,30 +508,30 @@ export class TestDataService {
         const id = this.IdProvider.getIdPair().id;
         const textPropertyGroup = {
             name: `${this.namePrefix}Size-${id}${this.nameSuffix}`,
-            description: 'Size',
-            displayType: 'text',
-            sortingType: 'name',
+            description: "Size",
+            displayType: "text",
+            sortingType: "name",
             options: [
                 {
-                    name: 'Small',
+                    name: "Small",
                 },
                 {
-                    name: 'Medium',
+                    name: "Medium",
                 },
                 {
-                    name: 'Large',
+                    name: "Large",
                 },
             ],
         };
 
-        const propertyGroupResponse = await this.AdminApiClient.post('property-group?_response=detail', {
+        const propertyGroupResponse = await this.AdminApiClient.post("property-group?_response=detail", {
             data: Object.assign({}, textPropertyGroup, overrides),
         });
         expect(propertyGroupResponse.ok()).toBeTruthy();
 
         const { data: propertyGroup } = (await propertyGroupResponse.json()) as { data: PropertyGroup };
 
-        this.addCreatedRecord('property_group', propertyGroup.id);
+        this.addCreatedRecord("property_group", propertyGroup.id);
 
         return propertyGroup;
     }
@@ -542,7 +542,7 @@ export class TestDataService {
      * @param tagName - The name of the tag.
      */
     async createTag(tagName: string): Promise<Tag> {
-        const response = await this.AdminApiClient.post('tag?_response=detail', {
+        const response = await this.AdminApiClient.post("tag?_response=detail", {
             data: {
                 id: this.IdProvider.getIdPair().uuid,
                 name: tagName,
@@ -552,7 +552,7 @@ export class TestDataService {
 
         const { data: tag } = (await response.json()) as { data: Tag };
 
-        this.addCreatedRecord('tag', tag.id);
+        this.addCreatedRecord("tag", tag.id);
 
         return tag;
     }
@@ -564,7 +564,7 @@ export class TestDataService {
      * @param salutationKey - The key of the salutation that should be used for the customer. Default is "mr".
      * @param salesChannel - The sales channel for which the customer should be registered.
      */
-    async createCustomer(overrides: Partial<Customer> = {}, salutationKey = 'mr', salesChannel: SalesChannel = this.defaultSalesChannel): Promise<Customer> {
+    async createCustomer(overrides: Partial<Customer> = {}, salutationKey = "mr", salesChannel: SalesChannel = this.defaultSalesChannel): Promise<Customer> {
         const salutation = await this.getSalutation(salutationKey);
 
         const basicCustomerStruct = this.getBasicCustomerStruct(
@@ -574,10 +574,10 @@ export class TestDataService {
             salesChannel.countryId,
             salesChannel.paymentMethodId,
             salutation.id,
-            overrides,
+            overrides
         );
 
-        const response = await this.AdminApiClient.post('customer?_response=detail', {
+        const response = await this.AdminApiClient.post("customer?_response=detail", {
             data: basicCustomerStruct,
         });
         expect(response.ok()).toBeTruthy();
@@ -586,7 +586,7 @@ export class TestDataService {
 
         let customer: Customer;
 
-        if (typeof basicCustomerStruct.password !== 'string') {
+        if (typeof basicCustomerStruct.password !== "string") {
             customer = { ...customerData.data };
         } else {
             customer = {
@@ -595,7 +595,7 @@ export class TestDataService {
             };
         }
 
-        this.addCreatedRecord('customer', customer.id);
+        this.addCreatedRecord("customer", customer.id);
 
         return customer;
     }
@@ -611,7 +611,7 @@ export class TestDataService {
 
         const basicUserStruct = this.getBasicUserStruct(language.localeId, overrides);
 
-        const response = await this.AdminApiClient.post('user?_response=detail', {
+        const response = await this.AdminApiClient.post("user?_response=detail", {
             data: basicUserStruct,
         });
         expect(response.ok()).toBeTruthy();
@@ -620,7 +620,7 @@ export class TestDataService {
 
         let user;
 
-        if (typeof basicUserStruct.password !== 'string') {
+        if (typeof basicUserStruct.password !== "string") {
             user = { ...userData };
         } else {
             user = {
@@ -628,7 +628,7 @@ export class TestDataService {
                 password: basicUserStruct.password,
             };
         }
-        this.addCreatedRecord('user', user.id);
+        this.addCreatedRecord("user", user.id);
 
         return user;
     }
@@ -641,14 +641,14 @@ export class TestDataService {
     async createAclRole(overrides: Partial<AclRole> = {}): Promise<AclRole> {
         const basicAclRoleStruct = this.getBasicAclRoleStruct(overrides);
 
-        const response = await this.AdminApiClient.post('acl-role?_response=detail', {
+        const response = await this.AdminApiClient.post("acl-role?_response=detail", {
             data: basicAclRoleStruct,
         });
         expect(response.ok()).toBeTruthy();
 
         const aclRole = await this.getAclRoleById(basicAclRoleStruct.id);
 
-        this.addCreatedRecord('acl_role', aclRole.id);
+        this.addCreatedRecord("acl_role", aclRole.id);
 
         return aclRole;
     }
@@ -689,17 +689,17 @@ export class TestDataService {
             customer,
             customerAddress,
             salesChannel.id,
-            overrides,
+            overrides
         );
 
-        const orderResponse = await this.AdminApiClient.post('order?_response=detail', {
+        const orderResponse = await this.AdminApiClient.post("order?_response=detail", {
             data: basicOrder,
         });
         expect(orderResponse.ok()).toBeTruthy();
 
         const { data: order } = (await orderResponse.json()) as { data: Order };
 
-        this.addCreatedRecord('order', order.id);
+        this.addCreatedRecord("order", order.id);
 
         return order;
     }
@@ -714,7 +714,7 @@ export class TestDataService {
         const basicPromotion = this.getBasicPromotionStruct(salesChannelId, overrides);
 
         // Create a new promotion with code via admin API context
-        const promotionResponse = await this.AdminApiClient.post('promotion?_response=detail', {
+        const promotionResponse = await this.AdminApiClient.post("promotion?_response=detail", {
             data: basicPromotion,
         });
         expect(promotionResponse.ok()).toBeTruthy();
@@ -723,7 +723,7 @@ export class TestDataService {
 
         const promotionWithDiscount = await getPromotionWithDiscount(promotion.id, this.AdminApiClient);
 
-        this.addCreatedRecord('promotion', promotion.id);
+        this.addCreatedRecord("promotion", promotion.id);
 
         return promotionWithDiscount;
     }
@@ -736,14 +736,14 @@ export class TestDataService {
     async createBasicPaymentMethod(overrides: Partial<PaymentMethod> = {}): Promise<PaymentMethod> {
         const basicPaymentMethod = this.getBasicPaymentMethodStruct(overrides);
 
-        const paymentMethodResponse = await this.AdminApiClient.post('payment-method?_response=detail', {
+        const paymentMethodResponse = await this.AdminApiClient.post("payment-method?_response=detail", {
             data: basicPaymentMethod,
         });
         expect(paymentMethodResponse.ok()).toBeTruthy();
 
         const { data: paymentMethod } = (await paymentMethodResponse.json()) as { data: PaymentMethod };
 
-        this.addCreatedRecord('payment_method', paymentMethod.id);
+        this.addCreatedRecord("payment_method", paymentMethod.id);
 
         return paymentMethod;
     }
@@ -770,17 +770,17 @@ export class TestDataService {
     async createBasicShippingMethod(overrides: Partial<ShippingMethod> = {}): Promise<ShippingMethod> {
         const deliveryTime = await this.getAllDeliveryTimeResources();
 
-        overrides.availabilityRuleId ??= (await this.getRule('Always valid (Default)')).id;
+        overrides.availabilityRuleId ??= (await this.getRule("Always valid (Default)")).id;
         const basicShippingMethod = this.getBasicShippingMethodStruct(deliveryTime[0].id, overrides);
 
-        const shippingMethodResponse = await this.AdminApiClient.post('shipping-method?_response=detail', {
+        const shippingMethodResponse = await this.AdminApiClient.post("shipping-method?_response=detail", {
             data: basicShippingMethod,
         });
         expect(shippingMethodResponse.ok()).toBeTruthy();
 
         const { data: shippingMethod } = (await shippingMethodResponse.json()) as { data: ShippingMethod };
 
-        this.addCreatedRecord('shipping_method', shippingMethod.id);
+        this.addCreatedRecord("shipping_method", shippingMethod.id);
 
         return shippingMethod;
     }
@@ -804,17 +804,17 @@ export class TestDataService {
      *
      * @param overrides - Specific data overrides that will be applied to the basic rule data struct.
      */
-    async createBasicRule(overrides: Partial<Rule> = {}, conditionType = 'cartCartAmount', operator = '>=', amount = 1): Promise<Rule> {
+    async createBasicRule(overrides: Partial<Rule> = {}, conditionType = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
         const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
 
-        const ruleResponse = await this.AdminApiClient.post('rule?_response=detail', {
+        const ruleResponse = await this.AdminApiClient.post("rule?_response=detail", {
             data: basicRule,
         });
         expect(ruleResponse.ok()).toBeTruthy();
 
         const { data: rule } = (await ruleResponse.json()) as { data: Rule };
 
-        this.addCreatedRecord('rule', rule.id);
+        this.addCreatedRecord("rule", rule.id);
 
         return rule;
     }
@@ -828,14 +828,14 @@ export class TestDataService {
     async createBasicPageLayout(cmsPageType: string, overrides: Partial<CmsPage> = {}): Promise<CmsPage> {
         const basicLayout = this.getBasicCmsStruct(cmsPageType, overrides);
 
-        const layoutResponse = await this.AdminApiClient.post('cms-page?_response=detail', {
+        const layoutResponse = await this.AdminApiClient.post("cms-page?_response=detail", {
             data: basicLayout,
         });
         expect(layoutResponse.ok()).toBeTruthy();
 
         const { data: layout } = (await layoutResponse.json()) as { data: CmsPage };
 
-        this.addCreatedRecord('cms_page', layout.id);
+        this.addCreatedRecord("cms_page", layout.id);
 
         return layout;
     }
@@ -848,14 +848,14 @@ export class TestDataService {
     async createCountry(overrides: Partial<Country> = {}): Promise<Country> {
         const basicCountry = this.getCountryStruct(overrides);
 
-        const countryResponse = await this.AdminApiClient.post('country?_response=detail', {
+        const countryResponse = await this.AdminApiClient.post("country?_response=detail", {
             data: basicCountry,
         });
         expect(countryResponse.ok()).toBeTruthy();
 
         const { data: country } = (await countryResponse.json()) as { data: Country };
 
-        this.addCreatedRecord('country', country.id);
+        this.addCreatedRecord("country", country.id);
 
         return country;
     }
@@ -869,7 +869,7 @@ export class TestDataService {
     async createCurrency(overrides: Partial<Currency> = {}, roundingDecimals = 2): Promise<Currency> {
         const basicCurrency = this.getCurrencyStruct(overrides, roundingDecimals);
 
-        const currencyResponse = await this.AdminApiClient.post('currency?_response=detail', {
+        const currencyResponse = await this.AdminApiClient.post("currency?_response=detail", {
             data: basicCurrency,
         });
 
@@ -877,7 +877,7 @@ export class TestDataService {
 
         const { data: currency } = (await currencyResponse.json()) as { data: Currency };
 
-        this.addCreatedRecord('currency', currency.id);
+        this.addCreatedRecord("currency", currency.id);
 
         return currency;
     }
@@ -890,14 +890,14 @@ export class TestDataService {
     async createCustomerGroup(overrides: Partial<CustomerGroup> = {}): Promise<CustomerGroup> {
         const basicCustomerGroup = this.getBasicCustomerGroupStruct(overrides);
 
-        const response = await this.AdminApiClient.post('customer-group?_response=detail', {
+        const response = await this.AdminApiClient.post("customer-group?_response=detail", {
             data: basicCustomerGroup,
         });
         expect(response.ok()).toBeTruthy();
 
         const { data: customerGroup } = (await response.json()) as { data: CustomerGroup };
 
-        this.addCreatedRecord('customer_group', customerGroup.id);
+        this.addCreatedRecord("customer_group", customerGroup.id);
 
         return customerGroup;
     }
@@ -930,14 +930,14 @@ export class TestDataService {
     async createSalesChannelAnalytics(overrides: Partial<SalesChannelAnalytics> = {}): Promise<SalesChannelAnalytics> {
         const basicSalesChannelAnalyticsStruct = this.getSalesChannelAnalyticsStruct(overrides);
 
-        const response = await this.AdminApiClient.post('sales-channel-analytics?_response=detail', {
+        const response = await this.AdminApiClient.post("sales-channel-analytics?_response=detail", {
             data: basicSalesChannelAnalyticsStruct,
         });
         expect(response.ok()).toBeTruthy();
 
         const { data: salesChannelAnalytics } = (await response.json()) as { data: SalesChannelAnalytics };
 
-        this.addCreatedRecord('sales_channel_analytics', salesChannelAnalytics.id);
+        this.addCreatedRecord("sales_channel_analytics", salesChannelAnalytics.id);
 
         return salesChannelAnalytics;
     }
@@ -958,7 +958,7 @@ export class TestDataService {
 
         const { data: customField } = (await response.json()) as { data: CustomField };
 
-        this.addCreatedRecord('custom_field', customField.id);
+        this.addCreatedRecord("custom_field", customField.id);
 
         return customField;
     }
@@ -971,14 +971,14 @@ export class TestDataService {
     async createCustomFieldSet(overrides: Partial<CustomFieldSet> = {}): Promise<CustomFieldSet> {
         const customFieldSetStruct = this.getBasicCustomFieldSetStruct(overrides);
 
-        const response = await this.AdminApiClient.post('custom-field-set?_response=detail', {
+        const response = await this.AdminApiClient.post("custom-field-set?_response=detail", {
             data: customFieldSetStruct,
         });
         expect(response.ok()).toBeTruthy();
 
         const { data: customFieldSet } = (await response.json()) as { data: CustomFieldSet };
 
-        this.addCreatedRecord('custom_field_set', customFieldSet.id);
+        this.addCreatedRecord("custom_field_set", customFieldSet.id);
 
         return customFieldSet;
     }
@@ -1004,7 +1004,7 @@ export class TestDataService {
 
         const { data: salesChannelDomain } = (await response.json()) as { data: SalesChannelDomain };
 
-        this.addCreatedRecord('sales_channel_domain', salesChannelDomain.id);
+        this.addCreatedRecord("sales_channel_domain", salesChannelDomain.id);
 
         return salesChannelDomain;
     }
@@ -1017,14 +1017,14 @@ export class TestDataService {
     async createTaxRate(overrides: Partial<Tax> = {}): Promise<Tax> {
         const taxStruct = this.getTaxStruct(overrides);
 
-        const response = await this.AdminApiClient.post('tax?_response=detail', {
+        const response = await this.AdminApiClient.post("tax?_response=detail", {
             data: taxStruct,
         });
         expect(response.ok()).toBeTruthy();
 
         const { data: tax } = (await response.json()) as { data: Tax };
 
-        this.addCreatedRecord('tax', tax.id);
+        this.addCreatedRecord("tax", tax.id);
 
         return tax;
     }
@@ -1045,7 +1045,7 @@ export class TestDataService {
 
         const { data: productDownload } = await downloadResponse.json();
 
-        this.addCreatedRecord('product_download', productDownload.id);
+        this.addCreatedRecord("product_download", productDownload.id);
 
         return productDownload;
     }
@@ -1105,11 +1105,11 @@ export class TestDataService {
      * @param roundingDecimals - The roundings of item and total values in storefront, default 2 decimals
      */
     async assignCurrencyCountryRounding(currencyId: string, countryId: string, roundingDecimals = 2) {
-        const syncCurrencyCountryRoundingResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncCurrencyCountryRoundingResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-currency-country-rounding': {
-                    entity: 'currency_country_rounding',
-                    action: 'upsert',
+                "write-currency-country-rounding": {
+                    entity: "currency_country_rounding",
+                    action: "upsert",
                     payload: [
                         {
                             id: this.IdProvider.getIdPair().uuid,
@@ -1219,11 +1219,11 @@ export class TestDataService {
      * @param currencyId - The uuid of the currency.
      */
     async assignSalesChannelCurrency(salesChannelId: string, currencyId: string) {
-        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncSalesChannelResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-sales-channel-currency': {
-                    entity: 'sales_channel_currency',
-                    action: 'upsert',
+                "write-sales-channel-currency": {
+                    entity: "sales_channel_currency",
+                    action: "upsert",
                     payload: [
                         {
                             salesChannelId: salesChannelId,
@@ -1237,7 +1237,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_currency', {
+        this.addCreatedRecord("sales_channel_currency", {
             salesChannelId: salesChannelId,
             currencyId: currencyId,
         });
@@ -1252,11 +1252,11 @@ export class TestDataService {
      * @param salesChannelAnalyticsId - The uuid of the sales channel analytics entity.
      */
     async assignSalesChannelAnalytics(salesChannelId: string, salesChannelAnalyticsId: string) {
-        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncSalesChannelResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-sales-channel-analytics': {
-                    entity: 'sales_channel_analytics',
-                    action: 'upsert',
+                "write-sales-channel-analytics": {
+                    entity: "sales_channel_analytics",
+                    action: "upsert",
                     payload: [
                         {
                             salesChannel: { id: salesChannelId },
@@ -1270,7 +1270,7 @@ export class TestDataService {
 
         const { data: salesChannel } = (await syncSalesChannelResponse.json()) as { data: SalesChannel };
 
-        this.addCreatedSalesChannelRecord(salesChannelId, 'analyticsId');
+        this.addCreatedSalesChannelRecord(salesChannelId, "analyticsId");
 
         return salesChannel;
     }
@@ -1282,11 +1282,11 @@ export class TestDataService {
      * @param countryId - The uuid of the country.
      */
     async assignSalesChannelCountry(salesChannelId: string, countryId: string) {
-        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncSalesChannelResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-sales-channel-country': {
-                    entity: 'sales_channel_country',
-                    action: 'upsert',
+                "write-sales-channel-country": {
+                    entity: "sales_channel_country",
+                    action: "upsert",
                     payload: [
                         {
                             salesChannelId: salesChannelId,
@@ -1300,7 +1300,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_country', {
+        this.addCreatedRecord("sales_channel_country", {
             salesChannelId: salesChannelId,
             countryId: countryId,
         });
@@ -1315,11 +1315,11 @@ export class TestDataService {
      * @param languageId - The uuid of the language.
      */
     async assignSalesChannelLanguage(salesChannelId: string, languageId: string) {
-        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncSalesChannelResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-sales-channel-language': {
-                    entity: 'sales_channel_language',
-                    action: 'upsert',
+                "write-sales-channel-language": {
+                    entity: "sales_channel_language",
+                    action: "upsert",
                     payload: [
                         {
                             salesChannelId: salesChannelId,
@@ -1333,7 +1333,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_language', {
+        this.addCreatedRecord("sales_channel_language", {
             salesChannelId: salesChannelId,
             languageId: languageId,
         });
@@ -1348,11 +1348,11 @@ export class TestDataService {
      * @param paymentMethodId - The uuid of the currency.
      */
     async assignSalesChannelPaymentMethod(salesChannelId: string, paymentMethodId: string) {
-        const syncSalesChannelResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncSalesChannelResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-sales-channel-payment-method': {
-                    entity: 'sales_channel_payment_method',
-                    action: 'upsert',
+                "write-sales-channel-payment-method": {
+                    entity: "sales_channel_payment_method",
+                    action: "upsert",
                     payload: [
                         {
                             salesChannelId: salesChannelId,
@@ -1366,7 +1366,7 @@ export class TestDataService {
 
         const { data: salesChannel } = await syncSalesChannelResponse.json();
 
-        this.addCreatedRecord('sales_channel_payment_method', {
+        this.addCreatedRecord("sales_channel_payment_method", {
             salesChannelId: salesChannelId,
             paymentMethodId: paymentMethodId,
         });
@@ -1422,11 +1422,11 @@ export class TestDataService {
     async assignAclRoleUser(aclRoleId: string, adminUserId: string) {
         await updateAdminUser(adminUserId, this.AdminApiClient, { admin: false });
 
-        const syncAclUserResponse = await this.AdminApiClient.post('./_action/sync', {
+        const syncAclUserResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
-                'write-acl-user-role': {
-                    entity: 'acl_user_role',
-                    action: 'upsert',
+                "write-acl-user-role": {
+                    entity: "acl_user_role",
+                    action: "upsert",
                     payload: [
                         {
                             userId: adminUserId,
@@ -1458,13 +1458,13 @@ export class TestDataService {
      * @param isoCode - The ISO code of the currency, for example "EUR".
      */
     async getCurrency(isoCode: string): Promise<Currency> {
-        const currencyResponse = await this.AdminApiClient.post('search/currency', {
+        const currencyResponse = await this.AdminApiClient.post("search/currency", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'isoCode',
+                        type: "equals",
+                        field: "isoCode",
                         value: isoCode,
                     },
                 ],
@@ -1483,13 +1483,13 @@ export class TestDataService {
      * @param name - The name of the rule.
      */
     async getRule(name: string): Promise<Rule> {
-        const response = await this.AdminApiClient.post('search/rule', {
+        const response = await this.AdminApiClient.post("search/rule", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'name',
+                        type: "equals",
+                        field: "name",
                         value: name,
                     },
                 ],
@@ -1507,14 +1507,14 @@ export class TestDataService {
      *
      * @param name - The name of the shipping method. Default is "Standard".
      */
-    async getShippingMethod(name = 'Standard'): Promise<ShippingMethod> {
-        const response = await this.AdminApiClient.post('search/shipping-method', {
+    async getShippingMethod(name = "Standard"): Promise<ShippingMethod> {
+        const response = await this.AdminApiClient.post("search/shipping-method", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'name',
+                        type: "equals",
+                        field: "name",
                         value: name,
                     },
                 ],
@@ -1531,7 +1531,7 @@ export class TestDataService {
      * Retrieves all delivery time resources.
      */
     async getAllDeliveryTimeResources(): Promise<DeliveryTime[]> {
-        const response = await this.AdminApiClient.get('delivery-time');
+        const response = await this.AdminApiClient.get("delivery-time");
         expect(response.ok()).toBeTruthy();
 
         const { data: deliveryTimeResources } = (await response.json()) as { data: DeliveryTime[] };
@@ -1544,14 +1544,14 @@ export class TestDataService {
      *
      * @param name - The name of the payment method. Default is "Invoice".
      */
-    async getPaymentMethod(name = 'Invoice'): Promise<PaymentMethod> {
-        const response = await this.AdminApiClient.post('search/payment-method', {
+    async getPaymentMethod(name = "Invoice"): Promise<PaymentMethod> {
+        const response = await this.AdminApiClient.post("search/payment-method", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'name',
+                        type: "equals",
+                        field: "name",
                         value: name,
                     },
                 ],
@@ -1585,13 +1585,13 @@ export class TestDataService {
      * @returns The customer object.
      */
     async getCustomerByEmail(email: string): Promise<Customer> {
-        const response = await this.AdminApiClient.post('search/customer', {
+        const response = await this.AdminApiClient.post("search/customer", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'email',
+                        type: "equals",
+                        field: "email",
                         value: email,
                     },
                 ],
@@ -1609,14 +1609,14 @@ export class TestDataService {
      *
      * @param key - The key of the salutation. Default is "mr".
      */
-    async getSalutation(key = 'mr') {
-        const response = await this.AdminApiClient.post('search/salutation', {
+    async getSalutation(key = "mr") {
+        const response = await this.AdminApiClient.post("search/salutation", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'salutationKey',
+                        type: "equals",
+                        field: "salutationKey",
                         value: key,
                     },
                 ],
@@ -1633,21 +1633,21 @@ export class TestDataService {
      * Retrieves the state machine for order states.
      */
     async getOrderStateMachine(): Promise<StateMachine> {
-        return await this.getStateMachine('order.state');
+        return await this.getStateMachine("order.state");
     }
 
     /**
      * Retrieves the state machine for delivery states.
      */
     async getDeliveryStateMachine(): Promise<StateMachine> {
-        return await this.getStateMachine('order_delivery.state');
+        return await this.getStateMachine("order_delivery.state");
     }
 
     /**
      * Retrieves the state machine for transaction states.
      */
     async getTransactionStateMachine(): Promise<StateMachine> {
-        return await this.getStateMachine('order_transaction.state');
+        return await this.getStateMachine("order_transaction.state");
     }
 
     /**
@@ -1656,13 +1656,13 @@ export class TestDataService {
      * @param name - The name of the state machine.
      */
     async getStateMachine(name: string): Promise<StateMachine> {
-        const response = await this.AdminApiClient.post('search/state-machine', {
+        const response = await this.AdminApiClient.post("search/state-machine", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'technicalName',
+                        type: "equals",
+                        field: "technicalName",
                         value: name,
                     },
                 ],
@@ -1681,19 +1681,19 @@ export class TestDataService {
      * @param stateMachineId - The uuid of the state machine.
      * @param stateName - The name of the state. Default is "open".
      */
-    async getStateMachineState(stateMachineId: string, stateName: 'open' | 'completed' | 'in_progress' | 'cancelled' = 'open'): Promise<StateMachineState> {
-        const response = await this.AdminApiClient.post('search/state-machine-state', {
+    async getStateMachineState(stateMachineId: string, stateName: "open" | "completed" | "in_progress" | "cancelled" = "open"): Promise<StateMachineState> {
+        const response = await this.AdminApiClient.post("search/state-machine-state", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'stateMachineId',
+                        type: "equals",
+                        field: "stateMachineId",
                         value: stateMachineId,
                     },
                     {
-                        type: 'equals',
-                        field: 'technicalName',
+                        type: "equals",
+                        field: "technicalName",
                         value: stateName,
                     },
                 ],
@@ -1712,13 +1712,13 @@ export class TestDataService {
      * @param propertyGroupId - The uuid of the property group.
      */
     async getPropertyGroupOptions(propertyGroupId: string): Promise<PropertyGroupOption[]> {
-        const response = await this.AdminApiClient.post('search/property-group-option', {
+        const response = await this.AdminApiClient.post("search/property-group-option", {
             data: {
                 limit: 50,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'groupId',
+                        type: "equals",
+                        field: "groupId",
                         value: propertyGroupId,
                     },
                 ],
@@ -1749,7 +1749,7 @@ export class TestDataService {
      * Retrieves list of customer groups
      */
     async getCustomerGroups(): Promise<CustomerGroup[]> {
-        const response = await this.AdminApiClient.get('customer-group');
+        const response = await this.AdminApiClient.get("customer-group");
         expect(response.ok()).toBeTruthy();
 
         const { data: customerGroups } = (await response.json()) as { data: CustomerGroup[] };
@@ -1807,9 +1807,9 @@ export class TestDataService {
      * @param payload - You can pass a payload object for the delete operation or simply pass the uuid of the entity.
      */
     addCreatedRecord(resource: string, payload: string | Record<string, string>) {
-        const res = resource.replace('-', '_');
+        const res = resource.replace("-", "_");
 
-        if (typeof payload === 'string') {
+        if (typeof payload === "string") {
             this.createdRecords.push({
                 resource: res,
                 payload: { id: payload },
@@ -1868,14 +1868,14 @@ export class TestDataService {
         }
 
         this.createdRecords.forEach((record) => {
-            if (record.resource === 'user') {
+            if (record.resource === "user") {
                 if (!deleteUserIds.includes(record.payload.id)) {
                     deleteUserIds.push(record.payload.id);
                 }
                 return;
             }
 
-            if (record.resource === 'acl_role') {
+            if (record.resource === "acl_role") {
                 if (!deleteAclRolesIds.includes(record.payload.id)) {
                     deleteAclRolesIds.push(record.payload.id);
                 }
@@ -1886,7 +1886,7 @@ export class TestDataService {
                 if (!priorityDeleteOperations[`delete-${record.resource}`]) {
                     priorityDeleteOperations[`delete-${record.resource}`] = {
                         entity: record.resource,
-                        action: 'delete',
+                        action: "delete",
                         payload: [],
                     };
                 }
@@ -1895,7 +1895,7 @@ export class TestDataService {
                 if (!deleteOperations[`delete-${record.resource}`]) {
                     deleteOperations[`delete-${record.resource}`] = {
                         entity: record.resource,
-                        action: 'delete',
+                        action: "delete",
                         payload: [],
                     };
                 }
@@ -1903,9 +1903,9 @@ export class TestDataService {
                 deleteOperations[`delete-${record.resource}`].payload.push(record.payload);
             }
         });
-        
+
         if (Object.keys(priorityDeleteOperations).length > 0) {
-            const priorityDeleteOperationsResponse = await this.AdminApiClient.post('_action/sync', {
+            const priorityDeleteOperationsResponse = await this.AdminApiClient.post("_action/sync", {
                 data: priorityDeleteOperations,
             });
             expect(priorityDeleteOperationsResponse.ok()).toBeTruthy();
@@ -1932,7 +1932,7 @@ export class TestDataService {
 
         await this.clearCaches();
 
-        return this.AdminApiClient.post('_action/sync', {
+        return this.AdminApiClient.post("_action/sync", {
             data: deleteOperations,
         });
     }
@@ -1951,7 +1951,7 @@ export class TestDataService {
      * @param date - The JS date object from which the date-time should be retrieved.
      */
     convertDateTime(date: Date) {
-        return date.toISOString().slice(0, 19).replace('T', ' ');
+        return date.toISOString().slice(0, 19).replace("T", " ");
     }
 
     /**
@@ -1982,8 +1982,8 @@ export class TestDataService {
      * @returns A random alphanumeric string containing at least one digit
      */
     generateRandomId(length: number = 3): string {
-        const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const DIGITS = '0123456789';
+        const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const DIGITS = "0123456789";
         const ALL_CHARS = LETTERS + DIGITS;
 
         // Generate random characters
@@ -1995,7 +1995,7 @@ export class TestDataService {
             chars[randomIndex] = DIGITS.charAt(Math.floor(Math.random() * DIGITS.length));
         }
 
-        return chars.join('');
+        return chars.join("");
     }
 
     /**
@@ -2014,13 +2014,13 @@ export class TestDataService {
      * @param iso2 - The iso2 code of the country, for example "DE".
      */
     async getCountry(iso2: string): Promise<Country> {
-        const countryResponse = await this.AdminApiClient.post('search/country', {
+        const countryResponse = await this.AdminApiClient.post("search/country", {
             data: {
                 limit: 1,
                 filter: [
                     {
-                        type: 'equals',
-                        field: 'iso',
+                        type: "equals",
+                        field: "iso",
                         value: iso2,
                     },
                 ],
@@ -2037,7 +2037,7 @@ export class TestDataService {
 
         const basicCountry = {
             id: countryUuid,
-            name: 'Country-' + countryId,
+            name: "Country-" + countryId,
             iso: this.generateRandomId(2),
             iso3: this.generateRandomId(3),
             active: true,
@@ -2052,10 +2052,10 @@ export class TestDataService {
 
         const basicCurrency = {
             id: currencyUuid,
-            name: 'Currency-' + currencyId,
-            shortName: 'CUR' + currencyId,
+            name: "Currency-" + currencyId,
+            shortName: "CUR" + currencyId,
             isoCode: this.generateRandomId(3),
-            symbol: 'C$',
+            symbol: "C$",
             factor: 2.4,
             itemRounding: {
                 decimals: roundingDecimals,
@@ -2076,7 +2076,7 @@ export class TestDataService {
     getBasicProductStruct(taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId, overrides: Partial<Product> = {}): Partial<Product> {
         const { id: productId, uuid: productUuid } = this.IdProvider.getIdPair();
         const productName = `${this.namePrefix}Product-${productId}${this.nameSuffix}`;
-        const productNumber = 'Product-' + productId;
+        const productNumber = "Product-" + productId;
 
         const description = `
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
@@ -2152,10 +2152,10 @@ export class TestDataService {
             description: description,
             conditions: [
                 {
-                    type: 'orContainer',
+                    type: "orContainer",
                     children: [
                         {
-                            type: 'andContainer',
+                            type: "andContainer",
                             children: [
                                 {
                                     type: conditionType,
@@ -2263,8 +2263,8 @@ export class TestDataService {
             name: categoryName,
             parentId: parentId || null,
             displayNestedProducts: true,
-            type: 'page',
-            productAssignmentType: 'product',
+            type: "page",
+            productAssignmentType: "product",
             visible: true,
             active: true,
         };
@@ -2279,18 +2279,18 @@ export class TestDataService {
         countryId: string,
         defaultPaymentMethodId: string,
         salutationId: string,
-        overrides: Partial<Customer> = {},
+        overrides: Partial<Customer> = {}
     ): Partial<Customer> {
         const { id, uuid: customerUuid } = this.IdProvider.getIdPair();
-        const firstName = 'John';
-        const lastName = 'Goldblum';
+        const firstName = "John";
+        const lastName = "Goldblum";
 
         const addressData = getCountryAddressData();
 
         const basicCustomer = {
             id: customerUuid,
             email: `customer_${id}@example.com`,
-            password: 'shopware',
+            password: "shopware",
             salutationId: salutationId,
             languageId: languageId,
 
@@ -2335,9 +2335,9 @@ export class TestDataService {
             firstName: `${userId} user`,
             lastName: `${userId} user`,
             email: `user${userId}@example.com`,
-            password: 'shopware',
+            password: "shopware",
             localeId: localId,
-            timezone: 'Europe/Berlin',
+            timezone: "Europe/Berlin",
             admin: true,
         };
         return Object.assign({}, basicUser, overrides);
@@ -2351,26 +2351,26 @@ export class TestDataService {
             id: aclRoleUuid,
             name: aclRoleName,
             privileges: [
-                'cms_page:read',
-                'custom_field:read',
-                'custom_field_set_relation:read',
-                'language:read',
-                'locale:read',
-                'log_entry:create',
-                'message_queue_stats:read',
-                'product_sorting:create',
-                'product_sorting:delete',
-                'product_sorting:read',
-                'product_sorting:update',
-                'sales_channel:read',
-                'seo_url_template:create',
-                'seo_url_template:read',
-                'seo_url_template:update',
-                'system.system_config',
-                'system_config:create',
-                'system_config:delete',
-                'system_config:read',
-                'system_config:update',
+                "cms_page:read",
+                "custom_field:read",
+                "custom_field_set_relation:read",
+                "language:read",
+                "locale:read",
+                "log_entry:create",
+                "message_queue_stats:read",
+                "product_sorting:create",
+                "product_sorting:delete",
+                "product_sorting:read",
+                "product_sorting:update",
+                "sales_channel:read",
+                "seo_url_template:create",
+                "seo_url_template:read",
+                "seo_url_template:update",
+                "system.system_config",
+                "system_config:create",
+                "system_config:delete",
+                "system_config:read",
+                "system_config:update",
             ],
         };
 
@@ -2448,7 +2448,7 @@ export class TestDataService {
         customer: Customer,
         customerAddress: CustomerAddress,
         salesChannelId = this.defaultSalesChannel.id,
-        overrides: Partial<Order> = {},
+        overrides: Partial<Order> = {}
     ): Partial<Order> {
         const date = new Date();
         const orderDateTime = this.convertDateTime(date);
@@ -2468,11 +2468,11 @@ export class TestDataService {
                 const promotionDiscountValue = promotion.discounts[0].value;
                 const promotionDiscountType = promotion.discounts[0].type;
 
-                if (promotionDiscountType === 'absolute') {
+                if (promotionDiscountType === "absolute") {
                     totalPrice -= (promotionDiscountValue || 10) * (lineItem.quantity || 1);
-                } else if (promotionDiscountType === 'percentage') {
+                } else if (promotionDiscountType === "percentage") {
                     totalPrice -= ((promotionDiscountValue * totalPrice) / 100) * (lineItem.quantity || 1);
-                } else if (promotionDiscountType === 'fixed_unit') {
+                } else if (promotionDiscountType === "fixed_unit") {
                     totalPrice = (promotionDiscountValue || 10) * (lineItem.quantity || 1);
                 }
             }
@@ -2507,7 +2507,7 @@ export class TestDataService {
                 positionPrice: totalPrice,
                 rawTotal: totalPrice,
                 netPrice: totalPrice,
-                taxStatus: 'gross',
+                taxStatus: "gross",
                 calculatedTaxes: [
                     {
                         tax: 0,
@@ -2580,7 +2580,7 @@ export class TestDataService {
 
     getBasicProductLineItemStruct(lineItem: SimpleLineItem) {
         if (!this.isProduct(lineItem.product)) {
-            console.error('Error: Object is not of type Product');
+            console.error("Error: Object is not of type Product");
         }
 
         const product = lineItem.product as Product;
@@ -2594,7 +2594,7 @@ export class TestDataService {
                 productNumber: product.productNumber,
             },
             identifier: product.id,
-            type: 'product',
+            type: "product",
             label: product.name,
             quantity: lineItem.quantity || 1,
             position: lineItem.position || 1,
@@ -2617,7 +2617,7 @@ export class TestDataService {
                 ],
             },
             priceDefinition: {
-                type: 'quantity',
+                type: "quantity",
                 price: totalPrice,
                 quantity: lineItem.quantity || 1,
                 taxRules: [
@@ -2637,7 +2637,7 @@ export class TestDataService {
 
     getBasicPromotionLineItemStruct(lineItem: SimpleLineItem) {
         if (!this.isPromotion(lineItem.product)) {
-            console.error('Error: Object is not of type Promotion');
+            console.error("Error: Object is not of type Promotion");
         }
 
         const promotion = lineItem.product as Promotion;
@@ -2655,7 +2655,7 @@ export class TestDataService {
                 code: promotion.code,
             },
             identifier: promotionDiscountId,
-            type: 'promotion',
+            type: "promotion",
             label: promotion.name,
             description: promotion.name,
             quantity: lineItem.quantity || 1,
@@ -2681,7 +2681,7 @@ export class TestDataService {
             priceDefinition: {
                 type: promotionDiscountType,
                 price: totalPrice,
-                percentage: promotionDiscountType === 'percentage' ? promotionDiscountValue : null,
+                percentage: promotionDiscountType === "percentage" ? promotionDiscountValue : null,
             },
         };
 
@@ -2707,8 +2707,8 @@ export class TestDataService {
             code: promotionCode,
             discounts: [
                 {
-                    scope: 'cart',
-                    type: 'percentage',
+                    scope: "cart",
+                    type: "percentage",
                     value: 10,
                     considerAdvancedRules: false,
                 },
@@ -2737,19 +2737,19 @@ export class TestDataService {
                     id: this.IdProvider.getIdPair().uuid,
                     pageId: this.IdProvider.getIdPair().uuid,
                     position: 0,
-                    type: 'full_width',
+                    type: "full_width",
                     blocks: [
                         {
                             id: this.IdProvider.getIdPair().uuid,
                             sectionId: this.IdProvider.getIdPair().uuid,
-                            type: 'text',
+                            type: "text",
                             position: 0,
                             slots: [
                                 {
                                     id: this.IdProvider.getIdPair().uuid,
-                                    type: 'text',
+                                    type: "text",
                                     blockId: this.IdProvider.getIdPair().uuid,
-                                    slot: 'content',
+                                    slot: "content",
                                 },
                             ],
                         },
@@ -2811,14 +2811,14 @@ export class TestDataService {
             name: customFieldSetName,
             config: {
                 label: {
-                    'en-GB': null,
+                    "en-GB": null,
                 },
             },
             position: 1,
             relations: [
                 {
                     id: this.IdProvider.getIdPair().uuid,
-                    entityName: 'customer',
+                    entityName: "customer",
                 },
             ],
         };
@@ -2832,20 +2832,20 @@ export class TestDataService {
         const basicCustomField = {
             id: customFieldUuid,
             name: customFieldName,
-            type: 'text',
+            type: "text",
             config: {
-                componentName: 'sw-field',
-                type: 'text',
-                customFieldType: 'text',
+                componentName: "sw-field",
+                type: "text",
+                customFieldType: "text",
                 customFieldPosition: 1,
                 label: {
-                    'en-GB': null,
+                    "en-GB": null,
                 },
                 placeholder: {
-                    'en-GB': null,
+                    "en-GB": null,
                 },
                 helpText: {
-                    'en-GB': null,
+                    "en-GB": null,
                 },
             },
         };
@@ -2857,9 +2857,9 @@ export class TestDataService {
         currencyId: string,
         languageId: string,
         snippetSetId: string,
-        overrides: Partial<SalesChannelDomain> = {},
+        overrides: Partial<SalesChannelDomain> = {}
     ): Partial<SalesChannelDomain> {
-        const appUrl = process.env['APP_URL'];
+        const appUrl = process.env["APP_URL"];
         const baseUrl = `${appUrl}test-${this.IdProvider.getIdPair().uuid}/`;
 
         const basicSalesChannelDomain = {
@@ -2894,13 +2894,13 @@ export class TestDataService {
             id: productCrossSellingUuid,
             productId: productId,
             name: productCrossSellingName,
-            type: 'product_list',
+            type: "product_list",
             position: 1,
             active: true,
             productStreamId: null,
-            sortingType: 'name',
+            sortingType: "name",
             limit: 10,
-            sortBy: 'name',
+            sortBy: "name",
         };
         return Object.assign({}, defaultCrossSelling, overrides);
     }
@@ -2913,7 +2913,7 @@ export class TestDataService {
             id: productReviewUuid,
             productId: productId,
             title: productReviewName,
-            content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+            content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             points: 5,
             status: true,
             salesChannelId: this.defaultSalesChannel.id,

@@ -1,7 +1,6 @@
-import { encode, Image } from 'image-js';
+import { encode, Image } from "image-js";
 
 export function createRandomImage(width = 800, height = 600) {
-
     const channels = 3; // RGB
     const data = new Uint8Array(width * height * channels);
 
@@ -12,7 +11,7 @@ export function createRandomImage(width = 800, height = 600) {
 
     // Construct the image from your data
     return new Image(width, height, {
-        colorModel: 'RGB',
+        colorModel: "RGB",
         bitDepth: 8,
         data,
     });
@@ -21,4 +20,3 @@ export function createRandomImage(width = 800, height = 600) {
 export function encodeImage(image: Image) {
     return Buffer.from(encode(image));
 }
-

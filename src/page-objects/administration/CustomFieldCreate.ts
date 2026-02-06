@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class CustomFieldCreate implements PageObject {
     public readonly saveButton: Locator;
@@ -14,16 +14,16 @@ export class CustomFieldCreate implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.saveButton = page.getByRole('button', { name: translate('administration:customField:create.save') });
-        this.cancelButton = page.getByRole('button', { name: translate('administration:customField:create.cancel') });
-        this.technicalNameInput = page.getByLabel(translate('administration:customField:common.technicalName'));
-        this.positionInput = page.getByLabel(translate('administration:customField:common.position'));
-        this.labelEnglishGBInput = page.getByLabel(translate('administration:customField:common.labelEnglishGB'));
+        this.saveButton = page.getByRole("button", { name: translate("administration:customField:create.save") });
+        this.cancelButton = page.getByRole("button", { name: translate("administration:customField:create.cancel") });
+        this.technicalNameInput = page.getByLabel(translate("administration:customField:common.technicalName"));
+        this.positionInput = page.getByLabel(translate("administration:customField:common.position"));
+        this.labelEnglishGBInput = page.getByLabel(translate("administration:customField:common.labelEnglishGB"));
         this.assignToSelectionList = page
-            .locator('.sw-field')
-            .filter({ hasText: translate('administration:customField:create.assignTo') })
-            .locator('.sw-select__selection');
-        this.resultAssignToPopoverItemList = page.locator('.sw-select-result-list__content').getByRole('listitem');
+            .locator(".sw-field")
+            .filter({ hasText: translate("administration:customField:create.assignTo") })
+            .locator(".sw-select__selection");
+        this.resultAssignToPopoverItemList = page.locator(".sw-select-result-list__content").getByRole("listitem");
     }
 
     url() {

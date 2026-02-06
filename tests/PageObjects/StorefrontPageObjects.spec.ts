@@ -1,7 +1,7 @@
-import { satisfies } from 'compare-versions';
-import { test } from '../../src';
+import { satisfies } from "compare-versions";
+import { test } from "../../src";
 
-test('Storefront page objects', async ({
+test("Storefront page objects", async ({
     ShopCustomer,
     AddProductToCart,
     StorefrontProductDetail,
@@ -23,7 +23,6 @@ test('Storefront page objects', async ({
     InstanceMeta,
     CheckVisibilityInHome,
 }) => {
-
     const category = await TestDataService.createCategory();
     const product = await TestDataService.createBasicProduct();
     await TestDataService.assignProductCategory(product.id, category.id);
@@ -33,7 +32,7 @@ test('Storefront page objects', async ({
     await ShopCustomer.goesTo(`${StorefrontCategory.url(category.name)}?a=${Date.now()}`);
     await ShopCustomer.expects(StorefrontCategory.sortingSelect).toBeVisible();
 
-    const searchTerm = 'product';
+    const searchTerm = "product";
     await ShopCustomer.goesTo(StorefrontSearch.url(searchTerm));
     await ShopCustomer.expects(StorefrontSearch.headline).toBeVisible();
 
@@ -54,7 +53,7 @@ test('Storefront page objects', async ({
     await ShopCustomer.attemptsTo(ConfirmTermsAndConditions());
     await ShopCustomer.attemptsTo(SubmitOrder());
     const orderId = StorefrontCheckoutFinish.getOrderId();
-    TestDataService.addCreatedRecord('order', orderId);
+    TestDataService.addCreatedRecord("order", orderId);
     await ShopCustomer.expects(StorefrontCheckoutFinish.headline).toBeVisible();
 
     await ShopCustomer.goesTo(StorefrontAccount.url());
@@ -69,9 +68,8 @@ test('Storefront page objects', async ({
     await ShopCustomer.goesTo(StorefrontAccountAddresses.url());
     await ShopCustomer.expects(StorefrontAccountAddresses.addNewAddressButton).toBeVisible();
 
-    if (satisfies(InstanceMeta.version, '<6.7')) {
+    if (satisfies(InstanceMeta.version, "<6.7")) {
         await ShopCustomer.goesTo(StorefrontAccountPayment.url());
         await ShopCustomer.expects(StorefrontAccountPayment.changeDefaultPaymentButton).toBeVisible();
     }
-
 });

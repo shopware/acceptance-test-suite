@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class CheckoutOrderEdit implements PageObject {
     public readonly completePaymentButton: Locator;
@@ -32,21 +32,21 @@ export class CheckoutOrderEdit implements PageObject {
     constructor(page: Page) {
         this.page = page;
 
-        this.completePaymentButton = page.getByRole('button', { name: translate('storefront:payment:actions.completePayment') });
-        this.orderCancelButton = page.getByRole('button', { name: translate('storefront:order:actions.cancelOrder') });
-        this.dialogOrderCancel = page.getByRole('dialog', { name: translate('storefront:order:actions.cancelOrder') });
-        this.dialogOrderCancelButton = this.dialogOrderCancel.getByRole('button', { name: translate('storefront:order:actions.cancelOrder') });
-        this.dialogBackButton = this.dialogOrderCancel.getByRole('button', { name: translate('storefront:order:actions.back') });
+        this.completePaymentButton = page.getByRole("button", { name: translate("storefront:payment:actions.completePayment") });
+        this.orderCancelButton = page.getByRole("button", { name: translate("storefront:order:actions.cancelOrder") });
+        this.dialogOrderCancel = page.getByRole("dialog", { name: translate("storefront:order:actions.cancelOrder") });
+        this.dialogOrderCancelButton = this.dialogOrderCancel.getByRole("button", { name: translate("storefront:order:actions.cancelOrder") });
+        this.dialogBackButton = this.dialogOrderCancel.getByRole("button", { name: translate("storefront:order:actions.back") });
 
-        this.paymentMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.paymentMethod') });
-        this.shippingMethodRadioGroup = page.locator('.checkout-card', { hasText: translate('storefront:checkout:common.shippingMethod') });
+        this.paymentMethodRadioGroup = page.locator(".checkout-card", { hasText: translate("storefront:checkout:common.paymentMethod") });
+        this.shippingMethodRadioGroup = page.locator(".checkout-card", { hasText: translate("storefront:checkout:common.shippingMethod") });
 
-        this.paymentCashOnDelivery = page.getByLabel(translate('storefront:payment:methods.cashOnDelivery'));
-        this.paymentPaidInAdvance = page.getByLabel(translate('storefront:payment:methods.paidInAdvance'));
-        this.paymentInvoice = page.getByLabel(translate('storefront:payment:methods.invoice'));
+        this.paymentCashOnDelivery = page.getByLabel(translate("storefront:payment:methods.cashOnDelivery"));
+        this.paymentPaidInAdvance = page.getByLabel(translate("storefront:payment:methods.paidInAdvance"));
+        this.paymentInvoice = page.getByLabel(translate("storefront:payment:methods.invoice"));
 
-        this.shippingStandard = page.getByLabel(translate('storefront:order:shipping.standard'));
-        this.shippingExpress = page.getByLabel(translate('storefront:order:shipping.express'));
+        this.shippingStandard = page.getByLabel(translate("storefront:order:shipping.standard"));
+        this.shippingExpress = page.getByLabel(translate("storefront:order:shipping.express"));
     }
 
     url(orderUuid: string) {

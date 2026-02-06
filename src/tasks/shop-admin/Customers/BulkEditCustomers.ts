@@ -1,10 +1,10 @@
-import { test as base } from '@playwright/test';
-import type { Task } from '../../../types/Task';
-import type { FixtureTypes } from '../../../types/FixtureTypes';
-import type { AccountData, Customer, CustomFieldData, TagData } from '../../../types/ShopwareTypes';
+import { test as base } from "@playwright/test";
+import type { Task } from "../../../types/Task";
+import type { FixtureTypes } from "../../../types/FixtureTypes";
+import type { AccountData, Customer, CustomFieldData, TagData } from "../../../types/ShopwareTypes";
 
 export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, FixtureTypes>({
-    BulkEditCustomers: async ({ ShopAdmin, AdminCustomerListing, AdminCustomerBulkEdit  }, use ) => {
+    BulkEditCustomers: async ({ ShopAdmin, AdminCustomerListing, AdminCustomerBulkEdit }, use) => {
         const task = (customers: Customer[], accountData?: AccountData, tagData?: TagData, customFieldData?: CustomFieldData) => {
             return async function BulkEditCustomers() {
                 const customerCount = customers.length;
@@ -21,7 +21,7 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
 
                 // Start bulk edit
                 await AdminCustomerListing.startBulkEditButton.click();
-                await AdminCustomerListing.bulkEditModal.waitFor({ state: 'hidden' });
+                await AdminCustomerListing.bulkEditModal.waitFor({ state: "hidden" });
                 const bulkEditPageHeadline = await AdminCustomerBulkEdit.getPageHeadline(customerCount);
                 await ShopAdmin.expects(bulkEditPageHeadline).toBeVisible();
                 if (accountData) {
@@ -58,7 +58,7 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
                 }
                 if (customFieldData) {
                     const customFieldSet = await AdminCustomerBulkEdit.getCustomFieldLinkByName(customFieldData.customFieldSetName);
-                    while (!await customFieldSet.isVisible()) {
+                    while (!(await customFieldSet.isVisible())) {
                         await AdminCustomerBulkEdit.customFieldArrowRightButton.click();
                     }
                     await customFieldSet.click();
@@ -69,8 +69,8 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
                 await AdminCustomerBulkEdit.confirmModalApplyChangesButton.click();
                 await ShopAdmin.expects(AdminCustomerBulkEdit.confirmModalSuccessHeader).toBeVisible();
                 await AdminCustomerBulkEdit.confirmModalSuccessCloseButton.click();
-            }
-        }
+            };
+        };
 
         await use(task);
     },

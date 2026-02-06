@@ -1,15 +1,16 @@
-import { baseNamespaces } from '../locales';
+import { baseNamespaces } from "../locales";
 
 /** Flatten nested JSON keys to "a.b.c" */
 type Paths<T> = T extends object ? { [K in keyof T & string]: T[K] extends object ? `${K}` | `${K}.${Paths<T[K]>}` : K }[keyof T & string] : never;
 
-export type TranslationKey<TNamespaces = typeof baseNamespaces> = TNamespaces extends Record<string, unknown>
-    ? {
-          [A in keyof TNamespaces]: {
-              [N in keyof TNamespaces[A]]: `${A & string}:${N & string}:${Paths<TNamespaces[A][N]>}`;
-          }[keyof TNamespaces[A]];
-      }[keyof TNamespaces]
-    : never;
+export type TranslationKey<TNamespaces = typeof baseNamespaces> =
+    TNamespaces extends Record<string, unknown>
+        ? {
+              [A in keyof TNamespaces]: {
+                  [N in keyof TNamespaces[A]]: `${A & string}:${N & string}:${Paths<TNamespaces[A][N]>}`;
+              }[keyof TNamespaces[A]];
+          }[keyof TNamespaces]
+        : never;
 
 export type TranslateFn<TKey extends string = TranslationKey> = (key: TKey, options?: Record<string, unknown>) => string;
 

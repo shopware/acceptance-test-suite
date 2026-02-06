@@ -1,9 +1,9 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
-import { Home } from './Home';
-import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
-import { satisfies } from 'compare-versions';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
+import { Home } from "./Home";
+import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
+import { satisfies } from "compare-versions";
 
 export class ContactForm extends Home implements PageObject {
     /**
@@ -38,44 +38,44 @@ export class ContactForm extends Home implements PageObject {
     public readonly greCaptchaV2Container: Locator;
     public readonly greCaptchaV2Input: Locator;
     public readonly greCaptchaProtectionInformation: Locator;
-    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
+    public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
-    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         super(page, instanceMeta);
         this.instanceMeta = instanceMeta;
-        this.contactWrapper = this.page.locator('.card').filter({ has: this.page.getByText(translate('storefront:contact:title')) });
-        this.formFieldFeedback = this.contactWrapper.locator('.form-field-feedback');
-        this.formAlert = this.page.getByRole('alert');
-        this.contactSuccessMessage = this.page.locator('.confirm-message');
+        this.contactWrapper = this.page.locator(".card").filter({ has: this.page.getByText(translate("storefront:contact:title")) });
+        this.formFieldFeedback = this.contactWrapper.locator(".form-field-feedback");
+        this.formAlert = this.page.getByRole("alert");
+        this.contactSuccessMessage = this.page.locator(".confirm-message");
 
-        if (satisfies(instanceMeta.version, '<6.7') && !instanceMeta.features['ACCESSIBILITY_TWEAKS']) {
-            this.contactModal = this.page.getByRole('dialog').filter({ has: this.page.getByText(translate('storefront:contact:title')) });
+        if (satisfies(instanceMeta.version, "<6.7") && !instanceMeta.features["ACCESSIBILITY_TWEAKS"]) {
+            this.contactModal = this.page.getByRole("dialog").filter({ has: this.page.getByText(translate("storefront:contact:title")) });
             this.contactWrapper = this.contactModal;
-            this.contactSuccessModal = this.page.getByRole('dialog').filter({ has: this.page.locator('.confirm-message') });
-            this.contactSuccessMessage = this.contactSuccessModal.locator('.confirm-message');
+            this.contactSuccessModal = this.page.getByRole("dialog").filter({ has: this.page.locator(".confirm-message") });
+            this.contactSuccessMessage = this.contactSuccessModal.locator(".confirm-message");
         }
 
-        this.basicCaptcha = this.contactWrapper.locator('.basic-captcha');
-        this.salutationSelect = this.contactWrapper.getByLabel(translate('storefront:contact:form.salutation'));
-        this.firstNameInput = this.contactWrapper.getByLabel(translate('storefront:contact:form.firstName'));
-        this.lastNameInput = this.contactWrapper.getByLabel(translate('storefront:contact:form.lastName'));
-        this.emailInput = this.contactWrapper.getByLabel(translate('storefront:contact:form.emailAddress'));
-        this.phoneInput = this.contactWrapper.getByLabel(translate('storefront:contact:form.phone'));
-        this.subjectInput = this.contactWrapper.getByLabel(translate('storefront:contact:form.subject'));
-        this.commentInput = this.contactWrapper.getByLabel(translate('storefront:contact:form.comment'));
-        this.privacyPolicyCheckbox = this.contactWrapper.getByRole('checkbox', { name: translate('storefront:contact:form.privacyPolicy') });
-        this.submitButton = this.contactWrapper.getByRole('button', { name: translate('storefront:contact:form.submit') });
-        this.cardTitle = this.contactWrapper.locator('.card-title');
-        this.basicCaptcha = this.contactWrapper.locator('.basic-captcha');
-        this.greCaptchaV2Container = this.contactWrapper.locator('.grecaptcha-v2-container');
-        this.greCaptchaV2Input = this.contactWrapper.locator('.grecaptcha-v2-input');
-        this.greCaptchaProtectionInformation = this.contactWrapper.locator('.grecaptcha-protection-information');
-        this.basicCaptchaImage = this.basicCaptcha.locator('img');
-        this.basicCaptchaRefreshButton = this.basicCaptcha.locator('.basic-captcha-content-refresh-icon');
+        this.basicCaptcha = this.contactWrapper.locator(".basic-captcha");
+        this.salutationSelect = this.contactWrapper.getByLabel(translate("storefront:contact:form.salutation"));
+        this.firstNameInput = this.contactWrapper.getByLabel(translate("storefront:contact:form.firstName"));
+        this.lastNameInput = this.contactWrapper.getByLabel(translate("storefront:contact:form.lastName"));
+        this.emailInput = this.contactWrapper.getByLabel(translate("storefront:contact:form.emailAddress"));
+        this.phoneInput = this.contactWrapper.getByLabel(translate("storefront:contact:form.phone"));
+        this.subjectInput = this.contactWrapper.getByLabel(translate("storefront:contact:form.subject"));
+        this.commentInput = this.contactWrapper.getByLabel(translate("storefront:contact:form.comment"));
+        this.privacyPolicyCheckbox = this.contactWrapper.getByRole("checkbox", { name: translate("storefront:contact:form.privacyPolicy") });
+        this.submitButton = this.contactWrapper.getByRole("button", { name: translate("storefront:contact:form.submit") });
+        this.cardTitle = this.contactWrapper.locator(".card-title");
+        this.basicCaptcha = this.contactWrapper.locator(".basic-captcha");
+        this.greCaptchaV2Container = this.contactWrapper.locator(".grecaptcha-v2-container");
+        this.greCaptchaV2Input = this.contactWrapper.locator(".grecaptcha-v2-input");
+        this.greCaptchaProtectionInformation = this.contactWrapper.locator(".grecaptcha-protection-information");
+        this.basicCaptchaImage = this.basicCaptcha.locator("img");
+        this.basicCaptchaRefreshButton = this.basicCaptcha.locator(".basic-captcha-content-refresh-icon");
         this.basicCaptchaInput = this.basicCaptcha.locator('input[name="shopware_basic_captcha_confirm"]');
     }
 
     url() {
-        return new Error('Function not implemented, because it is a modal page object').message;
+        return new Error("Function not implemented, because it is a modal page object").message;
     }
 }

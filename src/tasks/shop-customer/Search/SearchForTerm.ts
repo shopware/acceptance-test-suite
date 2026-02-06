@@ -1,6 +1,6 @@
-import { test as base } from '@playwright/test';
-import type { Task } from '../../../types/Task';
-import type { FixtureTypes } from '../../../types/FixtureTypes';
+import { test as base } from "@playwright/test";
+import type { Task } from "../../../types/Task";
+import type { FixtureTypes } from "../../../types/FixtureTypes";
 
 export const SearchForTerm = base.extend<{ SearchForTerm: Task }, FixtureTypes>({
     SearchForTerm: async ({ ShopCustomer, StorefrontSearchSuggest }, use) => {

@@ -1,9 +1,8 @@
-import type { Page } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { AccountLogin } from './AccountLogin';
+import type { Page } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { AccountLogin } from "./AccountLogin";
 
 export class CustomRegister extends AccountLogin implements PageObject {
-    
     public readonly page: Page;
 
     constructor(page: Page) {
@@ -12,6 +11,6 @@ export class CustomRegister extends AccountLogin implements PageObject {
     }
 
     url(customCustomerGroupName?: string) {
-        return `${customCustomerGroupName?.replace(/\s+/g, '-') ?? ''}`;
+        return `${customCustomerGroupName?.replace(/\s+/g, "-") ?? ""}`;
     }
 }

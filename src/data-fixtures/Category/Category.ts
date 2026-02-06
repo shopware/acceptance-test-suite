@@ -1,29 +1,30 @@
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { Category } from '../../types/ShopwareTypes';
+import { test as base, expect } from "@playwright/test";
+import type { FixtureTypes } from "../../types/FixtureTypes";
+import type { Category } from "../../types/ShopwareTypes";
 
 /**
  * @deprecated - Use TestDataService.createCategory() instead.
  */
 export const CategoryData = base.extend<FixtureTypes>({
     CategoryData: async ({ IdProvider, AdminApiContext, DefaultSalesChannel, ProductData }, use) => {
-
         const { id: categoryId, uuid: categoryUuid } = IdProvider.getIdPair();
         const categoryName = `Category-${categoryId}`;
 
-        const categoryResponse = await AdminApiContext.post('category?_response', {
+        const categoryResponse = await AdminApiContext.post("category?_response", {
             data: {
                 id: categoryUuid,
                 name: categoryName,
                 parentId: DefaultSalesChannel.salesChannel.navigationCategoryId,
                 displayNestedProducts: true,
-                type: 'page',
-                productAssignmentType: 'product',
+                type: "page",
+                productAssignmentType: "product",
                 visible: true,
                 active: true,
-                products: [{
-                    id: ProductData.id,
-                }],
+                products: [
+                    {
+                        id: ProductData.id,
+                    },
+                ],
             },
         });
 

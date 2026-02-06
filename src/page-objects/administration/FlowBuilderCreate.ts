@@ -1,9 +1,9 @@
-import type { Locator, Page } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { satisfies } from 'compare-versions';
-import { translate } from '../../services/LanguageHelper';
-import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
-import { getSelectFieldListitem } from './modules/SelectFieldListitem';
+import type { Locator, Page } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { satisfies } from "compare-versions";
+import { translate } from "../../services/LanguageHelper";
+import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
+import { getSelectFieldListitem } from "./modules/SelectFieldListitem";
 
 export class FlowBuilderCreate implements PageObject {
     public readonly contentView: Locator;
@@ -49,57 +49,57 @@ export class FlowBuilderCreate implements PageObject {
     public readonly resultListItem: Locator;
     public readonly resultList: Locator;
     public readonly page: Page;
-    public readonly instanceMeta: HelperFixtureTypes['InstanceMeta'];
+    public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
-    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         this.page = page;
         this.instanceMeta = instanceMeta;
-        this.contentView = page.locator('.sw-desktop__content');
-        this.saveButton = page.locator('.sw-flow-detail__save');
-        this.header = page.locator('h2');
-        this.smartBarHeader = page.locator('.smart-bar__header');
-        this.generalTab = page.locator('.sw-flow-detail__tab-general');
-        this.triggerSelectField = page.locator('.sw-flow-detail-flow__trigger-card').getByRole('textbox');
-        this.flowTab = page.locator('.sw-tabs__content').locator('.sw-flow-detail__tab-flow');
-        if (satisfies(instanceMeta.version, '<6.7')) {
-            this.modalAddButton = page.locator('.sw-button--primary').getByText(translate('administration:flowBuilder:create.addAction'));
+        this.contentView = page.locator(".sw-desktop__content");
+        this.saveButton = page.locator(".sw-flow-detail__save");
+        this.header = page.locator("h2");
+        this.smartBarHeader = page.locator(".smart-bar__header");
+        this.generalTab = page.locator(".sw-flow-detail__tab-general");
+        this.triggerSelectField = page.locator(".sw-flow-detail-flow__trigger-card").getByRole("textbox");
+        this.flowTab = page.locator(".sw-tabs__content").locator(".sw-flow-detail__tab-flow");
+        if (satisfies(instanceMeta.version, "<6.7")) {
+            this.modalAddButton = page.locator(".sw-button--primary").getByText(translate("administration:flowBuilder:create.addAction"));
         } else {
-            this.modalAddButton = page.locator('.mt-button--primary').getByText(translate('administration:flowBuilder:create.addAction'));
+            this.modalAddButton = page.locator(".mt-button--primary").getByText(translate("administration:flowBuilder:create.addAction"));
         }
-        this.nameField = page.getByLabel(translate('administration:flowBuilder:create.name'));
-        this.descriptionField = page.getByLabel(translate('administration:flowBuilder:create.description'));
-        this.priorityField = page.getByLabel(translate('administration:flowBuilder:create.priority'));
-        this.activeSwitch = page.getByLabel(translate('administration:flowBuilder:create.active'));
-        this.sequenceSelectorConditionButton = page.getByText(translate('administration:flowBuilder:create.addConditionIf'));
-        this.conditionSelectField = page.locator('.sw-flow-sequence-condition__select');
-        this.conditionRule = page.locator('.sw-flow-sequence-condition__rule-header');
-        this.sequenceSelectorActionButton = page.getByText(translate('administration:flowBuilder:create.addActionThen'));
-        this.actionSelectField = page.locator('.sw-flow-sequence-action__content').locator('.sw-single-select__selection');
-        this.selectFieldResultList = page.locator('.sw-select-result-list__item-list');
-        this.trueBlock = page.locator('.sw-flow-sequence__true-block');
-        this.trueBlockAddConditionButton = this.trueBlock.getByText(translate('administration:flowBuilder:create.addConditionIf'));
-        this.trueBlockAddActionButton = this.trueBlock.getByText(translate('administration:flowBuilder:create.addActionThen'));
-        this.trueBlockActionSelectField = this.trueBlock.locator('.sw-single-select');
-        this.trueBlockActionDescription = this.trueBlock.locator('.sw-flow-sequence-action__action-description');
-        this.mailSendModal = page.locator('.sw-flow-mail-send-modal');
-        this.mailSendModalTemplateSelectField = page.locator('.sw-flow-mail-send-modal').locator('.sw-entity-single-select__selection');
-        this.falseBlock = page.locator('.sw-flow-sequence__false-block');
-        this.falseBlockAddConditionButton = this.falseBlock.getByText(translate('administration:flowBuilder:create.addConditionIf'));
-        this.falseBlockAddActionButton = this.falseBlock.getByText(translate('administration:flowBuilder:create.addActionThen'));
-        this.falseBlockActionSelectField = this.falseBlock.locator('.sw-single-select');
-        this.falseBlockActionDescription = this.falseBlock.locator('.sw-flow-sequence-action__actions');
-        this.tagModal = page.locator('.sw-flow-tag-modal');
-        this.tagModalTagsSelectField = page.locator('.sw-flow-tag-modal').locator('.sw-select__selection').getByLabel(translate('administration:flowBuilder:create.tags'));
-        this.delayCard = page.locator('.sw-flow-delay-action__delay_card');
-        this.sequenceSeparator = page.locator('.sw-flow-detail-flow__position-connection');
-        this.newFlowHeader = page.getByRole('heading', { name: translate('administration:flowBuilder:create.newFlow') });
-        this.addActionField = page.locator('.sw-flow-sequence-action__content').locator('.sw-single-select__selection');
-        this.resultListItem = page.locator('.sw-select-result-list__content');
-        this.resultList = page.locator('.sw-select-result-list');
+        this.nameField = page.getByLabel(translate("administration:flowBuilder:create.name"));
+        this.descriptionField = page.getByLabel(translate("administration:flowBuilder:create.description"));
+        this.priorityField = page.getByLabel(translate("administration:flowBuilder:create.priority"));
+        this.activeSwitch = page.getByLabel(translate("administration:flowBuilder:create.active"));
+        this.sequenceSelectorConditionButton = page.getByText(translate("administration:flowBuilder:create.addConditionIf"));
+        this.conditionSelectField = page.locator(".sw-flow-sequence-condition__select");
+        this.conditionRule = page.locator(".sw-flow-sequence-condition__rule-header");
+        this.sequenceSelectorActionButton = page.getByText(translate("administration:flowBuilder:create.addActionThen"));
+        this.actionSelectField = page.locator(".sw-flow-sequence-action__content").locator(".sw-single-select__selection");
+        this.selectFieldResultList = page.locator(".sw-select-result-list__item-list");
+        this.trueBlock = page.locator(".sw-flow-sequence__true-block");
+        this.trueBlockAddConditionButton = this.trueBlock.getByText(translate("administration:flowBuilder:create.addConditionIf"));
+        this.trueBlockAddActionButton = this.trueBlock.getByText(translate("administration:flowBuilder:create.addActionThen"));
+        this.trueBlockActionSelectField = this.trueBlock.locator(".sw-single-select");
+        this.trueBlockActionDescription = this.trueBlock.locator(".sw-flow-sequence-action__action-description");
+        this.mailSendModal = page.locator(".sw-flow-mail-send-modal");
+        this.mailSendModalTemplateSelectField = page.locator(".sw-flow-mail-send-modal").locator(".sw-entity-single-select__selection");
+        this.falseBlock = page.locator(".sw-flow-sequence__false-block");
+        this.falseBlockAddConditionButton = this.falseBlock.getByText(translate("administration:flowBuilder:create.addConditionIf"));
+        this.falseBlockAddActionButton = this.falseBlock.getByText(translate("administration:flowBuilder:create.addActionThen"));
+        this.falseBlockActionSelectField = this.falseBlock.locator(".sw-single-select");
+        this.falseBlockActionDescription = this.falseBlock.locator(".sw-flow-sequence-action__actions");
+        this.tagModal = page.locator(".sw-flow-tag-modal");
+        this.tagModalTagsSelectField = page.locator(".sw-flow-tag-modal").locator(".sw-select__selection").getByLabel(translate("administration:flowBuilder:create.tags"));
+        this.delayCard = page.locator(".sw-flow-delay-action__delay_card");
+        this.sequenceSeparator = page.locator(".sw-flow-detail-flow__position-connection");
+        this.newFlowHeader = page.getByRole("heading", { name: translate("administration:flowBuilder:create.newFlow") });
+        this.addActionField = page.locator(".sw-flow-sequence-action__content").locator(".sw-single-select__selection");
+        this.resultListItem = page.locator(".sw-select-result-list__content");
+        this.resultList = page.locator(".sw-select-result-list");
     }
 
-    url(flowId?: string, tabName = 'general') {
-        if (!flowId || flowId === '') {
+    url(flowId?: string, tabName = "general") {
+        if (!flowId || flowId === "") {
             return `#/sw/flow/create/${tabName}`;
         }
         return `#/sw/flow/create/${flowId}/${tabName}`;

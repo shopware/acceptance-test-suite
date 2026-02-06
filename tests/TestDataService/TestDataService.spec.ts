@@ -19,27 +19,24 @@ import {
     type User,
     type AclRole,
     type CmsPage,
-} from '../../src';
+} from "../../src";
 
-test('Data Service', async ({
-    TestDataService,
-    AdminApiContext,
-}) => {
-    const customer = await TestDataService.createCustomer({ firstName: 'Luke', lastName: 'Skywalker' })
-    expect(customer.firstName).toEqual('Luke');
-    expect(customer.lastName).toEqual('Skywalker');
+test("Data Service", async ({ TestDataService, AdminApiContext }) => {
+    const customer = await TestDataService.createCustomer({ firstName: "Luke", lastName: "Skywalker" });
+    expect(customer.firstName).toEqual("Luke");
+    expect(customer.lastName).toEqual("Skywalker");
 
-    const paymentMethod = await TestDataService.createBasicPaymentMethod({ name: 'Custom payment method' });
-    expect(paymentMethod.name).toEqual('Custom payment method');
+    const paymentMethod = await TestDataService.createBasicPaymentMethod({ name: "Custom payment method" });
+    expect(paymentMethod.name).toEqual("Custom payment method");
 
     const paymentMethodWithImage = await TestDataService.createPaymentMethodWithImage();
     expect(paymentMethodWithImage.media).toBeDefined();
 
-    const rule = await TestDataService.createBasicRule({ description: 'Rule description' });
-    expect(rule.description).toEqual('Rule description');
+    const rule = await TestDataService.createBasicRule({ description: "Rule description" });
+    expect(rule.description).toEqual("Rule description");
 
-    const basicShippingMethod = await TestDataService.createBasicShippingMethod({ name: 'Custom shipping method' });
-    expect(basicShippingMethod.name).toEqual('Custom shipping method');
+    const basicShippingMethod = await TestDataService.createBasicShippingMethod({ name: "Custom shipping method" });
+    expect(basicShippingMethod.name).toEqual("Custom shipping method");
 
     const shippingMethodWithImage = await TestDataService.createShippingMethodWithImage();
     expect(shippingMethodWithImage.media).toBeDefined();
@@ -50,46 +47,46 @@ test('Data Service', async ({
     const country = await TestDataService.createCountry();
     expect(country.name).toBeDefined();
 
-    const customerGroup = await TestDataService.createCustomerGroup({ name: 'Custom customer group' });
-    expect(customerGroup.name).toEqual('Custom customer group');
+    const customerGroup = await TestDataService.createCustomerGroup({ name: "Custom customer group" });
+    expect(customerGroup.name).toEqual("Custom customer group");
 
-    const category = await TestDataService.createCategory({ name: 'Custom Category' });
-    expect(category.name).toEqual('Custom Category');
+    const category = await TestDataService.createCategory({ name: "Custom Category" });
+    expect(category.name).toEqual("Custom Category");
 
-    const product = await TestDataService.createProductWithImage({ description: 'Test Description' });
-    expect(product.description).toEqual('Test Description');
+    const product = await TestDataService.createProductWithImage({ description: "Test Description" });
+    expect(product.description).toEqual("Test Description");
     expect(product.coverId).toBeDefined();
 
-    const digitalProduct = await TestDataService.createDigitalProduct('Test Test', { description: 'You can download me.' });
-    expect(digitalProduct.description).toEqual('You can download me.');
+    const digitalProduct = await TestDataService.createDigitalProduct("Test Test", { description: "You can download me." });
+    expect(digitalProduct.description).toEqual("You can download me.");
 
     const propertyGroup = await TestDataService.createColorPropertyGroup();
-    expect(propertyGroup.description).toEqual('Color');
+    expect(propertyGroup.description).toEqual("Color");
 
-    const manufacturer = await TestDataService.createBasicManufacturer({ description: 'Test Description Manufacturer' });
-    expect(manufacturer.description).toEqual('Test Description Manufacturer');
+    const manufacturer = await TestDataService.createBasicManufacturer({ description: "Test Description Manufacturer" });
+    expect(manufacturer.description).toEqual("Test Description Manufacturer");
 
     const manufacturerWithImage = await TestDataService.createManufacturerWithImage();
     expect(manufacturerWithImage.media).toBeDefined();
 
-    await TestDataService.assignManufacturerProduct(manufacturer.id, product.id)
+    await TestDataService.assignManufacturerProduct(manufacturer.id, product.id);
     expect(product.manufacturerId).toBeDefined();
 
-    const cmsType = 'product_detail';
-    const cmsPageName = 'Custom product detail page';
+    const cmsType = "product_detail";
+    const cmsPageName = "Custom product detail page";
     const cmsPage = await TestDataService.createBasicPageLayout(cmsType, { name: cmsPageName });
     expect(cmsPage.name).toEqual(cmsPageName);
     expect(cmsPage.type).toEqual(cmsType);
 
-    const landingPageType = 'landingpage';
-    const landingPageName = 'Custom landing page';
+    const landingPageType = "landingpage";
+    const landingPageName = "Custom landing page";
     const landingPage = await TestDataService.createBasicPageLayout(landingPageType, { name: landingPageName });
     expect(landingPage.name).toEqual(landingPageName);
     expect(landingPage.type).toEqual(landingPageType);
 
-    const customCategoryWithLandingPage = await TestDataService.createCategory({ name: 'Category with landing page', cmsPageId: landingPage.id });
+    const customCategoryWithLandingPage = await TestDataService.createCategory({ name: "Category with landing page", cmsPageId: landingPage.id });
     expect(customCategoryWithLandingPage.cmsPageId).toEqual(landingPage.id);
-    expect(customCategoryWithLandingPage.name).toEqual('Category with landing page');
+    expect(customCategoryWithLandingPage.name).toEqual("Category with landing page");
 
     const parentProduct = await TestDataService.createBasicProduct();
     const propertyGroupColor = await TestDataService.createColorPropertyGroup();
@@ -97,9 +94,9 @@ test('Data Service', async ({
     const propertyGroups: PropertyGroup[] = [];
     propertyGroups.push(propertyGroupColor);
     propertyGroups.push(propertyGroupText);
-    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: 'Variant description' });
+    const variantProducts = await TestDataService.createVariantProducts(parentProduct, propertyGroups, { description: "Variant description" });
     expect(variantProducts.length).toEqual(9);
-    expect(variantProducts[0].description).toEqual('Variant description');
+    expect(variantProducts[0].description).toEqual("Variant description");
 
     const salesChannelAnalytics = await TestDataService.createSalesChannelAnalytics({ active: false });
     expect(salesChannelAnalytics.active).toEqual(false);
@@ -108,24 +105,24 @@ test('Data Service', async ({
     expect(taxRate21.taxRate).toEqual(21.0);
 
     const crossSellingProduct = await TestDataService.createBasicProduct();
-    const productCrossSelling = await TestDataService.createProductCrossSelling(crossSellingProduct.id, { name: 'Custom cross selling' });
-    expect(productCrossSelling.name).toEqual('Custom cross selling');
+    const productCrossSelling = await TestDataService.createProductCrossSelling(crossSellingProduct.id, { name: "Custom cross selling" });
+    expect(productCrossSelling.name).toEqual("Custom cross selling");
 
     const reviewedProduct = await TestDataService.createBasicProduct();
-    const review = await TestDataService.createProductReview(reviewedProduct.id, { title: 'Custom review title' });
-    expect(review.title).toEqual('Custom review title');
+    const review = await TestDataService.createProductReview(reviewedProduct.id, { title: "Custom review title" });
+    expect(review.title).toEqual("Custom review title");
     expect(review.points).toEqual(5);
 
-    const merchant = await TestDataService.createUser({ firstName: 'Han', lastName: 'Solo' });
-    expect(merchant.firstName).toEqual('Han');
-    expect(merchant.lastName).toEqual('Solo');
+    const merchant = await TestDataService.createUser({ firstName: "Han", lastName: "Solo" });
+    expect(merchant.firstName).toEqual("Han");
+    expect(merchant.lastName).toEqual("Solo");
 
-    const merchantWithBasicRole = await TestDataService.createUser({ firstName: 'Mi', lastName: 'How' });
-    const aclRole = await TestDataService.createAclRole({ name: 'Custom role' });
+    const merchantWithBasicRole = await TestDataService.createUser({ firstName: "Mi", lastName: "How" });
+    const aclRole = await TestDataService.createAclRole({ name: "Custom role" });
     await TestDataService.assignAclRoleUser(aclRole.id, merchantWithBasicRole.id);
-    expect(merchantWithBasicRole.firstName).toEqual('Mi');
-    expect(merchantWithBasicRole.lastName).toEqual('How');
-    expect(aclRole.name).toEqual('Custom role');
+    expect(merchantWithBasicRole.firstName).toEqual("Mi");
+    expect(merchantWithBasicRole.lastName).toEqual("How");
+    expect(aclRole.name).toEqual("Custom role");
 
     // Test data clean-up with deactivated cleansing process
     TestDataService.setCleanUp(false);
@@ -206,22 +203,22 @@ test('Data Service', async ({
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);
-    const cleanUpDeleteOperationsResponse = await TestDataService.cleanUp() as APIResponse;
+    const cleanUpDeleteOperationsResponse = (await TestDataService.cleanUp()) as APIResponse;
 
     expect(cleanUpDeleteOperationsResponse.ok()).toBeTruthy();
 
     const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();
-    expect(cleanUpDeleteOperations['notFound'].length).toBe(0);
-    expect(cleanUpDeleteOperations['deleted']['media']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['payment_method']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['rule']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['currency']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['country']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['customer_group']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['property_group']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['property_group_option']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['product_manufacturer']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['cms_page']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['sales_channel_analytics']).toBeDefined();
-    expect(cleanUpDeleteOperations['deleted']['tax']).toBeDefined();
+    expect(cleanUpDeleteOperations["notFound"].length).toBe(0);
+    expect(cleanUpDeleteOperations["deleted"]["media"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["payment_method"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["rule"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["currency"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["country"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["customer_group"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["property_group"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["property_group_option"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["product_manufacturer"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["cms_page"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["sales_channel_analytics"]).toBeDefined();
+    expect(cleanUpDeleteOperations["deleted"]["tax"]).toBeDefined();
 });

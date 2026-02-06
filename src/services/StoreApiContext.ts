@@ -1,5 +1,5 @@
-import { request } from '@playwright/test';
-import type { APIRequestContext, APIResponse } from 'playwright-core';
+import { request } from "@playwright/test";
+import type { APIRequestContext, APIResponse } from "playwright-core";
 
 type HTTPHeaders = Record<string, string>;
 
@@ -14,19 +14,18 @@ interface StoreUser {
 }
 
 export interface StoreApiContextOptions {
-    'app_url'?: string;
-    'sw-access-key'?: string;
-    'sw-context-token'?: string;
+    app_url?: string;
+    "sw-access-key"?: string;
+    "sw-context-token"?: string;
     ignoreHTTPSErrors?: boolean;
 }
 
 export class StoreApiContext {
-
     private context: APIRequestContext;
     private readonly options: StoreApiContextOptions;
 
     private static readonly defaultOptions: StoreApiContextOptions = {
-        app_url: process.env['APP_URL'],
+        app_url: process.env["APP_URL"],
         ignoreHTTPSErrors: true,
     };
 
@@ -43,20 +42,20 @@ export class StoreApiContext {
 
     private static async createContext(options: StoreApiContextOptions) {
         const extraHTTPHeaders: HTTPHeaders = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
         };
 
-        if (options['sw-access-key']) {
-            extraHTTPHeaders['sw-access-key'] = options['sw-access-key'];
+        if (options["sw-access-key"]) {
+            extraHTTPHeaders["sw-access-key"] = options["sw-access-key"];
         }
 
-        if (options['sw-context-token']) {
-            extraHTTPHeaders['sw-context-token'] = options['sw-context-token'];
+        if (options["sw-context-token"]) {
+            extraHTTPHeaders["sw-context-token"] = options["sw-context-token"];
         }
 
         return await request.newContext({
-            baseURL: `${options['app_url']}store-api/`,
+            baseURL: `${options["app_url"]}store-api/`,
             ignoreHTTPSErrors: options.ignoreHTTPSErrors,
             extraHTTPHeaders,
         });
@@ -72,11 +71,11 @@ export class StoreApiContext {
 
         const responseHeaders = loginResponse.headers();
 
-        if (!responseHeaders['sw-context-token']) {
+        if (!responseHeaders["sw-context-token"]) {
             throw new Error(`Failed to login with user: ${user.email}`);
         }
 
-        this.options['sw-context-token'] = responseHeaders['sw-context-token'];
+        this.options["sw-context-token"] = responseHeaders["sw-context-token"];
         this.context = await StoreApiContext.createContext(this.options);
 
         return responseHeaders;

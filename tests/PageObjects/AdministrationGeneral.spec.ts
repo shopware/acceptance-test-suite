@@ -1,6 +1,6 @@
-import { test, translate } from '../../src';
+import { test, translate } from "../../src";
 
-test('Administration page objects - General.', async ({
+test("Administration page objects - General.", async ({
     InstanceMeta,
     ShopAdmin,
     AdminDashboard,
@@ -12,7 +12,6 @@ test('Administration page objects - General.', async ({
     AdminMedia,
     AdminOrderListing,
 }) => {
-
     const category = await TestDataService.createCategory();
     await ShopAdmin.goesTo(AdminCategories.url());
     await ShopAdmin.expects(AdminCategories.landingPageHeadline).toBeVisible();
@@ -44,7 +43,7 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.goesTo(AdminOrderDetail.url(order.id));
     await ShopAdmin.expects(AdminOrderDetail.saveButton).toBeVisible();
     await ShopAdmin.expects(AdminOrderDetail.dataGridContextButton).toBeVisible();
-    await ShopAdmin.expects(AdminOrderDetail.itemsCardHeader).toContainText(translate('administration:order:detail.items'));
+    await ShopAdmin.expects(AdminOrderDetail.itemsCardHeader).toContainText(translate("administration:order:detail.items"));
 
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));
     await ShopAdmin.expects(AdminProductDetail.savePhysicalProductButton).toBeVisible();
@@ -59,7 +58,7 @@ test('Administration page objects - General.', async ({
     await ShopAdmin.expects(AdminMedia.uploadFileButton).toBeVisible();
     await ShopAdmin.expects(AdminMedia.searchInput).toBeVisible();
     await ShopAdmin.expects(AdminMedia.addNewFolderButton).toBeVisible();
-    
+
     await ShopAdmin.expects(AdminDashboard.adminMenuUserActions).toBeVisible();
     await AdminDashboard.adminMenuUserActions.click();
     await ShopAdmin.expects(AdminDashboard.adminMenuLogoutButton).toBeVisible();

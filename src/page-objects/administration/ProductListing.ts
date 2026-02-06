@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class ProductListing implements PageObject {
     /**
@@ -18,11 +18,11 @@ export class ProductListing implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.productsTable = page.locator('.sw-data-grid__table');
-        this.bulkEditButton = page.getByRole('button', { name: translate('administration:product:listing.bulkEdit') });
+        this.productsTable = page.locator(".sw-data-grid__table");
+        this.bulkEditButton = page.getByRole("button", { name: translate("administration:product:listing.bulkEdit") });
 
-        this.bulkEditModal = page.locator('.sw-product-bulk-edit-modal');
-        this.startBulkEditButton = this.bulkEditModal.getByRole('button', { name: translate('administration:product:listing.startBulkEdit') });
+        this.bulkEditModal = page.locator(".sw-product-bulk-edit-modal");
+        this.startBulkEditButton = this.bulkEditModal.getByRole("button", { name: translate("administration:product:listing.startBulkEdit") });
     }
 
     /**
@@ -31,12 +31,12 @@ export class ProductListing implements PageObject {
      * @param searchTerms - Includes search terms for filtering of the product list.
      */
     url(searchTerms: string[] = []) {
-        let url = '#/sw/product/index';
+        let url = "#/sw/product/index";
         if (searchTerms.length > 0) {
-            let tempTerm = '';
+            let tempTerm = "";
             for (const searchTerm of searchTerms) {
-                if (tempTerm != '') {
-                    tempTerm += '+';
+                if (tempTerm != "") {
+                    tempTerm += "+";
                 }
                 tempTerm += searchTerm;
             }
@@ -51,16 +51,16 @@ export class ProductListing implements PageObject {
      * @param productNumber - Product number you are looking for.
      */
     async getProductRow(productNumber: string): Promise<Record<string, Locator>> {
-        const productTableRow = this.productsTable.locator('.sw-data-grid__row', { hasText: productNumber });
-        const productNameSelector = '.sw-data-grid__cell--name';
-        const productNumberSelector = '.sw-data-grid__cell--productNumber';
-        const productManufacturerSelector = '.sw-data-grid__cell--manufacturer-name';
-        const productActiveSelector = 'sw-icon__regular-checkmark-xs';
-        const productInactiveSelector = 'sw-icon__regular-times-s';
-        const productPriceSelector = '.sw-data-grid__cell--price-EUR';
+        const productTableRow = this.productsTable.locator(".sw-data-grid__row", { hasText: productNumber });
+        const productNameSelector = ".sw-data-grid__cell--name";
+        const productNumberSelector = ".sw-data-grid__cell--productNumber";
+        const productManufacturerSelector = ".sw-data-grid__cell--manufacturer-name";
+        const productActiveSelector = "sw-icon__regular-checkmark-xs";
+        const productInactiveSelector = "sw-icon__regular-times-s";
+        const productPriceSelector = ".sw-data-grid__cell--price-EUR";
 
         return {
-            selectionCheckbox: productTableRow.getByRole('checkbox'),
+            selectionCheckbox: productTableRow.getByRole("checkbox"),
             productName: productTableRow.locator(productNameSelector),
             productNumber: productTableRow.locator(productNumberSelector),
             productManufacturer: productTableRow.locator(productManufacturerSelector),

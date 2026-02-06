@@ -1,5 +1,5 @@
-import type { Page, Locator } from 'playwright-core';
-import { expect } from '@playwright/test';
+import type { Page, Locator } from "playwright-core";
+import { expect } from "@playwright/test";
 
 /**
  * Applies a transformation to elements matched by CSS selectors and locators.
@@ -13,24 +13,24 @@ async function applyToElements(
     page: Page,
     selectors: (string | Locator)[],
     stringHandler: (page: Page, selectors: string[]) => Promise<void>,
-    locatorHandler: (el: Locator) => Promise<void>,
+    locatorHandler: (el: Locator) => Promise<void>
 ) {
     if (!selectors.length) return;
 
     // Handle string selectors
-    const stringSelectors = selectors.filter(s => typeof s === 'string') as string[];
+    const stringSelectors = selectors.filter((s) => typeof s === "string") as string[];
     if (stringSelectors.length) {
         await stringHandler(page, stringSelectors);
     }
 
     // Handle locators
-    const locatorSelectors = selectors.filter(s => typeof s !== 'string') as Locator[];
+    const locatorSelectors = selectors.filter((s) => typeof s !== "string") as Locator[];
     for (const locator of locatorSelectors) {
         const count = await locator.count();
         for (let i = 0; i < count; i++) {
             const el = locator.nth(i);
             try {
-                await el.waitFor({ state: 'attached', timeout: 5000 });
+                await el.waitFor({ state: "attached", timeout: 5000 });
                 await locatorHandler(el);
             } catch (e) {
                 console.warn(`[Warning] Could not apply locator handler: ${e}`);
@@ -48,19 +48,17 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
         selectors,
         // String handler → inject CSS
         async (page, selectors) => {
-            const css = selectors
-                .map(selector => `${selector} { visibility: hidden !important; }`)
-                .join('\n');
+            const css = selectors.map((selector) => `${selector} { visibility: hidden !important; }`).join("\n");
             await page.addStyleTag({ content: css });
         },
         // Locator handler → set style directly
-        async el => {
+        async (el) => {
             const handle = await el.elementHandle();
             if (!handle) return;
-            await handle.evaluate(node => {
-                (node as HTMLElement).style.visibility = 'hidden';
+            await handle.evaluate((node) => {
+                (node as HTMLElement).style.visibility = "hidden";
             });
-        },
+        }
     );
 }
 
@@ -70,11 +68,7 @@ export async function hideElements(page: Page, selectors: (string | Locator)[]) 
  * - Ensures frameworks see the change (dispatches input/change).
  * - Also masks placeholder so empty fields show replacement text in screenshots.
  */
-export async function replaceElements(
-    page: Page,
-    selectors: (string | Locator)[],
-    replaceWith = '***',
-) {
+export async function replaceElements(page: Page, selectors: (string | Locator)[], replaceWith = "***") {
     if (!selectors.length) {
         console.warn(`[Error] No replaceable elements stated.`);
         return;
@@ -85,44 +79,47 @@ export async function replaceElements(
         selectors,
         // String handler → replace text/value via querySelectorAll
         async (page, selectors) => {
-            await page.evaluate(({ selectors, replaceWith }) => {
-                const maskInputLike = (el: HTMLInputElement | HTMLTextAreaElement) => {
-                    el.value = replaceWith;
-                    (el as HTMLInputElement).defaultValue = replaceWith;
-                    el.setAttribute('value', replaceWith);
+            await page.evaluate(
+                ({ selectors, replaceWith }) => {
+                    const maskInputLike = (el: HTMLInputElement | HTMLTextAreaElement) => {
+                        el.value = replaceWith;
+                        (el as HTMLInputElement).defaultValue = replaceWith;
+                        el.setAttribute("value", replaceWith);
 
-                    if ('placeholder' in el) {
-                        el.setAttribute('placeholder', replaceWith);
-                    }
-
-                    el.dispatchEvent(new Event('input', { bubbles: true }));
-                    el.dispatchEvent(new Event('change', { bubbles: true }));
-                };
-
-                const maskGeneric = (el: HTMLElement) => {
-                    el.textContent = replaceWith;
-                    if (el.isContentEditable) {
-                        el.dispatchEvent(new Event('input', { bubbles: true }));
-                        el.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                };
-
-                selectors.forEach(sel => {
-                    const elements = document.querySelectorAll<HTMLElement>(sel as string);
-                    // @ts-expect-error no DOM types in this context
-                    elements.forEach((el: never) => {
-                        // @ts-expect-error no DOM types in this context
-                        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
-                            maskInputLike(el);
-                        } else {
-                            maskGeneric(el);
+                        if ("placeholder" in el) {
+                            el.setAttribute("placeholder", replaceWith);
                         }
+
+                        el.dispatchEvent(new Event("input", { bubbles: true }));
+                        el.dispatchEvent(new Event("change", { bubbles: true }));
+                    };
+
+                    const maskGeneric = (el: HTMLElement) => {
+                        el.textContent = replaceWith;
+                        if (el.isContentEditable) {
+                            el.dispatchEvent(new Event("input", { bubbles: true }));
+                            el.dispatchEvent(new Event("change", { bubbles: true }));
+                        }
+                    };
+
+                    selectors.forEach((sel) => {
+                        const elements = document.querySelectorAll<HTMLElement>(sel as string);
+                        // @ts-expect-error no DOM types in this context
+                        elements.forEach((el: never) => {
+                            // @ts-expect-error no DOM types in this context
+                            if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+                                maskInputLike(el);
+                            } else {
+                                maskGeneric(el);
+                            }
+                        });
                     });
-                });
-            }, { selectors, replaceWith });
+                },
+                { selectors, replaceWith }
+            );
         },
         // Locator handler → replace text/value directly
-        async el => {
+        async (el) => {
             try {
                 if (await el.isEditable()) {
                     await el.fill(replaceWith, { force: true });
@@ -130,7 +127,7 @@ export async function replaceElements(
                     if (handle) {
                         await handle.evaluate((node, replaceWith) => {
                             if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
-                                if ('placeholder' in node) node.setAttribute('placeholder', replaceWith);
+                                if ("placeholder" in node) node.setAttribute("placeholder", replaceWith);
                             }
                         }, replaceWith);
                     }
@@ -146,19 +143,19 @@ export async function replaceElements(
                 const maskInputLike = (inp: HTMLInputElement | HTMLTextAreaElement) => {
                     inp.value = replaceWith;
                     (inp as HTMLInputElement).defaultValue = replaceWith;
-                    inp.setAttribute('value', replaceWith);
-                    if ('placeholder' in inp) {
-                        inp.setAttribute('placeholder', replaceWith);
+                    inp.setAttribute("value", replaceWith);
+                    if ("placeholder" in inp) {
+                        inp.setAttribute("placeholder", replaceWith);
                     }
-                    inp.dispatchEvent(new Event('input', { bubbles: true }));
-                    inp.dispatchEvent(new Event('change', { bubbles: true }));
+                    inp.dispatchEvent(new Event("input", { bubbles: true }));
+                    inp.dispatchEvent(new Event("change", { bubbles: true }));
                 };
 
                 const maskGeneric = (el: HTMLElement) => {
                     el.textContent = replaceWith;
                     if (el.isContentEditable) {
-                        el.dispatchEvent(new Event('input', { bubbles: true }));
-                        el.dispatchEvent(new Event('change', { bubbles: true }));
+                        el.dispatchEvent(new Event("input", { bubbles: true }));
+                        el.dispatchEvent(new Event("change", { bubbles: true }));
                     }
                 };
 
@@ -168,7 +165,7 @@ export async function replaceElements(
                     maskGeneric(node as HTMLElement);
                 }
             }, replaceWith);
-        },
+        }
     );
 }
 
@@ -176,20 +173,19 @@ export interface ReplaceTarget {
     selector: string | Locator;
     replaceWith?: string;
 }
-  
+
 /**
  * Replaces elements individually based on an array of targets.
- * 
+ *
  *@param page - Playwright page
- *@param targets - Array of objects containing selectors and optional replacement strings. 
+ *@param targets - Array of objects containing selectors and optional replacement strings.
  */
 export async function replaceElementsIndividually(page: Page, targets: ReplaceTarget[]) {
     for (const target of targets) {
         const { selector, replaceWith } = target;
-        await replaceElements(page, [selector], replaceWith ?? '***');
+        await replaceElements(page, [selector], replaceWith ?? "***");
     }
 }
-
 
 /**
  * Calculates the ideal viewport dimensions for a Playwright test based on scrollable content,
@@ -231,22 +227,18 @@ export interface Options {
     headerElement?: string;
 }
 const defaultOptions: Required<Options> = {
-    requestURL: 'api/notification/message?limit=5',
+    requestURL: "api/notification/message?limit=5",
     width: 1440,
-    scrollableElementVertical: '.sw-card-view__content',
-    scrollableElementHorizontal: '.sw-data-grid__wrapper',
+    scrollableElementVertical: ".sw-card-view__content",
+    scrollableElementHorizontal: ".sw-data-grid__wrapper",
     additionalHeight: 0,
-    waitForSelector: '',
+    waitForSelector: "",
     contentHeight: 1080,
     headerHeight: 0,
-    headerElement: '.sw-page__head-area',
+    headerElement: ".sw-page__head-area",
 };
 
-export async function setViewport(
-    page: Page,
-    options: Options = {},
-): Promise<void> {
-
+export async function setViewport(page: Page, options: Options = {}): Promise<void> {
     // Merge options with defaults
     const config: Required<Options> = { ...defaultOptions, ...options };
 
@@ -256,7 +248,7 @@ export async function setViewport(
     // Wait for API request
     if (config.requestURL) {
         try {
-            await page.waitForResponse(response => response.url().includes(config.requestURL));
+            await page.waitForResponse((response) => response.url().includes(config.requestURL));
         } catch {
             console.warn(`[Error] Timed out waiting for request: "${config.requestURL}".`);
         }
@@ -265,27 +257,23 @@ export async function setViewport(
     // Wait for an optional content-specific locator
     if (config.waitForSelector) {
         try {
-            const locator = typeof config.waitForSelector === 'string'
-                ? page.locator(config.waitForSelector)
-                : config.waitForSelector;
-            await locator.waitFor({ state: 'visible', timeout: 10000 });
+            const locator = typeof config.waitForSelector === "string" ? page.locator(config.waitForSelector) : config.waitForSelector;
+            await locator.waitFor({ state: "visible", timeout: 10000 });
         } catch {
             console.warn(`[Error] ${config.waitForSelector} not found or timed out.`);
         }
     }
 
-    const locator = typeof config.scrollableElementVertical === 'string'
-        ? page.locator(config.scrollableElementVertical)
-        : config.scrollableElementVertical;
+    const locator = typeof config.scrollableElementVertical === "string" ? page.locator(config.scrollableElementVertical) : config.scrollableElementVertical;
     const scrollableElementVertical = locator;
     let contentHeight = config.contentHeight;
     // Skip measurement if contentHeight is already provided
     if (options.contentHeight === undefined) {
-    // Measure vertically scrollable content height
+        // Measure vertically scrollable content height
         try {
-            if (await scrollableElementVertical.count() > 0 && await scrollableElementVertical.isVisible()) {
-                await scrollableElementVertical.waitFor({ state: 'visible' });
-                contentHeight = await scrollableElementVertical.evaluate(el => el.scrollHeight);
+            if ((await scrollableElementVertical.count()) > 0 && (await scrollableElementVertical.isVisible())) {
+                await scrollableElementVertical.waitFor({ state: "visible" });
+                contentHeight = await scrollableElementVertical.evaluate((el) => el.scrollHeight);
             }
         } catch {
             console.warn(`[Warning] Scrollable element not found. Applying default height: ${config.contentHeight}.`);
@@ -295,20 +283,17 @@ export async function setViewport(
     let headerHeight = config.headerHeight;
     // Skip measurement if contentHeight is already provided
     if (options.contentHeight === undefined) {
-    // Measure header height
+        // Measure header height
         try {
             const header = page.locator(config.headerElement);
-            if (await header.count() > 0 && await header.isVisible()) {
+            if ((await header.count()) > 0 && (await header.isVisible())) {
                 const headerHandle = await header.elementHandle();
                 const scrollableHandle = await scrollableElementVertical.elementHandle();
                 if (headerHandle && scrollableHandle) {
-                    const isInside = await page.evaluate(
-                        ([headerEl, containerEl]) => containerEl.contains(headerEl),
-                        [headerHandle, scrollableHandle],
-                    );
+                    const isInside = await page.evaluate(([headerEl, containerEl]) => containerEl.contains(headerEl), [headerHandle, scrollableHandle]);
                     if (!isInside) {
                         // @ts-expect-error no DOM types in this context
-                        headerHeight = await header.evaluate(el => el.offsetHeight);
+                        headerHeight = await header.evaluate((el) => el.offsetHeight);
                     }
                 }
             }
@@ -320,16 +305,14 @@ export async function setViewport(
     let contentWidth = config.width;
     // Skip measurement if width is already provided
     if (options.width === undefined) {
-    // Measure horizontal scroll width
+        // Measure horizontal scroll width
         try {
-            const locator = typeof config.scrollableElementHorizontal === 'string'
-                ? page.locator(config.scrollableElementHorizontal)
-                : config.scrollableElementHorizontal;
+            const locator = typeof config.scrollableElementHorizontal === "string" ? page.locator(config.scrollableElementHorizontal) : config.scrollableElementHorizontal;
             const scrollableElementHorizontal = locator;
-            if (await scrollableElementHorizontal.count() > 0 && await scrollableElementHorizontal.isVisible()) {
-                contentWidth = await scrollableElementHorizontal.evaluate(el => el.scrollWidth);
+            if ((await scrollableElementHorizontal.count()) > 0 && (await scrollableElementHorizontal.isVisible())) {
+                contentWidth = await scrollableElementHorizontal.evaluate((el) => el.scrollWidth);
             } else {
-                contentWidth = config.width
+                contentWidth = config.width;
             }
         } catch {
             console.warn(`[Warning] Scrollable element not found. Applying default width: ${config.width}.`);
@@ -353,6 +336,6 @@ export async function assertScreenshot(page: Page, filename: string, locator?: L
     if (locator) {
         await expect(locator).toHaveScreenshot(filename);
     } else {
-        await expect(page.locator('.sw-desktop__content')).toHaveScreenshot(filename);
+        await expect(page.locator(".sw-desktop__content")).toHaveScreenshot(filename);
     }
 }

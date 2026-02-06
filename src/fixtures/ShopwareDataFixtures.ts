@@ -1,5 +1,5 @@
-import { test as base } from '@playwright/test';
-import type { FixtureTypes } from '../types/FixtureTypes';
+import { test as base } from "@playwright/test";
+import type { FixtureTypes } from "../types/FixtureTypes";
 import {
     getCountryId,
     getCurrency,
@@ -12,7 +12,7 @@ import {
     getCountryCodeFromLocale,
     getLanguageCode,
     getLocale,
-} from '../services/ShopwareDataHelpers';
+} from "../services/ShopwareDataHelpers";
 
 export interface Country {
     id: string;
@@ -68,7 +68,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 id: countryId,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     Currency: [
@@ -79,7 +79,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 id: currency.id,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     Language: [
@@ -90,7 +90,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             await use(language);
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     PaymentMethod: [
@@ -101,18 +101,18 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 id: paymentMethodId,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     ShippingMethod: [
         async ({ AdminApiContext }, use) => {
-            const shippingMethodId = await getShippingMethodId('Standard', AdminApiContext);
+            const shippingMethodId = await getShippingMethodId("Standard", AdminApiContext);
 
             await use({
                 id: shippingMethodId,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     SnippetSet: [
@@ -123,7 +123,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 id: snippedSetId,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     Tax: [
@@ -134,17 +134,17 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 id: taxId,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 
     Theme: [
         async ({ AdminApiContext }, use) => {
-            const themeId = await getThemeId('Storefront', AdminApiContext);
+            const themeId = await getThemeId("Storefront", AdminApiContext);
 
             await use({
                 id: themeId,
             });
         },
-        { scope: 'worker' },
+        { scope: "worker" },
     ],
 });
