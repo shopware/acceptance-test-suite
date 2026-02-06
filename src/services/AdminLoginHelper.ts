@@ -58,7 +58,7 @@ export async function loginToAdministration(
     }
 
     const loginButtonLabel = translate("administration:login:loginButton");
-    await adminPage.getByRole("button", { name: loginButtonLabel, exact: true }).click();
+    await adminLoginPage.getByRole("button", { name: loginButtonLabel, exact: true }).click();
 
     // wait for all plugin js to be loaded
     await Promise.all(jsLoadingPromises);
