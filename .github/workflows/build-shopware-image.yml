@@ -48,7 +48,7 @@ jobs:
                       SHOPWARE_BUILD_SOURCE: branch
                       COMPOSER_ROOT_VERSION: 6.7.9999999-dev
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
               with:
                   fetch-depth: '0'
                   sparse-checkout: |-
