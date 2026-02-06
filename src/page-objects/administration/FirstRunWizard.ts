@@ -85,7 +85,7 @@ export class FirstRunWizard implements PageObject {
         // Default values part
         this.defaultValuesHeader = page.locator(".sw-modal__title", { hasText: translate("administration:firstRunWizard:headers.defaultValues") });
         this.salesChannelSelectionMultiSelect = page.getByPlaceholder(translate("administration:firstRunWizard:placeholders.selectSalesChannels"));
-        this.salesChannelSelectionList = page.locator(".sw-popover__wrapper").getByRole("listitem");
+        this.salesChannelSelectionList = page.locator(".mt-floating-ui__content").getByRole("listitem");
 
         // Mailer configuration part
         this.mailerConfigurationHeader = page.locator(".sw-modal__title", { hasText: translate("administration:firstRunWizard:headers.mailerConfiguration") });
