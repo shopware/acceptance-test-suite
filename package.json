@@ -1,64 +1,68 @@
 {
-  "name": "@shopware-ag/acceptance-test-suite",
-  "version": "12.4.3",
-  "description": "Shopware Acceptance Test Suite",
-  "author": "shopware AG",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shopware/acceptance-test-suite.git"
-  },
-  "keywords": [
-    "shopware",
-    "testing",
-    "playwright",
-    "integration",
-    "fixtures",
-    "test-data"
-  ],
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+    "name": "@shopware-ag/acceptance-test-suite",
+    "version": "12.4.3",
+    "description": "Shopware Acceptance Test Suite",
+    "author": "shopware AG",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/shopware/acceptance-test-suite.git"
+    },
+    "keywords": [
+        "shopware",
+        "testing",
+        "playwright",
+        "integration",
+        "fixtures",
+        "test-data"
+    ],
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.mts",
+            "import": "./dist/index.mjs",
+            "default": "./dist/index.mjs"
+        }
+    },
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "lint": "oxlint --type-aware",
+        "lint:fix": "oxlint --type-aware --fix",
+        "format": "oxfmt --write .",
+        "typecheck": "tsgo --noEmit",
+        "build": "unbuild",
+        "prepare": "lefthook install",
+        "prepublishOnly": "npm run build"
+    },
+    "dependencies": {
+        "@axe-core/playwright": "4.11.1",
+        "@playwright/test": "1.58.1",
+        "@shopware/api-client": "1.4.0",
+        "axe-html-reporter": "2.2.11",
+        "compare-versions": "6.1.1",
+        "i18next": "25.8.3",
+        "image-js": "1.3.0",
+        "uuid": "13.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "25.2.0",
+        "@types/uuid": "11.0.0",
+        "@typescript/native-preview": "7.0.0-dev.20260205.1",
+        "eslint-plugin-playwright": "2.5.1",
+        "lefthook": "2.1.0",
+        "oxfmt": "0.28.0",
+        "oxlint": "1.43.0",
+        "oxlint-tsgolint": "0.11.4",
+        "unbuild": "3.6.1"
+    },
+    "engines": {
+        "node": "24.x || 25.x"
+    },
+    "packageManager": {
+        "name": "npm"
     }
-  },
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "lint": "oxlint --type-aware",
-    "lint:fix": "oxlint --type-aware --fix",
-    "typecheck": "tsgo --noEmit",
-    "build": "unbuild",
-    "prepublishOnly": "npm run build"
-  },
-  "dependencies": {
-    "@axe-core/playwright": "4.11.1",
-    "@playwright/test": "1.58.1",
-    "@shopware/api-client": "1.4.0",
-    "axe-html-reporter": "2.2.11",
-    "compare-versions": "6.1.1",
-    "i18next": "25.8.3",
-    "image-js": "1.3.0",
-    "uuid": "13.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "25.2.0",
-    "@types/uuid": "11.0.0",
-    "@typescript/native-preview": "7.0.0-dev.20260205.1",
-    "eslint-plugin-playwright": "2.5.1",
-    "oxlint": "1.43.0",
-    "oxlint-tsgolint": "0.11.4",
-    "unbuild": "3.6.1"
-  },
-  "engines": {
-    "node": "24.x || 25.x"
-  },
-  "packageManager": {
-    "name": "npm"
-  }
 }
