@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class Media implements PageObject {
     public readonly page: Page;
@@ -15,16 +15,16 @@ export class Media implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.uploadFileButton = page.getByRole('button', { name: translate('administration:media:buttons.uploadFile') });
-        this.addNewFolderButton = page.getByRole('button', { name: translate('administration:media:buttons.addNewFolder') });
-        this.searchInput = page.getByPlaceholder(translate('administration:media:search.placeholder'));
+        this.uploadFileButton = page.getByRole("button", { name: translate("administration:media:buttons.uploadFile") });
+        this.addNewFolderButton = page.getByRole("button", { name: translate("administration:media:buttons.addNewFolder") });
+        this.searchInput = page.getByPlaceholder(translate("administration:media:search.placeholder"));
 
         // Media grid items and their interactive elements
-        this.mediaGridItems = page.locator('.sw-media-media-item');
+        this.mediaGridItems = page.locator(".sw-media-media-item");
         this.mediaItemCheckbox = page.locator('.sw-media-base-item__selected-indicator input[type="checkbox"]');
-        this.mediaItemPreview = page.locator('.sw-media-preview-v2__item');
-        this.mediaItemName = page.locator('.sw-media-base-item__name');
-        this.mediaItemContextMenu = page.locator('.sw-context-button');
+        this.mediaItemPreview = page.locator(".sw-media-preview-v2__item");
+        this.mediaItemName = page.locator(".sw-media-base-item__name");
+        this.mediaItemContextMenu = page.locator(".sw-context-button");
     }
 
     url() {
@@ -38,8 +38,8 @@ export class Media implements PageObject {
      */
     async getMediaNameByAlt(alt: string): Promise<string> {
         const mediaItem = this.mediaGridItems.filter({ has: this.page.locator(`img[alt="${alt}"]`) });
-        const titleElement = mediaItem.locator('.sw-media-base-item__name');
-        return (await titleElement.textContent()) || '';
+        const titleElement = mediaItem.locator(".sw-media-base-item__name");
+        return (await titleElement.textContent()) || "";
     }
 
     /**
@@ -57,7 +57,7 @@ export class Media implements PageObject {
      * @returns Locator for the context menu button
      */
     getContextMenuButtonByName(mediaName: string): Locator {
-        return this.getMediaItemByName(mediaName).locator('.sw-context-button');
+        return this.getMediaItemByName(mediaName).locator(".sw-context-button");
     }
 
     /**
@@ -66,7 +66,7 @@ export class Media implements PageObject {
      * @returns Locator for the specific context menu item
      */
     getContextMenuItem(itemText: string): Locator {
-        return this.page.locator('.sw-context-menu-item', {
+        return this.page.locator(".sw-context-menu-item", {
             hasText: itemText,
         });
     }

@@ -2,9 +2,7 @@
     "$schema": "./node_modules/oxfmt/configuration_schema.json",
     "semi": true,
     "trailingComma": "es5",
-    "singleQuote": true,
     "printWidth": 180,
     "tabWidth": 4,
-    "experimentalSortPackageJson": false,
-    "ignorePatterns": ["node_modules/", "test-results/", "playwright-report", "summary.json", ".vscode/*", ".DS_Store", "Thumbs.db"]
+    "ignorePatterns": ["node_modules/", "test-results/", "playwright-report", "summary.json"]
 }

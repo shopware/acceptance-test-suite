@@ -1,8 +1,8 @@
-import { test as base } from '@playwright/test';
-import { TestDataService } from '../services/TestDataService';
-import type { FixtureTypes } from '../types/FixtureTypes';
+import { test as base } from "@playwright/test";
+import { TestDataService } from "../services/TestDataService";
+import type { FixtureTypes } from "../types/FixtureTypes";
 
-const ATS_SKIP_CLEANUP: boolean = ['1', 'true'].includes(process.env['ATS_SKIP_CLEANUP'] || '');
+const ATS_SKIP_CLEANUP: boolean = ["1", "true"].includes(process.env["ATS_SKIP_CLEANUP"] || "");
 const ATS_EXEC_CLEANUP = !ATS_SKIP_CLEANUP;
 
 export interface TestDataFixtureTypes {
@@ -10,7 +10,6 @@ export interface TestDataFixtureTypes {
 }
 
 export const test = base.extend<FixtureTypes>({
-
     TestDataService: async ({ AdminApiContext, IdProvider, DefaultSalesChannel, SalesChannelBaseConfig }, use) => {
         const DataService = new TestDataService(AdminApiContext, IdProvider, {
             defaultSalesChannel: DefaultSalesChannel.salesChannel,
@@ -20,7 +19,7 @@ export const test = base.extend<FixtureTypes>({
             defaultLanguageId: DefaultSalesChannel.salesChannel.languageId,
             defaultCountryId: DefaultSalesChannel.salesChannel.countryId,
             defaultCustomerGroupId: DefaultSalesChannel.salesChannel.customerGroupId,
-        })
+        });
 
         await use(DataService);
 

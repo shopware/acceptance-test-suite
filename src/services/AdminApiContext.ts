@@ -1,5 +1,5 @@
-import { expect, request } from '@playwright/test';
-import type { APIRequestContext, APIResponse } from 'playwright-core';
+import { expect, request } from "@playwright/test";
+import type { APIRequestContext, APIResponse } from "playwright-core";
 
 type HTTPHeaders = Record<string, string>;
 
@@ -22,20 +22,19 @@ export interface AdminApiContextOptions {
 }
 
 export class AdminApiContext {
-
     public context: APIRequestContext;
     public readonly options: Required<AdminApiContextOptions>;
 
     private static readonly defaultOptions: Required<AdminApiContextOptions> = {
-        app_url: process.env['ADMIN_API_URL'] || process.env['APP_URL'] || 'http://localhost:8000',
-        client_id: process.env['SHOPWARE_ACCESS_KEY_ID'] ?? '',
-        client_secret: process.env['SHOPWARE_SECRET_ACCESS_KEY'] ?? '',
-        admin_username: process.env['SHOPWARE_ADMIN_USERNAME'] || 'admin',
-        admin_password: process.env['SHOPWARE_ADMIN_PASSWORD'] || 'shopware',
+        app_url: process.env["ADMIN_API_URL"] || process.env["APP_URL"] || "http://localhost:8000",
+        client_id: process.env["SHOPWARE_ACCESS_KEY_ID"] ?? "",
+        client_secret: process.env["SHOPWARE_SECRET_ACCESS_KEY"] ?? "",
+        admin_username: process.env["SHOPWARE_ADMIN_USERNAME"] || "admin",
+        admin_password: process.env["SHOPWARE_ADMIN_PASSWORD"] || "shopware",
         ignoreHTTPSErrors: true,
         authMaxRetries: 2,
         authBaseDelayMs: 250,
-        access_token: '',
+        access_token: "",
     };
 
     constructor(context: APIRequestContext, options: Required<AdminApiContextOptions>) {
@@ -56,18 +55,18 @@ export class AdminApiContext {
         }
 
         if (!contextOptions.client_id) {
-            contextOptions['access_token'] = await this.authenticateWithUserPassword(tmpContext, contextOptions);
+            contextOptions["access_token"] = await this.authenticateWithUserPassword(tmpContext, contextOptions);
 
             const userContext = await this.createApiRequestContext(contextOptions);
-            const accessKeyData = await (await userContext.get('_action/access-key/intergration')).json() as { accessKey: string, secretAccessKey: string };
+            const accessKeyData = (await (await userContext.get("_action/access-key/intergration")).json()) as { accessKey: string; secretAccessKey: string };
 
             const integrationData = {
                 admin: true,
-                label: 'Playwright Acceptance Test Suite',
+                label: "Playwright Acceptance Test Suite",
                 ...accessKeyData,
             };
 
-            await userContext.post('integration', {
+            await userContext.post("integration", {
                 data: integrationData,
             });
 
@@ -75,18 +74,18 @@ export class AdminApiContext {
             contextOptions.client_secret = accessKeyData.secretAccessKey;
         }
 
-        contextOptions['access_token'] = await this.authenticateWithClientCredentials(tmpContext, contextOptions);
+        contextOptions["access_token"] = await this.authenticateWithClientCredentials(tmpContext, contextOptions);
         return new AdminApiContext(await this.createApiRequestContext(contextOptions), contextOptions);
     }
 
     private static async createApiRequestContext(options: Required<AdminApiContextOptions>): Promise<APIRequestContext> {
         const extraHTTPHeaders: HTTPHeaders = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
         };
 
         if (options.access_token && options.access_token.length) {
-            extraHTTPHeaders['Authorization'] = 'Bearer ' + options.access_token;
+            extraHTTPHeaders["Authorization"] = "Bearer " + options.access_token;
         }
 
         return await request.newContext({
@@ -96,10 +95,7 @@ export class AdminApiContext {
         });
     }
 
-    private static async authenticateWithRetry(
-        tmpContext: APIRequestContext,
-        options: Required<AdminApiContextOptions>,
-    ): Promise<string> {
+    private static async authenticateWithRetry(tmpContext: APIRequestContext, options: Required<AdminApiContextOptions>): Promise<string> {
         const max = Math.max(0, options.authMaxRetries);
         const baseDelay = Math.max(0, options.authBaseDelayMs);
 
@@ -117,7 +113,7 @@ export class AdminApiContext {
                     if (userToken) return userToken;
                 }
 
-                throw new Error('No valid authentication method available (missing credentials).');
+                throw new Error("No valid authentication method available (missing credentials).");
             } catch (err) {
                 lastError = err;
                 if (attempt === max) break;
@@ -127,59 +123,56 @@ export class AdminApiContext {
             }
         }
 
-        throw lastError instanceof Error
-            ? lastError
-            : new Error(`Authentication failed after ${max + 1} attempts: ${String(lastError)}`);
+        throw lastError instanceof Error ? lastError : new Error(`Authentication failed after ${max + 1} attempts: ${String(lastError)}`);
     }
 
     static async authenticateWithClientCredentials(context: APIRequestContext, options: Required<AdminApiContextOptions>) {
-        const authResponse: APIResponse = await context.post('oauth/token', {
+        const authResponse: APIResponse = await context.post("oauth/token", {
             data: {
-                grant_type: 'client_credentials',
+                grant_type: "client_credentials",
                 client_id: options.client_id,
                 client_secret: options.client_secret,
-                scope: 'write',
+                scope: "write",
             },
         });
 
-        expect(authResponse.ok(), 'Should authenticate with client credentials').toBeTruthy();
+        expect(authResponse.ok(), "Should authenticate with client credentials").toBeTruthy();
 
         const authData = (await authResponse.json()) as { access_token?: string };
 
-
-        if (!authData['access_token']) {
+        if (!authData["access_token"]) {
             throw new Error(`Failed to authenticate with client_id: ${options.client_id}`);
         }
 
-        return authData['access_token'];
+        return authData["access_token"];
     }
 
     static async authenticateWithUserPassword(context: APIRequestContext, options: Required<AdminApiContextOptions>) {
-        const authResponse: APIResponse = await context.post('oauth/token', {
+        const authResponse: APIResponse = await context.post("oauth/token", {
             data: {
-                client_id: 'administration',
-                grant_type: 'password',
+                client_id: "administration",
+                grant_type: "password",
                 username: options.admin_username,
                 password: options.admin_password,
-                scope: 'write',
+                scope: "write",
             },
         });
 
-        expect(authResponse.ok(), 'Should authenticate with user credentials').toBeTruthy();
+        expect(authResponse.ok(), "Should authenticate with user credentials").toBeTruthy();
 
         const authData = (await authResponse.json()) as { access_token?: string };
 
-        if (!authData['access_token']) {
+        if (!authData["access_token"]) {
             throw new Error(`Failed to authenticate with user: ${options.admin_username}`);
         }
 
-        return authData['access_token'];
+        return authData["access_token"];
     }
 
     private async reauthenticate(): Promise<void> {
         const tmp = await AdminApiContext.createApiRequestContext({
             ...this.options,
-            access_token: '',
+            access_token: "",
         });
 
         this.options.access_token = await AdminApiContext.authenticateWithRetry(tmp, this.options);
@@ -189,43 +182,39 @@ export class AdminApiContext {
 
     isAuthenticated(): boolean {
         // TODO: check token expiry
-        return !!this.options['access_token'];
+        return !!this.options["access_token"];
     }
 
     async refreshAccessToken(): Promise<void> {
-        this.options['access_token'] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
+        this.options["access_token"] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
         this.context = await AdminApiContext.createApiRequestContext(this.options);
     }
 
     async get<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.handleRequest('get', url, options);
+        return this.handleRequest("get", url, options);
     }
 
     async post<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.handleRequest('post', url, options);
+        return this.handleRequest("post", url, options);
     }
 
     async patch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.handleRequest('patch', url, options);
+        return this.handleRequest("patch", url, options);
     }
 
     async delete<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.handleRequest('delete', url, options);
+        return this.handleRequest("delete", url, options);
     }
 
     async fetch<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.handleRequest('fetch', url, options);
+        return this.handleRequest("fetch", url, options);
     }
 
     async head<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
-        return this.handleRequest('head', url, options);
+        return this.handleRequest("head", url, options);
     }
 
-    private async handleRequest<PAYLOAD>(
-      method: 'get' | 'post' | 'patch' | 'delete' | 'fetch' | 'head',
-      url: string,
-      options?: RequestOptions<PAYLOAD>,
-    ): Promise<APIResponse> {
+    private async handleRequest<PAYLOAD>(method: "get" | "post" | "patch" | "delete" | "fetch" | "head", url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
         const methodMap = {
             get: this.context.get.bind(this.context),
             post: this.context.post.bind(this.context),
@@ -253,7 +242,7 @@ export class AdminApiContext {
                 data: options?.data ?? undefined,
                 headers: {
                     ...options?.headers,
-                    Authorization: `Bearer ${this.options['access_token']}`,
+                    Authorization: `Bearer ${this.options["access_token"]}`,
                 },
             };
             response = await methodMap[method](url, updatedOptions);

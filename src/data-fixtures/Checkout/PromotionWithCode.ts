@@ -1,19 +1,18 @@
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { components } from '@shopware/api-client/admin-api-types';
+import { test as base, expect } from "@playwright/test";
+import type { FixtureTypes } from "../../types/FixtureTypes";
+import type { components } from "@shopware/api-client/admin-api-types";
 
 /**
  * @deprecated - Use TestDataService.createPromotionWithCode() instead.
  */
 export const PromotionWithCodeData = base.extend<FixtureTypes>({
     PromotionWithCodeData: async ({ AdminApiContext, DefaultSalesChannel, IdProvider }, use) => {
-
         // Generate promotion code
         const promotionCode = `${IdProvider.getIdPair().id}`;
         const promotionName = `Test Promotion ${promotionCode}`;
 
         // Create a new promotion with code via admin API context
-        const promotionResponse = await AdminApiContext.post('promotion?_response=1', {
+        const promotionResponse = await AdminApiContext.post("promotion?_response=1", {
             data: {
                 name: promotionName,
                 active: true,
@@ -29,8 +28,8 @@ export const PromotionWithCodeData = base.extend<FixtureTypes>({
                 code: promotionCode,
                 discounts: [
                     {
-                        scope: 'cart',
-                        type: 'percentage',
+                        scope: "cart",
+                        type: "percentage",
                         value: 10,
                         considerAdvancedRules: false,
                     },
@@ -46,7 +45,7 @@ export const PromotionWithCodeData = base.extend<FixtureTypes>({
 
         expect(promotionResponse.ok()).toBeTruthy();
 
-        const { data: promotion } = (await promotionResponse.json()) as { data: components['schemas']['Promotion'] };
+        const { data: promotion } = (await promotionResponse.json()) as { data: components["schemas"]["Promotion"] };
 
         // User promotion data in the test
         await use(promotion);

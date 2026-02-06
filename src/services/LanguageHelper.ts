@@ -1,20 +1,20 @@
-import { AsyncLocalStorage } from 'async_hooks';
-import { createInstance } from 'i18next';
-import type { TranslationKey, I18nextInstance } from '../types/TranslationTypes';
-import { BUNDLED_RESOURCES } from '../locales';
-import { getLocale } from './ShopwareDataHelpers';
+import { AsyncLocalStorage } from "async_hooks";
+import { createInstance } from "i18next";
+import type { TranslationKey, I18nextInstance } from "../types/TranslationTypes";
+import { BUNDLED_RESOURCES } from "../locales";
+import { getLocale } from "./ShopwareDataHelpers";
 
 // Map a raw input (e.g. "en-GB,fr;q=0.8") to a folder like "en" / "de"
 function normalizeLanguage(input?: string) {
-    if (!input) return 'en';
+    if (!input) return "en";
     const first = input
-        .split(',')[0]
-        .split(';')[0]
+        .split(",")[0]
+        .split(";")[0]
         .trim()
-        .replace(/\.(?:UTF-8|utf-8|utf8)$/i, '')
-        .replace(/_/g, '-');
-    const [lang] = first.split('-');
-    return (lang || 'en').toLowerCase();
+        .replace(/\.(?:UTF-8|utf-8|utf8)$/i, "")
+        .replace(/_/g, "-");
+    const [lang] = first.split("-");
+    return (lang || "en").toLowerCase();
 }
 
 function listNamespaces(locale: string, customResources?: typeof BUNDLED_RESOURCES): string[] {
@@ -23,12 +23,12 @@ function listNamespaces(locale: string, customResources?: typeof BUNDLED_RESOURC
     return Object.keys(resources);
 }
 
-const TRANSLATOR_SYMBOL = Symbol('__sw_translator__');
+const TRANSLATOR_SYMBOL = Symbol("__sw_translator__");
 
 export class LanguageHelper {
     private readonly i18nInstance: I18nextInstance | null;
     private currentLng: string;
-    private readonly fallbackLng = 'en';
+    private readonly fallbackLng = "en";
     private readonly resources: typeof BUNDLED_RESOURCES;
 
     private constructor(i18nInstance: I18nextInstance | null, language: string, resources: typeof BUNDLED_RESOURCES) {
@@ -48,18 +48,18 @@ export class LanguageHelper {
         const ns = Array.from(new Set([...activeNs, ...fallbackNs]));
 
         this.currentLng = lng;
-        if (this.i18nInstance && typeof this.i18nInstance.changeLanguage === 'function') {
+        if (this.i18nInstance && typeof this.i18nInstance.changeLanguage === "function") {
             await this.i18nInstance.changeLanguage(lng);
-            if (ns.length && typeof this.i18nInstance.reloadResources === 'function') {
+            if (ns.length && typeof this.i18nInstance.reloadResources === "function") {
                 await this.i18nInstance.reloadResources([lng, this.fallbackLng], ns);
             }
         }
     }
 
     translate(key: TranslationKey, options?: Record<string, unknown>): string {
-        if (this.i18nInstance && typeof this.i18nInstance.t === 'function') {
-            const [area, namespace, ...keyParts] = key.split(':');
-            const i18nextKey = `${area}/${namespace}:${keyParts.join(':')}`;
+        if (this.i18nInstance && typeof this.i18nInstance.t === "function") {
+            const [area, namespace, ...keyParts] = key.split(":");
+            const i18nextKey = `${area}/${namespace}:${keyParts.join(":")}`;
             return this.i18nInstance.t(i18nextKey, options);
         }
         return fallbackTranslate(key, this.resources, options);
@@ -72,7 +72,7 @@ export class LanguageHelper {
 
         try {
             const activeNs = listNamespaces(lng, resources);
-            const fallbackNs = lng === 'en' ? [] : listNamespaces('en', resources);
+            const fallbackNs = lng === "en" ? [] : listNamespaces("en", resources);
             const ns = Array.from(new Set([...activeNs, ...fallbackNs]));
 
             // Create i18next instance directly (no dynamic imports needed)
@@ -80,20 +80,20 @@ export class LanguageHelper {
 
             await instance.init({
                 lng,
-                fallbackLng: 'en',
+                fallbackLng: "en",
                 ns,
-                defaultNS: ns[0] || 'common',
+                defaultNS: ns[0] || "common",
                 resources: resources, // Use provided resources (bundled or custom)
                 interpolation: { escapeValue: false },
                 returnNull: false,
                 returnEmptyString: false,
-                keySeparator: '.',
-                nsSeparator: ':',
+                keySeparator: ".",
+                nsSeparator: ":",
             });
 
             i18nInstance = instance as unknown as I18nextInstance;
         } catch (error) {
-            console.warn('i18next initialization failed, using fallback:', error);
+            console.warn("i18next initialization failed, using fallback:", error);
             i18nInstance = null;
         }
 
@@ -120,10 +120,10 @@ export function getCurrentContext(): Record<string, unknown> | null {
 }
 
 function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED_RESOURCES, options?: Record<string, unknown>): string {
-    const [area, namespace, ...keyPath] = key.split(':');
+    const [area, namespace, ...keyPath] = key.split(":");
 
     const language = getLocale();
-    const normalizedLang = language.toLowerCase().startsWith('de') ? 'de' : 'en';
+    const normalizedLang = language.toLowerCase().startsWith("de") ? "de" : "en";
 
     const resources = customResources?.[normalizedLang] || BUNDLED_RESOURCES[normalizedLang];
 
@@ -133,16 +133,16 @@ function fallbackTranslate(key: TranslationKey, customResources?: typeof BUNDLED
     if (namespaceData) {
         let value: unknown = namespaceData;
 
-        const fullKeyPath = keyPath.join(':');
-        for (const part of fullKeyPath.split('.')) {
-            if (value && typeof value === 'object' && value !== null) {
+        const fullKeyPath = keyPath.join(":");
+        for (const part of fullKeyPath.split(".")) {
+            if (value && typeof value === "object" && value !== null) {
                 value = (value as Record<string, unknown>)[part];
             } else {
                 return key;
             }
         }
 
-        if (typeof value === 'string') {
+        if (typeof value === "string") {
             // Perform simple variable interpolation for placeholders like {{count}}
             if (options) {
                 return value.replace(/\{\{(\w+)\}\}/g, (match, varName) => {

@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class ListingPageLayoutDetail implements PageObject {
     //General
@@ -28,24 +28,24 @@ export class ListingPageLayoutDetail implements PageObject {
     constructor(page: Page) {
         //General
         this.page = page;
-        this.addSectionButton = page.locator('.sw-cms-stage-add-section__button');
-        this.sectionSelectionField = page.locator('.sw-cms-stage-section-selection');
-        this.fullWidthSection = page.locator('.sw-cms-stage-section-selection__default');
-        this.sidebarSection = page.locator('.sw-cms-stage-section-selection__sidebar');
-        this.sectionEmptyState = page.locator('.sw-cms-section__empty-stage');
-        this.saveButton = page.getByRole('button', { name: translate('administration:layout:detail.save') });
-        this.loadingSpinner = page.locator('.sw-loader');
-        this.loaderButton = page.locator('.mt-button__loader');
+        this.addSectionButton = page.locator(".sw-cms-stage-add-section__button");
+        this.sectionSelectionField = page.locator(".sw-cms-stage-section-selection");
+        this.fullWidthSection = page.locator(".sw-cms-stage-section-selection__default");
+        this.sidebarSection = page.locator(".sw-cms-stage-section-selection__sidebar");
+        this.sectionEmptyState = page.locator(".sw-cms-section__empty-stage");
+        this.saveButton = page.getByRole("button", { name: translate("administration:layout:detail.save") });
+        this.loadingSpinner = page.locator(".sw-loader");
+        this.loaderButton = page.locator(".mt-button__loader");
 
         //Blocks
-        this.productListingBlock = page.locator('.sw-cms-block-product-listing');
-        this.sidebarTitle = page.locator('.sw-sidebar-item__title');
+        this.productListingBlock = page.locator(".sw-cms-block-product-listing");
+        this.sidebarTitle = page.locator(".sw-sidebar-item__title");
 
         //Sidebar
-        this.settingsButton = page.locator(`button[title="${translate('administration:layout:detail.settings')}"]`);
-        this.blocksButton = page.locator(`button[title="${translate('administration:layout:detail.blocks')}"]`);
-        this.navigatorButton = page.locator(`button[title="${translate('administration:layout:detail.navigator')}"]`);
-        this.layoutAssignmentButton = page.locator(`button[title="${translate('administration:layout:detail.layoutAssignment')}"]`);
+        this.settingsButton = page.locator(`button[title="${translate("administration:layout:detail.settings")}"]`);
+        this.blocksButton = page.locator(`button[title="${translate("administration:layout:detail.blocks")}"]`);
+        this.navigatorButton = page.locator(`button[title="${translate("administration:layout:detail.navigator")}"]`);
+        this.layoutAssignmentButton = page.locator(`button[title="${translate("administration:layout:detail.layoutAssignment")}"]`);
     }
 
     url(layoutId: string) {

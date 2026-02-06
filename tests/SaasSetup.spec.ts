@@ -1,7 +1,5 @@
-import { test } from '../src/index';
+import { test } from "../src/index";
 
-test('SaaS instance setup.', async ({
-    SaaSInstanceSetup,
-}) => {
-    await SaaSInstanceSetup()
+test("SaaS instance setup.", async ({ SaaSInstanceSetup }) => {
+    await SaaSInstanceSetup();
 });

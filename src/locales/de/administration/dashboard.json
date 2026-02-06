@@ -14,7 +14,7 @@
         "logout": "Abmelden"
     },
     "order": {
-      "orderTitle": "Bestellungen",
-      "orderOverview": "Übersicht"
-  }
+        "orderTitle": "Bestellungen",
+        "orderOverview": "Übersicht"
+    }
 }

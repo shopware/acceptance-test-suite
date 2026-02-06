@@ -1,4 +1,4 @@
-import { AdminApiContext } from './AdminApiContext';
+import { AdminApiContext } from "./AdminApiContext";
 
 interface FeatureFlag {
     default: boolean;
@@ -12,7 +12,6 @@ interface FeatureFlag {
  * Service to interact with feature flags
  */
 export class FeatureService {
-
     private readonly apiContext: AdminApiContext;
     private features: Record<string, FeatureFlag> = {};
     private resetFeatures: Record<string, boolean> = {};
@@ -110,10 +109,10 @@ export class FeatureService {
             return;
         }
 
-        const res = await this.apiContext.get('_action/feature-flag');
+        const res = await this.apiContext.get("_action/feature-flag");
 
         if (!res.ok()) {
-            throw new Error('Could not load feature flags');
+            throw new Error("Could not load feature flags");
         }
 
         this.features = await res.json();

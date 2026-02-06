@@ -1,7 +1,7 @@
-import { test as base, expect } from '@playwright/test';
-import type { FixtureTypes } from '../../types/FixtureTypes';
-import type { Order } from '../../types/ShopwareTypes';
-import { getCurrency, getSalutationId, getStateMachineId, getStateMachineStateId } from '../../services/ShopwareDataHelpers';
+import { test as base, expect } from "@playwright/test";
+import type { FixtureTypes } from "../../types/FixtureTypes";
+import type { Order } from "../../types/ShopwareTypes";
+import { getCurrency, getSalutationId, getStateMachineId, getStateMachineStateId } from "../../services/ShopwareDataHelpers";
 
 /**
  * @deprecated - Use TestDataService.createOrder() instead.
@@ -11,10 +11,10 @@ export const OrderData = base.extend<FixtureTypes>({
         //Create Requests
         const requests = {
             currencyEUR: getCurrency(AdminApiContext),
-            mrSalutationId: getSalutationId('mr', AdminApiContext),
-            orderStateId: getStateMachineId('order.state', AdminApiContext),
-            orderTransactionStateId: getStateMachineId('order_transaction.state', AdminApiContext),
-            orderDeliveryStateId: getStateMachineId('order_delivery.state', AdminApiContext),
+            mrSalutationId: getSalutationId("mr", AdminApiContext),
+            orderStateId: getStateMachineId("order.state", AdminApiContext),
+            orderTransactionStateId: getStateMachineId("order_transaction.state", AdminApiContext),
+            orderDeliveryStateId: getStateMachineId("order_delivery.state", AdminApiContext),
         };
         await Promise.all(Object.values(requests));
 
@@ -31,14 +31,14 @@ export const OrderData = base.extend<FixtureTypes>({
         const orderDeliveryStateIdMachineStateId = await getStateMachineStateId(orderDeliveryStateId, AdminApiContext);
 
         // Create order
-        const orderResponse = await AdminApiContext.post('./order?_response=detail', {
+        const orderResponse = await AdminApiContext.post("./order?_response=detail", {
             data: {
                 billingAddressId: addressId,
                 currencyId: SalesChannelBaseConfig.currentCurrencyId,
                 languageId: SalesChannelBaseConfig.currentLanguageId,
                 salesChannelId: DefaultSalesChannel.salesChannel.id,
                 stateId: orderStateStateMachineStateId,
-                orderDateTime: '2024-02-01 07:00:00',
+                orderDateTime: "2024-02-01 07:00:00",
                 orderNumber: orderId,
                 currencyFactor: currencyEUR.factor,
                 itemRounding: {
@@ -78,7 +78,7 @@ export const OrderData = base.extend<FixtureTypes>({
                     positionPrice: 13.98,
                     rawTotal: 13.98,
                     netPrice: 13.98,
-                    taxStatus: 'gross',
+                    taxStatus: "gross",
                     calculatedTaxes: [
                         {
                             tax: 0,
@@ -119,8 +119,8 @@ export const OrderData = base.extend<FixtureTypes>({
                             productNumber: ProductData.productNumber,
                         },
                         identifier: ProductData.id,
-                        type: 'product',
-                        label: 'Shopware Blue T-shirt',
+                        type: "product",
+                        label: "Shopware Blue T-shirt",
                         quantity: 1,
                         position: 1,
                         price: {
@@ -142,7 +142,7 @@ export const OrderData = base.extend<FixtureTypes>({
                             ],
                         },
                         priceDefinition: {
-                            type: 'quantity',
+                            type: "quantity",
                             price: 10.99,
                             quantity: 1,
                             taxRules: [
@@ -165,16 +165,16 @@ export const OrderData = base.extend<FixtureTypes>({
                         shippingOrderAddress: {
                             id: IdProvider.getIdPair().uuid,
                             salutationId: mrSalutationId,
-                            firstName: 'John',
-                            lastName: 'Doe',
-                            street: 'Shortstreet 5',
-                            zipcode: '12345',
-                            city: 'Doe City',
+                            firstName: "John",
+                            lastName: "Doe",
+                            street: "Shortstreet 5",
+                            zipcode: "12345",
+                            city: "Doe City",
                             countryId: SalesChannelBaseConfig.currentCountryId,
-                            phoneNumber: '123 456 789',
+                            phoneNumber: "123 456 789",
                         },
-                        shippingDateEarliest: '2024-03-01 07:00:00',
-                        shippingDateLatest: '2024-03-03 07:00:00',
+                        shippingDateEarliest: "2024-03-01 07:00:00",
+                        shippingDateLatest: "2024-03-03 07:00:00",
                         shippingCosts: {
                             unitPrice: 8.99,
                             totalPrice: 8.99,

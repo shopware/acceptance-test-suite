@@ -1,7 +1,7 @@
-import { test, expect } from '../src/index';
-import { satisfies } from 'compare-versions';
+import { test, expect } from "../src/index";
+import { satisfies } from "compare-versions";
 
-test('All data fixtures', async ({
+test("All data fixtures", async ({
     AdminApiContext,
     StoreApiContext,
     DefaultSalesChannel,
@@ -37,8 +37,8 @@ test('All data fixtures', async ({
     expect(PropertiesData).toBeInstanceOf(Object);
 
     expect(InstanceMeta).toBeInstanceOf(Object);
-    if (satisfies(InstanceMeta.version, '>=6.6.1.0')) {
-        expect(InstanceMeta.features['V6_6_0_0']).toBeDefined();
-        expect(InstanceMeta.features['V6_6_0_0']).toBeTruthy();
+    if (satisfies(InstanceMeta.version, ">=6.6.1.0")) {
+        expect(InstanceMeta.features["V6_6_0_0"]).toBeDefined();
+        expect(InstanceMeta.features["V6_6_0_0"]).toBeTruthy();
     }
 });

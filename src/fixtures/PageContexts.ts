@@ -1,11 +1,11 @@
-import { test as base, expect } from '@playwright/test';
-import type { Page, BrowserContext } from 'playwright-core';
-import type { FixtureTypes } from '../types/FixtureTypes';
-import { isThemeCompiled } from '../services/ShopInfo';
-import { clearDelayedCache } from '../services/Cache';
-import { createNewAdminPageContext } from '../services/AdminLoginHelper';
-import { LanguageHelper, setCurrentContext } from '../services/LanguageHelper';
-import { getLocale } from '../services/ShopwareDataHelpers';
+import { test as base, expect } from "@playwright/test";
+import type { Page, BrowserContext } from "playwright-core";
+import type { FixtureTypes } from "../types/FixtureTypes";
+import { isThemeCompiled } from "../services/ShopInfo";
+import { clearDelayedCache } from "../services/Cache";
+import { createNewAdminPageContext } from "../services/AdminLoginHelper";
+import { LanguageHelper, setCurrentContext } from "../services/LanguageHelper";
+import { getLocale } from "../services/ShopwareDataHelpers";
 
 export interface PageContextTypes {
     AdminPage: Page;
@@ -29,12 +29,12 @@ export const test = base.extend<FixtureTypes>({
             lastName: `${id} admin`,
             localeId: SalesChannelBaseConfig.currentLocaleId,
             email: `admin_${id}@example.com`,
-            timezone: 'Europe/Berlin',
-            password: 'shopware',
+            timezone: "Europe/Berlin",
+            password: "shopware",
             admin: true,
         };
 
-        const response = await AdminApiContext.post('user', {
+        const response = await AdminApiContext.post("user", {
             data: adminUser,
         });
 
@@ -60,7 +60,7 @@ export const test = base.extend<FixtureTypes>({
         const context = await browser.newContext({
             baseURL: url,
             locale,
-            extraHTTPHeaders: { 'Accept-Language': locale },
+            extraHTTPHeaders: { "Accept-Language": locale },
         });
 
         LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
@@ -87,7 +87,7 @@ export const test = base.extend<FixtureTypes>({
             page = await context.newPage();
         }
 
-        await page.goto('./', { waitUntil: 'load' });
+        await page.goto("./", { waitUntil: "load" });
 
         await use(page);
 
@@ -101,9 +101,9 @@ export const test = base.extend<FixtureTypes>({
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
-            baseURL: process.env['APP_URL'],
+            baseURL: process.env["APP_URL"],
             locale,
-            extraHTTPHeaders: { 'Accept-Language': locale },
+            extraHTTPHeaders: { "Accept-Language": locale },
         });
 
         LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);

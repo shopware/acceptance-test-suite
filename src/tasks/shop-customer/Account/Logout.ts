@@ -1,18 +1,17 @@
-import { test as base } from '@playwright/test';
-import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
+import { test as base } from "@playwright/test";
+import type { Task } from "../../../types/Task";
+import type { FixtureTypes } from "../../../types/FixtureTypes";
 
 export const Logout = base.extend<{ Logout: Task }, FixtureTypes>({
-    Logout: async ({ ShopCustomer, StorefrontAccountLogin }, use)=> {
+    Logout: async ({ ShopCustomer, StorefrontAccountLogin }, use) => {
         const task = () => {
             return async function Logout() {
-
                 await ShopCustomer.goesTo(StorefrontAccountLogin.url());
                 await ShopCustomer.expects(StorefrontAccountLogin.loginButton).not.toBeVisible();
 
                 await ShopCustomer.presses(StorefrontAccountLogin.logoutLink);
                 await ShopCustomer.expects(StorefrontAccountLogin.successAlert).toBeVisible();
-            }
+            };
         };
 
         await use(task);

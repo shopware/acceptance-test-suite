@@ -1,13 +1,6 @@
-import { test } from '../../src';
+import { test } from "../../src";
 
-test('Administration page objects - CustomerGroup.', async ({
-    ShopAdmin,
-    AdminCustomerGroupListing,
-    AdminCustomerGroupCreate,
-    AdminCustomerGroupDetail,
-    TestDataService,
-}) => {
-
+test("Administration page objects - CustomerGroup.", async ({ ShopAdmin, AdminCustomerGroupListing, AdminCustomerGroupCreate, AdminCustomerGroupDetail, TestDataService }) => {
     const customerGroup = await TestDataService.createCustomerGroup();
 
     await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
@@ -24,5 +17,4 @@ test('Administration page objects - CustomerGroup.', async ({
     await ShopAdmin.goesTo(AdminCustomerGroupCreate.url());
     await ShopAdmin.expects(AdminCustomerGroupCreate.customerGroupNameField).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupCreate.saveButton).toBeVisible();
-
 });

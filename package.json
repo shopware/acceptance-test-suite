@@ -2,21 +2,26 @@
     "name": "@shopware-ag/acceptance-test-suite",
     "version": "12.4.3",
     "description": "Shopware Acceptance Test Suite",
-    "author": "shopware AG",
+    "keywords": [
+        "fixtures",
+        "integration",
+        "playwright",
+        "shopware",
+        "test-data",
+        "testing"
+    ],
     "license": "MIT",
+    "author": "shopware AG",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/shopware/acceptance-test-suite.git"
     },
-    "keywords": [
-        "shopware",
-        "testing",
-        "playwright",
-        "integration",
-        "fixtures",
-        "test-data"
+    "files": [
+        "dist"
     ],
     "type": "module",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/index.d.mts",
@@ -24,11 +29,6 @@
             "default": "./dist/index.mjs"
         }
     },
-    "module": "./dist/index.mjs",
-    "types": "./dist/index.d.ts",
-    "files": [
-        "dist"
-    ],
     "scripts": {
         "lint": "oxlint --type-aware",
         "lint:fix": "oxlint --type-aware --fix",

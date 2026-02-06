@@ -1,9 +1,9 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { RuleCreate } from './RuleCreate';
-import type { HelperFixtureTypes } from '../../fixtures/HelperFixtures';
-import { satisfies } from 'compare-versions';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { RuleCreate } from "./RuleCreate";
+import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
+import { satisfies } from "compare-versions";
+import { translate } from "../../services/LanguageHelper";
 
 export class RuleDetail extends RuleCreate implements PageObject {
     public readonly contentView: Locator;
@@ -50,110 +50,110 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly conditionDateRangeUseTimeOperator: Locator | undefined;
     public readonly conditionDateRangeTimezoneOperator: Locator | undefined;
 
-    constructor(page: Page, instanceMeta: HelperFixtureTypes['InstanceMeta']) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         super(page, instanceMeta);
-        this.contentView = page.locator('.sw-desktop__content');
-        this.shippingMethodAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-shipping_method_availability_rule');
-        this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole('link');
-        this.shippingMethodAvailabilityRulesCardTable = page.locator('.sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule');
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole('alert');
+        this.contentView = page.locator(".sw-desktop__content");
+        this.shippingMethodAvailabilityRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-shipping_method_availability_rule");
+        this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole("link");
+        this.shippingMethodAvailabilityRulesCardTable = page.locator(".sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule");
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole("alert");
         } else {
-            this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole('heading', {
-                name: translate('administration:rule:text.ruleNotInUse'),
+            this.shippingMethodAvailabilityRulesCardEmptyState = this.shippingMethodAvailabilityRulesCard.getByRole("heading", {
+                name: translate("administration:rule:text.ruleNotInUse"),
                 level: 2,
             });
         }
-        this.shippingMethodAvailabilityRulesCardSearchField = this.shippingMethodAvailabilityRulesCard.getByRole('textbox');
-        this.taxProviderRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-tax_provider');
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole('alert');
+        this.shippingMethodAvailabilityRulesCardSearchField = this.shippingMethodAvailabilityRulesCard.getByRole("textbox");
+        this.taxProviderRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-tax_provider");
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole("alert");
         } else {
-            this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole('heading', { name: translate('administration:rule:text.ruleNotInUse'), level: 2 });
+            this.taxProviderRulesCardEmptyState = this.taxProviderRulesCard.getByRole("heading", { name: translate("administration:rule:text.ruleNotInUse"), level: 2 });
         }
-        this.paymentMethodsAvailabilityRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-payment_method');
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole('alert');
+        this.paymentMethodsAvailabilityRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-payment_method");
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole("alert");
         } else {
-            this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole('heading', {
-                name: translate('administration:rule:text.ruleNotInUse'),
+            this.paymentMethodsAvailabilityRulesCardEmptyState = this.paymentMethodsAvailabilityRulesCard.getByRole("heading", {
+                name: translate("administration:rule:text.ruleNotInUse"),
                 level: 2,
             });
         }
-        this.paymentMethodsAvailabilityRulesCardLink = page.locator('.sw-settings-rule-detail-assignments__card-payment_method').getByRole('link');
-        this.promotionOrderRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_order_rule');
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole('alert');
+        this.paymentMethodsAvailabilityRulesCardLink = page.locator(".sw-settings-rule-detail-assignments__card-payment_method").getByRole("link");
+        this.promotionOrderRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-promotion_order_rule");
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole("alert");
         } else {
-            this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole('heading', { name: translate('administration:rule:text.ruleNotInUse'), level: 2 });
+            this.promotionOrderRulesCardEmptyState = this.promotionOrderRulesCard.getByRole("heading", { name: translate("administration:rule:text.ruleNotInUse"), level: 2 });
         }
-        this.promotionCustomerRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_customer_rule');
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('alert');
+        this.promotionCustomerRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-promotion_customer_rule");
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole("alert");
         } else {
-            this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole('heading', {
-                name: translate('administration:rule:text.ruleNotInUse'),
+            this.promotionCustomerRulesCardEmptyState = this.promotionCustomerRulesCard.getByRole("heading", {
+                name: translate("administration:rule:text.ruleNotInUse"),
                 level: 2,
             });
         }
-        this.promotionCartRulesCard = page.locator('.sw-settings-rule-detail-assignments__card-promotion_cart_rule');
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('alert');
+        this.promotionCartRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-promotion_cart_rule");
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole("alert");
         } else {
-            this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole('heading', { name: translate('administration:rule:text.ruleNotInUse'), level: 2 });
+            this.promotionCartRulesCardEmptyState = this.promotionCartRulesCard.getByRole("heading", { name: translate("administration:rule:text.ruleNotInUse"), level: 2 });
         }
-        this.assignmentModal = page.locator('.sw-settings-rule-add-assignment-modal');
-        this.assignmentModalSearchField = this.assignmentModal.getByRole('textbox');
-        this.adminMenuAvatar = page.locator('.sw-admin-menu__avatar');
-        this.conditionSelectField = page.locator('.sw-condition-tree').locator('.sw-condition-type-select');
-        this.conditionLineItemGoodsTotalOperator = page.locator('.sw-condition-line-item-goods-total').locator('.sw-single-select__selection-text');
-        this.conditionLineItemGoodsTotalValue = page.locator('.sw-condition-line-item-goods-total').getByRole('textbox');
-        this.conditionLineItemGoodsTotalFilter = page.locator('.sw-condition-line-item-goods-total__filter').getByRole('button');
-        this.conditionDateRangeOperator = page.locator('.sw-condition-date-range').locator('.sw-single-select__selection-text');
+        this.assignmentModal = page.locator(".sw-settings-rule-add-assignment-modal");
+        this.assignmentModalSearchField = this.assignmentModal.getByRole("textbox");
+        this.adminMenuAvatar = page.locator(".sw-admin-menu__avatar");
+        this.conditionSelectField = page.locator(".sw-condition-tree").locator(".sw-condition-type-select");
+        this.conditionLineItemGoodsTotalOperator = page.locator(".sw-condition-line-item-goods-total").locator(".sw-single-select__selection-text");
+        this.conditionLineItemGoodsTotalValue = page.locator(".sw-condition-line-item-goods-total").getByRole("textbox");
+        this.conditionLineItemGoodsTotalFilter = page.locator(".sw-condition-line-item-goods-total__filter").getByRole("button");
+        this.conditionDateRangeOperator = page.locator(".sw-condition-date-range").locator(".sw-single-select__selection-text");
 
-        if (satisfies(instanceMeta.version, '>=6.7.6')) {
-            this.conditionDateRangeUseTimeOperator = page.locator('.sw-condition-date-range__use-time').locator('.sw-single-select__selection-text');
-            this.conditionDateRangeTimezoneOperator = page.locator('.sw-condition-date-range__timezone').locator('.sw-single-select__selection-text');
+        if (satisfies(instanceMeta.version, ">=6.7.6")) {
+            this.conditionDateRangeUseTimeOperator = page.locator(".sw-condition-date-range__use-time").locator(".sw-single-select__selection-text");
+            this.conditionDateRangeTimezoneOperator = page.locator(".sw-condition-date-range__timezone").locator(".sw-single-select__selection-text");
         }
 
-        if (satisfies(instanceMeta.version, '<6.7.3')) {
-            this.conditionDateRangeDateFieldFirst = page.locator('.sw-condition-date-range').locator('.flatpickr-input').first();
-            this.conditionDateRangeDateFieldSecond = page.locator('.sw-condition-date-range').locator('.flatpickr-input').last();
+        if (satisfies(instanceMeta.version, "<6.7.3")) {
+            this.conditionDateRangeDateFieldFirst = page.locator(".sw-condition-date-range").locator(".flatpickr-input").first();
+            this.conditionDateRangeDateFieldSecond = page.locator(".sw-condition-date-range").locator(".flatpickr-input").last();
         } else {
-            this.conditionDateRangeDateFieldFirst = page.locator('.mt-datepicker__wrapper').locator('.dp__input').first();
-            this.conditionDateRangeDateFieldSecond = page.locator('.mt-datepicker__wrapper').locator('.dp__input').nth(1);
+            this.conditionDateRangeDateFieldFirst = page.locator(".mt-datepicker__wrapper").locator(".dp__input").first();
+            this.conditionDateRangeDateFieldSecond = page.locator(".mt-datepicker__wrapper").locator(".dp__input").nth(1);
         }
-        this.conditionCustomerSurnameOperator = page.locator('.sw-condition__condition-type-customerLastName').locator('.sw-single-select__selection-text');
-        this.conditionCustomerSurnameValue = page.locator('.sw-condition__condition-type-customerLastName').getByRole('textbox');
-        this.conditionCartLineItemTaxationMatchOperator = page.locator('.sw-condition-base-line-item__matches-all');
-        this.conditionCartLineItemTaxationOperator = page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-single-select__selection-text');
-        this.conditionCartLineItemTaxationValue = page.locator('.sw-condition__condition-type-cartLineItemTaxation').locator('.sw-select-selection-list__item');
-        this.conditionTimeRangeValueFirst = page.locator('.sw-condition-time-range').getByRole('textbox').first();
-        this.conditionTimeRangeValueSecond = page.locator('.sw-condition-time-range').getByRole('textbox').last();
-        if (satisfies(instanceMeta.version, '<6.7.4.1')) {
-            this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.sw-select__selection');
+        this.conditionCustomerSurnameOperator = page.locator(".sw-condition__condition-type-customerLastName").locator(".sw-single-select__selection-text");
+        this.conditionCustomerSurnameValue = page.locator(".sw-condition__condition-type-customerLastName").getByRole("textbox");
+        this.conditionCartLineItemTaxationMatchOperator = page.locator(".sw-condition-base-line-item__matches-all");
+        this.conditionCartLineItemTaxationOperator = page.locator(".sw-condition__condition-type-cartLineItemTaxation").locator(".sw-single-select__selection-text");
+        this.conditionCartLineItemTaxationValue = page.locator(".sw-condition__condition-type-cartLineItemTaxation").locator(".sw-select-selection-list__item");
+        this.conditionTimeRangeValueFirst = page.locator(".sw-condition-time-range").getByRole("textbox").first();
+        this.conditionTimeRangeValueSecond = page.locator(".sw-condition-time-range").getByRole("textbox").last();
+        if (satisfies(instanceMeta.version, "<6.7.4.1")) {
+            this.conditionOrderCreatedByAdminValue = page.locator(".sw-condition__condition-type-orderCreatedByAdmin").locator(".sw-select__selection");
         } else {
-            this.conditionOrderCreatedByAdminValue = page.locator('.sw-condition__condition-type-orderCreatedByAdmin').locator('.mt-select-selection-list__input');
+            this.conditionOrderCreatedByAdminValue = page.locator(".sw-condition__condition-type-orderCreatedByAdmin").locator(".mt-select-selection-list__input");
         }
-        this.conditionFilterModal = page.locator('.sw-modal__header').getByText(translate('administration:rule:text.filter'));
-        this.conditionFilterModalCloseButtonX = page.locator('.sw-modal__header').getByRole('button');
-        this.conditionCartLineItemInStockOperator = page.locator('.sw-condition__condition-type-cartLineItemStock').locator('.sw-single-select__selection-text');
-        this.conditionCartLineItemInStockValue = page.locator('.sw-condition__condition-type-cartLineItemStock').getByRole('textbox');
-        if (satisfies(instanceMeta.version, '<6.7')) {
-            this.assignmentModalAddButton = this.assignmentModal.locator('.sw-button--primary').getByText(translate('administration:rule:buttons.add'));
+        this.conditionFilterModal = page.locator(".sw-modal__header").getByText(translate("administration:rule:text.filter"));
+        this.conditionFilterModalCloseButtonX = page.locator(".sw-modal__header").getByRole("button");
+        this.conditionCartLineItemInStockOperator = page.locator(".sw-condition__condition-type-cartLineItemStock").locator(".sw-single-select__selection-text");
+        this.conditionCartLineItemInStockValue = page.locator(".sw-condition__condition-type-cartLineItemStock").getByRole("textbox");
+        if (satisfies(instanceMeta.version, "<6.7")) {
+            this.assignmentModalAddButton = this.assignmentModal.locator(".sw-button--primary").getByText(translate("administration:rule:buttons.add"));
         } else {
-            this.assignmentModalAddButton = this.assignmentModal.locator('.mt-button--primary').getByText(translate('administration:rule:buttons.add'));
+            this.assignmentModalAddButton = this.assignmentModal.locator(".mt-button--primary").getByText(translate("administration:rule:buttons.add"));
         }
-        this.conditionORContainer = page.locator('.sw-condition-or-container');
+        this.conditionORContainer = page.locator(".sw-condition-or-container");
     }
 
     async getEntityCard(cardLocator: Locator): Promise<Record<string, Locator>> {
         return {
-            addAssignmentButton: cardLocator.getByText(translate('administration:rule:buttons.addAssignment')),
+            addAssignmentButton: cardLocator.getByText(translate("administration:rule:buttons.addAssignment")),
         };
     }
 
-    url(ruleId?: string, tabName = 'base') {
+    url(ruleId?: string, tabName = "base") {
         return `#/sw/settings/rule/detail/${ruleId}/${tabName}`;
     }
 }

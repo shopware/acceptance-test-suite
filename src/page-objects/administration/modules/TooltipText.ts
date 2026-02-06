@@ -1,4 +1,4 @@
-import type { Page, Locator } from 'playwright-core';
+import type { Page, Locator } from "playwright-core";
 
 /**
  * Returns the text of a tooltip.
@@ -9,6 +9,6 @@ import type { Page, Locator } from 'playwright-core';
  */
 export async function getTooltipText(page: Page, tooltipArea: Locator) {
     await tooltipArea.hover();
-    const tooltipContent = page.locator('.sw-tooltip');
+    const tooltipContent = page.locator(".sw-tooltip");
     return await tooltipContent.innerText();
 }

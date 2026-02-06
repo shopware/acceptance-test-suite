@@ -1,31 +1,31 @@
-import { test as base } from '@playwright/test';
-import type { FixtureTypes } from '../types/FixtureTypes';
+import { test as base } from "@playwright/test";
+import type { FixtureTypes } from "../types/FixtureTypes";
 
-import { Home } from './storefront/Home';
-import { ProductDetail } from './storefront/ProductDetail';
-import { Category } from './storefront/Category';
-import { CheckoutCart } from './storefront/CheckoutCart';
-import { OffCanvasCart } from './storefront/OffCanvasCart';
-import { CheckoutConfirm } from './storefront/CheckoutConfirm';
-import { CheckoutFinish } from './storefront/CheckoutFinish';
-import { CheckoutRegister } from './storefront/CheckoutRegister';
-import { Account } from './storefront/Account';
-import { AccountLogin } from './storefront/AccountLogin';
-import { AccountRecover } from './storefront/AccountRecover';
-import { AccountProfile } from './storefront/AccountProfile';
-import { AccountOrder } from './storefront/AccountOrder';
-import { AccountAddresses } from './storefront/AccountAddresses';
-import { AccountPayment } from './storefront/AccountPayment';
-import { Search } from './storefront/Search';
-import { SearchSuggest } from './storefront/SearchSuggest';
-import { CustomRegister } from './storefront/CustomRegister';
-import { CheckoutOrderEdit } from './storefront/CheckoutOrderEdit';
-import { AccountAddressCreate } from './storefront/AccountAddresssCreate';
-import { PageNotFound } from './storefront/PageNotFound';
-import { ContactForm } from './storefront/ContactForm';
-import { Wishlist } from './storefront/Wishlist';
-import { Footer } from './storefront/Footer';
-import { Header } from './storefront/Header';
+import { Home } from "./storefront/Home";
+import { ProductDetail } from "./storefront/ProductDetail";
+import { Category } from "./storefront/Category";
+import { CheckoutCart } from "./storefront/CheckoutCart";
+import { OffCanvasCart } from "./storefront/OffCanvasCart";
+import { CheckoutConfirm } from "./storefront/CheckoutConfirm";
+import { CheckoutFinish } from "./storefront/CheckoutFinish";
+import { CheckoutRegister } from "./storefront/CheckoutRegister";
+import { Account } from "./storefront/Account";
+import { AccountLogin } from "./storefront/AccountLogin";
+import { AccountRecover } from "./storefront/AccountRecover";
+import { AccountProfile } from "./storefront/AccountProfile";
+import { AccountOrder } from "./storefront/AccountOrder";
+import { AccountAddresses } from "./storefront/AccountAddresses";
+import { AccountPayment } from "./storefront/AccountPayment";
+import { Search } from "./storefront/Search";
+import { SearchSuggest } from "./storefront/SearchSuggest";
+import { CustomRegister } from "./storefront/CustomRegister";
+import { CheckoutOrderEdit } from "./storefront/CheckoutOrderEdit";
+import { AccountAddressCreate } from "./storefront/AccountAddresssCreate";
+import { PageNotFound } from "./storefront/PageNotFound";
+import { ContactForm } from "./storefront/ContactForm";
+import { Wishlist } from "./storefront/Wishlist";
+import { Footer } from "./storefront/Footer";
+import { Header } from "./storefront/Header";
 
 export interface StorefrontPageTypes {
     StorefrontHome: Home;
@@ -81,12 +81,11 @@ export const StorefrontPageObjects = {
     Wishlist,
     Footer,
     Header,
-}
+};
 
 export const test = base.extend<FixtureTypes>({
-
     StorefrontHome: async ({ StorefrontPage, InstanceMeta }, use) => {
-        await use(new Home(StorefrontPage, InstanceMeta ));
+        await use(new Home(StorefrontPage, InstanceMeta));
     },
 
     StorefrontProductDetail: async ({ StorefrontPage }, use) => {
@@ -137,7 +136,7 @@ export const test = base.extend<FixtureTypes>({
         await use(new AccountOrder(StorefrontPage));
     },
 
-    StorefrontAccountAddresses: async ({ StorefrontPage , InstanceMeta }, use) => {
+    StorefrontAccountAddresses: async ({ StorefrontPage, InstanceMeta }, use) => {
         await use(new AccountAddresses(StorefrontPage, InstanceMeta));
     },
 
@@ -168,11 +167,11 @@ export const test = base.extend<FixtureTypes>({
     StorefrontPageNotFound: async ({ StorefrontPage }, use) => {
         await use(new PageNotFound(StorefrontPage));
     },
-  
+
     StorefrontContactForm: async ({ StorefrontPage, InstanceMeta }, use) => {
         await use(new ContactForm(StorefrontPage, InstanceMeta));
     },
-  
+
     StorefrontWishlist: async ({ StorefrontPage, InstanceMeta }, use) => {
         await use(new Wishlist(StorefrontPage, InstanceMeta));
     },

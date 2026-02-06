@@ -1,8 +1,8 @@
-import { test as base } from '@playwright/test';
-import type { Task } from '../../../types/Task';
-import type { FixtureTypes } from '../../../types/FixtureTypes';
-import type { FlowConfig } from '../../../types/ShopwareTypes';
-import { translate } from '../../../services/LanguageHelper';
+import { test as base } from "@playwright/test";
+import type { Task } from "../../../types/Task";
+import type { FixtureTypes } from "../../../types/FixtureTypes";
+import type { FlowConfig } from "../../../types/ShopwareTypes";
+import { translate } from "../../../services/LanguageHelper";
 
 export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
     CreateFlow: async ({ AdminFlowBuilderCreate, AdminFlowBuilderDetail, AdminFlowBuilderListing, ShopAdmin, TestDataService }, use) => {
@@ -10,7 +10,7 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
             return async function createFlow() {
                 await AdminFlowBuilderListing.createFlowButton.click();
                 // Fill out fields on general tab
-                await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate('administration:flowBuilder:create.newFlow'));
+                await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);
                 await AdminFlowBuilderCreate.descriptionField.fill(`${flowConfig.description}`);
                 await AdminFlowBuilderCreate.priorityField.fill(`${flowConfig.priority}`);
@@ -21,14 +21,14 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.flowTab.click();
                 // Select trigger
                 await AdminFlowBuilderCreate.triggerSelectField.fill(flowConfig.triggerSearchTerm);
-                await AdminFlowBuilderCreate.triggerSelectField.press('Enter');
+                await AdminFlowBuilderCreate.triggerSelectField.press("Enter");
                 // Add condition
                 await AdminFlowBuilderCreate.sequenceSelectorConditionButton.click();
                 // todo: As soon as conditionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.conditionSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
-                    .getByRole('listitem')
+                    .getByRole("listitem")
                     .filter({ hasText: `${flowConfig.condition}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
@@ -38,16 +38,16 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.trueBlockActionSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
-                    .getByRole('listitem')
+                    .getByRole("listitem")
                     .filter({ hasText: `${flowConfig.trueAction}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.trueBlockActionSelectField, `${flowConfig.trueAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.mailSendModal).toBeVisible();
                 // todo: As soon as mailSendModalTemplateSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.mailSendModalTemplateSelectField.click();
-                await AdminFlowBuilderCreate.resultListItem.waitFor({ state: 'visible' });
+                await AdminFlowBuilderCreate.resultListItem.waitFor({ state: "visible" });
                 await AdminFlowBuilderCreate.resultListItem
-                    .getByRole('listitem')
+                    .getByRole("listitem")
                     .filter({ hasText: `${flowConfig.trueActionIdentifier}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.mailSendModalTemplateSelectField, `${flowConfig.trueActionIdentifier}`)).click();
@@ -60,7 +60,7 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.falseBlockActionSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
-                    .getByRole('listitem')
+                    .getByRole("listitem")
                     .filter({ hasText: `${flowConfig.falseAction}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
@@ -69,7 +69,7 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.tagModalTagsSelectField.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
-                    .getByRole('listitem')
+                    .getByRole("listitem")
                     .filter({ hasText: `${flowConfig.falseActionIdentifier}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
@@ -78,8 +78,8 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await AdminFlowBuilderCreate.saveButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderDetail.successMessage).toBeVisible();
                 const flowURL = AdminFlowBuilderDetail.page.url();
-                const flowID = flowURL.split('/')[flowURL.split('/').length - 2];
-                TestDataService.addCreatedRecord('flow', flowID);
+                const flowID = flowURL.split("/")[flowURL.split("/").length - 2];
+                TestDataService.addCreatedRecord("flow", flowID);
             };
         };
         await use(task);

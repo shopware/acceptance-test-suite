@@ -1,19 +1,19 @@
-import { test as base } from '@playwright/test';
-import type { Locator } from 'playwright-core';
-import type { Task } from '../../../types/Task';
-import type { FixtureTypes } from '../../../types/FixtureTypes';
-import type { CategoryData, CategoryCustomizableLinkData } from '../../../types/ShopwareTypes';
-import { translate } from '../../../services/LanguageHelper';
+import { test as base } from "@playwright/test";
+import type { Locator } from "playwright-core";
+import type { Task } from "../../../types/Task";
+import type { FixtureTypes } from "../../../types/FixtureTypes";
+import type { CategoryData, CategoryCustomizableLinkData } from "../../../types/ShopwareTypes";
+import { translate } from "../../../services/LanguageHelper";
 
 export const CreateLinkTypeCategory = base.extend<{ CreateLinkTypeCategory: Task }, FixtureTypes>({
     CreateLinkTypeCategory: async ({ AdminCategories, AdminCategoryDetail, TestDataService }, use) => {
         const task = (categoryData: CategoryData, categoryCustomizableLinkData: CategoryCustomizableLinkData, parentCategoryName: string) => {
             return async function CreateLinkTypeCategory() {
                 await AdminCategories.getTreeItemContextButton(parentCategoryName).click();
-                await AdminCategories.page.getByText(translate('administration:category:actions.newCategoryAfter')).click();
+                await AdminCategories.page.getByText(translate("administration:category:actions.newCategoryAfter")).click();
                 await AdminCategories.createCategoryInput.fill(categoryData.name);
                 await AdminCategories.confirmCategoryCreationButton.click();
-                await AdminCategories.fadingBar.first().waitFor({ state: 'hidden' });
+                await AdminCategories.fadingBar.first().waitFor({ state: "hidden" });
                 await AdminCategories.confirmCategoryCancelButton.click();
                 await AdminCategories.categoryItems.filter({ hasText: categoryData.name }).click();
                 await AdminCategories.nameInput.fill(categoryData.name);
@@ -27,34 +27,34 @@ export const CreateLinkTypeCategory = base.extend<{ CreateLinkTypeCategory: Task
 
                 let locator: Locator;
                 switch (categoryCustomizableLinkData.entity) {
-                    case 'Category':
+                    case "Category":
                         await AdminCategories.categorySelectionList.click();
                         if (categoryCustomizableLinkData.category != null) {
                             locator = await AdminCategories.getPopOverCategoryByName(categoryCustomizableLinkData.category);
-                            await locator.getByRole('checkbox').click();
+                            await locator.getByRole("checkbox").click();
                         }
                         break;
-                    case 'Product':
+                    case "Product":
                         await AdminCategories.productSelectionList.click();
                         if (categoryCustomizableLinkData.product != null) {
                             await AdminCategories.productSelectionInput.fill(categoryCustomizableLinkData.product);
                         }
                         await AdminCategories.filtersResultPopoverItemList.filter({ hasText: categoryCustomizableLinkData.product }).click();
                         break;
-                    case 'Landing page':
+                    case "Landing page":
                         await AdminCategories.landingPageSelectionList.click();
                         await AdminCategories.filtersResultPopoverItemList.filter({ hasText: categoryCustomizableLinkData.landingPage }).click();
                         break;
                     default:
-                        throw new Error('Entity type not found');
+                        throw new Error("Entity type not found");
                 }
 
                 await AdminCategories.openInNewTabCheckbox.setChecked(categoryCustomizableLinkData.openInNewTab);
                 await AdminCategories.saveButton.click();
-                await AdminCategories.loadingSpinner.waitFor({ state: 'hidden' });
+                await AdminCategories.loadingSpinner.waitFor({ state: "hidden" });
                 const url = AdminCategoryDetail.page.url();
-                const categoryId = url.split('/')[url.split('/').length - 2];
-                TestDataService.addCreatedRecord('category', categoryId);
+                const categoryId = url.split("/")[url.split("/").length - 2];
+                TestDataService.addCreatedRecord("category", categoryId);
             };
         };
 

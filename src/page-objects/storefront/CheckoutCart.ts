@@ -1,6 +1,6 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class CheckoutCart implements PageObject {
     public readonly headline: Locator;
@@ -20,36 +20,36 @@ export class CheckoutCart implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.headline = page.getByRole('heading', { name: translate('storefront:checkout:cart.shoppingCart') });
-        this.goToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
-        this.enterPromoInput = page.getByLabel(translate('storefront:checkout:cart.promoCode'));
-        this.grandTotalPrice = page.locator(`dt:has-text("${translate('storefront:checkout:common.grandTotal')}") + dd:visible`);
-        this.emptyCartAlert = page.getByText(translate('storefront:checkout:cart.emptyCart'));
-        this.stockReachedAlert = page.getByText(translate('storefront:checkout:cart.stockReached'));
-        this.cartLineItemImages = page.locator('.line-item-img-link');
-        this.unitPriceInfo = page.locator('.line-item-unit-price-value');
+        this.headline = page.getByRole("heading", { name: translate("storefront:checkout:cart.shoppingCart") });
+        this.goToCheckoutButton = page.getByRole("link", { name: translate("storefront:checkout:cart.goToCheckout") });
+        this.enterPromoInput = page.getByLabel(translate("storefront:checkout:cart.promoCode"));
+        this.grandTotalPrice = page.locator(`dt:has-text("${translate("storefront:checkout:common.grandTotal")}") + dd:visible`);
+        this.emptyCartAlert = page.getByText(translate("storefront:checkout:cart.emptyCart"));
+        this.stockReachedAlert = page.getByText(translate("storefront:checkout:cart.stockReached"));
+        this.cartLineItemImages = page.locator(".line-item-img-link");
+        this.unitPriceInfo = page.locator(".line-item-unit-price-value");
         this.cartQuantityNumber = page.locator('input[name="quantity"]');
-        this.productNameLabel = (productName: string) => page.getByRole('link', { name: productName });
+        this.productNameLabel = (productName: string) => page.getByRole("link", { name: productName });
         this.productNumberLabel = (productNumber: string) => page.getByText(productNumber);
-        this.productDeliveryDateLabel = page.locator('.line-item-delivery-date');
+        this.productDeliveryDateLabel = page.locator(".line-item-delivery-date");
     }
 
     url() {
-        return 'checkout/cart';
+        return "checkout/cart";
     }
 
     async getLineItemByProductNumber(productNumber: string): Promise<Record<string, Locator>> {
-        const lineItem = this.page.locator('.line-item-product', { hasText: productNumber });
-        const lineItemImage = lineItem.locator('line-item-img-container');
-        const productNameLabel = lineItem.locator('.line-item-label');
-        const productNumberLabel = lineItem.locator('.line-item-product-number');
-        const productDeliveryDateLabel = lineItem.locator('.line-item-delivery-date');
-        const productQuantityMinusButton = lineItem.locator('.btn-minus');
-        const productQuantityPlusButton = lineItem.locator('.btn-plus');
-        const productQuantityInput = lineItem.locator('.quantity-selector-group-input');
-        const productUnitPriceValue = lineItem.locator('.line-item-unit-price-value');
-        const productTotalPriceValue = lineItem.locator('.line-item-total-price-value');
-        const removeButton = lineItem.locator('.line-item-remove-button');
+        const lineItem = this.page.locator(".line-item-product", { hasText: productNumber });
+        const lineItemImage = lineItem.locator("line-item-img-container");
+        const productNameLabel = lineItem.locator(".line-item-label");
+        const productNumberLabel = lineItem.locator(".line-item-product-number");
+        const productDeliveryDateLabel = lineItem.locator(".line-item-delivery-date");
+        const productQuantityMinusButton = lineItem.locator(".btn-minus");
+        const productQuantityPlusButton = lineItem.locator(".btn-plus");
+        const productQuantityInput = lineItem.locator(".quantity-selector-group-input");
+        const productUnitPriceValue = lineItem.locator(".line-item-unit-price-value");
+        const productTotalPriceValue = lineItem.locator(".line-item-total-price-value");
+        const removeButton = lineItem.locator(".line-item-remove-button");
 
         return {
             lineItemImage: lineItemImage,

@@ -1,10 +1,9 @@
-import type { Page, Locator } from 'playwright-core';
-import type { PageObject } from '../../types/PageObject';
-import type { Product } from '../../types/ShopwareTypes';
-import { translate } from '../../services/LanguageHelper';
+import type { Page, Locator } from "playwright-core";
+import type { PageObject } from "../../types/PageObject";
+import type { Product } from "../../types/ShopwareTypes";
+import { translate } from "../../services/LanguageHelper";
 
 export class ProductDetail implements PageObject {
-
     public readonly addToCartButton: Locator;
     public readonly quantitySelect: Locator;
     public readonly productSingleImage: Locator;
@@ -20,14 +19,14 @@ export class ProductDetail implements PageObject {
     public readonly offCanvasLineItemImages: Locator;
     public readonly offCanvasSummaryTotalPrice: Locator;
     public readonly offCanvas: Locator;
-    public readonly offCanvasLineItemLabel:(productName:string) => Locator;
-    public readonly offCanvasLineItemProductNumber:(productNumber:string) => Locator;
+    public readonly offCanvasLineItemLabel: (productName: string) => Locator;
+    public readonly offCanvasLineItemProductNumber: (productNumber: string) => Locator;
     public readonly offCanvasLineItemDeliveryDate: Locator;
 
     public readonly wishlistAddedButton: Locator;
     public readonly wishlistNotAddedButton: Locator;
 
-    public readonly propertyRadioGroup:(propertyName: string) => Locator;
+    public readonly propertyRadioGroup: (propertyName: string) => Locator;
     public readonly productDetailConfigurator: Locator;
     public readonly productDetailConfiguratorGroupTitle: Locator;
     public readonly productDetailConfiguratorOptionInputs: Locator;
@@ -64,71 +63,71 @@ export class ProductDetail implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.addToCartButton = page.getByRole('button', { name: translate('storefront:product:addToCart') });
-        const form = page.locator('.buy-widget:not(.d-none)');
-        this.quantitySelect = form.getByLabel(translate('storefront:product:quantity'), { exact: true });
-        this.productSingleImage = page.locator('.gallery-slider-single-image');
-        this.productSinglePrice = page.locator('.product-detail-price');
-        this.productPriceRangesRow = page.locator('.product-block-prices-row');
-        this.productListingPriceBadge = page.locator('.list-price-badge');
-        this.productListingPrice = page.locator('.list-price-price');
-        this.productListingPricePercentage = page.locator('.list-price-percentage');
+        this.addToCartButton = page.getByRole("button", { name: translate("storefront:product:addToCart") });
+        const form = page.locator(".buy-widget:not(.d-none)");
+        this.quantitySelect = form.getByLabel(translate("storefront:product:quantity"), { exact: true });
+        this.productSingleImage = page.locator(".gallery-slider-single-image");
+        this.productSinglePrice = page.locator(".product-detail-price");
+        this.productPriceRangesRow = page.locator(".product-block-prices-row");
+        this.productListingPriceBadge = page.locator(".list-price-badge");
+        this.productListingPrice = page.locator(".list-price-price");
+        this.productListingPricePercentage = page.locator(".list-price-percentage");
 
-        this.offCanvas = page.locator('offcanvas-body');
-        this.offCanvasCartTitle = page.getByText(translate('storefront:checkout:cart.shoppingCart'), { exact: true });
-        this.offCanvasCart = page.getByRole('dialog');
-        this.offCanvasCartGoToCheckoutButton = page.getByRole('link', { name: translate('storefront:checkout:cart.goToCheckout') });
-        this.offCanvasLineItemImages = page.locator('.line-item-img-link');
-        this.offCanvasSummaryTotalPrice = page.locator('.offcanvas-summary').locator('dt:has-text("Subtotal") + dd');
-        this.offCanvasLineItemLabel = (productName: string) => page.getByRole('link', { name: productName });
+        this.offCanvas = page.locator("offcanvas-body");
+        this.offCanvasCartTitle = page.getByText(translate("storefront:checkout:cart.shoppingCart"), { exact: true });
+        this.offCanvasCart = page.getByRole("dialog");
+        this.offCanvasCartGoToCheckoutButton = page.getByRole("link", { name: translate("storefront:checkout:cart.goToCheckout") });
+        this.offCanvasLineItemImages = page.locator(".line-item-img-link");
+        this.offCanvasSummaryTotalPrice = page.locator(".offcanvas-summary").locator('dt:has-text("Subtotal") + dd');
+        this.offCanvasLineItemLabel = (productName: string) => page.getByRole("link", { name: productName });
         this.offCanvasLineItemProductNumber = (productNumber: string) => page.getByText(productNumber);
-        this.offCanvasLineItemDeliveryDate = page.locator('.line-item-delivery-date');
-        
-        this.wishlistAddedButton = page.locator('.product-wishlist-added');
-        this.wishlistNotAddedButton = page.locator('.product-wishlist-not-added');
+        this.offCanvasLineItemDeliveryDate = page.locator(".line-item-delivery-date");
 
-        this.propertyRadioGroup = (propertyName: string) => this.page.getByRole('group', { name: propertyName });
+        this.wishlistAddedButton = page.locator(".product-wishlist-added");
+        this.wishlistNotAddedButton = page.locator(".product-wishlist-not-added");
+
+        this.propertyRadioGroup = (propertyName: string) => this.page.getByRole("group", { name: propertyName });
 
         /**  @deprecated - Obsolete with propertyRadioGroup */
-        this.productDetailConfigurator = page.locator('.product-detail-configurator');
+        this.productDetailConfigurator = page.locator(".product-detail-configurator");
         /**  @deprecated - Use 'propertyRadioGroup' instead. */
-        this.productDetailConfiguratorGroupTitle = page.locator('.product-detail-configurator-group-title');
+        this.productDetailConfiguratorGroupTitle = page.locator(".product-detail-configurator-group-title");
         /**  @deprecated - Obsolete with propertyRadioGroup */
-        this.productDetailConfiguratorOptionInputs = page.locator('.product-detail-configurator-option-input');
+        this.productDetailConfiguratorOptionInputs = page.locator(".product-detail-configurator-option-input");
 
-        this.productName = page.locator('.product-detail-name');
-        this.productDescriptionTitle = page.locator('.product-detail-description-title');
+        this.productName = page.locator(".product-detail-name");
+        this.productDescriptionTitle = page.locator(".product-detail-description-title");
 
-        this.productReviewRating = page.locator('.product-detail-reviews .product-review-rating');
-        this.productReviewsLink = page.locator('.product-detail-reviews .product-detail-reviews-link');
-        this.reviewsTab = this.page.getByRole('tab', { name: translate('storefront:product:review.tabTitle') });
-        this.reviewTeaserButton = this.page.locator('.product-detail-review-teaser-btn');
-        this.reviewTeaserText = this.page.locator('.product-detail-review-teaser .h4');
-        this.reviewListingItems = this.page.locator('.product-detail-review-item');
-        this.reviewEmptyListingText = this.page.getByText(translate('storefront:product:review.emptyText'));
-        this.reviewLoginForm = this.page.locator('.product-detail-review-login');
-        this.forgottenPasswordLink = this.page.getByRole('link', { name: translate('storefront:account:login.forgotPassword') });
-        this.reviewLoginButton = this.page.getByRole('button', { name: translate('storefront:account:login.logIn') });
-        this.reviewEmailInput = this.page.getByLabel(translate('storefront:account:login.email'));
-        this.reviewPasswordInput = this.page.getByLabel(translate('storefront:account:login.password'));
-        this.reviewForm = this.page.locator('.product-detail-review-form');
-        this.reviewTitleInput = this.page.getByLabel(translate('storefront:product:review.title'));
-        this.reviewReviewTextInput = this.page.getByLabel(translate('storefront:product:review.text'));
-        this.reviewSubmitButton = this.page.locator('.btn-review-submit');
-        this.reviewRatingPoints = this.page.locator('.product-detail-review-form-star');
-        this.reviewRatingText = this.page.locator('.product-detail-review-form-rating-text');
-        this.reviewCounter = this.page.locator('.product-detail-review-counter');
-        this.reviewItemRatingPoints = this.page.locator('.product-detail-review-item-points .point-full');
-        this.reviewItemTitle = this.page.locator('.product-detail-review-item-title');
-        this.reviewItemContent = this.page.locator('.product-detail-review-item-content');
-        this.reviewSubmitMessage = this.page.getByText(translate('storefront:product:review.submitMessage'));
+        this.productReviewRating = page.locator(".product-detail-reviews .product-review-rating");
+        this.productReviewsLink = page.locator(".product-detail-reviews .product-detail-reviews-link");
+        this.reviewsTab = this.page.getByRole("tab", { name: translate("storefront:product:review.tabTitle") });
+        this.reviewTeaserButton = this.page.locator(".product-detail-review-teaser-btn");
+        this.reviewTeaserText = this.page.locator(".product-detail-review-teaser .h4");
+        this.reviewListingItems = this.page.locator(".product-detail-review-item");
+        this.reviewEmptyListingText = this.page.getByText(translate("storefront:product:review.emptyText"));
+        this.reviewLoginForm = this.page.locator(".product-detail-review-login");
+        this.forgottenPasswordLink = this.page.getByRole("link", { name: translate("storefront:account:login.forgotPassword") });
+        this.reviewLoginButton = this.page.getByRole("button", { name: translate("storefront:account:login.logIn") });
+        this.reviewEmailInput = this.page.getByLabel(translate("storefront:account:login.email"));
+        this.reviewPasswordInput = this.page.getByLabel(translate("storefront:account:login.password"));
+        this.reviewForm = this.page.locator(".product-detail-review-form");
+        this.reviewTitleInput = this.page.getByLabel(translate("storefront:product:review.title"));
+        this.reviewReviewTextInput = this.page.getByLabel(translate("storefront:product:review.text"));
+        this.reviewSubmitButton = this.page.locator(".btn-review-submit");
+        this.reviewRatingPoints = this.page.locator(".product-detail-review-form-star");
+        this.reviewRatingText = this.page.locator(".product-detail-review-form-rating-text");
+        this.reviewCounter = this.page.locator(".product-detail-review-counter");
+        this.reviewItemRatingPoints = this.page.locator(".product-detail-review-item-points .point-full");
+        this.reviewItemTitle = this.page.locator(".product-detail-review-item-title");
+        this.reviewItemContent = this.page.locator(".product-detail-review-item-content");
+        this.reviewSubmitMessage = this.page.getByText(translate("storefront:product:review.submitMessage"));
     }
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {
-        const rowLocators = this.page.locator('.product-detail-review-filter').filter({ hasText: filterOptionName });
+        const rowLocators = this.page.locator(".product-detail-review-filter").filter({ hasText: filterOptionName });
         const reviewFilterOptionCheckbox = rowLocators.getByLabel(filterOptionName);
-        const reviewFilterOptionText = rowLocators.locator('.custom-control-label');
-        const reviewFilterOptionPercentage = rowLocators.locator('.product-detail-review-share');
+        const reviewFilterOptionText = rowLocators.locator(".custom-control-label");
+        const reviewFilterOptionPercentage = rowLocators.locator(".product-detail-review-share");
 
         return {
             reviewFilterOptionCheckbox: reviewFilterOptionCheckbox,
@@ -138,9 +137,9 @@ export class ProductDetail implements PageObject {
     }
 
     url(productData: Product) {
-        let namePath = '';
+        let namePath = "";
         if (productData.translated && productData.translated.name) {
-            namePath = productData.translated.name.replaceAll('_', '-');
+            namePath = productData.translated.name.replaceAll("_", "-");
         }
 
         return `${namePath}/${productData.productNumber}`;

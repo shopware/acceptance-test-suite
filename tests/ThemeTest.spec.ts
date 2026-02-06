@@ -1,8 +1,6 @@
-import { test, expect } from '../src/index';
+import { test, expect } from "../src/index";
 
-test('Theme compilation.', async ({
-    StorefrontPage,
-}) => {
+test("Theme compilation.", async ({ StorefrontPage }) => {
     const allCSSResponsePromise = StorefrontPage.waitForResponse(/all\.css/);
     await StorefrontPage.reload();
     const response = await allCSSResponsePromise;

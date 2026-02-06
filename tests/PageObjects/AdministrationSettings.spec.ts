@@ -1,7 +1,7 @@
-import { getFlowId, test } from '../../src';
-import { satisfies } from 'compare-versions';
+import { getFlowId, test } from "../../src";
+import { satisfies } from "compare-versions";
 
-test('Administration page objects - Settings.', async ({
+test("Administration page objects - Settings.", async ({
     InstanceMeta,
     AdminApiContext,
     ShopAdmin,
@@ -16,7 +16,6 @@ test('Administration page objects - Settings.', async ({
     AdminSettingsListing,
     Translate,
 }) => {
-
     await ShopAdmin.goesTo(AdminCustomFieldListing.url());
     await ShopAdmin.expects(AdminCustomFieldListing.addNewSetButton).toBeVisible();
 
@@ -38,7 +37,7 @@ test('Administration page objects - Settings.', async ({
         await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeVisible();
     }
 
-    const flowId = await getFlowId('Order enters status unconfirmed', AdminApiContext);
+    const flowId = await getFlowId("Order enters status unconfirmed", AdminApiContext);
     await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
 
@@ -53,8 +52,8 @@ test('Administration page objects - Settings.', async ({
     await ShopAdmin.expects(AdminRuleCreate.saveButton).toBeVisible();
 
     await ShopAdmin.goesTo(AdminSettingsListing.url(), true);
-    await ShopAdmin.expects(AdminSettingsListing.header).toContainText(Translate('administration:settings:header.settings'));
-    if (satisfies(InstanceMeta.version, '>=6.7.1')) {
+    await ShopAdmin.expects(AdminSettingsListing.header).toContainText(Translate("administration:settings:header.settings"));
+    if (satisfies(InstanceMeta.version, ">=6.7.1")) {
         await ShopAdmin.expects(AdminSettingsListing.shopwareServicesLink).toBeVisible();
     }
 });

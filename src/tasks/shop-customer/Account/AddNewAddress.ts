@@ -1,10 +1,10 @@
-import { test as base } from '@playwright/test';
-import type { Task } from '../../../types/Task';
-import type { FixtureTypes} from '../../../types/FixtureTypes';
-import type { Address } from '../../../types/ShopwareTypes';
+import { test as base } from "@playwright/test";
+import type { Task } from "../../../types/Task";
+import type { FixtureTypes } from "../../../types/FixtureTypes";
+import type { Address } from "../../../types/ShopwareTypes";
 
 export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>({
-    AddNewAddress: async ({ ShopCustomer, StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use)=> {
+    AddNewAddress: async ({ ShopCustomer, StorefrontAccountAddresses, StorefrontAccountAddressCreate }, use) => {
         const task = (address: Address) => {
             return async function AddNewAddress() {
                 await ShopCustomer.presses(StorefrontAccountAddresses.addNewAddressButton);
@@ -17,15 +17,15 @@ export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>(
                 await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.zipcodeInput, address.zipCode);
                 await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.cityInput, address.city);
                 await ShopCustomer.presses(StorefrontAccountAddressCreate.countryDropdown);
-                await StorefrontAccountAddressCreate.countryDropdown.selectOption({label: address.country});
+                await StorefrontAccountAddressCreate.countryDropdown.selectOption({ label: address.country });
 
                 if (address.state) {
                     await ShopCustomer.presses(StorefrontAccountAddressCreate.stateDropdown);
-                    await StorefrontAccountAddressCreate.stateDropdown.selectOption({label: address.state});
+                    await StorefrontAccountAddressCreate.stateDropdown.selectOption({ label: address.state });
                 }
 
                 await ShopCustomer.presses(StorefrontAccountAddressCreate.saveAddressButton);
-            }
+            };
         };
 
         await use(task);

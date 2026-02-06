@@ -1,11 +1,11 @@
-import { test, expect, translate } from '../src';
-import { satisfies } from 'compare-versions';
+import { test, expect, translate } from "../src";
+import { satisfies } from "compare-versions";
 
-test('Shopware Services', async ({ InstanceMeta, ShopAdmin, AdminDashboard, AdminShopwareServices }) => {
-    if (satisfies(InstanceMeta.version, '>=6.7.1') && !InstanceMeta.isSaaS) {
+test("Shopware Services", async ({ InstanceMeta, ShopAdmin, AdminDashboard, AdminShopwareServices }) => {
+    if (satisfies(InstanceMeta.version, ">=6.7.1") && !InstanceMeta.isSaaS) {
         await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toBeVisible();
         await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toContainText(
-            translate('administration:shopwareServices:dashboard.shopwareServicesIntroduction'),
+            translate("administration:shopwareServices:dashboard.shopwareServicesIntroduction")
         );
         await ShopAdmin.expects(AdminDashboard.shopwareServicesExploreNowButton).toBeVisible();
 
@@ -20,13 +20,13 @@ test('Shopware Services', async ({ InstanceMeta, ShopAdmin, AdminDashboard, Admi
         await AdminShopwareServices.deactivateServicesButton.click();
         await ShopAdmin.expects(AdminShopwareServices.deactivateServicesModal).toBeVisible();
         await ShopAdmin.expects(AdminShopwareServices.deactivateServicesConfirmButton).toBeVisible();
-        const disableResponsePromise = AdminShopwareServices.page.waitForResponse(`${process.env['APP_URL']}api/services/disable`);
+        const disableResponsePromise = AdminShopwareServices.page.waitForResponse(`${process.env["APP_URL"]}api/services/disable`);
         await AdminShopwareServices.deactivateServicesConfirmButton.click();
         const disableResponse = await disableResponsePromise;
         expect(disableResponse.ok()).toBeTruthy();
         // enable the services again for further tests
         await ShopAdmin.expects(AdminShopwareServices.activateServicesButton).toBeVisible({ timeout: 15000 });
-        const enableResponsePromise = AdminShopwareServices.page.waitForResponse(`${process.env['APP_URL']}api/services/enable`);
+        const enableResponsePromise = AdminShopwareServices.page.waitForResponse(`${process.env["APP_URL"]}api/services/enable`);
         await AdminShopwareServices.activateServicesButton.click();
         const enableResponse = await enableResponsePromise;
         expect(enableResponse.ok()).toBeTruthy();
