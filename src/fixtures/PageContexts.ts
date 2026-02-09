@@ -3,7 +3,7 @@ import type { Page, BrowserContext } from "playwright-core";
 import type { FixtureTypes } from "../types/FixtureTypes";
 import { isThemeCompiled } from "../services/ShopInfo";
 import { clearDelayedCache } from "../services/Cache";
-import { createNewAdminPageContext } from "../services/AdminLoginHelper";
+import { createNewAdminPageContext, loginToAdministration } from "../services/AdminLoginHelper";
 import { LanguageHelper, setCurrentContext } from "../services/LanguageHelper";
 import { getLocale } from "../services/ShopwareDataHelpers";
 
@@ -40,7 +40,11 @@ export const test = base.extend<FixtureTypes>({
 
         expect(response.ok()).toBeTruthy();
 
-        const page = await createNewAdminPageContext(adminUser, browser, SalesChannelBaseConfig, AdminApiContext);
+        const page = await loginToAdministration(
+            await createNewAdminPageContext(browser, SalesChannelBaseConfig),
+            adminUser,
+            AdminApiContext,
+        );
 
         LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
         setCurrentContext(page.context() as unknown as Record<string, unknown>);

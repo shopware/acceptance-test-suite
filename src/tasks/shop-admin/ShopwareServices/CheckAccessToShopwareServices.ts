@@ -2,7 +2,7 @@ import { expect, test as base } from "@playwright/test";
 import type { Task } from "../../../types/Task";
 import type { FixtureTypes } from "../../../types/FixtureTypes";
 import type { AclRole, User } from "../../../types/ShopwareTypes";
-import { createNewAdminPageContext } from "../../../services/AdminLoginHelper";
+import { createNewAdminPageContext, loginToAdministration } from "../../../services/AdminLoginHelper";
 import { translate } from "../../../services/LanguageHelper";
 
 export const CheckAccessToShopwareServices = base.extend<{ CheckAccessToShopwareServices: Task }, FixtureTypes>({
@@ -18,7 +18,11 @@ export const CheckAccessToShopwareServices = base.extend<{ CheckAccessToShopware
                     user.password = customUser.password;
                 }
 
-                const adminPage = await createNewAdminPageContext(user, browser, SalesChannelBaseConfig, TestDataService.AdminApiClient);
+                const adminPage = await loginToAdministration(
+                    await createNewAdminPageContext(browser, SalesChannelBaseConfig),
+                    user,
+                    TestDataService.AdminApiClient,
+                );
 
                 const shopwareServicesAdvertisementBanner = adminPage.locator(".sw-settings-services-dashboard-banner__content").first();
                 const shopwareServicesExploreNowButton = shopwareServicesAdvertisementBanner.getByRole("button", {
