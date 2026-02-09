@@ -27,6 +27,11 @@ export * from "./services/TestDataService";
 export * from "./services/VisualTestHelpers";
 export * from "./services/IdProvider";
 export * from "./services/LanguageHelper";
+export * from "./services/FeatureService";
+export * from "./services/Cache";
+export * from "./services/ApiMocks";
+export * from "./services/Actor";
+export * from "./services/AdminLoginHelper";
 
 export { StorefrontPageObjects } from "./page-objects/StorefrontPages";
 export { AdminPageObjects } from "./page-objects/AdministrationPages";
