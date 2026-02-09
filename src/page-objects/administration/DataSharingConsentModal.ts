@@ -1,6 +1,5 @@
 import type { Locator, Page } from 'playwright-core';
 import type { PageObject } from '../../types/PageObject';
-import { translate } from '../../services/LanguageHelper';
 
 export class DataSharingConsentModal implements PageObject {
 

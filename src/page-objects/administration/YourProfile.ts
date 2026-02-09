@@ -36,7 +36,7 @@ export class YourProfile implements PageObject {
         this.dataUseDetailsLink = page.getByRole("link", { name: "Privacy Policy" });
         this.privacyPolicyLink = page.getByRole("link", { name: "shopware.com/en/data-use-details" });
     }
-    }
+
 
     url(tabName = "general") {
         return `#/sw/profile/index/${tabName}`;

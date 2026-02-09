@@ -53,7 +53,6 @@ import { SalesChannelDetail } from "./administration/SalesChannelDetail";
 import { OrderListing } from "./administration/OrderListing";
 import { DataSharingConsentModal } from "./administration/DataSharingConsentModal";
 
-
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
     AdminOrderDetail: OrderDetail;
