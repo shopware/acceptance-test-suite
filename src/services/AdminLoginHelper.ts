@@ -4,6 +4,8 @@ import { mockApiCalls } from "./ApiMocks";
 import { clearDelayedCache } from "./Cache";
 import { translate } from "./LanguageHelper";
 import type { DefaultSalesChannelTypes } from "../fixtures/DefaultSalesChannel";
+import type { FixtureTypes } from "../types/FixtureTypes";
+import type { User } from "../types/ShopwareTypes";
 
 /**
  * Creates a new admin page context (login page) without the actual login.
