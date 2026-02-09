@@ -27,9 +27,9 @@ test("Storefront page objects", async ({
     const product = await TestDataService.createBasicProduct();
     await TestDataService.assignProductCategory(product.id, category.id);
 
-    await ShopCustomer.attemptsTo(CheckVisibilityInHome(product.name));
-
     await ShopCustomer.goesTo(`${StorefrontCategory.url(category.name)}?a=${Date.now()}`);
+
+    await ShopCustomer.attemptsTo(CheckVisibilityInHome(product.name));
     await ShopCustomer.expects(StorefrontCategory.sortingSelect).toBeVisible();
 
     const searchTerm = "product";
