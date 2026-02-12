@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.5.0](https://github.com/shopware/acceptance-test-suite/compare/v12.4.3...v12.5.0) (2026-02-12)
+
+
+### Features
+
+* add oxfmt formatter  ([#577](https://github.com/shopware/acceptance-test-suite/issues/577)) ([42dfa25](https://github.com/shopware/acceptance-test-suite/commit/42dfa2516116991e81a9ce27942d77530fcb233f))
+
+
+### Bug Fixes
+
+* documents ats ([#582](https://github.com/shopware/acceptance-test-suite/issues/582)) ([35297ba](https://github.com/shopware/acceptance-test-suite/commit/35297ba0e10d31bb4ed6a9f77d1303ffda3828b5))
+* flaky saas test ([#580](https://github.com/shopware/acceptance-test-suite/issues/580)) ([c7e4e8a](https://github.com/shopware/acceptance-test-suite/commit/c7e4e8a6755fd0c8f498a21e9ad08019cd75ee0b))
+
 ## [12.4.3](https://github.com/shopware/acceptance-test-suite/compare/v12.4.2...v12.4.3) (2026-02-03)
 
 ### Bug Fixes
