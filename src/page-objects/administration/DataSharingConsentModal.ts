@@ -20,22 +20,22 @@ export class DataSharingConsentModal implements PageObject {
     constructor(page: Page) {
         this.page = page;
 
-        this.consentModal = page.getByRole('dialog', { name: 'Help us improve' });
+        this.consentModal = page.getByRole('dialog').filter({ has: page.getByRole('heading', { name: 'Help us improve' } ) });
 
-        this.shareAllButton = page.getByRole('button', { name: 'Share all' });
-        this.shareNothingButton = page.getByRole('button', { name: 'Share nothing' });
-        this.savePreferencesButton = page.getByRole('button', { name: 'Save preferences' });
+        this.shareAllButton = this.consentModal.getByRole('button', { name: 'Share all' });
+        this.shareNothingButton = this.consentModal.getByRole('button', { name: 'Share nothing' });
+        this.savePreferencesButton = this.consentModal.getByRole('button', { name: 'Save preferences' });
 
-        this.shareStoreDataHeadline = page.getByRole('heading', { name: 'Store data' });
-        this.shareStoreDataText = page.getByText('Combined data from orders, diagnostics, and store data helps us improve features. Please confirm you’re authorized to give consent for your company.');
-        this.shareStoreDataCheckbox = page.getByRole('checkbox', { name: 'Share store data' });
+        this.shareStoreDataHeadline = this.consentModal.getByRole('heading', { name: 'Store data' });
+        this.shareStoreDataText = this.consentModal.getByText('Combined data from orders, diagnostics, and store data helps us improve features. Please confirm you’re authorized to give consent for your company.');
+        this.shareStoreDataCheckbox = this.consentModal.getByRole('checkbox', { name: 'Share store data' });
 
-        this.shareUserTrackingDataHeadline = page.getByRole('heading', { name: 'My data' });
-        this.shareUserTrackingDataText = page.getByText('We use data about how you interact with the Administration to improve its usability and performance.');
-        this.shareUserTrackingDataCheckbox = page.getByRole('checkbox', { name: 'Share my data' });
+        this.shareUserTrackingDataHeadline = this.consentModal.getByRole('heading', { name: 'My data' });
+        this.shareUserTrackingDataText = this.consentModal.getByText('We use data about how you interact with the Administration to improve its usability and performance.');
+        this.shareUserTrackingDataCheckbox = this.consentModal.getByRole('checkbox', { name: 'Share my data' });
 
-        this.dataUseDetailsLink = page.getByRole('link', { name: 'shopware.com/en/data-use-details' });
-        this.privacyPolicyLink = page.getByRole('link', { name: 'Privacy Policy' });
+        this.dataUseDetailsLink = this.consentModal.getByRole('link', { name: 'shopware.com/en/data-use-details' });
+        this.privacyPolicyLink = this.consentModal.getByRole('link', { name: 'Privacy Policy' });
     }
 
     url() {
