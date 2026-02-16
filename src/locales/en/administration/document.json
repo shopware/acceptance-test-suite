@@ -7,6 +7,7 @@
     },
     "detail": {
         "displayDocumentInMyAccount": "Display document in \"My account\"",
+        "displayDocumentInMyAccountSwitch": "Document in \"My account\"",
         "save": "Save"
     }
 }
