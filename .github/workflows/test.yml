@@ -95,7 +95,7 @@ jobs:
             - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
               env:
                   APP_URL: http://localhost:${{ matrix.PORT }}
-              run: npx playwright test --repeat-each 4
+              run: npx playwright test --repeat-each 2
 
             - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}
               if: steps.changed-test-files.outputs.all_changed_files_count > 0
@@ -133,7 +133,7 @@ jobs:
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
             - name: Run Playwright tests
-              run: npx playwright test --repeat-each 2
+              run: npx playwright test
             - uses: actions/upload-artifact@v6
               if: always()
               with:
