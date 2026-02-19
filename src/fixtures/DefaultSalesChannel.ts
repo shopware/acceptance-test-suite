@@ -59,50 +59,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     DefaultSalesChannel: [
         async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig }, use) => {
-            // thread id seems to be random
-
-            // Query existing sales channels to find the next available ID
-            // This prevents name collisions when multiple machines/test environments
-            // run against the same database instance
-            const ACCEPTANCE_TEST_PATTERN = "acceptance test";
-            let nextId = 0;
-            try {
-                // Use 'contains' filter for broad initial search, then filter with regex for exact matches
-                const existingChannelsResp = await AdminApiContext.get(`./sales-channel?filter[name][contains]=${ACCEPTANCE_TEST_PATTERN}`);
-
-                if (existingChannelsResp.ok()) {
-                    const existingChannels = (await existingChannelsResp.json()) as { data: { name: string }[] };
-
-                    // Validate API response structure
-                    if (existingChannels?.data && Array.isArray(existingChannels.data)) {
-                        // Extract numeric IDs from names like "0 acceptance test", "1 acceptance test"
-                        // Use Set for O(1) lookup performance when finding first unused ID
-                        const usedIdsSet = new Set(
-                            existingChannels.data
-                                .map((channel) => {
-                                    const match = channel.name.match(/^(\d+) acceptance test$/);
-                                    return match ? parseInt(match[1], 10) : null;
-                                })
-                                .filter((id): id is number => id !== null)
-                        );
-
-                        // Find first unused ID starting from 0
-                        while (usedIdsSet.has(nextId)) {
-                            nextId++;
-                        }
-                    }
-                }
-            } catch (error) {
-                // If query fails, fall back to worker index
-                console.warn("Failed to query existing sales channels, falling back to worker index:", error);
-                const fallbackId = IdProvider.getWorkerDerivedStableId("salesChannel").id;
-                const parsedId = parseInt(fallbackId, 10);
-                nextId = !isNaN(parsedId) ? parsedId : 0;
-            }
-
-            // Use the found ID with a deterministic UUID based on that ID
-            const id = `${nextId}`;
-            const { uuid } = IdProvider.getWorkerDerivedStableId(`salesChannel-${nextId}`);
+            const { id, uuid } = IdProvider.getWorkerDerivedStableId("salesChannel");
+            const salesChannelName = `${id} acceptance test`;
 
             const { uuid: rootCategoryUuid } = IdProvider.getWorkerDerivedStableId("category");
             const { uuid: customerGroupUuid } = IdProvider.getWorkerDerivedStableId("customerGroup");
@@ -110,135 +68,198 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const { uuid: customerUuid } = IdProvider.getWorkerDerivedStableId("customer");
 
             const baseUrl = `${SalesChannelBaseConfig.appUrl}test-${uuid}/`;
-            await AdminApiContext.delete(`./customer/${customerUuid}`);
 
-            // get the missing languages ids or all if the sales channel does not exist. This is required for 6.5.x support
-            const wantedLanguages = new Set([SalesChannelBaseConfig.currentLanguageId, SalesChannelBaseConfig.defaultLanguageId]);
-            const languages: { id: string }[] = [];
-            const result = await AdminApiContext.get(`./sales-channel/${uuid}/languages`);
-            if (result.ok()) {
-                const salesChannelLanguages = (await result.json()) as { data: { id: string }[] };
-                wantedLanguages.forEach((l) => {
-                    if (!salesChannelLanguages.data.find((i) => i.id === l)) {
-                        languages.push({ id: l });
-                    }
-                });
-            } else {
+            // Check if sales channel already exists by name
+            const existingSalesChannelResp = await AdminApiContext.post("./search/sales-channel", {
+                data: {
+                    filter: [
+                        {
+                            type: "equals",
+                            field: "name",
+                            value: salesChannelName,
+                        },
+                    ],
+                    associations: {
+                        domains: {},
+                    },
+                    limit: 1,
+                },
+            });
+
+            let salesChannelUuid = uuid;
+            let shouldCreateSalesChannel = true;
+
+            if (existingSalesChannelResp.ok()) {
+                const existingData = (await existingSalesChannelResp.json()) as {
+                    data: SalesChannel[];
+                    total: number;
+                };
+
+                if (existingData.total > 0 && existingData.data.length > 0) {
+                    // Sales channel exists, use it
+                    salesChannelUuid = existingData.data[0].id;
+                    shouldCreateSalesChannel = false;
+                }
+            }
+
+            // Check if customer already exists by email
+            const customerEmail = `customer_${id}@example.com`;
+            const existingCustomerResp = await AdminApiContext.post("./search/customer", {
+                data: {
+                    filter: [
+                        {
+                            type: "equals",
+                            field: "email",
+                            value: customerEmail,
+                        },
+                    ],
+                    limit: 1,
+                },
+            });
+
+            let customerUuidToUse = customerUuid;
+            let shouldCreateCustomer = true;
+
+            if (existingCustomerResp.ok()) {
+                const existingCustomerData = (await existingCustomerResp.json()) as {
+                    data: Customer[];
+                    total: number;
+                };
+
+                if (existingCustomerData.total > 0 && existingCustomerData.data.length > 0) {
+                    // Customer exists, use it
+                    customerUuidToUse = existingCustomerData.data[0].id;
+                    shouldCreateCustomer = false;
+                }
+            }
+
+            // Create sales channel only if it doesn't exist
+            if (shouldCreateSalesChannel) {
+                // get the missing languages ids or all if the sales channel does not exist. This is required for 6.5.x support
+                const wantedLanguages = new Set([SalesChannelBaseConfig.currentLanguageId, SalesChannelBaseConfig.defaultLanguageId]);
+                const languages: { id: string }[] = [];
                 wantedLanguages.forEach((l) => {
                     languages.push({ id: l });
                 });
+
+                const syncResp = await AdminApiContext.post("./_action/sync", {
+                    data: {
+                        "write-sales-channel": {
+                            entity: "sales_channel",
+                            action: "upsert",
+                            payload: [
+                                {
+                                    id: salesChannelUuid,
+                                    name: salesChannelName,
+                                    typeId: SalesChannelBaseConfig.storefrontTypeId,
+                                    languageId: SalesChannelBaseConfig.currentLanguageId,
+
+                                    currencyId: SalesChannelBaseConfig.currentCurrencyId,
+                                    paymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
+                                    shippingMethodId: SalesChannelBaseConfig.defaultShippingMethod,
+                                    countryId: SalesChannelBaseConfig.currentCountryId,
+
+                                    accessKey: "SWSC" + salesChannelUuid,
+
+                                    homeEnabled: true,
+
+                                    navigationCategory: {
+                                        id: rootCategoryUuid,
+                                        name: `${id} Acceptance test`,
+                                        displayNestedProducts: true,
+                                        type: "page",
+                                        productAssignmentType: "product",
+                                    },
+
+                                    domains: [
+                                        {
+                                            id: domainUuid,
+                                            url: baseUrl,
+                                            languageId: SalesChannelBaseConfig.currentLanguageId,
+                                            snippetSetId: SalesChannelBaseConfig.currentSnippetSetId,
+                                            currencyId: SalesChannelBaseConfig.currentCurrencyId,
+                                        },
+                                    ],
+
+                                    customerGroup: {
+                                        id: customerGroupUuid,
+                                        name: `${id} Acceptance test`,
+                                    },
+
+                                    languages,
+                                    countries: [{ id: SalesChannelBaseConfig.currentCountryId }],
+                                    shippingMethods: [{ id: SalesChannelBaseConfig.defaultShippingMethod }],
+                                    paymentMethods: [{ id: SalesChannelBaseConfig.invoicePaymentMethodId }],
+                                    currencies: [{ id: SalesChannelBaseConfig.currentCurrencyId }],
+                                },
+                            ],
+                        },
+                    },
+                });
+                expect(syncResp.ok()).toBeTruthy();
             }
 
-            const syncResp = await AdminApiContext.post("./_action/sync", {
-                data: {
-                    "write-sales-channel": {
-                        entity: "sales_channel",
-                        action: "upsert",
-                        payload: [
-                            {
-                                id: uuid,
-                                name: `${id} acceptance test`,
-                                typeId: SalesChannelBaseConfig.storefrontTypeId,
-                                languageId: SalesChannelBaseConfig.currentLanguageId,
+            // Create customer only if it doesn't exist
+            let customerData: any;
+            if (shouldCreateCustomer) {
+                const salutationResponse = await AdminApiContext.get(`./salutation`);
+                const salutations = (await salutationResponse.json()) as { data: components["schemas"]["Salutation"][] };
 
-                                currencyId: SalesChannelBaseConfig.currentCurrencyId,
-                                paymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
-                                shippingMethodId: SalesChannelBaseConfig.defaultShippingMethod,
-                                countryId: SalesChannelBaseConfig.currentCountryId,
+                customerData = {
+                    id: customerUuidToUse,
+                    email: customerEmail,
+                    password: "shopware",
+                    salutationId: salutations.data[0].id,
+                    languageId: SalesChannelBaseConfig.currentLanguageId,
 
-                                accessKey: "SWSC" + uuid,
-
-                                homeEnabled: true,
-
-                                navigationCategory: {
-                                    id: rootCategoryUuid,
-                                    name: `${id} Acceptance test`,
-                                    displayNestedProducts: true,
-                                    type: "page",
-                                    productAssignmentType: "product",
-                                },
-
-                                domains: [
-                                    {
-                                        id: domainUuid,
-                                        url: baseUrl,
-                                        languageId: SalesChannelBaseConfig.currentLanguageId,
-                                        snippetSetId: SalesChannelBaseConfig.currentSnippetSetId,
-                                        currencyId: SalesChannelBaseConfig.currentCurrencyId,
-                                    },
-                                ],
-
-                                customerGroup: {
-                                    id: customerGroupUuid,
-                                    name: `${id} Acceptance test`,
-                                },
-
-                                languages,
-                                countries: [{ id: SalesChannelBaseConfig.currentCountryId }],
-                                shippingMethods: [{ id: SalesChannelBaseConfig.defaultShippingMethod }],
-                                paymentMethods: [{ id: SalesChannelBaseConfig.invoicePaymentMethodId }],
-                                currencies: [{ id: SalesChannelBaseConfig.currentCurrencyId }],
-                            },
-                        ],
+                    defaultShippingAddress: {
+                        firstName: `${id} admin`,
+                        lastName: `${id} admin`,
+                        city: "not",
+                        street: "not",
+                        zipcode: "not",
+                        countryId: SalesChannelBaseConfig.currentCountryId,
+                        salutationId: salutations.data[0].id,
                     },
-                },
-            });
-            expect(syncResp.ok()).toBeTruthy();
+                    defaultBillingAddress: {
+                        firstName: `${id} admin`,
+                        lastName: `${id} admin`,
+                        city: "not",
+                        street: "not",
+                        zipcode: "not",
+                        countryId: SalesChannelBaseConfig.currentCountryId,
+                        salutationId: salutations.data[0].id,
+                    },
 
-            const salesChannelPromise = AdminApiContext.get(`./sales-channel/${uuid}`);
-            const salutationResponse = await AdminApiContext.get(`./salutation`);
-            const salutations = (await salutationResponse.json()) as { data: components["schemas"]["Salutation"][] };
-
-            const customerData = {
-                id: customerUuid,
-                email: `customer_${id}@example.com`,
-                password: "shopware",
-                salutationId: salutations.data[0].id,
-                languageId: SalesChannelBaseConfig.currentLanguageId,
-
-                defaultShippingAddress: {
                     firstName: `${id} admin`,
                     lastName: `${id} admin`,
-                    city: "not",
-                    street: "not",
-                    zipcode: "not",
-                    countryId: SalesChannelBaseConfig.currentCountryId,
-                    salutationId: salutations.data[0].id,
-                },
-                defaultBillingAddress: {
-                    firstName: `${id} admin`,
-                    lastName: `${id} admin`,
-                    city: "not",
-                    street: "not",
-                    zipcode: "not",
-                    countryId: SalesChannelBaseConfig.currentCountryId,
-                    salutationId: salutations.data[0].id,
-                },
 
-                firstName: `${id} admin`,
-                lastName: `${id} admin`,
+                    salesChannelId: salesChannelUuid,
+                    groupId: customerGroupUuid,
+                    customerNumber: `${customerUuidToUse}`,
+                    defaultPaymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
+                };
 
-                salesChannelId: uuid,
-                groupId: customerGroupUuid,
-                customerNumber: `${customerUuid}`,
-                defaultPaymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
-            };
+                const customerResp = await AdminApiContext.post("./customer?_response", {
+                    data: customerData,
+                });
 
-            const customerRespPromise = AdminApiContext.post("./customer?_response", {
-                data: customerData,
-            });
+                expect(customerResp.ok()).toBeTruthy();
+            }
 
-            const [customerResp, salesChannelResp] = await Promise.all([customerRespPromise, salesChannelPromise]);
+            // Fetch the final sales channel and customer data
+            const salesChannelResp = await AdminApiContext.get(`./sales-channel/${salesChannelUuid}`);
+            const customerResp = await AdminApiContext.get(`./customer/${customerUuidToUse}`);
 
-            expect(customerResp.ok()).toBeTruthy();
             expect(salesChannelResp.ok()).toBeTruthy();
+            expect(customerResp.ok()).toBeTruthy();
 
             const customer = (await customerResp.json()) as { data: Customer };
             const salesChannel = (await salesChannelResp.json()) as { data: SalesChannel };
 
             await use({
                 salesChannel: salesChannel.data,
-                customer: { ...customer.data, password: customerData.password },
+                customer: { ...customer.data, password: "shopware" },
                 url: baseUrl,
             });
         },
