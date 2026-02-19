@@ -72,22 +72,26 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                     const existingChannels = (await existingChannelsResp.json()) as { data: { name: string }[] };
 
                     // Extract numeric IDs from names like "0 acceptance test", "1 acceptance test"
-                    const usedIds = existingChannels.data
-                        .map((channel) => {
-                            const match = channel.name.match(/^(\d+) acceptance test$/);
-                            return match ? parseInt(match[1], 10) : -1;
-                        })
-                        .filter((id) => id >= 0);
+                    // Use Set for O(1) lookup performance when finding first unused ID
+                    const usedIdsSet = new Set(
+                        existingChannels.data
+                            .map((channel) => {
+                                const match = channel.name.match(/^(\d+) acceptance test$/);
+                                return match ? parseInt(match[1], 10) : -1;
+                            })
+                            .filter((id) => id >= 0)
+                    );
 
                     // Find first unused ID starting from 0
-                    while (usedIds.includes(nextId)) {
+                    while (usedIdsSet.has(nextId)) {
                         nextId++;
                     }
                 }
             } catch (error) {
                 // If query fails, fall back to worker index
                 console.warn("Failed to query existing sales channels, falling back to worker index:", error);
-                nextId = IdProvider.getWorkerDerivedStableId("salesChannel").id as unknown as number;
+                const fallbackId = IdProvider.getWorkerDerivedStableId("salesChannel").id;
+                nextId = parseInt(fallbackId, 10);
             }
 
             // Use the found ID with a deterministic UUID based on that ID
