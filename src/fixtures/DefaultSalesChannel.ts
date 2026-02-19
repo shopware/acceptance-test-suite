@@ -64,28 +64,32 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             // Query existing sales channels to find the next available ID
             // This prevents name collisions when multiple machines/test environments
             // run against the same database instance
+            const ACCEPTANCE_TEST_PATTERN = "acceptance test";
             let nextId = 0;
             try {
                 // Use 'contains' filter for broad initial search, then filter with regex for exact matches
-                const existingChannelsResp = await AdminApiContext.get(`./sales-channel?filter[name][contains]=acceptance test`);
+                const existingChannelsResp = await AdminApiContext.get(`./sales-channel?filter[name][contains]=${ACCEPTANCE_TEST_PATTERN}`);
 
                 if (existingChannelsResp.ok()) {
                     const existingChannels = (await existingChannelsResp.json()) as { data: { name: string }[] };
 
-                    // Extract numeric IDs from names like "0 acceptance test", "1 acceptance test"
-                    // Use Set for O(1) lookup performance when finding first unused ID
-                    const usedIdsSet = new Set(
-                        existingChannels.data
-                            .map((channel) => {
-                                const match = channel.name.match(/^(\d+) acceptance test$/);
-                                return match ? parseInt(match[1], 10) : -1;
-                            })
-                            .filter((id) => id >= 0)
-                    );
+                    // Validate API response structure
+                    if (existingChannels?.data && Array.isArray(existingChannels.data)) {
+                        // Extract numeric IDs from names like "0 acceptance test", "1 acceptance test"
+                        // Use Set for O(1) lookup performance when finding first unused ID
+                        const usedIdsSet = new Set(
+                            existingChannels.data
+                                .map((channel) => {
+                                    const match = channel.name.match(/^(\d+) acceptance test$/);
+                                    return match ? parseInt(match[1], 10) : null;
+                                })
+                                .filter((id): id is number => id !== null)
+                        );
 
-                    // Find first unused ID starting from 0
-                    while (usedIdsSet.has(nextId)) {
-                        nextId++;
+                        // Find first unused ID starting from 0
+                        while (usedIdsSet.has(nextId)) {
+                            nextId++;
+                        }
                     }
                 }
             } catch (error) {
