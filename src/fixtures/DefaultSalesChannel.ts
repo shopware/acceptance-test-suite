@@ -66,6 +66,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             // run against the same database instance
             let nextId = 0;
             try {
+                // Use 'contains' filter for broad initial search, then filter with regex for exact matches
                 const existingChannelsResp = await AdminApiContext.get(`./sales-channel?filter[name][contains]=acceptance test`);
 
                 if (existingChannelsResp.ok()) {
@@ -91,7 +92,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 // If query fails, fall back to worker index
                 console.warn("Failed to query existing sales channels, falling back to worker index:", error);
                 const fallbackId = IdProvider.getWorkerDerivedStableId("salesChannel").id;
-                nextId = parseInt(fallbackId, 10);
+                const parsedId = parseInt(fallbackId, 10);
+                nextId = !isNaN(parsedId) ? parsedId : 0;
             }
 
             // Use the found ID with a deterministic UUID based on that ID
