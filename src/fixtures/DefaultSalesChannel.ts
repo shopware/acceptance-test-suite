@@ -61,7 +61,38 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig }, use) => {
             // thread id seems to be random
 
-            const { id, uuid } = IdProvider.getWorkerDerivedStableId("salesChannel");
+            // Query existing sales channels to find the next available ID
+            // This prevents name collisions when multiple machines/test environments
+            // run against the same database instance
+            let nextId = 0;
+            try {
+                const existingChannelsResp = await AdminApiContext.get(`./sales-channel?filter[name][contains]=acceptance test`);
+
+                if (existingChannelsResp.ok()) {
+                    const existingChannels = (await existingChannelsResp.json()) as { data: { name: string }[] };
+
+                    // Extract numeric IDs from names like "0 acceptance test", "1 acceptance test"
+                    const usedIds = existingChannels.data
+                        .map((channel) => {
+                            const match = channel.name.match(/^(\d+) acceptance test$/);
+                            return match ? parseInt(match[1], 10) : -1;
+                        })
+                        .filter((id) => id >= 0);
+
+                    // Find first unused ID starting from 0
+                    while (usedIds.includes(nextId)) {
+                        nextId++;
+                    }
+                }
+            } catch (error) {
+                // If query fails, fall back to worker index
+                console.warn("Failed to query existing sales channels, falling back to worker index:", error);
+                nextId = IdProvider.getWorkerDerivedStableId("salesChannel").id as unknown as number;
+            }
+
+            // Use the found ID with a deterministic UUID based on that ID
+            const id = `${nextId}`;
+            const { uuid } = IdProvider.getWorkerDerivedStableId(`salesChannel-${nextId}`);
 
             const { uuid: rootCategoryUuid } = IdProvider.getWorkerDerivedStableId("category");
             const { uuid: customerGroupUuid } = IdProvider.getWorkerDerivedStableId("customerGroup");
