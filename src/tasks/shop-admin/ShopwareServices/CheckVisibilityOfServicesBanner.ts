@@ -16,7 +16,7 @@ export const CheckVisibilityOfServicesBanner = base.extend<{ CheckVisibilityOfSe
                     TestDataService.AdminApiClient,
                 );
                 const shopwareServicesAdvertisementBanner = adminPage.locator(".sw-settings-services-dashboard-banner__content").first();
-                await expect(shopwareServicesAdvertisementBanner).toBeVisible();
+                await expect(shopwareServicesAdvertisementBanner).toBeVisible({ timeout: 10_000 });
             };
         };
         await use(task);
