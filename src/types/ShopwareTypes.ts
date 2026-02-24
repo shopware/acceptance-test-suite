@@ -46,6 +46,7 @@ export type CustomerAddress = components["schemas"]["CustomerAddress"] & {
 };
 
 export interface Address {
+    id: string;
     salutation: string;
     firstName: string;
     lastName: string;
@@ -53,7 +54,7 @@ export interface Address {
     department: string;
     street: string;
     city: string;
-    zipCode: string;
+    zipcode: string;
     country: string;
     state: string;
 }
