@@ -318,7 +318,15 @@ export class TestDataService {
             index++;
         }
 
-        return await Promise.all(variantProducts);
+        const variants = await Promise.all(variantProducts);
+
+        await this.AdminApiClient.post("_action/indexing/product.indexer?_response=detail", {
+            data: {
+                offset: 0,
+            },
+        });
+
+        return variants;
     }
 
     /**
