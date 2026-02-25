@@ -318,7 +318,7 @@ export class TestDataService {
             index++;
         }
 
-        return Promise.all(variantProducts);
+        return await Promise.all(variantProducts);
     }
 
     /**
