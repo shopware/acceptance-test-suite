@@ -280,26 +280,30 @@ export class TestDataService {
     async createVariantProducts(parentProduct: Product, propertyGroups: PropertyGroup[], overrides: Partial<Product> = {}): Promise<Product[]> {
         const productVariantCandidates: Record<string, string>[][] = [];
 
+        const configuratorPromises: Promise<void>[] = [];
         for (const propertyGroup of propertyGroups) {
             const propertyGroupOptions = await this.getPropertyGroupOptions(propertyGroup.id);
             const propertyGroupOptionsCollection: Record<string, string>[] = [];
             for (const propertyGroupOption of propertyGroupOptions) {
                 propertyGroupOptionsCollection.push({ id: propertyGroupOption.id });
 
-                const productConfiguratorResponse = await this.AdminApiClient.post("product-configurator-setting?_response=detail", {
+                configuratorPromises.push(this.AdminApiClient.post("product-configurator-setting?_response=detail", {
                     data: {
                         id: this.IdProvider.getIdPair().uuid,
                         productId: parentProduct.id,
                         optionId: propertyGroupOption.id,
                     },
-                });
-                expect(productConfiguratorResponse.ok()).toBeTruthy();
+                }).then((response) => {
+                    expect(response.ok()).toBeTruthy();
+                }));
             }
             productVariantCandidates.push(propertyGroupOptionsCollection);
         }
 
+        await Promise.all(configuratorPromises);
+
         const productVariantCombinations = this.combineAll(productVariantCandidates);
-        const variantProducts: Product[] = [];
+        const variantProducts: Promise<Product>[] = [];
         let index = 1;
 
         for (const productVariantCombination of productVariantCombinations) {
@@ -310,17 +314,11 @@ export class TestDataService {
             };
 
             const overrideCollection = Object.assign({}, overrides, variantOverrides);
-            variantProducts.push(await this.createBasicProduct(overrideCollection));
+            variantProducts.push(this.createBasicProduct(overrideCollection));
             index++;
         }
 
-        await this.AdminApiClient.post("_action/indexing/product.indexer?_response=detail", {
-            data: {
-                offset: 0,
-            },
-        });
-
-        return variantProducts;
+        return Promise.all(variantProducts);
     }
 
     /**
@@ -918,8 +916,6 @@ export class TestDataService {
         for (const key of Object.keys(configs)) {
             this.restoreSystemConfig[key] = null;
         }
-
-        await this.clearCaches();
     }
 
     /**
@@ -1855,6 +1851,7 @@ export class TestDataService {
         const deleteAclRolesIds: string[] = [];
         const deleteOperations: Record<string, SyncApiOperation> = {};
         const priorityDeleteOperations: Record<string, SyncApiOperation> = {};
+        const cleanUpPromises: Promise<unknown>[] = [];
 
         if (this.createdSalesChannelRecords) {
             for (const salesChannelRecord of this.createdSalesChannelRecords) {
@@ -1905,36 +1902,49 @@ export class TestDataService {
         });
 
         if (Object.keys(priorityDeleteOperations).length > 0) {
-            const priorityDeleteOperationsResponse = await this.AdminApiClient.post("_action/sync", {
+            cleanUpPromises.push(this.AdminApiClient.post("_action/sync", {
                 data: priorityDeleteOperations,
-            });
-            expect(priorityDeleteOperationsResponse.ok()).toBeTruthy();
+            }).then((response) => {
+                expect(response.ok()).toBeTruthy();
+            }));
         }
 
         if (Object.keys(this.restoreSystemConfig).length > 0) {
-            const restoreSystemConfigResponse = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
+            cleanUpPromises.push(this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
                 data: this.restoreSystemConfig,
-            });
-            expect(restoreSystemConfigResponse.ok()).toBeTruthy();
+            }).then((response) => {
+                expect(response.ok()).toBeTruthy();
+            }));
         }
 
         if (deleteUserIds.length > 0) {
             for (const userId of deleteUserIds) {
-                await this.AdminApiClient.delete(`user/${userId}`, {});
+                cleanUpPromises.push(this.AdminApiClient.delete(`user/${userId}`, {
+                }).then((response) => {
+                    expect(response.ok()).toBeTruthy();
+                }));
             }
         }
 
         if (deleteAclRolesIds.length > 0) {
             for (const aclRoleId of deleteAclRolesIds) {
-                await this.AdminApiClient.delete(`acl-role/${aclRoleId}`, {});
+                cleanUpPromises.push(this.AdminApiClient.delete(`acl-role/${aclRoleId}`, {
+                }).then((response) => {
+                    expect(response.ok()).toBeTruthy();
+                }));
             }
         }
 
-        await this.clearCaches();
-
-        return this.AdminApiClient.post("_action/sync", {
+        cleanUpPromises.push(this.AdminApiClient.post("_action/sync", {
             data: deleteOperations,
-        });
+        }).then((response) => {
+            expect(response.ok()).toBeTruthy();
+        }));
+
+        // wait for all delete operations to be completed before clearing the caches
+        await Promise.all(cleanUpPromises);
+
+        return this.clearCaches();
     }
 
     isProduct(item: Product | Promotion): item is Product {
