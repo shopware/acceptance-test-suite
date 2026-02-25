@@ -1855,12 +1855,13 @@ export class TestDataService {
 
         if (this.createdSalesChannelRecords) {
             for (const salesChannelRecord of this.createdSalesChannelRecords) {
-                const salesChannelResponse = await this.AdminApiClient.patch(`sales-channel/${salesChannelRecord.salesChannelId}`, {
+                cleanUpPromises.push(this.AdminApiClient.patch(`sales-channel/${salesChannelRecord.salesChannelId}`, {
                     data: {
                         [salesChannelRecord.field]: null,
                     },
-                });
-                expect(salesChannelResponse.ok()).toBeTruthy();
+                }).then((response) => {
+                    expect(response.ok()).toBeTruthy();
+                }));
             }
         }
 
@@ -1906,6 +1907,18 @@ export class TestDataService {
                 data: priorityDeleteOperations,
             }).then((response) => {
                 expect(response.ok()).toBeTruthy();
+
+                return this.AdminApiClient.post("_action/sync", {
+                    data: deleteOperations,
+                });
+            }).then((response) => {
+                expect(response.ok()).toBeTruthy();
+            }));
+        } else {
+            cleanUpPromises.push(this.AdminApiClient.post("_action/sync", {
+                data: deleteOperations,
+            }).then((response) => {
+                expect(response.ok()).toBeTruthy();
             }));
         }
 
@@ -1934,12 +1947,6 @@ export class TestDataService {
                 }));
             }
         }
-
-        cleanUpPromises.push(this.AdminApiClient.post("_action/sync", {
-            data: deleteOperations,
-        }).then((response) => {
-            expect(response.ok()).toBeTruthy();
-        }));
 
         // wait for all delete operations to be completed before clearing the caches
         await Promise.all(cleanUpPromises);
