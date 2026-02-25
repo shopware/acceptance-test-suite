@@ -58,7 +58,9 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     DefaultSalesChannel: [
-        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig }, use) => {
+        // depend on `SaaSInstanceSetup` fixture so that is setup before the sales channel is created,
+        // this is required for SaaS instances to ensure the instance is ready and has the required default entities
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, SaaSInstanceSetup }, use) => {
             // thread id seems to be random
 
             const { id, uuid } = IdProvider.getWorkerDerivedStableId("salesChannel");
