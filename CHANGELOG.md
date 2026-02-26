@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.6.1](https://github.com/shopware/acceptance-test-suite/compare/v12.6.0...v12.6.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* proper re-export of playwright types ([#594](https://github.com/shopware/acceptance-test-suite/issues/594)) ([70d0619](https://github.com/shopware/acceptance-test-suite/commit/70d06197b039c1aca777e21fb24ae4031b9ecd90))
+
 ## [12.6.0](https://github.com/shopware/acceptance-test-suite/compare/v12.5.0...v12.6.0) (2026-02-24)
 
 
