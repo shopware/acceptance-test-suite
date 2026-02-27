@@ -50,7 +50,9 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
             setCurrentContext(page.context() as unknown as Record<string, unknown>);
+
             await use(page);
+
             await page.close();
             setCurrentContext(null);
 
@@ -120,19 +122,5 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             await context.close();
         },
         { scope: "worker" },
-    ],
-
-    page: [
-        async ({ AdminPage }, use) => {
-            await use(AdminPage);
-        },
-        { scope: "test" },
-    ],
-
-    context: [
-        async ({ AdminPage }, use) => {
-            await use(AdminPage.context());
-        },
-        { scope: "test" },
     ],
 });
