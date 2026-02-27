@@ -16,7 +16,7 @@ export interface PageContextTypes {
 }
 
 
-export const test = base.extend<FixtureTypes>({
+export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     AdminPage: [
         async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
             const locale = getLocale();
@@ -121,11 +121,15 @@ export const test = base.extend<FixtureTypes>({
         { scope: "worker" },
     ],
 
-    page: async ({ AdminPage }, use) => {
-        await use(AdminPage);
-    },
+    page: [
+        async ({ AdminPage }, use) => {
+            await use(AdminPage);
+        },
+    ],
 
-    context: async ({ AdminPage }, use) => {
-        await use(AdminPage.context());
-    },
+    context: [
+        async ({ AdminPage }, use) => {
+            await use(AdminPage.context());
+        },
+    ],
 });
