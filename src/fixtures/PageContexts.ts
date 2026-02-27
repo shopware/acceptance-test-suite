@@ -15,111 +15,111 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
+
 export const test = base.extend<FixtureTypes>({
-    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
-        const locale = getLocale();
-        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
+    AdminPage: [
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
+            const locale = getLocale();
+            const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
-        const { id, uuid } = IdProvider.getIdPair();
+            const { id, uuid } = IdProvider.getIdPair();
 
-        const adminUser = {
-            id: uuid,
-            username: `admin_${id}`,
-            firstName: `${id} admin`,
-            lastName: `${id} admin`,
-            localeId: SalesChannelBaseConfig.currentLocaleId,
-            email: `admin_${id}@example.com`,
-            timezone: "Europe/Berlin",
-            password: "shopware",
-            admin: true,
-        };
+            const adminUser = {
+                id: uuid,
+                username: `admin_${id}`,
+                firstName: `${id} admin`,
+                lastName: `${id} admin`,
+                localeId: SalesChannelBaseConfig.currentLocaleId,
+                email: `admin_${id}@example.com`,
+                timezone: "Europe/Berlin",
+                password: "shopware",
+                admin: true,
+            };
 
-        const response = await AdminApiContext.post("user", {
-            data: adminUser,
-        });
+            const response = await AdminApiContext.post("user", {
+                data: adminUser,
+            });
 
-        expect(response.ok()).toBeTruthy();
+            expect(response.ok()).toBeTruthy();
 
-        const page = await loginToAdministration(
-            await createNewAdminPageContext(browser, SalesChannelBaseConfig),
-            adminUser,
-            AdminApiContext,
-        );
+            const page = await loginToAdministration(
+                await createNewAdminPageContext(browser, SalesChannelBaseConfig),
+                adminUser,
+                AdminApiContext,
+            );
 
-        LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
-        setCurrentContext(page.context() as unknown as Record<string, unknown>);
-        await use(page);
-        await page.close();
-        setCurrentContext(null);
+            LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
+            setCurrentContext(page.context() as unknown as Record<string, unknown>);
+            await use(page);
+            await page.close();
+            setCurrentContext(null);
 
-        // Cleanup created user
-        await AdminApiContext.delete(`user/${uuid}`);
-    },
+            // Cleanup created user
+            await AdminApiContext.delete(`user/${uuid}`);
+        },
+        { scope: "worker" },
+    ],
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
-        const { url, salesChannel } = DefaultSalesChannel;
-        const locale = getLocale();
-        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
+    StorefrontPage: [
+        async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
+            const { url, salesChannel } = DefaultSalesChannel;
+            const locale = getLocale();
+            const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
-        const context = await browser.newContext({
-            baseURL: url,
-            locale,
-            extraHTTPHeaders: { "Accept-Language": locale },
-        });
+            const context = await browser.newContext({
+                baseURL: url,
+                locale,
+                extraHTTPHeaders: { "Accept-Language": locale },
+            });
 
-        LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
+            LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
 
-        // Set context for this execution thread
-        setCurrentContext(context as unknown as Record<string, unknown>);
+            // Set context for this execution thread
+            setCurrentContext(context as unknown as Record<string, unknown>);
 
-        let page;
-        if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-            base.slow();
+            const page = await context.newPage();
+            if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
+                base.slow();
 
-            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
-            await clearDelayedCache(AdminApiContext);
-
-            page = await context.newPage();
-
-            if (InstanceMeta.isSaaS) {
-                while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-                    await clearDelayedCache(AdminApiContext);
-                    await page.waitForTimeout(4000);
-                }
+                // force sync theme compilation via no-queue flag, so we can properly await it here
+                await AdminApiContext.post(`./_action/theme/${salesChannel.data.defaultThemeId}/assign/${salesChannel.data.id}?no-queue=true`);            await clearDelayedCache(AdminApiContext);
             }
-        } else {
-            page = await context.newPage();
-        }
 
-        await page.goto("./", { waitUntil: "load" });
+            await page.goto("./", { waitUntil: "load" });
 
-        await use(page);
+            await use(page);
 
-        await page.close();
-        setCurrentContext(null);
-        await context.close();
-    },
+            await page.close();
+            setCurrentContext(null);
+            await context.close();
+        },
+        { scope: "worker" },
+    ],
 
-    InstallPage: async ({ browser, CustomTranslationResources }, use) => {
-        const locale = getLocale();
-        const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
-        const context = await browser.newContext({
-            baseURL: process.env["APP_URL"],
-            locale,
-            extraHTTPHeaders: { "Accept-Language": locale },
-        });
+    InstallPage: [
+        async ({ browser, CustomTranslationResources }, use) => {
+            const locale = getLocale();
+            const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
-        LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
-        setCurrentContext(context as unknown as Record<string, unknown>);
+            const context = await browser.newContext({
+                baseURL: process.env["APP_URL"],
+                locale,
+                extraHTTPHeaders: { "Accept-Language": locale },
+            });
 
-        const page = await context.newPage();
+            LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
+            setCurrentContext(context as unknown as Record<string, unknown>);
 
-        await use(page);
-        await page.close();
-        setCurrentContext(null);
-        await context.close();
-    },
+            const page = await context.newPage();
+
+            await use(page);
+            await page.close();
+            setCurrentContext(null);
+            await context.close();
+        },
+        { scope: "worker" },
+    ],
 
     page: async ({ AdminPage }, use) => {
         await use(AdminPage);
