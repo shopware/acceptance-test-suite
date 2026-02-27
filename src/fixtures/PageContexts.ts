@@ -126,13 +126,13 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ AdminPage }, use) => {
             await use(AdminPage);
         },
-        { scope: "worker" },
+        { scope: "test" },
     ],
 
     context: [
         async ({ AdminPage }, use) => {
             await use(AdminPage.context());
         },
-        { scope: "worker" },
+        { scope: "test" },
     ],
 });
