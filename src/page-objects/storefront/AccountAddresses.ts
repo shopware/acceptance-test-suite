@@ -5,8 +5,6 @@ import { satisfies } from "compare-versions";
 import { BaseAccount } from "./BaseAccount";
 import { Address } from "../../types/ShopwareTypes";
 
-
-
 export class AccountAddresses extends BaseAccount {
     public readonly addNewAddressButton: Locator;
     public readonly editBillingAddressButton: Locator;
@@ -47,43 +45,37 @@ export class AccountAddresses extends BaseAccount {
     }
 
     private buildAddressRegex(data: Partial<Address>): RegExp {
-        const parts = [
-          data.firstName,
-          data.lastName,
-          data.street,
-          data.zipcode,
-          data.city
-        ].filter(Boolean);
+        const parts = [data.firstName, data.lastName, data.street, data.zipcode, data.city].filter(Boolean);
 
-        const pattern = parts.map(p => this.escapeRegex(p!)).join(".*");
-        return new RegExp(pattern,  "i");
+        const pattern = parts.map((p) => this.escapeRegex(p!)).join(".*");
+        return new RegExp(pattern);
     }
-      
+
     private escapeRegex(text: string): string {
         return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
-    
-    async getAvailableAddress(partialAddressData: Partial<Address>) {
-        if (satisfies(this.instanceMeta.version, '<6.7')) {
-            throw new Error('getAvailableAddress is not supported for Shopware versions below 6.7');
+
+    async getAvailableAddress(partialAddressData: Partial<Address>): Promise<Record<string, Locator>> {
+        if (satisfies(this.instanceMeta.version, "<6.7")) {
+            throw new Error("getAvailableAddress is not supported for Shopware versions below 6.7");
         }
-        
+
         const regex = this.buildAddressRegex(partialAddressData);
 
         if (!this.availableAddresses) {
-            throw new Error('Available addresses are not defined.');
+            throw new Error("Available addresses are not defined.");
         }
 
-        const addressContainer = this.availableAddresses.locator('.address-manager-select-address').filter({ hasText: regex }).first();
+        const addressContainer = this.availableAddresses.locator(".address-manager-select-address").filter({ hasText: regex }).first();
 
-        const address = addressContainer.locator('.address');
-        const addressActionsButton = addressContainer.locator('[id^=\'address-item-dropdown-btn\']');
-        const addressActionsDropdown = addressContainer.locator('.dropdown-menu');
-        const editAddressButton = addressActionsDropdown.getByRole('link', { name: translate("storefront:address:actions.editAddress") });
-        const useAsDefaultShippingButton = addressActionsDropdown.getByRole('button', { name: translate("storefront:address:actions.useAsDefaultShipping") });
-        const useAsDefaultBillingButton = addressActionsDropdown.getByRole('button', { name: translate("storefront:address:actions.useAsDefaultBilling") });
-        const defaultShippingAddressBadge = addressContainer.locator('.address-item-default-badge', { hasText: translate('storefront:address:badges.defaultShipping') });
-        const defaultBillingAddressBadge = addressContainer.locator('.address-item-default-badge', { hasText: translate('storefront:address:badges.defaultBilling') });
+        const address = addressContainer.locator(".address");
+        const addressActionsButton = addressContainer.locator("[id^='address-item-dropdown']");
+        const addressActionsDropdown = addressContainer.locator(".dropdown-menu");
+        const editAddressButton = addressActionsDropdown.getByRole("link", { name: translate("storefront:address:actions.editAddress") });
+        const useAsDefaultShippingButton = addressActionsDropdown.getByRole("button", { name: translate("storefront:address:actions.useAsDefaultShipping") });
+        const useAsDefaultBillingButton = addressActionsDropdown.getByRole("button", { name: translate("storefront:address:actions.useAsDefaultBilling") });
+        const defaultShippingAddressBadge = addressContainer.locator(".address-item-default-badge", { hasText: translate("storefront:address:badges.defaultShipping") });
+        const defaultBillingAddressBadge = addressContainer.locator(".address-item-default-badge", { hasText: translate("storefront:address:badges.defaultBilling") });
         return {
             address: address,
             addressActions: addressActionsButton,
@@ -91,7 +83,7 @@ export class AccountAddresses extends BaseAccount {
             useAsDefaultShippingButton: useAsDefaultShippingButton,
             useAsDefaultBillingButton: useAsDefaultBillingButton,
             isDefaultShippingAddress: defaultShippingAddressBadge,
-            isDefaultBillingAddress: defaultBillingAddressBadge
-        } 
+            isDefaultBillingAddress: defaultBillingAddressBadge,
+        };
     }
 }
