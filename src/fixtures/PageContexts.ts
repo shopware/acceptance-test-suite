@@ -82,7 +82,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 base.slow();
 
                 // force sync theme compilation via no-queue flag, so we can properly await it here
-                await AdminApiContext.post(`./_action/theme/${salesChannel.data.defaultThemeId}/assign/${salesChannel.data.id}?no-queue=true`);            await clearDelayedCache(AdminApiContext);
+                await AdminApiContext.post(`./_action/theme/${DefaultSalesChannel.defaultThemeId}/assign/${DefaultSalesChannel.id}?no-queue=true`);
+                await clearDelayedCache(AdminApiContext);
             }
 
             await page.goto("./", { waitUntil: "load" });
@@ -125,11 +126,13 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         async ({ AdminPage }, use) => {
             await use(AdminPage);
         },
+        {},
     ],
 
     context: [
         async ({ AdminPage }, use) => {
             await use(AdminPage.context());
         },
+        {},
     ],
 });
