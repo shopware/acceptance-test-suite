@@ -95,9 +95,9 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
 
             // Set context for this execution thread
-            setCurrentContext(StorefrontContext as unknown as Record<string, unknown>);
+            setCurrentContext(context as unknown as Record<string, unknown>);
 
-            const page = await StorefrontContext.newPage();
+            const page = await context.newPage();
             await page.goto("./", { waitUntil: "load" });
 
             await use(page);
