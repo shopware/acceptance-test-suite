@@ -47,12 +47,14 @@ export class RuleDetail extends RuleCreate implements PageObject {
     public readonly conditionFilterModalCloseButtonX: Locator;
     public readonly conditionORContainer: Locator;
     public readonly adminMenuAvatar: Locator;
+    public readonly saveRuleButton: Locator;
     public readonly conditionDateRangeUseTimeOperator: Locator | undefined;
     public readonly conditionDateRangeTimezoneOperator: Locator | undefined;
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         super(page, instanceMeta);
         this.contentView = page.locator(".sw-desktop__content");
+        this.saveRuleButton = page.getByRole("button", { name: translate("administration:rule:buttons.save") });
         this.shippingMethodAvailabilityRulesCard = page.locator(".sw-settings-rule-detail-assignments__card-shipping_method_availability_rule");
         this.shippingMethodAvailabilityRulesCardLink = this.shippingMethodAvailabilityRulesCard.getByRole("link");
         this.shippingMethodAvailabilityRulesCardTable = page.locator(".sw-settings-rule-detail-assignments__entity-listing-shipping_method_availability_rule");
