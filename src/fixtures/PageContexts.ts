@@ -63,8 +63,25 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     StorefrontContext: [
-        async ({ DefaultSalesChannel, SalesChannelBaseConfig, AdminApiContext, StoreApiContext, browser, CustomTranslationResources }, use) => {
-            const { url, salesChannel } = DefaultSalesChannel;
+        async ({ DefaultSalesChannel, SalesChannelBaseConfig, AdminApiContext, StoreApiContext }, use) => {
+            const { salesChannel } = DefaultSalesChannel;
+
+            if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
+                base.slow();
+
+                // force sync theme compilation via no-queue flag, so we can properly await it here
+                await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}?no-queue=true`);
+                await clearDelayedCache(AdminApiContext);
+            }
+
+            await use(undefined);
+        },
+        { scope: "worker" },
+    ],
+
+    StorefrontPage: [
+        async ({ StorefrontContext, DefaultSalesChannel, browser, CustomTranslationResources }, use) => {
+            const { url } = DefaultSalesChannel;
 
             const locale = getLocale();
             const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
@@ -77,23 +94,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
 
-            if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-                base.slow();
-
-                // force sync theme compilation via no-queue flag, so we can properly await it here
-                await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}?no-queue=true`);
-                await clearDelayedCache(AdminApiContext);
-            }
-
-            await use(context);
-
-            await context.close();
-        },
-        { scope: "worker" },
-    ],
-
-    StorefrontPage: [
-        async ({ StorefrontContext }, use) => {
             // Set context for this execution thread
             setCurrentContext(StorefrontContext as unknown as Record<string, unknown>);
 
@@ -102,10 +102,9 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             await use(page);
 
-            await page.goto("./account/logout", { waitUntil: "load" });
-
             await page.close();
             setCurrentContext(null);
+            await context.close();
         },
         { scope: "test" },
     ],
