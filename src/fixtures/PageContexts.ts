@@ -62,9 +62,10 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         { scope: "worker" },
     ],
 
-    StorefrontPage: [
-        async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
+    StorefrontContext: [
+        async ({ DefaultSalesChannel, SalesChannelBaseConfig, AdminApiContext, StoreApiContext, browser, CustomTranslationResources }, use) => {
             const { url, salesChannel } = DefaultSalesChannel;
+
             const locale = getLocale();
             const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
@@ -76,10 +77,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
 
-            // Set context for this execution thread
-            setCurrentContext(context as unknown as Record<string, unknown>);
-
-            const page = await context.newPage();
             if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
                 base.slow();
 
@@ -88,15 +85,29 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 await clearDelayedCache(AdminApiContext);
             }
 
+            await use(context);
+
+            await context.close();
+        },
+        { scope: "worker" },
+    ],
+
+    StorefrontPage: [
+        async ({ StorefrontContext }, use) => {
+
+
+            // Set context for this execution thread
+            setCurrentContext(StorefrontContext as unknown as Record<string, unknown>);
+
+            const page = await StorefrontContext.newPage();
             await page.goto("./", { waitUntil: "load" });
 
             await use(page);
 
             await page.close();
             setCurrentContext(null);
-            await context.close();
         },
-        { scope: "worker" },
+        { scope: "test" },
     ],
 
 
@@ -121,6 +132,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             setCurrentContext(null);
             await context.close();
         },
-        { scope: "worker" },
+        { scope: "test" },
     ],
 });
