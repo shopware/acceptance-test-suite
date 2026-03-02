@@ -94,8 +94,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     StorefrontPage: [
         async ({ StorefrontContext }, use) => {
-
-
             // Set context for this execution thread
             setCurrentContext(StorefrontContext as unknown as Record<string, unknown>);
 
@@ -103,6 +101,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             await page.goto("./", { waitUntil: "load" });
 
             await use(page);
+
+            await page.goto("./account/logout", { waitUntil: "load" });
 
             await page.close();
             setCurrentContext(null);
