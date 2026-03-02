@@ -98,7 +98,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             setCurrentContext(context as unknown as Record<string, unknown>);
 
             const page = await context.newPage();
-            await page.goto("./", { waitUntil: "load" });
 
             await use(page);
 
