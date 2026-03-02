@@ -120,6 +120,7 @@ export class TestDataService {
         "sales_channel_currency",
         "sales_channel_country",
         "sales_channel_payment_method",
+        "customer_address",
         "customer",
         "acl_user_role",
         "category",
@@ -2812,11 +2813,11 @@ export class TestDataService {
             id: customerAddressUuid,
             customerId: customerId,
             countryId: this.defaultCountryId,
-            firstName: 'Peter',
-            lastName: 'Venkman',
-            zipcode: '10013',
-            street: '14 N Moore Street',
-            city: 'New York',
+            firstName: "Peter",
+            lastName: "Venkman",
+            zipcode: "10013",
+            street: "14 N Moore Street",
+            city: "New York",
         };
         return Object.assign({}, basicCustomerAddress, overrides);
     }
