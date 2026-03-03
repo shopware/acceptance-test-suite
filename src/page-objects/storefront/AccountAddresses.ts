@@ -86,4 +86,37 @@ export class AccountAddresses extends BaseAccount {
             isDefaultBillingAddress: defaultBillingAddressBadge,
         };
     }
+
+    async getDefaultShippingAddress(partialAddressData?: Partial<Address>): Promise<Locator> {
+        if (satisfies(this.instanceMeta.version, "<6.7")) {
+            throw new Error("getDefaultShippingAddress is not supported for Shopware versions below 6.7");
+        }
+        if (partialAddressData) {
+            const regex = this.buildAddressRegex(partialAddressData);
+            return this.page
+                .locator(".address-manager-select-address")
+                .filter({ hasText: regex })
+                .filter({ hasText: translate("storefront:address:badges.defaultShipping") })
+                .first();
+        }
+        return this.page.locator(".address-manager-select-address").filter({ hasText: translate("storefront:address:badges.defaultShipping") });
+    }
+
+    async getDefaultBillingAddress(partialAddressData?: Partial<Address>): Promise<Locator> {
+        if (satisfies(this.instanceMeta.version, "<6.7")) {
+            throw new Error("getDefaultBillingAddress is not supported for Shopware versions below 6.7");
+        }
+        if (partialAddressData) {
+            const regex = this.buildAddressRegex(partialAddressData);
+            return this.page
+                .locator(".address-manager-select-address")
+                .filter({ hasText: regex })
+                .filter({ hasText: translate("storefront:address:badges.defaultBilling") })
+                .first();
+        }
+        return this.page
+            .locator(".address-manager-select-address")
+            .filter({ hasText: translate("storefront:address:badges.defaultBilling") })
+            .first();
+    }
 }
