@@ -181,14 +181,14 @@ export class TestDataService {
 
         const basicProduct = this.getBasicProductStruct(taxId, currencyId, overrides);
 
+        this.addCreatedRecord("product", basicProduct.id as string);
+
         const productResponse = await this.AdminApiClient.post("./product?_response=detail", {
             data: basicProduct,
         });
         expect(productResponse.ok()).toBeTruthy();
 
         const { data: product } = (await productResponse.json()) as { data: Product };
-
-        this.addCreatedRecord("product", product.id);
 
         return product;
     }
