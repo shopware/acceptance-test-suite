@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.7.0](https://github.com/shopware/acceptance-test-suite/compare/v12.6.1...v12.7.0) (2026-03-05)
+
+
+### Features
+
+* add additional locators on storefront address page ([#591](https://github.com/shopware/acceptance-test-suite/issues/591)) ([42bf0c4](https://github.com/shopware/acceptance-test-suite/commit/42bf0c435af025df14e8404f47b77c60577a78d6))
+
 ## [12.6.1](https://github.com/shopware/acceptance-test-suite/compare/v12.6.0...v12.6.1) (2026-02-26)
 
 
