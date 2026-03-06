@@ -9,43 +9,37 @@
 
 ## [12.7.0](https://github.com/shopware/acceptance-test-suite/compare/v12.6.1...v12.7.0) (2026-03-05)
 
-
 ### Features
 
-* add additional locators on storefront address page ([#591](https://github.com/shopware/acceptance-test-suite/issues/591)) ([42bf0c4](https://github.com/shopware/acceptance-test-suite/commit/42bf0c435af025df14e8404f47b77c60577a78d6))
+- add additional locators on storefront address page ([#591](https://github.com/shopware/acceptance-test-suite/issues/591)) ([42bf0c4](https://github.com/shopware/acceptance-test-suite/commit/42bf0c435af025df14e8404f47b77c60577a78d6))
 
 ## [12.6.1](https://github.com/shopware/acceptance-test-suite/compare/v12.6.0...v12.6.1) (2026-02-26)
 
-
 ### Bug Fixes
 
-* proper re-export of playwright types ([#594](https://github.com/shopware/acceptance-test-suite/issues/594)) ([70d0619](https://github.com/shopware/acceptance-test-suite/commit/70d06197b039c1aca777e21fb24ae4031b9ecd90))
+- proper re-export of playwright types ([#594](https://github.com/shopware/acceptance-test-suite/issues/594)) ([70d0619](https://github.com/shopware/acceptance-test-suite/commit/70d06197b039c1aca777e21fb24ae4031b9ecd90))
 
 ## [12.6.0](https://github.com/shopware/acceptance-test-suite/compare/v12.5.0...v12.6.0) (2026-02-24)
 
-
 ### Features
 
-* add enable check in accessability check ([#587](https://github.com/shopware/acceptance-test-suite/issues/587)) ([417153b](https://github.com/shopware/acceptance-test-suite/commit/417153b81b774d4661d8d50b5af41cac3f4a0b9b))
-
+- add enable check in accessability check ([#587](https://github.com/shopware/acceptance-test-suite/issues/587)) ([417153b](https://github.com/shopware/acceptance-test-suite/commit/417153b81b774d4661d8d50b5af41cac3f4a0b9b))
 
 ### Bug Fixes
 
-* add param to refresh opensearch when clearing the cache ([#590](https://github.com/shopware/acceptance-test-suite/issues/590)) ([e3204e2](https://github.com/shopware/acceptance-test-suite/commit/e3204e29876505e4d4897e06f318c1cac995a916))
-* more timeout so make task more stable ([#589](https://github.com/shopware/acceptance-test-suite/issues/589)) ([f72d903](https://github.com/shopware/acceptance-test-suite/commit/f72d9030a4c2adfa0fac798a42d2e6fcf8978ace))
+- add param to refresh opensearch when clearing the cache ([#590](https://github.com/shopware/acceptance-test-suite/issues/590)) ([e3204e2](https://github.com/shopware/acceptance-test-suite/commit/e3204e29876505e4d4897e06f318c1cac995a916))
+- more timeout so make task more stable ([#589](https://github.com/shopware/acceptance-test-suite/issues/589)) ([f72d903](https://github.com/shopware/acceptance-test-suite/commit/f72d9030a4c2adfa0fac798a42d2e6fcf8978ace))
 
 ## [12.5.0](https://github.com/shopware/acceptance-test-suite/compare/v12.4.3...v12.5.0) (2026-02-12)
 
-
 ### Features
 
-* add oxfmt formatter  ([#577](https://github.com/shopware/acceptance-test-suite/issues/577)) ([42dfa25](https://github.com/shopware/acceptance-test-suite/commit/42dfa2516116991e81a9ce27942d77530fcb233f))
-
+- add oxfmt formatter ([#577](https://github.com/shopware/acceptance-test-suite/issues/577)) ([42dfa25](https://github.com/shopware/acceptance-test-suite/commit/42dfa2516116991e81a9ce27942d77530fcb233f))
 
 ### Bug Fixes
 
-* documents ats ([#582](https://github.com/shopware/acceptance-test-suite/issues/582)) ([35297ba](https://github.com/shopware/acceptance-test-suite/commit/35297ba0e10d31bb4ed6a9f77d1303ffda3828b5))
-* flaky saas test ([#580](https://github.com/shopware/acceptance-test-suite/issues/580)) ([c7e4e8a](https://github.com/shopware/acceptance-test-suite/commit/c7e4e8a6755fd0c8f498a21e9ad08019cd75ee0b))
+- documents ats ([#582](https://github.com/shopware/acceptance-test-suite/issues/582)) ([35297ba](https://github.com/shopware/acceptance-test-suite/commit/35297ba0e10d31bb4ed6a9f77d1303ffda3828b5))
+- flaky saas test ([#580](https://github.com/shopware/acceptance-test-suite/issues/580)) ([c7e4e8a](https://github.com/shopware/acceptance-test-suite/commit/c7e4e8a6755fd0c8f498a21e9ad08019cd75ee0b))
 
 ## [12.4.3](https://github.com/shopware/acceptance-test-suite/compare/v12.4.2...v12.4.3) (2026-02-03)
 

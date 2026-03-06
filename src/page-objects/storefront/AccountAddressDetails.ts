@@ -31,10 +31,10 @@ export class AccountAddressDetails extends BaseAccount {
     }
 
     /**
-    * The address details page is used for both creating and editing addresses. The URL contains the address ID when editing an existing address, but not when creating a new one. Therefore, the addressId parameter is optional.
-    * @param addressId - The ID of the address being edited. This parameter is optional because the same page object is used for creating new addresses, where no address ID is present in the URL.
-    */
-    url(addressId: string = '')  {
+     * The address details page is used for both creating and editing addresses. The URL contains the address ID when editing an existing address, but not when creating a new one. Therefore, the addressId parameter is optional.
+     * @param addressId - The ID of the address being edited. This parameter is optional because the same page object is used for creating new addresses, where no address ID is present in the URL.
+     */
+    url(addressId: string = "") {
         if (addressId) {
             return `account/address/${addressId}`;
         }
