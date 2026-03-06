@@ -5,7 +5,9 @@
         "openActionsMenu": "Aktionsmenü öffnen"
     },
     "contextMenu": {
-        "sendDocument": "Dokument senden"
+        "sendDocument": "Dokument senden",
+        "openDocument": "Dokument öffnen",
+        "markAsSent": "Als gesendet markieren"
     },
     "tabs": {
         "general": "Allgemein",
