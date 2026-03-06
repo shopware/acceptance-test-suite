@@ -22,6 +22,7 @@ test("Storefront page objects", async ({
     TestDataService,
     InstanceMeta,
     CheckVisibilityInHome,
+    StorefrontHeader,
 }) => {
     const category = await TestDataService.createCategory();
     const product = await TestDataService.createBasicProduct();
@@ -31,6 +32,8 @@ test("Storefront page objects", async ({
 
     await ShopCustomer.attemptsTo(CheckVisibilityInHome(product.name));
     await ShopCustomer.expects(StorefrontCategory.sortingSelect).toBeVisible();
+
+    await ShopCustomer.expects(StorefrontHeader.cartTotal).toBeVisible();
 
     const searchTerm = "product";
     await ShopCustomer.goesTo(StorefrontSearch.url(searchTerm));
