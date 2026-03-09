@@ -15,7 +15,6 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
-
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     AdminPage: [
         async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
