@@ -2,17 +2,15 @@
 
 ## [12.8.0](https://github.com/shopware/acceptance-test-suite/compare/v12.7.1...v12.8.0) (2026-03-06)
 
-
 ### Features
 
-* add document pdf locators ([#601](https://github.com/shopware/acceptance-test-suite/issues/601)) ([2986d0c](https://github.com/shopware/acceptance-test-suite/commit/2986d0cae9c7e2f14380f667723aa8d64dd90725))
+- add document pdf locators ([#601](https://github.com/shopware/acceptance-test-suite/issues/601)) ([2986d0c](https://github.com/shopware/acceptance-test-suite/commit/2986d0cae9c7e2f14380f667723aa8d64dd90725))
 
 ## [12.7.1](https://github.com/shopware/acceptance-test-suite/compare/v12.7.0...v12.7.1) (2026-03-06)
 
-
 ### Bug Fixes
 
-* add cart total to header page object ([#602](https://github.com/shopware/acceptance-test-suite/issues/602)) ([eecaccd](https://github.com/shopware/acceptance-test-suite/commit/eecaccdce73935ba8c23c220ab6da9838f1993a5))
+- add cart total to header page object ([#602](https://github.com/shopware/acceptance-test-suite/issues/602)) ([eecaccd](https://github.com/shopware/acceptance-test-suite/commit/eecaccdce73935ba8c23c220ab6da9838f1993a5))
 
 ## [12.7.0](https://github.com/shopware/acceptance-test-suite/compare/v12.6.1...v12.7.0) (2026-03-05)
 
