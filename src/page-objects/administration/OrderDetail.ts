@@ -15,6 +15,8 @@ export class OrderDetail implements PageObject {
     public readonly contextMenuButton: Locator;
     public readonly contextMenu: Locator;
     public readonly contextMenuSendDocument: Locator;
+    public readonly contextMenuOpenDocument: Locator;
+    public readonly contextMenuMarkAsSent: Locator;
     public readonly sendDocumentModal: Locator;
     public readonly sendDocumentButton: Locator;
     public readonly itemsCardHeader: Locator;
@@ -43,6 +45,8 @@ export class OrderDetail implements PageObject {
         this.documentType = page.locator(".sw-data-grid__cell--documentType-name");
         this.contextMenu = page.locator(".sw-context-menu");
         this.contextMenuSendDocument = this.contextMenu.getByText(translate("administration:order:contextMenu.sendDocument"));
+        this.contextMenuOpenDocument = this.contextMenu.getByText(translate("administration:order:contextMenu.openDocument"));
+        this.contextMenuMarkAsSent = this.contextMenu.getByText(translate("administration:order:contextMenu.markAsSent"));
         this.contextMenuButton = page.getByLabel(translate("administration:order:detail.openActionsMenu"));
         this.sendDocumentModal = page.locator(".sw-order-send-document-modal");
         this.sendDocumentButton = page.getByRole("button").getByText(translate("administration:order:detail.sendDocument"));
@@ -68,5 +72,16 @@ export class OrderDetail implements PageObject {
 
     async getCustomFieldCardLocators(customFieldSetName: string, customFieldTextName: string) {
         return getCustomFieldCardLocators(this.page, customFieldSetName, customFieldTextName, this.instanceMeta);
+    }
+
+    getDocumentRow(index: number) {
+        const documentRow = this.page.locator(".sw-data-grid__body .sw-data-grid__row").nth(index);
+
+        return {
+            row: documentRow,
+            contextMenuButton: documentRow.getByLabel(translate("administration:order:detail.openActionsMenu")),
+            sentCheckmark: documentRow.locator(".icon--regular-checkmark-xs"),
+            documentType: documentRow.locator(".sw-data-grid__cell--documentType-name"),
+        };
     }
 }

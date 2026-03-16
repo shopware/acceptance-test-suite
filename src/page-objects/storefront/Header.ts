@@ -40,7 +40,7 @@ export class Header implements PageObject {
         this.wishlistBasket = page.locator(".header-wishlist-badge");
 
         //cart
-        this.cartTotal = page.getByRole("link", { name: translate("storefront:header:shoppingCart") });
+        this.cartTotal = page.locator(".header-cart-total");
     }
 
     url() {

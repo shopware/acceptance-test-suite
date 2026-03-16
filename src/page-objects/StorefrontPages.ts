@@ -143,9 +143,9 @@ export const test = base.extend<FixtureTypes>({
         await use(new AccountAddresses(StorefrontPage, InstanceMeta));
     },
 
-    /** 
-    * @deprecated - Use StorefrontAccountAddressDetails instead. 
-    */
+    /**
+     * @deprecated - Use StorefrontAccountAddressDetails instead.
+     */
     StorefrontAccountAddressCreate: async ({ StorefrontPage }, use) => {
         await use(new AccountAddressCreate(StorefrontPage));
     },
