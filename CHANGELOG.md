@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.8.1](https://github.com/shopware/acceptance-test-suite/compare/v12.8.0...v12.8.1) (2026-03-16)
+
+
+### Bug Fixes
+
+* locator for header cart button ([#607](https://github.com/shopware/acceptance-test-suite/issues/607)) ([cbf63a8](https://github.com/shopware/acceptance-test-suite/commit/cbf63a8ab345d424b539589797d9be5699c16c54))
+
 ## [12.8.0](https://github.com/shopware/acceptance-test-suite/compare/v12.7.1...v12.8.0) (2026-03-06)
 
 ### Features
