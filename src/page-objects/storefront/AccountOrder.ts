@@ -47,7 +47,7 @@ export class AccountOrder extends BaseAccount {
         });
         const orderImage = orderItem.locator(".line-item-img-link");
         const taxPrice = orderItem.locator(
-            `dt:text-matches('${translate("storefront:account:orders.plusVat")} [0-9]\\+\\?${translate("storefront:account:orders.vatSuffix")}') + dd`
+            `dt:text-matches('${translate("storefront:account:orders.includeVat")} [0-9]\\+\\?${translate("storefront:account:orders.vatSuffix")}') + dd`
         );
         const shippingCosts = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.shippingCosts")}') + dd`);
         const totalGross = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.totalGross")}') + dd`);
