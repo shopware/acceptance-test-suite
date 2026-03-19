@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.8.2](https://github.com/shopware/acceptance-test-suite/compare/v12.8.1...v12.8.2) (2026-03-17)
+
+
+### Bug Fixes
+
+* broken docs link ([#609](https://github.com/shopware/acceptance-test-suite/issues/609)) ([8bf7f49](https://github.com/shopware/acceptance-test-suite/commit/8bf7f4916f24aaf24b6949e0ee03eac38a434a50))
+
 ## [12.8.1](https://github.com/shopware/acceptance-test-suite/compare/v12.8.0...v12.8.1) (2026-03-16)
 
 
