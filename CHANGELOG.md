@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.8.3](https://github.com/shopware/acceptance-test-suite/compare/v12.8.2...v12.8.3) (2026-03-19)
+
+
+### Bug Fixes
+
+* change wrong tax snippet in storefront order history ([#611](https://github.com/shopware/acceptance-test-suite/issues/611)) ([0faebc1](https://github.com/shopware/acceptance-test-suite/commit/0faebc1afcdc2450426f202b50017c9090c7d10a))
+
 ## [12.8.2](https://github.com/shopware/acceptance-test-suite/compare/v12.8.1...v12.8.2) (2026-03-17)
 
 
