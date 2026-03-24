@@ -107,7 +107,7 @@ jobs:
                   --
                   ${{ steps.changed-test-files.outputs.all_changed_files }}
 
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: playwright-report-${{ matrix.SHOPWARE_VERSION }}
@@ -134,7 +134,7 @@ jobs:
               run: npx playwright install --with-deps
             - name: Run Playwright tests
               run: npx playwright test
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: playwright-report-saas
