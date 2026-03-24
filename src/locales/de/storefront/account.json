@@ -42,6 +42,7 @@
         "creditItem": "Gutschrift",
         "orderNumber": "Bestellnummer",
         "plusVat": "zzgl.",
+        "includeVat": "inkl.",
         "vatSuffix": "% MwSt.",
         "shippingCosts": "Versandkosten:",
         "totalGross": "Gesamtsumme (brutto):"

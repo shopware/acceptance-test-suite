@@ -40,11 +40,7 @@ export const test = base.extend<FixtureTypes>({
 
         expect(response.ok()).toBeTruthy();
 
-        const page = await loginToAdministration(
-            await createNewAdminPageContext(browser, SalesChannelBaseConfig),
-            adminUser,
-            AdminApiContext,
-        );
+        const page = await loginToAdministration(await createNewAdminPageContext(browser, SalesChannelBaseConfig), adminUser, AdminApiContext);
 
         LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
         setCurrentContext(page.context() as unknown as Record<string, unknown>);

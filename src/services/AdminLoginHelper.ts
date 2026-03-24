@@ -13,10 +13,7 @@ import type { User } from "../types/ShopwareTypes";
  * @param SalesChannelBaseConfig - The sales channel base configuration fixture.
  * @returns The Playwright Page instance for the admin login page.
  */
-export async function createNewAdminPageContext(
-    browser: Browser,
-    SalesChannelBaseConfig: DefaultSalesChannelTypes["SalesChannelBaseConfig"],
-): Promise<Page> {
+export async function createNewAdminPageContext(browser: Browser, SalesChannelBaseConfig: DefaultSalesChannelTypes["SalesChannelBaseConfig"]): Promise<Page> {
     const context: BrowserContext = await browser.newContext({
         baseURL: SalesChannelBaseConfig.adminUrl,
         serviceWorkers: "block",
@@ -26,7 +23,6 @@ export async function createNewAdminPageContext(
     await mockApiCalls(adminPage);
 
     return adminPage;
-
 }
 
 /**
@@ -36,12 +32,7 @@ export async function createNewAdminPageContext(
  * @param AdminApiContext - The API request context for admin API calls.
  * @returns The logged-in admin Page instance.
  */
-export async function loginToAdministration(
-    adminLoginPage: Page,
-    merchant: User,
-    AdminApiContext: FixtureTypes['AdminApiContext'],
-): Promise<Page> {
-
+export async function loginToAdministration(adminLoginPage: Page, merchant: User, AdminApiContext: FixtureTypes["AdminApiContext"]): Promise<Page> {
     // Create locators at runtime when language is properly set
     const usernamePattern = new RegExp(`${translate("administration:login:username")}|${translate("administration:login:emailAddress")}`);
     const passwordLabel = translate("administration:login:password");
@@ -91,5 +82,4 @@ export async function loginToAdministration(
     await expect(adminLoginPage.getByText(merchant.firstName + " " + merchant.lastName).first()).toBeVisible({ timeout: 60000 });
 
     return adminLoginPage;
-
 }

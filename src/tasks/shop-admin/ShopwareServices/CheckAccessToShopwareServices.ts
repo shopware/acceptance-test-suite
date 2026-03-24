@@ -18,11 +18,7 @@ export const CheckAccessToShopwareServices = base.extend<{ CheckAccessToShopware
                     user.password = customUser.password;
                 }
 
-                const adminPage = await loginToAdministration(
-                    await createNewAdminPageContext(browser, SalesChannelBaseConfig),
-                    user,
-                    TestDataService.AdminApiClient,
-                );
+                const adminPage = await loginToAdministration(await createNewAdminPageContext(browser, SalesChannelBaseConfig), user, TestDataService.AdminApiClient);
 
                 const shopwareServicesAdvertisementBanner = adminPage.locator(".sw-settings-services-dashboard-banner__content").first();
                 const shopwareServicesExploreNowButton = shopwareServicesAdvertisementBanner.getByRole("button", {
