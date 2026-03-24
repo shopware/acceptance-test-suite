@@ -42,6 +42,7 @@
         "creditItem": "CreditItem",
         "orderNumber": "Order number",
         "plusVat": "plus",
+        "includeVat": "incl.",
         "vatSuffix": "% VAT",
         "shippingCosts": "Shipping costs:",
         "totalGross": "Total (gross):"
