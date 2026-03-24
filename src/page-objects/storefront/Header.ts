@@ -19,6 +19,9 @@ export class Header implements PageObject {
     public readonly wishlistBasket: Locator;
     public readonly page: Page;
 
+    //cart
+    public readonly cartTotal: Locator;
+
     constructor(page: Page) {
         this.page = page;
         this.mainNavigationLink = page.locator(".main-navigation-link-text");
@@ -35,6 +38,9 @@ export class Header implements PageObject {
         //wishlist
         this.wishlistIcon = page.getByRole("link", { name: translate("storefront:header:wishlistIcon") });
         this.wishlistBasket = page.locator(".header-wishlist-badge");
+
+        //cart
+        this.cartTotal = page.getByRole("link", { name: translate("storefront:header:shoppingCart") });
     }
 
     url() {

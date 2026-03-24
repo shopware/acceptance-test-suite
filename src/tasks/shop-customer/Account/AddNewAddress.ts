@@ -14,7 +14,7 @@ export const AddNewAddress = base.extend<{ AddNewAddress: Task }, FixtureTypes>(
                 await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.companyInput, address.company);
                 await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.departmentInput, address.department);
                 await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.streetInput, address.street);
-                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.zipcodeInput, address.zipCode);
+                await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.zipcodeInput, address.zipcode);
                 await ShopCustomer.fillsIn(StorefrontAccountAddressCreate.cityInput, address.city);
                 await ShopCustomer.presses(StorefrontAccountAddressCreate.countryDropdown);
                 await StorefrontAccountAddressCreate.countryDropdown.selectOption({ label: address.country });
