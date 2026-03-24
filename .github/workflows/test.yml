@@ -70,7 +70,7 @@ jobs:
             - uses: actions/checkout@v6
 
             - id: changed-test-files
-              uses: tj-actions/changed-files@7dee1b0c1557f278e5c7dc244927139d78c0e22a # v47.0.4
+              uses: tj-actions/changed-files@22103cc46bda19c2b464ffe86db46df6922fd323 # v47.0.5
               with:
                   files: |
                       tests/**/*.spec.ts
@@ -107,7 +107,7 @@ jobs:
                   --
                   ${{ steps.changed-test-files.outputs.all_changed_files }}
 
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: playwright-report-${{ matrix.SHOPWARE_VERSION }}
@@ -134,7 +134,7 @@ jobs:
               run: npx playwright install --with-deps
             - name: Run Playwright tests
               run: npx playwright test
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: playwright-report-saas

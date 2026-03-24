@@ -1,18 +1,37 @@
 # Changelog
 
-## [12.8.0](https://github.com/shopware/acceptance-test-suite/compare/v12.7.1...v12.8.0) (2026-03-06)
-
-
-### Features
-
-* add document pdf locators ([#601](https://github.com/shopware/acceptance-test-suite/issues/601)) ([2986d0c](https://github.com/shopware/acceptance-test-suite/commit/2986d0cae9c7e2f14380f667723aa8d64dd90725))
-
-## [12.7.1](https://github.com/shopware/acceptance-test-suite/compare/v12.7.0...v12.7.1) (2026-03-06)
+## [12.8.3](https://github.com/shopware/acceptance-test-suite/compare/v12.8.2...v12.8.3) (2026-03-19)
 
 
 ### Bug Fixes
 
-* add cart total to header page object ([#602](https://github.com/shopware/acceptance-test-suite/issues/602)) ([eecaccd](https://github.com/shopware/acceptance-test-suite/commit/eecaccdce73935ba8c23c220ab6da9838f1993a5))
+* change wrong tax snippet in storefront order history ([#611](https://github.com/shopware/acceptance-test-suite/issues/611)) ([0faebc1](https://github.com/shopware/acceptance-test-suite/commit/0faebc1afcdc2450426f202b50017c9090c7d10a))
+
+## [12.8.2](https://github.com/shopware/acceptance-test-suite/compare/v12.8.1...v12.8.2) (2026-03-17)
+
+
+### Bug Fixes
+
+* broken docs link ([#609](https://github.com/shopware/acceptance-test-suite/issues/609)) ([8bf7f49](https://github.com/shopware/acceptance-test-suite/commit/8bf7f4916f24aaf24b6949e0ee03eac38a434a50))
+
+## [12.8.1](https://github.com/shopware/acceptance-test-suite/compare/v12.8.0...v12.8.1) (2026-03-16)
+
+
+### Bug Fixes
+
+* locator for header cart button ([#607](https://github.com/shopware/acceptance-test-suite/issues/607)) ([cbf63a8](https://github.com/shopware/acceptance-test-suite/commit/cbf63a8ab345d424b539589797d9be5699c16c54))
+
+## [12.8.0](https://github.com/shopware/acceptance-test-suite/compare/v12.7.1...v12.8.0) (2026-03-06)
+
+### Features
+
+- add document pdf locators ([#601](https://github.com/shopware/acceptance-test-suite/issues/601)) ([2986d0c](https://github.com/shopware/acceptance-test-suite/commit/2986d0cae9c7e2f14380f667723aa8d64dd90725))
+
+## [12.7.1](https://github.com/shopware/acceptance-test-suite/compare/v12.7.0...v12.7.1) (2026-03-06)
+
+### Bug Fixes
+
+- add cart total to header page object ([#602](https://github.com/shopware/acceptance-test-suite/issues/602)) ([eecaccd](https://github.com/shopware/acceptance-test-suite/commit/eecaccdce73935ba8c23c220ab6da9838f1993a5))
 
 ## [12.7.0](https://github.com/shopware/acceptance-test-suite/compare/v12.6.1...v12.7.0) (2026-03-05)
 
