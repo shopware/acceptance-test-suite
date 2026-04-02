@@ -7,8 +7,8 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 ## Primary Entry Points
 
 - `package.json`: toolchain, engine range, repo scripts
-- `playwright.config.ts`: env defaults, Playwright settings, webServer behavior
-- `src/index.ts`: public exports and merged `test` object
+- `playwright.config.ts`: env defaults, Playwright settings, and webServer boot behavior
+- `src/index.ts`: public exports and merged `test` stack
 - `tests/`: public-facing specs that exercise the package
 
 ## Repository Layers
@@ -79,7 +79,7 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 
 ### Fix Setup Or Cleanup Issues
 
-1. Check `src/fixtures/TestData.ts` for cleanup gating
+1. Check `src/fixtures/TestData.ts` for cleanup gating (`ATS_SKIP_CLEANUP`)
 2. Check `src/services/TestDataService.ts` for entity creation or cleanup logic
 3. Check supporting API helpers in `src/services/`
 
