@@ -11,6 +11,15 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 - `src/index.ts`: public exports and merged `test` stack
 - `tests/`: public-facing specs that exercise the package
 
+## Public Export Surfaces
+
+- `src/index.ts`: public runtime exports and public type exports
+- `src/page-objects/AdministrationPages.ts`: administration page-object merge file
+- `src/page-objects/StorefrontPages.ts`: storefront page-object merge file
+- `src/tasks/shop-admin-tasks.ts`: administration task merge file
+- `src/tasks/shop-customer-tasks.ts`: storefront task merge file
+- `src/types/FixtureTypes.ts`: merged fixture type surface
+
 ## Repository Layers
 
 ### Specs
@@ -43,17 +52,22 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 - Hold reusable higher-level actions that combine multiple page interactions
 - Re-export new tasks through the corresponding merge file
 
-### Data Fixtures And Services
+### Services And Test Data
 
-- `src/data-fixtures/*`
 - `src/services/TestDataService.ts`
 - `src/services/*`
-- Own generated entities, API-backed setup, cleanup, shared helpers, and low-level integrations
+- Own API-backed setup, cleanup, shared helpers, low-level integrations, and new test data creation
+
+### Legacy Data Fixtures
+
+- `src/data-fixtures/*`
+- Existing compatibility surface for older fixture-style setup helpers
+- Do not add new usage when `src/services/TestDataService.ts` can own the behavior
 
 ### Types
 
 - `src/types/*`
-- Define shared fixture, page-object, translation, and Shopware domain types
+- Define shared fixture, page-object, task, translation, and Shopware domain types
 
 ### Locales
 
@@ -70,18 +84,33 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 3. Export the task in `src/tasks/shop-admin-tasks.ts`
 4. Update or add a spec in `tests/`
 
-### Add Storefront Coverage
+### Add A New Reusable Storefront Flow
 
 1. Add or update the storefront page object in `src/page-objects/storefront/`
 2. Add a reusable storefront task in `src/tasks/shop-customer/`
 3. Export the task in `src/tasks/shop-customer-tasks.ts`
-4. Cover the scenario in `tests/`
+4. Update or add a spec in `tests/`
+
+### Add Or Refine Test Data Or Service Logic
+
+1. Prefer `src/services/TestDataService.ts` for entity creation, mutation, and cleanup used by new coverage
+2. Use another file in `src/services/` when the helper is broader than test data setup
+3. Re-export public helpers through `src/index.ts` when needed
+4. Update the consuming fixture, task, page object, or spec
+
+### Add Or Refine Shared Types
+
+1. Update the relevant file in `src/types/`
+2. Keep `src/types/FixtureTypes.ts` aligned when fixture, page-object, or task surfaces change
+3. Keep `src/index.ts` type exports aligned when public types change
+4. Run `npm run typecheck`
 
 ### Fix Setup Or Cleanup Issues
 
 1. Check `src/fixtures/TestData.ts` for cleanup gating (`ATS_SKIP_CLEANUP`)
 2. Check `src/services/TestDataService.ts` for entity creation or cleanup logic
 3. Check supporting API helpers in `src/services/`
+4. Inspect `src/data-fixtures/` only when maintaining existing legacy compatibility
 
 ### Fix Broken Selectors Or Labels
 
@@ -95,25 +124,27 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 
 1. Start with a spec in `tests/`
 2. Search with `rg` for existing scenario nouns and reuse existing fixtures from `src/index.ts` exports whenever possible
-3. Add page-object support in the relevant `src/page-objects/` subtree
-4. Add a task only if the scenario becomes a reusable flow
-5. Export new reusable pieces through the appropriate merge file
+3. Use `TestDataService` for generated entities and cleanup; do not introduce new `src/data-fixtures/` usage for new work
+4. Add page-object support in the relevant `src/page-objects/` subtree
+5. Add a task only if the scenario becomes a reusable flow
+6. Export new reusable pieces through the appropriate merge file or `src/index.ts`
 
 ### Debug Failing Tests
 
 1. Re-run the narrowest spec
 2. Check environment defaults and app boot assumptions in `playwright.config.ts`
-3. Trace failure ownership through spec, task, page object, fixture, and service
+3. Trace failure ownership through spec, task, page object, fixture, service, and type surface when signatures are involved
 4. Fix the owning abstraction
 5. Re-run the targeted spec before broader verification
 
-### Refactor Fixtures, Tasks, Or Page Objects
+### Refactor Fixtures, Tasks, Page Objects, Services, Or Types
 
-1. Identify which merge file exposes the surface
+1. Identify which merge file or public export surface exposes the behavior
 2. Preserve names and exports unless a breaking change is intended
 3. Prefer thin wrappers around new shared helpers when exported task names already exist
-4. Keep roles clear: fixtures wire context, page objects model pages, tasks model flows
-5. Re-run targeted specs plus repo checks
+4. Prefer `TestDataService` over adding new `data-fixtures` for new setup paths
+5. Keep roles clear: fixtures wire context, page objects model pages, tasks model flows, services provide helpers, and types define contracts
+6. Re-run targeted specs plus repo checks
 
 ## Verification Commands
 
