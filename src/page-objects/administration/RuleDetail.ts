@@ -143,7 +143,7 @@ export class RuleDetail extends RuleCreate implements PageObject {
             this.assignmentModalAddButton = this.assignmentModal.locator(".sw-button--primary").getByText(translate("administration:rule:buttons.add"));
         } else {
             this.assignmentModalAddButton = this.assignmentModal.locator(".mt-button--primary").getByText(translate("administration:rule:buttons.add"));
-        }git
+        }
         this.conditionORContainer = page.locator(".sw-condition-or-container");
     }
 
