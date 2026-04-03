@@ -20,7 +20,7 @@ Pick the narrowest owner of the behavior:
 - `src/page-objects/`: selectors, URLs, and page-level affordances.
 - `src/tasks/`: reusable multi-step business actions.
 - `src/fixtures/`: context wiring, actors, lifecycle, and API/page contexts.
-- `src/services/TestDataService.ts`: API-backed test data creation, setup, and cleanup for new work.
+- `src/services/TestDataService.ts`: API-backed test data creation, setup, cleanup, and cleanup ordering (`highPriorityEntities`) for new work.
 - `src/services/`: cross-cutting helpers and integrations.
 - `src/types/`: shared fixture, page-object, task, and Shopware domain contracts.
 - `src/locales/`: translation-backed assertion keys.
@@ -39,12 +39,18 @@ Prefer a direct spec edit (no new abstraction) when all are true:
 
 Only introduce or extend page objects, tasks, fixtures, services, or shared types when the same behavior is repeated, unstable, or clearly part of shared domain language.
 
+## Keep Surfaces Separate
+
+Keep each browser-driven scenario on one UI surface. Do not bounce between Administration and Storefront in the same task or spec just because both fixtures are available.
+
+If a storefront scenario needs admin-side prerequisites, create them through `TestDataService`, `AdminApiContext`, or setup fixtures and then stay in Storefront. If an admin scenario needs storefront-side state, prepare it through `TestDataService`, `StoreApiContext`, or separate setup coverage instead of switching the browser surface mid-flow.
+
 ## Implementation Workflow
 
 1. Reproduce with the smallest affected spec/test block.
 2. Search for existing nouns, flows, and `TestDataService` helpers with `rg` before creating new helpers.
 3. Trace from spec -> actor/task -> page object -> fixture/service/type and fix the owning layer.
-4. Keep established patterns (`mergeTests`, `test.extend`, actor model, locale-aware assertions).
+4. Keep established patterns (`mergeTests`, `test.extend`, actor model, locale-aware assertions). For Storefront flows, prefer `ShopCustomer.fillsIn()` and `ShopCustomer.presses()` where existing tasks already use that keyboard-first pattern; do not generalize that rule to Administration flows.
 5. Keep version or SaaS branching explicit when tied to `InstanceMeta`.
 6. Re-export new reusable surfaces via the right merge file or `src/index.ts`.
 

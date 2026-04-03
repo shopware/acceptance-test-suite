@@ -41,6 +41,7 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 - `src/page-objects/AdministrationPages.ts`
 - `src/page-objects/StorefrontPages.ts`
 - Hold selectors, URLs, and page-scoped helpers
+- Prefer semantic Playwright locators (`getByRole`, `getByLabel`, `getByText`) with locale-backed labels or text when they are stable; keep CSS selectors inside page objects only when they are truly necessary
 - Re-export new page objects through the family merge file
 
 ### Tasks
@@ -89,14 +90,16 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 1. Add or update the storefront page object in `src/page-objects/storefront/`
 2. Add a reusable storefront task in `src/tasks/shop-customer/`
 3. Export the task in `src/tasks/shop-customer-tasks.ts`
-4. Update or add a spec in `tests/`
+4. Follow the existing storefront actor pattern: prefer `ShopCustomer.fillsIn()` and `ShopCustomer.presses()` when the flow benefits from the `Actor` accessibility checks
+5. Update or add a spec in `tests/`
 
 ### Add Or Refine Test Data Or Service Logic
 
 1. Prefer `src/services/TestDataService.ts` for entity creation, mutation, and cleanup used by new coverage
-2. Use another file in `src/services/` when the helper is broader than test data setup
-3. Re-export public helpers through `src/index.ts` when needed
-4. Update the consuming fixture, task, page object, or spec
+2. When a new `TestDataService` entity can block deletion of associated records, keep `highPriorityEntities` aligned so cleanup deletes it in the priority sync batch
+3. Use another file in `src/services/` when the helper is broader than test data setup
+4. Re-export public helpers through `src/index.ts` when needed
+5. Update the consuming fixture, task, page object, or spec
 
 ### Add Or Refine Shared Types
 
@@ -109,14 +112,16 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 
 1. Check `src/fixtures/TestData.ts` for cleanup gating (`ATS_SKIP_CLEANUP`)
 2. Check `src/services/TestDataService.ts` for entity creation or cleanup logic
-3. Check supporting API helpers in `src/services/`
-4. Inspect `src/data-fixtures/` only when maintaining existing legacy compatibility
+3. Inspect `highPriorityEntities` in `src/services/TestDataService.ts` when delete order or association constraints are involved
+4. Check supporting API helpers in `src/services/`
+5. Inspect `src/data-fixtures/` only when maintaining existing legacy compatibility
 
 ### Fix Broken Selectors Or Labels
 
 1. Update the relevant page object
-2. Update locale files when assertions depend on translated keys
-3. Avoid scattering literal selectors or strings into specs
+2. Prefer semantic locators (`getByRole`, `getByLabel`, `getByText`) with locale-backed labels or text before falling back to CSS selectors
+3. Keep unavoidable literal CSS selectors inside page objects instead of scattering them into specs
+4. Update locale files when assertions depend on translated keys
 
 ## Workflow Checklists
 
@@ -124,10 +129,11 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 
 1. Start with a spec in `tests/`
 2. Search with `rg` for existing scenario nouns and reuse existing fixtures from `src/index.ts` exports whenever possible
-3. Use `TestDataService` for generated entities and cleanup; do not introduce new `src/data-fixtures/` usage for new work
-4. Add page-object support in the relevant `src/page-objects/` subtree
-5. Add a task only if the scenario becomes a reusable flow
-6. Export new reusable pieces through the appropriate merge file or `src/index.ts`
+3. Pick one browser surface per scenario: Administration or Storefront. Use `TestDataService` or API helpers for prerequisites instead of navigating back and forth between them
+4. Use `TestDataService` for generated entities and cleanup; do not introduce new `src/data-fixtures/` usage for new work
+5. Add page-object support in the relevant `src/page-objects/` subtree
+6. Add a task only if the scenario becomes a reusable flow
+7. Export new reusable pieces through the appropriate merge file or `src/index.ts`
 
 ### Debug Failing Tests
 
