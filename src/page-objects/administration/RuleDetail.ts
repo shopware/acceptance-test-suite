@@ -137,8 +137,13 @@ export class RuleDetail extends RuleCreate implements PageObject {
         }
         this.conditionFilterModal = page.locator(".sw-modal__header").getByText(translate("administration:rule:text.filter"));
         this.conditionFilterModalCloseButtonX = page.locator(".sw-modal__header").getByRole("button");
-        this.conditionCartLineItemInStockOperator = page.locator(".sw-condition__condition-type-cartLineItemActualStock").locator(".sw-single-select__selection-text");
-        this.conditionCartLineItemInStockValue = page.locator(".sw-condition__condition-type-cartLineItemActualStock").getByRole("textbox");
+        if (satisfies(instanceMeta.version, "<6.7.9.0")) {
+            this.conditionCartLineItemInStockOperator = page.locator(".sw-condition__condition-type-cartLineItemStock").locator(".sw-single-select__selection-text");
+            this.conditionCartLineItemInStockValue = page.locator(".sw-condition__condition-type-cartLineItemStock").getByRole("textbox");
+        } else {
+            this.conditionCartLineItemInStockOperator = page.locator(".sw-condition__condition-type-cartLineItemActualStock").locator(".sw-single-select__selection-text");
+            this.conditionCartLineItemInStockValue = page.locator(".sw-condition__condition-type-cartLineItemActualStock").getByRole("textbox");
+        }
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.assignmentModalAddButton = this.assignmentModal.locator(".sw-button--primary").getByText(translate("administration:rule:buttons.add"));
         } else {
