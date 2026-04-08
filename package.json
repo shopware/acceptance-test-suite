@@ -35,7 +35,7 @@
         "format": "oxfmt --write .",
         "typecheck": "tsgo --noEmit",
         "build": "unbuild",
-        "prepare": "lefthook install",
+        "prepare": "git rev-parse --is-inside-work-tree >/dev/null 2>&1 && lefthook install || true && npm run build",
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
