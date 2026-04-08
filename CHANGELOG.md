@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.8.4](https://github.com/shopware/acceptance-test-suite/compare/v12.8.3...v12.8.4) (2026-04-08)
+
+
+### Bug Fixes
+
+* cart line item stock rule selector ([#615](https://github.com/shopware/acceptance-test-suite/issues/615)) ([25efc3e](https://github.com/shopware/acceptance-test-suite/commit/25efc3e02b0e7c76ad4e25437eaff5abcd1c3554))
+
 ## [12.8.3](https://github.com/shopware/acceptance-test-suite/compare/v12.8.2...v12.8.3) (2026-03-19)
 
 
