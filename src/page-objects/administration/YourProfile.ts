@@ -14,8 +14,8 @@ export class YourProfile implements PageObject {
 
     public readonly privacyPreferencesTab: Locator;
     public readonly dataSharingCardTitle: Locator;
-    public readonly dataSharingMyDataHeadline: Locator;
-    public readonly dataSharingMyDataCheckbox: Locator;
+    public readonly dataSharingUsageDataHeadline: Locator;
+    public readonly dataSharingUsageDataCheckbox: Locator;
     public readonly privacyPolicyLink: Locator;
 
     constructor(page: Page) {
@@ -30,8 +30,8 @@ export class YourProfile implements PageObject {
 
         this.privacyPreferencesTab = page.locator(".sw-tabs-item").filter({ hasText: "Privacy preferences" });
         this.dataSharingCardTitle = page.getByRole("heading", { name: "Help us to improve Shopware" });
-        this.dataSharingMyDataHeadline = page.getByRole("heading", { name: "Usage data" });
-        this.dataSharingMyDataCheckbox = page.getByRole("checkbox", { name: "Share Usage Data" });
+        this.dataSharingUsageDataHeadline = page.getByRole("heading", { name: "Usage data" });
+        this.dataSharingUsageDataCheckbox = page.getByRole("checkbox", { name: "Share Usage Data" });
         this.privacyPolicyLink = page.getByRole("link", { name: "Privacy Policy" });
     }
 
