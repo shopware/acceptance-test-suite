@@ -19,7 +19,7 @@ export class DataSharingConsentModal implements PageObject {
     constructor(page: Page) {
         this.page = page;
 
-        this.consentModal = page.getByRole("dialog").filter({ has: page.getByRole("heading", { name: "Help us improve Shopware" }) });
+        this.consentModal = page.getByRole("dialog").filter({ has: page.getByRole("heading", { name: "Help us to improve Shopware" }) });
 
         this.allowAllButton = this.consentModal.getByRole("button", { name: "Allow all" });
         this.rejectAllButton = this.consentModal.getByRole("button", { name: "Reject All" });
