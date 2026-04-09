@@ -16,7 +16,6 @@ export class YourProfile implements PageObject {
     public readonly dataSharingCardTitle: Locator;
     public readonly dataSharingMyDataHeadline: Locator;
     public readonly dataSharingMyDataCheckbox: Locator;
-    public readonly dataUseDetailsLink: Locator;
     public readonly privacyPolicyLink: Locator;
 
     constructor(page: Page) {
@@ -29,14 +28,12 @@ export class YourProfile implements PageObject {
         this.emailField = page.getByRole("textbox", { name: translate("administration:yourProfile:fields.email") });
         this.deselectAllButton = page.getByRole("button", { name: translate("administration:yourProfile:buttons.deselectAll") });
 
-        this.privacyPreferencesTab = page.locator(".sw-tabs-item").filter({ hasText: "Privacy Preferences" });
-        this.dataSharingCardTitle = page.getByRole("heading", { name: "Help us improve" });
-        this.dataSharingMyDataHeadline = page.getByRole("heading", { name: "My data" });
-        this.dataSharingMyDataCheckbox = page.getByRole("checkbox", { name: "Share my data" });
-        this.dataUseDetailsLink = page.getByRole("link", { name: "Privacy Policy" });
-        this.privacyPolicyLink = page.getByRole("link", { name: "shopware.com/en/data-use-details" });
+        this.privacyPreferencesTab = page.locator(".sw-tabs-item").filter({ hasText: "Privacy preferences" });
+        this.dataSharingCardTitle = page.getByRole("heading", { name: "Help us to improve Shopware" });
+        this.dataSharingMyDataHeadline = page.getByRole("heading", { name: "Usage data" });
+        this.dataSharingMyDataCheckbox = page.getByRole("checkbox", { name: "Share Usage Data" });
+        this.privacyPolicyLink = page.getByRole("link", { name: "Privacy Policy" });
     }
-
 
     url(tabName = "general") {
         return `#/sw/profile/index/${tabName}`;
