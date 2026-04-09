@@ -9,10 +9,15 @@
         "postalCode": "Postal code"
     },
     "actions": {
-        "editAddress": "Edit address",
+        "editAddress": "Edit",
         "useAsDefaultBilling": "Use as default billing address",
         "useAsDefaultShipping": "Use as default shipping address",
-        "addressOptions": "Address options"
+        "addressOptions": "Address options",
+        "deleteAddress": "Delete address"
+    },
+    "badges": {
+        "defaultBilling": "Default billing address",
+        "defaultShipping": "Default shipping address"
     },
     "messages": {
         "deliveryNotPossible": "A delivery to this country is not possible."

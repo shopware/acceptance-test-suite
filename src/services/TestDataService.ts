@@ -4,6 +4,7 @@ import type { AdminApiContext } from "./AdminApiContext";
 import type { IdProvider } from "./IdProvider";
 import type {
     AclRole,
+    Address,
     Category,
     CmsPage,
     Country,
@@ -119,6 +120,7 @@ export class TestDataService {
         "sales_channel_currency",
         "sales_channel_country",
         "sales_channel_payment_method",
+        "customer_address",
         "customer",
         "acl_user_role",
         "category",
@@ -900,6 +902,26 @@ export class TestDataService {
         this.addCreatedRecord("customer_group", customerGroup.id);
 
         return customerGroup;
+    }
+
+    /**
+     * Creates a customer address
+     *
+     * @param overrides - Specific data overrides that will be applied to the customer address data struct.
+     */
+    async createCustomerAddress(customer: Customer, overrides: Partial<Address> = {}): Promise<Address> {
+        const basicCustomerAddress = this.getBasicCustomerAddressStruct(customer.id, overrides);
+
+        const response = await this.AdminApiClient.post("customer-address?_response=detail", {
+            data: basicCustomerAddress,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customerAddress } = (await response.json()) as { data: Address };
+
+        this.addCreatedRecord("customer_address", customerAddress.id);
+
+        return customerAddress;
     }
 
     /**
@@ -2782,6 +2804,22 @@ export class TestDataService {
             ],
         };
         return Object.assign({}, basicCustomerGroup, overrides);
+    }
+
+    getBasicCustomerAddressStruct(customerId: string, overrides: Partial<Address> = {}): Partial<Address> {
+        const customerAddressUuid = this.IdProvider.getIdPair().uuid;
+
+        const basicCustomerAddress = {
+            id: customerAddressUuid,
+            customerId: customerId,
+            countryId: this.defaultCountryId,
+            firstName: "Peter",
+            lastName: "Venkman",
+            zipcode: "10013",
+            street: "14 N Moore Street",
+            city: "New York",
+        };
+        return Object.assign({}, basicCustomerAddress, overrides);
     }
 
     getSalesChannelAnalyticsStruct(overrides: Partial<SalesChannelAnalytics> = {}): Partial<SalesChannelAnalytics> {

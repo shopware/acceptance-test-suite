@@ -9,10 +9,15 @@
         "postalCode": "Postleitzahl"
     },
     "actions": {
-        "editAddress": "Adresse bearbeiten",
+        "editAddress": "Bearbeiten",
         "useAsDefaultBilling": "Als Standard-Rechnungsadresse verwenden",
         "useAsDefaultShipping": "Als Standard-Lieferadresse verwenden",
-        "addressOptions": "Adress-Optionen"
+        "addressOptions": "Adress-Optionen",
+        "deleteAddress": "Adresse löschen"
+    },
+    "badges": {
+        "defaultBilling": "Standard-Rechnungsadresse",
+        "defaultShipping": "Standard-Lieferadresse"
     },
     "messages": {
         "deliveryNotPossible": "Eine Lieferung in dieses Land ist nicht möglich."

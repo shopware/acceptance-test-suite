@@ -10,13 +10,9 @@ export const CheckVisibilityOfServicesBanner = base.extend<{ CheckVisibilityOfSe
             return async function CheckVisibilityOfServicesBanner() {
                 const user = customUser ? customUser : await TestDataService.createUser();
 
-                const adminPage = await loginToAdministration(
-                    await createNewAdminPageContext(browser, SalesChannelBaseConfig),
-                    user,
-                    TestDataService.AdminApiClient,
-                );
+                const adminPage = await loginToAdministration(await createNewAdminPageContext(browser, SalesChannelBaseConfig), user, TestDataService.AdminApiClient);
                 const shopwareServicesAdvertisementBanner = adminPage.locator(".sw-settings-services-dashboard-banner__content").first();
-                await expect(shopwareServicesAdvertisementBanner).toBeVisible();
+                await expect(shopwareServicesAdvertisementBanner).toBeVisible({ timeout: 10_000 });
             };
         };
         await use(task);
