@@ -37,7 +37,7 @@ export class DataSharingConsentModal implements PageObject {
         );
         this.shareUsageDataCheckbox = this.consentModal.getByRole("checkbox", { name: "Share Usage data" });
 
-        this.storeDataCollectionDetailsLink = this.consentModal.getByRole("link", { name: "shopware.com/en/legal/data-use-details" });
+        this.storeDataCollectionDetailsLink = this.consentModal.getByRole("link", { name: "here" });
         this.privacyPolicyLink = this.consentModal.getByRole("link", { name: "Privacy Policy" });
     }
 
