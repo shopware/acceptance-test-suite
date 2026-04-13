@@ -37,7 +37,7 @@ test("Administration page objects - Settings.", async ({
         await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeVisible();
     }
 
-    const flowId = await getFlowId("Order enters status unconfirmed", AdminApiContext);
+    const flowId = await getFlowId("Payment enters status unconfirmed", AdminApiContext);
     await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
 
