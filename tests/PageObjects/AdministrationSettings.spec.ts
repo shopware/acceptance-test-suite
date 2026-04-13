@@ -38,7 +38,7 @@ test("Administration page objects - Settings.", async ({
     }
 
     const flowId = await getFlowId("Order enters status cancelled", AdminApiContext);
-    await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId)); 
+    await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
 
     // todo: fix unsaved changes issue on the previous page so that we don't have to do a hard reload
