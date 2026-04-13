@@ -37,8 +37,14 @@ test("Administration page objects - Settings.", async ({
         await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeVisible();
     }
 
-    const flowId = await getFlowId("Payment enters status unconfirmed", AdminApiContext);
-    await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
+    if (satisfies(InstanceMeta.version, ">=6.7.9")) {
+        const flowId = await getFlowId("Payment enters status unconfirmed", AdminApiContext);
+        await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId)); 
+    } 
+    else {
+        const flowId = await getFlowId("Order enters status unconfirmed", AdminApiContext);
+        await ShopAdmin.goesTo(AdminFlowBuilderDetail.url(flowId));
+    }
     await ShopAdmin.expects(AdminFlowBuilderDetail.saveButton).toBeVisible();
 
     // todo: fix unsaved changes issue on the previous page so that we don't have to do a hard reload
