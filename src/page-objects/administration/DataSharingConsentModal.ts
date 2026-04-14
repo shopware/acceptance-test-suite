@@ -1,5 +1,6 @@
 import type { Locator, Page } from "playwright-core";
 import type { PageObject } from "../../types/PageObject";
+import { translate } from "../../services/LanguageHelper";
 
 export class DataSharingConsentModal implements PageObject {
     public readonly page: Page;
@@ -21,28 +22,50 @@ export class DataSharingConsentModal implements PageObject {
     constructor(page: Page) {
         this.page = page;
 
-        this.consentModal = page.getByRole("dialog").filter({ has: page.getByRole("heading", { name: "Help us to improve Shopware" }) });
+        this.consentModal = page.getByRole("dialog").filter({
+            has: page.getByRole("heading", {
+                name: translate("administration:dataSharing:headlines.consentModal"),
+            }),
+        });
 
-        this.allowAllButton = this.consentModal.getByRole("button", { name: "Allow all" });
-        this.rejectAllButton = this.consentModal.getByRole("button", { name: "Reject All" });
-        this.savePreferencesButton = this.consentModal.getByRole("button", { name: "Save Preferences" });
-        this.declineUsageDataButton = this.consentModal.getByRole("button", { name: "Decline" });
-        this.giveConsentUsageDataButton = this.consentModal.getByRole("button", { name: "Give Consent" });
+        this.allowAllButton = this.consentModal.getByRole("button", {
+            name: translate("administration:dataSharing:buttons.allowAll"),
+        });
+        this.rejectAllButton = this.consentModal.getByRole("button", {
+            name: translate("administration:dataSharing:buttons.rejectAll"),
+        });
+        this.savePreferencesButton = this.consentModal.getByRole("button", {
+            name: translate("administration:dataSharing:buttons.savePreferences"),
+        });
+        this.declineUsageDataButton = this.consentModal.getByRole("button", {
+            name: translate("administration:dataSharing:buttons.declineUsageData"),
+        });
+        this.giveConsentUsageDataButton = this.consentModal.getByRole("button", {
+            name: translate("administration:dataSharing:buttons.giveConsentUsageData"),
+        });
 
-        this.shareStoreDataHeadline = this.consentModal.getByRole("heading", { name: "Store data" });
-        this.shareStoreDataText = this.consentModal.getByText(
-            "Anonymous data from your Shopware environment such as orders, diagnostic data, and store data helps us to improve features. You can find an overview of all collected data and details of the agreement here."
-        );
-        this.shareStoreDataCheckbox = this.consentModal.getByRole("checkbox", { name: "Share store data (anonymous)" });
+        this.shareStoreDataHeadline = this.consentModal.getByRole("heading", {
+            name: translate("administration:dataSharing:headlines.storeData"),
+        });
+        this.shareStoreDataText = this.consentModal.getByText(translate("administration:dataSharing:messages.storeData"));
+        this.shareStoreDataCheckbox = this.consentModal.getByRole("checkbox", {
+            name: translate("administration:dataSharing:checkboxes.shareStoreData"),
+        });
 
-        this.shareUsageDataHeadline = this.consentModal.getByRole("heading", { name: "Usage data" });
-        this.shareUsageDataText = this.consentModal.getByText(
-            "We use personal usage data about how you interact with the administration to continously improve usability. You can find all details in our Privacy Policy."
-        );
-        this.shareUsageDataCheckbox = this.consentModal.getByRole("checkbox", { name: "Share Usage data" });
+        this.shareUsageDataHeadline = this.consentModal.getByRole("heading", {
+            name: translate("administration:dataSharing:headlines.usageData"),
+        });
+        this.shareUsageDataText = this.consentModal.getByText(translate("administration:dataSharing:messages.usageData"));
+        this.shareUsageDataCheckbox = this.consentModal.getByRole("checkbox", {
+            name: translate("administration:dataSharing:checkboxes.shareUsageData"),
+        });
 
-        this.storeDataCollectionDetailsLink = this.consentModal.getByRole("link", { name: "here" });
-        this.privacyPolicyLink = this.consentModal.getByRole("link", { name: "Privacy Policy" });
+        this.storeDataCollectionDetailsLink = this.consentModal.getByRole("link", {
+            name: translate("administration:dataSharing:links.storeDataCollectionDetails"),
+        });
+        this.privacyPolicyLink = this.consentModal.getByRole("link", {
+            name: translate("administration:dataSharing:links.privacyPolicy"),
+        });
     }
 
     url() {
