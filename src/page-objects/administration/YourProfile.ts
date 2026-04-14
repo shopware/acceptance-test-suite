@@ -28,11 +28,11 @@ export class YourProfile implements PageObject {
         this.emailField = page.getByRole("textbox", { name: translate("administration:yourProfile:fields.email") });
         this.deselectAllButton = page.getByRole("button", { name: translate("administration:yourProfile:buttons.deselectAll") });
 
-        this.privacyPreferencesTab = page.locator(".sw-tabs-item").filter({ hasText: "Privacy preferences" });
-        this.dataSharingCardTitle = page.getByRole("heading", { name: "Help us to improve Shopware" });
-        this.dataSharingUsageDataHeadline = page.getByRole("heading", { name: "Usage data" });
-        this.dataSharingUsageDataCheckbox = page.getByRole("checkbox", { name: "Share Usage Data" });
-        this.privacyPolicyLink = page.getByRole("link", { name: "Privacy Policy" });
+        this.privacyPreferencesTab = page.locator(".sw-tabs-item").filter({ hasText: translate("administration:yourProfile:tabs.privacyPreferences") });
+        this.dataSharingCardTitle = page.getByRole("heading", { name: translate("administration:yourProfile:headlines.cardTitle") });
+        this.dataSharingUsageDataHeadline = page.getByRole("heading", { name: translate("administration:yourProfile:headlines.usageDataHeadline") });
+        this.dataSharingUsageDataCheckbox = page.getByRole("checkbox", { name: translate("administration:yourProfile:checkboxes.usageDataCheckbox") });
+        this.privacyPolicyLink = page.getByRole("link", { name: translate("administration:yourProfile:links.privacy") });
     }
 
     url(tabName = "general") {
