@@ -90,7 +90,8 @@ export class AccountLogin implements PageObject {
         this.shippingAddressCountryInput = this.registerShippingAddressFormArea.getByLabel(translate("storefront:login:register.country"));
         this.shippingAddressPostalCodeInput = this.registerShippingAddressFormArea.getByLabel(translate("storefront:login:register.postalCode"));
         this.shippingAddressStateInput = this.registerShippingAddressFormArea.getByLabel(translate("storefront:login:register.state"));
-        this.registerButton = page.getByRole("button", { name: translate("storefront:login:register.continue") });
+        // The submit label differs between storefront account registration and checkout registration.
+        this.registerButton = page.locator("form.register-form button[type=\"submit\"]");
         this.logoutLink = page.getByRole("link", { name: translate("storefront:login:logout") });
         this.successAlert = page.getByText(translate("storefront:login:successfulLogout"));
         this.passwordUpdatedAlert = page.getByText(translate("storefront:login:passwordUpdated"));
