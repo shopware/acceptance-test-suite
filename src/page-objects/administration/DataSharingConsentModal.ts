@@ -7,6 +7,8 @@ export class DataSharingConsentModal implements PageObject {
     public readonly allowAllButton: Locator;
     public readonly rejectAllButton: Locator;
     public readonly savePreferencesButton: Locator;
+    public readonly declineUsageDataButton: Locator;
+    public readonly giveConsentUsageDataButton: Locator;
     public readonly shareStoreDataHeadline: Locator;
     public readonly shareStoreDataText: Locator;
     public readonly shareStoreDataCheckbox: Locator;
@@ -24,6 +26,8 @@ export class DataSharingConsentModal implements PageObject {
         this.allowAllButton = this.consentModal.getByRole("button", { name: "Allow all" });
         this.rejectAllButton = this.consentModal.getByRole("button", { name: "Reject All" });
         this.savePreferencesButton = this.consentModal.getByRole("button", { name: "Save Preferences" });
+        this.declineUsageDataButton = this.consentModal.getByRole("button", { name: "Decline" });
+        this.giveConsentUsageDataButton = this.consentModal.getByRole("button", { name: "Give Consent" });
 
         this.shareStoreDataHeadline = this.consentModal.getByRole("heading", { name: "Store data" });
         this.shareStoreDataText = this.consentModal.getByText(
