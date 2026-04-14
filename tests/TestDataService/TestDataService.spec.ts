@@ -69,6 +69,9 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
     const manufacturerWithImage = await TestDataService.createManufacturerWithImage();
     expect(manufacturerWithImage.media).toBeDefined();
 
+    const solidColorMedia = await TestDataService.createMediaPNGSolid(100, 100, [255, 0, 0]);
+    expect(solidColorMedia.id).toBeDefined();
+
     await TestDataService.assignManufacturerProduct(manufacturer.id, product.id);
     expect(product.manufacturerId).toBeDefined();
 

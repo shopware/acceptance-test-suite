@@ -1,4 +1,4 @@
-import { createRandomImage, encodeImage } from "./ImageHelper";
+import { createRandomImage, createSolidColorImage, encodeImage } from "./ImageHelper";
 import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from "./ShopwareDataHelpers";
 import type { AdminApiContext } from "./AdminApiContext";
 import type { IdProvider } from "./IdProvider";
@@ -406,6 +406,30 @@ export class TestDataService {
      */
     async createMediaPNG(width = 800, height = 600): Promise<Media> {
         const image = createRandomImage(width, height);
+        const media = await this.createMediaResource();
+        const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
+
+        const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
+            data: encodeImage(image),
+            headers: { "content-type": "image/png" },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        this.addCreatedRecord("media", media.id);
+
+        return media;
+    }
+
+    /**
+     * Creates a new media resource containing a solid color PNG image.
+     * Unlike `createMediaPNG`, the result is deterministic and suitable for visual regression tests.
+     *
+     * @param width - The width of the image in pixel. Default is 800.
+     * @param height - The height of the image in pixel. Default is 600.
+     * @param color - RGB color as `[r, g, b]` with values 0..255. Default is red `[255, 0, 0]`.
+     */
+    async createMediaPNGSolid(width = 800, height = 600, color: [number, number, number] = [255, 0, 0]): Promise<Media> {
+        const image = createSolidColorImage(width, height, color);
         const media = await this.createMediaResource();
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 

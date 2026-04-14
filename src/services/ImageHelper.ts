@@ -17,6 +17,24 @@ export function createRandomImage(width = 800, height = 600) {
     });
 }
 
+export function createSolidColorImage(width = 800, height = 600, color: [number, number, number] = [255, 0, 0]) {
+    const channels = 3; // RGB
+    const data = new Uint8Array(width * height * channels);
+    const [r, g, b] = color;
+
+    for (let i = 0; i < data.length; i += channels) {
+        data[i] = r;
+        data[i + 1] = g;
+        data[i + 2] = b;
+    }
+
+    return new Image(width, height, {
+        colorModel: "RGB",
+        bitDepth: 8,
+        data,
+    });
+}
+
 export function encodeImage(image: Image) {
     return Buffer.from(encode(image));
 }
