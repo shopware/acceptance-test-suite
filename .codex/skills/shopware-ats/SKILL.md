@@ -17,7 +17,7 @@ Use this skill to make precise ATS changes without over-abstracting. Keep this f
 Pick the narrowest owner of the behavior:
 
 - `tests/`: spec flow, assertions, and coverage composition.
-- `src/page-objects/`: selectors, URLs, and page-level affordances.
+- `src/page-objects/`: selectors, URLs, and page-level affordances. Follow the local page-object pattern: initialize reusable locators as constructor-initialized `readonly` fields, and keep methods for parameterized locators only.
 - `src/tasks/`: reusable multi-step business actions.
 - `src/fixtures/`: context wiring, actors, lifecycle, and API/page contexts.
 - `src/services/TestDataService.ts`: API-backed test data creation, setup, cleanup, and cleanup ordering (`highPriorityEntities`) for new work.
@@ -53,6 +53,7 @@ If a storefront scenario needs admin-side prerequisites, create them through `Te
 4. Keep established patterns (`mergeTests`, `test.extend`, actor model, locale-aware assertions). For Storefront flows, prefer `ShopCustomer.fillsIn()` and `ShopCustomer.presses()` where existing tasks already use that keyboard-first pattern; do not generalize that rule to Administration flows.
 5. Keep version or SaaS branching explicit when tied to `InstanceMeta`.
 6. Re-export new reusable surfaces via the right merge file or `src/index.ts`.
+7. Keep page objects structural: constructor-initialize fixed `readonly` locators, use methods only for parameterized locators, and move multi-step behavior into tasks, services, or helper classes.
 
 ## Validate
 
