@@ -35,6 +35,9 @@ export * from "./services/AdminLoginHelper";
 
 export { StorefrontPageObjects } from "./page-objects/StorefrontPages";
 export { AdminPageObjects } from "./page-objects/AdministrationPages";
+export { uploadRandomPngMedia } from './helpers/uploadMedia';
+export type { UploadMediaTarget } from './helpers/uploadMedia';
+
 
 export type { FixtureTypes } from "./types/FixtureTypes";
 export type { Task } from "./types/Task";
