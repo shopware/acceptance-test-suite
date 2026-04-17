@@ -45,15 +45,46 @@ Keep each browser-driven scenario on one UI surface. Do not bounce between Admin
 
 If a storefront scenario needs admin-side prerequisites, create them through `TestDataService`, `AdminApiContext`, or setup fixtures and then stay in Storefront. If an admin scenario needs storefront-side state, prepare it through `TestDataService`, `StoreApiContext`, or separate setup coverage instead of switching the browser surface mid-flow.
 
+## Prefer Deterministic Setup
+
+Follow ATS and Playwright isolation rules so tests stay parallel-safe and resilient on unknown shop states:
+
+- Prefer `TestDataService` for common entity setup and cleanup.
+- Extend `TestDataService` when the same creation logic, relation setup, or cleanup behavior would otherwise be duplicated across tests.
+- Use `AdminApiContext` or `StoreApiContext` for setup and verification when the UI is not the behavior under test.
+- Prefer fixture-provided contexts such as `DefaultSalesChannel` over mutating shared shop state.
+- Create all data a scenario needs explicitly. Do not rely on existing categories, rules, flows, users, customers, or other ambient shop state.
+- Do not assume default locale or currency values like `en_GB` or `EUR`; set up or fetch what the scenario needs.
+- When possible, navigate directly to detail pages with entity IDs. If you must go through a listing, search with a unique name so the scenario targets one known entity.
+
 ## Implementation Workflow
 
 1. Reproduce with the smallest affected spec/test block.
 2. Search for existing nouns, flows, and `TestDataService` helpers with `rg` before creating new helpers.
 3. Trace from spec -> actor/task -> page object -> fixture/service/type and fix the owning layer.
-4. Keep established patterns (`mergeTests`, `test.extend`, actor model, locale-aware assertions). For Storefront flows, prefer `ShopCustomer.fillsIn()` and `ShopCustomer.presses()` where existing tasks already use that keyboard-first pattern; do not generalize that rule to Administration flows.
+4. Keep established patterns (`mergeTests`, `test.extend`, locale-aware assertions, and the actor model where it improves readability). The actor pattern is optional; plain Playwright is still valid when it is clearer. For Storefront flows, prefer `ShopCustomer.fillsIn()` and `ShopCustomer.presses()` where existing tasks already use that keyboard-first pattern; do not generalize that rule to Administration flows.
 5. Keep version or SaaS branching explicit when tied to `InstanceMeta`.
 6. Re-export new reusable surfaces via the right merge file or `src/index.ts`.
 7. Keep page objects structural: constructor-initialize fixed `readonly` locators, use methods only for parameterized locators, and move multi-step behavior into tasks, services, or helper classes.
+
+## Keep Specs High-Signal
+
+When writing or refactoring ATS specs:
+
+- Assert only what materially proves the behavior. Avoid duplicate visibility/count/text checks that restate the same fact with more noise.
+- Favor a few high-signal assertions over exhaustive UI restatement. The goal is confidence in behavior, not a transcript of the page.
+
+### Don't
+
+- Do not hide most `expect(...)` calls inside helpers, tasks, or page objects. Those layers should usually return locators, values, or perform actions; only extract an `expect...` helper when the assertion is a shared domain primitive.
+- Do not repeat explicit timeouts when Playwright's configured defaults already express the intended wait. Add a custom timeout only when one wait is genuinely exceptional and the reason is clear from the scenario.
+- Do not split tiny actions or single assertions into separate `test.step(...)` blocks.
+- Do not assume a list, table, or API helper returns only one item. Use unique names or IDs so the scenario identifies the exact entity it created.
+- Do not request unused fixtures. If the spec does not read from a fixture, remove it or refactor the setup.
+- Do not depend on implicit configuration or pre-existing shop data.
+- Do not change global settings unless the scenario explicitly owns that scope; prefer sales-channel-specific setup and isolated test data.
+- Do not stack duplicate visibility, count, and text assertions that restate the same fact with more noise.
+- Do not turn a spec into a transcript of the page. Keep assertions focused on the few signals that materially prove the behavior.
 
 ## Validate
 
