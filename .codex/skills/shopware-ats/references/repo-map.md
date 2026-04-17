@@ -76,6 +76,12 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 - `src/locales/de/*`
 - Keep UI assertions language-aware
 
+## Keep UI Surfaces Separate
+
+- A browser-driven scenario should pick one UI actor: `ShopAdmin` for Administration or `ShopCustomer` for Storefront.
+- Setup helpers such as `TestDataService`, `AdminApiContext`, `StoreApiContext`, `DefaultSalesChannel`, and mail helpers are neutral support surfaces; using them does not mean the scenario should switch browser context.
+- If a behavior needs both admin-side setup and storefront-side validation, or the reverse, split that into setup plus one UI flow or into separate specs. Do not navigate Administration -> Storefront -> Administration in one browser-driven scenario.
+
 ## Common Change Paths
 
 ### Add A New Reusable Admin Flow
@@ -129,7 +135,7 @@ Use this reference to quickly decide where a change belongs in the Shopware Acce
 
 1. Start with a spec in `tests/`
 2. Search with `rg` for existing scenario nouns and reuse existing fixtures from `src/index.ts` exports whenever possible
-3. Pick one browser surface per scenario: Administration or Storefront. Use `TestDataService` or API helpers for prerequisites instead of navigating back and forth between them
+3. Pick one browser surface per scenario: Administration or Storefront. Use `TestDataService` or API helpers for prerequisites instead of navigating back and forth between them, and avoid combining `ShopAdmin` and `ShopCustomer` UI actions in one flow
 4. Use `TestDataService` for generated entities and cleanup; do not introduce new `src/data-fixtures/` usage for new work
 5. Add page-object support in the relevant `src/page-objects/` subtree
 6. Add a task only if the scenario becomes a reusable flow

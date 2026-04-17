@@ -43,7 +43,11 @@ Only introduce or extend page objects, tasks, fixtures, services, or shared type
 
 Keep each browser-driven scenario on one UI surface. Do not bounce between Administration and Storefront in the same task or spec just because both fixtures are available.
 
+In practice, that means one browser actor per scenario: `ShopAdmin` for Administration coverage or `ShopCustomer` for Storefront coverage. Neutral setup fixtures such as `TestDataService`, `AdminApiContext`, `StoreApiContext`, `DefaultSalesChannel`, or mail helpers can support either side because they do not switch the browser surface.
+
 If a storefront scenario needs admin-side prerequisites, create them through `TestDataService`, `AdminApiContext`, or setup fixtures and then stay in Storefront. If an admin scenario needs storefront-side state, prepare it through `TestDataService`, `StoreApiContext`, or separate setup coverage instead of switching the browser surface mid-flow.
+
+If a requested behavior truly spans both surfaces, split it into setup plus validation or into separate specs. Do not model browser flows that go Administration -> Storefront -> Administration, or the reverse.
 
 ## Prefer Deterministic Setup
 
@@ -79,6 +83,7 @@ When writing or refactoring ATS specs:
 - Do not hide most `expect(...)` calls inside helpers, tasks, or page objects. Those layers should usually return locators, values, or perform actions; only extract an `expect...` helper when the assertion is a shared domain primitive.
 - Do not repeat explicit timeouts when Playwright's configured defaults already express the intended wait. Add a custom timeout only when one wait is genuinely exceptional and the reason is clear from the scenario.
 - Do not split tiny actions or single assertions into separate `test.step(...)` blocks.
+- Do not combine `ShopAdmin` and `ShopCustomer` UI actions in one browser-driven task or spec. If both surfaces are involved, use API or fixture setup for prerequisites and keep the UI flow on one side.
 - Do not assume a list, table, or API helper returns only one item. Use unique names or IDs so the scenario identifies the exact entity it created.
 - Do not request unused fixtures. If the spec does not read from a fixture, remove it or refactor the setup.
 - Do not depend on implicit configuration or pre-existing shop data.
