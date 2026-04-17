@@ -34,6 +34,9 @@ export async function uploadRandomPngMedia(
   const fileChooserPromise = target.page.waitForEvent('filechooser');
   await target.uploadMediaButton.click();
   const fileChooser = await fileChooserPromise;
+  const responsePromise = target.page.waitForResponse(
+    (response) => response.url().includes('/api/search/media') && response.ok(),
+  );
 
   await fileChooser.setFiles({
     name: `${imageName}.png`,
@@ -41,9 +44,7 @@ export async function uploadRandomPngMedia(
     buffer: encodeImage(image),
   });
 
-  const response = await target.page.waitForResponse(
-    (response) => response.url().includes('/api/search/media') && response.ok(),
-  );
+  const response = await responsePromise;
 
   expect(response.ok()).toBeTruthy();
 }
