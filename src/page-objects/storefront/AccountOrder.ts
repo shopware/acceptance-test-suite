@@ -46,9 +46,7 @@ export class AccountOrder extends BaseAccount {
             name: new RegExp(`${translate("storefront:account:orders.expand")}|${translate("storefront:account:orders.showDetails")}`),
         });
         const orderImage = orderItem.locator(".line-item-img-link");
-        const taxPrice = orderItem.locator(
-            `dt:text-matches('${translate("storefront:account:orders.includeVat")} [0-9]\\+\\?${translate("storefront:account:orders.vatSuffix")}') + dd`
-        );
+        const taxPrice = orderItem.locator(`dt:text-matches(${JSON.stringify(this.buildTaxPricePattern())}) + dd`);
         const shippingCosts = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.shippingCosts")}') + dd`);
         const totalGross = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.totalGross")}') + dd`);
 
@@ -73,5 +71,19 @@ export class AccountOrder extends BaseAccount {
 
     url() {
         return "account/order";
+    }
+
+    private buildTaxPricePattern(): string {
+        const taxRatePattern = "[0-9]+(?:[.,][0-9]+)?";
+        const taxLabelPattern = [
+            this.escapeRegex(translate("storefront:account:orders.includeVat")),
+            this.escapeRegex(translate("storefront:account:orders.plusVat")),
+        ].join("|");
+
+        return `(?:${taxLabelPattern})\\s+${taxRatePattern}${this.escapeRegex(translate("storefront:account:orders.vatSuffix"))}`;
+    }
+
+    private escapeRegex(text: string): string {
+        return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
 }
