@@ -14,7 +14,8 @@
         "saveSuccess": "Profil wurde erfolgreich aktualisiert."
     },
     "tabs": {
-        "searchPreferences": "Suchen"
+        "searchPreferences": "Suchen",
+        "privacyPreferences": "Datenschutzeinstellungen"
     },
     "fields": {
         "firstName": "Vorname",
@@ -24,5 +25,15 @@
     },
     "buttons": {
         "deselectAll": "Alle abwählen"
+    },
+    "links": {
+        "privacy": "Datenschutzerklärung"
+    },
+    "checkboxes": {
+        "usageDataCheckbox": "Nutzungsdaten teilen"
+    },
+    "headlines": {
+        "usageDataHeadline": "Nutzungsdaten",
+        "cardTitle": "Hilfen Sie uns, Shopware zu verbessern"
     }
 }

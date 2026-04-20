@@ -26,7 +26,11 @@ test("Administration page objects - Settings.", async ({
     if (!InstanceMeta.isSaaS) {
         if (!InstanceMeta.version.match(/6\.5\.*/)) {
             await ShopAdmin.goesTo(AdminDataSharing.url());
-            await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline).toBeVisible();
+            if (satisfies(InstanceMeta.version, "<6.7.9.0")) {
+                await ShopAdmin.expects(AdminDataSharing.dataConsentHeadline!).toBeVisible();
+            } else {
+                await ShopAdmin.expects(AdminDataSharing.dataSharingCardTitle!).toBeVisible();
+            }
         }
 
         await ShopAdmin.goesTo(AdminFirstRunWizard.url());

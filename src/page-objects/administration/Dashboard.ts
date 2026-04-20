@@ -12,6 +12,7 @@ export class Dashboard implements PageObject {
     public readonly adminMenuContent: Locator;
     public readonly adminMenuMarketing: Locator;
     public readonly adminMenuExtension: Locator;
+    public readonly adminMenuSettings: Locator;
     public readonly adminMenuUserChevron: Locator;
     public readonly adminMenuUserIcon: Locator;
     public readonly adminMenuUserName: Locator;
@@ -49,6 +50,7 @@ export class Dashboard implements PageObject {
         this.adminMenuUserChevron = page.locator(".sw-admin-menu__user-actions-indicator");
         this.adminMenuUserIcon = page.locator(".sw-avatar");
         this.adminMenuUserName = page.locator(".sw-admin-menu__user-name");
+        this.adminMenuSettings = page.locator(".sw-settings");
         this.welcomeHeadline = page.locator("h1.sw-dashboard-index__welcome-title");
         this.welcomeMessage = page.locator(".sw-dashboard-index__welcome-message");
         this.dataSharingConsentBanner = page.locator(".sw-usage-data-consent-banner");
