@@ -9,6 +9,7 @@ node_modules/
 .vscode
 .env
 .env.local
+compose.override.yaml
 ._*
 !**/.gitkeep
 npm-debug.log
