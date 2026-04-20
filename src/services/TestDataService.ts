@@ -1611,6 +1611,33 @@ export class TestDataService {
     }
 
     /**
+     * Retrieves a payment method by its distinguishable name.
+     *
+     * @param name - The name of the payment method.
+     * @param exact - exact name or part of it
+     */
+    async getPaymentMethodByDistinguishableName(name: string, exact = true): Promise<PaymentMethod> {
+        const searchType = exact ? "equals" : "contains";
+        const response = await this.AdminApiClient.post("search/payment-method", {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: searchType,
+                        field: "distinguishableName",
+                        value: name,
+                    },
+                ],
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: result } = (await response.json()) as { data: PaymentMethod[] };
+
+        return result[0];
+    }
+
+    /**
      * Retrieves the address of a customer by its uuid.
      *
      * @param addressId - The uuid of the customer address.
