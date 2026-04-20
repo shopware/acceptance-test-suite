@@ -1,5 +1,25 @@
 # Changelog
 
+## [12.9.0](https://github.com/shopware/acceptance-test-suite/compare/v12.8.4...v12.9.0) (2026-04-14)
+
+
+### Features
+
+* add createSolidColorImage and createMediaPNGSolid for visual tests ([#619](https://github.com/shopware/acceptance-test-suite/issues/619)) ([543d3eb](https://github.com/shopware/acceptance-test-suite/commit/543d3eb3d36a4f9bdd72a46e359c62e41e44b9aa))
+
+
+### Bug Fixes
+
+* update flow name for getFlowId ([#620](https://github.com/shopware/acceptance-test-suite/issues/620)) ([0ea4a1f](https://github.com/shopware/acceptance-test-suite/commit/0ea4a1ff9b6deec2d0b79f440f3e7cb789a8c772))
+* use stable selector for storefront registration submit button ([#614](https://github.com/shopware/acceptance-test-suite/issues/614)) ([0ed5944](https://github.com/shopware/acceptance-test-suite/commit/0ed59445d3c98411ec3c08d3e9003a0d5fc1e944))
+
+## [12.8.4](https://github.com/shopware/acceptance-test-suite/compare/v12.8.3...v12.8.4) (2026-04-08)
+
+
+### Bug Fixes
+
+* cart line item stock rule selector ([#615](https://github.com/shopware/acceptance-test-suite/issues/615)) ([25efc3e](https://github.com/shopware/acceptance-test-suite/commit/25efc3e02b0e7c76ad4e25437eaff5abcd1c3554))
+
 ## [12.8.3](https://github.com/shopware/acceptance-test-suite/compare/v12.8.2...v12.8.3) (2026-03-19)
 
 
