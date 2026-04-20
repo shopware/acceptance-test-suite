@@ -1,13 +1,31 @@
 {
     "buttons": {
         "agree": "Zustimmen",
-        "disableDataSharing": "Datenfreigabe deaktivieren"
+        "disableDataSharing": "Datenfreigabe deaktivieren",
+        "allowAll": "Alle akzeptieren",
+        "rejectAll": "Alle ablehnen",
+        "savePreferences": "Auswahl speichern",
+        "declineUsageData": "Ablehnen",
+        "giveConsentUsageData": "Zustimmung geben"
     },
-    "messages": {
-        "sharingData": "Sie teilen Daten mit uns",
-        "termsAgreement": "Durch Klicken auf \"Zustimmen\" bestätigen Sie, dass Sie berechtigt sind, diese Vereinbarung im Namen Ihres Unternehmens abzuschließen."
+    "checkboxes": {
+        "shareStoreData": "Shopdaten teilen (anonym)",
+        "shareUsageData": "Nutzungsdaten teilen"
     },
     "headlines": {
+        "consentModal": "Hilf uns dabei, Shopware zu verbessern",
+        "storeData": "Shopdaten",
+        "usageData": "Nutzungsdaten",
         "dataConsent": "Dateneinverständnis"
+    },
+    "links": {
+        "storeDataCollectionDetails": "hier",
+        "privacyPolicy": "Datenschutzerklärung"
+    },
+    "messages": {
+        "storeData": "Anonyme Daten aus Deiner Shopware-Umgebung wie Bestellungen, Diagnosedaten und Shopdaten helfen uns, Funktionen zu verbessern. Eine Übersicht über alle Daten und Einzelheiten der Vereinbarung findest Du hier.",
+        "usageData": "Wir nutzen personenbezogene Daten über dein Verhalten in der Administration, um die Benutzerfreundlichkeit weiter zu verbessern. Alle Einzelheiten findest Du in unserer Datenschutzerklärung.",
+        "sharingData": "Sie teilen Daten mit uns",
+        "termsAgreement": "Durch Klicken auf \"Zustimmen\" bestätigen Sie, dass Sie berechtigt sind, diese Vereinbarung im Namen Ihres Unternehmens abzuschließen."
     }
 }

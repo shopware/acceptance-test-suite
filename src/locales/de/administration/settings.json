@@ -1,5 +1,56 @@
 {
     "header": {
         "settings": "Einstellungen"
+    },
+    "links": {
+        "basicInformation": "Stammdaten",
+        "cartSettings": "Warenkorb",
+        "languages": "Sprachen",
+        "measurementSystem": "Maßeinheitensystem",
+        "numberRanges": "Nummernkreise",
+        "productUnits": "Produkteinheiten",
+        "search": "Suche",
+        "statusManagement": "Statusverwaltung",
+
+        "customerGroups": "Kundengruppen",
+        "loginAndSignUp": "Anmeldung & Registrierung",
+        "salutations": "Anreden",
+
+        "flowBuilder": "Flow Builder",
+        "importExport": "Import/Export",
+        "ruleBuilder": "Rule Builder",
+
+        "countries": "Länder",
+        "currencies": "Währungen",
+        "snippets": "Textbausteine",
+        "tax": "Steuern",
+
+        "customFields": "Zusatzfelder",
+        "emailTemplates": "E-Mail-Templates",
+        "media": "Medien",
+        "newsletter": "Newsletter",
+        "seo": "SEO",
+        "sitemap": "Sitemap",
+        "tags": "Tags",
+
+        "deliveryTimes": "Lieferzeiten",
+        "documents": "Dokumente",
+        "essentialCharacteristics": "Wesentliche Merkmale",
+        "paymentMethods": "Zahlungsarten",
+        "products": "Produkte",
+        "shipping": "Versand",
+
+        "cachesAndIndexes": "Caches & Indizes",
+        "eventLogs": "Ereignis-Logs",
+        "firstRunWizard": "Ersteinrichtungs-Assistent",
+        "integrations": "Integrationen",
+        "mailer": "Mailer",
+        "messageQueueStatistics": "Nachrichtenwarteschlangen-Statistiken",
+        "privacy": "Datenschutzeinstellungen",
+        "shopwareAccount": "Shopware Account",
+        "shopwareServices": "Shopware Services",
+        "shopwareUpdates": "Shopware-Aktualisierungen",
+        "storefront": "Storefront",
+        "usersAndPermissions": "Benutzer & Rechte"
     }
 }

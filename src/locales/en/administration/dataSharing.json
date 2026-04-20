@@ -1,13 +1,31 @@
 {
     "buttons": {
         "agree": "Agree",
-        "disableDataSharing": "Disable data sharing"
+        "disableDataSharing": "Disable data sharing",
+        "allowAll": "Allow all",
+        "rejectAll": "Reject All",
+        "savePreferences": "Save Preferences",
+        "declineUsageData": "Decline",
+        "giveConsentUsageData": "Give Consent"
     },
-    "messages": {
-        "sharingData": "You are sharing data with us",
-        "termsAgreement": "By clicking \"Agree\", you confirm that you are authorised to enter into this agreement on behalf of your company."
+    "checkboxes": {
+        "shareStoreData": "Share store data (anonymous)",
+        "shareUsageData": "Share Usage data"
     },
     "headlines": {
+        "consentModal": "Help us to improve Shopware",
+        "storeData": "Store data",
+        "usageData": "Usage data",
         "dataConsent": "Data Consent"
+    },
+    "links": {
+        "storeDataCollectionDetails": "here",
+        "privacyPolicy": "Privacy Policy"
+    },
+    "messages": {
+        "storeData": "Anonymous data from your Shopware environment such as orders, diagnostic data, and store data helps us to improve features. You can find an overview of all collected data and details of the agreement here.",
+        "usageData": "We use personal usage data about how you interact with the administration to continously improve usability. You can find all details in our Privacy Policy.",
+        "sharingData": "You are sharing data with us",
+        "termsAgreement": "By clicking \"Agree\", you confirm that you are authorised to enter into this agreement on behalf of your company."
     }
 }
