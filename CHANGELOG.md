@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.10.0](https://github.com/shopware/acceptance-test-suite/compare/v12.9.0...v12.10.0) (2026-04-21)
+
+
+### Features
+
+* Helper - Add helper to support upload image from admin pages ([#625](https://github.com/shopware/acceptance-test-suite/issues/625)) ([e45e127](https://github.com/shopware/acceptance-test-suite/commit/e45e1276d676a2bee22c107f7d3b55c55fc229ed))
+* product analytics data sharing consent modal page object ([#527](https://github.com/shopware/acceptance-test-suite/issues/527)) ([14d9d2a](https://github.com/shopware/acceptance-test-suite/commit/14d9d2a4b40ae1a12f3d85993a7481c755548198))
+* TestDataService - Get payment method by distinguishable name ([#622](https://github.com/shopware/acceptance-test-suite/issues/622)) ([813606a](https://github.com/shopware/acceptance-test-suite/commit/813606ac2868e8d2ecc46329a61f1c616627d80b))
+
+
+### Bug Fixes
+
+* tax price locator account order ([#617](https://github.com/shopware/acceptance-test-suite/issues/617)) ([3fc6adf](https://github.com/shopware/acceptance-test-suite/commit/3fc6adfc8f68c4035b48ec7d309ff9d03cdc1f9a))
+
 ## [12.9.0](https://github.com/shopware/acceptance-test-suite/compare/v12.8.4...v12.9.0) (2026-04-14)
 
 
