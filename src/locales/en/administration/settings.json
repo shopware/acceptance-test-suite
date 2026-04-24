@@ -2,6 +2,9 @@
     "header": {
         "settings": "Settings"
     },
+    "groups": {
+        "general": "General"
+    },
     "links": {
         "basicInformation": "Basic information",
         "cartSettings": "Cart settings",

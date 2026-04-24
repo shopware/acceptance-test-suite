@@ -2,6 +2,9 @@
     "header": {
         "settings": "Einstellungen"
     },
+    "groups": {
+        "general": "Allgemein"
+    },
     "links": {
         "basicInformation": "Stammdaten",
         "cartSettings": "Warenkorb",

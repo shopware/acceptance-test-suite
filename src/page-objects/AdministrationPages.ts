@@ -35,6 +35,7 @@ import { ProductListing } from "./administration/ProductListing";
 import { ProductBulkEdit } from "./administration/ProductBulkEdit";
 import { CustomerBulkEdit } from "./administration/CustomerBulkEdit";
 import { SettingsListing } from "./administration/SettingsListing";
+import { StatusManagement } from "./administration/StatusManagement";
 import { DocumentListing } from "./administration/DocumentListing";
 import { DocumentDetail } from "./administration/DocumentDetail";
 import { ShopwareServices } from "./administration/ShopwareServices";
@@ -88,6 +89,7 @@ export interface AdministrationPageTypes {
     AdminProductBulkEdit: ProductBulkEdit;
     AdminCustomerBulkEdit: CustomerBulkEdit;
     AdminSettingsListing: SettingsListing;
+    AdminStatusManagement: StatusManagement;
     AdminDocumentListing: DocumentListing;
     AdminDocumentDetail: DocumentDetail;
     AdminPromotionsListing: PromotionsListing;
@@ -142,6 +144,7 @@ export const AdminPageObjects = {
     ProductBulkEdit,
     CustomerBulkEdit,
     SettingsListing,
+    StatusManagement,
     DocumentListing,
     DocumentDetail,
     SalesChannelDetail,
@@ -296,6 +299,10 @@ export const test = base.extend<FixtureTypes>({
 
     AdminSettingsListing: async ({ AdminPage }, use) => {
         await use(new SettingsListing(AdminPage));
+    },
+
+    AdminStatusManagement: async ({ AdminPage }, use) => {
+        await use(new StatusManagement(AdminPage));
     },
 
     AdminDocumentListing: async ({ AdminPage }, use) => {

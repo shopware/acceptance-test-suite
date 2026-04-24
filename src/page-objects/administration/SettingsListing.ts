@@ -6,6 +6,7 @@ export class SettingsListing implements PageObject {
     public readonly contentView: Locator;
     public readonly header: Locator;
     public readonly page: Page;
+    public readonly searchInput: Locator;
 
     public readonly basicInformationLink: Locator;
     public readonly cartSettingsLink: Locator;
@@ -61,6 +62,7 @@ export class SettingsListing implements PageObject {
         this.page = page;
         this.header = page.locator(".sw-settings__content-header");
         this.contentView = page.locator(".sw-desktop__content");
+        this.searchInput = page.locator(".sw-settings__content-header-search").getByRole("searchbox");
         this.shopwareServicesLink = page.locator(".sw-settings__content-grid").getByRole("link", { name: translate("administration:shopwareServices:links.shopwareServices") });
         this.privacyLink = page.locator(".sw-settings__content-grid").getByRole("link", { name: translate("administration:settings:links.privacy") });
 
@@ -116,6 +118,13 @@ export class SettingsListing implements PageObject {
         this.storefrontLink = page.locator(".sw-settings__content-grid").getByRole("link", { name: translate("administration:settings:links.storefront") });
         this.usersAndPermissionsLink = page.locator(".sw-settings__content-grid").getByRole("link", { name: translate("administration:settings:links.usersAndPermissions") });
     }
+
+    getGroupTitleForLink(link: Locator): Locator {
+        return link
+            .locator("xpath=ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' sw-settings__content-group ')]")
+            .locator(".sw-settings__content-group-title");
+    }
+
     url() {
         return "#/sw/settings/index/shop";
     }

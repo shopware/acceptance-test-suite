@@ -14,6 +14,8 @@ test("Administration page objects - Settings.", async ({
     AdminCustomFieldCreate,
     AdminRuleCreate,
     AdminSettingsListing,
+    AdminStatusManagement,
+    SearchShopSettings,
     Translate,
 }) => {
     await ShopAdmin.goesTo(AdminCustomFieldListing.url());
@@ -57,7 +59,18 @@ test("Administration page objects - Settings.", async ({
 
     await ShopAdmin.goesTo(AdminSettingsListing.url(), true);
     await ShopAdmin.expects(AdminSettingsListing.header).toContainText(Translate("administration:settings:header.settings"));
+    await ShopAdmin.expects(AdminSettingsListing.searchInput).toBeVisible();
     if (satisfies(InstanceMeta.version, ">=6.7.1")) {
         await ShopAdmin.expects(AdminSettingsListing.shopwareServicesLink).toBeVisible();
     }
+
+    await ShopAdmin.attemptsTo(SearchShopSettings(Translate("administration:settings:links.statusManagement")));
+    await ShopAdmin.expects(AdminSettingsListing.statusManagementLink).toBeVisible();
+    await ShopAdmin.expects(AdminSettingsListing.getGroupTitleForLink(AdminSettingsListing.statusManagementLink)).toContainText(
+        Translate("administration:settings:groups.general")
+    );
+
+    await AdminSettingsListing.statusManagementLink.click();
+    await ShopAdmin.expects(AdminStatusManagement.header).toBeVisible();
+    await ShopAdmin.expects(AdminStatusManagement.stateMachineGrid).toBeVisible();
 });
