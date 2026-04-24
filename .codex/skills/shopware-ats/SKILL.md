@@ -17,7 +17,7 @@ Use this skill to make precise ATS changes without over-abstracting. Keep this f
 Pick the narrowest owner of the behavior:
 
 - `tests/`: spec flow, assertions, and coverage composition.
-- `src/page-objects/`: selectors, URLs, and page-level affordances. Follow the local page-object pattern: initialize reusable locators as constructor-initialized `readonly` fields, and keep methods for parameterized locators only.
+- `src/page-objects/`: selectors, URLs, and page-level affordances. Follow the local page-object pattern: initialize reusable locators as constructor-initialized `readonly` fields, and keep methods for parameterized locators only. Prefer semantic single-target locators such as `getByRole`, `getByLabel`, `getByPlaceholder`, or `getByText` when they are stable. Avoid descendant CSS selector strings like `.foo .bar` in page objects; if CSS is unavoidable, target one stable element or scope through a named parent locator instead of encoding the hierarchy into one selector string.
 - `src/tasks/`: reusable multi-step business actions.
 - `src/fixtures/`: context wiring, actors, lifecycle, and API/page contexts.
 - `src/services/TestDataService.ts`: API-backed test data creation, setup, cleanup, and cleanup ordering (`highPriorityEntities`) for new work.
@@ -61,6 +61,18 @@ Follow ATS and Playwright isolation rules so tests stay parallel-safe and resili
 - Do not assume default locale or currency values like `en_GB` or `EUR`; set up or fetch what the scenario needs.
 - When possible, navigate directly to detail pages with entity IDs. If you must go through a listing, search with a unique name so the scenario targets one known entity.
 
+## Cross-Repo Sync
+
+If a change is needed in `acceptance-test-suite` and must be consumed immediately in a platform repository, use this workflow instead of improvising package wiring:
+
+1. In the `acceptance-test-suite` project root, run `npm run build`.
+2. Open the generated `dist/` folder and copy the three `index*` files from that build output.
+3. In the platform project root, open `tests/acceptance/node_modules/@shopware-ag/acceptance-test-suite/dist/`.
+4. Replace the three `index*` files there with the files copied from `acceptance-test-suite/dist/`.
+5. Continue with the platform-side execution or verification after those files are replaced.
+
+Use this as the default local cross-repo sync path for ATS changes. Do not assume that installing from a sibling checkout, mixing transient npm installs, or wiring multiple Playwright runtimes together will behave the same way.
+
 ## Implementation Workflow
 
 1. Reproduce with the smallest affected spec/test block.
@@ -69,7 +81,9 @@ Follow ATS and Playwright isolation rules so tests stay parallel-safe and resili
 4. Keep established patterns (`mergeTests`, `test.extend`, locale-aware assertions, and the actor model where it improves readability). The actor pattern is optional; plain Playwright is still valid when it is clearer. For Storefront flows, prefer `ShopCustomer.fillsIn()` and `ShopCustomer.presses()` where existing tasks already use that keyboard-first pattern; do not generalize that rule to Administration flows.
 5. Keep version or SaaS branching explicit when tied to `InstanceMeta`.
 6. Re-export new reusable surfaces via the right merge file or `src/index.ts`.
-7. Keep page objects structural: constructor-initialize fixed `readonly` locators, use methods only for parameterized locators, and move multi-step behavior into tasks, services, or helper classes.
+7. Keep page objects structural: constructor-initialize fixed `readonly` locators, use methods only for parameterized locators, and move multi-step behavior into tasks, services, or helper classes. When the behavior is a reusable browser-driven business action, prefer a task over a local spec helper function. For locators, prefer semantic single-target queries over chained CSS descendants; do not introduce selectors like `.parent .child` when a direct accessible locator or a scoped named parent locator would be clearer and less brittle.
+8. Keep `ShopAdmin.expects(...)` or `ShopCustomer.expects(...)` in the spec or the owning task, but keep the verification intent obvious from the spec. A reader should be able to tell what behavior the scenario proves without digging through helper layers.
+9. When a fix must be verified in a consuming repo, sync the built ATS `dist/index*` files into the consumer's `tests/acceptance/node_modules/@shopware-ag/acceptance-test-suite/dist/` folder before retrying the spec.
 
 ## Keep Specs High-Signal
 
@@ -77,10 +91,13 @@ When writing or refactoring ATS specs:
 
 - Assert only what materially proves the behavior. Avoid duplicate visibility/count/text checks that restate the same fact with more noise.
 - Favor a few high-signal assertions over exhaustive UI restatement. The goal is confidence in behavior, not a transcript of the page.
+- Keep the verified outcome legible at spec level. Even when an owning task contains `ShopAdmin.expects(...)` or `ShopCustomer.expects(...)`, the spec should still make the proven behavior obvious from its setup, action, and named verification step.
 
 ### Don't
 
 - Do not hide most `expect(...)` calls inside helpers, tasks, or page objects. Those layers should usually return locators, values, or perform actions; only extract an `expect...` helper when the assertion is a shared domain primitive.
+- Do not wrap `ShopAdmin.expects(...)` or `ShopCustomer.expects(...)` inside generic helper methods. Keep actor-scoped expectations in the spec or the owning task, and make the verification intent clear from the spec so the reader can see what is being proven.
+- Do not introduce ad hoc local helper functions for repeated browser-driven flows when the same interaction belongs in a reusable task. If the behavior is a shared business action, model it as a task instead of a spec-local helper.
 - Do not repeat explicit timeouts when Playwright's configured defaults already express the intended wait. Add a custom timeout only when one wait is genuinely exceptional and the reason is clear from the scenario.
 - Do not split tiny actions or single assertions into separate `test.step(...)` blocks.
 - Do not combine `ShopAdmin` and `ShopCustomer` UI actions in one browser-driven task or spec. If both surfaces are involved, use API or fixture setup for prerequisites and keep the UI flow on one side.
