@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.10.1](https://github.com/shopware/acceptance-test-suite/compare/v12.10.0...v12.10.1) (2026-04-24)
+
+
+### Bug Fixes
+
+* update uuid dependency ([#629](https://github.com/shopware/acceptance-test-suite/issues/629)) ([1613e74](https://github.com/shopware/acceptance-test-suite/commit/1613e749f9ecf1a3ab07a95b9be81a355f6e5f50))
+
 ## [12.10.0](https://github.com/shopware/acceptance-test-suite/compare/v12.9.0...v12.10.0) (2026-04-21)
 
 
