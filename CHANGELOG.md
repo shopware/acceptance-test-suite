@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.10.2](https://github.com/shopware/acceptance-test-suite/compare/v12.10.1...v12.10.2) (2026-05-06)
+
+
+### Bug Fixes
+
+* dismisses the storefront cookie banner when it appears ([#631](https://github.com/shopware/acceptance-test-suite/issues/631)) ([784607a](https://github.com/shopware/acceptance-test-suite/commit/784607a175258b9bbe023d82d1c6c3198857e933))
+* version switch regression ([#633](https://github.com/shopware/acceptance-test-suite/issues/633)) ([1bfa2a3](https://github.com/shopware/acceptance-test-suite/commit/1bfa2a316c246d45d563be8fa8de944513f1e69d))
+
 ## [12.10.1](https://github.com/shopware/acceptance-test-suite/compare/v12.10.0...v12.10.1) (2026-04-24)
 
 
