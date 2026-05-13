@@ -9,7 +9,6 @@ export class AccountOrderEdit extends BaseAccount {
     public readonly grandTotalPrice: Locator;
     public readonly taxPrice: Locator;
     public readonly completePaymentButton: Locator;
-
     public readonly editCompletedHeadline: Locator;
 
     constructor(page: Page) {
