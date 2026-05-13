@@ -33,6 +33,7 @@ export class AccountOrder extends BaseAccount {
     async getOrderByOrderNumber(orderNumber: string): Promise<Record<string, Locator>> {
         const orderItem = this.page.getByRole("listitem").getByLabel(`${translate("storefront:account:orders.orderNumber")} ${orderNumber}`);
         const orderStatus = orderItem.locator(".order-table-header-order-status");
+        const orderStatusLink = orderStatus.getByRole("link");
         const orderHeading = orderItem.locator(".order-table-header-heading");
         const orderActionsButton = orderItem.getByLabel(translate("storefront:account:orders.actions"));
         const orderCancelButton = orderItem.getByRole("button", { name: translate("storefront:account:orders.cancelOrder") });
@@ -52,6 +53,7 @@ export class AccountOrder extends BaseAccount {
 
         return {
             orderStatus: orderStatus,
+            orderStatusLink: orderStatusLink,
             orderHeading: orderHeading,
             orderActionsButton: orderActionsButton,
             orderCancelButton: orderCancelButton,
@@ -75,10 +77,7 @@ export class AccountOrder extends BaseAccount {
 
     private buildTaxPricePattern(): string {
         const taxRatePattern = "[0-9]+(?:[.,][0-9]+)?";
-        const taxLabelPattern = [
-            this.escapeRegex(translate("storefront:account:orders.includeVat")),
-            this.escapeRegex(translate("storefront:account:orders.plusVat")),
-        ].join("|");
+        const taxLabelPattern = [this.escapeRegex(translate("storefront:account:orders.includeVat")), this.escapeRegex(translate("storefront:account:orders.plusVat"))].join("|");
 
         return `(?:${taxLabelPattern})\\s+${taxRatePattern}${this.escapeRegex(translate("storefront:account:orders.vatSuffix"))}`;
     }
