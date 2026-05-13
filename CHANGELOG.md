@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.11.0](https://github.com/shopware/acceptance-test-suite/compare/v12.10.2...v12.11.0) (2026-05-13)
+
+
+### Features
+
+* add AccountOrderEdit page ([#634](https://github.com/shopware/acceptance-test-suite/issues/634)) ([063b327](https://github.com/shopware/acceptance-test-suite/commit/063b327dcab1fd338d9677f5cc574bb7a8e22cf5))
+
 ## [12.10.2](https://github.com/shopware/acceptance-test-suite/compare/v12.10.1...v12.10.2) (2026-05-06)
 
 
