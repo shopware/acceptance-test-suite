@@ -40,7 +40,7 @@
     },
     "dependencies": {
         "@axe-core/playwright": "4.11.1",
-        "@playwright/test": "1.58.1",
+        "@playwright/test": "1.60.0",
         "@shopware/api-client": "1.4.0",
         "axe-html-reporter": "2.2.11",
         "compare-versions": "6.1.1",
