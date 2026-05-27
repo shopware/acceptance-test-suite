@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.12.0](https://github.com/shopware/acceptance-test-suite/compare/v12.11.0...v12.12.0) (2026-05-27)
+
+
+### Features
+
+* update playwright to 1.60.0 ([#636](https://github.com/shopware/acceptance-test-suite/issues/636)) ([3c8f3c8](https://github.com/shopware/acceptance-test-suite/commit/3c8f3c8ec5e60fd4e3451425298d569c69dfc75a))
+
 ## [12.11.0](https://github.com/shopware/acceptance-test-suite/compare/v12.10.2...v12.11.0) (2026-05-13)
 
 
