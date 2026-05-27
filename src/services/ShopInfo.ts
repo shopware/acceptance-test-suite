@@ -2,8 +2,8 @@ import { type AdminApiContext } from "./AdminApiContext";
 import { type StoreApiContext } from "./StoreApiContext";
 
 export const isSaaSInstance = async (adminApiContext: AdminApiContext): Promise<boolean> => {
-    const instanceFeatures = await adminApiContext.get("./instance/features");
-    return instanceFeatures.ok();
+    const instanceStatus = await adminApiContext.get("./instance/status");
+    return instanceStatus.ok();
 };
 
 export const isThemeCompiled = async (context: StoreApiContext, storefrontUrl: string): Promise<boolean> => {
