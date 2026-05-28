@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.12.1](https://github.com/shopware/acceptance-test-suite/compare/v12.12.0...v12.12.1) (2026-05-27)
+
+
+### Bug Fixes
+
+* use instance status as saas test ([#638](https://github.com/shopware/acceptance-test-suite/issues/638)) ([5906c54](https://github.com/shopware/acceptance-test-suite/commit/5906c54ff8b4953a427aa91bcad5341677665e7f))
+
 ## [12.12.0](https://github.com/shopware/acceptance-test-suite/compare/v12.11.0...v12.12.0) (2026-05-27)
 
 
