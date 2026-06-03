@@ -6,6 +6,10 @@ export const isSaaSInstance = async (adminApiContext: AdminApiContext): Promise<
     return instanceStatus.ok();
 };
 
+export const isPaaSInstance = (): boolean => {
+    return process.env.SHOPWARE_ACCEPTANCE_INSTANCE_TYPE === "paas";
+};
+
 export const isThemeCompiled = async (context: StoreApiContext, storefrontUrl: string): Promise<boolean> => {
     const response = await context.get(storefrontUrl);
 
