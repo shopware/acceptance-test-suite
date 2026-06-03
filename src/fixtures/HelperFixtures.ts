@@ -1,6 +1,6 @@
 import { test as base, expect } from "@playwright/test";
 import { IdProvider } from "../services/IdProvider";
-import { isSaaSInstance } from "../services/ShopInfo";
+import { isPaaSInstance, isSaaSInstance } from "../services/ShopInfo";
 import type { FixtureTypes } from "../types/FixtureTypes";
 import { getCurrency, getLanguageCode, getLanguageData, getLocale } from "../services/ShopwareDataHelpers";
 import { AdminApiContext } from "../services/AdminApiContext";
@@ -16,6 +16,7 @@ export interface HelperFixtureTypes {
     InstanceMeta: {
         version: string;
         isSaaS: boolean;
+        isPaaS: boolean;
         features: FeaturesType;
     };
     CustomTranslationResources: typeof BUNDLED_RESOURCES | undefined;
@@ -80,6 +81,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             use({
                 version: config.version,
                 isSaaS: await isSaaSInstance(context),
+                isPaaS: isPaaSInstance(),
                 features,
             });
         },
