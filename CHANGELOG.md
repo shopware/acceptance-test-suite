@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.13.0](https://github.com/shopware/acceptance-test-suite/compare/v12.12.1...v12.13.0) (2026-06-03)
+
+
+### Features
+
+* expose PaaS instance metadata ([#640](https://github.com/shopware/acceptance-test-suite/issues/640)) ([f1f5579](https://github.com/shopware/acceptance-test-suite/commit/f1f5579b93c533ba3600b211177400cccf9f03b8))
+
 ## [12.12.1](https://github.com/shopware/acceptance-test-suite/compare/v12.12.0...v12.12.1) (2026-05-27)
 
 
