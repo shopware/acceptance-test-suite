@@ -78,7 +78,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 }
             }
 
-            use({
+            await use({
                 version: config.version,
                 isSaaS: await isSaaSInstance(context),
                 isPaaS: isPaaSInstance(),
