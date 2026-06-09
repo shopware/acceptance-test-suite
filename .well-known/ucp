@@ -1,0 +1,36 @@
+{
+  "ucp": {
+    "version": "2026-04-08",
+    "services": {
+      "dev.ucp.shopping": [
+        {
+          "transport": "rest",
+          "endpoint": "https://raw.githubusercontent.com/shopware/acceptance-test-suite/codex/ucp-profile-20260609/ucp/v1",
+          "version": "2026-04-08",
+          "spec": "https://ucp.dev/specification/overview/",
+          "schema": "https://ucp.dev/2026-04-08/services/shopping/rest.openapi.json"
+        }
+      ]
+    },
+    "capabilities": {
+      "dev.ucp.shopping.catalog": [
+        {
+          "version": "2026-04-08",
+          "spec": "https://ucp.dev/specification/catalog/",
+          "schema": "https://ucp.dev/schemas/shopping/catalog.json"
+        }
+      ]
+    },
+    "payment_handlers": {}
+  },
+  "signing_keys": [
+    {
+      "kid": "codex-temp-20260609",
+      "kty": "EC",
+      "alg": "ES256",
+      "use": "sig",
+      "crv": "P-256",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEymFm6uo4ZtWcBFPVeXXRVH5QGeXl\nva7Db8jJaU6BGU2toxf1Qs4FLAffUish1zx3v8fJV0HHE75iK+YNxps3sA==\n-----END PUBLIC KEY-----"
+    }
+  ]
+}
