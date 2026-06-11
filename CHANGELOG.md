@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.13.1](https://github.com/shopware/acceptance-test-suite/compare/v12.13.0...v12.13.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* **deps:** update i18next to 26.3.1 ([#643](https://github.com/shopware/acceptance-test-suite/issues/643)) ([bb8081a](https://github.com/shopware/acceptance-test-suite/commit/bb8081a2946abf533abc9c03aa6d9fe76e61bd81))
+
 ## [12.13.0](https://github.com/shopware/acceptance-test-suite/compare/v12.12.1...v12.13.0) (2026-06-03)
 
 
