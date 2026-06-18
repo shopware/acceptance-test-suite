@@ -67,6 +67,8 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
                 }
                 await AdminCustomerBulkEdit.applyChangesButton.click();
                 await AdminCustomerBulkEdit.confirmModalApplyChangesButton.click();
+                await AdminCustomerBulkEdit.confirmModalLoadingSpinner.waitFor({ state: "visible" });
+                await AdminCustomerBulkEdit.confirmModalLoadingSpinner.waitFor({ state: "hidden" });
                 await ShopAdmin.expects(AdminCustomerBulkEdit.confirmModalSuccessHeader).toBeVisible();
                 await AdminCustomerBulkEdit.confirmModalSuccessCloseButton.click();
             };
