@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.13.2](https://github.com/shopware/acceptance-test-suite/compare/v12.13.1...v12.13.2) (2026-06-19)
+
+
+### Bug Fixes
+
+* **acceptance:** PricingAndDiscountsForBundles strict-mode locator ([#645](https://github.com/shopware/acceptance-test-suite/issues/645)) ([bd109ee](https://github.com/shopware/acceptance-test-suite/commit/bd109eef104a606b86b204534fbd4e197255ac1b))
+* **bulk-edit:** wait for save spinner before asserting customer bulk-edit success ([#646](https://github.com/shopware/acceptance-test-suite/issues/646)) ([48e3738](https://github.com/shopware/acceptance-test-suite/commit/48e3738bc06341158e65052f4734b63d3c62a2bb))
+
 ## [12.13.1](https://github.com/shopware/acceptance-test-suite/compare/v12.13.0...v12.13.1) (2026-06-11)
 
 
