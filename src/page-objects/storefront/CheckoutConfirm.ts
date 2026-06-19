@@ -36,7 +36,9 @@ export class CheckoutConfirm implements PageObject {
     /**
      * Product details
      */
-    public readonly cartLineItemImages: Locator;
+    public readonly confirmProductTable: Locator;
+    public readonly productLineItems: Locator;
+    public readonly promotionLineItems: Locator;
     public readonly page: Page;
 
     constructor(page: Page) {
@@ -65,6 +67,21 @@ export class CheckoutConfirm implements PageObject {
         this.termsAndConditionsWithLegalGuaranteeRightsLabel = page.getByLabel(translate("storefront:checkout:confirm.termsAndConditionsWithLegalGuaranteeRights"));
         this.legalGuaranteeNoticeLink = page.locator("#legalGuaranteeNoticeModal a");
         this.lineItemGaranLabel = page.locator(".line-item-garan-label");
+        this.confirmProductTable = page.locator(".confirm-product");
+        this.productLineItems = this.confirmProductTable.locator(".line-item-product");
+        this.promotionLineItems = this.confirmProductTable.locator(".line-item-promotion");
+    }
+
+    getLineItemByProductName(lineItem: Locator, productName: string): Record<string, Locator> {
+        const productLineItem = lineItem.filter({ hasText: productName });
+        const productNameLabel = productLineItem.locator(".line-item-label");
+        const productTotalPrice = productLineItem.locator(".line-item-total-price-value");
+
+        return {
+            productLineItem: productLineItem,
+            productNameLabel: productNameLabel,
+            productTotalPrice: productTotalPrice,
+        };
     }
 
     url() {
