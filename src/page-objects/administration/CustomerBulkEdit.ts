@@ -32,6 +32,7 @@ export class CustomerBulkEdit implements PageObject {
      */
     public readonly confirmModal: Locator;
     public readonly confirmModalApplyChangesButton: Locator;
+    public readonly confirmModalLoadingSpinner: Locator;
     public readonly confirmModalSuccessHeader: Locator;
     public readonly confirmModalSuccessCloseButton: Locator;
     public readonly page: Page;
@@ -75,6 +76,7 @@ export class CustomerBulkEdit implements PageObject {
         //Confirmation modal
         this.confirmModal = page.locator(".sw-bulk-edit-save-modal");
         this.confirmModalApplyChangesButton = this.confirmModal.getByRole("button", { name: translate("administration:customer:bulkEdit.applyChanges") });
+        this.confirmModalLoadingSpinner = this.confirmModal.locator(".sw-bulk-edit-save-modal__loading-icon");
         this.confirmModalSuccessHeader = this.confirmModal.getByRole("heading", { name: translate("administration:customer:bulkEdit.success") });
         const footer = this.confirmModal.locator(".sw-modal__footer");
         this.confirmModalSuccessCloseButton = footer.getByRole("button", { name: translate("administration:customer:bulkEdit.close") });
