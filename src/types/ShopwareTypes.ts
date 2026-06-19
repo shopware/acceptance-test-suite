@@ -1,5 +1,13 @@
 import type { components } from "@shopware/api-client/admin-api-types";
 
+export type NewsletterRecipient = components["schemas"]["NewsletterRecipient"] & {
+    id: string;
+    email: string;
+    salesChannelId: string;
+    firstName: string;
+    lastName: string;
+};
+
 export type SalesChannel = components["schemas"]["SalesChannel"] & {
     id: string;
 };

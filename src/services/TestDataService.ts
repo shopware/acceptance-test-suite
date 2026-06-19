@@ -18,6 +18,7 @@ import type {
     Language,
     Manufacturer,
     Media,
+    NewsletterRecipient,
     Order,
     OrderDelivery,
     OrderLineItem,
@@ -162,6 +163,35 @@ export class TestDataService {
         if (options.nameSuffix) {
             this.nameSuffix = options.nameSuffix;
         }
+    }
+
+    async createNewsletterRecipient(customer: Customer): Promise<NewsletterRecipient> {
+        const hash = this.IdProvider.getIdPair();
+
+        const recipientPayload = {
+            email: customer.email,
+            salesChannelId: this.defaultSalesChannel.id,
+            firstName: customer.firstName ?? "Test",
+            lastName: customer.lastName ?? "User",
+            hash: customer.id || hash,
+            status: "direct",
+            languageId: customer.languageId,
+            salutationId: customer.salutationId,
+            confirmedAt: new Date().toISOString(),
+        };
+
+        const resp = await this.AdminApiClient.post("newsletter-recipient?_response=detail", {
+            data: recipientPayload,
+        });
+
+        expect(resp.ok()).toBeTruthy();
+        const recipient = await resp.json();
+        if (recipient?.data?.id) {
+            this.addCreatedRecord("newsletter_recipient", recipient.data.id);
+        } else {
+            this.addCreatedRecord("newsletter_recipient", recipientPayload.email);
+        }
+        return recipient;
     }
 
     /**
