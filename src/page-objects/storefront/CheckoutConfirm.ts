@@ -36,7 +36,9 @@ export class CheckoutConfirm implements PageObject {
     /**
      * Product details
      */
-    public readonly cartLineItemImages: Locator;
+    public readonly confirmProductTable: Locator;
+    public readonly productLineItems: Locator;
+    public readonly promotionLineItems: Locator;
     public readonly page: Page;
     public readonly confirmProductTable: Locator;
 
