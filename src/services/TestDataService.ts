@@ -829,19 +829,23 @@ export class TestDataService {
                     considerAdvancedRules: false,
                 },
             ],
-            personaRules: [
-                {
-                    id: promotionConfig.ruleId,
-                } as Pick<Rule, "id">,
-            ],
         });
 
         if (!useCode) {
             delete basicPromotion.code;
         }
 
+        const promotionWithConditionRule = {
+            ...basicPromotion,
+            personaRules: [
+                {
+                    id: promotionConfig.ruleId,
+                },
+            ],
+        };
+
         const promotionResponse = await this.AdminApiClient.post("promotion?_response=detail", {
-            data: basicPromotion,
+            data: promotionWithConditionRule,
         });
         expect(promotionResponse.ok()).toBeTruthy();
 
