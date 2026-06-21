@@ -832,7 +832,7 @@ export class TestDataService {
             personaRules: [
                 {
                     id: promotionConfig.ruleId,
-                },
+                } as Partial<Rule>,
             ],
         });
 
