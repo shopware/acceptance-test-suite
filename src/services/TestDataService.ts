@@ -62,6 +62,17 @@ export interface SimpleLineItem {
     overrides?: Partial<OrderLineItem>;
 }
 
+export interface PromotionWithConditionRuleOptions {
+    id: string;
+    name: string;
+    ruleId: string;
+    useCode?: boolean;
+    discountValue?: number;
+    discountScope?: string;
+    discountType?: string;
+    salesChannelId?: string;
+}
+
 export interface SyncApiOperation {
     entity: string;
     action: "upsert" | "delete";
