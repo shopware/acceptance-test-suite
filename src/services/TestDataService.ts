@@ -60,6 +60,17 @@ export interface SimpleLineItem {
     overrides?: Partial<OrderLineItem>;
 }
 
+export interface PromotionWithConditionRuleOptions {
+    id: string;
+    name: string;
+    ruleId: string;
+    useCode?: boolean;
+    discountValue?: number;
+    discountScope?: string;
+    discountType?: string;
+    salesChannelId?: string;
+}
+
 export interface SyncApiOperation {
     entity: string;
     action: "upsert" | "delete";
@@ -795,6 +806,51 @@ export class TestDataService {
         this.addCreatedRecord("promotion", promotion.id);
 
         return promotionWithDiscount;
+    }
+
+    /**
+     * Creates a promotion with one discount and assigns a condition rule as a persona rule.
+     * The created promotion and assigned rule are both registered for cleanup.
+     *
+     * @param promotionConfig - Promotion configuration, including the promotion id, name, and assigned rule id.
+     */
+    async createPromotionWithConditionRule(promotionConfig: PromotionWithConditionRuleOptions): Promise<Promotion> {
+        const useCode = promotionConfig.useCode ?? false;
+        const basicPromotion = this.getBasicPromotionStruct(promotionConfig.salesChannelId, {
+            id: promotionConfig.id,
+            name: promotionConfig.name,
+            useCodes: useCode,
+            useIndividualCodes: useCode,
+            discounts: [
+                {
+                    scope: promotionConfig.discountScope ?? "cart",
+                    type: promotionConfig.discountType ?? "percentage",
+                    value: promotionConfig.discountValue ?? 10,
+                    considerAdvancedRules: false,
+                },
+            ],
+            personaRules: [
+                {
+                    id: promotionConfig.ruleId,
+                },
+            ],
+        });
+
+        if (!useCode) {
+            delete basicPromotion.code;
+        }
+
+        const promotionResponse = await this.AdminApiClient.post("promotion?_response=detail", {
+            data: basicPromotion,
+        });
+        expect(promotionResponse.ok()).toBeTruthy();
+
+        const { data: promotion } = (await promotionResponse.json()) as { data: Promotion };
+
+        this.addCreatedRecord("promotion", promotionConfig.id);
+        this.addCreatedRecord("rule", promotionConfig.ruleId);
+
+        return promotion;
     }
 
     /**
