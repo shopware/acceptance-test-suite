@@ -167,9 +167,20 @@ export class TestDataService {
         }
     }
 
+    /**
+     * Creates a newsletter recipient for a customer in the default sales channel.
+     * If a matching recipient already exists, it will be reused and registered for cleanup.
+     *
+     * @param customer - The customer whose email and profile data will be used for the newsletter recipient.
+     */
     async createNewsletterRecipient(customer: Customer): Promise<NewsletterRecipient> {
-        const hash = this.IdProvider.getIdPair();
+        const existingNewsletterRecipient = await this.getNewsletterRecipient(customer);
+        if (existingNewsletterRecipient) {
+            this.addCreatedRecord("newsletter_recipient", existingNewsletterRecipient.id);
+            return existingNewsletterRecipient;
+        }
 
+        const hash = this.IdProvider.getIdPair();
         const recipientPayload = {
             email: customer.email,
             salesChannelId: this.defaultSalesChannel.id,
@@ -187,12 +198,8 @@ export class TestDataService {
         });
 
         expect(resp.ok()).toBeTruthy();
-        const recipient = await resp.json();
-        if (recipient?.data?.id) {
-            this.addCreatedRecord("newsletter_recipient", recipient.data.id);
-        } else {
-            this.addCreatedRecord("newsletter_recipient", recipientPayload.email);
-        }
+        const { data: recipient } = (await resp.json()) as { data: NewsletterRecipient };
+        this.addCreatedRecord("newsletter_recipient", recipient.id);
         return recipient;
     }
 
