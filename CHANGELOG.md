@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.13.3](https://github.com/shopware/acceptance-test-suite/compare/v12.13.2...v12.13.3) (2026-06-22)
+
+
+### Bug Fixes
+
+* **bulk-edit:** select customer bulk-edit tags via filtered search with retry ([#650](https://github.com/shopware/acceptance-test-suite/issues/650)) ([16a7fbb](https://github.com/shopware/acceptance-test-suite/commit/16a7fbb51ed043f6b6775eb72ab8c2f406d0d00c))
+* declare @playwright/test as peerDependency to avoid duplicate playwright-core ([#649](https://github.com/shopware/acceptance-test-suite/issues/649)) ([b66ed34](https://github.com/shopware/acceptance-test-suite/commit/b66ed344038653e00c8572017518dfe204108846))
+
 ## [12.13.2](https://github.com/shopware/acceptance-test-suite/compare/v12.13.1...v12.13.2) (2026-06-19)
 
 
