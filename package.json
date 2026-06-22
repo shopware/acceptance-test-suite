@@ -40,7 +40,6 @@
     },
     "dependencies": {
         "@axe-core/playwright": "4.11.1",
-        "@playwright/test": "1.60.0",
         "@shopware/api-client": "1.4.0",
         "axe-html-reporter": "2.2.11",
         "compare-versions": "6.1.1",
@@ -49,6 +48,7 @@
         "uuid": "14.0.0"
     },
     "devDependencies": {
+        "@playwright/test": "1.60.0",
         "@types/node": "25.2.0",
         "@types/uuid": "11.0.0",
         "@typescript/native-preview": "7.0.0-dev.20260205.1",
@@ -57,7 +57,17 @@
         "oxfmt": "0.28.0",
         "oxlint": "1.43.0",
         "oxlint-tsgolint": "0.11.4",
+        "playwright-core": "1.60.0",
         "unbuild": "3.6.1"
+    },
+    "peerDependencies": {
+        "@playwright/test": "1.60.0",
+        "playwright-core": "1.60.0"
+    },
+    "peerDependenciesMeta": {
+        "playwright-core": {
+            "optional": true
+        }
     },
     "engines": {
         "node": "24.x || 25.x"
