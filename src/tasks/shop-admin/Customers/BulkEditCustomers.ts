@@ -52,12 +52,12 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
                     await AdminCustomerBulkEdit.changeTypeSelect.click();
                     await AdminCustomerBulkEdit.page.getByText(tagData.changeType).click();
                     for (const tag of tagData.tags) {
-                        // Retry: the API-created tag may lag in the search results (ES indexing).
+                        // Retry for ES-indexing lag; explicit timeout since toPass is unbounded by default.
                         await ShopAdmin.expects(async () => {
                             await AdminCustomerBulkEdit.enterTagsSelect.click();
                             await AdminCustomerBulkEdit.enterTagsSelect.fill(tag);
                             await AdminCustomerBulkEdit.filtersResultPopoverItemList.getByText(tag).click({ timeout: 5_000 });
-                        }).toPass({ intervals: [1_000, 2_000, 5_000] });
+                        }).toPass({ intervals: [1_000, 2_000, 5_000], timeout: 20_000 });
                     }
                 }
                 if (customFieldData) {
