@@ -73,6 +73,12 @@ export interface PromotionWithConditionRuleOptions {
     salesChannelId?: string;
 }
 
+export interface BasicRuleCondition {
+    type: string;
+    value: Record<string, unknown>;
+    children?: BasicRuleCondition[];
+}
+
 export interface SyncApiOperation {
     entity: string;
     action: "upsert" | "delete";
