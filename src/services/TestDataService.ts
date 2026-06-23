@@ -71,6 +71,12 @@ export interface PromotionWithConditionRuleOptions {
     salesChannelId?: string;
 }
 
+export interface BasicRuleCondition {
+    type: string;
+    value: Record<string, unknown>;
+    children?: BasicRuleCondition[];
+}
+
 export interface SyncApiOperation {
     entity: string;
     action: "upsert" | "delete";
@@ -929,12 +935,14 @@ export class TestDataService {
     }
 
     /**
-     * Creates a new basic rule with the condition cart amount >= 1.
+     * Creates a new basic rule with the condition cart amount >= 1 by default.
+     * Pass a condition object to create the same basic rule structure with another condition.
      *
      * @param overrides - Specific data overrides that will be applied to the basic rule data struct.
+     * @param condition - The condition object or condition type used in the generated rule.
      */
-    async createBasicRule(overrides: Partial<Rule> = {}, conditionType = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
-        const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
+    async createBasicRule(overrides: Partial<Rule> = {}, condition: BasicRuleCondition | string = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
+        const basicRule = this.getBasicRuleStruct(overrides, condition, operator, amount);
 
         const ruleResponse = await this.AdminApiClient.post("rule?_response=detail", {
             data: basicRule,
@@ -2340,9 +2348,19 @@ export class TestDataService {
         return Object.assign({}, basicProduct, overrides);
     }
 
-    getBasicRuleStruct(overrides: Partial<Rule> = {}, conditionType: string, operator: string, amount: number): Partial<Rule> {
+    getBasicRuleStruct(overrides: Partial<Rule> = {}, condition: BasicRuleCondition | string = "cartCartAmount", operator = ">=", amount = 1): Partial<Rule> {
         const { id: ruleId, uuid: ruleUuid } = this.IdProvider.getIdPair();
         const ruleName = `${this.namePrefix}Rule-${ruleId}${this.nameSuffix}`;
+        const ruleCondition =
+            typeof condition === "string"
+                ? {
+                      type: condition,
+                      value: {
+                          operator: operator,
+                          amount: amount,
+                      },
+                  }
+                : condition;
 
         const description = `
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
@@ -2361,15 +2379,7 @@ export class TestDataService {
                     children: [
                         {
                             type: "andContainer",
-                            children: [
-                                {
-                                    type: conditionType,
-                                    value: {
-                                        operator: operator,
-                                        amount: amount,
-                                    },
-                                },
-                            ],
+                            children: [ruleCondition],
                         },
                     ],
                 },
