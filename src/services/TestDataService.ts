@@ -189,14 +189,9 @@ export class TestDataService {
      * If a matching recipient already exists, it will be reused and registered for cleanup.
      *
      * @param customer - The customer whose email and profile data will be used for the newsletter recipient.
+     * @param overrides - Specific data overrides that will be applied to the newsletter recipient payload.
      */
-    async createNewsletterRecipient(customer: Customer): Promise<NewsletterRecipient> {
-        const existingNewsletterRecipient = await this.getNewsletterRecipient(customer);
-        if (existingNewsletterRecipient) {
-            this.addCreatedRecord("newsletter_recipient", existingNewsletterRecipient.id);
-            return existingNewsletterRecipient;
-        }
-
+    async createNewsletterRecipient(customer: Customer, overrides: Partial<NewsletterRecipient> = {}): Promise<NewsletterRecipient> {
         const hash = this.IdProvider.getIdPair();
         const recipientPayload = {
             email: customer.email,
@@ -208,7 +203,14 @@ export class TestDataService {
             languageId: customer.languageId,
             salutationId: customer.salutationId,
             confirmedAt: new Date().toISOString(),
+            ...overrides,
         };
+
+        const existingNewsletterRecipient = await this.getNewsletterRecipient({ ...customer, email: recipientPayload.email });
+        if (existingNewsletterRecipient) {
+            this.addCreatedRecord("newsletter_recipient", existingNewsletterRecipient.id);
+            return existingNewsletterRecipient;
+        }
 
         const resp = await this.AdminApiClient.post("newsletter-recipient?_response=detail", {
             data: recipientPayload,
