@@ -185,7 +185,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 defaultPaymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
             };
 
-            const customerRespPromise = AdminApiContext.post("./customer?_response", {
+            const customerRespPromise = AdminApiContext.post("./customer?_response=detail", {
                 data: customerData,
             });
 
