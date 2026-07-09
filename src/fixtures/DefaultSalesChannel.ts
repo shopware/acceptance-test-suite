@@ -69,7 +69,6 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const { uuid: customerUuid } = IdProvider.getWorkerDerivedStableId("customer");
 
             const baseUrl = `${SalesChannelBaseConfig.appUrl}test-${uuid}/`;
-            await AdminApiContext.delete(`./customer/${customerUuid}`);
 
             // get the missing languages ids or all if the sales channel does not exist. This is required for 6.5.x support
             const wantedLanguages = new Set([SalesChannelBaseConfig.currentLanguageId, SalesChannelBaseConfig.defaultLanguageId]);
@@ -200,6 +199,15 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 customer: { ...customer.data, password: customerData.password },
                 url: baseUrl,
             });
+
+            const deleteCustomerResponse = await AdminApiContext.delete(`./customer/${customerUuid}`);
+            expect(deleteCustomerResponse.ok()).toBeTruthy();
+
+            const deleteCustomerGroupResponse = await AdminApiContext.delete(`./customer-group/${customerGroupUuid}`);
+            expect(deleteCustomerGroupResponse.ok()).toBeTruthy();
+
+            const deleteSalesChannelResponse = await AdminApiContext.delete(`./sales-channel/${uuid}`);
+            expect(deleteSalesChannelResponse.ok()).toBeTruthy();
         },
         { scope: "worker" },
     ],
