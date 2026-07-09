@@ -208,6 +208,9 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
             const deleteCustomerGroupResponse = await AdminApiContext.delete(`./customer-group/${customerGroupUuid}`);
             expect(deleteCustomerGroupResponse.ok()).toBeTruthy();
+
+            const deleteRootCategoryResponse = await AdminApiContext.delete(`./category/${rootCategoryUuid}`);
+            expect(deleteRootCategoryResponse.ok()).toBeTruthy();
         },
         { scope: "worker" },
     ],
