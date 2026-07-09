@@ -203,11 +203,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const deleteCustomerResponse = await AdminApiContext.delete(`./customer/${customerUuid}`);
             expect(deleteCustomerResponse.ok()).toBeTruthy();
 
-            const deleteCustomerGroupResponse = await AdminApiContext.delete(`./customer-group/${customerGroupUuid}`);
-            expect(deleteCustomerGroupResponse.ok()).toBeTruthy();
-
             const deleteSalesChannelResponse = await AdminApiContext.delete(`./sales-channel/${uuid}`);
             expect(deleteSalesChannelResponse.ok()).toBeTruthy();
+
+            const deleteCustomerGroupResponse = await AdminApiContext.delete(`./customer-group/${customerGroupUuid}`);
+            expect(deleteCustomerGroupResponse.ok()).toBeTruthy();
         },
         { scope: "worker" },
     ],
