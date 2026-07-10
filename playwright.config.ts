@@ -1,10 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
-process.env["SHOPWARE_ADMIN_USERNAME"] = process.env["SHOPWARE_ADMIN_USERNAME"] || "admin";
-process.env["SHOPWARE_ADMIN_PASSWORD"] = process.env["SHOPWARE_ADMIN_PASSWORD"] || "shopware";
+process.env["SHOPWARE_ADMIN_USERNAME"] = process.env["SHOPWARE_ADMIN_USERNAME"] || "cloud@shopware.com";
+process.env["SHOPWARE_ADMIN_PASSWORD"] = process.env["SHOPWARE_ADMIN_PASSWORD"] || "Shopware123!";
 process.env["MAILPIT_BASE_URL"] = process.env["MAILPIT_BASE_URL"] || "http://localhost:8013";
 
-const defaultAppUrl = "http://localhost:8011/";
+const defaultAppUrl = "https://ci-260708-1556-sleek-leaf-euc1-1783526622.swstage.store";
 process.env["APP_URL"] = process.env["APP_URL"] ?? defaultAppUrl;
 
 // make sure APP_URL ends with a slash

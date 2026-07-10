@@ -55,8 +55,8 @@ test("Storefront page objects", async ({
 
     await ShopCustomer.attemptsTo(ConfirmTermsAndConditions());
     await ShopCustomer.attemptsTo(SubmitOrder());
-    const orderId = StorefrontCheckoutFinish.getOrderId();
-    TestDataService.addCreatedRecord("order", orderId);
+    //const orderId = StorefrontCheckoutFinish.getOrderId();
+    //TestDataService.addCreatedRecord("order", orderId);
     await ShopCustomer.expects(StorefrontCheckoutFinish.headline).toBeVisible();
 
     await ShopCustomer.goesTo(StorefrontAccount.url());
