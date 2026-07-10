@@ -201,16 +201,16 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             });
 
             const deleteCustomerResponse = await AdminApiContext.delete(`./customer/${customerUuid}`);
-            expect(deleteCustomerResponse.ok()).toBeTruthy();
+            expect(deleteCustomerResponse.ok(), await deleteCustomerResponse.text()).toBeTruthy();
 
             const deleteSalesChannelResponse = await AdminApiContext.delete(`./sales-channel/${uuid}`);
-            expect(deleteSalesChannelResponse.ok()).toBeTruthy();
+            expect(deleteSalesChannelResponse.ok(), await deleteSalesChannelResponse.text()).toBeTruthy();
 
             const deleteCustomerGroupResponse = await AdminApiContext.delete(`./customer-group/${customerGroupUuid}`);
-            expect(deleteCustomerGroupResponse.ok()).toBeTruthy();
+            expect(deleteCustomerGroupResponse.ok(), await deleteCustomerGroupResponse.text()).toBeTruthy();
 
             const deleteRootCategoryResponse = await AdminApiContext.delete(`./category/${rootCategoryUuid}`);
-            expect(deleteRootCategoryResponse.ok()).toBeTruthy();
+            expect(deleteRootCategoryResponse.ok(), await deleteRootCategoryResponse.text()).toBeTruthy();
         },
         { scope: "worker" },
     ],
