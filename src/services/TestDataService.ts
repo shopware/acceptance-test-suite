@@ -341,8 +341,6 @@ export class TestDataService {
 
         const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
 
-        this.addCreatedRecord("product_review", review.id);
-
         return review;
     }
 
