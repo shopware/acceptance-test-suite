@@ -111,6 +111,7 @@ export class TestDataService {
      */
     private highPriorityEntities = [
         "order",
+        "product_review",
         "product",
         "product_download",
         "product_cross_selling",
@@ -243,7 +244,7 @@ export class TestDataService {
      * @param currencyId - The uuid of the currency to use for the product pricing.
      */
     async createDigitalProduct(content = "Lorem ipsum dolor", overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
-        const product = await this.createBasicProduct({ type: 'digital', ...overrides }, taxId, currencyId);
+        const product = await this.createBasicProduct({ type: "digital", ...overrides }, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
         await this.assignProductDownload(product.id, media.id);
@@ -340,6 +341,9 @@ export class TestDataService {
         expect(productReviewResponse.ok()).toBeTruthy();
 
         const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
+
+        this.addCreatedRecord("product_review", review.id);
+
         return review;
     }
 
@@ -481,6 +485,8 @@ export class TestDataService {
         expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: media } = (await mediaResponse.json()) as { data: Media };
+
+        this.addCreatedRecord("media", media.id);
 
         return media;
     }
