@@ -212,6 +212,7 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
 
     const cleanUpDeleteOperations = await cleanUpDeleteOperationsResponse.json();
     expect(cleanUpDeleteOperations["notFound"].length).toBe(0);
+    expect(cleanUpDeleteOperations["deleted"]["product_review"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["media"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["payment_method"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["rule"]).toBeDefined();
