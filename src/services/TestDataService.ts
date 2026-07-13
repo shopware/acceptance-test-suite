@@ -111,7 +111,6 @@ export class TestDataService {
      */
     private highPriorityEntities = [
         "order",
-        "product_review",
         "product",
         "product_download",
         "product_cross_selling",
