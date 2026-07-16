@@ -9,6 +9,8 @@ export const ConfirmTermsAndConditions = base.extend<{ ConfirmTermsAndConditions
                 if (await StorefrontCheckoutConfirm.termsAndConditionsCheckbox.isVisible()) {
                     await ShopCustomer.presses(StorefrontCheckoutConfirm.termsAndConditionsCheckbox);
                     await ShopCustomer.expects(StorefrontCheckoutConfirm.termsAndConditionsCheckbox).toBeChecked();
+                } else {
+                    await ShopCustomer.expects(StorefrontCheckoutConfirm.termsAutoConfirmedText).toBeVisible();
                 }
             };
         };
