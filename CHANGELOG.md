@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.13.4](https://github.com/shopware/acceptance-test-suite/compare/v12.13.3...v12.13.4) (2026-07-21)
+
+
+### Bug Fixes
+
+* set type: 'digital' in createDigitalProduct ([#655](https://github.com/shopware/acceptance-test-suite/issues/655)) ([f16e2bc](https://github.com/shopware/acceptance-test-suite/commit/f16e2bc0870b9eb268ca92fc3e1835ef4f622a46))
+
 ## [12.13.3](https://github.com/shopware/acceptance-test-suite/compare/v12.13.2...v12.13.3) (2026-06-22)
 
 
