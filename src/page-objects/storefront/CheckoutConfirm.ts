@@ -9,6 +9,7 @@ export class CheckoutConfirm implements PageObject {
     public readonly grandTotalPrice: Locator;
     public readonly taxPrice: Locator;
     public readonly submitOrderButton: Locator;
+    public readonly termsAutoConfirmedText: Locator;
 
     /**
      * Payment and Shipping options
@@ -54,6 +55,7 @@ export class CheckoutConfirm implements PageObject {
         this.shippingExpress = page.getByLabel(translate("storefront:checkout:common.express"));
 
         this.cartLineItemImages = page.locator(".line-item-img-link");
+        this.termsAutoConfirmedText = page.locator(".checkout-confirm-tos-information");
     }
 
     url() {
