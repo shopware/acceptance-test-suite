@@ -20,8 +20,8 @@ jobs:
     lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -32,8 +32,8 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -67,7 +67,7 @@ jobs:
             SHOPWARE_BUILD_SOURCE: "tag"
             PORT: ${{ matrix.PORT }}
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
 
             - id: changed-test-files
               uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
@@ -81,7 +81,7 @@ jobs:
             - name: Start Shopware ${{ matrix.SHOPWARE_VERSION }}
               run: docker compose up --pull=always --quiet-pull --wait
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -123,8 +123,8 @@ jobs:
             SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
             SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
         steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"

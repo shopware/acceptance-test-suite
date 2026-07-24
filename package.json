@@ -1,6 +1,6 @@
 {
     "name": "@shopware-ag/acceptance-test-suite",
-    "version": "12.13.3",
+    "version": "12.13.4",
     "description": "Shopware Acceptance Test Suite",
     "keywords": [
         "fixtures",
