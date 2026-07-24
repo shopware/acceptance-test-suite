@@ -237,13 +237,17 @@ export class TestDataService {
      * Creates a digital product with a text file as its download.
      * The product will be added to the default sales channel category if configured.
      *
+     * Digital products default to `maxPurchase: 1`, mirroring the Administration
+     * which forces this limit when a product is created as a digital type.
+     * Pass `maxPurchase` in the overrides to change it.
+     *
      * @param content - The content of the text file for the product download.
      * @param overrides - Specific data overrides that will be applied to the product data struct.
      * @param taxId - The uuid of the tax rule to use for the product pricing.
      * @param currencyId - The uuid of the currency to use for the product pricing.
      */
     async createDigitalProduct(content = "Lorem ipsum dolor", overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
-        const product = await this.createBasicProduct({ type: 'digital', ...overrides }, taxId, currencyId);
+        const product = await this.createBasicProduct({ type: "digital", maxPurchase: 1, ...overrides }, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
         await this.assignProductDownload(product.id, media.id);

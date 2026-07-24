@@ -7,7 +7,16 @@ export const AddProductToCart = base.extend<{ AddProductToCart: Task }, FixtureT
     AddProductToCart: async ({ ShopCustomer, StorefrontProductDetail }, use) => {
         const task = (ProductData: Product, quantity = "1") => {
             return async function AddProductToCart() {
-                await ShopCustomer.fillsIn(StorefrontProductDetail.quantitySelect, quantity);
+                // The storefront hides the quantity selector for digital products with a
+                // fixed quantity (maxPurchase === 1); normal products always show it.
+                const showsQuantitySelect = !(ProductData.type === "digital" && ProductData.maxPurchase === 1);
+
+                if (showsQuantitySelect) {
+                    await ShopCustomer.expects(StorefrontProductDetail.quantitySelect).toBeVisible();
+                    await ShopCustomer.fillsIn(StorefrontProductDetail.quantitySelect, quantity);
+                } else {
+                    await ShopCustomer.expects(StorefrontProductDetail.quantitySelect).toBeHidden();
+                }
                 await ShopCustomer.presses(StorefrontProductDetail.addToCartButton);
 
                 await ShopCustomer.expects(StorefrontProductDetail.offCanvasCartTitle).toBeVisible();
