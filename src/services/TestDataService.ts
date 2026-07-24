@@ -243,7 +243,7 @@ export class TestDataService {
      * @param currencyId - The uuid of the currency to use for the product pricing.
      */
     async createDigitalProduct(content = "Lorem ipsum dolor", overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
-        const product = await this.createBasicProduct(overrides, taxId, currencyId);
+        const product = await this.createBasicProduct({ type: 'digital', ...overrides }, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
         await this.assignProductDownload(product.id, media.id);
