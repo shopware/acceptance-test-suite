@@ -1,5 +1,17 @@
 # Changelog
 
+## [12.14.0](https://github.com/shopware/acceptance-test-suite/compare/v12.13.4...v12.14.0) (2026-07-24)
+
+
+### Features
+
+* **checkout:** support auto-confirmed terms on checkout confirm page ([#659](https://github.com/shopware/acceptance-test-suite/issues/659)) ([339aecf](https://github.com/shopware/acceptance-test-suite/commit/339aecfee8cbf4625eaccd4366129735b4646ca0))
+
+
+### Bug Fixes
+
+* locale-aware customer setup in DefaultSalesChannel ([#656](https://github.com/shopware/acceptance-test-suite/issues/656)) ([ae76e67](https://github.com/shopware/acceptance-test-suite/commit/ae76e672e77c889421cf95a6040717475ca4b49c))
+
 ## [12.13.4](https://github.com/shopware/acceptance-test-suite/compare/v12.13.3...v12.13.4) (2026-07-21)
 
 
