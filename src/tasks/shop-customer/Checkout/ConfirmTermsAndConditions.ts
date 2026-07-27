@@ -6,6 +6,9 @@ export const ConfirmTermsAndConditions = base.extend<{ ConfirmTermsAndConditions
     ConfirmTermsAndConditions: async ({ ShopCustomer, StorefrontCheckoutConfirm }, use) => {
         const task = () => {
             return async function ConfirmTermsAndConditions() {
+                // Wait for the terms section to render before the non-waiting isVisible() check below.
+                await ShopCustomer.expects(StorefrontCheckoutConfirm.termsAndConditionsCheckbox.or(StorefrontCheckoutConfirm.termsAutoConfirmedText).first()).toBeVisible();
+
                 if (await StorefrontCheckoutConfirm.termsAndConditionsCheckbox.isVisible()) {
                     await ShopCustomer.presses(StorefrontCheckoutConfirm.termsAndConditionsCheckbox);
                     await ShopCustomer.expects(StorefrontCheckoutConfirm.termsAndConditionsCheckbox).toBeChecked();
