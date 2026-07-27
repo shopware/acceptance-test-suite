@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.14.1](https://github.com/shopware/acceptance-test-suite/compare/v12.14.0...v12.14.1) (2026-07-27)
+
+
+### Bug Fixes
+
+* **checkout:** await terms section render in ConfirmTermsAndConditions ([#664](https://github.com/shopware/acceptance-test-suite/issues/664)) ([04991d9](https://github.com/shopware/acceptance-test-suite/commit/04991d9e06dee04b14d4e1737d46f4ecfebaf509))
+* default digital products to maxPurchase 1 and assert quantity selector visibility ([#662](https://github.com/shopware/acceptance-test-suite/issues/662)) ([d4603a3](https://github.com/shopware/acceptance-test-suite/commit/d4603a3ea252b614d5f4aeb9e0284efb5b0393bb))
+
 ## [12.14.0](https://github.com/shopware/acceptance-test-suite/compare/v12.13.4...v12.14.0) (2026-07-24)
 
 
