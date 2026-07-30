@@ -252,7 +252,9 @@ export class TestDataService {
 
         await this.assignProductDownload(product.id, media.id);
 
-        return product;
+        // Expose the IS_DOWNLOAD state so consumers detect a download product on 6.5/6.6,
+        // where `type` is not backfilled to "digital".
+        return { ...product, states: [...(product.states ?? []), "is-download"] };
     }
 
     /**
