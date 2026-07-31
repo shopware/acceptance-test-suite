@@ -1,5 +1,17 @@
 # Changelog
 
+## [12.15.0](https://github.com/shopware/acceptance-test-suite/compare/v12.14.1...v12.15.0) (2026-07-31)
+
+
+### Features
+
+* reuse one admin session per worker ([#666](https://github.com/shopware/acceptance-test-suite/issues/666)) ([d754212](https://github.com/shopware/acceptance-test-suite/commit/d7542123a29b55cb5f1557a3298400151c6a1388))
+
+
+### Bug Fixes
+
+* expose is-download state from createDigitalProduct for 6.5/6.6 detection ([#665](https://github.com/shopware/acceptance-test-suite/issues/665)) ([17d58ca](https://github.com/shopware/acceptance-test-suite/commit/17d58ca510bdee9d6eed468d8ed05b68fad58ef1))
+
 ## [12.14.1](https://github.com/shopware/acceptance-test-suite/compare/v12.14.0...v12.14.1) (2026-07-27)
 
 
