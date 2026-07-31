@@ -59,6 +59,7 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
 
     const digitalProduct = await TestDataService.createDigitalProduct("Test Test", { description: "You can download me." });
     expect(digitalProduct.description).toEqual("You can download me.");
+    expect(digitalProduct.states).toContain("is-download");
 
     const propertyGroup = await TestDataService.createColorPropertyGroup();
     expect(propertyGroup.description).toEqual("Color");
