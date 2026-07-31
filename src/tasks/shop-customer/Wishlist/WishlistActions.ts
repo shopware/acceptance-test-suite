@@ -8,12 +8,12 @@ export const AddProductToCartFromWishlist = base.extend<{ AddProductToCartFromWi
         const task = (ProductData: Product) => {
             return async function AddProductToCartFromWishlist() {
                 const listedItem = await StorefrontWishlist.getListingItemByProductName(ProductData.name);
+                const expectedPrice = await listedItem.productPrice.innerText();
                 await ShopCustomer.presses(listedItem.productAddToShoppingCart);
                 await StorefrontWishlist.page.waitForResponse((response) => response.url().includes(`checkout/offcanvas`) && response.ok());
                 await ShopCustomer.expects(StorefrontOffCanvasCart.itemCount).toBeVisible();
                 const offcanvasItem = await StorefrontOffCanvasCart.getLineItemByProductNumber(ProductData.productNumber);
                 const itemsPrice = await offcanvasItem.productTotalPriceValue.innerText();
-                const expectedPrice = await listedItem.productPrice.innerText();
                 ShopCustomer.expects(itemsPrice).toBe(expectedPrice);
             };
         };
