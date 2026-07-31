@@ -18,11 +18,35 @@ export async function createNewAdminPageContext(browser: Browser, SalesChannelBa
         baseURL: SalesChannelBaseConfig.adminUrl,
         serviceWorkers: "block",
     });
+    // Install the mocks on the context, so they already apply to the initial page load
+    // and to every page that is opened within this context later on.
+    await mockApiCalls(context);
     const adminPage = await context.newPage();
     await adminPage.goto("#/login");
-    await mockApiCalls(adminPage);
 
     return adminPage;
+}
+
+/**
+ * Hides the Symfony debug toolbar after every reload of the given page.
+ * @param page - The Playwright Page instance to patch.
+ */
+export function hideSymfonyToolbarOnReload(page: Page): void {
+    const originalReload = page.reload.bind(page);
+    page.reload = async () => {
+        const res = await originalReload();
+        await page.addStyleTag({
+            content: `
+                .sf-toolbar {
+                    width: 0 !important;
+                    height: 0 !important;
+                    display: none !important;
+                    pointer-events: none !important;
+                }
+                `.trim(),
+        });
+        return res;
+    };
 }
 
 /**
@@ -57,21 +81,7 @@ export async function loginToAdministration(adminLoginPage: Page, merchant: User
     await Promise.all(jsLoadingPromises);
 
     // Override page reload to also remove the Symfony toolbar
-    const originalReload = adminLoginPage.reload.bind(adminLoginPage);
-    adminLoginPage.reload = async () => {
-        const res = await originalReload();
-        await adminLoginPage.addStyleTag({
-            content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-        });
-        return res;
-    };
+    hideSymfonyToolbarOnReload(adminLoginPage);
 
     await clearDelayedCache(AdminApiContext);
 

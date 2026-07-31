@@ -4,7 +4,7 @@ import type { Customer, SalesChannel } from "../types/ShopwareTypes";
 import type { components } from "@shopware/api-client/admin-api-types";
 import { getCountryAddressData } from "../services/ShopwareDataHelpers";
 
-interface StoreBaseConfig {
+export interface StoreBaseConfig {
     storefrontTypeId: string;
     currentLocaleId: string;
     currentLanguageId: string;

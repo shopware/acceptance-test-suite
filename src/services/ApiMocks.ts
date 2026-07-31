@@ -1,6 +1,6 @@
-import type { Page } from "playwright-core";
+import type { BrowserContext, Page } from "playwright-core";
 
-export async function mockApiCalls(page: Page) {
+export async function mockApiCalls(page: Page | BrowserContext) {
     await page.route("**/api/notification/message*", (route) =>
         route.fulfill({
             status: 200,
