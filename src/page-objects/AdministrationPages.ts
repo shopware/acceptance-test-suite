@@ -345,8 +345,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new LayoutListing(AdminPage));
     },
 
-    AdminListingPageLayoutDetail: async ({ AdminPage }, use) => {
-        await use(new ListingPageLayoutDetail(AdminPage));
+    AdminListingPageLayoutDetail: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new ListingPageLayoutDetail(AdminPage, InstanceMeta));
     },
 
     AdminLayoutCreate: async ({ AdminPage }, use) => {
