@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.15.1](https://github.com/shopware/acceptance-test-suite/compare/v12.15.0...v12.15.1) (2026-08-04)
+
+
+### Bug Fixes
+
+* adjust sidebar locator for product list layout in admin ([#670](https://github.com/shopware/acceptance-test-suite/issues/670)) ([8be3686](https://github.com/shopware/acceptance-test-suite/commit/8be368663a081a74e74e6c84be047dc14341c426))
+* resolve price before opening cart offcanvas ([#668](https://github.com/shopware/acceptance-test-suite/issues/668)) ([58ae563](https://github.com/shopware/acceptance-test-suite/commit/58ae563e48560ff4446d69b38f1ba7eeae9370e1))
+
 ## [12.15.0](https://github.com/shopware/acceptance-test-suite/compare/v12.14.1...v12.15.0) (2026-07-31)
 
 
