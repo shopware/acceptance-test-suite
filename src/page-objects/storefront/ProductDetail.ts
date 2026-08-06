@@ -56,6 +56,7 @@ export class ProductDetail implements PageObject {
     public readonly reviewPasswordInput: Locator;
     public readonly reviewTitleInput: Locator;
     public readonly reviewSubmitButton: Locator;
+    public readonly reviewTabLoadingIcon: Locator;
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
@@ -121,6 +122,7 @@ export class ProductDetail implements PageObject {
         this.reviewItemTitle = this.page.locator(".product-detail-review-item-title");
         this.reviewItemContent = this.page.locator(".product-detail-review-item-content");
         this.reviewSubmitMessage = this.page.getByText(translate("storefront:product:review.submitMessage"));
+        this.reviewTabLoadingIcon = this.page.locator('.element-loader-backdrop').locator('.loader');
     }
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {
