@@ -33,7 +33,8 @@
         "submitOrder": "Zahlungspflichtig bestellen",
         "termsAndConditions": "Ich habe die AGB gelesen und bin mit ihnen einverstanden.",
         "immediateAccessToDigitalProduct": "Ja, ich möchte sofort Zugang zu dem digitalen Inhalt und weiß, dass mein Widerrufsrecht mit dem Zugang erlischt.",
-        "autoConfirmTermsText": "Mit Ihrer Bestellung akzeptieren Sie unsere AGB und die Widerrufsbelehrung."
+        "autoConfirmTermsText": "Mit Ihrer Bestellung akzeptieren Sie unsere AGB und die Widerrufsbelehrung.",
+        "termsAndConditionsWithLegalGuaranteeRights": "Ich habe die AGB gelesen und bin mit ihnen einverstanden und habe meine gesetzlichen Gewährleistungsrechte erkannt."
     },
     "finish": {
         "thankYouForOrder": "Vielen Dank für Ihre Bestellung"
