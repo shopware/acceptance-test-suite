@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.16.0](https://github.com/shopware/acceptance-test-suite/compare/v12.15.1...v12.16.0) (2026-08-07)
+
+
+### Features
+
+* add task SelectProductReviewOption ([#669](https://github.com/shopware/acceptance-test-suite/issues/669)) ([8331055](https://github.com/shopware/acceptance-test-suite/commit/83310553fa6062a38f6c9fc4cf11c4c337d51d8c))
+* EU guarantee label  ([#673](https://github.com/shopware/acceptance-test-suite/issues/673)) ([844c5ce](https://github.com/shopware/acceptance-test-suite/commit/844c5ce10d444618ec737a165b548e731f30ed36))
+
 ## [12.15.1](https://github.com/shopware/acceptance-test-suite/compare/v12.15.0...v12.15.1) (2026-08-04)
 
 
