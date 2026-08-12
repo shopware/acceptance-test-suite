@@ -15,14 +15,17 @@ export const isThemeCompiled = async (context: StoreApiContext, storefrontUrl: s
 
     const body = (await response.body()).toString();
 
-    const matches = body.match(/.*"(https?:\/\/.*all\.css[^"]*)".*/);
-    if (matches && matches?.length > 1) {
-        const allCssUrl = matches[1];
+    const allCssUrl = body.match(/.*"(https?:\/\/.*all\.css[^"]*)".*/)?.[1];
+    const storefrontJavaScriptUrl = body.match(/.*"(https?:\/\/.*\/js\/storefront\/storefront\.js[^"]*)".*/)?.[1];
 
-        const allCssResponse = await context.get(allCssUrl);
-
-        return allCssResponse.status() < 400;
+    if (!allCssUrl || !storefrontJavaScriptUrl) {
+        return false;
     }
 
-    return false;
+    const assetResponses = await Promise.all([
+        context.get(allCssUrl),
+        context.get(storefrontJavaScriptUrl),
+    ]);
+
+    return assetResponses.every((assetResponse) => assetResponse.status() < 400);
 };

@@ -84,7 +84,7 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         setCurrentContext(null);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
+    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, CustomTranslationResources }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
         const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
@@ -104,17 +104,10 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
             base.slow();
 
-            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
+            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}?no-queue=true`);
             await clearDelayedCache(AdminApiContext);
 
             page = await context.newPage();
-
-            if (InstanceMeta.isSaaS) {
-                while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-                    await clearDelayedCache(AdminApiContext);
-                    await page.waitForTimeout(4000);
-                }
-            }
         } else {
             page = await context.newPage();
         }
