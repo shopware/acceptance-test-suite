@@ -210,6 +210,7 @@ export async function replaceElementsIndividually(page: Page, targets: ReplaceTa
  * @param {number} [options.contentHeight] - Default vertical height fallback if measurement fails.
  * @param {number} [options.headerHeight] - Default header height fallback.
  * @param {string} [options.headerElement] - Selector for a header element whose height should be added if outside scrollable container.
+ * @param {boolean} [options.autoFitVertical] - When true, size the viewport by the scroll container's overflow so the full layout (header + content + footer + gaps/padding) is visible. Use for multi-part layouts (e.g. the admin menu) where summing named heights misses flex gaps.
  *
  * @returns {Promise<{ contentWidth: number; totalHeight: number }>} - A Promise resolving to the measured dimensions:
  *   - `contentWidth`: the horizontal scroll width or fallback.
@@ -225,6 +226,7 @@ export interface Options {
     contentHeight?: number;
     headerHeight?: number;
     headerElement?: string;
+    autoFitVertical?: boolean;
 }
 const defaultOptions: Required<Options> = {
     requestURL: "api/notification/message?limit=5",
@@ -236,6 +238,7 @@ const defaultOptions: Required<Options> = {
     contentHeight: 1080,
     headerHeight: 0,
     headerElement: ".sw-page__head-area",
+    autoFitVertical: false,
 };
 
 export async function setViewport(page: Page, options: Options = {}): Promise<void> {
@@ -281,8 +284,8 @@ export async function setViewport(page: Page, options: Options = {}): Promise<vo
     }
 
     let headerHeight = config.headerHeight;
-    // Skip measurement if contentHeight is already provided
-    if (options.contentHeight === undefined) {
+    // Skip measurement if contentHeight is already provided or when auto-fitting vertically
+    if (options.contentHeight === undefined && !config.autoFitVertical) {
         // Measure header height
         try {
             const header = page.locator(config.headerElement);
@@ -318,7 +321,23 @@ export async function setViewport(page: Page, options: Options = {}): Promise<vo
             console.warn(`[Warning] Scrollable element not found. Applying default width: ${config.width}.`);
         }
     }
-    const totalHeight = contentHeight + headerHeight + config.additionalHeight;
+    let totalHeight = contentHeight + headerHeight + config.additionalHeight;
+    // Overflow-based auto-fit: grow the viewport by exactly how much the scroll
+    // container overflows, so the full layout (header + content + footer + any
+    // gaps/padding) becomes visible without scrolling. Robust for multi-part
+    // layouts (e.g. the admin menu) where summing named heights misses flex gaps.
+    if (options.contentHeight === undefined && config.autoFitVertical) {
+        let overflow = 0;
+        try {
+            if ((await scrollableElementVertical.count()) > 0 && (await scrollableElementVertical.isVisible())) {
+                overflow = await scrollableElementVertical.evaluate((el) => el.scrollHeight - el.clientHeight);
+            }
+        } catch {
+            console.warn(`[Warning] Scrollable element not found for auto-fit.`);
+        }
+        const currentHeight = page.viewportSize()?.height ?? config.contentHeight;
+        totalHeight = currentHeight + overflow + config.additionalHeight;
+    }
 
     await page.setViewportSize({ width: contentWidth, height: totalHeight });
     console.warn(`[Success] Viewport size: width=${contentWidth}, height=${totalHeight}`);
