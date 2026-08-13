@@ -5,6 +5,7 @@ import { translate } from "../../services/LanguageHelper";
 
 export class ProductDetail implements PageObject {
     public readonly addToCartButton: Locator;
+    public readonly addToCartForm: Locator;
     public readonly quantitySelect: Locator;
     public readonly productSingleImage: Locator;
     public readonly productSinglePrice: Locator;
@@ -72,6 +73,7 @@ export class ProductDetail implements PageObject {
         this.page = page;
         this.addToCartButton = page.getByRole("button", { name: translate("storefront:product:addToCart") });
         const form = page.locator(".buy-widget:not(.d-none)");
+        this.addToCartForm = form;
         this.quantitySelect = form.getByLabel(translate("storefront:product:quantity"), { exact: true });
         this.productSingleImage = page.locator(".gallery-slider-single-image");
         this.productSinglePrice = page.locator(".product-detail-price");
