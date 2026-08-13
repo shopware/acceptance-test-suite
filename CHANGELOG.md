@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.17.0](https://github.com/shopware/acceptance-test-suite/compare/v12.16.0...v12.17.0) (2026-08-13)
+
+
+### Features
+
+* add adminMenuAutomation locator to admin menu page object ([#675](https://github.com/shopware/acceptance-test-suite/issues/675)) ([26003e7](https://github.com/shopware/acceptance-test-suite/commit/26003e77c4ace8828d3e51b0f071a14d0707c097))
+
 ## [12.16.0](https://github.com/shopware/acceptance-test-suite/compare/v12.15.1...v12.16.0) (2026-08-07)
 
 
