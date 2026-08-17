@@ -705,6 +705,11 @@ export class TestDataService {
         return order;
     }
 
+    /**
+     * Sets the primary order references.
+     *
+     * @param order - The order you want to set the references for.
+     */
     async setPrimaryOrderReferences(order: { id: string }): Promise<void> {
         const transactionResponse = await this.AdminApiClient.post("search/order-transaction", {
             data: {
