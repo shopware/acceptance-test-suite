@@ -13,20 +13,40 @@ import type { User } from "../types/ShopwareTypes";
  * @param SalesChannelBaseConfig - The sales channel base configuration fixture.
  * @returns The Playwright Page instance for the admin login page.
  */
-export async function createNewAdminPageContext(
-    browser: Browser,
-    SalesChannelBaseConfig: DefaultSalesChannelTypes["SalesChannelBaseConfig"],
-): Promise<Page> {
+export async function createNewAdminPageContext(browser: Browser, SalesChannelBaseConfig: DefaultSalesChannelTypes["SalesChannelBaseConfig"]): Promise<Page> {
     const context: BrowserContext = await browser.newContext({
         baseURL: SalesChannelBaseConfig.adminUrl,
         serviceWorkers: "block",
     });
+    // Install the mocks on the context, so they already apply to the initial page load
+    // and to every page that is opened within this context later on.
+    await mockApiCalls(context);
     const adminPage = await context.newPage();
     await adminPage.goto("#/login");
-    await mockApiCalls(adminPage);
 
     return adminPage;
+}
 
+/**
+ * Hides the Symfony debug toolbar after every reload of the given page.
+ * @param page - The Playwright Page instance to patch.
+ */
+export function hideSymfonyToolbarOnReload(page: Page): void {
+    const originalReload = page.reload.bind(page);
+    page.reload = async () => {
+        const res = await originalReload();
+        await page.addStyleTag({
+            content: `
+                .sf-toolbar {
+                    width: 0 !important;
+                    height: 0 !important;
+                    display: none !important;
+                    pointer-events: none !important;
+                }
+                `.trim(),
+        });
+        return res;
+    };
 }
 
 /**
@@ -36,12 +56,7 @@ export async function createNewAdminPageContext(
  * @param AdminApiContext - The API request context for admin API calls.
  * @returns The logged-in admin Page instance.
  */
-export async function loginToAdministration(
-    adminLoginPage: Page,
-    merchant: User,
-    AdminApiContext: FixtureTypes['AdminApiContext'],
-): Promise<Page> {
-
+export async function loginToAdministration(adminLoginPage: Page, merchant: User, AdminApiContext: FixtureTypes["AdminApiContext"]): Promise<Page> {
     // Create locators at runtime when language is properly set
     const usernamePattern = new RegExp(`${translate("administration:login:username")}|${translate("administration:login:emailAddress")}`);
     const passwordLabel = translate("administration:login:password");
@@ -66,21 +81,7 @@ export async function loginToAdministration(
     await Promise.all(jsLoadingPromises);
 
     // Override page reload to also remove the Symfony toolbar
-    const originalReload = adminLoginPage.reload.bind(adminLoginPage);
-    adminLoginPage.reload = async () => {
-        const res = await originalReload();
-        await adminLoginPage.addStyleTag({
-            content: `
-                .sf-toolbar {
-                    width: 0 !important;
-                    height: 0 !important;
-                    display: none !important;
-                    pointer-events: none !important;
-                }
-                `.trim(),
-        });
-        return res;
-    };
+    hideSymfonyToolbarOnReload(adminLoginPage);
 
     await clearDelayedCache(AdminApiContext);
 
@@ -91,5 +92,4 @@ export async function loginToAdministration(
     await expect(adminLoginPage.getByText(merchant.firstName + " " + merchant.lastName).first()).toBeVisible({ timeout: 60000 });
 
     return adminLoginPage;
-
 }

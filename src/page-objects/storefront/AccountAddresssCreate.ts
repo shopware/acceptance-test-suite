@@ -2,6 +2,9 @@ import type { Page, Locator } from "playwright-core";
 import { BaseAccount } from "./BaseAccount";
 import { translate } from "../../services/LanguageHelper";
 
+/**
+ * @deprecated - Use AccountAddressDetails instead.
+ */
 export class AccountAddressCreate extends BaseAccount {
     public readonly salutationDropdown: Locator;
     public readonly firstNameInput: Locator;

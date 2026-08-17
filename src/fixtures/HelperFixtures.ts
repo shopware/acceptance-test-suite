@@ -1,6 +1,6 @@
 import { test as base, expect } from "@playwright/test";
 import { IdProvider } from "../services/IdProvider";
-import { isSaaSInstance } from "../services/ShopInfo";
+import { isPaaSInstance, isSaaSInstance } from "../services/ShopInfo";
 import type { FixtureTypes } from "../types/FixtureTypes";
 import { getCurrency, getLanguageCode, getLanguageData, getLocale } from "../services/ShopwareDataHelpers";
 import { AdminApiContext } from "../services/AdminApiContext";
@@ -16,6 +16,7 @@ export interface HelperFixtureTypes {
     InstanceMeta: {
         version: string;
         isSaaS: boolean;
+        isPaaS: boolean;
         features: FeaturesType;
     };
     CustomTranslationResources: typeof BUNDLED_RESOURCES | undefined;
@@ -25,7 +26,11 @@ export interface HelperFixtureTypes {
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     IdProvider: [
         async ({}, use, workerInfo) => {
-            const seed = process.env.SHOPWARE_ACCESS_KEY_ID || process.env.SHOPWARE_ADMIN_PASSWORD || "test-suite";
+            const baseSeed = process.env.SHOPWARE_ACCESS_KEY_ID || process.env.SHOPWARE_ADMIN_PASSWORD || "test-suite";
+            // ATS_ID_SEED separates the worker-derived stable ids of concurrent suite
+            // runs against the same shop (e.g. Platform and Commercial in parallel CI
+            // jobs), which would otherwise contend for the same worker sales channels.
+            const seed = process.env.ATS_ID_SEED ? `${process.env.ATS_ID_SEED}:${baseSeed}` : baseSeed;
             const idProvider = new IdProvider(workerInfo.parallelIndex, seed);
 
             await use(idProvider);
@@ -77,9 +82,10 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 }
             }
 
-            use({
+            await use({
                 version: config.version,
                 isSaaS: await isSaaSInstance(context),
+                isPaaS: isPaaSInstance(),
                 features,
             });
         },

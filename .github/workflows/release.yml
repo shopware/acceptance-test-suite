@@ -16,17 +16,17 @@ jobs:
               with:
                   scope: shopware/acceptance-test-suite
                   identity: release
-            - uses: googleapis/release-please-action@v4
+            - uses: googleapis/release-please-action@v5
               id: release
               with:
                   release-type: node
                   token: ${{ steps.sts-release.outputs.token }}
             # The logic below handles the npm publication:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
               # these if statements ensure that a publication only occurs when
               # a new release is created:
               if: ${{ steps.release.outputs.release_created }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
