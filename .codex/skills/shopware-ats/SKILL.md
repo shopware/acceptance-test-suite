@@ -1,6 +1,6 @@
 ---
 name: shopware-ats
-description: "Work effectively in the Shopware Acceptance Test Suite repository: inspect or modify Playwright specs, merged fixtures, page objects, tasks, service helpers, shared types, and locale-backed assertions. Use when Codex needs to debug a failing ATS test, add or refactor Shopware end-to-end coverage, trace how exported fixtures are wired together, or choose the right file to update in `tests/`, `src/fixtures/`, `src/page-objects/`, `src/tasks/`, `src/services/`, or `src/types/`."
+description: "Work effectively in the Shopware Acceptance Test Suite repository: inspect or modify Playwright specs, merged fixtures, page objects, tasks, service helpers, shared types, and locale-backed assertions. Use when you need to debug a failing ATS test, add or refactor Shopware end-to-end coverage, trace how exported fixtures are wired together, or choose the right file to update in `tests/`, `src/fixtures/`, `src/page-objects/`, `src/tasks/`, `src/services/`, or `src/types/`."
 ---
 
 # Shopware ATS
