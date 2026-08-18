@@ -17,6 +17,16 @@
   agents/shopware-ats.md                # Claude-only: equivalent of agents/openai.yaml
 ```
 
+`.codex/skills/shopware-ats/` holds the real files; `.claude/skills/shopware-ats/` mirrors only the
+tool-agnostic parts (`SKILL.md`, `references/`) via symlinks, so Codex-only metadata (`agents/openai.yaml`)
+never leaks into what Claude sees. Each tool keeps its own agent manifest in its own `agents/` directory.
+
+**If a third tool needs this skill:** we considered moving the shared content (`SKILL.md`, `references/`)
+into a neutral top-level directory (e.g. `skills/shopware-ats/`), with `.codex/skills/shopware-ats` and
+`.claude/skills/shopware-ats` both symlinking into it, so no single tool directory "owns" the shared
+content. We deferred that for two consumers since the current setup already isolates tool-specific
+metadata; revisit it once a third tool (Cursor, Windsurf, etc.) needs to consume this skill.
+
 ## Purpose
 
 Use this guide to:
