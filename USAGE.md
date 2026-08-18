@@ -8,10 +8,13 @@
 ```text
 .
   USAGE.md                              # This file: how humans should use the shopware-ats skill
-.codex/skills/shopware-ats/
-  SKILL.md                              # Loaded by Codex: behavioral rules for the assistant
-  agents/openai.yaml                    # Default prompt metadata
-  references/repo-map.md              # Detailed repository layout and change paths
+.codex/skills/shopware-ats/             # Source of truth
+  SKILL.md                              # Loaded by Codex/Claude: behavioral rules for the assistant
+  agents/openai.yaml                    # Codex-only: agent display name / default prompt metadata
+  references/repo-map.md                # Detailed repository layout and change paths
+.claude/
+  skills/shopware-ats/                  # Mirrors only SKILL.md + references/ (symlinks) — no agents/
+  agents/shopware-ats.md                # Claude-only: equivalent of agents/openai.yaml
 ```
 
 ## Purpose
