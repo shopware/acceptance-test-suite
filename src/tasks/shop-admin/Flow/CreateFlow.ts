@@ -36,7 +36,6 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
                 // Add action to condition true block
-                // waits for flow-actions.json response to ensure its populated
                 await flowActionsLoaded;
                 await AdminFlowBuilderCreate.trueBlockAddActionButton.click();
                 // todo: As soon as trueBlockActionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
