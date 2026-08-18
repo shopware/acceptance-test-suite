@@ -27,6 +27,12 @@ into a neutral top-level directory (e.g. `skills/shopware-ats/`), with `.codex/s
 content. We deferred that for two consumers since the current setup already isolates tool-specific
 metadata; revisit it once a third tool (Cursor, Windsurf, etc.) needs to consume this skill.
 
+**Windows caveat:** the `.claude/skills/shopware-ats/` symlinks resolve natively on Linux/WSL and
+macOS. On native Windows they only work with Git symlink support enabled (Developer Mode, or
+`core.symlinks=true`); otherwise they check out as dead text files containing the target path, and
+the skill silently fails to load for Claude. Codex is unaffected since `.codex/skills/shopware-ats/`
+holds real files, not symlinks.
+
 ## Purpose
 
 Use this guide to:
