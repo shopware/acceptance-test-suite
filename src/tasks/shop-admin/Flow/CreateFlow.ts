@@ -8,6 +8,9 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
     CreateFlow: async ({ AdminFlowBuilderCreate, AdminFlowBuilderDetail, AdminFlowBuilderListing, ShopAdmin, TestDataService }, use) => {
         const task = (flowConfig: FlowConfig) => {
             return async function createFlow() {
+                // Wait for the flow-actions.json response to ensure the action dropdown is populated once it is opened.
+                const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
+
                 await AdminFlowBuilderListing.createFlowButton.click();
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
@@ -33,6 +36,7 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
                 // Add action to condition true block
+                await flowActionsLoaded;
                 await AdminFlowBuilderCreate.trueBlockAddActionButton.click();
                 // todo: As soon as trueBlockActionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.trueBlockActionSelectField.click();
