@@ -768,8 +768,12 @@ export class TestDataService {
             delivery = deliveryData.data?.[0];
         }
 
-        if (!transaction || !delivery) {
-            throw new Error(`Order ${order.id} does not contain a transaction and delivery`);
+        if (!transaction) {
+            throw new Error(`Order ${order.id} does not contain a transaction`);
+        }
+
+        if (!delivery) {
+            throw new Error(`Order ${order.id} does not contain a delivery`);
         }
 
         const response = await this.AdminApiClient.patch(`order/${order.id}`, {
