@@ -41,7 +41,6 @@ import type {
 } from "../types/ShopwareTypes";
 import { expect } from "@playwright/test";
 import { clearDelayedCache } from "./Cache";
-import { satisfies } from "compare-versions";
 
 export interface SalesChannelRecord {
     salesChannelId: string;
@@ -733,6 +732,8 @@ export class TestDataService {
         const { data: order } = (await orderResponse.json()) as { data: Order };
 
         this.addCreatedRecord("order", order.id);
+
+        await this.setPrimaryOrderReferences(order);
 
         return order;
     }
