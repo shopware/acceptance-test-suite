@@ -733,7 +733,61 @@ export class TestDataService {
 
         this.addCreatedRecord("order", order.id);
 
+        await this.setPrimaryOrderReferences(order);
+
         return order;
+    }
+
+    /**
+     * Sets the primary order references.
+     *
+     * @param order - The order you want to set the references for.
+     */
+    async setPrimaryOrderReferences(order: { id: string }): Promise<void> {
+        const transactionResponse = await this.AdminApiClient.post("search/order-transaction", {
+            data: {
+                limit: 1,
+                filter: [{ type: "equals", field: "orderId", value: order.id }],
+            },
+        });
+        const deliveryResponse = await this.AdminApiClient.post("search/order-delivery", {
+            data: {
+                limit: 1,
+                filter: [{ type: "equals", field: "orderId", value: order.id }],
+            },
+        });
+
+        let transaction;
+        let delivery;
+        if (transactionResponse.ok()) {
+            const transactionData = await transactionResponse.json();
+            transaction = transactionData.data?.[0];
+        }
+        if (deliveryResponse.ok()) {
+            const deliveryData = await deliveryResponse.json();
+            delivery = deliveryData.data?.[0];
+        }
+
+        if (!transaction) {
+            throw new Error(`Order ${order.id} does not contain a transaction`);
+        }
+
+        if (!delivery) {
+            throw new Error(`Order ${order.id} does not contain a delivery`);
+        }
+
+        const response = await this.AdminApiClient.patch(`order/${order.id}`, {
+            data: {
+                primaryOrderTransactionId: transaction.id,
+                primaryOrderDeliveryId: delivery.id,
+                ...(transaction.versionId ? { primaryOrderTransactionVersionId: transaction.versionId } : {}),
+                ...(delivery.versionId ? { primaryOrderDeliveryVersionId: delivery.versionId } : {}),
+            },
+        });
+
+        if (!response.ok()) {
+            throw new Error(`Failed to set the primary order references for order ${order.id}: ${response.statusText()}`);
+        }
     }
 
     /**
