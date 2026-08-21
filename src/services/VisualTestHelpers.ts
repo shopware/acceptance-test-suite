@@ -329,29 +329,7 @@ const ADMIN_MENU_EXPANDED_STORAGE_KEY = "sw-admin-menu-expanded";
 
 /**
  * Forces the admin navigation sidebar back into its expanded state for the given page.
- *
- * The sidebar's expanded/collapsed state is read from localStorage on app boot
- * (`isExpanded: localStorage.getItem('sw-admin-menu-expanded') !== 'false'`), which defaults to
- * *expanded* whenever the key is absent. Some admin pages (e.g. the CMS/layout builder) call
- * `collapseSidebar()` unconditionally on mount and never call `expandSidebar()` afterwards - so
- * once a spec visits one of those pages, the collapsed flag persists in localStorage for the
- * rest of the browser context's lifetime.
- *
- * That matters for visual tests asserting a screenshot of `.sw-desktop__content` (see
- * `assertScreenshot` below), whose width depends on this state (300px expanded vs. 80px
- * collapsed sidebar = 220px width diff) - and for suites that reuse one `BrowserContext` across
- * multiple tests (e.g. a worker-scoped session), where the flag left behind by one test leaks
- * into every other test that runs afterwards in that same context.
- *
- * Call this once a spec that visits such a page is done, so the sidebar is restored before any
- * other test can inherit the collapsed state.
- *
- * `page.reload()`, not `addInitScript`, is what actually applies this: the admin app has
- * typically already booted by the time a spec is done, and some navigation helpers move between
- * admin routes via `document.location = "#/..."` rather than a real page load, which never
- * re-triggers app boot - so an `addInitScript` registered at that point would never fire again
- * within the same test. A real reload is the only thing that flips the already-booted app's
- * live state immediately.
+ * Reloads the page afterwards, since the app only picks up the flag on boot.
  *
  * @param page - Playwright page object
  */
