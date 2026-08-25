@@ -325,6 +325,21 @@ export async function setViewport(page: Page, options: Options = {}): Promise<vo
     return;
 }
 
+const ADMIN_MENU_EXPANDED_STORAGE_KEY = "sw-admin-menu-expanded";
+
+/**
+ * Forces the admin navigation sidebar back into its expanded state for the given page.
+ * Reloads the page afterwards, since the app only picks up the flag on boot.
+ *
+ * @param page - Playwright page object
+ */
+export async function expandAdminMenu(page: Page): Promise<void> {
+    await page.evaluate((key: string) => {
+        localStorage.setItem(key, "true");
+    }, ADMIN_MENU_EXPANDED_STORAGE_KEY);
+    await page.reload();
+}
+
 /**
  * Takes a screenshot of the desktop content of the page or the provided locator and compares it to existing ones.
  *
