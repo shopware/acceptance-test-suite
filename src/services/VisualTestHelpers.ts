@@ -325,19 +325,18 @@ export async function setViewport(page: Page, options: Options = {}): Promise<vo
     return;
 }
 
-const ADMIN_MENU_EXPANDED_STORAGE_KEY = "sw-admin-menu-expanded";
-
 /**
- * Forces the admin navigation sidebar back into its expanded state for the given page.
- * Reloads the page afterwards, since the app only picks up the flag on boot.
+ * Forces the admin navigation sidebar back into its expanded state for the given page. Calls the
+ * app's own store action rather than writing localStorage directly, so this doesn't depend on
+ * (and can't drift out of sync with) whichever key the app currently persists that flag under.
  *
  * @param page - Playwright page object
  */
 export async function expandAdminMenu(page: Page): Promise<void> {
-    await page.evaluate((key: string) => {
-        localStorage.setItem(key, "true");
-    }, ADMIN_MENU_EXPANDED_STORAGE_KEY);
-    await page.reload();
+    await page.evaluate(() => {
+        // @ts-expect-error - window.Shopware is set by the admin app itself, not declared here
+        window.Shopware.Store.get("adminMenu").expandSidebar();
+    });
 }
 
 /**
