@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.18.0](https://github.com/shopware/acceptance-test-suite/compare/v12.17.0...v12.18.0) (2026-08-25)
+
+
+### Features
+
+* add expandAdminMenu visual test helper ([#684](https://github.com/shopware/acceptance-test-suite/issues/684)) ([04a5980](https://github.com/shopware/acceptance-test-suite/commit/04a598098c0b6cd7ded7636b50488572664dd111))
+* add function to set primary order references ([#678](https://github.com/shopware/acceptance-test-suite/issues/678)) ([799f8a7](https://github.com/shopware/acceptance-test-suite/commit/799f8a75f50ecf734454a9321e2411f51a6594da))
+
+
+### Bug Fixes
+
+* **flow:** wait for flow-actions.json before opening action select ([#680](https://github.com/shopware/acceptance-test-suite/issues/680)) ([446a1e0](https://github.com/shopware/acceptance-test-suite/commit/446a1e0660948378105dff62896d5e5acd42a16b))
+
 ## [12.17.0](https://github.com/shopware/acceptance-test-suite/compare/v12.16.0...v12.17.0) (2026-08-13)
 
 
