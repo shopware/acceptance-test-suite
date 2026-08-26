@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.18.1](https://github.com/shopware/acceptance-test-suite/compare/v12.18.0...v12.18.1) (2026-08-26)
+
+
+### Bug Fixes
+
+* expand admin sidebar via the store action, not a localStorage key ([#685](https://github.com/shopware/acceptance-test-suite/issues/685)) ([1592df1](https://github.com/shopware/acceptance-test-suite/commit/1592df110b10e3b8ac1d74f75b38f64fb0fe4dad))
+
 ## [12.18.0](https://github.com/shopware/acceptance-test-suite/compare/v12.17.0...v12.18.0) (2026-08-25)
 
 
