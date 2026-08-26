@@ -2,7 +2,7 @@ import { expect as baseExpect } from "@playwright/test";
 import type { Locator } from "playwright-core";
 
 // Extend Playwright's expect with custom matchers
-export const expect = baseExpect.extend({
+const expect = baseExpect.extend({
     async toHaveVisibleFocus(locator: Locator) {
         try {
             /* Check for common focus indicators using box-shadow, border or outline
@@ -61,3 +61,5 @@ declare global {
         }
     }
 }
+
+export { expect };
