@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.18.2](https://github.com/shopware/acceptance-test-suite/compare/v12.18.1...v12.18.2) (2026-08-27)
+
+
+### Bug Fixes
+
+* scope LayoutCreate backButton to the wizard container ([#688](https://github.com/shopware/acceptance-test-suite/issues/688)) ([8421f0b](https://github.com/shopware/acceptance-test-suite/commit/8421f0bfe9830994eebd5f36a4e0e9ff317e6b4c))
+
 ## [12.18.1](https://github.com/shopware/acceptance-test-suite/compare/v12.18.0...v12.18.1) (2026-08-26)
 
 
