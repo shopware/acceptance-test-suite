@@ -5,10 +5,15 @@ import { translate } from "../../services/LanguageHelper";
 export class CheckoutConfirm implements PageObject {
     public readonly headline: Locator;
     public readonly termsAndConditionsCheckbox: Locator;
+    public readonly termsAndConditionsWithLegalGuaranteeRightsLabel: Locator;
+    public readonly termsAndConditionsWithLegalGuaranteeRightsCheckbox: Locator;
     public readonly immediateAccessToDigitalProductCheckbox: Locator;
     public readonly grandTotalPrice: Locator;
     public readonly taxPrice: Locator;
     public readonly submitOrderButton: Locator;
+    public readonly termsAutoConfirmedText: Locator;
+    public readonly legalGuaranteeNoticeLink: Locator;
+    public readonly lineItemGaranLabel: Locator;
 
     /**
      * Payment and Shipping options
@@ -54,6 +59,12 @@ export class CheckoutConfirm implements PageObject {
         this.shippingExpress = page.getByLabel(translate("storefront:checkout:common.express"));
 
         this.cartLineItemImages = page.locator(".line-item-img-link");
+        this.termsAutoConfirmedText = page.locator(".checkout-confirm-tos-information");
+
+        this.termsAndConditionsWithLegalGuaranteeRightsCheckbox = page.locator("#tos");
+        this.termsAndConditionsWithLegalGuaranteeRightsLabel = page.getByLabel(translate("storefront:checkout:confirm.termsAndConditionsWithLegalGuaranteeRights"));
+        this.legalGuaranteeNoticeLink = page.locator("#legalGuaranteeNoticeModal a");
+        this.lineItemGaranLabel = page.locator(".line-item-garan-label");
     }
 
     url() {

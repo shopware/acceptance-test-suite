@@ -1,9 +1,10 @@
-import { createRandomImage, encodeImage } from "./ImageHelper";
+import { createRandomImage, createSolidColorImage, encodeImage } from "./ImageHelper";
 import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from "./ShopwareDataHelpers";
 import type { AdminApiContext } from "./AdminApiContext";
 import type { IdProvider } from "./IdProvider";
 import type {
     AclRole,
+    Address,
     Category,
     CmsPage,
     Country,
@@ -119,6 +120,7 @@ export class TestDataService {
         "sales_channel_currency",
         "sales_channel_country",
         "sales_channel_payment_method",
+        "customer_address",
         "customer",
         "acl_user_role",
         "category",
@@ -235,18 +237,24 @@ export class TestDataService {
      * Creates a digital product with a text file as its download.
      * The product will be added to the default sales channel category if configured.
      *
+     * Digital products default to `maxPurchase: 1`, mirroring the Administration
+     * which forces this limit when a product is created as a digital type.
+     * Pass `maxPurchase` in the overrides to change it.
+     *
      * @param content - The content of the text file for the product download.
      * @param overrides - Specific data overrides that will be applied to the product data struct.
      * @param taxId - The uuid of the tax rule to use for the product pricing.
      * @param currencyId - The uuid of the currency to use for the product pricing.
      */
     async createDigitalProduct(content = "Lorem ipsum dolor", overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
-        const product = await this.createBasicProduct(overrides, taxId, currencyId);
+        const product = await this.createBasicProduct({ type: "digital", maxPurchase: 1, ...overrides }, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
         await this.assignProductDownload(product.id, media.id);
 
-        return product;
+        // Expose the IS_DOWNLOAD state so consumers detect a download product on 6.5/6.6,
+        // where `type` is not backfilled to "digital".
+        return { ...product, states: [...(product.states ?? []), "is-download"] };
     }
 
     /**
@@ -404,6 +412,30 @@ export class TestDataService {
      */
     async createMediaPNG(width = 800, height = 600): Promise<Media> {
         const image = createRandomImage(width, height);
+        const media = await this.createMediaResource();
+        const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
+
+        const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=png&fileName=${filename}`, {
+            data: encodeImage(image),
+            headers: { "content-type": "image/png" },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        this.addCreatedRecord("media", media.id);
+
+        return media;
+    }
+
+    /**
+     * Creates a new media resource containing a solid color PNG image.
+     * Unlike `createMediaPNG`, the result is deterministic and suitable for visual regression tests.
+     *
+     * @param width - The width of the image in pixel. Default is 800.
+     * @param height - The height of the image in pixel. Default is 600.
+     * @param color - RGB color as `[r, g, b]` with values 0..255. Default is red `[255, 0, 0]`.
+     */
+    async createMediaPNGSolid(width = 800, height = 600, color: [number, number, number] = [255, 0, 0]): Promise<Media> {
+        const image = createSolidColorImage(width, height, color);
         const media = await this.createMediaResource();
         const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
 
@@ -701,7 +733,61 @@ export class TestDataService {
 
         this.addCreatedRecord("order", order.id);
 
+        await this.setPrimaryOrderReferences(order);
+
         return order;
+    }
+
+    /**
+     * Sets the primary order references.
+     *
+     * @param order - The order you want to set the references for.
+     */
+    async setPrimaryOrderReferences(order: { id: string }): Promise<void> {
+        const transactionResponse = await this.AdminApiClient.post("search/order-transaction", {
+            data: {
+                limit: 1,
+                filter: [{ type: "equals", field: "orderId", value: order.id }],
+            },
+        });
+        const deliveryResponse = await this.AdminApiClient.post("search/order-delivery", {
+            data: {
+                limit: 1,
+                filter: [{ type: "equals", field: "orderId", value: order.id }],
+            },
+        });
+
+        let transaction;
+        let delivery;
+        if (transactionResponse.ok()) {
+            const transactionData = await transactionResponse.json();
+            transaction = transactionData.data?.[0];
+        }
+        if (deliveryResponse.ok()) {
+            const deliveryData = await deliveryResponse.json();
+            delivery = deliveryData.data?.[0];
+        }
+
+        if (!transaction) {
+            throw new Error(`Order ${order.id} does not contain a transaction`);
+        }
+
+        if (!delivery) {
+            throw new Error(`Order ${order.id} does not contain a delivery`);
+        }
+
+        const response = await this.AdminApiClient.patch(`order/${order.id}`, {
+            data: {
+                primaryOrderTransactionId: transaction.id,
+                primaryOrderDeliveryId: delivery.id,
+                ...(transaction.versionId ? { primaryOrderTransactionVersionId: transaction.versionId } : {}),
+                ...(delivery.versionId ? { primaryOrderDeliveryVersionId: delivery.versionId } : {}),
+            },
+        });
+
+        if (!response.ok()) {
+            throw new Error(`Failed to set the primary order references for order ${order.id}: ${response.statusText()}`);
+        }
     }
 
     /**
@@ -900,6 +986,26 @@ export class TestDataService {
         this.addCreatedRecord("customer_group", customerGroup.id);
 
         return customerGroup;
+    }
+
+    /**
+     * Creates a customer address
+     *
+     * @param overrides - Specific data overrides that will be applied to the customer address data struct.
+     */
+    async createCustomerAddress(customer: Customer, overrides: Partial<Address> = {}): Promise<Address> {
+        const basicCustomerAddress = this.getBasicCustomerAddressStruct(customer.id, overrides);
+
+        const response = await this.AdminApiClient.post("customer-address?_response=detail", {
+            data: basicCustomerAddress,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: customerAddress } = (await response.json()) as { data: Address };
+
+        this.addCreatedRecord("customer_address", customerAddress.id);
+
+        return customerAddress;
     }
 
     /**
@@ -1552,6 +1658,33 @@ export class TestDataService {
                     {
                         type: "equals",
                         field: "name",
+                        value: name,
+                    },
+                ],
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: result } = (await response.json()) as { data: PaymentMethod[] };
+
+        return result[0];
+    }
+
+    /**
+     * Retrieves a payment method by its distinguishable name.
+     *
+     * @param name - The name of the payment method.
+     * @param exact - exact name or part of it
+     */
+    async getPaymentMethodByDistinguishableName(name: string, exact = true): Promise<PaymentMethod> {
+        const searchType = exact ? "equals" : "contains";
+        const response = await this.AdminApiClient.post("search/payment-method", {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: searchType,
+                        field: "distinguishableName",
                         value: name,
                     },
                 ],
@@ -2782,6 +2915,22 @@ export class TestDataService {
             ],
         };
         return Object.assign({}, basicCustomerGroup, overrides);
+    }
+
+    getBasicCustomerAddressStruct(customerId: string, overrides: Partial<Address> = {}): Partial<Address> {
+        const customerAddressUuid = this.IdProvider.getIdPair().uuid;
+
+        const basicCustomerAddress = {
+            id: customerAddressUuid,
+            customerId: customerId,
+            countryId: this.defaultCountryId,
+            firstName: "Peter",
+            lastName: "Venkman",
+            zipcode: "10013",
+            street: "14 N Moore Street",
+            city: "New York",
+        };
+        return Object.assign({}, basicCustomerAddress, overrides);
     }
 
     getSalesChannelAnalyticsStruct(overrides: Partial<SalesChannelAnalytics> = {}): Partial<SalesChannelAnalytics> {

@@ -3,6 +3,12 @@ import { test } from "../src";
 test("Check for visible focus", async ({ ShopCustomer, StorefrontHome, StorefrontHeader }) => {
     await ShopCustomer.goesTo(StorefrontHome.url());
 
+    if (await StorefrontHome.consentOnlyTechnicallyRequiredButton.isVisible()) {
+        await ShopCustomer.presses(StorefrontHome.consentOnlyTechnicallyRequiredButton);
+        await ShopCustomer.expects(StorefrontHome.consentCookieBannerContainer).not.toBeVisible();
+        await ShopCustomer.goesTo(StorefrontHome.url(), true);
+    }
+
     await test.step("Detect outline", async () => {
         await StorefrontHome.page.keyboard.press("Tab");
         await ShopCustomer.expects(StorefrontHeader.skipToMainContentLink).toBeVisible();

@@ -48,20 +48,20 @@ jobs:
                       SHOPWARE_BUILD_SOURCE: branch
                       COMPOSER_ROOT_VERSION: 6.7.9999999-dev
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
               with:
                   fetch-depth: "0"
                   sparse-checkout: |-
                       test-image.Dockerfile
 
             - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+              uses: docker/setup-buildx-action@v4
 
             - name: Login into Github Container Registry
               run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             - name: Build and push
-              uses: docker/build-push-action@v6
+              uses: docker/build-push-action@v7
               with:
                   context: .
                   push: ${{ env.ACT && 'false' || 'true' }}

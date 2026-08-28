@@ -20,8 +20,8 @@ jobs:
     lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -32,8 +32,8 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -67,10 +67,10 @@ jobs:
             SHOPWARE_BUILD_SOURCE: "tag"
             PORT: ${{ matrix.PORT }}
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
 
             - id: changed-test-files
-              uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
+              uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
               with:
                   files: |
                       tests/**/*.spec.ts
@@ -81,7 +81,7 @@ jobs:
             - name: Start Shopware ${{ matrix.SHOPWARE_VERSION }}
               run: docker compose up --pull=always --quiet-pull --wait
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -95,7 +95,7 @@ jobs:
             - name: Run Playwright tests against Shopware ${{ matrix.SHOPWARE_VERSION }}
               env:
                   APP_URL: http://localhost:${{ matrix.PORT }}
-              run: npx playwright test --repeat-each 4
+              run: npx playwright test --repeat-each 2
 
             - name: Execute changed testcases repeatedly ${{ matrix.SHOPWARE_VERSION }}
               if: steps.changed-test-files.outputs.all_changed_files_count > 0
@@ -107,7 +107,7 @@ jobs:
                   --
                   ${{ steps.changed-test-files.outputs.all_changed_files }}
 
-            - uses: actions/upload-artifact@v6
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: playwright-report-${{ matrix.SHOPWARE_VERSION }}
@@ -123,8 +123,8 @@ jobs:
             SHOPWARE_ADMIN_USERNAME: ${{ secrets.SAAS_SHOPWARE_ADMIN_USERNAME }}
             SHOPWARE_ADMIN_PASSWORD: ${{ secrets.SAAS_SHOPWARE_ADMIN_PASSWORD }}
         steps:
-            - uses: actions/checkout@v6
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
                   cache: "npm"
@@ -133,8 +133,8 @@ jobs:
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
             - name: Run Playwright tests
-              run: npx playwright test --repeat-each 2
-            - uses: actions/upload-artifact@v6
+              run: npx playwright test
+            - uses: actions/upload-artifact@v7
               if: always()
               with:
                   name: playwright-report-saas

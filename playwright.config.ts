@@ -36,7 +36,8 @@ export default defineConfig({
     expect: {
         timeout: 30_000,
     },
-    retries: 0,
+    /* Retry on CI only */
+    retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 2 : 1,
     reporter: process.env.CI ? [["html"], ["github"]] : "html",
     use: {

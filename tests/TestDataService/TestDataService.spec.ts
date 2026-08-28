@@ -59,6 +59,7 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
 
     const digitalProduct = await TestDataService.createDigitalProduct("Test Test", { description: "You can download me." });
     expect(digitalProduct.description).toEqual("You can download me.");
+    expect(digitalProduct.states).toContain("is-download");
 
     const propertyGroup = await TestDataService.createColorPropertyGroup();
     expect(propertyGroup.description).toEqual("Color");
@@ -68,6 +69,9 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
 
     const manufacturerWithImage = await TestDataService.createManufacturerWithImage();
     expect(manufacturerWithImage.media).toBeDefined();
+
+    const solidColorMedia = await TestDataService.createMediaPNGSolid(100, 100, [255, 0, 0]);
+    expect(solidColorMedia.id).toBeDefined();
 
     await TestDataService.assignManufacturerProduct(manufacturer.id, product.id);
     expect(product.manufacturerId).toBeDefined();

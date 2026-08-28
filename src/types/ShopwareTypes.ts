@@ -46,6 +46,7 @@ export type CustomerAddress = components["schemas"]["CustomerAddress"] & {
 };
 
 export interface Address {
+    id: string;
     salutation: string;
     firstName: string;
     lastName: string;
@@ -53,7 +54,7 @@ export interface Address {
     department: string;
     street: string;
     city: string;
-    zipCode: string;
+    zipcode: string;
     country: string;
     state: string;
 }
@@ -92,6 +93,7 @@ export type Product = Omit<components["schemas"]["Product"], "price" | "prices" 
     tags?: Record<string, string>[];
     visibilities?: Record<string, unknown>[];
     variantListingConfig?: VariantListingConfig;
+    type?: string;
 };
 
 export type ProductReview = components["schemas"]["ProductReview"] & {

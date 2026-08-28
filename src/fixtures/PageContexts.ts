@@ -1,13 +1,20 @@
 import { test as base, expect } from "@playwright/test";
 import type { Page, BrowserContext } from "playwright-core";
 import type { FixtureTypes } from "../types/FixtureTypes";
+import type { User } from "../types/ShopwareTypes";
 import { isThemeCompiled } from "../services/ShopInfo";
 import { clearDelayedCache } from "../services/Cache";
-import { createNewAdminPageContext } from "../services/AdminLoginHelper";
+import { createNewAdminPageContext, hideSymfonyToolbarOnReload, loginToAdministration } from "../services/AdminLoginHelper";
 import { LanguageHelper, setCurrentContext } from "../services/LanguageHelper";
 import { getLocale } from "../services/ShopwareDataHelpers";
 
+export interface AdminSession {
+    context: BrowserContext;
+    user: User;
+}
+
 export interface PageContextTypes {
+    AdminSession: AdminSession;
     AdminPage: Page;
     StorefrontPage: Page;
     InstallPage: Page;
@@ -15,41 +22,66 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
-export const test = base.extend<FixtureTypes>({
-    AdminPage: async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, CustomTranslationResources }, use) => {
+type PageContextWorkerFixtures = Pick<FixtureTypes, "AdminSession" | "IdProvider" | "AdminApiContext" | "SalesChannelBaseConfig">;
+
+export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextWorkerFixtures>({
+    AdminSession: [
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
+            const { id, uuid } = IdProvider.getIdPair();
+
+            const adminUser: User = {
+                id: uuid,
+                username: `admin_${id}`,
+                firstName: `${id} admin`,
+                lastName: `${id} admin`,
+                localeId: SalesChannelBaseConfig.currentLocaleId,
+                email: `admin_${id}@example.com`,
+                timeZone: "Europe/Berlin",
+                password: "shopware",
+                admin: true,
+            };
+
+            const response = await AdminApiContext.post("user", {
+                data: adminUser,
+            });
+
+            expect(response.ok()).toBeTruthy();
+
+            // Log in through the UI once per worker. Tests get fresh pages within this
+            // authenticated context instead of repeating the expensive admin login.
+            const loginPage = await loginToAdministration(await createNewAdminPageContext(browser, SalesChannelBaseConfig), adminUser, AdminApiContext);
+            const context = loginPage.context();
+            await loginPage.close();
+
+            await use({ context, user: adminUser });
+
+            await context.close();
+
+            // Cleanup created user
+            await AdminApiContext.delete(`user/${uuid}`);
+        },
+        { scope: "worker" },
+    ],
+
+    AdminPage: async ({ AdminSession, CustomTranslationResources }, use) => {
         const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
-        const { id, uuid } = IdProvider.getIdPair();
+        // A new page within the shared worker context reuses the session and the browser
+        // cache, but still gives every test an isolated DOM and JavaScript world.
+        const page = await AdminSession.context.newPage();
+        hideSymfonyToolbarOnReload(page);
 
-        const adminUser = {
-            id: uuid,
-            username: `admin_${id}`,
-            firstName: `${id} admin`,
-            lastName: `${id} admin`,
-            localeId: SalesChannelBaseConfig.currentLocaleId,
-            email: `admin_${id}@example.com`,
-            timezone: "Europe/Berlin",
-            password: "shopware",
-            admin: true,
-        };
-
-        const response = await AdminApiContext.post("user", {
-            data: adminUser,
-        });
-
-        expect(response.ok()).toBeTruthy();
-
-        const page = await createNewAdminPageContext(adminUser, browser, SalesChannelBaseConfig, AdminApiContext);
+        await page.goto("./");
+        await page.waitForURL((url) => url.hash.startsWith("#/") && !url.hash.startsWith("#/login"));
+        await expect(page.getByText(AdminSession.user.firstName + " " + AdminSession.user.lastName).first()).toBeVisible({ timeout: 60000 });
+        await expect(page.locator(".sw-skeleton")).toHaveCount(0);
 
         LanguageHelper.setForContext(page.context() as unknown as Record<string, unknown>, languageHelper);
         setCurrentContext(page.context() as unknown as Record<string, unknown>);
         await use(page);
         await page.close();
         setCurrentContext(null);
-
-        // Cleanup created user
-        await AdminApiContext.delete(`user/${uuid}`);
     },
 
     StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {

@@ -326,6 +326,20 @@ export async function setViewport(page: Page, options: Options = {}): Promise<vo
 }
 
 /**
+ * Forces the admin navigation sidebar back into its expanded state for the given page. Calls the
+ * app's own store action rather than writing localStorage directly, so this doesn't depend on
+ * (and can't drift out of sync with) whichever key the app currently persists that flag under.
+ *
+ * @param page - Playwright page object
+ */
+export async function expandAdminMenu(page: Page): Promise<void> {
+    await page.evaluate(() => {
+        // @ts-expect-error - window.Shopware is set by the admin app itself, not declared here
+        window.Shopware.Store.get("adminMenu").expandSidebar();
+    });
+}
+
+/**
  * Takes a screenshot of the desktop content of the page or the provided locator and compares it to existing ones.
  *
  * @param page - Playwright page object

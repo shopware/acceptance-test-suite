@@ -14,6 +14,7 @@ import { AccountLogin } from "./storefront/AccountLogin";
 import { AccountRecover } from "./storefront/AccountRecover";
 import { AccountProfile } from "./storefront/AccountProfile";
 import { AccountOrder } from "./storefront/AccountOrder";
+import { AccountOrderEdit } from "./storefront/AccountOrderEdit";
 import { AccountAddresses } from "./storefront/AccountAddresses";
 import { AccountPayment } from "./storefront/AccountPayment";
 import { Search } from "./storefront/Search";
@@ -21,6 +22,7 @@ import { SearchSuggest } from "./storefront/SearchSuggest";
 import { CustomRegister } from "./storefront/CustomRegister";
 import { CheckoutOrderEdit } from "./storefront/CheckoutOrderEdit";
 import { AccountAddressCreate } from "./storefront/AccountAddresssCreate";
+import { AccountAddressDetails } from "./storefront/AccountAddressDetails";
 import { PageNotFound } from "./storefront/PageNotFound";
 import { ContactForm } from "./storefront/ContactForm";
 import { Wishlist } from "./storefront/Wishlist";
@@ -41,8 +43,10 @@ export interface StorefrontPageTypes {
     StorefrontAccountRecover: AccountRecover;
     StorefrontAccountProfile: AccountProfile;
     StorefrontAccountOrder: AccountOrder;
+    StorefrontAccountOrderEdit: AccountOrderEdit;
     StorefrontAccountAddresses: AccountAddresses;
     StorefrontAccountAddressCreate: AccountAddressCreate;
+    StorefrontAccountAddressDetails: AccountAddressDetails;
     StorefrontAccountPayment: AccountPayment;
     StorefrontSearch: Search;
     StorefrontSearchSuggest: SearchSuggest;
@@ -69,8 +73,10 @@ export const StorefrontPageObjects = {
     AccountRecover,
     AccountProfile,
     AccountOrder,
+    AccountOrderEdit,
     AccountAddresses,
     AccountAddressCreate,
+    AccountAddressDetails,
     AccountPayment,
     Search,
     SearchSuggest,
@@ -136,12 +142,23 @@ export const test = base.extend<FixtureTypes>({
         await use(new AccountOrder(StorefrontPage));
     },
 
+    StorefrontAccountOrderEdit: async ({ StorefrontPage }, use) => {
+        await use(new AccountOrderEdit(StorefrontPage));
+    },
+
     StorefrontAccountAddresses: async ({ StorefrontPage, InstanceMeta }, use) => {
         await use(new AccountAddresses(StorefrontPage, InstanceMeta));
     },
 
+    /**
+     * @deprecated - Use StorefrontAccountAddressDetails instead.
+     */
     StorefrontAccountAddressCreate: async ({ StorefrontPage }, use) => {
         await use(new AccountAddressCreate(StorefrontPage));
+    },
+
+    StorefrontAccountAddressDetails: async ({ StorefrontPage }, use) => {
+        await use(new AccountAddressDetails(StorefrontPage));
     },
 
     StorefrontAccountPayment: async ({ StorefrontPage }, use) => {
