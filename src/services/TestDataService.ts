@@ -1102,6 +1102,8 @@ export class TestDataService {
 
         const salesChannelDomainStruct = this.getSalesChannelDomainStruct(salesChannelId, currencyId, languageId, snippetSetId, overrides);
 
+        await this.assignSalesChannelCurrency(salesChannelId, currencyId);
+
         const response = await this.AdminApiClient.post(`sales-channel-domain?_response=detail`, {
             data: salesChannelDomainStruct,
         });
