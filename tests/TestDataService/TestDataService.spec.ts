@@ -19,6 +19,7 @@ import {
     type User,
     type AclRole,
     type CmsPage,
+    type SalesChannel,
 } from "../../src";
 
 test("Data Service", async ({ TestDataService, AdminApiContext }) => {
@@ -45,16 +46,14 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
     expect(currency.taxFreeFrom).toEqual(10);
 
     const salesChannelDomain = await TestDataService.createSalesChannelDomain();
-    const salesChannelCurrencyResponse = await AdminApiContext.post("./search/sales-channel-currency", {
+    const salesChannelResponse = await AdminApiContext.post("./search/sales-channel", {
         data: {
-            filter: [
-                { type: "equals", field: "salesChannelId", value: TestDataService.defaultSalesChannel.id },
-                { type: "equals", field: "currencyId", value: salesChannelDomain.currencyId },
-            ],
+            filter: [{ type: "equals", field: "id", value: TestDataService.defaultSalesChannel.id }],
+            associations: { currencies: {} },
         },
     });
-    const { data: salesChannelCurrencies } = (await salesChannelCurrencyResponse.json()) as { data: unknown[] };
-    expect(salesChannelCurrencies).toHaveLength(1);
+    const { data: salesChannels } = (await salesChannelResponse.json()) as { data: SalesChannel[] };
+    expect(salesChannels[0].currencies).toContainEqual(expect.objectContaining({ id: salesChannelDomain.currencyId }));
 
     const country = await TestDataService.createCountry();
     expect(country.name).toBeDefined();
