@@ -3017,6 +3017,10 @@ export class TestDataService {
             currencyId: currencyId,
             languageId: languageId,
             snippetSetId: snippetSetId,
+            salesChannel: {
+                id: salesChannelId,
+                currencies: [{ id: currencyId }],
+            },
         };
 
         return Object.assign({}, basicSalesChannelDomain, overrides);
