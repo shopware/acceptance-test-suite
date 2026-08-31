@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.18.3](https://github.com/shopware/acceptance-test-suite/compare/v12.18.2...v12.18.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* assign domain currencies to sales channels ([#691](https://github.com/shopware/acceptance-test-suite/issues/691)) ([062d4f7](https://github.com/shopware/acceptance-test-suite/commit/062d4f7e147d0f0080dd7724de89a190f4fadf31))
+* use pw role-based selector for assignToSelectionList   ([#693](https://github.com/shopware/acceptance-test-suite/issues/693)) ([5f713eb](https://github.com/shopware/acceptance-test-suite/commit/5f713ebe0bdc164fcc37ad2d6dfd71548a740dee))
+
 ## [12.18.2](https://github.com/shopware/acceptance-test-suite/compare/v12.18.1...v12.18.2) (2026-08-27)
 
 
