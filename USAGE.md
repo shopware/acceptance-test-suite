@@ -29,9 +29,9 @@ into a neutral top-level directory (e.g. `skills/shopware-ats/`), with `.codex/s
 `.claude/skills/shopware-ats` both symlinking into it, so no single tool directory "owns" the shared
 content. We deferred that for two consumers since the current setup already isolates tool-specific
 metadata; revisit it once a third tool (Cursor, Windsurf, etc.) needs to consume this skill. If that plan
-is ever executed, do not place the shared contributor content under `skills/`: installers discover
-everything there (see The Consumer Skill below), so it would need `metadata: internal: true` to stay
-hidden, or a different neutral directory name.
+is ever executed, keep `metadata: internal: true` on the moved contributor skill wherever it lands:
+skill installers discover SKILL.md files across the repository, not only under `skills/`, so no
+directory name keeps it hidden on its own (see The Consumer Skill below).
 
 **Windows caveat:** the `.claude/skills/shopware-ats/` symlinks resolve natively on Linux/WSL and
 macOS. On native Windows they only work with Git symlink support enabled (Developer Mode, or
