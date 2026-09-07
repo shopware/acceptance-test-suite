@@ -268,7 +268,7 @@ Two things to know when using them:
   await ShopCustomer.presses(submitButton);
   ```
 
-- Converting an existing suite surfaces genuine accessibility defects: a control that was never keyboard operable now fails. Triage those findings, do not suppress them by reverting to `click`.
+- When converting an existing suite, a control that was never keyboard operable now fails: triage the finding, don't revert to `click` to hide it.```
 
 **Administration flows are the documented exception.** The suite's own guidance prefers the keyboard first methods for storefront flows and says not to generalize that rule to the Administration, so use plain Playwright there unless the test is specifically about keyboard operability. The methods exist on `ShopAdmin` and work, but the Administration is not covered by the storefront convention and has no accessibility task equivalent.
 
