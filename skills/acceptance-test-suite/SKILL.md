@@ -5,7 +5,7 @@ description: Write and run Playwright acceptance and accessibility tests in a Sh
 
 # Shopware Acceptance Test Suite (consumer guide)
 
-Use this skill when a project consumes `@shopware-ag/acceptance-test-suite` (ATS) as an npm package to test its own Shopware instance. It covers workspace setup, writing specs against the public API, test data, accessibility, and running tests.
+Use this skill in a project that consumes `@shopware-ag/acceptance-test-suite` (ATS) as an npm package to test its own Shopware instance.
 
 Do not use this skill for work inside the `shopware/acceptance-test-suite` repository itself. That repository ships its own contributor skill with different rules about which internal layer a change belongs in.
 
