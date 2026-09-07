@@ -313,16 +313,9 @@ await TestDataService.assignProductCategory(product.id, category.id);
 
 ### Locators
 
-Preference order, most robust first:
+Standard Playwright locator priority applies (`getByRole` first, avoid XPath and CSS coupled to styling). One ATS-specific point:
 
-1. `getByRole` with an accessible name. This tests what assistive technology exposes.
-2. `getByLabel` and `getByAltText`.
-3. `getByTestId`, for controls a test depends on, added deliberately in a template override. This step is general Playwright practice; ATS's own guidance lists only role, label, placeholder, and text.
-4. `getByText`, only where the text is the contract.
-
-Avoid XPath and CSS coupled to styling or DOM depth. Prefer a label or role over a placeholder: ATS's own guidance permits `getByPlaceholder` where it is stable, but placeholder text is translated and often absent from accessible markup, so it is rarely stable in the multilingual setups Shopware projects have. A field with no accessible label to target is usually an accessibility defect worth fixing rather than working around.
-
-Prefer page object properties over inline locators.
+- Text and placeholder locators are unreliable here: the Shopware storefront is multilingual and runs under `LANG`, so visible text changes across locales and placeholder text is often absent from accessible markup. Prefer a role or label; a field with no accessible label is usually an accessibility defect worth fixing rather than working around. Keep locators in page object properties (see the spec rules above).
 
 ## Accessibility
 
