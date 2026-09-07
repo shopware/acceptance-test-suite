@@ -250,7 +250,7 @@ Methods: `goesTo(url, forceReload?)`, `attemptsTo(task)`, `expects(locator)`, `p
 
 `a11y_checks` scrolls the locator into view and asserts it is enabled, focused, and shows a visible focus indicator. `presses`, `fillsIn`, and `selectsRadioButton` call it internally, so keyboard operability and a visible focus ring are asserted as a side effect of using them.
 
-**For storefront interactions, use the actor methods by default.** Write `ShopCustomer.presses(...)` and `ShopCustomer.fillsIn(...)` rather than `click` and `fill`, in ordinary functional tests and not only in dedicated accessibility specs. Every interaction then also asserts keyboard operability and a visible focus indicator, which is coverage you would otherwise have to write by hand. This is the suite's own convention for storefront flows and the existing tasks are written that way.
+**For storefront interactions, use the actor methods by default** — `presses`/`fillsIn` rather than `click`/`fill`, in ordinary functional tests too, not only accessibility specs. Each interaction then also asserts keyboard operability and a visible focus indicator. This is the suite's convention for storefront flows.
 
 ```ts
 // Preferred
