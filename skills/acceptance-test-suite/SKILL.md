@@ -349,7 +349,7 @@ test('The storefront implements accessibility best practices.', { tag: '@Accessi
 });
 ```
 
-Note the call style. `ValidateAccessibility` is the one task that **cannot** be passed to `attemptsTo`: its closure resolves to the axe results array, which does not satisfy `attemptsTo`'s `() => Promise<void>` parameter, so `tsc` rejects it. Published examples elsewhere do use `attemptsTo(ValidateAccessibility(...))`; that works at runtime (Playwright transpiles without typechecking) but fails a typecheck and discards the results. Call the closure directly, as above.
+Call the closure directly, as shown — do not wrap it in `attemptsTo`. The closure returns the axe results array, not `() => Promise<void>`, so `tsc` rejects it. Examples elsewhere use `attemptsTo(ValidateAccessibility(...))`; it runs (Playwright transpiles without typechecking) but fails typecheck and discards the results.
 
 Signature and behavior:
 
