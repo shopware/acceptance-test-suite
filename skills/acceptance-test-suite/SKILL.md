@@ -9,7 +9,7 @@ Use this skill in a project that consumes `@shopware-ag/acceptance-test-suite` (
 
 Do not use this skill for work inside the `shopware/acceptance-test-suite` repository itself. That repository ships its own contributor skill with different rules about which internal layer a change belongs in.
 
-The official consumer guide is https://developer.shopware.com/docs/guides/development/testing/e2e-playwright/ (the repository README points there); consult it for prose walkthroughs beyond what this skill covers.
+Official consumer guide, for prose walkthroughs beyond this skill: https://developer.shopware.com/docs/guides/development/testing/e2e-playwright/
 
 ## Determine the installed version first
 
