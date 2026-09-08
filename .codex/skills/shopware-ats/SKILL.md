@@ -1,11 +1,15 @@
 ---
 name: shopware-ats
 description: "Work effectively in the Shopware Acceptance Test Suite repository: inspect or modify Playwright specs, merged fixtures, page objects, tasks, service helpers, shared types, and locale-backed assertions. Use when you need to debug a failing ATS test, add or refactor Shopware end-to-end coverage, trace how exported fixtures are wired together, or choose the right file to update in `tests/`, `src/fixtures/`, `src/page-objects/`, `src/tasks/`, `src/services/`, or `src/types/`."
+metadata:
+    internal: true
 ---
 
 # Shopware ATS
 
 Use this skill to make precise ATS changes without over-abstracting. Keep this file directive; use `references/repo-map.md` for detailed layout and examples.
+
+This skill is for work inside this repository. Projects that consume the package should use the `acceptance-test-suite` skill from `skills/` instead.
 
 ## Start Here
 

@@ -6,4 +6,6 @@
 
 This repository remains the source code for the test suite but all guides, examples, and setup instructions is in the [documentation](https://developer.shopware.com/docs/guides/development/testing/e2e-playwright/)
 
+Using an AI coding agent in your project? `npx skills add shopware/acceptance-test-suite` installs a skill for writing tests against this package.
+
 Feel free to open [issues](https://github.com/shopware/acceptance-test-suite/issues) or [pull requests](https://github.com/shopware/acceptance-test-suite/pulls) for bugs or improvements related to the test suite code itself.
