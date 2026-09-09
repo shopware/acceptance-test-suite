@@ -14,7 +14,9 @@
         "description": "Description",
         "priority": "Priority",
         "active": "Active",
-        "tags": "Tags"
+        "tags": "Tags",
+        "tabGeneral": "General",
+        "tabFlow": "Flow"
     },
     "detail": {
         "name": "Name"
