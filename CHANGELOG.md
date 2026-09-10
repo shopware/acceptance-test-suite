@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.20.0](https://github.com/shopware/acceptance-test-suite/compare/v12.19.0...v12.20.0) (2026-09-10)
+
+
+### Features
+
+* add consumer facing agent skill ([#695](https://github.com/shopware/acceptance-test-suite/issues/695)) ([ab0e8c8](https://github.com/shopware/acceptance-test-suite/commit/ab0e8c8dece320074f0dbd20455f4a48c88b8a1a))
+* add optional boolean to selectsRadioButton for exact string matching ([#682](https://github.com/shopware/acceptance-test-suite/issues/682)) ([5aa2fb0](https://github.com/shopware/acceptance-test-suite/commit/5aa2fb0bf9d5b563e9933063e8b2f70ca5bc9763))
+
+
+### Bug Fixes
+
+* **flow:** make CreateFlow tag select robust to a large tag catalog ([#699](https://github.com/shopware/acceptance-test-suite/issues/699)) ([edea18e](https://github.com/shopware/acceptance-test-suite/commit/edea18eae4ce3ac3493e4e6229c33882b1c4a4eb))
+* **flow:** use mt-tabs locators for flow detail tabs behind v6.8.0.0 ([#698](https://github.com/shopware/acceptance-test-suite/issues/698)) ([913392b](https://github.com/shopware/acceptance-test-suite/commit/913392b5d7b0087b8da6757a1aee2d6fbd1368ec))
+
 ## [12.19.0](https://github.com/shopware/acceptance-test-suite/compare/v12.18.3...v12.19.0) (2026-09-01)
 
 
