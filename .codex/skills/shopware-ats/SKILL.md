@@ -65,6 +65,13 @@ Follow ATS and Playwright isolation rules so tests stay parallel-safe and resili
 - Do not assume default locale or currency values like `en_GB` or `EUR`; set up or fetch what the scenario needs.
 - When possible, navigate directly to detail pages with entity IDs. If you must go through a listing, search with a unique name so the scenario targets one known entity.
 
+## Validate Network Responses
+
+Check `page.waitForResponse(...)` responses for `response.ok()`, not just URL/method/payload match.
+
+- In-predicate (`... && response.ok()`, see `helpers/UploadMedia.ts`) for search-as-you-type / debounced flows.
+- Assert-after (`expect(response.ok()).toBeTruthy()` on the awaited response, see `tasks/shop-admin/Product/BulkEditProducts.ts`, `SaveProduct.ts`) for single-shot calls.
+
 ## Cross-Repo Sync
 
 If a change is needed in `acceptance-test-suite` and must be consumed immediately in a platform repository, use this workflow instead of improvising package wiring:
@@ -122,3 +129,7 @@ Run the narrowest useful checks first:
 - `npm run build`
 
 For environment defaults and boot behavior, rely on `playwright.config.ts` and the reference file instead of hardcoding assumptions.
+
+## Grow This Skill From Review Feedback
+
+When a review — human or agent — traces a mistake back to a gap in this skill rather than a one-off code error, propose a concrete addition: the rule, and the real file(s) in this repo that already establish the pattern (see Validate Network Responses above for the format). No narrative justification. Get the user's or reviewer's sign-off on wording and placement before committing it here.
