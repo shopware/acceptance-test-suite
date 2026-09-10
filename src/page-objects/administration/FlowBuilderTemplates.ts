@@ -29,6 +29,10 @@ export class FlowBuilderTemplates extends FlowBuilderListing implements PageObje
                 return false;
             }
 
+            if (!response.ok()) {
+                return false;
+            }
+
             const requestData = response.request().postDataJSON() as { term?: string } | null;
 
             return requestData?.term === searchTerm;
