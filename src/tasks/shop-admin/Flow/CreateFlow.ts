@@ -69,8 +69,11 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.tagModal).toBeVisible();
-                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
+                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following four lines and use the commented line instead.
                 await AdminFlowBuilderCreate.tagModalTagsSelectField.click();
+                // Search server-side instead of relying on the unfiltered first page: with enough
+                // pre-existing tags in the shop, the freshly created tag can fall outside it.
+                await AdminFlowBuilderCreate.tagModalTagsSelectField.fill(flowConfig.falseActionIdentifier);
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
                     .getByRole("listitem")
