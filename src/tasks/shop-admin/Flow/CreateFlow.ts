@@ -80,6 +80,9 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .filter({ hasText: `${flowConfig.falseActionIdentifier}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
+                // The tags select stays open after picking one (it's multi-select); with a long
+                // enough result list it can visually overlap and intercept the Add button below.
+                await AdminFlowBuilderCreate.tagModalTagsSelectField.press("Escape");
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionDescription).toContainText(`Tag: ${flowConfig.falseActionIdentifier}`);
                 await AdminFlowBuilderCreate.saveButton.click();
