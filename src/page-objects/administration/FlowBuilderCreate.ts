@@ -58,9 +58,16 @@ export class FlowBuilderCreate implements PageObject {
         this.saveButton = page.locator(".sw-flow-detail__save");
         this.header = page.locator("h2");
         this.smartBarHeader = page.locator(".smart-bar__header");
-        this.generalTab = page.locator(".sw-flow-detail__tab-general");
         this.triggerSelectField = page.locator(".sw-flow-detail-flow__trigger-card").getByRole("textbox");
-        this.flowTab = page.locator(".sw-tabs__content").locator(".sw-flow-detail__tab-flow");
+        //TODO: After 6.8.0.0 release if condition needs to be replaced with 'satisfies(instanceMeta.version, ">=6.8")'
+        if (instanceMeta.features["V6_8_0_0"]) {
+            this.generalTab = page.locator('.mt-tabs__item[data-item-name="sw.flow.create.general"]');
+            this.flowTab = page.locator('.mt-tabs__item[data-item-name="sw.flow.create.flow"]');
+        } else {
+            this.generalTab = page.locator(".sw-flow-detail__tab-general");
+            this.flowTab = page.locator(".sw-tabs__content").locator(".sw-flow-detail__tab-flow");
+        }
+        //TODO: After 6.8.0.0 release this condition can be removed. Only the else branch is needed then
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.modalAddButton = page.locator(".sw-button--primary").getByText(translate("administration:flowBuilder:create.addAction"));
         } else {

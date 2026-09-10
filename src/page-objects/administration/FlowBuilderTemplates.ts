@@ -22,4 +22,23 @@ export class FlowBuilderTemplates extends FlowBuilderListing implements PageObje
             templateDetailLink: templateDetailLink,
         };
     }
+
+    // Waits for the search-triggered /api/search/flow-template request matching searchTerm to
+    // resolve before resolving the row, so the row lookup does not race the grid re-render.
+    async searchLineItemByFlowName(searchTerm: string, flowName: string) {
+        const searchResponse = this.page.waitForResponse((response) => {
+            if (!response.url().includes("/api/search/flow-template") || response.request().method() !== "POST") {
+                return false;
+            }
+
+            const requestData = response.request().postDataJSON() as { term?: string } | null;
+
+            return requestData?.term === searchTerm;
+        });
+
+        await this.searchBar.fill(searchTerm);
+        await searchResponse;
+
+        return this.getLineItemByFlowName(flowName);
+    }
 }
