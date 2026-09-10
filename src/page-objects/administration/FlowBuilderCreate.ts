@@ -58,9 +58,10 @@ export class FlowBuilderCreate implements PageObject {
         this.saveButton = page.locator(".sw-flow-detail__save");
         this.header = page.locator("h2");
         this.smartBarHeader = page.locator(".smart-bar__header");
-        this.generalTab = page.locator(".sw-flow-detail__tab-general");
+        const tabList = page.getByRole("tablist");
+        this.generalTab = tabList.getByRole("tab", { name: translate("administration:flowBuilder:create.tabGeneral"), exact: true });
         this.triggerSelectField = page.locator(".sw-flow-detail-flow__trigger-card").getByRole("textbox");
-        this.flowTab = page.locator(".sw-tabs__content").locator(".sw-flow-detail__tab-flow");
+        this.flowTab = tabList.getByRole("tab", { name: translate("administration:flowBuilder:create.tabFlow"), exact: true });
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.modalAddButton = page.locator(".sw-button--primary").getByText(translate("administration:flowBuilder:create.addAction"));
         } else {
