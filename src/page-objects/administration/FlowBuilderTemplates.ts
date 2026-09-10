@@ -22,4 +22,25 @@ export class FlowBuilderTemplates extends FlowBuilderListing implements PageObje
             templateDetailLink: templateDetailLink,
         };
     }
+
+    async searchLineItemByFlowName(searchTerm: string, flowName: string) {
+        const searchResponse = this.page.waitForResponse((response) => {
+            if (!response.url().includes("/api/search/flow-template") || response.request().method() !== "POST") {
+                return false;
+            }
+
+            if (!response.ok()) {
+                return false;
+            }
+
+            const requestData = response.request().postDataJSON() as { term?: string } | null;
+
+            return requestData?.term === searchTerm;
+        });
+
+        await this.searchBar.fill(searchTerm);
+        await searchResponse;
+
+        return this.getLineItemByFlowName(flowName);
+    }
 }

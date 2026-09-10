@@ -21,7 +21,15 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
 
     constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         super(page, instanceMeta);
-        this.generalTab = page.locator(".sw-flow-detail__tab-general");
+        //TODO: After 6.8.0.0 release if condition needs to be replaced with 'satisfies(instanceMeta.version, ">=6.8")'
+        if (instanceMeta.features["V6_8_0_0"]) {
+            this.generalTab = page.locator('.mt-tabs__item[data-item-name="sw.flow.detail.general"]');
+            this.flowTab = page.locator('.mt-tabs__item[data-item-name="sw.flow.detail.flow"]');
+        } else {
+            this.generalTab = page.locator(".sw-flow-detail__tab-general");
+            this.flowTab = page.locator(".sw-flow-detail__tab-flow");
+        }
+        //TODO: After 6.8.0.0 release this condition can be removed. Only the else branch is needed then
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.successMessage = page.locator(".sw-alert__title");
             this.saveButtonLoader = page.locator(".sw-button--primary").locator(".sw-button_loader");
@@ -34,7 +42,6 @@ export class FlowBuilderDetail extends FlowBuilderCreate implements PageObject {
             this.alertMessage = page.locator(".mt-banner__title");
         }
         this.saveButton = page.locator(".sw-flow-detail__save");
-        this.flowTab = page.locator(".sw-flow-detail__tab-flow");
         this.templateName = page.getByLabel(translate("administration:flowBuilder:detail.name"));
         this.actionContentTag = page.locator(".sw-flow-sequence-action__content").locator(".tag");
         this.skeletonLoader = page.locator(".sw-skeleton");
