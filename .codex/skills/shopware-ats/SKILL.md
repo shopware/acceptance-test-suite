@@ -21,7 +21,7 @@ This skill is for work inside this repository. Projects that consume the package
 Pick the narrowest owner of the behavior:
 
 - `tests/`: spec flow, assertions, and coverage composition.
-- `src/page-objects/`: selectors, URLs, and page-level affordances. Follow the local page-object pattern: initialize reusable locators as constructor-initialized `readonly` fields, and keep methods for parameterized locators only. Prefer semantic single-target locators such as `getByRole`, `getByLabel`, `getByPlaceholder`, or `getByText` when they are stable. Avoid descendant CSS selector strings like `.foo .bar` in page objects; if CSS is unavoidable, target one stable element or scope through a named parent locator instead of encoding the hierarchy into one selector string.
+- `src/page-objects/`: selectors, URLs, and page-level affordances. See Page Object Locators below.
 - `src/tasks/`: reusable multi-step business actions.
 - `src/fixtures/`: context wiring, actors, lifecycle, and API/page contexts.
 - `src/services/TestDataService.ts`: API-backed test data creation, setup, cleanup, and cleanup ordering (`highPriorityEntities`) for new work.
@@ -32,6 +32,11 @@ Pick the narrowest owner of the behavior:
 Treat `src/data-fixtures/` as a legacy compatibility surface. Do not introduce new data-fixtures when `TestDataService` can own the behavior; only touch legacy fixtures to keep existing public APIs working.
 
 If you add a reusable primitive, export it through the appropriate merge file or `src/index.ts` so it stays reachable from the public API.
+
+## Page Object Locators
+
+- Initialize reusable locators as constructor-initialized `readonly` fields; keep methods only for parameterized locators.
+- Avoid descendant CSS selector strings like `.foo .bar`. If CSS is unavoidable, target one stable element or scope through a named parent locator instead of encoding the hierarchy into one selector string.
 
 ## When To Keep It Simple
 
@@ -64,6 +69,13 @@ Follow ATS and Playwright isolation rules so tests stay parallel-safe and resili
 - Create all data a scenario needs explicitly. Do not rely on existing categories, rules, flows, users, customers, or other ambient shop state.
 - Do not assume default locale or currency values like `en_GB` or `EUR`; set up or fetch what the scenario needs.
 - When possible, navigate directly to detail pages with entity IDs. If you must go through a listing, search with a unique name so the scenario targets one known entity.
+
+## Validate Network Responses
+
+Check `page.waitForResponse(...)` responses for `response.ok()`, not just URL/method/payload match.
+
+- In-predicate (`... && response.ok()`, see `helpers/UploadMedia.ts`) for search-as-you-type / debounced flows.
+- Assert-after (`expect(response.ok()).toBeTruthy()` on the awaited response, see `tasks/shop-admin/Product/BulkEditProducts.ts`, `SaveProduct.ts`) for single-shot calls.
 
 ## Cross-Repo Sync
 
@@ -122,3 +134,13 @@ Run the narrowest useful checks first:
 - `npm run build`
 
 For environment defaults and boot behavior, rely on `playwright.config.ts` and the reference file instead of hardcoding assumptions.
+
+## Grow This Skill From Review Feedback
+
+When a review — human or agent — traces a mistake back to a gap in this skill rather than a one-off code error, propose a concrete addition:
+
+- Only if the pattern already recurs across multiple files here and would not have surfaced from a minute of `rg` before writing the code — otherwise it is a one-off, not a skill gap.
+- Rule plus real precedent file(s) only (see Validate Network Responses above for the format), no narrative justification.
+- Mark an expiry condition when the rule is tied to a transitional state (an in-progress migration, a pattern being phased out), the same way `//TODO: After 6.8.0.0 release...` comments already mark code for cleanup.
+- If rules like this start crowding the file, consolidate into a `references/` file and leave a pointer here instead (see how Start Here delegates to `references/repo-map.md`).
+- Get the user's or reviewer's sign-off on wording and placement before committing it here.
