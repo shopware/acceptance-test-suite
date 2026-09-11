@@ -38,6 +38,7 @@ export class CheckoutConfirm implements PageObject {
      */
     public readonly cartLineItemImages: Locator;
     public readonly page: Page;
+    public readonly confirmProductTable: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -65,6 +66,31 @@ export class CheckoutConfirm implements PageObject {
         this.termsAndConditionsWithLegalGuaranteeRightsLabel = page.getByLabel(translate("storefront:checkout:confirm.termsAndConditionsWithLegalGuaranteeRights"));
         this.legalGuaranteeNoticeLink = page.locator("#legalGuaranteeNoticeModal a");
         this.lineItemGaranLabel = page.locator(".line-item-garan-label");
+        this.confirmProductTable = page.locator(".confirm-product");
+    }
+
+    getLineItemByProductName(productName: string): Record<string, Locator> {
+        const productLineItem = this.confirmProductTable.locator(".line-item-product", { hasText: productName });
+        const productNameLabel = productLineItem.locator(".line-item-label");
+        const productTotalPrice = productLineItem.locator(".line-item-total-price-value");
+
+        return {
+            productLineItem: productLineItem,
+            productNameLabel: productNameLabel,
+            productTotalPrice: productTotalPrice,
+        };
+    }
+
+    getLineItemByPromotionName(promotionName: string): Record<string, Locator> {
+        const promotionLineItem = this.confirmProductTable.locator(".line-item-promotion", { hasText: promotionName });
+        const promotionNameLabel = promotionLineItem.locator(".line-item-label");
+        const promotionTotalPrice = promotionLineItem.locator(".line-item-total-price-value");
+
+        return {
+            promotionLineItem: promotionLineItem,
+            promotionNameLabel: promotionNameLabel,
+            promotionTotalPrice: promotionTotalPrice,
+        };
     }
 
     url() {
