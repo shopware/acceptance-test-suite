@@ -85,9 +85,6 @@ export class FirstRunWizard implements PageObject {
         // Default values part
         this.defaultValuesHeader = page.locator(".sw-modal__title", { hasText: translate("administration:firstRunWizard:headers.defaultValues") });
         this.salesChannelSelectionMultiSelect = page.getByPlaceholder(translate("administration:firstRunWizard:placeholders.selectSalesChannels"));
-        // ".sw-popover__wrapper" is the deprecated popover markup; on major (Shopware.Feature "V6_8_0_0")
-        // "sw-popover" renders through "mt-floating-ui" instead, whose result list wrapper carries
-        // ".sw-select-result-list-popover-wrapper". Match both so the locator works on stable and major.
         this.salesChannelSelectionList = page.locator(".sw-popover__wrapper, .sw-select-result-list-popover-wrapper").getByRole("listitem");
 
         // Mailer configuration part
