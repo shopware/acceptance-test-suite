@@ -10,15 +10,13 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
             return async function createFlow() {
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
-                // The administration fires this activity-tracking call once the create-flow route has
-                // actually rendered. Waiting for it confirms navigation completed instead of racing the
-                // smart-bar header text, which can still show the listing page on a loaded environment.
-                const createFlowPageRendered = AdminFlowBuilderCreate.page.waitForResponse(
-                    (response) => response.url().includes("/api/_action/increment/user_activity") && response.ok()
-                );
 
                 await AdminFlowBuilderListing.createFlowButton.click();
-                await createFlowPageRendered;
+                // The route change can lag behind the click on a loaded/shared environment, so confirm
+                // navigation actually happened (and the page finished rendering) before asserting on the
+                // smart-bar header, the same way ShopAdmin.goesTo() confirms navigation elsewhere.
+                await AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"), { timeout: 15_000 });
+                await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator(".sw-skeleton")).toHaveCount(0);
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);
