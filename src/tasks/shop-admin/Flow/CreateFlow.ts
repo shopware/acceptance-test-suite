@@ -10,15 +10,17 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
             return async function createFlow() {
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
+                // The administration fires this activity-tracking call once the create-flow route has
+                // actually rendered. Waiting for it confirms navigation completed instead of racing the
+                // smart-bar header text, which can still show the listing page on a loaded environment.
+                const createFlowPageRendered = AdminFlowBuilderCreate.page.waitForResponse(
+                    (response) => response.url().includes("/api/_action/increment/user_activity") && response.ok()
+                );
 
                 await AdminFlowBuilderListing.createFlowButton.click();
+                await createFlowPageRendered;
                 // Fill out fields on general tab
-                // Navigation to the create-flow page can outlast the default expect timeout on a
-                // loaded/shared environment; test.slow() extends the overall test timeout but not
-                // this individual assertion, so it needs its own explicit headroom.
-                await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"), {
-                    timeout: 15_000,
-                });
+                await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);
                 await AdminFlowBuilderCreate.descriptionField.fill(`${flowConfig.description}`);
                 await AdminFlowBuilderCreate.priorityField.fill(`${flowConfig.priority}`);
