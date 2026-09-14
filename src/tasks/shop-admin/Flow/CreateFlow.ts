@@ -11,11 +11,13 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
 
-                await AdminFlowBuilderListing.createFlowButton.click();
-                // The route change can lag behind the click on a loaded/shared environment, so confirm
-                // navigation actually happened (and the page finished rendering) before asserting on the
-                // smart-bar header, the same way ShopAdmin.goesTo() confirms navigation elsewhere.
-                await AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"), { timeout: 15_000 });
+                // The click on createFlowButton occasionally doesn't trigger navigation at all on a
+                // loaded/shared environment (tracked in shopware/shopware#15749), so retry the click
+                // itself rather than just waiting longer for a navigation that may never arrive.
+                await ShopAdmin.expects(async () => {
+                    await AdminFlowBuilderListing.createFlowButton.click();
+                    await AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"), { timeout: 5_000 });
+                }).toPass({ timeout: 20_000 });
                 await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator(".sw-skeleton")).toHaveCount(0);
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
