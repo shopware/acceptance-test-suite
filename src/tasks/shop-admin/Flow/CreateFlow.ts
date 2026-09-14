@@ -13,7 +13,12 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
 
                 await AdminFlowBuilderListing.createFlowButton.click();
                 // Fill out fields on general tab
-                await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
+                // Navigation to the create-flow page can outlast the default expect timeout on a
+                // loaded/shared environment; test.slow() extends the overall test timeout but not
+                // this individual assertion, so it needs its own explicit headroom.
+                await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"), {
+                    timeout: 15_000,
+                });
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);
                 await AdminFlowBuilderCreate.descriptionField.fill(`${flowConfig.description}`);
                 await AdminFlowBuilderCreate.priorityField.fill(`${flowConfig.priority}`);
