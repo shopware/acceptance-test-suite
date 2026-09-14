@@ -9,6 +9,7 @@ import { AssignEntitiesToRule } from "./shop-admin/Rule/AssignEntitiesToRule";
 import { CreateFlow } from "./shop-admin/Flow/CreateFlow";
 import { LoginViaReviewsTab } from "./shop-customer/Account/LoginViaReviewsTab";
 import { DeactivateShopwareServices } from "./shop-admin/ShopwareServices/DeactivateShopwareServices";
+import { ActivateShopwareServices } from "./shop-admin/ShopwareServices/ActivateShopwareServices";
 import { CheckVisibilityOfServicesBanner } from "./shop-admin/ShopwareServices/CheckVisibilityOfServicesBanner";
 import { CheckAccessToShopwareServices } from "./shop-admin/ShopwareServices/CheckAccessToShopwareServices";
 
@@ -23,5 +24,6 @@ export const test = mergeTests(
     LoginViaReviewsTab,
     CheckAccessToShopwareServices,
     CheckVisibilityOfServicesBanner,
-    DeactivateShopwareServices
+    DeactivateShopwareServices,
+    ActivateShopwareServices
 );
