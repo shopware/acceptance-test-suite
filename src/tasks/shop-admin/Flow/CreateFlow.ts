@@ -11,12 +11,17 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
 
-                // The click on createFlowButton occasionally doesn't trigger navigation at all on a
-                // loaded/shared environment (tracked in shopware/shopware#15749), so retry the click
-                // itself rather than just waiting longer for a navigation that may never arrive.
+                // createFlowButton stays disabled until the admin's ACL privileges are loaded
+                // (see acl.can('flow.creator') on the button in the administration), which can still
+                // be settling right after landing on this page on a loaded/shared environment; clicking
+                // it while disabled silently no-ops instead of navigating (tracked in shopware/shopware#15749).
+                await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
+                // Retry as a fallback in case navigation still doesn't follow for any other reason;
+                // the listener is attached before the click so a fast route change can't be missed.
                 await ShopAdmin.expects(async () => {
+                    const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"), { timeout: 5_000 });
                     await AdminFlowBuilderListing.createFlowButton.click();
-                    await AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"), { timeout: 5_000 });
+                    await navigatedToCreate;
                 }).toPass({ timeout: 20_000 });
                 await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator(".sw-skeleton")).toHaveCount(0);
                 // Fill out fields on general tab
