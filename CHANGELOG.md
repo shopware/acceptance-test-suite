@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.20.1](https://github.com/shopware/acceptance-test-suite/compare/v12.20.0...v12.20.1) (2026-09-15)
+
+
+### Bug Fixes
+
+* **flow:** wait for createFlowButton to be enabled before navigating ([#703](https://github.com/shopware/acceptance-test-suite/issues/703)) ([fd838c0](https://github.com/shopware/acceptance-test-suite/commit/fd838c0479ea2d8d2df41a0fa6d8abf497d73299))
+* **frw:** match meteor popover locator; add SelectExtensionCategory task ([#702](https://github.com/shopware/acceptance-test-suite/issues/702)) ([9962906](https://github.com/shopware/acceptance-test-suite/commit/99629063723fc5a83ab0205c72af3391b708081f))
+
 ## [12.20.0](https://github.com/shopware/acceptance-test-suite/compare/v12.19.0...v12.20.0) (2026-09-10)
 
 
