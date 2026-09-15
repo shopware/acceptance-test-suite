@@ -1,5 +1,203 @@
 # Changelog
 
+## [12.20.0](https://github.com/shopware/acceptance-test-suite/compare/v12.19.0...v12.20.0) (2026-09-10)
+
+
+### Features
+
+* add consumer facing agent skill ([#695](https://github.com/shopware/acceptance-test-suite/issues/695)) ([ab0e8c8](https://github.com/shopware/acceptance-test-suite/commit/ab0e8c8dece320074f0dbd20455f4a48c88b8a1a))
+* add optional boolean to selectsRadioButton for exact string matching ([#682](https://github.com/shopware/acceptance-test-suite/issues/682)) ([5aa2fb0](https://github.com/shopware/acceptance-test-suite/commit/5aa2fb0bf9d5b563e9933063e8b2f70ca5bc9763))
+
+
+### Bug Fixes
+
+* **flow:** make CreateFlow tag select robust to a large tag catalog ([#699](https://github.com/shopware/acceptance-test-suite/issues/699)) ([edea18e](https://github.com/shopware/acceptance-test-suite/commit/edea18eae4ce3ac3493e4e6229c33882b1c4a4eb))
+* **flow:** use mt-tabs locators for flow detail tabs behind v6.8.0.0 ([#698](https://github.com/shopware/acceptance-test-suite/issues/698)) ([913392b](https://github.com/shopware/acceptance-test-suite/commit/913392b5d7b0087b8da6757a1aee2d6fbd1368ec))
+
+## [12.19.0](https://github.com/shopware/acceptance-test-suite/compare/v12.18.3...v12.19.0) (2026-09-01)
+
+
+### Features
+
+* update playwright to 1.62.1 ([#687](https://github.com/shopware/acceptance-test-suite/issues/687)) ([273a8f5](https://github.com/shopware/acceptance-test-suite/commit/273a8f536b0b18a6b56784cd15c02e2e051ce04b))
+
+## [12.18.3](https://github.com/shopware/acceptance-test-suite/compare/v12.18.2...v12.18.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* assign domain currencies to sales channels ([#691](https://github.com/shopware/acceptance-test-suite/issues/691)) ([062d4f7](https://github.com/shopware/acceptance-test-suite/commit/062d4f7e147d0f0080dd7724de89a190f4fadf31))
+* use pw role-based selector for assignToSelectionList   ([#693](https://github.com/shopware/acceptance-test-suite/issues/693)) ([5f713eb](https://github.com/shopware/acceptance-test-suite/commit/5f713ebe0bdc164fcc37ad2d6dfd71548a740dee))
+
+## [12.18.2](https://github.com/shopware/acceptance-test-suite/compare/v12.18.1...v12.18.2) (2026-08-27)
+
+
+### Bug Fixes
+
+* scope LayoutCreate backButton to the wizard container ([#688](https://github.com/shopware/acceptance-test-suite/issues/688)) ([8421f0b](https://github.com/shopware/acceptance-test-suite/commit/8421f0bfe9830994eebd5f36a4e0e9ff317e6b4c))
+
+## [12.18.1](https://github.com/shopware/acceptance-test-suite/compare/v12.18.0...v12.18.1) (2026-08-26)
+
+
+### Bug Fixes
+
+* expand admin sidebar via the store action, not a localStorage key ([#685](https://github.com/shopware/acceptance-test-suite/issues/685)) ([1592df1](https://github.com/shopware/acceptance-test-suite/commit/1592df110b10e3b8ac1d74f75b38f64fb0fe4dad))
+
+## [12.18.0](https://github.com/shopware/acceptance-test-suite/compare/v12.17.0...v12.18.0) (2026-08-25)
+
+
+### Features
+
+* add expandAdminMenu visual test helper ([#684](https://github.com/shopware/acceptance-test-suite/issues/684)) ([04a5980](https://github.com/shopware/acceptance-test-suite/commit/04a598098c0b6cd7ded7636b50488572664dd111))
+* add function to set primary order references ([#678](https://github.com/shopware/acceptance-test-suite/issues/678)) ([799f8a7](https://github.com/shopware/acceptance-test-suite/commit/799f8a75f50ecf734454a9321e2411f51a6594da))
+
+
+### Bug Fixes
+
+* **flow:** wait for flow-actions.json before opening action select ([#680](https://github.com/shopware/acceptance-test-suite/issues/680)) ([446a1e0](https://github.com/shopware/acceptance-test-suite/commit/446a1e0660948378105dff62896d5e5acd42a16b))
+
+## [12.17.0](https://github.com/shopware/acceptance-test-suite/compare/v12.16.0...v12.17.0) (2026-08-13)
+
+
+### Features
+
+* add adminMenuAutomation locator to admin menu page object ([#675](https://github.com/shopware/acceptance-test-suite/issues/675)) ([26003e7](https://github.com/shopware/acceptance-test-suite/commit/26003e77c4ace8828d3e51b0f071a14d0707c097))
+
+## [12.16.0](https://github.com/shopware/acceptance-test-suite/compare/v12.15.1...v12.16.0) (2026-08-07)
+
+
+### Features
+
+* add task SelectProductReviewOption ([#669](https://github.com/shopware/acceptance-test-suite/issues/669)) ([8331055](https://github.com/shopware/acceptance-test-suite/commit/83310553fa6062a38f6c9fc4cf11c4c337d51d8c))
+* EU guarantee label  ([#673](https://github.com/shopware/acceptance-test-suite/issues/673)) ([844c5ce](https://github.com/shopware/acceptance-test-suite/commit/844c5ce10d444618ec737a165b548e731f30ed36))
+
+## [12.15.1](https://github.com/shopware/acceptance-test-suite/compare/v12.15.0...v12.15.1) (2026-08-04)
+
+
+### Bug Fixes
+
+* adjust sidebar locator for product list layout in admin ([#670](https://github.com/shopware/acceptance-test-suite/issues/670)) ([8be3686](https://github.com/shopware/acceptance-test-suite/commit/8be368663a081a74e74e6c84be047dc14341c426))
+* resolve price before opening cart offcanvas ([#668](https://github.com/shopware/acceptance-test-suite/issues/668)) ([58ae563](https://github.com/shopware/acceptance-test-suite/commit/58ae563e48560ff4446d69b38f1ba7eeae9370e1))
+
+## [12.15.0](https://github.com/shopware/acceptance-test-suite/compare/v12.14.1...v12.15.0) (2026-07-31)
+
+
+### Features
+
+* reuse one admin session per worker ([#666](https://github.com/shopware/acceptance-test-suite/issues/666)) ([d754212](https://github.com/shopware/acceptance-test-suite/commit/d7542123a29b55cb5f1557a3298400151c6a1388))
+
+
+### Bug Fixes
+
+* expose is-download state from createDigitalProduct for 6.5/6.6 detection ([#665](https://github.com/shopware/acceptance-test-suite/issues/665)) ([17d58ca](https://github.com/shopware/acceptance-test-suite/commit/17d58ca510bdee9d6eed468d8ed05b68fad58ef1))
+
+## [12.14.1](https://github.com/shopware/acceptance-test-suite/compare/v12.14.0...v12.14.1) (2026-07-27)
+
+
+### Bug Fixes
+
+* **checkout:** await terms section render in ConfirmTermsAndConditions ([#664](https://github.com/shopware/acceptance-test-suite/issues/664)) ([04991d9](https://github.com/shopware/acceptance-test-suite/commit/04991d9e06dee04b14d4e1737d46f4ecfebaf509))
+* default digital products to maxPurchase 1 and assert quantity selector visibility ([#662](https://github.com/shopware/acceptance-test-suite/issues/662)) ([d4603a3](https://github.com/shopware/acceptance-test-suite/commit/d4603a3ea252b614d5f4aeb9e0284efb5b0393bb))
+
+## [12.14.0](https://github.com/shopware/acceptance-test-suite/compare/v12.13.4...v12.14.0) (2026-07-24)
+
+
+### Features
+
+* **checkout:** support auto-confirmed terms on checkout confirm page ([#659](https://github.com/shopware/acceptance-test-suite/issues/659)) ([339aecf](https://github.com/shopware/acceptance-test-suite/commit/339aecfee8cbf4625eaccd4366129735b4646ca0))
+
+
+### Bug Fixes
+
+* locale-aware customer setup in DefaultSalesChannel ([#656](https://github.com/shopware/acceptance-test-suite/issues/656)) ([ae76e67](https://github.com/shopware/acceptance-test-suite/commit/ae76e672e77c889421cf95a6040717475ca4b49c))
+
+## [12.13.4](https://github.com/shopware/acceptance-test-suite/compare/v12.13.3...v12.13.4) (2026-07-21)
+
+
+### Bug Fixes
+
+* set type: 'digital' in createDigitalProduct ([#655](https://github.com/shopware/acceptance-test-suite/issues/655)) ([f16e2bc](https://github.com/shopware/acceptance-test-suite/commit/f16e2bc0870b9eb268ca92fc3e1835ef4f622a46))
+
+## [12.13.3](https://github.com/shopware/acceptance-test-suite/compare/v12.13.2...v12.13.3) (2026-06-22)
+
+
+### Bug Fixes
+
+* **bulk-edit:** select customer bulk-edit tags via filtered search with retry ([#650](https://github.com/shopware/acceptance-test-suite/issues/650)) ([16a7fbb](https://github.com/shopware/acceptance-test-suite/commit/16a7fbb51ed043f6b6775eb72ab8c2f406d0d00c))
+* declare @playwright/test as peerDependency to avoid duplicate playwright-core ([#649](https://github.com/shopware/acceptance-test-suite/issues/649)) ([b66ed34](https://github.com/shopware/acceptance-test-suite/commit/b66ed344038653e00c8572017518dfe204108846))
+
+## [12.13.2](https://github.com/shopware/acceptance-test-suite/compare/v12.13.1...v12.13.2) (2026-06-19)
+
+
+### Bug Fixes
+
+* **acceptance:** PricingAndDiscountsForBundles strict-mode locator ([#645](https://github.com/shopware/acceptance-test-suite/issues/645)) ([bd109ee](https://github.com/shopware/acceptance-test-suite/commit/bd109eef104a606b86b204534fbd4e197255ac1b))
+* **bulk-edit:** wait for save spinner before asserting customer bulk-edit success ([#646](https://github.com/shopware/acceptance-test-suite/issues/646)) ([48e3738](https://github.com/shopware/acceptance-test-suite/commit/48e3738bc06341158e65052f4734b63d3c62a2bb))
+
+## [12.13.1](https://github.com/shopware/acceptance-test-suite/compare/v12.13.0...v12.13.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* **deps:** update i18next to 26.3.1 ([#643](https://github.com/shopware/acceptance-test-suite/issues/643)) ([bb8081a](https://github.com/shopware/acceptance-test-suite/commit/bb8081a2946abf533abc9c03aa6d9fe76e61bd81))
+
+## [12.13.0](https://github.com/shopware/acceptance-test-suite/compare/v12.12.1...v12.13.0) (2026-06-03)
+
+
+### Features
+
+* expose PaaS instance metadata ([#640](https://github.com/shopware/acceptance-test-suite/issues/640)) ([f1f5579](https://github.com/shopware/acceptance-test-suite/commit/f1f5579b93c533ba3600b211177400cccf9f03b8))
+
+## [12.12.1](https://github.com/shopware/acceptance-test-suite/compare/v12.12.0...v12.12.1) (2026-05-27)
+
+
+### Bug Fixes
+
+* use instance status as saas test ([#638](https://github.com/shopware/acceptance-test-suite/issues/638)) ([5906c54](https://github.com/shopware/acceptance-test-suite/commit/5906c54ff8b4953a427aa91bcad5341677665e7f))
+
+## [12.12.0](https://github.com/shopware/acceptance-test-suite/compare/v12.11.0...v12.12.0) (2026-05-27)
+
+
+### Features
+
+* update playwright to 1.60.0 ([#636](https://github.com/shopware/acceptance-test-suite/issues/636)) ([3c8f3c8](https://github.com/shopware/acceptance-test-suite/commit/3c8f3c8ec5e60fd4e3451425298d569c69dfc75a))
+
+## [12.11.0](https://github.com/shopware/acceptance-test-suite/compare/v12.10.2...v12.11.0) (2026-05-13)
+
+
+### Features
+
+* add AccountOrderEdit page ([#634](https://github.com/shopware/acceptance-test-suite/issues/634)) ([063b327](https://github.com/shopware/acceptance-test-suite/commit/063b327dcab1fd338d9677f5cc574bb7a8e22cf5))
+
+## [12.10.2](https://github.com/shopware/acceptance-test-suite/compare/v12.10.1...v12.10.2) (2026-05-06)
+
+
+### Bug Fixes
+
+* dismisses the storefront cookie banner when it appears ([#631](https://github.com/shopware/acceptance-test-suite/issues/631)) ([784607a](https://github.com/shopware/acceptance-test-suite/commit/784607a175258b9bbe023d82d1c6c3198857e933))
+* version switch regression ([#633](https://github.com/shopware/acceptance-test-suite/issues/633)) ([1bfa2a3](https://github.com/shopware/acceptance-test-suite/commit/1bfa2a316c246d45d563be8fa8de944513f1e69d))
+
+## [12.10.1](https://github.com/shopware/acceptance-test-suite/compare/v12.10.0...v12.10.1) (2026-04-24)
+
+
+### Bug Fixes
+
+* update uuid dependency ([#629](https://github.com/shopware/acceptance-test-suite/issues/629)) ([1613e74](https://github.com/shopware/acceptance-test-suite/commit/1613e749f9ecf1a3ab07a95b9be81a355f6e5f50))
+
+## [12.10.0](https://github.com/shopware/acceptance-test-suite/compare/v12.9.0...v12.10.0) (2026-04-21)
+
+
+### Features
+
+* Helper - Add helper to support upload image from admin pages ([#625](https://github.com/shopware/acceptance-test-suite/issues/625)) ([e45e127](https://github.com/shopware/acceptance-test-suite/commit/e45e1276d676a2bee22c107f7d3b55c55fc229ed))
+* product analytics data sharing consent modal page object ([#527](https://github.com/shopware/acceptance-test-suite/issues/527)) ([14d9d2a](https://github.com/shopware/acceptance-test-suite/commit/14d9d2a4b40ae1a12f3d85993a7481c755548198))
+* TestDataService - Get payment method by distinguishable name ([#622](https://github.com/shopware/acceptance-test-suite/issues/622)) ([813606a](https://github.com/shopware/acceptance-test-suite/commit/813606ac2868e8d2ecc46329a61f1c616627d80b))
+
+
+### Bug Fixes
+
+* tax price locator account order ([#617](https://github.com/shopware/acceptance-test-suite/issues/617)) ([3fc6adf](https://github.com/shopware/acceptance-test-suite/commit/3fc6adfc8f68c4035b48ec7d309ff9d03cdc1f9a))
+
 ## [12.9.0](https://github.com/shopware/acceptance-test-suite/compare/v12.8.4...v12.9.0) (2026-04-14)
 
 

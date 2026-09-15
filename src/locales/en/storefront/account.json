@@ -45,7 +45,10 @@
         "includeVat": "incl.",
         "vatSuffix": "% VAT",
         "shippingCosts": "Shipping costs:",
-        "totalGross": "Total (gross):"
+        "totalGross": "Total (gross):",
+        "headlineCompletePayment": "Complete payment",
+        "buttonCompletePayment": "Complete payment",
+        "editCompleted": "Thank you for updating your order!"
     },
     "addresses": {
         "street": "Street",

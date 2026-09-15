@@ -45,7 +45,10 @@
         "includeVat": "inkl.",
         "vatSuffix": "% MwSt.",
         "shippingCosts": "Versandkosten:",
-        "totalGross": "Gesamtsumme (brutto):"
+        "totalGross": "Gesamtsumme (brutto):",
+        "headlineCompletePayment": "Zahlung abschließen",
+        "buttonCompletePayment": "Zahlung abschließen",
+        "editCompleted": "Vielen Dank für die Aktualisierung Ihrer Bestellung!"
     },
     "addresses": {
         "street": "Straße",

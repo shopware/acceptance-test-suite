@@ -1,6 +1,8 @@
 import type { Page, Locator } from "playwright-core";
 import type { PageObject } from "../../types/PageObject";
 import { translate } from "../../services/LanguageHelper";
+import { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
+import { satisfies } from "compare-versions";
 
 export class ListingPageLayoutDetail implements PageObject {
     //General
@@ -25,7 +27,7 @@ export class ListingPageLayoutDetail implements PageObject {
 
     public readonly page: Page;
 
-    constructor(page: Page) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         //General
         this.page = page;
         this.addSectionButton = page.locator(".sw-cms-stage-add-section__button");
@@ -42,10 +44,19 @@ export class ListingPageLayoutDetail implements PageObject {
         this.sidebarTitle = page.locator(".sw-sidebar-item__title");
 
         //Sidebar
-        this.settingsButton = page.locator(`button[title="${translate("administration:layout:detail.settings")}"]`);
-        this.blocksButton = page.locator(`button[title="${translate("administration:layout:detail.blocks")}"]`);
-        this.navigatorButton = page.locator(`button[title="${translate("administration:layout:detail.navigator")}"]`);
-        this.layoutAssignmentButton = page.locator(`button[title="${translate("administration:layout:detail.layoutAssignment")}"]`);
+        if (satisfies(instanceMeta.version, "<6.7.13.0")) {
+            this.settingsButton = page.locator(`button[title="${translate("administration:layout:detail.settings")}"]`);
+            this.blocksButton = page.locator(`button[title="${translate("administration:layout:detail.blocks")}"]`);
+            this.navigatorButton = page.locator(`button[title="${translate("administration:layout:detail.navigator")}"]`);
+            this.layoutAssignmentButton = page.locator(`button[title="${translate("administration:layout:detail.layoutAssignment")}"]`);
+        } else {
+            this.settingsButton = page.getByLabel(translate("administration:layout:detail.settings"), { exact: true });
+            this.blocksButton = page.getByLabel(translate("administration:layout:detail.blocks"), { exact: true });
+            this.navigatorButton = page.getByLabel(translate("administration:layout:detail.navigator"), { exact: true });
+            this.layoutAssignmentButton = page.getByLabel(translate("administration:layout:detail.layoutAssignment"), {
+                exact: true,
+            });
+        }
     }
 
     url(layoutId: string) {

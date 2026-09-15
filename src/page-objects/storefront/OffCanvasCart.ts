@@ -50,6 +50,7 @@ export class OffCanvasCart implements PageObject {
         const removeButton = lineItem.locator(".line-item-remove-button");
         const wishlistAddedButton = lineItem.locator(".product-wishlist-added");
         const wishlistNotAddedButton = lineItem.locator(".product-wishlist-not-added");
+        const lineItemGaranLabel = lineItem.locator(".line-item-garan-label");
 
         return {
             lineItemImage: lineItemImage,
@@ -64,6 +65,7 @@ export class OffCanvasCart implements PageObject {
             removeButton: removeButton,
             wishlistAddedButton: wishlistAddedButton,
             wishlistNotAddedButton: wishlistNotAddedButton,
+            lineItemGaranLabel: lineItemGaranLabel,
         };
     }
 }

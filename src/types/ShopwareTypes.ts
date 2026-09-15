@@ -93,6 +93,7 @@ export type Product = Omit<components["schemas"]["Product"], "price" | "prices" 
     tags?: Record<string, string>[];
     visibilities?: Record<string, unknown>[];
     variantListingConfig?: VariantListingConfig;
+    type?: string;
 };
 
 export type ProductReview = components["schemas"]["ProductReview"] & {

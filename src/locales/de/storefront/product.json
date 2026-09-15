@@ -28,6 +28,8 @@
     "addToCart": "In den Warenkorb",
     "addToWishlist": "Auf die Wunschliste",
     "removeFromWishlist": "Von der Wunschliste entfernen",
+    "garanLabelShowLink": "GARAN-Kennzeichnung anzeigen",
+    "garanLabelHideLink": "GARAN-Kennzeichnung ausblenden",
     "deliveryTime": "Lieferzeit",
     "quantity": "Anzahl",
     "review": {

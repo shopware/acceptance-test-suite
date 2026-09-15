@@ -1,0 +1,4 @@
+interface:
+  display_name: "Shopware ATS"
+  short_description: "Guide Codex through Shopware ATS work"
+  default_prompt: "Use the shopware-ats skill to inspect, update, or extend the Shopware Acceptance Test Suite."

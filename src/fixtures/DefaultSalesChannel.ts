@@ -2,8 +2,9 @@ import { test as base, expect } from "@playwright/test";
 import type { FixtureTypes } from "../types/FixtureTypes";
 import type { Customer, SalesChannel } from "../types/ShopwareTypes";
 import type { components } from "@shopware/api-client/admin-api-types";
+import { getCountryAddressData } from "../services/ShopwareDataHelpers";
 
-interface StoreBaseConfig {
+export interface StoreBaseConfig {
     storefrontTypeId: string;
     currentLocaleId: string;
     currentLanguageId: string;
@@ -147,6 +148,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             const salesChannelPromise = AdminApiContext.get(`./sales-channel/${uuid}`);
             const salutationResponse = await AdminApiContext.get(`./salutation`);
             const salutations = (await salutationResponse.json()) as { data: components["schemas"]["Salutation"][] };
+            const addressData = getCountryAddressData();
 
             const customerData = {
                 id: customerUuid,
@@ -158,18 +160,18 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 defaultShippingAddress: {
                     firstName: `${id} admin`,
                     lastName: `${id} admin`,
-                    city: "not",
-                    street: "not",
-                    zipcode: "not",
+                    city: addressData.city,
+                    street: addressData.street,
+                    zipcode: addressData.postalCode,
                     countryId: SalesChannelBaseConfig.currentCountryId,
                     salutationId: salutations.data[0].id,
                 },
                 defaultBillingAddress: {
                     firstName: `${id} admin`,
                     lastName: `${id} admin`,
-                    city: "not",
-                    street: "not",
-                    zipcode: "not",
+                    city: addressData.city,
+                    street: addressData.street,
+                    zipcode: addressData.postalCode,
                     countryId: SalesChannelBaseConfig.currentCountryId,
                     salutationId: salutations.data[0].id,
                 },
@@ -183,7 +185,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 defaultPaymentMethodId: SalesChannelBaseConfig.invoicePaymentMethodId,
             };
 
-            const customerRespPromise = AdminApiContext.post("./customer?_response", {
+            const customerRespPromise = AdminApiContext.post("./customer?_response=detail", {
                 data: customerData,
             });
 

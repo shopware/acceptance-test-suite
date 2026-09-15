@@ -34,6 +34,12 @@ export class ProductDetail implements PageObject {
     public readonly productName: Locator;
     public readonly productDescriptionTitle: Locator;
 
+    public readonly garanNestedLabel: Locator;
+    public readonly garanFullLabel: Locator;
+    public readonly showGaranLabelButton: Locator;
+    public readonly hideGaranLabelButton: Locator;
+    public readonly offCanvasLineItemGaranLabel: Locator;
+
     //Reviews Tab
     public readonly reviewsTab: Locator;
     public readonly reviewTeaserButton: Locator;
@@ -56,6 +62,7 @@ export class ProductDetail implements PageObject {
     public readonly reviewPasswordInput: Locator;
     public readonly reviewTitleInput: Locator;
     public readonly reviewSubmitButton: Locator;
+    public readonly reviewTabLoadingIcon: Locator;
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
@@ -98,6 +105,12 @@ export class ProductDetail implements PageObject {
         this.productName = page.locator(".product-detail-name");
         this.productDescriptionTitle = page.locator(".product-detail-description-title");
 
+        this.garanNestedLabel = page.locator(".product-detail-garan-label");
+        this.garanFullLabel = page.locator(".product-detail-garan-label-full");
+        this.showGaranLabelButton = page.getByRole("button", { name: translate("storefront:product:garanLabelShowLink") });
+        this.hideGaranLabelButton = page.getByRole("button", { name: translate("storefront:product:garanLabelHideLink") });
+        this.offCanvasLineItemGaranLabel = this.offCanvasCart.locator(".line-item-garan-label");
+
         this.productReviewRating = page.locator(".product-detail-reviews .product-review-rating");
         this.productReviewsLink = page.locator(".product-detail-reviews .product-detail-reviews-link");
         this.reviewsTab = this.page.getByRole("tab", { name: translate("storefront:product:review.tabTitle") });
@@ -121,6 +134,7 @@ export class ProductDetail implements PageObject {
         this.reviewItemTitle = this.page.locator(".product-detail-review-item-title");
         this.reviewItemContent = this.page.locator(".product-detail-review-item-content");
         this.reviewSubmitMessage = this.page.getByText(translate("storefront:product:review.submitMessage"));
+        this.reviewTabLoadingIcon = this.page.locator(".element-loader-backdrop").locator(".loader");
     }
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {

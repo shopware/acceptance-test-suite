@@ -26,7 +26,9 @@
         "completeOrder": "Complete order",
         "submitOrder": "Submit order",
         "termsAndConditions": "I have read and accepted the general terms and conditions.",
-        "immediateAccessToDigitalProduct": "I want immediate access to the digital content and I acknowledge that thereby I waive my right to cancel."
+        "immediateAccessToDigitalProduct": "I want immediate access to the digital content and I acknowledge that thereby I waive my right to cancel.",
+        "autoConfirmTermsText": "By placing your order you accept our Terms and Conditions and cancellation policy.",
+        "termsAndConditionsWithLegalGuaranteeRights": "I have read and accepted the general terms and conditions and acknowledged my legal guarantee rights."
     },
     "finish": {
         "thankYouForOrder": "Thank you for your order"

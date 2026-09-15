@@ -14,6 +14,7 @@ import { AccountLogin } from "./storefront/AccountLogin";
 import { AccountRecover } from "./storefront/AccountRecover";
 import { AccountProfile } from "./storefront/AccountProfile";
 import { AccountOrder } from "./storefront/AccountOrder";
+import { AccountOrderEdit } from "./storefront/AccountOrderEdit";
 import { AccountAddresses } from "./storefront/AccountAddresses";
 import { AccountPayment } from "./storefront/AccountPayment";
 import { Search } from "./storefront/Search";
@@ -42,6 +43,7 @@ export interface StorefrontPageTypes {
     StorefrontAccountRecover: AccountRecover;
     StorefrontAccountProfile: AccountProfile;
     StorefrontAccountOrder: AccountOrder;
+    StorefrontAccountOrderEdit: AccountOrderEdit;
     StorefrontAccountAddresses: AccountAddresses;
     StorefrontAccountAddressCreate: AccountAddressCreate;
     StorefrontAccountAddressDetails: AccountAddressDetails;
@@ -71,6 +73,7 @@ export const StorefrontPageObjects = {
     AccountRecover,
     AccountProfile,
     AccountOrder,
+    AccountOrderEdit,
     AccountAddresses,
     AccountAddressCreate,
     AccountAddressDetails,
@@ -137,6 +140,10 @@ export const test = base.extend<FixtureTypes>({
 
     StorefrontAccountOrder: async ({ StorefrontPage }, use) => {
         await use(new AccountOrder(StorefrontPage));
+    },
+
+    StorefrontAccountOrderEdit: async ({ StorefrontPage }, use) => {
+        await use(new AccountOrderEdit(StorefrontPage));
     },
 
     StorefrontAccountAddresses: async ({ StorefrontPage, InstanceMeta }, use) => {

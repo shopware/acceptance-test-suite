@@ -35,7 +35,7 @@ export class LayoutCreate implements PageObject {
 
         this.fullWidthButton = page.getByRole("button", { name: translate("administration:layout:create.fullWidth") });
         this.sidebarButton = page.getByRole("button", { name: translate("administration:layout:create.sidebar") });
-        this.backButton = page.getByRole("button", { name: translate("administration:layout:create.back") });
+        this.backButton = page.locator(".sw-cms-create-wizard").getByRole("button", { name: translate("administration:layout:create.back") });
 
         this.layoutNameInput = page.getByRole("textbox", { name: translate("administration:layout:create.layoutName") });
         this.createLayoutButton = page.getByRole("button", { name: translate("administration:layout:create.createLayout") });

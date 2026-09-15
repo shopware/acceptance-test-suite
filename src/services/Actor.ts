@@ -57,11 +57,12 @@ export class Actor {
         });
     }
 
-    async selectsRadioButton(radioGroup: Locator, inputLabel: string) {
+    async selectsRadioButton(radioGroup: Locator, inputLabel: string, strictMatch?: boolean ) {
         const stepTitle = `${this.name} selects radio button ${inputLabel}`;
 
         await test.step(stepTitle, async () => {
-            const desiredOption = radioGroup.getByRole("radio", { name: inputLabel });
+            let defaultStrictMatch = false;
+            const desiredOption = radioGroup.getByRole("radio", { name: inputLabel, exact: strictMatch ?? defaultStrictMatch });
 
             if (await desiredOption.isChecked()) {
                 await this.a11y_checks(desiredOption);

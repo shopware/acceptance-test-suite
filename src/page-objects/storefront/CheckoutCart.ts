@@ -22,7 +22,7 @@ export class CheckoutCart implements PageObject {
         this.page = page;
         this.headline = page.getByRole("heading", { name: translate("storefront:checkout:cart.shoppingCart") });
         this.goToCheckoutButton = page.getByRole("link", { name: translate("storefront:checkout:cart.goToCheckout") });
-        this.enterPromoInput = page.getByLabel(translate("storefront:checkout:cart.promoCode"));
+        this.enterPromoInput = page.getByRole("textbox", { name: translate("storefront:checkout:cart.promoCode") });
         this.grandTotalPrice = page.locator(`dt:has-text("${translate("storefront:checkout:common.grandTotal")}") + dd:visible`);
         this.emptyCartAlert = page.getByText(translate("storefront:checkout:cart.emptyCart"));
         this.stockReachedAlert = page.getByText(translate("storefront:checkout:cart.stockReached"));

@@ -30,9 +30,10 @@ export class AccountOrder extends BaseAccount {
         this.noOrdersAlert = page.locator(".alert-warning");
     }
 
-    async getOrderByOrderNumber(orderNumber: string): Promise<Record<string, Locator>> {
+    async getOrderByOrderNumber(orderNumber: string, productNumber?: string): Promise<Record<string, Locator>> {
         const orderItem = this.page.getByRole("listitem").getByLabel(`${translate("storefront:account:orders.orderNumber")} ${orderNumber}`);
         const orderStatus = orderItem.locator(".order-table-header-order-status");
+        const orderStatusLink = orderStatus.getByRole("link");
         const orderHeading = orderItem.locator(".order-table-header-heading");
         const orderActionsButton = orderItem.getByLabel(translate("storefront:account:orders.actions"));
         const orderCancelButton = orderItem.getByRole("button", { name: translate("storefront:account:orders.cancelOrder") });
@@ -50,8 +51,9 @@ export class AccountOrder extends BaseAccount {
         const shippingCosts = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.shippingCosts")}') + dd`);
         const totalGross = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.totalGross")}') + dd`);
 
-        return {
+        const locators: Record<string, Locator> = {
             orderStatus: orderStatus,
+            orderStatusLink: orderStatusLink,
             orderHeading: orderHeading,
             orderActionsButton: orderActionsButton,
             orderCancelButton: orderCancelButton,
@@ -67,6 +69,16 @@ export class AccountOrder extends BaseAccount {
             shippingCosts: shippingCosts,
             totalGross: totalGross,
         };
+
+        if (productNumber) {
+            const lineItem = orderItem.locator(".line-item-product", { hasText: productNumber });
+            locators.lineItem = lineItem;
+            locators.productNameLabel = lineItem.locator(".line-item-label");
+            locators.productNumberLabel = lineItem.locator(".line-item-product-number");
+            locators.lineItemGaranLabel = lineItem.locator(".line-item-garan-label");
+        }
+
+        return locators;
     }
 
     url() {
@@ -75,10 +87,7 @@ export class AccountOrder extends BaseAccount {
 
     private buildTaxPricePattern(): string {
         const taxRatePattern = "[0-9]+(?:[.,][0-9]+)?";
-        const taxLabelPattern = [
-            this.escapeRegex(translate("storefront:account:orders.includeVat")),
-            this.escapeRegex(translate("storefront:account:orders.plusVat")),
-        ].join("|");
+        const taxLabelPattern = [this.escapeRegex(translate("storefront:account:orders.includeVat")), this.escapeRegex(translate("storefront:account:orders.plusVat"))].join("|");
 
         return `(?:${taxLabelPattern})\\s+${taxRatePattern}${this.escapeRegex(translate("storefront:account:orders.vatSuffix"))}`;
     }
