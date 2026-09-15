@@ -8,19 +8,13 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
     CreateFlow: async ({ AdminFlowBuilderCreate, AdminFlowBuilderDetail, AdminFlowBuilderListing, ShopAdmin, TestDataService }, use) => {
         const task = (flowConfig: FlowConfig) => {
             return async function createFlow() {
+                await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
-
-                // createFlowButton stays disabled until the admin's ACL privileges are loaded
-                // (see acl.can('flow.creator') on the button in the administration), which can still
-                // be settling right after landing on this page on a loaded/shared environment; clicking
-                // it while disabled silently no-ops instead of navigating (tracked in shopware/shopware#15749).
-                await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
-                // The listener is attached before the click so a fast route change can't be missed.
                 const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"));
                 await AdminFlowBuilderListing.createFlowButton.click();
                 await navigatedToCreate;
-                await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator(".sw-skeleton")).toHaveCount(0);
+                await ShopAdmin.expects(AdminFlowBuilderCreate.skeletonLoader).toHaveCount(0);
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);

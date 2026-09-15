@@ -11,6 +11,7 @@ export class FlowBuilderCreate implements PageObject {
     public readonly saveButton: Locator;
     public readonly header: Locator;
     public readonly smartBarHeader: Locator;
+    public readonly skeletonLoader: Locator;
     //tabs
     public readonly generalTab: Locator;
     public readonly flowTab: Locator;
@@ -58,6 +59,7 @@ export class FlowBuilderCreate implements PageObject {
         this.saveButton = page.locator(".sw-flow-detail__save");
         this.header = page.locator("h2");
         this.smartBarHeader = page.locator(".smart-bar__header");
+        this.skeletonLoader = page.locator(".sw-skeleton");
         this.triggerSelectField = page.locator(".sw-flow-detail-flow__trigger-card").getByRole("textbox");
         //TODO: After 6.8.0.0 release if condition needs to be replaced with 'satisfies(instanceMeta.version, ">=6.8")'
         if (instanceMeta.features["V6_8_0_0"]) {
