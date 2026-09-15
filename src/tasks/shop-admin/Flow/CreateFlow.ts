@@ -16,13 +16,10 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 // be settling right after landing on this page on a loaded/shared environment; clicking
                 // it while disabled silently no-ops instead of navigating (tracked in shopware/shopware#15749).
                 await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
-                // Retry as a fallback in case navigation still doesn't follow for any other reason;
-                // the listener is attached before the click so a fast route change can't be missed.
-                await ShopAdmin.expects(async () => {
-                    const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"), { timeout: 5_000 });
-                    await AdminFlowBuilderListing.createFlowButton.click();
-                    await navigatedToCreate;
-                }).toPass({ timeout: 20_000 });
+                // The listener is attached before the click so a fast route change can't be missed.
+                const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"));
+                await AdminFlowBuilderListing.createFlowButton.click();
+                await navigatedToCreate;
                 await ShopAdmin.expects(AdminFlowBuilderCreate.page.locator(".sw-skeleton")).toHaveCount(0);
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
