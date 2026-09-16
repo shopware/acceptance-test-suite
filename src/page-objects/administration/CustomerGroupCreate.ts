@@ -10,7 +10,13 @@ export class CustomerGroupCreate implements PageObject {
     public readonly cancelButton: Locator;
     public readonly cardTitle: Locator;
     public readonly customerGroupNameField: Locator;
+    /**
+     * @deprecated Targets the pre-redesign customer group markup, only compatible with shopware v6.6.x and v6.7.x, use 'customerGroupTaxDisplayGross' instead
+     */
     public readonly customerGroupGrossTaxDisplay: Locator;
+    /**
+     * @deprecated Targets the pre-redesign customer group markup, only compatible with shopware v6.6.x and v6.7.x, use 'customerGroupTaxDisplayNet' instead
+     */
     public readonly customerGroupNetTaxDisplay: Locator;
     public readonly customerGroupTaxDisplayGross: Locator;
     public readonly customerGroupTaxDisplayNet: Locator;
