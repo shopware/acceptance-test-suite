@@ -25,6 +25,13 @@ export class ProductListing implements PageObject {
     public readonly bulkEditModal: Locator;
     public readonly startBulkEditButton: Locator;
 
+    /**
+     * Row actions and deletion
+     */
+    public readonly deleteContextMenuItem: Locator;
+    public readonly deleteConfirmationModal: Locator;
+    public readonly confirmDeleteButton: Locator;
+
     constructor(page: Page) {
         this.page = page;
         this.addProductButton = page.getByRole("button", {
@@ -38,6 +45,15 @@ export class ProductListing implements PageObject {
         this.productsTable = page.locator(".sw-data-grid__table");
         this.bulkEditButton = page.getByRole("button", {
             name: translate("administration:product:listing.bulkEdit"),
+        });
+
+        // The listing renders one "Delete" entry per row menu and another one in the confirmation
+        // modal, so the row entry is matched by its class and the confirmation is modal scoped.
+        this.deleteContextMenuItem = page.locator(".sw-entity-listing__context-menu-edit-delete");
+        this.deleteConfirmationModal = page.locator(".sw-modal");
+        this.confirmDeleteButton = this.deleteConfirmationModal.getByRole("button", {
+            name: translate("administration:product:buttons.delete"),
+            exact: true,
         });
 
         this.bulkEditModal = page.locator(".sw-product-bulk-edit-modal");
@@ -79,8 +95,12 @@ export class ProductListing implements PageObject {
         const productNumberSelector = ".sw-data-grid__cell--productNumber";
         const productManufacturerSelector = ".sw-data-grid__cell--manufacturer-name";
         const productDigitalIndicatorSelector = ".sw-product-list__digital-indicator";
-        const productActiveSelector = "sw-icon__regular-checkmark-xs";
-        const productInactiveSelector = "sw-icon__regular-times-s";
+        // The icon component prefix changed from "sw-icon" to "mt-icon", the icon class did not.
+        const productActiveSelector = ".icon--regular-checkmark-xs";
+        const productInactiveSelector = ".icon--regular-times-s";
+        const productStockSelector = ".sw-data-grid__cell--stock";
+        const productAvailableStockSelector = ".sw-data-grid__cell--availableStock";
+        const productActionsMenuSelector = ".sw-data-grid__actions-menu";
         const productPriceSelector = ".sw-data-grid__cell--price-EUR";
 
         return {
@@ -89,9 +109,12 @@ export class ProductListing implements PageObject {
             productDigitalIndicator: productTableRow.locator(productDigitalIndicatorSelector),
             productNumber: productTableRow.locator(productNumberSelector),
             productManufacturer: productTableRow.locator(productManufacturerSelector),
-            productActive: productTableRow.getByTestId(productActiveSelector),
-            productInactive: productTableRow.getByTestId(productInactiveSelector),
+            productActive: productTableRow.locator(productActiveSelector),
+            productInactive: productTableRow.locator(productInactiveSelector),
             productPrice: productTableRow.locator(productPriceSelector),
+            productStock: productTableRow.locator(productStockSelector),
+            productAvailableStock: productTableRow.locator(productAvailableStockSelector),
+            actionsMenuButton: productTableRow.locator(productActionsMenuSelector),
         };
     }
 }

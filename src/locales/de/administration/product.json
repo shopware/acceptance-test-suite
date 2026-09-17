@@ -24,7 +24,11 @@
         "sizeProperty": "Size",
         "stockPlaceholder": "Gib den Lagerbestand ein ...",
         "restockTimePlaceholder": "Lagerbestand",
-        "copySuffix": "Kopie"
+        "copySuffix": "Kopie",
+        "width": "Breite",
+        "height": "Höhe",
+        "length": "Länge",
+        "weight": "Gewicht"
     },
     "errors": {
         "flows": {
@@ -59,7 +63,8 @@
         "next": "Weiter",
         "saveVariants": "Speichern",
         "cancel": "Abbrechen",
-        "saveAndDuplicate": "Speichern und duplizieren"
+        "saveAndDuplicate": "Speichern und duplizieren",
+        "delete": "Löschen"
     },
     "modals": {
         "generateVariants": "Generate variants"

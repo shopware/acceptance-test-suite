@@ -4,6 +4,7 @@ import { SaveProduct } from "./shop-admin/Product/SaveProduct";
 import { SaveAndDuplicateProduct } from "./shop-admin/Product/SaveAndDuplicateProduct";
 import { FillProductBaseData } from "./shop-admin/Product/FillProductBaseData";
 import { UploadProductDownloadFile } from "./shop-admin/Product/UploadProductDownloadFile";
+import { DeleteProduct } from "./shop-admin/Product/DeleteProduct";
 import { ExpectNotification } from "./shop-admin/ExpectNotification";
 import { CreateLinkTypeCategory } from "./shop-admin/Category/CreateLinkTypeCategory";
 import { BulkEditProducts } from "./shop-admin/Product/BulkEditProducts";
@@ -21,6 +22,7 @@ export const test = mergeTests(
     SaveAndDuplicateProduct,
     FillProductBaseData,
     UploadProductDownloadFile,
+    DeleteProduct,
     ExpectNotification,
     CreateLinkTypeCategory,
     BulkEditProducts,

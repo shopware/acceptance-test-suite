@@ -27,6 +27,7 @@ export class ProductDetail implements PageObject {
      */
     public readonly nameInput: Locator;
     public readonly productNumberInput: Locator;
+    public readonly descriptionEditor: Locator;
     public readonly manufacturerDropdownText: Locator;
 
     /**
@@ -46,6 +47,13 @@ export class ProductDetail implements PageObject {
     public readonly activeForAllSalesChannelsToggle: Locator;
     public readonly tagsInput: Locator;
     public readonly saleChannelsInput: Locator;
+    public readonly saleChannelsSearchInput: Locator;
+    public readonly selectedSaleChannel: Locator;
+    public readonly categoriesInput: Locator;
+    public readonly categoriesSearchInput: Locator;
+    public readonly selectedCategory: Locator;
+    public readonly categorySearchResult: (categoryName: string) => Locator;
+    public readonly saleChannelSearchResult: (salesChannelName: string) => Locator;
 
     /**
      * Labelling
@@ -124,6 +132,16 @@ export class ProductDetail implements PageObject {
      * Cards
      */
     public readonly customFieldCard: Locator;
+
+    /**
+     * Specifications tab, product measurements
+     */
+    public readonly measurementCard: Locator;
+    public readonly widthInput: Locator;
+    public readonly heightInput: Locator;
+    public readonly lengthInput: Locator;
+    public readonly weightInput: Locator;
+
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
@@ -178,6 +196,11 @@ export class ProductDetail implements PageObject {
             exact: true,
         });
         this.manufacturerDropdownText = page.locator(".sw-select-product__select_manufacturer");
+        if (satisfies(instanceMeta.version, "<6.8")) {
+            this.descriptionEditor = page.locator(".sw-text-editor__content-editor");
+        } else {
+            this.descriptionEditor = page.locator(".mt-text-editor__content-editor");
+        }
 
         // Prices
         this.priceGrossInput = page.locator("#sw-price-field-gross").first();
@@ -190,6 +213,13 @@ export class ProductDetail implements PageObject {
         this.activeForAllSalesChannelsToggle = page.locator(".sw-field--product-active").getByRole("checkbox");
         this.tagsInput = page.locator(".sw-product-category-form__tag-field");
         this.saleChannelsInput = page.locator(".sw-product-detail__select-visibility");
+        this.saleChannelsSearchInput = this.saleChannelsInput.locator(".sw-select-selection-list__input");
+        this.selectedSaleChannel = this.saleChannelsInput.locator(".sw-select-selection-list__item-holder");
+        this.categoriesInput = page.locator(".sw-product-detail__select-category");
+        this.categoriesSearchInput = this.categoriesInput.locator(".sw-category-tree__input-field");
+        this.selectedCategory = page.locator(".sw-category-tree-field__selected-label");
+        this.categorySearchResult = (categoryName: string) => page.locator(".sw-category-tree-field__search-result").filter({ hasText: categoryName });
+        this.saleChannelSearchResult = (salesChannelName: string) => page.locator(".sw-select-result").filter({ hasText: salesChannelName });
 
         // Labelling
         if (satisfies(instanceMeta.version, "<6.7")) {
@@ -274,6 +304,13 @@ export class ProductDetail implements PageObject {
         } else {
             this.customFieldCard = page.locator(".mt-card").getByText(translate("administration:customField:general.customFields"));
         }
+
+        // Specifications tab, product measurements. The inputs carry generated ids, so they are queried by label.
+        this.measurementCard = page.locator(".sw-product-detail-specification__measurement");
+        this.widthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.width"), exact: true });
+        this.heightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.height"), exact: true });
+        this.lengthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.length"), exact: true });
+        this.weightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.weight"), exact: true });
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {

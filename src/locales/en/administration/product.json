@@ -8,7 +8,12 @@
         "name": "Name",
         "productNumber": "Product number",
         "stock": "Stock",
-        "copySuffix": "Copy"
+        "copySuffix": "Copy",
+        "width": "Width",
+        "height": "Height",
+        "length": "Length",
+        "weight": "Weight",
+        "description": "Description"
     },
     "variants": {
         "properties": "Properties"
@@ -47,7 +52,8 @@
         "next": "Next",
         "saveVariants": "Save variants",
         "cancel": "Cancel",
-        "saveAndDuplicate": "Save and duplicate"
+        "saveAndDuplicate": "Save and duplicate",
+        "delete": "Delete"
     },
     "modals": {
         "generateVariants": "Generate variants"
