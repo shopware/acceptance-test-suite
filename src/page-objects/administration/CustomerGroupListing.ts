@@ -28,7 +28,14 @@ export class CustomerGroupListing implements PageObject {
         };
     }
 
-    url() {
-        return "#/sw/settings/customer/group/index";
+    url(searchTerms: string[] = [], page = 1) {
+        let url = "#/sw/settings/customer/group/index";
+
+        if (searchTerms.length > 0) {
+            const term = searchTerms.join("+");
+            url += `?limit=25&page=${page}&term=${encodeURIComponent(term)}`;
+        }
+
+        return url;
     }
 }

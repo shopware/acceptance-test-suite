@@ -3,6 +3,8 @@
     "quantity": "Quantity",
     "addToWishlist": "Add to wishlist",
     "removeFromWishlist": "Remove from wishlist",
+    "garanLabelShowLink": "Show GARAN label",
+    "garanLabelHideLink": "Hide GARAN label",
     "deliveryTime": "Ready to ship today,\\nDelivery time appr. 1-3 workdays",
     "review": {
         "tabTitle": "Reviews",

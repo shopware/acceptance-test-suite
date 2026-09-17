@@ -40,7 +40,10 @@ export class IdProvider {
         bytes[8] = 0x80;
 
         return {
-            id: `${this.workerIndex}`,
+            // Derived from the hash like the uuid, so ids (and names/emails built from
+            // them, e.g. the worker customer email) stay distinct between runs with
+            // different seeds. A plain worker index collides across concurrent suites.
+            id: `${buffer.readUIntBE(16, 6)}`,
             uuid: stringify(bytes).replaceAll("-", ""),
         };
     }

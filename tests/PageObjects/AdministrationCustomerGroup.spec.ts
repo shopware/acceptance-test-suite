@@ -3,7 +3,7 @@ import { test } from "../../src";
 test("Administration page objects - CustomerGroup.", async ({ ShopAdmin, AdminCustomerGroupListing, AdminCustomerGroupCreate, AdminCustomerGroupDetail, TestDataService }) => {
     const customerGroup = await TestDataService.createCustomerGroup();
 
-    await ShopAdmin.goesTo(AdminCustomerGroupListing.url());
+    await ShopAdmin.goesTo(AdminCustomerGroupListing.url([customerGroup.name]));
     await ShopAdmin.expects(AdminCustomerGroupListing.headline).toBeVisible();
     await ShopAdmin.expects(AdminCustomerGroupListing.addCustomerGroupButton).toBeVisible();
     const customerGroupRow = await AdminCustomerGroupListing.getCustomerGroupByName(customerGroup.name);

@@ -237,18 +237,24 @@ export class TestDataService {
      * Creates a digital product with a text file as its download.
      * The product will be added to the default sales channel category if configured.
      *
+     * Digital products default to `maxPurchase: 1`, mirroring the Administration
+     * which forces this limit when a product is created as a digital type.
+     * Pass `maxPurchase` in the overrides to change it.
+     *
      * @param content - The content of the text file for the product download.
      * @param overrides - Specific data overrides that will be applied to the product data struct.
      * @param taxId - The uuid of the tax rule to use for the product pricing.
      * @param currencyId - The uuid of the currency to use for the product pricing.
      */
     async createDigitalProduct(content = "Lorem ipsum dolor", overrides: Partial<Product> = {}, taxId = this.defaultTaxId, currencyId = this.defaultCurrencyId): Promise<Product> {
-        const product = await this.createBasicProduct({ type: "digital", ...overrides }, taxId, currencyId);
+        const product = await this.createBasicProduct({ type: "digital", maxPurchase: 1, ...overrides }, taxId, currencyId);
         const media = await this.createMediaTXT(content);
 
         await this.assignProductDownload(product.id, media.id);
 
-        return product;
+        // Expose the IS_DOWNLOAD state so consumers detect a download product on 6.5/6.6,
+        // where `type` is not backfilled to "digital".
+        return { ...product, states: [...(product.states ?? []), "is-download"] };
     }
 
     /**
@@ -730,7 +736,61 @@ export class TestDataService {
 
         this.addCreatedRecord("order", order.id);
 
+        await this.setPrimaryOrderReferences(order);
+
         return order;
+    }
+
+    /**
+     * Sets the primary order references.
+     *
+     * @param order - The order you want to set the references for.
+     */
+    async setPrimaryOrderReferences(order: { id: string }): Promise<void> {
+        const transactionResponse = await this.AdminApiClient.post("search/order-transaction", {
+            data: {
+                limit: 1,
+                filter: [{ type: "equals", field: "orderId", value: order.id }],
+            },
+        });
+        const deliveryResponse = await this.AdminApiClient.post("search/order-delivery", {
+            data: {
+                limit: 1,
+                filter: [{ type: "equals", field: "orderId", value: order.id }],
+            },
+        });
+
+        let transaction;
+        let delivery;
+        if (transactionResponse.ok()) {
+            const transactionData = await transactionResponse.json();
+            transaction = transactionData.data?.[0];
+        }
+        if (deliveryResponse.ok()) {
+            const deliveryData = await deliveryResponse.json();
+            delivery = deliveryData.data?.[0];
+        }
+
+        if (!transaction) {
+            throw new Error(`Order ${order.id} does not contain a transaction`);
+        }
+
+        if (!delivery) {
+            throw new Error(`Order ${order.id} does not contain a delivery`);
+        }
+
+        const response = await this.AdminApiClient.patch(`order/${order.id}`, {
+            data: {
+                primaryOrderTransactionId: transaction.id,
+                primaryOrderDeliveryId: delivery.id,
+                ...(transaction.versionId ? { primaryOrderTransactionVersionId: transaction.versionId } : {}),
+                ...(delivery.versionId ? { primaryOrderDeliveryVersionId: delivery.versionId } : {}),
+            },
+        });
+
+        if (!response.ok()) {
+            throw new Error(`Failed to set the primary order references for order ${order.id}: ${response.statusText()}`);
+        }
     }
 
     /**
@@ -2960,6 +3020,10 @@ export class TestDataService {
             currencyId: currencyId,
             languageId: languageId,
             snippetSetId: snippetSetId,
+            salesChannel: {
+                id: salesChannelId,
+                currencies: [{ id: currencyId }],
+            },
         };
 
         return Object.assign({}, basicSalesChannelDomain, overrides);

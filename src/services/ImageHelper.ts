@@ -1,6 +1,14 @@
-import { encode, Image } from "image-js";
+import { encode } from "fast-png";
 
-export function createRandomImage(width = 800, height = 600) {
+export interface Image {
+    width: number;
+    height: number;
+    data: Uint8Array;
+    channels: 3;
+    depth: 8;
+}
+
+export function createRandomImage(width = 800, height = 600): Image {
     const channels = 3; // RGB
     const data = new Uint8Array(width * height * channels);
 
@@ -9,15 +17,16 @@ export function createRandomImage(width = 800, height = 600) {
         data[i] = (Math.random() * 256) | 0;
     }
 
-    // Construct the image from your data
-    return new Image(width, height, {
-        colorModel: "RGB",
-        bitDepth: 8,
+    return {
+        width,
+        height,
         data,
-    });
+        channels: 3 as const,
+        depth: 8 as const,
+    };
 }
 
-export function createSolidColorImage(width = 800, height = 600, color: [number, number, number] = [255, 0, 0]) {
+export function createSolidColorImage(width = 800, height = 600, color: [number, number, number] = [255, 0, 0]): Image {
     const channels = 3; // RGB
     const data = new Uint8Array(width * height * channels);
     const [r, g, b] = color;
@@ -28,13 +37,23 @@ export function createSolidColorImage(width = 800, height = 600, color: [number,
         data[i + 2] = b;
     }
 
-    return new Image(width, height, {
-        colorModel: "RGB",
-        bitDepth: 8,
+    return {
+        width,
+        height,
         data,
-    });
+        channels: 3 as const,
+        depth: 8 as const,
+    };
 }
 
 export function encodeImage(image: Image) {
-    return Buffer.from(encode(image));
+    return Buffer.from(
+        encode({
+            width: image.width,
+            height: image.height,
+            data: image.data,
+            channels: image.channels,
+            depth: image.depth,
+        })
+    );
 }

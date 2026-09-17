@@ -11,6 +11,7 @@ import { LoginViaReviewsTab } from "./shop-customer/Account/LoginViaReviewsTab";
 import { DeactivateShopwareServices } from "./shop-admin/ShopwareServices/DeactivateShopwareServices";
 import { CheckVisibilityOfServicesBanner } from "./shop-admin/ShopwareServices/CheckVisibilityOfServicesBanner";
 import { CheckAccessToShopwareServices } from "./shop-admin/ShopwareServices/CheckAccessToShopwareServices";
+import { SelectExtensionCategory } from "./shop-admin/FRW/SelectExtensionCategory";
 
 export const test = mergeTests(
     SaveProduct,
@@ -23,5 +24,6 @@ export const test = mergeTests(
     LoginViaReviewsTab,
     CheckAccessToShopwareServices,
     CheckVisibilityOfServicesBanner,
-    DeactivateShopwareServices
+    DeactivateShopwareServices,
+    SelectExtensionCategory
 );

@@ -8,7 +8,13 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
     CreateFlow: async ({ AdminFlowBuilderCreate, AdminFlowBuilderDetail, AdminFlowBuilderListing, ShopAdmin, TestDataService }, use) => {
         const task = (flowConfig: FlowConfig) => {
             return async function createFlow() {
+                await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
+                // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
+                const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
+                const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"));
                 await AdminFlowBuilderListing.createFlowButton.click();
+                await navigatedToCreate;
+                await ShopAdmin.expects(AdminFlowBuilderCreate.skeletonLoader).toHaveCount(0);
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
                 await AdminFlowBuilderCreate.nameField.fill(`${flowConfig.name}`);
@@ -33,6 +39,7 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.conditionSelectField, `${flowConfig.condition}`)).click();
                 // Add action to condition true block
+                await flowActionsLoaded;
                 await AdminFlowBuilderCreate.trueBlockAddActionButton.click();
                 // todo: As soon as trueBlockActionSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
                 await AdminFlowBuilderCreate.trueBlockActionSelectField.click();
@@ -65,14 +72,18 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.tagModal).toBeVisible();
-                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following three lines and use the commented line instead.
+                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following four lines and use the commented line instead.
                 await AdminFlowBuilderCreate.tagModalTagsSelectField.click();
+                await AdminFlowBuilderCreate.tagModalTagsSelectField.fill(flowConfig.falseActionIdentifier);
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
                     .getByRole("listitem")
                     .filter({ hasText: `${flowConfig.falseActionIdentifier}` })
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.tagModalTagsSelectField, `${flowConfig.falseActionIdentifier}`)).click();
+                // The tags select stays open after picking one (it's multi-select); with a long
+                // enough result list it can visually overlap and intercept the Add button below.
+                await AdminFlowBuilderCreate.tagModalTagsSelectField.press("Escape");
                 await AdminFlowBuilderCreate.modalAddButton.click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.falseBlockActionDescription).toContainText(`Tag: ${flowConfig.falseActionIdentifier}`);
                 await AdminFlowBuilderCreate.saveButton.click();
