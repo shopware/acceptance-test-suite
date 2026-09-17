@@ -9,19 +9,18 @@ import type { ProductFormData } from "../../../types/ShopwareTypes";
  * The form is left unsaved so that the caller can decide between "Save" and "Save and duplicate".
  */
 export const FillProductBaseData = base.extend<{ FillProductBaseData: Task }, FixtureTypes>({
-    FillProductBaseData: async ({ AdminProductCreate }, use) => {
+    FillProductBaseData: async ({ AdminProductCreate, ShopAdmin }, use) => {
         const task = (product: ProductFormData) => {
             return async function FillProductBaseData() {
-                await AdminProductCreate.nameInput.fill(product.name);
-                await AdminProductCreate.productNumberInput.fill(product.productNumber);
+                await ShopAdmin.fillsIn(AdminProductCreate.nameInput, product.name);
+                await ShopAdmin.fillsIn(AdminProductCreate.productNumberInput, product.productNumber);
 
                 // The net price is derived server side, so saving too early would persist a stale price.
                 const priceCalculation = AdminProductCreate.page.waitForResponse((response) => response.url().includes("/api/_action/calculate-price") && response.ok());
-                await AdminProductCreate.priceGrossInput.fill(product.grossPrice);
-                await AdminProductCreate.priceGrossInput.blur();
+                await ShopAdmin.fillsIn(AdminProductCreate.priceGrossInput, product.grossPrice);
                 await priceCalculation;
 
-                await AdminProductCreate.stockInput.fill(product.stock);
+                await ShopAdmin.fillsIn(AdminProductCreate.stockInput, product.stock);
             };
         };
 
