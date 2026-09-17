@@ -326,6 +326,16 @@ export interface FlowConfig {
     falseActionIdentifier: string;
 }
 
+/**
+ * Base data of the administration product creation form.
+ */
+export interface ProductFormData {
+    name: string;
+    productNumber: string;
+    grossPrice: string;
+    stock: string;
+}
+
 export interface CategoryData {
     name: string;
     categoryType: "Link" | "Page / List" | "Structuring element / Entry point";

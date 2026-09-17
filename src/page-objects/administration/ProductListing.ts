@@ -1,8 +1,13 @@
-import type { Page, Locator } from "playwright-core";
+import type { Page, Locator } from "@playwright/test";
 import type { PageObject } from "../../types/PageObject";
 import { translate } from "../../services/LanguageHelper";
 
 export class ProductListing implements PageObject {
+    /**
+     * Smart bar
+     */
+    public readonly addProductButton: Locator;
+
     /**
      * Multi selection
      */
@@ -18,11 +23,18 @@ export class ProductListing implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
+        this.addProductButton = page.getByRole("button", {
+            name: translate("administration:product:listing.addProduct"),
+        });
         this.productsTable = page.locator(".sw-data-grid__table");
-        this.bulkEditButton = page.getByRole("button", { name: translate("administration:product:listing.bulkEdit") });
+        this.bulkEditButton = page.getByRole("button", {
+            name: translate("administration:product:listing.bulkEdit"),
+        });
 
         this.bulkEditModal = page.locator(".sw-product-bulk-edit-modal");
-        this.startBulkEditButton = this.bulkEditModal.getByRole("button", { name: translate("administration:product:listing.startBulkEdit") });
+        this.startBulkEditButton = this.bulkEditModal.getByRole("button", {
+            name: translate("administration:product:listing.startBulkEdit"),
+        });
     }
 
     /**
@@ -51,7 +63,9 @@ export class ProductListing implements PageObject {
      * @param productNumber - Product number you are looking for.
      */
     async getProductRow(productNumber: string): Promise<Record<string, Locator>> {
-        const productTableRow = this.productsTable.locator(".sw-data-grid__row", { hasText: productNumber });
+        const productTableRow = this.productsTable.locator(".sw-data-grid__row", {
+            hasText: productNumber,
+        });
         const productNameSelector = ".sw-data-grid__cell--name";
         const productNumberSelector = ".sw-data-grid__cell--productNumber";
         const productManufacturerSelector = ".sw-data-grid__cell--manufacturer-name";

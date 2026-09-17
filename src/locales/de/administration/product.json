@@ -1,6 +1,6 @@
 {
     "listing": {
-        "addProduct": "Produkt hinzufügen",
+        "addProduct": "Produkt anlegen",
         "bulkEdit": "Massenbearbeitung",
         "startBulkEdit": "Bearbeiten"
     },
@@ -21,7 +21,8 @@
         "colorProperty": "Color",
         "sizeProperty": "Size",
         "stockPlaceholder": "Gib den Lagerbestand ein ...",
-        "restockTimePlaceholder": "Lagerbestand"
+        "restockTimePlaceholder": "Lagerbestand",
+        "copySuffix": "Kopie"
     },
     "errors": {
         "flows": {
@@ -54,7 +55,9 @@
         "uploadFile": "Hochladen",
         "generateVariants": "Generate variants",
         "next": "Weiter",
-        "saveVariants": "Speichern"
+        "saveVariants": "Speichern",
+        "cancel": "Abbrechen",
+        "saveAndDuplicate": "Speichern und duplizieren"
     },
     "modals": {
         "generateVariants": "Generate variants"

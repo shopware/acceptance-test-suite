@@ -1,4 +1,4 @@
-import type { Page, Locator } from "playwright-core";
+import type { Page, Locator } from "@playwright/test";
 import type { PageObject } from "../../types/PageObject";
 import { satisfies } from "compare-versions";
 import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
@@ -17,8 +17,16 @@ export class ProductDetail implements PageObject {
     public readonly saveButtonCheckMark: Locator;
 
     /**
+     * "Save and duplicate" is only reachable through the split button next to "Save".
+     */
+    public readonly saveContextMenuButton: Locator;
+    public readonly saveAndDuplicateButton: Locator;
+
+    /**
      * General Info
      */
+    public readonly nameInput: Locator;
+    public readonly productNumberInput: Locator;
     public readonly manufacturerDropdownText: Locator;
 
     /**
@@ -117,20 +125,50 @@ export class ProductDetail implements PageObject {
 
         this.contentView = page.locator(".sw-desktop__content");
         this.productHeadline = page.locator(".smart-bar__header");
-        this.savePhysicalProductButton = page.getByRole("button", { name: translate("administration:product:buttons.save") });
+        this.savePhysicalProductButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.save"),
+        });
         this.saveButtonCheckMark = page.locator(".icon--regular-checkmark-xs");
         this.saveButtonLoadingSpinner = page.locator("sw-loader");
 
+        // The split button toggle only renders a chevron icon, so it has no accessible name to query by.
+        this.saveContextMenuButton = page.locator(".sw-product-detail__button-context-menu");
+        this.saveAndDuplicateButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.saveAndDuplicate"),
+        });
+
         // Tabs
-        this.specificationsTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.specifications") });
-        this.advancedPricingTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.advancedPricing") });
-        this.variantsTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.variants") });
-        this.layoutTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.layout") });
-        this.crossSellingTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.crossSelling") });
-        this.SEOTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.seo") });
-        this.reviewsTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.reviews") });
+        this.specificationsTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.specifications"),
+        });
+        this.advancedPricingTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.advancedPricing"),
+        });
+        this.variantsTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.variants"),
+        });
+        this.layoutTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.layout"),
+        });
+        this.crossSellingTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.crossSelling"),
+        });
+        this.SEOTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.seo"),
+        });
+        this.reviewsTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.reviews"),
+        });
 
         // General Info
+        this.nameInput = page.getByRole("textbox", {
+            name: translate("administration:product:detail.name"),
+            exact: true,
+        });
+        this.productNumberInput = page.getByRole("textbox", {
+            name: translate("administration:product:detail.productNumber"),
+            exact: true,
+        });
         this.manufacturerDropdownText = page.locator(".sw-select-product__select_manufacturer");
 
         // Prices
@@ -153,15 +191,28 @@ export class ProductDetail implements PageObject {
         }
 
         // Media upload interactions
-        this.uploadMediaButton = page.getByRole("button", { name: translate("administration:product:buttons.uploadFile") });
+        this.uploadMediaButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.uploadFile"),
+        });
         this.coverImage = page.locator(".sw-product-media-form__cover-image");
         this.productImage = page.locator(".sw-media-preview-v2__item");
 
-        this.generateVariantsButton = page.getByRole("button", { name: translate("administration:product:buttons.generateVariants") });
-        this.variantsModal = page.getByRole("dialog", { name: translate("administration:product:modals.generateVariants") });
-        this.variantsModalHeadline = this.variantsModal.getByRole("heading", { name: translate("administration:product:modals.generateVariants") });
-        this.variantsNextButton = this.variantsModal.getByRole("button", { name: translate("administration:product:buttons.next"), exact: true });
-        this.variantsSaveButton = this.variantsModal.getByRole("button", { name: translate("administration:product:buttons.saveVariants") });
+        this.generateVariantsButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.generateVariants"),
+        });
+        this.variantsModal = page.getByRole("dialog", {
+            name: translate("administration:product:modals.generateVariants"),
+        });
+        this.variantsModalHeadline = this.variantsModal.getByRole("heading", {
+            name: translate("administration:product:modals.generateVariants"),
+        });
+        this.variantsNextButton = this.variantsModal.getByRole("button", {
+            name: translate("administration:product:buttons.next"),
+            exact: true,
+        });
+        this.variantsSaveButton = this.variantsModal.getByRole("button", {
+            name: translate("administration:product:buttons.saveVariants"),
+        });
 
         // Property selection
         this.propertyName = (propertyName: string) => this.variantsModal.getByText(propertyName);
@@ -170,12 +221,36 @@ export class ProductDetail implements PageObject {
         this.propertyGroupColor = this.variantsModal.getByText(translate("administration:product:detail.colorProperty")).first();
         this.propertyGroupSize = this.variantsModal.getByText(translate("administration:product:detail.sizeProperty")).first();
         this.propertyOptionGrid = this.variantsModal.locator(".sw-property-search__tree-selection__option_grid");
-        this.propertyOptionColorBlue = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.blue") }).getByRole("checkbox");
-        this.propertyOptionColorRed = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.red") }).getByRole("checkbox");
-        this.propertyOptionColorGreen = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.green") }).getByRole("checkbox");
-        this.propertyOptionSizeSmall = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.small") }).getByRole("checkbox");
-        this.propertyOptionSizeMedium = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.medium") }).getByRole("checkbox");
-        this.propertyOptionSizeLarge = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.large") }).getByRole("checkbox");
+        this.propertyOptionColorBlue = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.blue"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionColorRed = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.red"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionColorGreen = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.green"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionSizeSmall = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.small"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionSizeMedium = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.medium"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionSizeLarge = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.large"),
+            })
+            .getByRole("checkbox");
 
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.customFieldCard = page.locator(".sw-card").getByText(translate("administration:customField:general.customFields"));
@@ -187,9 +262,13 @@ export class ProductDetail implements PageObject {
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
         let customFieldCard: Locator;
         if (satisfies(this.instanceMeta.version, "<6.7")) {
-            customFieldCard = this.page.locator(".sw-card").filter({ hasText: translate("administration:customField:general.customFields") });
+            customFieldCard = this.page.locator(".sw-card").filter({
+                hasText: translate("administration:customField:general.customFields"),
+            });
         } else {
-            customFieldCard = this.page.locator(".mt-card").filter({ hasText: translate("administration:customField:general.customFields") });
+            customFieldCard = this.page.locator(".mt-card").filter({
+                hasText: translate("administration:customField:general.customFields"),
+            });
         }
 
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);

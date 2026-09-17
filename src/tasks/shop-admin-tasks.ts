@@ -1,6 +1,8 @@
 import { mergeTests } from "@playwright/test";
 
 import { SaveProduct } from "./shop-admin/Product/SaveProduct";
+import { SaveAndDuplicateProduct } from "./shop-admin/Product/SaveAndDuplicateProduct";
+import { FillProductBaseData } from "./shop-admin/Product/FillProductBaseData";
 import { ExpectNotification } from "./shop-admin/ExpectNotification";
 import { CreateLinkTypeCategory } from "./shop-admin/Category/CreateLinkTypeCategory";
 import { BulkEditProducts } from "./shop-admin/Product/BulkEditProducts";
@@ -15,6 +17,8 @@ import { SelectExtensionCategory } from "./shop-admin/FRW/SelectExtensionCategor
 
 export const test = mergeTests(
     SaveProduct,
+    SaveAndDuplicateProduct,
+    FillProductBaseData,
     ExpectNotification,
     CreateLinkTypeCategory,
     BulkEditProducts,
