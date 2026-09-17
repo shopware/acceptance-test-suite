@@ -27,7 +27,9 @@
     "listing": {
         "addProduct": "Add product",
         "bulkEdit": "Bulk edit",
-        "startBulkEdit": "Start bulk edit"
+        "startBulkEdit": "Start bulk edit",
+        "addDigitalProduct": "Add digital product",
+        "digitalIndicator": "digital"
     },
     "tabs": {
         "specifications": "Specifications",

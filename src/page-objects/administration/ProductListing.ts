@@ -5,8 +5,12 @@ import { translate } from "../../services/LanguageHelper";
 export class ProductListing implements PageObject {
     /**
      * Smart bar
+     *
+     * A digital product is only reachable through the split button next to "Add product".
      */
     public readonly addProductButton: Locator;
+    public readonly addProductContextMenuButton: Locator;
+    public readonly addDigitalProductLink: Locator;
 
     /**
      * Multi selection
@@ -25,6 +29,11 @@ export class ProductListing implements PageObject {
         this.page = page;
         this.addProductButton = page.getByRole("button", {
             name: translate("administration:product:listing.addProduct"),
+        });
+        // The split button toggle only renders a chevron icon, so it has no accessible name to query by.
+        this.addProductContextMenuButton = page.locator(".sw-product-list__button-context-menu");
+        this.addDigitalProductLink = page.getByRole("link", {
+            name: translate("administration:product:listing.addDigitalProduct"),
         });
         this.productsTable = page.locator(".sw-data-grid__table");
         this.bulkEditButton = page.getByRole("button", {
@@ -69,6 +78,7 @@ export class ProductListing implements PageObject {
         const productNameSelector = ".sw-data-grid__cell--name";
         const productNumberSelector = ".sw-data-grid__cell--productNumber";
         const productManufacturerSelector = ".sw-data-grid__cell--manufacturer-name";
+        const productDigitalIndicatorSelector = ".sw-product-list__digital-indicator";
         const productActiveSelector = "sw-icon__regular-checkmark-xs";
         const productInactiveSelector = "sw-icon__regular-times-s";
         const productPriceSelector = ".sw-data-grid__cell--price-EUR";
@@ -76,6 +86,7 @@ export class ProductListing implements PageObject {
         return {
             selectionCheckbox: productTableRow.getByRole("checkbox"),
             productName: productTableRow.locator(productNameSelector),
+            productDigitalIndicator: productTableRow.locator(productDigitalIndicatorSelector),
             productNumber: productTableRow.locator(productNumberSelector),
             productManufacturer: productTableRow.locator(productManufacturerSelector),
             productActive: productTableRow.getByTestId(productActiveSelector),

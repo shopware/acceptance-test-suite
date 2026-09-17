@@ -20,7 +20,10 @@ export const FillProductBaseData = base.extend<{ FillProductBaseData: Task }, Fi
                 await ShopAdmin.fillsIn(AdminProductCreate.priceGrossInput, product.grossPrice);
                 await priceCalculation;
 
-                await ShopAdmin.fillsIn(AdminProductCreate.stockInput, product.stock);
+                // The digital product form manages stock through a checkbox instead of a stock field.
+                if (product.stock !== undefined) {
+                    await ShopAdmin.fillsIn(AdminProductCreate.stockInput, product.stock);
+                }
             };
         };
 

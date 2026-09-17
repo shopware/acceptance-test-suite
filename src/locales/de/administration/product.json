@@ -2,7 +2,9 @@
     "listing": {
         "addProduct": "Produkt anlegen",
         "bulkEdit": "Massenbearbeitung",
-        "startBulkEdit": "Bearbeiten"
+        "startBulkEdit": "Bearbeiten",
+        "addDigitalProduct": "Digitales Produkt anlegen",
+        "digitalIndicator": "digital"
     },
     "create": {
         "title": "Neues Produkt",

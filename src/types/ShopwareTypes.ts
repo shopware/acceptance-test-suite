@@ -326,6 +326,8 @@ export interface FlowConfig {
     falseActionIdentifier: string;
 }
 
+export type ProductCreationType = "physical" | "digital";
+
 /**
  * Base data of the administration product creation form.
  */
@@ -333,7 +335,8 @@ export interface ProductFormData {
     name: string;
     productNumber: string;
     grossPrice: string;
-    stock: string;
+    /** Digital products have no stock field unless stock management is enabled. */
+    stock?: string;
 }
 
 export interface CategoryData {

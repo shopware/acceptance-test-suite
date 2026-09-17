@@ -55,9 +55,17 @@ export class ProductDetail implements PageObject {
     /**
      * Media Upload interactions
      */
+    public readonly mediaCard: Locator;
     public readonly uploadMediaButton: Locator;
     public readonly coverImage: Locator;
     public readonly productImage: Locator;
+
+    /**
+     * Files of a digital product
+     */
+    public readonly downloadsCard: Locator;
+    public readonly uploadDownloadFileButton: Locator;
+    public readonly downloadFileName: Locator;
 
     /**
      * Tabs
@@ -190,12 +198,21 @@ export class ProductDetail implements PageObject {
             this.releaseDateInput = page.locator(".dp__input");
         }
 
-        // Media upload interactions
-        this.uploadMediaButton = page.getByRole("button", {
+        // Media upload interactions.
+        // A digital product renders a second "Upload file" button in its files card, so both uploads stay card scoped.
+        this.mediaCard = page.locator(".sw-product-detail-base__media");
+        this.uploadMediaButton = this.mediaCard.getByRole("button", {
             name: translate("administration:product:buttons.uploadFile"),
         });
         this.coverImage = page.locator(".sw-product-media-form__cover-image");
         this.productImage = page.locator(".sw-media-preview-v2__item");
+
+        // Files of a digital product
+        this.downloadsCard = page.locator(".sw-product-detail-base__downloads");
+        this.uploadDownloadFileButton = this.downloadsCard.getByRole("button", {
+            name: translate("administration:product:buttons.uploadFile"),
+        });
+        this.downloadFileName = this.downloadsCard.locator(".sw-product-download-form-row__name");
 
         this.generateVariantsButton = page.getByRole("button", {
             name: translate("administration:product:buttons.generateVariants"),

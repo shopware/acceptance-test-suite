@@ -2,6 +2,7 @@ import type { Page, Locator } from "@playwright/test";
 import type { PageObject } from "../../types/PageObject";
 import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
 import { translate } from "../../services/LanguageHelper";
+import type { ProductCreationType } from "../../types/ShopwareTypes";
 
 export class ProductCreate implements PageObject {
     public readonly page: Page;
@@ -51,7 +52,12 @@ export class ProductCreate implements PageObject {
         });
     }
 
-    url() {
-        return "#/sw/product/create/base?creationType=physical";
+    /**
+     * Returns the url to the creation page.
+     *
+     * @param creationType - Physical products are created by default, digital products carry a file instead of stock.
+     */
+    url(creationType: ProductCreationType = "physical") {
+        return `#/sw/product/create/base?creationType=${creationType}`;
     }
 }
