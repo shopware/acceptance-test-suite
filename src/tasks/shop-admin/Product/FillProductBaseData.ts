@@ -13,11 +13,18 @@ export const FillProductBaseData = base.extend<{ FillProductBaseData: Task }, Fi
         const task = (product: ProductFormData) => {
             return async function FillProductBaseData() {
                 await ShopAdmin.fillsIn(AdminProductCreate.nameInput, product.name);
+                if (product.productNumber) {
+                    await AdminProductCreate.productNumberInput.fill(product.productNumber);
+                }
 
                 // The net price is derived server side, so saving too early would persist a stale price.
                 const priceCalculation = AdminProductCreate.page.waitForResponse((response) => response.url().includes("/api/_action/calculate-price") && response.ok());
                 await ShopAdmin.fillsIn(AdminProductCreate.priceGrossInput, product.grossPrice);
                 await priceCalculation;
+
+                if (product.stock) {
+                    await AdminProductCreate.stockInput.fill(product.stock);
+                }
             };
         };
 
