@@ -1,4 +1,4 @@
-import type { Page, Locator } from "playwright-core";
+import type { Page, Locator } from "@playwright/test";
 import type { PageObject } from "../../types/PageObject";
 import { satisfies } from "compare-versions";
 import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
@@ -17,8 +17,17 @@ export class ProductDetail implements PageObject {
     public readonly saveButtonCheckMark: Locator;
 
     /**
+     * "Save and duplicate" is only reachable through the split button next to "Save".
+     */
+    public readonly saveContextMenuButton: Locator;
+    public readonly saveAndDuplicateButton: Locator;
+
+    /**
      * General Info
      */
+    public readonly nameInput: Locator;
+    public readonly productNumberInput: Locator;
+    public readonly descriptionEditor: Locator;
     public readonly manufacturerDropdownText: Locator;
 
     /**
@@ -38,6 +47,13 @@ export class ProductDetail implements PageObject {
     public readonly activeForAllSalesChannelsToggle: Locator;
     public readonly tagsInput: Locator;
     public readonly saleChannelsInput: Locator;
+    public readonly saleChannelsSearchInput: Locator;
+    public readonly selectedSaleChannel: Locator;
+    public readonly categoriesInput: Locator;
+    public readonly categoriesSearchInput: Locator;
+    public readonly selectedCategory: Locator;
+    public readonly categorySearchResult: (categoryName: string) => Locator;
+    public readonly saleChannelSearchResult: (salesChannelName: string) => Locator;
 
     /**
      * Labelling
@@ -47,9 +63,17 @@ export class ProductDetail implements PageObject {
     /**
      * Media Upload interactions
      */
+    public readonly mediaCard: Locator;
     public readonly uploadMediaButton: Locator;
     public readonly coverImage: Locator;
     public readonly productImage: Locator;
+
+    /**
+     * Files of a digital product
+     */
+    public readonly downloadsCard: Locator;
+    public readonly uploadDownloadFileButton: Locator;
+    public readonly downloadFileName: Locator;
 
     /**
      * Tabs
@@ -108,6 +132,16 @@ export class ProductDetail implements PageObject {
      * Cards
      */
     public readonly customFieldCard: Locator;
+
+    /**
+     * Specifications tab, product measurements
+     */
+    public readonly measurementCard: Locator;
+    public readonly widthInput: Locator;
+    public readonly heightInput: Locator;
+    public readonly lengthInput: Locator;
+    public readonly weightInput: Locator;
+
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
@@ -117,21 +151,56 @@ export class ProductDetail implements PageObject {
 
         this.contentView = page.locator(".sw-desktop__content");
         this.productHeadline = page.locator(".smart-bar__header");
-        this.savePhysicalProductButton = page.getByRole("button", { name: translate("administration:product:buttons.save") });
+        this.savePhysicalProductButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.save"),
+        });
         this.saveButtonCheckMark = page.locator(".icon--regular-checkmark-xs");
         this.saveButtonLoadingSpinner = page.locator("sw-loader");
 
+        // The split button toggle only renders a chevron icon, so it has no accessible name to query by.
+        this.saveContextMenuButton = page.locator(".sw-product-detail__button-context-menu");
+        this.saveAndDuplicateButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.saveAndDuplicate"),
+        });
+
         // Tabs
-        this.specificationsTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.specifications") });
-        this.advancedPricingTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.advancedPricing") });
-        this.variantsTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.variants") });
-        this.layoutTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.layout") });
-        this.crossSellingTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.crossSelling") });
-        this.SEOTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.seo") });
-        this.reviewsTabLink = page.getByRole("tab", { name: translate("administration:product:tabs.reviews") });
+        this.specificationsTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.specifications"),
+        });
+        this.advancedPricingTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.advancedPricing"),
+        });
+        this.variantsTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.variants"),
+        });
+        this.layoutTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.layout"),
+        });
+        this.crossSellingTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.crossSelling"),
+        });
+        this.SEOTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.seo"),
+        });
+        this.reviewsTabLink = page.getByRole("tab", {
+            name: translate("administration:product:tabs.reviews"),
+        });
 
         // General Info
+        this.nameInput = page.getByRole("textbox", {
+            name: translate("administration:product:detail.name"),
+            exact: true,
+        });
+        this.productNumberInput = page.getByRole("textbox", {
+            name: translate("administration:product:detail.productNumber"),
+            exact: true,
+        });
         this.manufacturerDropdownText = page.locator(".sw-select-product__select_manufacturer");
+        if (satisfies(instanceMeta.version, "<6.8")) {
+            this.descriptionEditor = page.locator(".sw-text-editor__content-editor");
+        } else {
+            this.descriptionEditor = page.locator(".mt-text-editor__content-editor");
+        }
 
         // Prices
         this.priceGrossInput = page.locator("#sw-price-field-gross").first();
@@ -144,6 +213,13 @@ export class ProductDetail implements PageObject {
         this.activeForAllSalesChannelsToggle = page.locator(".sw-field--product-active").getByRole("checkbox");
         this.tagsInput = page.locator(".sw-product-category-form__tag-field");
         this.saleChannelsInput = page.locator(".sw-product-detail__select-visibility");
+        this.saleChannelsSearchInput = this.saleChannelsInput.locator(".sw-select-selection-list__input");
+        this.selectedSaleChannel = this.saleChannelsInput.locator(".sw-select-selection-list__item-holder");
+        this.categoriesInput = page.locator(".sw-product-detail__select-category");
+        this.categoriesSearchInput = this.categoriesInput.locator(".sw-category-tree__input-field");
+        this.selectedCategory = page.locator(".sw-category-tree-field__selected-label");
+        this.categorySearchResult = (categoryName: string) => page.locator(".sw-category-tree-field__search-result").filter({ hasText: categoryName });
+        this.saleChannelSearchResult = (salesChannelName: string) => page.locator(".sw-select-result").filter({ hasText: salesChannelName });
 
         // Labelling
         if (satisfies(instanceMeta.version, "<6.7")) {
@@ -152,16 +228,38 @@ export class ProductDetail implements PageObject {
             this.releaseDateInput = page.locator(".dp__input");
         }
 
-        // Media upload interactions
-        this.uploadMediaButton = page.getByRole("button", { name: translate("administration:product:buttons.uploadFile") });
+        // Media upload interactions.
+        // A digital product renders a second "Upload file" button in its files card, so both uploads stay card scoped.
+        this.mediaCard = page.locator(".sw-product-detail-base__media");
+        this.uploadMediaButton = this.mediaCard.getByRole("button", {
+            name: translate("administration:product:buttons.uploadFile"),
+        });
         this.coverImage = page.locator(".sw-product-media-form__cover-image");
         this.productImage = page.locator(".sw-media-preview-v2__item");
 
-        this.generateVariantsButton = page.getByRole("button", { name: translate("administration:product:buttons.generateVariants") });
-        this.variantsModal = page.getByRole("dialog", { name: translate("administration:product:modals.generateVariants") });
-        this.variantsModalHeadline = this.variantsModal.getByRole("heading", { name: translate("administration:product:modals.generateVariants") });
-        this.variantsNextButton = this.variantsModal.getByRole("button", { name: translate("administration:product:buttons.next"), exact: true });
-        this.variantsSaveButton = this.variantsModal.getByRole("button", { name: translate("administration:product:buttons.saveVariants") });
+        // Files of a digital product
+        this.downloadsCard = page.locator(".sw-product-detail-base__downloads");
+        this.uploadDownloadFileButton = this.downloadsCard.getByRole("button", {
+            name: translate("administration:product:buttons.uploadFile"),
+        });
+        this.downloadFileName = this.downloadsCard.locator(".sw-product-download-form-row__name");
+
+        this.generateVariantsButton = page.getByRole("button", {
+            name: translate("administration:product:buttons.generateVariants"),
+        });
+        this.variantsModal = page.getByRole("dialog", {
+            name: translate("administration:product:modals.generateVariants"),
+        });
+        this.variantsModalHeadline = this.variantsModal.getByRole("heading", {
+            name: translate("administration:product:modals.generateVariants"),
+        });
+        this.variantsNextButton = this.variantsModal.getByRole("button", {
+            name: translate("administration:product:buttons.next"),
+            exact: true,
+        });
+        this.variantsSaveButton = this.variantsModal.getByRole("button", {
+            name: translate("administration:product:buttons.saveVariants"),
+        });
 
         // Property selection
         this.propertyName = (propertyName: string) => this.variantsModal.getByText(propertyName);
@@ -170,26 +268,61 @@ export class ProductDetail implements PageObject {
         this.propertyGroupColor = this.variantsModal.getByText(translate("administration:product:detail.colorProperty")).first();
         this.propertyGroupSize = this.variantsModal.getByText(translate("administration:product:detail.sizeProperty")).first();
         this.propertyOptionGrid = this.variantsModal.locator(".sw-property-search__tree-selection__option_grid");
-        this.propertyOptionColorBlue = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.blue") }).getByRole("checkbox");
-        this.propertyOptionColorRed = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.red") }).getByRole("checkbox");
-        this.propertyOptionColorGreen = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.green") }).getByRole("checkbox");
-        this.propertyOptionSizeSmall = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.small") }).getByRole("checkbox");
-        this.propertyOptionSizeMedium = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.medium") }).getByRole("checkbox");
-        this.propertyOptionSizeLarge = this.propertyOptionGrid.getByRole("row", { name: translate("administration:product:propertyValues.large") }).getByRole("checkbox");
+        this.propertyOptionColorBlue = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.blue"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionColorRed = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.red"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionColorGreen = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.green"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionSizeSmall = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.small"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionSizeMedium = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.medium"),
+            })
+            .getByRole("checkbox");
+        this.propertyOptionSizeLarge = this.propertyOptionGrid
+            .getByRole("row", {
+                name: translate("administration:product:propertyValues.large"),
+            })
+            .getByRole("checkbox");
 
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.customFieldCard = page.locator(".sw-card").getByText(translate("administration:customField:general.customFields"));
         } else {
             this.customFieldCard = page.locator(".mt-card").getByText(translate("administration:customField:general.customFields"));
         }
+
+        // Specifications tab, product measurements. The inputs carry generated ids, so they are queried by label.
+        this.measurementCard = page.locator(".sw-product-detail-specification__measurement");
+        this.widthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.width"), exact: true });
+        this.heightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.height"), exact: true });
+        this.lengthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.length"), exact: true });
+        this.weightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.weight"), exact: true });
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
         let customFieldCard: Locator;
         if (satisfies(this.instanceMeta.version, "<6.7")) {
-            customFieldCard = this.page.locator(".sw-card").filter({ hasText: translate("administration:customField:general.customFields") });
+            customFieldCard = this.page.locator(".sw-card").filter({
+                hasText: translate("administration:customField:general.customFields"),
+            });
         } else {
-            customFieldCard = this.page.locator(".mt-card").filter({ hasText: translate("administration:customField:general.customFields") });
+            customFieldCard = this.page.locator(".mt-card").filter({
+                hasText: translate("administration:customField:general.customFields"),
+            });
         }
 
         const customFieldSetTab = customFieldCard.getByText(customFieldSetName);
