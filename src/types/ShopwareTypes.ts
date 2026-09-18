@@ -333,7 +333,7 @@ export type ProductCreationType = "physical" | "digital";
  */
 export interface ProductFormData {
     name: string;
-    productNumber: string;
+    productNumber?: string;
     grossPrice: string;
     /** Digital products have no stock field unless stock management is enabled. */
     stock?: string;
