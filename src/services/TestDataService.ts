@@ -191,6 +191,7 @@ export class TestDataService {
      */
     async createNewsletterRecipient(customer: Customer, overrides: Partial<NewsletterRecipient> = {}): Promise<NewsletterRecipient> {
         const hash = this.IdProvider.getIdPair();
+        const today = new Date().toLocaleDateString("en-GB", { timeZone: "UTC" });
         const recipientPayload = {
             email: customer.email,
             salesChannelId: this.defaultSalesChannel.id,
@@ -200,15 +201,9 @@ export class TestDataService {
             status: "direct",
             languageId: customer.languageId,
             salutationId: customer.salutationId,
-            confirmedAt: new Date().toISOString(),
+            confirmedAt: today,
             ...overrides,
         };
-
-        const existingNewsletterRecipient = await this.getNewsletterRecipient({ ...customer, email: recipientPayload.email });
-        if (existingNewsletterRecipient) {
-            this.addCreatedRecord("newsletter_recipient", existingNewsletterRecipient.id);
-            return existingNewsletterRecipient;
-        }
 
         const resp = await this.AdminApiClient.post("newsletter-recipient?_response=detail", {
             data: recipientPayload,

@@ -75,6 +75,7 @@ export class OffCanvasCart implements PageObject {
         const promotionPrice = promotionItem.locator(".line-item-total-price-value");
 
         return {
+            promotionItem: promotionItem,
             promotionLabel: promotionLabel,
             promotionPrice: promotionPrice,
         };
