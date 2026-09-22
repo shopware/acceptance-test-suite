@@ -25,7 +25,6 @@ export class CustomerBulkEdit implements PageObject {
     //Custom fields
     public readonly customFieldCheckbox: Locator;
     public readonly customFieldInput: Locator;
-    public readonly customFieldArrowRightButton: Locator;
 
     /**
      * Confirmation modal
@@ -69,8 +68,7 @@ export class CustomerBulkEdit implements PageObject {
 
         //Custom fields
         const customFields = page.locator(".sw-bulk-edit__custom-fields");
-        this.customFieldArrowRightButton = customFields.locator(".sw-tabs__arrow--right");
-        this.customFieldCheckbox = customFields.getByRole("checkbox");
+        this.customFieldCheckbox = customFields.locator(".sw-bulk-edit-custom-fields__change");
         this.customFieldInput = customFields.getByRole("textbox");
 
         //Confirmation modal
@@ -91,9 +89,7 @@ export class CustomerBulkEdit implements PageObject {
     }
 
     async getCustomFieldLinkByName(customFieldSetName: string): Promise<Locator> {
-        return this.page.locator("a").filter({
-            hasText: `${customFieldSetName}`,
-        });
+        return this.page.locator(".sw-bulk-edit__custom-fields .mt-tabs__item").getByText(customFieldSetName, { exact: true });
     }
 
     url(): string {
