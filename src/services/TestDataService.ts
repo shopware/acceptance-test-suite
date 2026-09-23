@@ -193,17 +193,16 @@ export class TestDataService {
      */
     async createNewsletterRecipient(customer: Customer, overrides: Partial<NewsletterRecipient> = {}): Promise<NewsletterRecipient> {
         const hash = this.IdProvider.getIdPair();
-        const today = new Date().toLocaleDateString("en-GB", { timeZone: "UTC" });
         const recipientPayload = {
             email: customer.email,
             salesChannelId: this.defaultSalesChannel.id,
             firstName: customer.firstName ?? "Test",
             lastName: customer.lastName ?? "User",
-            hash: customer.id || hash,
+            hash: customer.id || hash.uuid,
             status: "direct",
-            languageId: customer.languageId,
+            languageId: customer.languageId ?? this.defaultLanguageId,
             salutationId: customer.salutationId,
-            confirmedAt: today,
+            confirmedAt: this.convertDateTime(new Date()),
             ...overrides,
         };
 
