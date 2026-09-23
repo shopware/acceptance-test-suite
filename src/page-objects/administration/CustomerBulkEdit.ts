@@ -76,9 +76,7 @@ export class CustomerBulkEdit implements PageObject {
         this.customFieldArrowRightButton = customFields.locator(".sw-tabs__arrow--right");
         this.customFieldCheckbox = customFields.getByRole("checkbox");
         this.customFieldInput = customFields.getByRole("textbox");
-        // On V6_8_0_0 the custom-field-set tabs render as mt-tabs (a <button>, no scroll arrow);
-        // on 6.6.x/6.7 they are the legacy sw-tabs (<a>). Branch on the feature, not the version,
-        // because the nightly-major arm runs a 6.7.x build with the flag enabled.
+        // mt-tabs (<button>) on V6_8_0_0, legacy sw-tabs (<a>) on 6.6.x/6.7 — branch on the feature flag.
         this.customFieldSet = (customFieldSetName) =>
             this.instanceMeta.features["V6_8_0_0"]
                 ? customFields.locator(".mt-tabs__item").getByText(customFieldSetName, { exact: true })
