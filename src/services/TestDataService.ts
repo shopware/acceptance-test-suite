@@ -5,6 +5,7 @@ import type { IdProvider } from "./IdProvider";
 import type {
     AclRole,
     Address,
+    BasicRuleCondition,
     Category,
     CmsPage,
     Country,
@@ -27,6 +28,7 @@ import type {
     ProductCrossSelling,
     ProductReview,
     Promotion,
+    PromotionWithConditionRuleOptions,
     PropertyGroup,
     PropertyGroupOption,
     Rule,
@@ -58,23 +60,6 @@ export interface SimpleLineItem {
     quantity?: number;
     position?: number;
     overrides?: Partial<OrderLineItem>;
-}
-
-export interface PromotionWithConditionRuleOptions {
-    id: string;
-    name: string;
-    ruleId: string;
-    useCode?: boolean;
-    discountValue?: number;
-    discountScope?: string;
-    discountType?: string;
-    salesChannelId?: string;
-}
-
-export interface BasicRuleCondition {
-    type: string;
-    value: Record<string, unknown>;
-    children?: BasicRuleCondition[];
 }
 
 export interface SyncApiOperation {
@@ -194,8 +179,8 @@ export class TestDataService {
         const recipientPayload = {
             email: customer.email,
             salesChannelId: this.defaultSalesChannel.id,
-            firstName: customer.firstName ?? "Test",
-            lastName: customer.lastName ?? "User",
+            firstName: customer.firstName ?? `Test ${hash.id}`,
+            lastName: customer.lastName ?? `User ${hash.id}`,
             hash: customer.id || hash.uuid,
             status: "direct",
             languageId: customer.languageId ?? this.defaultLanguageId,
