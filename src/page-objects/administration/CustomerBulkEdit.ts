@@ -1,5 +1,6 @@
 import type { PageObject } from "../../types/PageObject";
 import type { Locator, Page } from "playwright-core";
+import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
 import { translate } from "../../services/LanguageHelper";
 
 export class CustomerBulkEdit implements PageObject {
@@ -25,6 +26,7 @@ export class CustomerBulkEdit implements PageObject {
     //Custom fields
     public readonly customFieldCheckbox: Locator;
     public readonly customFieldInput: Locator;
+    public readonly customFieldArrowRightButton: Locator;
 
     /**
      * Confirmation modal
@@ -35,9 +37,11 @@ export class CustomerBulkEdit implements PageObject {
     public readonly confirmModalSuccessHeader: Locator;
     public readonly confirmModalSuccessCloseButton: Locator;
     public readonly page: Page;
+    public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
-    constructor(page: Page) {
+    constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
         this.page = page;
+        this.instanceMeta = instanceMeta;
         //General
         this.applyChangesButton = page.getByRole("button", { name: translate("administration:customer:bulkEdit.applyChanges") });
         this.filtersResultPopoverItemList = page.locator(".sw-select-result-list__content").getByRole("listitem");
@@ -68,7 +72,8 @@ export class CustomerBulkEdit implements PageObject {
 
         //Custom fields
         const customFields = page.locator(".sw-bulk-edit__custom-fields");
-        this.customFieldCheckbox = customFields.locator(".sw-bulk-edit-custom-fields__change");
+        this.customFieldArrowRightButton = customFields.locator(".sw-tabs__arrow--right");
+        this.customFieldCheckbox = customFields.getByRole("checkbox");
         this.customFieldInput = customFields.getByRole("textbox");
 
         //Confirmation modal
@@ -89,7 +94,14 @@ export class CustomerBulkEdit implements PageObject {
     }
 
     async getCustomFieldLinkByName(customFieldSetName: string): Promise<Locator> {
-        return this.page.locator(".sw-bulk-edit__custom-fields .mt-tabs__item").getByText(customFieldSetName, { exact: true });
+        // On V6_8_0_0 the custom-field-set tabs render as mt-tabs (a <button>, no scroll arrow);
+        // on 6.6.x/6.7 they are the legacy sw-tabs (<a>). Branch on the feature, not the version,
+        // because the nightly-major arm runs a 6.7.x build with the flag enabled.
+        if (this.instanceMeta.features["V6_8_0_0"]) {
+            return this.page.locator(".sw-bulk-edit__custom-fields .mt-tabs__item").getByText(customFieldSetName, { exact: true });
+        }
+
+        return this.page.locator("a").filter({ hasText: `${customFieldSetName}` });
     }
 
     url(): string {
