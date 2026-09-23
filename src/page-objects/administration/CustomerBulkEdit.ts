@@ -27,6 +27,7 @@ export class CustomerBulkEdit implements PageObject {
     public readonly customFieldCheckbox: Locator;
     public readonly customFieldInput: Locator;
     public readonly customFieldArrowRightButton: Locator;
+    public readonly customFieldSet: (customFieldSetName: string) => Locator;
 
     /**
      * Confirmation modal
@@ -75,6 +76,13 @@ export class CustomerBulkEdit implements PageObject {
         this.customFieldArrowRightButton = customFields.locator(".sw-tabs__arrow--right");
         this.customFieldCheckbox = customFields.getByRole("checkbox");
         this.customFieldInput = customFields.getByRole("textbox");
+        // On V6_8_0_0 the custom-field-set tabs render as mt-tabs (a <button>, no scroll arrow);
+        // on 6.6.x/6.7 they are the legacy sw-tabs (<a>). Branch on the feature, not the version,
+        // because the nightly-major arm runs a 6.7.x build with the flag enabled.
+        this.customFieldSet = (customFieldSetName) =>
+            this.instanceMeta.features["V6_8_0_0"]
+                ? customFields.locator(".mt-tabs__item").getByText(customFieldSetName, { exact: true })
+                : this.page.locator("a").filter({ hasText: customFieldSetName });
 
         //Confirmation modal
         this.confirmModal = page.locator(".sw-bulk-edit-save-modal");
@@ -91,17 +99,6 @@ export class CustomerBulkEdit implements PageObject {
 
     async getCustomFieldInputByName(customFieldName: string): Promise<Locator> {
         return this.page.getByRole("textbox", { name: customFieldName });
-    }
-
-    async getCustomFieldLinkByName(customFieldSetName: string): Promise<Locator> {
-        // On V6_8_0_0 the custom-field-set tabs render as mt-tabs (a <button>, no scroll arrow);
-        // on 6.6.x/6.7 they are the legacy sw-tabs (<a>). Branch on the feature, not the version,
-        // because the nightly-major arm runs a 6.7.x build with the flag enabled.
-        if (this.instanceMeta.features["V6_8_0_0"]) {
-            return this.page.locator(".sw-bulk-edit__custom-fields .mt-tabs__item").getByText(customFieldSetName, { exact: true });
-        }
-
-        return this.page.locator("a").filter({ hasText: `${customFieldSetName}` });
     }
 
     url(): string {
