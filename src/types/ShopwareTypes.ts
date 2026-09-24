@@ -1,5 +1,13 @@
 import type { components } from "@shopware/api-client/admin-api-types";
 
+export type NewsletterRecipient = components["schemas"]["NewsletterRecipient"] & {
+    id: string;
+    email: string;
+    salesChannelId: string;
+    firstName: string;
+    lastName: string;
+};
+
 export type SalesChannel = components["schemas"]["SalesChannel"] & {
     id: string;
 };
@@ -141,6 +149,12 @@ export type Rule = components["schemas"]["Rule"] & {
     id: string;
 };
 
+export interface BasicRuleCondition {
+    type: string;
+    value: Record<string, unknown>;
+    children?: BasicRuleCondition[];
+}
+
 export type Currency = components["schemas"]["Currency"] & {
     id: string;
 };
@@ -228,6 +242,17 @@ export type Promotion = Omit<components["schemas"]["Promotion"], "discounts"> & 
 export type PromotionDiscount = components["schemas"]["PromotionDiscount"] & {
     id: string;
 };
+
+export interface PromotionWithConditionRuleOptions {
+    id: string;
+    name: string;
+    ruleId: string;
+    useCode?: boolean;
+    discountValue?: number;
+    discountScope?: string;
+    discountType?: string;
+    salesChannelId?: string;
+}
 
 export type OrderLineItem = components["schemas"]["OrderLineItem"] & {
     id: string;

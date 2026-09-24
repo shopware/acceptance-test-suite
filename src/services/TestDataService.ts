@@ -5,6 +5,7 @@ import type { IdProvider } from "./IdProvider";
 import type {
     AclRole,
     Address,
+    BasicRuleCondition,
     Category,
     CmsPage,
     Country,
@@ -18,6 +19,7 @@ import type {
     Language,
     Manufacturer,
     Media,
+    NewsletterRecipient,
     Order,
     OrderDelivery,
     OrderLineItem,
@@ -26,6 +28,7 @@ import type {
     ProductCrossSelling,
     ProductReview,
     Promotion,
+    PromotionWithConditionRuleOptions,
     PropertyGroup,
     PropertyGroupOption,
     Rule,
@@ -162,6 +165,38 @@ export class TestDataService {
         if (options.nameSuffix) {
             this.nameSuffix = options.nameSuffix;
         }
+    }
+
+    /**
+     * Creates a newsletter recipient for a customer in the default sales channel.
+     * If a matching recipient already exists, it will be reused and registered for cleanup.
+     *
+     * @param customer - The customer whose email and profile data will be used for the newsletter recipient.
+     * @param overrides - Specific data overrides that will be applied to the newsletter recipient payload.
+     */
+    async createNewsletterRecipient(customer: Customer, overrides: Partial<NewsletterRecipient> = {}): Promise<NewsletterRecipient> {
+        const hash = this.IdProvider.getIdPair();
+        const recipientPayload = {
+            email: customer.email,
+            salesChannelId: this.defaultSalesChannel.id,
+            firstName: customer.firstName ?? `Test ${hash.id}`,
+            lastName: customer.lastName ?? `User ${hash.id}`,
+            hash: customer.id || hash.uuid,
+            status: "direct",
+            languageId: customer.languageId ?? this.defaultLanguageId,
+            salutationId: customer.salutationId,
+            confirmedAt: this.convertDateTime(new Date()),
+            ...overrides,
+        };
+
+        const resp = await this.AdminApiClient.post("newsletter-recipient?_response=detail", {
+            data: recipientPayload,
+        });
+
+        expect(resp.ok()).toBeTruthy();
+        const { data: recipient } = (await resp.json()) as { data: NewsletterRecipient };
+        this.addCreatedRecord("newsletter_recipient", recipient.id);
+        return recipient;
     }
 
     /**
@@ -815,6 +850,55 @@ export class TestDataService {
     }
 
     /**
+     * Creates a promotion with one discount and assigns a condition rule as a persona rule.
+     * The created promotion and assigned rule are both registered for cleanup.
+     *
+     * @param promotionConfig - Promotion configuration, including the promotion id, name, and assigned rule id.
+     */
+    async createPromotionWithConditionRule(promotionConfig: PromotionWithConditionRuleOptions): Promise<Promotion> {
+        const useCode = promotionConfig.useCode ?? false;
+        const basicPromotion = this.getBasicPromotionStruct(promotionConfig.salesChannelId, {
+            id: promotionConfig.id,
+            name: promotionConfig.name,
+            useCodes: useCode,
+            useIndividualCodes: useCode,
+            discounts: [
+                {
+                    scope: promotionConfig.discountScope ?? "cart",
+                    type: promotionConfig.discountType ?? "percentage",
+                    value: promotionConfig.discountValue ?? 10,
+                    considerAdvancedRules: false,
+                },
+            ],
+        });
+
+        if (!useCode) {
+            delete basicPromotion.code;
+        }
+
+        const promotionWithConditionRule = {
+            ...basicPromotion,
+            personaRules: [
+                {
+                    id: promotionConfig.ruleId,
+                },
+            ],
+        };
+
+        const promotionResponse = await this.AdminApiClient.post("promotion?_response=detail", {
+            data: promotionWithConditionRule,
+        });
+        expect(promotionResponse.ok()).toBeTruthy();
+
+        const { data: promotion } = (await promotionResponse.json()) as { data: Promotion };
+
+        this.addCreatedRecord("promotion", promotionConfig.id);
+        this.addCreatedRecord("rule", promotionConfig.ruleId);
+
+        return promotion;
+    }
+
+    /**
      * Creates a new basic payment method.
      *
      * @param overrides - Specific data overrides that will be applied to the payment method data struct.
@@ -886,12 +970,14 @@ export class TestDataService {
     }
 
     /**
-     * Creates a new basic rule with the condition cart amount >= 1.
+     * Creates a new basic rule with the condition cart amount >= 1 by default.
+     * Pass a condition object to create the same basic rule structure with another condition.
      *
      * @param overrides - Specific data overrides that will be applied to the basic rule data struct.
+     * @param condition - The condition object or condition type used in the generated rule.
      */
-    async createBasicRule(overrides: Partial<Rule> = {}, conditionType = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
-        const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
+    async createBasicRule(overrides: Partial<Rule> = {}, condition: BasicRuleCondition | string = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
+        const basicRule = this.getBasicRuleStruct(overrides, condition, operator, amount);
 
         const ruleResponse = await this.AdminApiClient.post("rule?_response=detail", {
             data: basicRule,
@@ -1548,6 +1634,35 @@ export class TestDataService {
         const { data: aclUser } = await syncAclUserResponse.json();
 
         return aclUser;
+    }
+
+    /**
+     * Retrieves a newsletter recipient by customer email and the default sales channel.
+     * @param customer - The customer whose email will be used to search for a newsletter recipient.
+     */
+    async getNewsletterRecipient(customer: Customer): Promise<NewsletterRecipient | undefined> {
+        const response = await this.AdminApiClient.post("search/newsletter-recipient", {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: "equals",
+                        field: "email",
+                        value: customer.email,
+                    },
+                    {
+                        type: "equals",
+                        field: "salesChannelId",
+                        value: this.defaultSalesChannel.id,
+                    },
+                ],
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: result } = (await response.json()) as { data: NewsletterRecipient[] };
+
+        return result[0];
     }
 
     /**
@@ -2268,9 +2383,19 @@ export class TestDataService {
         return Object.assign({}, basicProduct, overrides);
     }
 
-    getBasicRuleStruct(overrides: Partial<Rule> = {}, conditionType: string, operator: string, amount: number): Partial<Rule> {
+    getBasicRuleStruct(overrides: Partial<Rule> = {}, condition: BasicRuleCondition | string = "cartCartAmount", operator = ">=", amount = 1): Partial<Rule> {
         const { id: ruleId, uuid: ruleUuid } = this.IdProvider.getIdPair();
         const ruleName = `${this.namePrefix}Rule-${ruleId}${this.nameSuffix}`;
+        const ruleCondition =
+            typeof condition === "string"
+                ? {
+                      type: condition,
+                      value: {
+                          operator: operator,
+                          amount: amount,
+                      },
+                  }
+                : condition;
 
         const description = `
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
@@ -2289,15 +2414,7 @@ export class TestDataService {
                     children: [
                         {
                             type: "andContainer",
-                            children: [
-                                {
-                                    type: conditionType,
-                                    value: {
-                                        operator: operator,
-                                        amount: amount,
-                                    },
-                                },
-                            ],
+                            children: [ruleCondition],
                         },
                     ],
                 },
