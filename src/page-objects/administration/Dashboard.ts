@@ -74,7 +74,7 @@ export class Dashboard implements PageObject {
         });
 
         this.adminMenuUserActions = page.locator(".sw-admin-menu__user-actions-toggle");
-        this.adminMenuLogoutButton = page.locator(".sw-admin-menu__user-actions").getByRole("link", { name: translate("administration:dashboard:userMenu.logout") });
+        this.adminMenuLogoutButton = page.getByText(translate("administration:dashboard:userMenu.logout"));
     }
 
     url() {

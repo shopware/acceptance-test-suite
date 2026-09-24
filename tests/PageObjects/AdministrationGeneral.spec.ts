@@ -59,7 +59,6 @@ test("Administration page objects - General.", async ({
     await ShopAdmin.expects(AdminMedia.searchInput).toBeVisible();
     await ShopAdmin.expects(AdminMedia.addNewFolderButton).toBeVisible();
 
-
     if(await AdminDashboard.adminMenuOffCanvasToggle.isVisible()){
         AdminDashboard.adminMenuOffCanvasToggle.click();
     }
