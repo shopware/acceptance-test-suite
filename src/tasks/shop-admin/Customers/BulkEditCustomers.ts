@@ -39,7 +39,7 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
                     if (accountData.language) {
                         await AdminCustomerBulkEdit.changeLanguageCheckbox.click();
                         await AdminCustomerBulkEdit.changeLanguageInput.click();
-                        await AdminCustomerBulkEdit.page.getByText(accountData.language).click();
+                        await AdminCustomerBulkEdit.filtersResultPopoverItemList.getByText(accountData.language, { exact: true }).click();
                     }
                     if (accountData.replyToCustomerGroupRequest) {
                         await AdminCustomerBulkEdit.replyToCustomerGroupRequest.click();
