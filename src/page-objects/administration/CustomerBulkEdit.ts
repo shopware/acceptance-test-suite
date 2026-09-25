@@ -38,9 +38,9 @@ export class CustomerBulkEdit implements PageObject {
     public readonly confirmModalSuccessHeader: Locator;
     public readonly confirmModalSuccessCloseButton: Locator;
     public readonly page: Page;
-    public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
+    public readonly instanceMeta?: HelperFixtureTypes["InstanceMeta"];
 
-    constructor(page: Page, instanceMeta: HelperFixtureTypes["InstanceMeta"]) {
+    constructor(page: Page, instanceMeta?: HelperFixtureTypes["InstanceMeta"]) {
         this.page = page;
         this.instanceMeta = instanceMeta;
         //General
@@ -78,7 +78,7 @@ export class CustomerBulkEdit implements PageObject {
         this.customFieldInput = customFields.getByRole("textbox");
         // mt-tabs (<button>) on V6_8_0_0, legacy sw-tabs (<a>) on 6.6.x/6.7 — branch on the feature flag.
         this.customFieldSet = (customFieldSetName) =>
-            this.instanceMeta.features["V6_8_0_0"]
+            this.instanceMeta?.features["V6_8_0_0"]
                 ? customFields.locator(".mt-tabs__item").getByText(customFieldSetName, { exact: true })
                 : this.page.locator("a").filter({ hasText: customFieldSetName });
 
