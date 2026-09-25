@@ -1,5 +1,17 @@
 # Changelog
 
+## [12.21.0](https://github.com/shopware/acceptance-test-suite/compare/v12.20.1...v12.21.0) (2026-09-25)
+
+
+### Features
+
+* add the create newsletter recipient request ([#648](https://github.com/shopware/acceptance-test-suite/issues/648)) ([8cf5970](https://github.com/shopware/acceptance-test-suite/commit/8cf597068f429d8f8a55a152855b29190e17796b))
+
+
+### Bug Fixes
+
+* **customer:** scope the bulk edit language select and match exactly ([#711](https://github.com/shopware/acceptance-test-suite/issues/711)) ([35bcecc](https://github.com/shopware/acceptance-test-suite/commit/35bceccc8bd3116ea90bb9e723bab38a2b7f842b))
+
 ## [12.20.1](https://github.com/shopware/acceptance-test-suite/compare/v12.20.0...v12.20.1) (2026-09-15)
 
 
