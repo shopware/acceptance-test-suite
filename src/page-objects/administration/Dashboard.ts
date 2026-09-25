@@ -5,6 +5,7 @@ import { translate } from "../../services/LanguageHelper";
 export class Dashboard implements PageObject {
     public readonly contentView: Locator;
     public readonly adminMenuView: Locator;
+    public readonly adminMenuOffCanvasToggle: Locator;
     public readonly adminMenuCatalog: Locator;
     public readonly adminMenuOrder: Locator;
     public readonly adminMenuOrderOverview: Locator;
@@ -40,6 +41,7 @@ export class Dashboard implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.adminMenuView = page.locator(".sw-admin-menu");
+        this.adminMenuOffCanvasToggle = page.getByRole("button", { name: translate("administration:dashboard:userMenu.offCanvasToggle")});
         this.contentView = page.locator(".sw-desktop__content");
         this.adminMenuCatalog = page.locator(".sw-catalogue");
         this.adminMenuOrder = page.locator(".sw-order");
@@ -72,7 +74,7 @@ export class Dashboard implements PageObject {
         });
 
         this.adminMenuUserActions = page.locator(".sw-admin-menu__user-actions-toggle");
-        this.adminMenuLogoutButton = page.locator(".sw-admin-menu__user-actions").getByRole("link", { name: translate("administration:dashboard:userMenu.logout") });
+        this.adminMenuLogoutButton = page.getByText(translate("administration:dashboard:userMenu.logout"));
     }
 
     url() {
