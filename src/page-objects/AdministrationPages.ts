@@ -2,6 +2,7 @@ import { test as base } from "@playwright/test";
 import type { FixtureTypes } from "../types/FixtureTypes";
 
 import { ProductDetail } from "./administration/ProductDetail";
+import { ProductCreate } from "./administration/ProductCreate";
 import { OrderDetail } from "./administration/OrderDetail";
 import { CustomerListing } from "./administration/CustomerListing";
 import { CustomerDetail } from "./administration/CustomerDetail";
@@ -55,6 +56,7 @@ import { DataSharingConsentModal } from "./administration/DataSharingConsentModa
 
 export interface AdministrationPageTypes {
     AdminProductDetail: ProductDetail;
+    AdminProductCreate: ProductCreate;
     AdminOrderDetail: OrderDetail;
     AdminCustomerListing: CustomerListing;
     AdminCustomerDetail: CustomerDetail;
@@ -109,6 +111,7 @@ export interface AdministrationPageTypes {
 
 export const AdminPageObjects = {
     ProductDetail,
+    ProductCreate,
     OrderDetail,
     CustomerListing,
     CustomerDetail,
@@ -164,6 +167,10 @@ export const AdminPageObjects = {
 export const test = base.extend<FixtureTypes>({
     AdminProductDetail: async ({ AdminPage, InstanceMeta }, use) => {
         await use(new ProductDetail(AdminPage, InstanceMeta));
+    },
+
+    AdminProductCreate: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new ProductCreate(AdminPage, InstanceMeta));
     },
 
     AdminOrderDetail: async ({ AdminPage, InstanceMeta }, use) => {
