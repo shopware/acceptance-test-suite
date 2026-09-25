@@ -61,7 +61,7 @@ export const BulkEditCustomers = base.extend<{ BulkEditCustomers: Task }, Fixtur
                     }
                 }
                 if (customFieldData) {
-                    const customFieldSet = await AdminCustomerBulkEdit.getCustomFieldLinkByName(customFieldData.customFieldSetName);
+                    const customFieldSet = AdminCustomerBulkEdit.customFieldSet(customFieldData.customFieldSetName);
                     while (!(await customFieldSet.isVisible())) {
                         await AdminCustomerBulkEdit.customFieldArrowRightButton.click();
                     }

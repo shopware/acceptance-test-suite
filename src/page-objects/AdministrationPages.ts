@@ -290,8 +290,8 @@ export const test = base.extend<FixtureTypes>({
         await use(new ProductBulkEdit(AdminPage));
     },
 
-    AdminCustomerBulkEdit: async ({ AdminPage }, use) => {
-        await use(new CustomerBulkEdit(AdminPage));
+    AdminCustomerBulkEdit: async ({ AdminPage, InstanceMeta }, use) => {
+        await use(new CustomerBulkEdit(AdminPage, InstanceMeta));
     },
 
     AdminSettingsListing: async ({ AdminPage }, use) => {
