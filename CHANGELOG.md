@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.21.1](https://github.com/shopware/acceptance-test-suite/compare/v12.21.0...v12.21.1) (2026-09-28)
+
+
+### Bug Fixes
+
+* **bulk-edit:** update customer custom-field selectors for mt-tabs ([#708](https://github.com/shopware/acceptance-test-suite/issues/708)) ([44d0202](https://github.com/shopware/acceptance-test-suite/commit/44d0202366c980c31f301825d6d1223bd78931a2))
+
 ## [12.21.0](https://github.com/shopware/acceptance-test-suite/compare/v12.20.1...v12.21.0) (2026-09-25)
 
 
