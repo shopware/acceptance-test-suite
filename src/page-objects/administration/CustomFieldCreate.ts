@@ -19,10 +19,7 @@ export class CustomFieldCreate implements PageObject {
         this.technicalNameInput = page.getByLabel(translate("administration:customField:common.technicalName"));
         this.positionInput = page.getByLabel(translate("administration:customField:common.position"));
         this.labelEnglishGBInput = page.getByLabel(translate("administration:customField:common.labelEnglishGB"));
-        this.assignToSelectionList = page
-            .locator(".sw-field")
-            .filter({ hasText: translate("administration:customField:create.assignTo") })
-            .locator(".sw-select__selection");
+        this.assignToSelectionList = page.getByRole("combobox", { name: translate("administration:customField:create.assignTo") });
         this.resultAssignToPopoverItemList = page.locator(".sw-select-result-list__content").getByRole("listitem");
     }
 
