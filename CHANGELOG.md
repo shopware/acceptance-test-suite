@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.21.2](https://github.com/shopware/acceptance-test-suite/compare/v12.21.1...v12.21.2) (2026-09-29)
+
+
+### Bug Fixes
+
+* **order:** update order state selectors for order details polish ([#714](https://github.com/shopware/acceptance-test-suite/issues/714)) ([aa3ac4b](https://github.com/shopware/acceptance-test-suite/commit/aa3ac4baf1ce1ac9278a2cc015c66c4588c70b2b))
+
 ## [12.21.1](https://github.com/shopware/acceptance-test-suite/compare/v12.21.0...v12.21.1) (2026-09-28)
 
 
