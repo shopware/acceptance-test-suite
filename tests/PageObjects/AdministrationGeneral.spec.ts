@@ -51,9 +51,10 @@ test("Administration page objects - General.", async ({
     await ShopAdmin.expects(AdminOrderDetail.orderDeliveryStatus).toBeVisible();
 
     if (satisfies(InstanceMeta.version, ">=6.7.15")) {
-        await ShopAdmin.expects(AdminOrderDetail.orderStateValue).toContainText("Open");
-        await ShopAdmin.expects(AdminOrderDetail.orderPaymentStatusValue).toContainText("Open");
-        await ShopAdmin.expects(AdminOrderDetail.orderDeliveryStatusValue).toContainText("Open");
+        // mt-select shows the current state as placeholder (always-show-placeholder); its value is empty
+        await ShopAdmin.expects(AdminOrderDetail.orderStateInput).toHaveAttribute("placeholder", "Open");
+        await ShopAdmin.expects(AdminOrderDetail.orderPaymentStatusInput).toHaveAttribute("placeholder", "Open");
+        await ShopAdmin.expects(AdminOrderDetail.orderDeliveryStatusInput).toHaveAttribute("placeholder", "Open");
     }
 
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));
