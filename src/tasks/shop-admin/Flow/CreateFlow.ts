@@ -11,9 +11,12 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
-                const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"));
-                await AdminFlowBuilderListing.createFlowButton.click();
-                await navigatedToCreate;
+                // The router.push behind this button can be swallowed while the listing is still settling its own route,
+                // so retry the click until the create route is actually reached.
+                await ShopAdmin.expects(async () => {
+                    await AdminFlowBuilderListing.createFlowButton.click();
+                    await ShopAdmin.expects(AdminFlowBuilderCreate.page).toHaveURL(/#\/sw\/flow\/create\//, { timeout: 3_000 });
+                }).toPass({ timeout: 20_000 });
                 await ShopAdmin.expects(AdminFlowBuilderCreate.skeletonLoader).toHaveCount(0);
                 // Fill out fields on general tab
                 await ShopAdmin.expects(AdminFlowBuilderCreate.smartBarHeader).toHaveText(translate("administration:flowBuilder:create.newFlow"));
