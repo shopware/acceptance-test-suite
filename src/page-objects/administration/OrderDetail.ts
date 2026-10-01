@@ -27,6 +27,9 @@ export class OrderDetail implements PageObject {
     public readonly orderStateInput: Locator;
     public readonly orderPaymentStatusInput: Locator;
     public readonly orderDeliveryStatusInput: Locator;
+    public readonly orderStateValue: Locator;
+    public readonly orderPaymentStatusValue: Locator;
+    public readonly orderDeliveryStatusValue: Locator;
 
     /** @deprecated - Use 'orderState' instead. */
     public readonly orderStatus: Locator;
@@ -69,6 +72,9 @@ export class OrderDetail implements PageObject {
         this.orderStateInput = this.orderState.locator("input");
         this.orderPaymentStatusInput = this.orderPaymentStatus.locator("input");
         this.orderDeliveryStatusInput = this.orderDeliveryStatus.locator("input");
+        this.orderStateValue = this.orderState.locator(".sw-single-select__selection, .sw-select-selection-list__input");
+        this.orderPaymentStatusValue = this.orderPaymentStatus.locator(".sw-single-select__selection, .sw-select-selection-list__input");
+        this.orderDeliveryStatusValue = this.orderDeliveryStatus.locator(".sw-single-select__selection, .sw-select-selection-list__input");
 
         //Tabs
         this.generalTabLink = page.getByRole("tab", { name: translate("administration:order:tabs.general") });
