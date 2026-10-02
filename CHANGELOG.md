@@ -1,5 +1,13 @@
 # Changelog
 
+## [12.21.3](https://github.com/shopware/acceptance-test-suite/compare/v12.21.2...v12.21.3) (2026-10-02)
+
+
+### Bug Fixes
+
+* **ci:** only repeat changed spec files in the test workflow ([#717](https://github.com/shopware/acceptance-test-suite/issues/717)) ([5b38ae7](https://github.com/shopware/acceptance-test-suite/commit/5b38ae77026ff8a487d8b03d7a7d235f96068a75))
+* **flow:** retry create-flow navigation when router push is swallowed ([#716](https://github.com/shopware/acceptance-test-suite/issues/716)) ([f1a2e34](https://github.com/shopware/acceptance-test-suite/commit/f1a2e34b0f88ba8e9ff9389bfdcd5105834cd7f1))
+
 ## [12.21.2](https://github.com/shopware/acceptance-test-suite/compare/v12.21.1...v12.21.2) (2026-09-29)
 
 
