@@ -104,7 +104,6 @@ jobs:
               run: >-
                   npx playwright test
                   --repeat-each 10
-                  --
                   ${{ steps.changed-test-files.outputs.all_changed_files }}
 
             - uses: actions/upload-artifact@v7
