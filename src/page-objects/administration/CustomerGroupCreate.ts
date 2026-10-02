@@ -10,8 +10,18 @@ export class CustomerGroupCreate implements PageObject {
     public readonly cancelButton: Locator;
     public readonly cardTitle: Locator;
     public readonly customerGroupNameField: Locator;
+    /**
+     * @deprecated Targets the pre-redesign customer group markup, only compatible with shopware v6.6.x and v6.7.x, use 'customerGroupTaxDisplayGross' instead
+     */
     public readonly customerGroupGrossTaxDisplay: Locator;
+    /**
+     * @deprecated Targets the pre-redesign customer group markup, only compatible with shopware v6.6.x and v6.7.x, use 'customerGroupTaxDisplayNet' instead
+     */
     public readonly customerGroupNetTaxDisplay: Locator;
+    public readonly customerGroupTaxDisplayGross: Locator;
+    public readonly customerGroupTaxDisplayNet: Locator;
+    public readonly customerGroupPriceBasisGross: Locator;
+    public readonly customerGroupPriceBasisNet: Locator;
     public readonly customSignupFormToggle: Locator;
     public readonly signupFormTitle: Locator;
     public readonly signupFormIntroduction: Locator;
@@ -32,6 +42,10 @@ export class CustomerGroupCreate implements PageObject {
         this.customerGroupNameField = page.locator("#sw-field--customerGroup-name");
         this.customerGroupGrossTaxDisplay = page.locator("#sw-field--castedValue-0");
         this.customerGroupNetTaxDisplay = page.locator("#sw-field--castedValue-1");
+        this.customerGroupTaxDisplayGross = page.locator("#sw-field--customerGroup-displayGross-0");
+        this.customerGroupTaxDisplayNet = page.locator("#sw-field--customerGroup-displayGross-1");
+        this.customerGroupPriceBasisGross = page.locator("#sw-field--customerGroup-priceBasis-0");
+        this.customerGroupPriceBasisNet = page.locator("#sw-field--customerGroup-priceBasis-1");
         this.customSignupFormToggle = page.getByLabel(translate("administration:customerGroup:create.customSignupForm"));
         this.signupFormTitle = page.locator("#sw-field--customerGroup-registrationTitle");
 
