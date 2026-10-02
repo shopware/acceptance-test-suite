@@ -103,7 +103,7 @@ jobs:
                   APP_URL: http://localhost:${{ matrix.PORT }}
               run: >-
                   npx playwright test
-                  --repeat-each 2
+                  --repeat-each 10
                   --
                   ${{ steps.changed-test-files.outputs.all_changed_files }}
 
