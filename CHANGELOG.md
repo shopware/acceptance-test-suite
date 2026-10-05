@@ -1,5 +1,47 @@
 # Changelog
 
+## [12.21.3](https://github.com/shopware/acceptance-test-suite/compare/v12.21.2...v12.21.3) (2026-10-02)
+
+
+### Bug Fixes
+
+* **ci:** only repeat changed spec files in the test workflow ([#717](https://github.com/shopware/acceptance-test-suite/issues/717)) ([5b38ae7](https://github.com/shopware/acceptance-test-suite/commit/5b38ae77026ff8a487d8b03d7a7d235f96068a75))
+* **flow:** retry create-flow navigation when router push is swallowed ([#716](https://github.com/shopware/acceptance-test-suite/issues/716)) ([f1a2e34](https://github.com/shopware/acceptance-test-suite/commit/f1a2e34b0f88ba8e9ff9389bfdcd5105834cd7f1))
+
+## [12.21.2](https://github.com/shopware/acceptance-test-suite/compare/v12.21.1...v12.21.2) (2026-09-29)
+
+
+### Bug Fixes
+
+* **order:** update order state selectors for order details polish ([#714](https://github.com/shopware/acceptance-test-suite/issues/714)) ([aa3ac4b](https://github.com/shopware/acceptance-test-suite/commit/aa3ac4baf1ce1ac9278a2cc015c66c4588c70b2b))
+
+## [12.21.1](https://github.com/shopware/acceptance-test-suite/compare/v12.21.0...v12.21.1) (2026-09-28)
+
+
+### Bug Fixes
+
+* **bulk-edit:** update customer custom-field selectors for mt-tabs ([#708](https://github.com/shopware/acceptance-test-suite/issues/708)) ([44d0202](https://github.com/shopware/acceptance-test-suite/commit/44d0202366c980c31f301825d6d1223bd78931a2))
+
+## [12.21.0](https://github.com/shopware/acceptance-test-suite/compare/v12.20.1...v12.21.0) (2026-09-25)
+
+
+### Features
+
+* add the create newsletter recipient request ([#648](https://github.com/shopware/acceptance-test-suite/issues/648)) ([8cf5970](https://github.com/shopware/acceptance-test-suite/commit/8cf597068f429d8f8a55a152855b29190e17796b))
+
+
+### Bug Fixes
+
+* **customer:** scope the bulk edit language select and match exactly ([#711](https://github.com/shopware/acceptance-test-suite/issues/711)) ([35bcecc](https://github.com/shopware/acceptance-test-suite/commit/35bceccc8bd3116ea90bb9e723bab38a2b7f842b))
+
+## [12.20.1](https://github.com/shopware/acceptance-test-suite/compare/v12.20.0...v12.20.1) (2026-09-15)
+
+
+### Bug Fixes
+
+* **flow:** wait for createFlowButton to be enabled before navigating ([#703](https://github.com/shopware/acceptance-test-suite/issues/703)) ([fd838c0](https://github.com/shopware/acceptance-test-suite/commit/fd838c0479ea2d8d2df41a0fa6d8abf497d73299))
+* **frw:** match meteor popover locator; add SelectExtensionCategory task ([#702](https://github.com/shopware/acceptance-test-suite/issues/702)) ([9962906](https://github.com/shopware/acceptance-test-suite/commit/99629063723fc5a83ab0205c72af3391b708081f))
+
 ## [12.20.0](https://github.com/shopware/acceptance-test-suite/compare/v12.19.0...v12.20.0) (2026-09-10)
 
 

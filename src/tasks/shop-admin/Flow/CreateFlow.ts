@@ -11,6 +11,10 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                 await ShopAdmin.expects(AdminFlowBuilderListing.createFlowButton).toBeEnabled();
                 // Listens for the flow-actions.json response to ensure the action dropdown is populated once it is needed.
                 const flowActionsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/_info/flow-actions.json") && response.ok());
+                // The lazy-loaded listing writes its default query (limit, page, ...) to the route via router.replace once it is created.
+                // A click before that would start a navigation that the replace silently cancels, so wait for the query first.
+                // Might require refactoring once https://github.com/shopware/shopware/issues/21159 is resolved.
+                await ShopAdmin.expects(AdminFlowBuilderListing.page).toHaveURL(/#\/sw\/flow\/index\/.*[?&]limit=/);
                 const navigatedToCreate = AdminFlowBuilderCreate.page.waitForURL((url) => url.hash.includes("/sw/flow/create/"));
                 await AdminFlowBuilderListing.createFlowButton.click();
                 await navigatedToCreate;

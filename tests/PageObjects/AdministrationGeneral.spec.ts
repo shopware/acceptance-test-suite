@@ -1,3 +1,4 @@
+import { satisfies } from "compare-versions";
 import { test, translate } from "../../src";
 
 test("Administration page objects - General.", async ({
@@ -45,6 +46,16 @@ test("Administration page objects - General.", async ({
     await ShopAdmin.expects(AdminOrderDetail.dataGridContextButton).toBeVisible();
     await ShopAdmin.expects(AdminOrderDetail.itemsCardHeader).toContainText(translate("administration:order:detail.items"));
 
+    await ShopAdmin.expects(AdminOrderDetail.orderState).toBeVisible();
+    await ShopAdmin.expects(AdminOrderDetail.orderPaymentStatus).toBeVisible();
+    await ShopAdmin.expects(AdminOrderDetail.orderDeliveryStatus).toBeVisible();
+
+    if (satisfies(InstanceMeta.version, ">=6.7.15")) {
+        await ShopAdmin.expects(AdminOrderDetail.orderStateInput).toHaveAttribute("placeholder", "Open");
+        await ShopAdmin.expects(AdminOrderDetail.orderPaymentStatusInput).toHaveAttribute("placeholder", "Open");
+        await ShopAdmin.expects(AdminOrderDetail.orderDeliveryStatusInput).toHaveAttribute("placeholder", "Open");
+    }
+
     await ShopAdmin.goesTo(AdminProductDetail.url(product.id));
     await ShopAdmin.expects(AdminProductDetail.savePhysicalProductButton).toBeVisible();
     await ShopAdmin.expects(AdminProductDetail.stockInput).toBeVisible();
@@ -58,6 +69,10 @@ test("Administration page objects - General.", async ({
     await ShopAdmin.expects(AdminMedia.uploadFileButton).toBeVisible();
     await ShopAdmin.expects(AdminMedia.searchInput).toBeVisible();
     await ShopAdmin.expects(AdminMedia.addNewFolderButton).toBeVisible();
+
+    if (await AdminDashboard.adminMenuOffCanvasToggle.isVisible()) {
+        AdminDashboard.adminMenuOffCanvasToggle.click();
+    }
 
     await ShopAdmin.expects(AdminDashboard.adminMenuUserActions).toBeVisible();
     await AdminDashboard.adminMenuUserActions.click();
