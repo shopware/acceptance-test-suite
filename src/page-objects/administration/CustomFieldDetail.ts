@@ -42,7 +42,10 @@ export class CustomFieldDetail extends CustomFieldCreate {
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByLabel(translate("administration:customField:detail.type"));
         } else {
-            this.customFieldTypeSelectionList = this.newCustomFieldDialog.getByRole("textbox", { name: translate("administration:customField:detail.select") });
+            // Meteor < 5.8 does not link the label to the select input, so its accessible name falls back to the placeholder.
+            this.customFieldTypeSelectionList = this.newCustomFieldDialog
+                .getByRole("textbox", { name: translate("administration:customField:detail.type"), exact: true })
+                .or(this.newCustomFieldDialog.getByRole("textbox", { name: translate("administration:customField:detail.select") }));
         }
         this.customFieldModifyByStoreApiCheckbox = this.newCustomFieldDialog.getByLabel(translate("administration:customField:detail.modifiableViaStoreApi"));
         this.customFieldCancelButton = this.newCustomFieldDialog.getByRole("button", { name: translate("administration:customField:actions.cancel") });
