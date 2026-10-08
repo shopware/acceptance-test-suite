@@ -1,5 +1,17 @@
 # Changelog
 
+## [12.22.0](https://github.com/shopware/acceptance-test-suite/compare/v12.21.3...v12.22.0) (2026-10-08)
+
+
+### Features
+
+* **page-objects:** add customer group tax display and price basis radio locators ([#706](https://github.com/shopware/acceptance-test-suite/issues/706)) ([f6ad054](https://github.com/shopware/acceptance-test-suite/commit/f6ad0540ad361a1e59761ece4a27921663bcb6f2))
+
+
+### Bug Fixes
+
+* **flow:** wait for tag search responses in CreateFlow tag modal and BulkEditProducts tag step ([#721](https://github.com/shopware/acceptance-test-suite/issues/721)) ([53269e2](https://github.com/shopware/acceptance-test-suite/commit/53269e2504ef177c61e4204cfe92a186bdaf0f5c))
+
 ## [12.21.3](https://github.com/shopware/acceptance-test-suite/compare/v12.21.2...v12.21.3) (2026-10-02)
 
 
