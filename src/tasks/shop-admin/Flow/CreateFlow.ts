@@ -76,9 +76,17 @@ export const CreateFlow = base.extend<{ CreateFlow: Task }, FixtureTypes>({
                     .click();
                 //await (await AdminFlowBuilderCreate.getSelectFieldListitem(AdminFlowBuilderCreate.falseBlockActionSelectField, `${flowConfig.falseAction}`)).click();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.tagModal).toBeVisible();
-                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following four lines and use the commented line instead.
+                // todo: As soon as tagModalTagsSelectField is migrated to Meteor, remove the following block and use the commented line instead.
+                // Opening the select loads the first unfiltered page of tags (limit 25). Typing before it finishes can drop the term search,
+                // leaving a list that may not contain the tag. Wait for the initial load, then for the term search.
+                const tagsLoaded = AdminFlowBuilderCreate.page.waitForResponse((response) => response.url().includes("/search/tag") && response.request().method() === "POST");
                 await AdminFlowBuilderCreate.tagModalTagsSelectField.click();
+                ShopAdmin.expects((await tagsLoaded).ok()).toBeTruthy();
+                const tagSearched = AdminFlowBuilderCreate.page.waitForResponse(
+                    (response) => response.url().includes("/search/tag") && response.request().postDataJSON()?.term === flowConfig.falseActionIdentifier
+                );
                 await AdminFlowBuilderCreate.tagModalTagsSelectField.fill(flowConfig.falseActionIdentifier);
+                ShopAdmin.expects((await tagSearched).ok()).toBeTruthy();
                 await ShopAdmin.expects(AdminFlowBuilderCreate.resultList).toBeVisible();
                 await AdminFlowBuilderCreate.resultListItem
                     .getByRole("listitem")
