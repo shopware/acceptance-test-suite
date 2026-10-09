@@ -46,6 +46,7 @@
         "vatSuffix": "% MwSt.",
         "shippingCosts": "Versandkosten:",
         "totalGross": "Gesamtsumme (brutto):",
+        "totalNet": "Gesamtsumme (netto):",
         "headlineCompletePayment": "Zahlung abschließen",
         "buttonCompletePayment": "Zahlung abschließen",
         "editCompleted": "Vielen Dank für die Aktualisierung Ihrer Bestellung!"
