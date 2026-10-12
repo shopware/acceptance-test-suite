@@ -49,9 +49,11 @@ export class CustomerGroupCreate implements PageObject {
         this.customSignupFormToggle = page.getByLabel(translate("administration:customerGroup:create.customSignupForm"));
         this.signupFormTitle = page.locator("#sw-field--customerGroup-registrationTitle");
 
-        this.signupFormIntroduction = instanceMeta.features["METEOR_TEXT_EDITOR"]
-            ? page.locator(".mt-text-editor__content-editor")
-            : page.locator(".sw-text-editor__content-editor");
+        // TODO: After the 6.8.0.0 release, remove the METEOR_TEXT_EDITOR flag check and rely on the version check.
+        this.signupFormIntroduction =
+            (instanceMeta.features["METEOR_TEXT_EDITOR"] ?? satisfies(instanceMeta.version, ">=6.8"))
+                ? page.locator(".mt-text-editor__content-editor")
+                : page.locator(".sw-text-editor__content-editor");
 
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.signupFormSeoDescription = page.locator("#sw-field--customerGroup-registrationSeoMetaDescription");
