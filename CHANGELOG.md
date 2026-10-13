@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.22.1](https://github.com/shopware/acceptance-test-suite/compare/v12.22.0...v12.22.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* support Meteor editor in customer group create view ([#724](https://github.com/shopware/acceptance-test-suite/issues/724)) ([eb14a91](https://github.com/shopware/acceptance-test-suite/commit/eb14a917575a9e20b43ea725617114aa51257272))
+
 ## [12.22.0](https://github.com/shopware/acceptance-test-suite/compare/v12.21.3...v12.22.0) (2026-10-08)
 
 
