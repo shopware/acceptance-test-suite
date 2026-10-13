@@ -18,7 +18,8 @@ export const UploadProductDownloadFile = base.extend<{ UploadProductDownloadFile
                 await AdminProductDetail.uploadDownloadFileButton.click();
                 const fileChooser = await fileChooserPromise;
 
-                const fileUpload = page.waitForResponse((response) => response.url().includes("/api/_action/media/") && response.url().includes("/upload") && response.ok());
+                // Cloud storage (SaaS) uploads to a presigned URL and then calls finalize-upload instead of upload.
+                const fileUpload = page.waitForResponse((response) => /\/api\/_action\/media\/[0-9a-f]{32}\/(?:finalize-)?upload/.test(response.url()) && response.ok());
 
                 await fileChooser.setFiles({
                     name: `${fileName}.txt`,
