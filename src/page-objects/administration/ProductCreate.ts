@@ -5,6 +5,13 @@ import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
 import { translate } from "../../services/LanguageHelper";
 import type { ProductCreationType } from "../../types/ShopwareTypes";
 
+/**
+ * Matches a form field by its label. Before 6.7 the accessible name of a required field ends with "*".
+ */
+function fieldName(label: string): RegExp {
+    return new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\*?$`);
+}
+
 export class ProductCreate implements PageObject {
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
@@ -35,12 +42,10 @@ export class ProductCreate implements PageObject {
         this.headline = page.locator(".smart-bar__header");
 
         this.nameInput = page.getByRole("textbox", {
-            name: translate("administration:product:detail.name"),
-            exact: true,
+            name: fieldName(translate("administration:product:detail.name")),
         });
         this.productNumberInput = page.getByRole("textbox", {
-            name: translate("administration:product:detail.productNumber"),
-            exact: true,
+            name: fieldName(translate("administration:product:detail.productNumber")),
         });
 
         // Several labels point at the same price input ids, so the accessible name is not unique here.

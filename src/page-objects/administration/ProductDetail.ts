@@ -5,6 +5,13 @@ import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
 import { translate } from "../../services/LanguageHelper";
 import { getCustomFieldCardLocators } from "./modules/CustomFieldCard";
 
+/**
+ * Matches a form field by its label. Before 6.7 the accessible name of a required field ends with "*".
+ */
+function fieldName(label: string): RegExp {
+    return new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\*?$`);
+}
+
 export class ProductDetail implements PageObject {
     public readonly contentView: Locator;
     public readonly productHeadline: Locator;
@@ -187,12 +194,10 @@ export class ProductDetail implements PageObject {
 
         // General Info
         this.nameInput = page.getByRole("textbox", {
-            name: translate("administration:product:detail.name"),
-            exact: true,
+            name: fieldName(translate("administration:product:detail.name")),
         });
         this.productNumberInput = page.getByRole("textbox", {
-            name: translate("administration:product:detail.productNumber"),
-            exact: true,
+            name: fieldName(translate("administration:product:detail.productNumber")),
         });
         this.manufacturerDropdownText = page.locator(".sw-select-product__select_manufacturer");
         // TODO: After the 6.8.0.0 release, remove the METEOR_TEXT_EDITOR flag check and rely on the version check.
