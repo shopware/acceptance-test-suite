@@ -11,7 +11,8 @@
         "exploreNow": "Explore now"
     },
     "userMenu": {
-        "logout": "Logout"
+        "logout": "Logout",
+        "offCanvasToggle": "Expand menu"
     },
     "order": {
         "orderTitle": "Orders",

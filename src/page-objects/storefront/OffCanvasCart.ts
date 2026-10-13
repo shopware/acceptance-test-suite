@@ -68,4 +68,16 @@ export class OffCanvasCart implements PageObject {
             lineItemGaranLabel: lineItemGaranLabel,
         };
     }
+
+    async getLineItemByPromotionName(name: string): Promise<Record<string, Locator>> {
+        const promotionItem = this.page.locator(".line-item-promotion", { hasText: name });
+        const promotionLabel = promotionItem.locator(".line-item-label");
+        const promotionPrice = promotionItem.locator(".line-item-total-price-value");
+
+        return {
+            promotionItem: promotionItem,
+            promotionLabel: promotionLabel,
+            promotionPrice: promotionPrice,
+        };
+    }
 }
