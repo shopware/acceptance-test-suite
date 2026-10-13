@@ -196,11 +196,11 @@ export class ProductDetail implements PageObject {
             exact: true,
         });
         this.manufacturerDropdownText = page.locator(".sw-select-product__select_manufacturer");
-        if (satisfies(instanceMeta.version, "<6.8")) {
-            this.descriptionEditor = page.locator(".sw-text-editor__content-editor");
-        } else {
-            this.descriptionEditor = page.locator(".mt-text-editor__content-editor");
-        }
+        // TODO: After the 6.8.0.0 release, remove the METEOR_TEXT_EDITOR flag check and rely on the version check.
+        this.descriptionEditor =
+            (instanceMeta.features["METEOR_TEXT_EDITOR"] ?? satisfies(instanceMeta.version, ">=6.8"))
+                ? page.locator(".mt-text-editor__content-editor")
+                : page.locator(".sw-text-editor__content-editor");
 
         // Prices
         this.priceGrossInput = page.locator("#sw-price-field-gross").first();
