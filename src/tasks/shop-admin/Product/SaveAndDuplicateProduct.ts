@@ -3,8 +3,6 @@ import type { Task } from "../../../types/Task";
 import type { FixtureTypes } from "../../../types/FixtureTypes";
 import { extractIdFromUrl } from "../../../services/ShopwareDataHelpers";
 
-const PRODUCT_DETAIL_URL_PATTERN = /#\/sw\/product\/detail\/(?<productId>[0-9a-f]{32})\//;
-
 /**
  * Saves the currently open product via "Save and duplicate" and waits until the duplicate is opened.
  *
@@ -27,10 +25,12 @@ export const SaveAndDuplicateProduct = base.extend<{ SaveAndDuplicateProduct: Ta
 
                 TestDataService.addCreatedRecord("product", extractIdFromUrl(cloneResponse.url()) as string);
 
-                await page.waitForURL(PRODUCT_DETAIL_URL_PATTERN);
+                // Take the duplicate id from the clone response. On an existing product the page is already on
+                // a detail URL, so reading the id from the URL could return the original instead of the duplicate.
+                const { id: duplicateId } = (await cloneResponse.json()) as { id: string };
+                TestDataService.addCreatedRecord("product", duplicateId);
 
-                const duplicateId = PRODUCT_DETAIL_URL_PATTERN.exec(page.url())?.groups?.["productId"];
-                TestDataService.addCreatedRecord("product", duplicateId as string);
+                await page.waitForURL(new RegExp(`#/sw/product/detail/${duplicateId}/`));
             };
         };
 
