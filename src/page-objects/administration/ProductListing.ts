@@ -35,9 +35,8 @@ export class ProductListing implements PageObject {
     constructor(page: Page) {
         this.page = page;
         // Scoped to the smart bar, because an empty listing renders a second "Add product" button.
-        this.addProductButton = page.locator(".smart-bar__actions").getByRole("button", {
-            name: translate("administration:product:listing.addProduct"),
-        });
+        // Matched by class, because it renders as a router link instead of a button before 6.7.
+        this.addProductButton = page.locator(".smart-bar__actions .sw-product-list__add-physical-button");
         // The split button toggle only renders a chevron icon, so it has no accessible name to query by.
         this.addProductContextMenuButton = page.locator(".sw-product-list__button-context-menu");
         this.addDigitalProductLink = page.getByRole("link", {

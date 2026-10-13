@@ -1,4 +1,5 @@
 import type { Page, Locator } from "@playwright/test";
+import { satisfies } from "compare-versions";
 import type { PageObject } from "../../types/PageObject";
 import type { HelperFixtureTypes } from "../../fixtures/HelperFixtures";
 import { translate } from "../../services/LanguageHelper";
@@ -58,6 +59,11 @@ export class ProductCreate implements PageObject {
      * @param creationType - Physical products are created by default, digital products carry a file instead of stock.
      */
     url(creationType: ProductCreationType = "physical") {
+        // Product types replaced the creation states in 6.7.7.
+        if (satisfies(this.instanceMeta.version, "<6.7.7")) {
+            return `#/sw/product/create/base?creationStates=${creationType === "digital" ? "is-download" : "is-physical"}`;
+        }
+
         return `#/sw/product/create/base?creationType=${creationType}`;
     }
 }

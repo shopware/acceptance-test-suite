@@ -159,9 +159,8 @@ export class ProductDetail implements PageObject {
 
         // The split button toggle only renders a chevron icon, so it has no accessible name to query by.
         this.saveContextMenuButton = page.locator(".sw-product-detail__button-context-menu");
-        this.saveAndDuplicateButton = page.getByRole("button", {
-            name: translate("administration:product:buttons.saveAndDuplicate"),
-        });
+        // Matched by class, because context menu items render as a div instead of a button before 6.7.
+        this.saveAndDuplicateButton = page.locator(".sw-product-detail__save-duplicate-action");
 
         // Tabs
         this.specificationsTabLink = page.getByRole("tab", {
@@ -306,7 +305,10 @@ export class ProductDetail implements PageObject {
         }
 
         // Specifications tab, product measurements. The inputs carry generated ids, so they are queried by label.
-        this.measurementCard = page.locator(".sw-product-detail-specification__measurement");
+        // The measurement system replaced the "measures & packaging" card in 6.7.1.
+        this.measurementCard = satisfies(instanceMeta.version, "<6.7.1")
+            ? page.locator(".sw-product-detail-specification__measures-packaging")
+            : page.locator(".sw-product-detail-specification__measurement");
         this.widthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.width"), exact: true });
         this.heightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.height"), exact: true });
         this.lengthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.length"), exact: true });
