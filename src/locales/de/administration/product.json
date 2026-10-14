@@ -1,8 +1,10 @@
 {
     "listing": {
-        "addProduct": "Produkt hinzufügen",
+        "addProduct": "Produkt anlegen",
         "bulkEdit": "Massenbearbeitung",
-        "startBulkEdit": "Bearbeiten"
+        "startBulkEdit": "Bearbeiten",
+        "addDigitalProduct": "Digitales Produkt anlegen",
+        "digitalIndicator": "digital"
     },
     "create": {
         "title": "Neues Produkt",
@@ -21,7 +23,12 @@
         "colorProperty": "Color",
         "sizeProperty": "Size",
         "stockPlaceholder": "Gib den Lagerbestand ein ...",
-        "restockTimePlaceholder": "Lagerbestand"
+        "restockTimePlaceholder": "Lagerbestand",
+        "copySuffix": "Kopie",
+        "width": "Breite",
+        "height": "Höhe",
+        "length": "Länge",
+        "weight": "Gewicht"
     },
     "errors": {
         "flows": {
@@ -54,7 +61,10 @@
         "uploadFile": "Hochladen",
         "generateVariants": "Generate variants",
         "next": "Weiter",
-        "saveVariants": "Speichern"
+        "saveVariants": "Speichern",
+        "cancel": "Abbrechen",
+        "saveAndDuplicate": "Speichern und duplizieren",
+        "delete": "Löschen"
     },
     "modals": {
         "generateVariants": "Generate variants"

@@ -4,7 +4,16 @@
         "colorProperty": "Color",
         "sizeProperty": "Size",
         "stockPlaceholder": "Enter quantity in stock...",
-        "restockTimePlaceholder": "Enter restock time in days..."
+        "restockTimePlaceholder": "Enter restock time in days...",
+        "name": "Name",
+        "productNumber": "Product number",
+        "stock": "Stock",
+        "copySuffix": "Copy",
+        "width": "Width",
+        "height": "Height",
+        "length": "Length",
+        "weight": "Weight",
+        "description": "Description"
     },
     "variants": {
         "properties": "Properties"
@@ -21,8 +30,11 @@
         "close": "Close"
     },
     "listing": {
+        "addProduct": "Add product",
         "bulkEdit": "Bulk edit",
-        "startBulkEdit": "Start bulk edit"
+        "startBulkEdit": "Start bulk edit",
+        "addDigitalProduct": "Add digital product",
+        "digitalIndicator": "digital"
     },
     "tabs": {
         "specifications": "Specifications",
@@ -38,7 +50,10 @@
         "uploadFile": "Upload file",
         "generateVariants": "Generate variants",
         "next": "Next",
-        "saveVariants": "Save variants"
+        "saveVariants": "Save variants",
+        "cancel": "Cancel",
+        "saveAndDuplicate": "Save and duplicate",
+        "delete": "Delete"
     },
     "modals": {
         "generateVariants": "Generate variants"
@@ -50,5 +65,8 @@
         "small": "Small",
         "medium": "Medium",
         "large": "Large"
+    },
+    "create": {
+        "title": "New product"
     }
 }
