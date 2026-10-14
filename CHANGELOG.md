@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.23.0](https://github.com/shopware/acceptance-test-suite/compare/v12.22.1...v12.23.0) (2026-10-14)
+
+
+### Features
+
+* **product:** add administration product CRUD page objects and tasks ([#707](https://github.com/shopware/acceptance-test-suite/issues/707)) ([9e52ed4](https://github.com/shopware/acceptance-test-suite/commit/9e52ed49bce2fa9d1e00b501ac899dc92385c0cb))
+
 ## [12.22.1](https://github.com/shopware/acceptance-test-suite/compare/v12.22.0...v12.22.1) (2026-10-13)
 
 
