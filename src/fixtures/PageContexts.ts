@@ -8,6 +8,12 @@ import { createNewAdminPageContext, hideSymfonyToolbarOnReload, loginToAdministr
 import { LanguageHelper, setCurrentContext } from "../services/LanguageHelper";
 import { getLocale } from "../services/ShopwareDataHelpers";
 
+/** Reserved so the fixture fails with its own message before Playwright's generic fixture timeout. */
+const THEME_SETUP_SAFETY_MARGIN = 15_000;
+
+/** Attempts for the theme assign request while the shop answers with a server error. */
+const THEME_ASSIGN_MAX_ATTEMPTS = 5;
+
 export interface AdminSession {
     context: BrowserContext;
     user: User;
@@ -84,7 +90,7 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         setCurrentContext(null);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
+    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, CustomTranslationResources }, use) => {
         const { url, salesChannel } = DefaultSalesChannel;
         const locale = getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
@@ -104,16 +110,38 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
             base.slow();
 
-            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
+            // One deadline for assigning and compiling the theme, inside the (tripled) test timeout.
+            const deadline = Date.now() + (base.info().timeout || 180_000) - THEME_SETUP_SAFETY_MARGIN;
+            const assignUrl = `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`;
+
+            // Parallel workers assigning the same theme can make the shop fail the assign transaction (HTTP 500).
+            // The conflict is transient, so retry server errors with a short backoff while time is left.
+            let response = await AdminApiContext.post(assignUrl);
+            for (let attempt = 1; attempt < THEME_ASSIGN_MAX_ATTEMPTS && response.status() >= 500 && Date.now() < deadline; attempt++) {
+                console.warn(
+                    `[Warning] Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()} (attempt ${attempt}), retrying: ${(await response.text()).slice(0, 500)}`
+                );
+                await new Promise((resolve) => setTimeout(resolve, 2_000 * attempt));
+                response = await AdminApiContext.post(assignUrl);
+            }
+
+            // A failed assign used to be ignored; the test then ran without storefront CSS and JavaScript.
+            if (!response.ok()) {
+                throw new Error(`Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()}: ${(await response.text()).slice(0, 500)}`);
+            }
+
             await clearDelayedCache(AdminApiContext);
 
             page = await context.newPage();
 
-            if (InstanceMeta.isSaaS) {
-                while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-                    await clearDelayedCache(AdminApiContext);
-                    await page.waitForTimeout(4000);
+            // Compiled files can appear after the assign response (background compilation on SaaS, delayed cache).
+            while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
+                if (Date.now() > deadline) {
+                    throw new Error(`Theme for sales channel ${salesChannel.id} is still not compiled within the test timeout (${DefaultSalesChannel.url}).`);
                 }
+
+                await clearDelayedCache(AdminApiContext);
+                await page.waitForTimeout(4000);
             }
         } else {
             page = await context.newPage();
