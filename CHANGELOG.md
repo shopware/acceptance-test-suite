@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.23.1](https://github.com/shopware/acceptance-test-suite/compare/v12.23.0...v12.23.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* relax Playwright peerDependencies from exact pin to caret range ([#729](https://github.com/shopware/acceptance-test-suite/issues/729)) ([83a7715](https://github.com/shopware/acceptance-test-suite/commit/83a7715422201e8ff2fe410a5c93253544c022e6))
+
 ## [12.23.0](https://github.com/shopware/acceptance-test-suite/compare/v12.22.1...v12.23.0) (2026-10-14)
 
 
