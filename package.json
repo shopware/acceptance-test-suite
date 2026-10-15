@@ -61,8 +61,8 @@
         "unbuild": "3.6.1"
     },
     "peerDependencies": {
-        "@playwright/test": "1.62.1",
-        "playwright-core": "1.62.1"
+        "@playwright/test": "^1.62.1",
+        "playwright-core": "^1.62.1"
     },
     "peerDependenciesMeta": {
         "playwright-core": {
