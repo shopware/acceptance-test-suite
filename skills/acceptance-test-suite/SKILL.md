@@ -45,7 +45,7 @@ These are strict and are the usual cause of a broken setup:
 
 - **Package**: `@shopware-ag/acceptance-test-suite`, published on npm, MIT licensed.
 - **ESM only**: the package sets `"type": "module"`. The test workspace must set it too.
-- **Playwright peer is an exact pin**, not a range. A mismatched `@playwright/test` is the usual cause of fixture type errors. `playwright-core` is pinned as an optional peer at the same version.
+- **Playwright peer is a caret range** (e.g. `^1.62.1`). Any compatible 1.x release satisfying the range works; a major mismatch of `@playwright/test` is the usual cause of fixture type errors. `playwright-core` is declared as an optional peer at the same range.
 - **Node**: only the majors in the package's `engines.node` field. Read that field rather than assuming.
 - **Single import path**: the `exports` map exposes only the package root. Deep imports such as `@shopware-ag/acceptance-test-suite/dist/...` are unsupported.
 - **axe is bundled**: `@axe-core/playwright` and `axe-html-reporter` are runtime dependencies of ATS. Do not install them separately.
@@ -68,18 +68,17 @@ Integration credentials are preferred over an admin user: they are faster and un
 
 ## Set up the test workspace
 
-Install ATS first, then read its pinned peer version from disk. Do not guess the Playwright version.
+Install ATS first, then read its peer range from disk. Do not guess the Playwright version.
 
 ```bash
 mkdir -p tests/acceptance && cd tests/acceptance
 npm init -y
 npm install --save-dev @shopware-ag/acceptance-test-suite
 
-# Read the exact version ATS pins, then install exactly that.
+# Read the peer range ATS declares, then install a version satisfying it.
 grep -A4 '"peerDependencies"' node_modules/@shopware-ag/acceptance-test-suite/package.json
 
-# --save-exact matters: without it npm records a caret range and the pin drifts.
-npm install --save-dev --save-exact @playwright/test@<version from the previous command>
+npm install --save-dev @playwright/test@^1.62.1
 npm install --save-dev dotenv
 
 # Add --with-deps only on a fresh CI image: it installs OS packages as root and
@@ -396,7 +395,7 @@ Debugging:
 
 | Symptom | Cause and fix |
 |---|---|
-| Fixture types missing, or `test.extend` type errors | `@playwright/test` does not match ATS's exact pinned peer. Align it. |
+| Fixture types missing, or `test.extend` type errors | `@playwright/test` does not satisfy ATS's peer range. Align it. |
 | `ERR_REQUIRE_ESM` or import failures | The test workspace is not ESM. Set `"type": "module"`. |
 | Unresolved deep import | Only the package root is exported. Import from `@shopware-ag/acceptance-test-suite`. |
 | `APP_URL` or credentials appear unset | Nothing loads `.env` by itself. Load it in `playwright.config.ts`. |
