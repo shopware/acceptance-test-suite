@@ -13,6 +13,7 @@ export class CustomerDetail implements PageObject {
     public readonly customFieldCard: Locator;
     public readonly customFieldSetTabs: Locator;
     public readonly customFieldSetTabCustomContent: Locator;
+    public readonly customerGroupRegistrationAlert: Locator;
     public readonly customerGroupRequestMessage: Locator;
     public readonly customerGroupAcceptButton: Locator;
     public readonly customerGroupDeclineButton: Locator;
@@ -41,13 +42,13 @@ export class CustomerDetail implements PageObject {
         this.customFieldSetTabs = this.customFieldCard.locator(".sw-tabs-item");
         this.customFieldSetTabCustomContent = this.customFieldCard.locator(".sw-tabs__custom-content");
 
-        // Scope to the customer group registration alert: other info banners on the page (e.g. global
-        // administration notices) share the generic banner classes and would make the locator ambiguous.
-        const customerGroupRegistrationAlert = page.locator(".sw-customer-detail__customer-registration-alert");
+        // Other alerts and banners on the customer detail page share the generic message classes, so the
+        // request message is scoped to the customer group registration alert.
+        this.customerGroupRegistrationAlert = page.locator(".sw-customer-detail__customer-registration-alert");
         if (satisfies(instanceMeta.version, "<6.7")) {
-            this.customerGroupRequestMessage = customerGroupRegistrationAlert.locator(".sw-alert__message");
+            this.customerGroupRequestMessage = this.customerGroupRegistrationAlert.locator(".sw-alert__message");
         } else {
-            this.customerGroupRequestMessage = customerGroupRegistrationAlert.locator(".mt-banner__message");
+            this.customerGroupRequestMessage = this.customerGroupRegistrationAlert.locator(".mt-banner__message");
         }
 
         this.customerGroupAcceptButton = page.getByRole("button", { name: translate("administration:customer:detail.accept") });
