@@ -42,8 +42,6 @@ export class CustomerDetail implements PageObject {
         this.customFieldSetTabs = this.customFieldCard.locator(".sw-tabs-item");
         this.customFieldSetTabCustomContent = this.customFieldCard.locator(".sw-tabs__custom-content");
 
-        // Other alerts and banners on the customer detail page share the generic message classes, so the
-        // request message is scoped to the customer group registration alert.
         this.customerGroupRegistrationAlert = page.locator(".sw-customer-detail__customer-registration-alert");
         if (satisfies(instanceMeta.version, "<6.7")) {
             this.customerGroupRequestMessage = this.customerGroupRegistrationAlert.locator(".sw-alert__message");
