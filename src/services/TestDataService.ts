@@ -1019,7 +1019,7 @@ export class TestDataService {
      * @param salesChannelId - The uuid of the sales channel in which the landing page should be active.
      * @param overrides - Specific data overrides applied to the landing page payload.
      */
-    async createLandingPage(salesChannelId = this.defaultSalesChannel.id, overrides: Partial<LandingPage> = {}): Promise<LandingPage> {
+    async createLandingPage(overrides: Partial<LandingPage> = {}, salesChannelId = this.defaultSalesChannel.id): Promise<LandingPage> {
         const basicLandingPage = this.getBasicLandingPageStruct(salesChannelId, overrides);
 
         const response = await this.AdminApiClient.post("landing-page?_response=detail", {
