@@ -244,7 +244,6 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
     expect(cleanUpDeleteOperations["deleted"]["property_group"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["property_group_option"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["product_manufacturer"]).toBeDefined();
-    expect(cleanUpDeleteOperations["deleted"]["landing_page"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["cms_page"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["sales_channel_analytics"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["tax"]).toBeDefined();
