@@ -1014,7 +1014,7 @@ export class TestDataService {
     }
 
     /**
-     * Creates a landing page
+     * Creates a landing page category
      *
      * @param salesChannelId - The uuid of the sales channel in which the landing page should be active.
      * @param overrides - Specific data overrides applied to the landing page payload.
@@ -1035,10 +1035,10 @@ export class TestDataService {
     }
 
     /**
-     * Assigns a CMS page layout to a landing page
+     * Assigns a CMS landing page layout to a landing page category
      *
-     * @param landingPageId - The uuid of the landing page.
-     * @param cmsPageId - The uuid of the CMS page layout.
+     * @param landingPageId - The uuid of the landing page category.
+     * @param cmsPageId - The uuid of the CMS landing page layout.
      */
     async assignLandingPageLayout(landingPageId: string, cmsPageId: string): Promise<LandingPage> {
         const response = await this.AdminApiClient.patch(`landing-page/${landingPageId}?_response=detail`, {
