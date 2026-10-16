@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.23.2](https://github.com/shopware/acceptance-test-suite/compare/v12.23.1...v12.23.2) (2026-10-16)
+
+
+### Bug Fixes
+
+* add an author to the default product review ([#731](https://github.com/shopware/acceptance-test-suite/issues/731)) ([f35d58d](https://github.com/shopware/acceptance-test-suite/commit/f35d58ddfd9a89bb41198485b064b3602224ff3d))
+
 ## [12.23.1](https://github.com/shopware/acceptance-test-suite/compare/v12.23.0...v12.23.1) (2026-10-15)
 
 
