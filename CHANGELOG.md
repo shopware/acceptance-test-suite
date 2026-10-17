@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.23.3](https://github.com/shopware/acceptance-test-suite/compare/v12.23.2...v12.23.3) (2026-10-17)
+
+
+### Bug Fixes
+
+* **fixtures:** fail fast when the theme assign fails in StorefrontPage ([#727](https://github.com/shopware/acceptance-test-suite/issues/727)) ([9c1f6a9](https://github.com/shopware/acceptance-test-suite/commit/9c1f6a90bc7550cfcf84afa1176445e9610b12aa))
+
 ## [12.23.2](https://github.com/shopware/acceptance-test-suite/compare/v12.23.1...v12.23.2) (2026-10-16)
 
 
