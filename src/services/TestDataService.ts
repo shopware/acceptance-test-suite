@@ -8,6 +8,7 @@ import type {
     BasicRuleCondition,
     Category,
     CmsPage,
+    CompanyTax,
     Country,
     Currency,
     Customer,
@@ -79,6 +80,11 @@ export interface DataServiceOptions {
     defaultCountryId: string;
     defaultCustomerGroupId: string;
 }
+
+type CustomerCreateOverrides = Omit<Partial<Customer>, "defaultBillingAddress" | "defaultShippingAddress"> & {
+    defaultBillingAddress?: Partial<Customer["defaultBillingAddress"]>;
+    defaultShippingAddress?: Partial<Customer["defaultShippingAddress"]>;
+};
 
 export class TestDataService {
     public readonly AdminApiClient: AdminApiContext;
@@ -627,11 +633,11 @@ export class TestDataService {
     /**
      * Creates a new shop customer.
      *
-     * @param overrides - Specific data overrides that will be applied to the customer data struct.
+     * @param overrides - Specific data overrides that will be applied to the customer data struct. `accountType`, `company`, and `vatIds` are accepted here even though the generated schema omits them. Billing and shipping addresses are merged onto the default address, so a caller can override only the fields that differ.
      * @param salutationKey - The key of the salutation that should be used for the customer. Default is "mr".
      * @param salesChannel - The sales channel for which the customer should be registered.
      */
-    async createCustomer(overrides: Partial<Customer> = {}, salutationKey = "mr", salesChannel: SalesChannel = this.defaultSalesChannel): Promise<Customer> {
+    async createCustomer(overrides: CustomerCreateOverrides = {}, salutationKey = "mr", salesChannel: SalesChannel = this.defaultSalesChannel): Promise<Customer> {
         const salutation = await this.getSalutation(salutationKey);
 
         const basicCustomerStruct = this.getBasicCustomerStruct(
@@ -2280,6 +2286,87 @@ export class TestDataService {
         return result[0];
     }
 
+    /**
+     * Updates tax and VAT-format settings of a country.
+     *
+     * @param countryId - The uuid of the country.
+     * @param data - Fields to write. `companyTax` accepts only `enabled`, `currencyId`, and `amount`; `apiAlias` from a country read is omitted.
+     */
+    async updateCountry(
+        countryId: string,
+        data: {
+            companyTax?: CompanyTax;
+            checkVatIdPattern?: boolean;
+        }
+    ): Promise<void> {
+        const payload: {
+            companyTax?: CompanyTax;
+            checkVatIdPattern?: boolean;
+        } = {};
+
+        if (data.companyTax) {
+            payload.companyTax = {
+                enabled: data.companyTax.enabled,
+                currencyId: data.companyTax.currencyId,
+                amount: data.companyTax.amount ?? 0,
+            };
+        }
+
+        if (data.checkVatIdPattern !== undefined) {
+            payload.checkVatIdPattern = data.checkVatIdPattern;
+        }
+
+        const response = await this.AdminApiClient.patch(`country/${countryId}`, {
+            data: payload,
+        });
+        expect(response.ok()).toBeTruthy();
+    }
+
+    /**
+     * Assigns countries to a sales channel. Existing assignments are kept.
+     *
+     * @param countryIds - The uuids of the countries to add.
+     * @param salesChannelId - The uuid of the sales channel. Defaults to the test sales channel.
+     */
+    async assignSalesChannelCountries(countryIds: string[], salesChannelId = this.defaultSalesChannel.id): Promise<void> {
+        const uniqueIds = [...new Set(countryIds)];
+
+        const response = await this.AdminApiClient.patch(`sales-channel/${salesChannelId}`, {
+            data: {
+                countries: uniqueIds.map((id) => ({ id })),
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+    }
+
+    /**
+     * Removes country assignments from a sales channel.
+     *
+     * @param countryIds - The uuids of the countries to remove.
+     * @param salesChannelId - The uuid of the sales channel. Defaults to the test sales channel.
+     */
+    async removeSalesChannelCountries(countryIds: string[], salesChannelId = this.defaultSalesChannel.id): Promise<void> {
+        const uniqueIds = [...new Set(countryIds)];
+
+        if (uniqueIds.length === 0) {
+            return;
+        }
+
+        const response = await this.AdminApiClient.post("_action/sync", {
+            data: {
+                "delete-sales-channel-country": {
+                    entity: "sales_channel_country",
+                    action: "delete",
+                    payload: uniqueIds.map((countryId) => ({
+                        salesChannelId,
+                        countryId,
+                    })),
+                },
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+    }
+
     getCountryStruct(overrides: Partial<Country> = {}): Partial<Country> {
         const { uuid: countryUuid, id: countryId } = this.IdProvider.getIdPair();
 
@@ -2529,7 +2616,7 @@ export class TestDataService {
         countryId: string,
         defaultPaymentMethodId: string,
         salutationId: string,
-        overrides: Partial<Customer> = {}
+        overrides: CustomerCreateOverrides = {}
     ): Partial<Customer> {
         const { id, uuid: customerUuid } = this.IdProvider.getIdPair();
         const firstName = "John";
@@ -2572,7 +2659,20 @@ export class TestDataService {
             defaultPaymentMethodId: defaultPaymentMethodId,
         };
 
-        return Object.assign({}, basicCustomer, overrides);
+        const { defaultBillingAddress, defaultShippingAddress, ...customerOverrides } = overrides;
+
+        return {
+            ...basicCustomer,
+            ...customerOverrides,
+            defaultBillingAddress: {
+                ...basicCustomer.defaultBillingAddress,
+                ...defaultBillingAddress,
+            },
+            defaultShippingAddress: {
+                ...basicCustomer.defaultShippingAddress,
+                ...defaultShippingAddress,
+            },
+        };
     }
 
     getBasicUserStruct(localId: string, overrides: Partial<User> = {}): Partial<User> {
