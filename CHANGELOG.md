@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.24.1](https://github.com/shopware/acceptance-test-suite/compare/v12.24.0...v12.24.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* delete order documents before deleting created orders in cleanup ([#735](https://github.com/shopware/acceptance-test-suite/issues/735)) ([4334504](https://github.com/shopware/acceptance-test-suite/commit/4334504c51ddc40aa6fb48eaef96c23c93f1a244))
+
 ## [12.24.0](https://github.com/shopware/acceptance-test-suite/compare/v12.23.2...v12.24.0) (2026-10-19)
 
 
