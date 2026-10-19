@@ -2156,6 +2156,9 @@ export class TestDataService {
             }
         }
 
+        const createdOrderIds = this.createdRecords.filter((record) => record.resource === "order").map((record) => record.payload.id);
+        await this.deleteOrderDocuments(createdOrderIds);
+
         this.createdRecords.forEach((record) => {
             if (record.resource === "user") {
                 if (!deleteUserIds.includes(record.payload.id)) {
@@ -2224,6 +2227,48 @@ export class TestDataService {
         return this.AdminApiClient.post("_action/sync", {
             data: deleteOperations,
         });
+    }
+
+    /**
+     * Deletes all documents of the given orders.
+     * Documents restrict the deletion of their order, so the cleanup calls this before deleting created orders.
+     * Dependent documents (e.g. credit notes, cancellation invoices) are deleted before the documents they reference.
+     *
+     * @param orderIds - The ids of the orders whose documents should be deleted.
+     */
+    async deleteOrderDocuments(orderIds: string[]) {
+        if (orderIds.length === 0) {
+            return;
+        }
+
+        const documentResponse = await this.AdminApiClient.post("search/document", {
+            data: {
+                filter: [{ type: "equalsAny", field: "orderId", value: orderIds }],
+                includes: { document: ["id", "referencedDocumentId"] },
+            },
+        });
+        expect(documentResponse.ok()).toBeTruthy();
+
+        const { data: documents } = (await documentResponse.json()) as { data: { id: string; referencedDocumentId: string | null }[] };
+        const dependentDocuments = documents.filter((document) => document.referencedDocumentId);
+        const referencedDocuments = documents.filter((document) => !document.referencedDocumentId);
+
+        for (const batch of [dependentDocuments, referencedDocuments]) {
+            if (batch.length === 0) {
+                continue;
+            }
+
+            const deleteResponse = await this.AdminApiClient.post("_action/sync", {
+                data: {
+                    "delete-document": {
+                        entity: "document",
+                        action: "delete",
+                        payload: batch.map(({ id }) => ({ id })),
+                    },
+                },
+            });
+            expect(deleteResponse.ok()).toBeTruthy();
+        }
     }
 
     isProduct(item: Product | Promotion): item is Product {
