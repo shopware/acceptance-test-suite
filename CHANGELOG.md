@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.24.0](https://github.com/shopware/acceptance-test-suite/compare/v12.23.2...v12.24.0) (2026-10-19)
+
+
+### Features
+
+* create landing page and assign layout ([#732](https://github.com/shopware/acceptance-test-suite/issues/732)) ([560a48a](https://github.com/shopware/acceptance-test-suite/commit/560a48a4180b951473918f3e056b0f7b65041649))
+
+
+### Bug Fixes
+
+* **fixtures:** fail fast when the theme assign fails in StorefrontPage ([#727](https://github.com/shopware/acceptance-test-suite/issues/727)) ([9c1f6a9](https://github.com/shopware/acceptance-test-suite/commit/9c1f6a90bc7550cfcf84afa1176445e9610b12aa))
+* **page-objects:** scope customer group request banner locator ([#728](https://github.com/shopware/acceptance-test-suite/issues/728)) ([edc0ffe](https://github.com/shopware/acceptance-test-suite/commit/edc0ffe5a9a16380ff1a365efc01aaade15ce7d1))
+
 ## [12.23.2](https://github.com/shopware/acceptance-test-suite/compare/v12.23.1...v12.23.2) (2026-10-16)
 
 
