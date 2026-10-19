@@ -19,6 +19,7 @@ import {
     type User,
     type AclRole,
     type CmsPage,
+    type LandingPage,
     type SalesChannel,
 } from "../../src";
 
@@ -95,13 +96,18 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
 
     const landingPageType = "landingpage";
     const landingPageName = "Custom landing page";
-    const landingPage = await TestDataService.createBasicPageLayout(landingPageType, { name: landingPageName });
-    expect(landingPage.name).toEqual(landingPageName);
-    expect(landingPage.type).toEqual(landingPageType);
+    const landingPageLayout = await TestDataService.createBasicPageLayout(landingPageType, { name: landingPageName });
+    expect(landingPageLayout.name).toEqual(landingPageName);
+    expect(landingPageLayout.type).toEqual(landingPageType);
 
-    const customCategoryWithLandingPage = await TestDataService.createCategory({ name: "Category with landing page", cmsPageId: landingPage.id });
-    expect(customCategoryWithLandingPage.cmsPageId).toEqual(landingPage.id);
+    const customCategoryWithLandingPage = await TestDataService.createCategory({ name: "Category with landing page", cmsPageId: landingPageLayout.id });
+    expect(customCategoryWithLandingPage.cmsPageId).toEqual(landingPageLayout.id);
     expect(customCategoryWithLandingPage.name).toEqual("Category with landing page");
+
+    const landingPage = await TestDataService.createLandingPage({ name: "Landing page with assigned layout" });
+    const assignedLandingPage = await TestDataService.assignLandingPageLayout(landingPage.id, landingPageLayout.id);
+    expect(assignedLandingPage.id).toEqual(landingPage.id);
+    expect(assignedLandingPage.cmsPageId).toEqual(landingPageLayout.id);
 
     const parentProduct = await TestDataService.createBasicProduct();
     const propertyGroupColor = await TestDataService.createColorPropertyGroup();
@@ -215,6 +221,11 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
     const cmsPageResponse = await AdminApiContext.get(`./cms-page/${cmsPage.id}?_response=detail`);
     const { data: databaseCmsPage } = (await cmsPageResponse.json()) as { data: CmsPage };
     expect(databaseCmsPage.id).toBe(cmsPage.id);
+
+    const landingPageResponse = await AdminApiContext.get(`./landing-page/${landingPage.id}?_response=detail`);
+    const { data: databaseLandingPage } = (await landingPageResponse.json()) as { data: LandingPage };
+    expect(databaseLandingPage.id).toBe(landingPage.id);
+    expect(databaseLandingPage.cmsPageId).toBe(landingPageLayout.id);
 
     // Test data clean-up with activated cleansing process
     TestDataService.setCleanUp(true);

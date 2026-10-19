@@ -17,6 +17,7 @@ import type {
     CustomFieldSet,
     DeliveryTime,
     Language,
+    LandingPage,
     Manufacturer,
     Media,
     NewsletterRecipient,
@@ -1010,6 +1011,46 @@ export class TestDataService {
         this.addCreatedRecord("cms_page", layout.id);
 
         return layout;
+    }
+
+    /**
+     * Creates a landing page category
+     *
+     * @param salesChannelId - The uuid of the sales channel in which the landing page should be active.
+     * @param overrides - Specific data overrides applied to the landing page payload.
+     */
+    async createLandingPage(overrides: Partial<LandingPage> = {}, salesChannelId = this.defaultSalesChannel.id): Promise<LandingPage> {
+        const basicLandingPage = this.getBasicLandingPageStruct(salesChannelId, overrides);
+
+        const response = await this.AdminApiClient.post("landing-page?_response=detail", {
+            data: basicLandingPage,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: landingPage } = (await response.json()) as { data: LandingPage };
+
+        this.addCreatedRecord("landing_page", landingPage.id);
+
+        return landingPage;
+    }
+
+    /**
+     * Assigns a CMS landing page layout to a landing page category
+     *
+     * @param landingPageId - The uuid of the landing page category.
+     * @param cmsPageId - The uuid of the CMS landing page layout.
+     */
+    async assignLandingPageLayout(landingPageId: string, cmsPageId: string): Promise<LandingPage> {
+        const response = await this.AdminApiClient.patch(`landing-page/${landingPageId}?_response=detail`, {
+            data: {
+                cmsPageId: cmsPageId,
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: landingPage } = (await response.json()) as { data: LandingPage };
+
+        return landingPage;
     }
 
     /**
@@ -3009,6 +3050,21 @@ export class TestDataService {
         };
 
         return Object.assign({}, basicCmsPage, overrides);
+    }
+
+    getBasicLandingPageStruct(salesChannelId: string, overrides: Partial<LandingPage> = {}) {
+        const landingPageUuid = this.IdProvider.getIdPair().uuid;
+        const landingPageName = `${this.namePrefix}LandingPage-${landingPageUuid}${this.nameSuffix}`;
+
+        const basicLandingPage = {
+            id: landingPageUuid,
+            name: landingPageName,
+            url: `${this.namePrefix}landing-page-${landingPageUuid}${this.nameSuffix}`,
+            active: true,
+            salesChannels: [{ id: salesChannelId }],
+        };
+
+        return Object.assign({}, basicLandingPage, overrides);
     }
 
     getBasicCustomerGroupStruct(overrides: Partial<CustomerGroup> = {}): Partial<CustomerGroup> {
