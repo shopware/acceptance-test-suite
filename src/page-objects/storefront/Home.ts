@@ -64,6 +64,7 @@ export class Home implements PageObject {
      * @deprecated Use 'Header/wishlistBasket' instead
      */
     public readonly wishlistBasket: Locator;
+    public readonly wishlistCookieAcceptButton: Locator;
 
     //product filters
     public readonly filterMultiSelect: Locator;
@@ -139,6 +140,10 @@ export class Home implements PageObject {
         //wishlist
         this.wishlistIcon = page.locator(".header-wishlist-icon");
         this.wishlistBasket = page.locator(".header-wishlist-badge");
+        this.wishlistCookieAcceptButton = page.getByRole("button", {
+            name: translate("storefront:home:cookie.wishlist.accept"),
+            exact: true,
+        });
 
         //product filters
         this.filterMultiSelect = page.getByLabel(translate("storefront:home:filters.filterPanel")).getByRole("list");

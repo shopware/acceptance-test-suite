@@ -13,6 +13,11 @@
         "statistics": "Statistiken",
         "save": "Speichern"
     },
+    "cookie": {
+        "wishlist": {
+            "accept": "Cookie akzeptieren"
+        }
+    },
     "filters": {
         "filterPanel": "Produkte filtern",
         "labelPrefix": "Filtern nach ",
