@@ -10,7 +10,8 @@
         "express": "Express",
         "grandTotal": "Grand total",
         "plusVat": "plus",
-        "vatSuffix": "% VAT"
+        "vatSuffix": "% VAT",
+        "excludeVat": "excl. VAT"
     },
     "cart": {
         "shoppingCart": "Shopping cart",

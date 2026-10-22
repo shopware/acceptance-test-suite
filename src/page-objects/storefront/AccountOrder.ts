@@ -49,7 +49,8 @@ export class AccountOrder extends BaseAccount {
         const orderImage = orderItem.locator(".line-item-img-link");
         const taxPrice = orderItem.locator(`dt:text-matches(${JSON.stringify(this.buildTaxPricePattern())}) + dd`);
         const shippingCosts = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.shippingCosts")}') + dd`);
-        const totalGross = orderItem.locator(`dt:text-matches('${translate("storefront:account:orders.totalGross")}') + dd`);
+        const totalGross = orderItem.locator(`dt:has-text('${translate("storefront:account:orders.totalGross")}') + dd`);
+        const totalNet = orderItem.locator(`dt:has-text('${translate("storefront:account:orders.totalNet")}') + dd`);
 
         const locators: Record<string, Locator> = {
             orderStatus: orderStatus,
@@ -68,6 +69,7 @@ export class AccountOrder extends BaseAccount {
             taxPrice: taxPrice,
             shippingCosts: shippingCosts,
             totalGross: totalGross,
+            totalNet: totalNet,
         };
 
         if (productNumber) {
