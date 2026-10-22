@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.25.0](https://github.com/shopware/acceptance-test-suite/compare/v12.24.1...v12.25.0) (2026-10-22)
+
+
+### Features
+
+* Wishlist locators for cookie consent and listing items ([#737](https://github.com/shopware/acceptance-test-suite/issues/737)) ([4a6c6df](https://github.com/shopware/acceptance-test-suite/commit/4a6c6df24286eefc6a1f3b22e9f8359ca23df8d8))
+
 ## [12.24.1](https://github.com/shopware/acceptance-test-suite/compare/v12.24.0...v12.24.1) (2026-10-19)
 
 
