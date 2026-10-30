@@ -31,7 +31,8 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
             // runs against the same shop (e.g. Platform and Commercial in parallel CI
             // jobs), which would otherwise contend for the same worker sales channels.
             const seed = process.env.ATS_ID_SEED ? `${process.env.ATS_ID_SEED}:${baseSeed}` : baseSeed;
-            const idProvider = new IdProvider(workerInfo.parallelIndex, seed);
+            const shard = workerInfo.config.shard;
+            const idProvider = new IdProvider(workerInfo.parallelIndex, shard ? `${seed}:shard-${shard.current}` : seed);
 
             await use(idProvider);
         },
