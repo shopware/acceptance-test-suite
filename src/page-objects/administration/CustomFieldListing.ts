@@ -9,7 +9,7 @@ export class CustomFieldListing implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.addNewSetButton = page.getByText(translate("administration:customField:listing.addNewSet"));
+        this.addNewSetButton = page.locator(".sw-settings-custom-field-set-list__button-create");
         this.customFieldRows = page.getByRole("row");
     }
 
