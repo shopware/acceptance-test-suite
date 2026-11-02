@@ -8,6 +8,7 @@ export class Wishlist extends Home implements PageObject {
     public readonly wishListHeader: Locator;
     public readonly removeAlert: Locator;
     public readonly emptyListing: Locator;
+    public readonly wishlistItems: Locator;
 
     public readonly page: Page;
 
@@ -17,6 +18,7 @@ export class Wishlist extends Home implements PageObject {
         this.wishListHeader = page.locator(".wishlist-headline");
         this.removeAlert = page.locator(".alert-success");
         this.emptyListing = page.locator(".wishlist-listing-empty");
+        this.wishlistItems = page.getByRole("main").getByRole("list").getByRole("listitem");
     }
 
     async getListingItemByProductName(productListingName: string): Promise<Record<string, Locator>> {

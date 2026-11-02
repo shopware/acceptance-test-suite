@@ -2,11 +2,17 @@ import { test as base, expect } from "@playwright/test";
 import type { Page, BrowserContext } from "playwright-core";
 import type { FixtureTypes } from "../types/FixtureTypes";
 import type { User } from "../types/ShopwareTypes";
-import { isThemeCompiled, isSaaSInstance } from "../services/ShopInfo";
+import { isThemeCompiled } from "../services/ShopInfo";
 import { clearDelayedCache } from "../services/Cache";
 import { createNewAdminPageContext, hideSymfonyToolbarOnReload, loginToAdministration } from "../services/AdminLoginHelper";
 import { LanguageHelper, setCurrentContext } from "../services/LanguageHelper";
 import { getLocale } from "../services/ShopwareDataHelpers";
+
+/** Reserved so the fixture fails with its own message before Playwright's generic fixture timeout. */
+const THEME_SETUP_SAFETY_MARGIN = 15_000;
+
+/** Attempts for the theme assign request while the shop answers with a server error. */
+const THEME_ASSIGN_MAX_ATTEMPTS = 5;
 
 export interface AdminSession {
     context: BrowserContext;
@@ -122,22 +128,40 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
             if (!ExistingStorefront && !(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
                 base.slow();
 
-                await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
-                await clearDelayedCache(AdminApiContext);
+                // One deadline for assigning and compiling the theme, inside the (tripled) test timeout.
+                const deadline = Date.now() + (base.info().timeout || 180_000) - THEME_SETUP_SAFETY_MARGIN;
+                const assignUrl = `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`;
 
+                // Parallel workers can cause transient server errors during theme assignment.
+                let response = await AdminApiContext.post(assignUrl);
+                for (let attempt = 1; attempt < THEME_ASSIGN_MAX_ATTEMPTS && response.status() >= 500 && Date.now() < deadline; attempt++) {
+                    console.warn(
+                        `[Warning] Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()} (attempt ${attempt}), retrying: ${(await response.text()).slice(0, 500)}`
+                    );
+                    await new Promise((resolve) => setTimeout(resolve, 2_000 * attempt));
+                    response = await AdminApiContext.post(assignUrl);
+                }
+                if (!response.ok()) {
+                    throw new Error(`Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()}: ${(await response.text()).slice(0, 500)}`);
+                }
+                await clearDelayedCache(AdminApiContext);
                 page = await context.newPage();
 
-                if (await isSaaSInstance(AdminApiContext)) {
-                    await expect
-                        .poll(
-                            async () => {
-                                await clearDelayedCache(AdminApiContext);
-                                return isThemeCompiled(StoreApiContext, DefaultSalesChannel.url);
-                            },
-                            { intervals: [4000], timeout: base.info().timeout }
-                        )
-                        .toBe(true);
-                }
+                // Compilation may finish after assignment on any deployment type.
+                await expect
+                    .poll(
+                        async () => {
+                            const compiled = await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url);
+                            if (!compiled) await clearDelayedCache(AdminApiContext);
+                            return compiled;
+                        },
+                        {
+                            intervals: [4000],
+                            timeout: Math.max(1, deadline - Date.now()),
+                            message: `Theme for sales channel ${salesChannel.id} is still not compiled within the test timeout (${DefaultSalesChannel.url}).`,
+                        }
+                    )
+                    .toBe(true);
             } else {
                 page = await context.newPage();
             }

@@ -1,6 +1,10 @@
 import { mergeTests } from "@playwright/test";
 
 import { SaveProduct } from "./shop-admin/Product/SaveProduct";
+import { SaveAndDuplicateProduct } from "./shop-admin/Product/SaveAndDuplicateProduct";
+import { FillProductBaseData } from "./shop-admin/Product/FillProductBaseData";
+import { UploadProductDownloadFile } from "./shop-admin/Product/UploadProductDownloadFile";
+import { DeleteProduct } from "./shop-admin/Product/DeleteProduct";
 import { ExpectNotification } from "./shop-admin/ExpectNotification";
 import { CreateLinkTypeCategory } from "./shop-admin/Category/CreateLinkTypeCategory";
 import { BulkEditProducts } from "./shop-admin/Product/BulkEditProducts";
@@ -11,9 +15,14 @@ import { LoginViaReviewsTab } from "./shop-customer/Account/LoginViaReviewsTab";
 import { DeactivateShopwareServices } from "./shop-admin/ShopwareServices/DeactivateShopwareServices";
 import { CheckVisibilityOfServicesBanner } from "./shop-admin/ShopwareServices/CheckVisibilityOfServicesBanner";
 import { CheckAccessToShopwareServices } from "./shop-admin/ShopwareServices/CheckAccessToShopwareServices";
+import { SelectExtensionCategory } from "./shop-admin/FRW/SelectExtensionCategory";
 
 export const test = mergeTests(
     SaveProduct,
+    SaveAndDuplicateProduct,
+    FillProductBaseData,
+    UploadProductDownloadFile,
+    DeleteProduct,
     ExpectNotification,
     CreateLinkTypeCategory,
     BulkEditProducts,
@@ -23,5 +32,6 @@ export const test = mergeTests(
     LoginViaReviewsTab,
     CheckAccessToShopwareServices,
     CheckVisibilityOfServicesBanner,
-    DeactivateShopwareServices
+    DeactivateShopwareServices,
+    SelectExtensionCategory
 );

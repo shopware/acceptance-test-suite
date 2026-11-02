@@ -2,7 +2,7 @@ import { test, expect, translate } from "../src";
 import { satisfies } from "compare-versions";
 
 test("Shopware Services", async ({ InstanceMeta, ShopAdmin, AdminDashboard, AdminShopwareServices }) => {
-    if (satisfies(InstanceMeta.version, ">=6.7.1") && !InstanceMeta.isSaaS) {
+    if (satisfies(InstanceMeta.version, ">=6.7.1 <6.7.14.0") && !InstanceMeta.isSaaS) {
         await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toBeVisible();
         await ShopAdmin.expects(AdminDashboard.shopwareServicesAdvertisementBanner).toContainText(
             translate("administration:shopwareServices:dashboard.shopwareServicesIntroduction")

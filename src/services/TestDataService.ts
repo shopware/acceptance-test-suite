@@ -5,6 +5,7 @@ import type { IdProvider } from "./IdProvider";
 import type {
     AclRole,
     Address,
+    BasicRuleCondition,
     Category,
     CmsPage,
     Country,
@@ -16,8 +17,10 @@ import type {
     CustomFieldSet,
     DeliveryTime,
     Language,
+    LandingPage,
     Manufacturer,
     Media,
+    NewsletterRecipient,
     Order,
     OrderDelivery,
     OrderLineItem,
@@ -26,6 +29,7 @@ import type {
     ProductCrossSelling,
     ProductReview,
     Promotion,
+    PromotionWithConditionRuleOptions,
     PropertyGroup,
     PropertyGroupOption,
     Rule,
@@ -162,6 +166,38 @@ export class TestDataService {
         if (options.nameSuffix) {
             this.nameSuffix = options.nameSuffix;
         }
+    }
+
+    /**
+     * Creates a newsletter recipient for a customer in the default sales channel.
+     * If a matching recipient already exists, it will be reused and registered for cleanup.
+     *
+     * @param customer - The customer whose email and profile data will be used for the newsletter recipient.
+     * @param overrides - Specific data overrides that will be applied to the newsletter recipient payload.
+     */
+    async createNewsletterRecipient(customer: Customer, overrides: Partial<NewsletterRecipient> = {}): Promise<NewsletterRecipient> {
+        const hash = this.IdProvider.getIdPair();
+        const recipientPayload = {
+            email: customer.email,
+            salesChannelId: this.defaultSalesChannel.id,
+            firstName: customer.firstName ?? `Test ${hash.id}`,
+            lastName: customer.lastName ?? `User ${hash.id}`,
+            hash: customer.id || hash.uuid,
+            status: "direct",
+            languageId: customer.languageId ?? this.defaultLanguageId,
+            salutationId: customer.salutationId,
+            confirmedAt: this.convertDateTime(new Date()),
+            ...overrides,
+        };
+
+        const resp = await this.AdminApiClient.post("newsletter-recipient?_response=detail", {
+            data: recipientPayload,
+        });
+
+        expect(resp.ok()).toBeTruthy();
+        const { data: recipient } = (await resp.json()) as { data: NewsletterRecipient };
+        this.addCreatedRecord("newsletter_recipient", recipient.id);
+        return recipient;
     }
 
     /**
@@ -815,6 +851,55 @@ export class TestDataService {
     }
 
     /**
+     * Creates a promotion with one discount and assigns a condition rule as a persona rule.
+     * The created promotion and assigned rule are both registered for cleanup.
+     *
+     * @param promotionConfig - Promotion configuration, including the promotion id, name, and assigned rule id.
+     */
+    async createPromotionWithConditionRule(promotionConfig: PromotionWithConditionRuleOptions): Promise<Promotion> {
+        const useCode = promotionConfig.useCode ?? false;
+        const basicPromotion = this.getBasicPromotionStruct(promotionConfig.salesChannelId, {
+            id: promotionConfig.id,
+            name: promotionConfig.name,
+            useCodes: useCode,
+            useIndividualCodes: useCode,
+            discounts: [
+                {
+                    scope: promotionConfig.discountScope ?? "cart",
+                    type: promotionConfig.discountType ?? "percentage",
+                    value: promotionConfig.discountValue ?? 10,
+                    considerAdvancedRules: false,
+                },
+            ],
+        });
+
+        if (!useCode) {
+            delete basicPromotion.code;
+        }
+
+        const promotionWithConditionRule = {
+            ...basicPromotion,
+            personaRules: [
+                {
+                    id: promotionConfig.ruleId,
+                },
+            ],
+        };
+
+        const promotionResponse = await this.AdminApiClient.post("promotion?_response=detail", {
+            data: promotionWithConditionRule,
+        });
+        expect(promotionResponse.ok()).toBeTruthy();
+
+        const { data: promotion } = (await promotionResponse.json()) as { data: Promotion };
+
+        this.addCreatedRecord("promotion", promotionConfig.id);
+        this.addCreatedRecord("rule", promotionConfig.ruleId);
+
+        return promotion;
+    }
+
+    /**
      * Creates a new basic payment method.
      *
      * @param overrides - Specific data overrides that will be applied to the payment method data struct.
@@ -886,12 +971,14 @@ export class TestDataService {
     }
 
     /**
-     * Creates a new basic rule with the condition cart amount >= 1.
+     * Creates a new basic rule with the condition cart amount >= 1 by default.
+     * Pass a condition object to create the same basic rule structure with another condition.
      *
      * @param overrides - Specific data overrides that will be applied to the basic rule data struct.
+     * @param condition - The condition object or condition type used in the generated rule.
      */
-    async createBasicRule(overrides: Partial<Rule> = {}, conditionType = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
-        const basicRule = this.getBasicRuleStruct(overrides, conditionType, operator, amount);
+    async createBasicRule(overrides: Partial<Rule> = {}, condition: BasicRuleCondition | string = "cartCartAmount", operator = ">=", amount = 1): Promise<Rule> {
+        const basicRule = this.getBasicRuleStruct(overrides, condition, operator, amount);
 
         const ruleResponse = await this.AdminApiClient.post("rule?_response=detail", {
             data: basicRule,
@@ -924,6 +1011,46 @@ export class TestDataService {
         this.addCreatedRecord("cms_page", layout.id);
 
         return layout;
+    }
+
+    /**
+     * Creates a landing page category
+     *
+     * @param salesChannelId - The uuid of the sales channel in which the landing page should be active.
+     * @param overrides - Specific data overrides applied to the landing page payload.
+     */
+    async createLandingPage(overrides: Partial<LandingPage> = {}, salesChannelId = this.defaultSalesChannel.id): Promise<LandingPage> {
+        const basicLandingPage = this.getBasicLandingPageStruct(salesChannelId, overrides);
+
+        const response = await this.AdminApiClient.post("landing-page?_response=detail", {
+            data: basicLandingPage,
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: landingPage } = (await response.json()) as { data: LandingPage };
+
+        this.addCreatedRecord("landing_page", landingPage.id);
+
+        return landingPage;
+    }
+
+    /**
+     * Assigns a CMS landing page layout to a landing page category
+     *
+     * @param landingPageId - The uuid of the landing page category.
+     * @param cmsPageId - The uuid of the CMS landing page layout.
+     */
+    async assignLandingPageLayout(landingPageId: string, cmsPageId: string): Promise<LandingPage> {
+        const response = await this.AdminApiClient.patch(`landing-page/${landingPageId}?_response=detail`, {
+            data: {
+                cmsPageId: cmsPageId,
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: landingPage } = (await response.json()) as { data: LandingPage };
+
+        return landingPage;
     }
 
     /**
@@ -1551,6 +1678,35 @@ export class TestDataService {
     }
 
     /**
+     * Retrieves a newsletter recipient by customer email and the default sales channel.
+     * @param customer - The customer whose email will be used to search for a newsletter recipient.
+     */
+    async getNewsletterRecipient(customer: Customer): Promise<NewsletterRecipient | undefined> {
+        const response = await this.AdminApiClient.post("search/newsletter-recipient", {
+            data: {
+                limit: 1,
+                filter: [
+                    {
+                        type: "equals",
+                        field: "email",
+                        value: customer.email,
+                    },
+                    {
+                        type: "equals",
+                        field: "salesChannelId",
+                        value: this.defaultSalesChannel.id,
+                    },
+                ],
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data: result } = (await response.json()) as { data: NewsletterRecipient[] };
+
+        return result[0];
+    }
+
+    /**
      * Retrieves a language based on its code.
      * @param languageCode
      */
@@ -2000,6 +2156,9 @@ export class TestDataService {
             }
         }
 
+        const createdOrderIds = this.createdRecords.filter((record) => record.resource === "order").map((record) => record.payload.id);
+        await this.deleteOrderDocuments(createdOrderIds);
+
         this.createdRecords.forEach((record) => {
             if (record.resource === "user") {
                 if (!deleteUserIds.includes(record.payload.id)) {
@@ -2068,6 +2227,48 @@ export class TestDataService {
         return this.AdminApiClient.post("_action/sync", {
             data: deleteOperations,
         });
+    }
+
+    /**
+     * Deletes all documents of the given orders.
+     * Documents restrict the deletion of their order, so the cleanup calls this before deleting created orders.
+     * Dependent documents (e.g. credit notes, cancellation invoices) are deleted before the documents they reference.
+     *
+     * @param orderIds - The ids of the orders whose documents should be deleted.
+     */
+    async deleteOrderDocuments(orderIds: string[]) {
+        if (orderIds.length === 0) {
+            return;
+        }
+
+        const documentResponse = await this.AdminApiClient.post("search/document", {
+            data: {
+                filter: [{ type: "equalsAny", field: "orderId", value: orderIds }],
+                includes: { document: ["id", "referencedDocumentId"] },
+            },
+        });
+        expect(documentResponse.ok()).toBeTruthy();
+
+        const { data: documents } = (await documentResponse.json()) as { data: { id: string; referencedDocumentId: string | null }[] };
+        const dependentDocuments = documents.filter((document) => document.referencedDocumentId);
+        const referencedDocuments = documents.filter((document) => !document.referencedDocumentId);
+
+        for (const batch of [dependentDocuments, referencedDocuments]) {
+            if (batch.length === 0) {
+                continue;
+            }
+
+            const deleteResponse = await this.AdminApiClient.post("_action/sync", {
+                data: {
+                    "delete-document": {
+                        entity: "document",
+                        action: "delete",
+                        payload: batch.map(({ id }) => ({ id })),
+                    },
+                },
+            });
+            expect(deleteResponse.ok()).toBeTruthy();
+        }
     }
 
     isProduct(item: Product | Promotion): item is Product {
@@ -2268,9 +2469,19 @@ export class TestDataService {
         return Object.assign({}, basicProduct, overrides);
     }
 
-    getBasicRuleStruct(overrides: Partial<Rule> = {}, conditionType: string, operator: string, amount: number): Partial<Rule> {
+    getBasicRuleStruct(overrides: Partial<Rule> = {}, condition: BasicRuleCondition | string = "cartCartAmount", operator = ">=", amount = 1): Partial<Rule> {
         const { id: ruleId, uuid: ruleUuid } = this.IdProvider.getIdPair();
         const ruleName = `${this.namePrefix}Rule-${ruleId}${this.nameSuffix}`;
+        const ruleCondition =
+            typeof condition === "string"
+                ? {
+                      type: condition,
+                      value: {
+                          operator: operator,
+                          amount: amount,
+                      },
+                  }
+                : condition;
 
         const description = `
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
@@ -2289,15 +2500,7 @@ export class TestDataService {
                     children: [
                         {
                             type: "andContainer",
-                            children: [
-                                {
-                                    type: conditionType,
-                                    value: {
-                                        operator: operator,
-                                        amount: amount,
-                                    },
-                                },
-                            ],
+                            children: [ruleCondition],
                         },
                     ],
                 },
@@ -2894,6 +3097,21 @@ export class TestDataService {
         return Object.assign({}, basicCmsPage, overrides);
     }
 
+    getBasicLandingPageStruct(salesChannelId: string, overrides: Partial<LandingPage> = {}) {
+        const landingPageUuid = this.IdProvider.getIdPair().uuid;
+        const landingPageName = `${this.namePrefix}LandingPage-${landingPageUuid}${this.nameSuffix}`;
+
+        const basicLandingPage = {
+            id: landingPageUuid,
+            name: landingPageName,
+            url: `${this.namePrefix}landing-page-${landingPageUuid}${this.nameSuffix}`,
+            active: true,
+            salesChannels: [{ id: salesChannelId }],
+        };
+
+        return Object.assign({}, basicLandingPage, overrides);
+    }
+
     getBasicCustomerGroupStruct(overrides: Partial<CustomerGroup> = {}): Partial<CustomerGroup> {
         const customerGroupUuid = this.IdProvider.getIdPair().uuid;
         const customerGroupName = `${this.namePrefix}CustomerGroup-${customerGroupUuid}${this.nameSuffix}`;
@@ -2904,7 +3122,7 @@ export class TestDataService {
             displayGross: true,
             registrationActive: true,
             registrationTitle: customerGroupName,
-            registrationIntroduction: `${customerGroupName}-Introduction`,
+            registrationIntroduction: `<p>${customerGroupName}-Introduction</p>`,
             registrationSeoMetaDescription: `${customerGroupName}-SEO-Description`,
             registrationOnlyCompanyRegistration: false,
             customFields: {},
@@ -3068,6 +3286,7 @@ export class TestDataService {
             title: productReviewName,
             content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             points: 5,
+            externalUser: "Peter Venkman",
             status: true,
             salesChannelId: this.defaultSalesChannel.id,
         };

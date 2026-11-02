@@ -36,13 +36,22 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
 
                 if (changes["manufacturer"] != null) {
                     await AdminProductBulkEdit.changeManufacturerCheckbox.click();
-                    await AdminProductBulkEdit.manufacturerDropdown.click();
-                    const responsePromise = AdminProductBulkEdit.page.waitForResponse(
+                    // Opening the select loads an unfiltered first page; wait for it before typing so the term search is not dropped.
+                    const initialLoad = AdminProductBulkEdit.page.waitForResponse(
                         (response) => response.url().includes(`product-manufacturer`) && response.status() === 200 && response.request().method() === "POST"
+                    );
+                    await AdminProductBulkEdit.manufacturerDropdown.click();
+                    expect((await initialLoad).ok()).toBeTruthy();
+                    const responsePromise = AdminProductBulkEdit.page.waitForResponse(
+                        (response) =>
+                            response.url().includes(`product-manufacturer`) &&
+                            response.status() === 200 &&
+                            response.request().method() === "POST" &&
+                            response.request().postDataJSON()?.term === changes["manufacturer"].value
                     );
                     await AdminProductBulkEdit.manufacturerDropdownInput.fill(changes["manufacturer"].value);
 
-                    // Wait for the search call to be completed
+                    // Wait for the term search call to be completed
                     const response = await responsePromise;
                     expect(response.ok()).toBeTruthy();
                     const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes["manufacturer"].value);
@@ -81,13 +90,22 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     await AdminProductBulkEdit.tagsChangeMethodDropdown.click();
                     await (await AdminProductBulkEdit.getDropdownEntry(changes["tags"].method)).click();
                     if (changes["tags"].method != "Clear") {
-                        await AdminProductBulkEdit.tagsInput.click();
-                        const responsePromise = AdminProductBulkEdit.page.waitForResponse(
+                        // Opening the select loads an unfiltered first page; wait for it before typing so the term search is not dropped.
+                        const initialLoad = AdminProductBulkEdit.page.waitForResponse(
                             (response) => response.url().includes(`search/tag`) && response.status() === 200 && response.request().method() === "POST"
+                        );
+                        await AdminProductBulkEdit.tagsInput.click();
+                        expect((await initialLoad).ok()).toBeTruthy();
+                        const responsePromise = AdminProductBulkEdit.page.waitForResponse(
+                            (response) =>
+                                response.url().includes(`search/tag`) &&
+                                response.status() === 200 &&
+                                response.request().method() === "POST" &&
+                                response.request().postDataJSON()?.term === changes["tags"].value
                         );
                         await AdminProductBulkEdit.tagsInput.fill(changes["tags"].value);
 
-                        // Wait for the search call to be completed
+                        // Wait for the term search call to be completed
                         const response = await responsePromise;
                         expect(response.ok()).toBeTruthy();
                         const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes["tags"].value);
@@ -100,13 +118,22 @@ export const BulkEditProducts = base.extend<{ BulkEditProducts: Task }, FixtureT
                     await AdminProductBulkEdit.salesChannelChangeMethodDropdown.click();
                     await (await AdminProductBulkEdit.getDropdownEntry(changes["saleschannel"].method)).click();
                     if (changes["saleschannel"].method != "Clear") {
-                        await AdminProductBulkEdit.salesChannelInput.click();
-                        const responsePromise = AdminProductBulkEdit.page.waitForResponse(
+                        // Opening the select loads an unfiltered first page; wait for it before typing so the term search is not dropped.
+                        const initialLoad = AdminProductBulkEdit.page.waitForResponse(
                             (response) => response.url().includes(`search/sales-channel`) && response.status() === 200 && response.request().method() === "POST"
+                        );
+                        await AdminProductBulkEdit.salesChannelInput.click();
+                        expect((await initialLoad).ok()).toBeTruthy();
+                        const responsePromise = AdminProductBulkEdit.page.waitForResponse(
+                            (response) =>
+                                response.url().includes(`search/sales-channel`) &&
+                                response.status() === 200 &&
+                                response.request().method() === "POST" &&
+                                response.request().postDataJSON()?.term === changes["saleschannel"].value
                         );
                         await AdminProductBulkEdit.salesChannelInput.fill(changes["saleschannel"].value);
 
-                        // Wait for the search call to be completed
+                        // Wait for the term search call to be completed
                         const response = await responsePromise;
                         expect(response.ok()).toBeTruthy();
                         const searchResult = await AdminProductBulkEdit.getDropdownEntry(changes["saleschannel"].value);

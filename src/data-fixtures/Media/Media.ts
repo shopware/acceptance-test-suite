@@ -1,9 +1,8 @@
 import { test as base, expect } from "@playwright/test";
 import type { FixtureTypes } from "../../types/FixtureTypes";
-import { createRandomImage } from "../../services/ImageHelper";
+import { createRandomImage, encodeImage } from "../../services/ImageHelper";
 import type { components } from "@shopware/api-client/admin-api-types";
 import fs from "fs";
-import { encode } from "image-js";
 
 /**
  * @deprecated - Use TestDataService.createMediaPNG() instead.
@@ -24,7 +23,7 @@ export const MediaData = base.extend<FixtureTypes>({
             }
         }
 
-        fs.writeFileSync(imageFilePath, encode(image));
+        fs.writeFileSync(imageFilePath, encodeImage(image));
 
         // Create empty media and use the mediaId for Upload
         const mediaResponse = await AdminApiContext.post("media?_response", {

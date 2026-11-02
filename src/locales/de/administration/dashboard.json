@@ -11,7 +11,8 @@
         "exploreNow": "Jetzt erkunden"
     },
     "userMenu": {
-        "logout": "Abmelden"
+        "logout": "Abmelden",
+        "offCanvasToggle": "Menü ausklappen"
     },
     "order": {
         "orderTitle": "Bestellungen",

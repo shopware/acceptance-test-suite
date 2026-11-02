@@ -1,5 +1,13 @@
 import type { components } from "@shopware/api-client/admin-api-types";
 
+export type NewsletterRecipient = components["schemas"]["NewsletterRecipient"] & {
+    id: string;
+    email: string;
+    salesChannelId: string;
+    firstName: string;
+    lastName: string;
+};
+
 export type SalesChannel = components["schemas"]["SalesChannel"] & {
     id: string;
 };
@@ -141,6 +149,12 @@ export type Rule = components["schemas"]["Rule"] & {
     id: string;
 };
 
+export interface BasicRuleCondition {
+    type: string;
+    value: Record<string, unknown>;
+    children?: BasicRuleCondition[];
+}
+
 export type Currency = components["schemas"]["Currency"] & {
     id: string;
 };
@@ -229,6 +243,17 @@ export type PromotionDiscount = components["schemas"]["PromotionDiscount"] & {
     id: string;
 };
 
+export interface PromotionWithConditionRuleOptions {
+    id: string;
+    name: string;
+    ruleId: string;
+    useCode?: boolean;
+    discountValue?: number;
+    discountScope?: string;
+    discountType?: string;
+    salesChannelId?: string;
+}
+
 export type OrderLineItem = components["schemas"]["OrderLineItem"] & {
     id: string;
 };
@@ -242,6 +267,10 @@ export type DeliveryTime = components["schemas"]["DeliveryTime"] & {
 };
 
 export type CmsPage = components["schemas"]["CmsPage"] & {
+    id: string;
+};
+
+export type LandingPage = components["schemas"]["LandingPage"] & {
     id: string;
 };
 
@@ -324,6 +353,19 @@ export interface FlowConfig {
     trueActionIdentifier: string;
     falseAction: string;
     falseActionIdentifier: string;
+}
+
+export type ProductCreationType = "physical" | "digital";
+
+/**
+ * Base data of the administration product creation form.
+ */
+export interface ProductFormData {
+    name: string;
+    productNumber?: string;
+    grossPrice: string;
+    /** Digital products have no stock field unless stock management is enabled. */
+    stock?: string;
 }
 
 export interface CategoryData {
