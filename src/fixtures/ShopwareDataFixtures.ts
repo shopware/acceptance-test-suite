@@ -60,7 +60,11 @@ export interface ShopwareDataFixtureTypes {
 
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     Country: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use({ id: ExistingStorefront.salesChannel.countryId });
+                return;
+            }
             const countryCode = getCountryCodeFromLocale(getLocale());
             const countryId = await getCountryId(countryCode, AdminApiContext);
 
@@ -72,7 +76,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     Currency: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use({ id: ExistingStorefront.domain.currencyId });
+                return;
+            }
             const currency = await getCurrency(AdminApiContext);
 
             await use({
@@ -83,7 +91,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     Language: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use(ExistingStorefront.language);
+                return;
+            }
             const locale = getLocale();
             const languageCode = getLanguageCode(locale);
             const language = await getLanguageData(AdminApiContext, languageCode);
@@ -94,7 +106,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     PaymentMethod: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use({ id: ExistingStorefront.salesChannel.paymentMethodId });
+                return;
+            }
             const paymentMethodId = await getPaymentMethodId(AdminApiContext);
 
             await use({
@@ -105,7 +121,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     ShippingMethod: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use({ id: ExistingStorefront.salesChannel.shippingMethodId });
+                return;
+            }
             const shippingMethodId = await getShippingMethodId("Standard", AdminApiContext);
 
             await use({
@@ -116,7 +136,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     SnippetSet: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use({ id: ExistingStorefront.domain.snippetSetId });
+                return;
+            }
             const snippedSetId = await getSnippetSetId(AdminApiContext);
 
             await use({
@@ -127,7 +151,19 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     Tax: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                const response = await AdminApiContext.post("search/tax", { data: { limit: 1 } });
+                if (!response.ok()) throw new Error(`Tax lookup failed (HTTP ${response.status()}).`);
+                const { data } = (await response.json()) as { data: { id: string }[] };
+                await use({
+                    get id(): string {
+                        if (!data?.[0]?.id) throw new Error("No tax is available for test data creation. Override the Tax fixture.");
+                        return data[0].id;
+                    },
+                });
+                return;
+            }
             const taxId = await getTaxId(AdminApiContext);
 
             await use({
@@ -138,7 +174,15 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     Theme: [
-        async ({ AdminApiContext }, use) => {
+        async ({ AdminApiContext, ExistingStorefront }, use) => {
+            if (ExistingStorefront) {
+                await use({
+                    get id(): string {
+                        throw new Error("Existing storefronts do not have an ATS default theme. Override Theme explicitly if a test needs one.");
+                    },
+                });
+                return;
+            }
             const themeId = await getThemeId("Storefront", AdminApiContext);
 
             await use({

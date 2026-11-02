@@ -2,7 +2,7 @@ import { test as base, expect } from "@playwright/test";
 import type { Page, BrowserContext } from "playwright-core";
 import type { FixtureTypes } from "../types/FixtureTypes";
 import type { User } from "../types/ShopwareTypes";
-import { isThemeCompiled } from "../services/ShopInfo";
+import { isThemeCompiled, isSaaSInstance } from "../services/ShopInfo";
 import { clearDelayedCache } from "../services/Cache";
 import { createNewAdminPageContext, hideSymfonyToolbarOnReload, loginToAdministration } from "../services/AdminLoginHelper";
 import { LanguageHelper, setCurrentContext } from "../services/LanguageHelper";
@@ -22,11 +22,13 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
-type PageContextWorkerFixtures = Pick<FixtureTypes, "AdminSession" | "IdProvider" | "AdminApiContext" | "SalesChannelBaseConfig">;
+type PageContextWorkerFixtures = Pick<FixtureTypes, "AdminSession" | "IdProvider" | "AdminApiContext" | "SalesChannelBaseConfig" | "storefrontTarget">;
 
 export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextWorkerFixtures>({
     AdminSession: [
-        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, storefrontTarget }, use) => {
+            if (storefrontTarget.mode === "existing")
+                throw new Error("AdminSession provisions an Admin user and is unavailable in existing storefront mode. Use a separate generated project for Administration tests.");
             const { id, uuid } = IdProvider.getIdPair();
 
             const adminUser: User = {
@@ -84,15 +86,30 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         setCurrentContext(null);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, InstanceMeta, CustomTranslationResources }, use) => {
+    StorefrontPage: async (
+        {
+            DefaultSalesChannel,
+            SalesChannelBaseConfig,
+            browser,
+            AdminApiContext,
+            StoreApiContext,
+            ExistingStorefront,
+            CustomTranslationResources,
+            contextOptions,
+            httpCredentials,
+            userAgent,
+        },
+        use
+    ) => {
         const { url, salesChannel } = DefaultSalesChannel;
-        const locale = getLocale();
+        const locale = ExistingStorefront?.language.translationCode.code ?? getLocale();
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
+            ...(ExistingStorefront ? { ...contextOptions, httpCredentials, userAgent } : {}),
             baseURL: url,
             locale,
-            extraHTTPHeaders: { "Accept-Language": locale },
+            extraHTTPHeaders: { ...(ExistingStorefront ? contextOptions.extraHTTPHeaders : {}), "Accept-Language": locale },
         });
 
         LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
@@ -100,32 +117,40 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         // Set context for this execution thread
         setCurrentContext(context as unknown as Record<string, unknown>);
 
-        let page;
-        if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-            base.slow();
+        try {
+            let page;
+            if (!ExistingStorefront && !(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
+                base.slow();
 
-            await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
-            await clearDelayedCache(AdminApiContext);
+                await AdminApiContext.post(`./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`);
+                await clearDelayedCache(AdminApiContext);
 
-            page = await context.newPage();
+                page = await context.newPage();
 
-            if (InstanceMeta.isSaaS) {
-                while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-                    await clearDelayedCache(AdminApiContext);
-                    await page.waitForTimeout(4000);
+                if (await isSaaSInstance(AdminApiContext)) {
+                    await expect
+                        .poll(
+                            async () => {
+                                await clearDelayedCache(AdminApiContext);
+                                return isThemeCompiled(StoreApiContext, DefaultSalesChannel.url);
+                            },
+                            { intervals: [4000], timeout: base.info().timeout }
+                        )
+                        .toBe(true);
                 }
+            } else {
+                page = await context.newPage();
             }
-        } else {
-            page = await context.newPage();
+
+            await page.goto("./", { waitUntil: "load" });
+
+            await use(page);
+
+            await page.close();
+        } finally {
+            setCurrentContext(null);
+            await context.close();
         }
-
-        await page.goto("./", { waitUntil: "load" });
-
-        await use(page);
-
-        await page.close();
-        setCurrentContext(null);
-        await context.close();
     },
 
     InstallPage: async ({ browser, CustomTranslationResources }, use) => {

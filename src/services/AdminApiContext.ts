@@ -19,34 +19,59 @@ export interface AdminApiContextOptions {
     ignoreHTTPSErrors?: boolean;
     authMaxRetries?: number;
     authBaseDelayMs?: number;
+    allowIntegrationCreation?: boolean;
 }
 
 export class AdminApiContext {
     public context: APIRequestContext;
+    // Keep in-flight requests alive across token changes; dispose every context at teardown.
+    private readonly retiredContexts: APIRequestContext[] = [];
     public readonly options: Required<AdminApiContextOptions>;
 
-    private static readonly defaultOptions: Required<AdminApiContextOptions> = {
-        app_url: process.env["ADMIN_API_URL"] || process.env["APP_URL"] || "http://localhost:8000",
-        client_id: process.env["SHOPWARE_ACCESS_KEY_ID"] ?? "",
-        client_secret: process.env["SHOPWARE_SECRET_ACCESS_KEY"] ?? "",
-        admin_username: process.env["SHOPWARE_ADMIN_USERNAME"] || "admin",
-        admin_password: process.env["SHOPWARE_ADMIN_PASSWORD"] || "shopware",
-        ignoreHTTPSErrors: true,
-        authMaxRetries: 2,
-        authBaseDelayMs: 250,
-        access_token: "",
-    };
-
-    constructor(context: APIRequestContext, options: Required<AdminApiContextOptions>) {
-        this.context = context;
-        this.options = options;
+    private static get defaultOptions(): Required<AdminApiContextOptions> {
+        return {
+            app_url: process.env["ADMIN_API_URL"] || process.env["APP_URL"] || "http://localhost:8000",
+            client_id: process.env["SHOPWARE_ACCESS_KEY_ID"] ?? "",
+            client_secret: process.env["SHOPWARE_SECRET_ACCESS_KEY"] ?? "",
+            admin_username: process.env["SHOPWARE_ADMIN_USERNAME"] || "admin",
+            admin_password: process.env["SHOPWARE_ADMIN_PASSWORD"] || "shopware",
+            ignoreHTTPSErrors: true,
+            authMaxRetries: 2,
+            authBaseDelayMs: 250,
+            access_token: "",
+            allowIntegrationCreation: true,
+        };
     }
 
-    public static async create(options?: Required<AdminApiContextOptions>) {
+    constructor(
+        context: APIRequestContext,
+        options: Required<Omit<AdminApiContextOptions, "allowIntegrationCreation">> & Pick<AdminApiContextOptions, "allowIntegrationCreation">
+    ) {
+        this.context = context;
+        this.options = { allowIntegrationCreation: true, ...options };
+    }
+
+    public static async create(options?: AdminApiContextOptions) {
         const contextOptions = {
             ...this.defaultOptions,
             ...options,
         };
+
+        if (!contextOptions.allowIntegrationCreation) {
+            if (Boolean(contextOptions.client_id) !== Boolean(contextOptions.client_secret)) {
+                throw new Error("Admin API authentication requires a complete integration credential pair.");
+            }
+            if (!contextOptions.client_id && (!contextOptions.admin_username || !contextOptions.admin_password)) {
+                throw new Error("Existing mode requires integration credentials or an Admin username/password pair.");
+            }
+            const temporaryContext = await this.createApiRequestContext({ ...contextOptions, access_token: "" });
+            try {
+                contextOptions.access_token = await this.authenticateWithRetry(temporaryContext, contextOptions);
+            } finally {
+                await temporaryContext.dispose();
+            }
+            return new AdminApiContext(await this.createApiRequestContext(contextOptions), contextOptions);
+        }
 
         const tmpContext = await this.createApiRequestContext(contextOptions);
 
@@ -141,7 +166,7 @@ export class AdminApiContext {
         const authData = (await authResponse.json()) as { access_token?: string };
 
         if (!authData["access_token"]) {
-            throw new Error(`Failed to authenticate with client_id: ${options.client_id}`);
+            throw new Error("Failed to authenticate with integration credentials.");
         }
 
         return authData["access_token"];
@@ -163,7 +188,7 @@ export class AdminApiContext {
         const authData = (await authResponse.json()) as { access_token?: string };
 
         if (!authData["access_token"]) {
-            throw new Error(`Failed to authenticate with user: ${options.admin_username}`);
+            throw new Error("Failed to authenticate with Admin credentials.");
         }
 
         return authData["access_token"];
@@ -175,9 +200,19 @@ export class AdminApiContext {
             access_token: "",
         });
 
-        this.options.access_token = await AdminApiContext.authenticateWithRetry(tmp, this.options);
-
+        try {
+            this.options.access_token = await AdminApiContext.authenticateWithRetry(tmp, this.options);
+        } finally {
+            await tmp.dispose();
+        }
+        const previous = this.context;
         this.context = await AdminApiContext.createApiRequestContext(this.options);
+        this.retiredContexts.push(previous);
+    }
+
+    async dispose(): Promise<void> {
+        await Promise.all([this.context, ...this.retiredContexts].map((context) => context.dispose()));
+        this.retiredContexts.length = 0;
     }
 
     isAuthenticated(): boolean {
@@ -186,8 +221,14 @@ export class AdminApiContext {
     }
 
     async refreshAccessToken(): Promise<void> {
+        if (!this.options.allowIntegrationCreation) {
+            await this.reauthenticate();
+            return;
+        }
         this.options["access_token"] = await AdminApiContext.authenticateWithClientCredentials(this.context, this.options);
+        const previous = this.context;
         this.context = await AdminApiContext.createApiRequestContext(this.options);
+        this.retiredContexts.push(previous);
     }
 
     async get<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
@@ -245,7 +286,7 @@ export class AdminApiContext {
                     Authorization: `Bearer ${this.options["access_token"]}`,
                 },
             };
-            response = await methodMap[method](url, updatedOptions);
+            response = await this.context[method](url, updatedOptions);
         }
 
         return response;

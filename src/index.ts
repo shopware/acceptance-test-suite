@@ -1,4 +1,11 @@
-import { mergeTests } from "@playwright/test";
+import { test as StorefrontTarget } from "./fixtures/StorefrontTarget";
+import { mergeTests, type TestType } from "@playwright/test";
+import type { StorefrontWorkerOptions } from "./services/StorefrontTarget";
+import type { StorefrontTargetFixtures } from "./fixtures/StorefrontTarget";
+import type { DefaultSalesChannelTypes } from "./fixtures/DefaultSalesChannel";
+import type { ApiContextTypes } from "./fixtures/ApiContexts";
+import type { ShopwareDataFixtureTypes } from "./fixtures/ShopwareDataFixtures";
+import type { HelperFixtureTypes } from "./fixtures/HelperFixtures";
 import { test as DefaultSalesChannel } from "./fixtures/DefaultSalesChannel";
 import { test as ApiContexts } from "./fixtures/ApiContexts";
 import { test as PageContexts } from "./fixtures/PageContexts";
@@ -35,8 +42,8 @@ export * from "./services/AdminLoginHelper";
 
 export { StorefrontPageObjects } from "./page-objects/StorefrontPages";
 export { AdminPageObjects } from "./page-objects/AdministrationPages";
-export { uploadRandomPngMedia } from './helpers/UploadMedia';
-export type { UploadMediaTarget } from './helpers/UploadMedia';
+export { uploadRandomPngMedia } from "./helpers/UploadMedia";
+export type { UploadMediaTarget } from "./helpers/UploadMedia";
 
 export type { FixtureTypes } from "./types/FixtureTypes";
 export type { Task } from "./types/Task";
@@ -45,7 +52,8 @@ export type { TranslationKey, TranslateFn } from "./types/TranslationTypes";
 
 export { BUNDLED_RESOURCES, baseNamespaces } from "./locales";
 
-export const test = mergeTests(
+const mergedTest = mergeTests(
+    StorefrontTarget,
     HelperFixtures,
     DefaultSalesChannel,
     ShopwareDataFixture,
@@ -60,3 +68,16 @@ export const test = mergeTests(
     ShopAdminTasks,
     ShopCustomerTasks
 );
+
+export type { StorefrontTarget, StorefrontWorkerOptions } from "./services/StorefrontTarget";
+
+// The historical merged fixture interfaces include worker fixtures in the test args too.
+// Expose their actual scopes so consumers can override worker options with test.extend().
+type WorkerScopedFixtures = StorefrontWorkerOptions &
+    StorefrontTargetFixtures &
+    DefaultSalesChannelTypes &
+    ApiContextTypes &
+    ShopwareDataFixtureTypes &
+    HelperFixtureTypes & { AdminSession: unknown };
+type PublicTest<T> = T extends TestType<infer TestArgs, infer WorkerArgs> ? TestType<Omit<TestArgs, keyof WorkerScopedFixtures>, WorkerArgs> : never;
+export const test = mergedTest as PublicTest<typeof mergedTest>;

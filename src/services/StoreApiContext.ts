@@ -17,11 +17,15 @@ export interface StoreApiContextOptions {
     app_url?: string;
     "sw-access-key"?: string;
     "sw-context-token"?: string;
+    "sw-language-id"?: string;
+    currencyId?: string;
     ignoreHTTPSErrors?: boolean;
 }
 
 export class StoreApiContext {
     private context: APIRequestContext;
+    // Keep in-flight requests alive across token changes; dispose every context at teardown.
+    private readonly retiredContexts: APIRequestContext[] = [];
     private readonly options: StoreApiContextOptions;
 
     private static readonly defaultOptions: StoreApiContextOptions = {
@@ -37,7 +41,21 @@ export class StoreApiContext {
     public static async create(options?: StoreApiContextOptions) {
         const contextOptions = { ...this.defaultOptions, ...options };
 
-        return new StoreApiContext(await this.createContext(contextOptions), contextOptions);
+        const instance = new StoreApiContext(await this.createContext(contextOptions), contextOptions);
+        if (contextOptions.currencyId) {
+            try {
+                const response = await instance.patch("context", { data: { currencyId: contextOptions.currencyId } });
+                if (!response.ok()) throw new Error(`Store API domain currency initialization failed (HTTP ${response.status()}).`);
+                const token = response.headers()["sw-context-token"];
+                if (!token) throw new Error("Store API context switch returned no context token.");
+                instance.options["sw-context-token"] = token;
+                await instance.replaceContext();
+            } catch (error) {
+                await instance.dispose();
+                throw error;
+            }
+        }
+        return instance;
     }
 
     private static async createContext(options: StoreApiContextOptions) {
@@ -54,8 +72,10 @@ export class StoreApiContext {
             extraHTTPHeaders["sw-context-token"] = options["sw-context-token"];
         }
 
+        if (options["sw-language-id"]) extraHTTPHeaders["sw-language-id"] = options["sw-language-id"];
+
         return await request.newContext({
-            baseURL: `${options["app_url"]}store-api/`,
+            baseURL: `${options["app_url"]?.replace(/\/+$/, "")}/store-api/`,
             ignoreHTTPSErrors: options.ignoreHTTPSErrors,
             extraHTTPHeaders,
         });
@@ -76,9 +96,20 @@ export class StoreApiContext {
         }
 
         this.options["sw-context-token"] = responseHeaders["sw-context-token"];
-        this.context = await StoreApiContext.createContext(this.options);
+        await this.replaceContext();
 
         return responseHeaders;
+    }
+
+    private async replaceContext(): Promise<void> {
+        const previous = this.context;
+        this.context = await StoreApiContext.createContext(this.options);
+        this.retiredContexts.push(previous);
+    }
+
+    async dispose(): Promise<void> {
+        await Promise.all([this.context, ...this.retiredContexts].map((context) => context.dispose()));
+        this.retiredContexts.length = 0;
     }
 
     async get<PAYLOAD>(url: string, options?: RequestOptions<PAYLOAD>): Promise<APIResponse> {
