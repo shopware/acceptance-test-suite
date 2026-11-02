@@ -63,15 +63,17 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     DefaultSalesChannel: [
-        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, ExistingStorefront }, use) => {
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, ExistingStorefront, StorefrontCustomer }, use) => {
             if (ExistingStorefront) {
                 await use({
                     salesChannel: ExistingStorefront.salesChannel,
                     url: ExistingStorefront.domain.url.replace(/\/+$/, "") + "/",
                     get customer() {
-                        if (!ExistingStorefront.customer)
-                            throw new Error("This existing storefront has no customer. Configure storefrontCustomer or supply a customer explicitly.");
-                        return ExistingStorefront.customer;
+                        if (!StorefrontCustomer)
+                            throw new Error(
+                                "This existing storefront has no customer. Configure storefrontCustomer, override StorefrontCustomer, or supply a customer explicitly."
+                            );
+                        return StorefrontCustomer;
                     },
                 });
                 return;

@@ -1,4 +1,3 @@
-import { test as StorefrontTarget } from "./fixtures/StorefrontTarget";
 import { mergeTests, type TestType } from "@playwright/test";
 import type { StorefrontWorkerOptions } from "./services/StorefrontTarget";
 import type { StorefrontTargetFixtures } from "./fixtures/StorefrontTarget";
@@ -6,6 +5,7 @@ import type { DefaultSalesChannelTypes } from "./fixtures/DefaultSalesChannel";
 import type { ApiContextTypes } from "./fixtures/ApiContexts";
 import type { ShopwareDataFixtureTypes } from "./fixtures/ShopwareDataFixtures";
 import type { HelperFixtureTypes } from "./fixtures/HelperFixtures";
+import type { StorefrontCustomerFixtures } from "./fixtures/StorefrontCustomer";
 import { test as DefaultSalesChannel } from "./fixtures/DefaultSalesChannel";
 import { test as ApiContexts } from "./fixtures/ApiContexts";
 import { test as PageContexts } from "./fixtures/PageContexts";
@@ -19,6 +19,8 @@ import { test as ShopAdminTasks } from "./tasks/shop-admin-tasks";
 import { test as ShopCustomerTasks } from "./tasks/shop-customer-tasks";
 import { test as FeatureService } from "./fixtures/Feature";
 import { test as ShopwareDataFixture } from "./fixtures/ShopwareDataFixtures";
+import { test as StorefrontTarget } from "./fixtures/StorefrontTarget";
+import { test as StorefrontCustomer } from "./fixtures/StorefrontCustomer";
 
 import "./fixtures/CustomMatchers";
 
@@ -54,6 +56,7 @@ export { BUNDLED_RESOURCES, baseNamespaces } from "./locales";
 
 const mergedTest = mergeTests(
     StorefrontTarget,
+    StorefrontCustomer,
     HelperFixtures,
     DefaultSalesChannel,
     ShopwareDataFixture,
@@ -69,12 +72,13 @@ const mergedTest = mergeTests(
     ShopCustomerTasks
 );
 
-export type { StorefrontTarget, StorefrontWorkerOptions } from "./services/StorefrontTarget";
+export type { StorefrontTarget, StorefrontWorkerOptions, StorefrontCustomerOptions } from "./services/StorefrontTarget";
 
 // The historical merged fixture interfaces include worker fixtures in the test args too.
 // Expose their actual scopes so consumers can override worker options with test.extend().
 type WorkerScopedFixtures = StorefrontWorkerOptions &
     StorefrontTargetFixtures &
+    StorefrontCustomerFixtures &
     DefaultSalesChannelTypes &
     ApiContextTypes &
     ShopwareDataFixtureTypes &

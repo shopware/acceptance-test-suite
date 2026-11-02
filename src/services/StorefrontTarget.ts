@@ -3,16 +3,18 @@ import type { Customer, SalesChannel, SalesChannelDomain } from "../types/Shopwa
 
 export type StorefrontTarget = { mode: "generated" } | { mode: "existing"; url: string };
 
+/** Reuse a supplied account, or explicitly create and clean up one account per worker. */
+export type StorefrontCustomerOptions = { email: string; password: string } | { mode: "create" };
+
 export interface StorefrontWorkerOptions {
     storefrontTarget: StorefrontTarget;
-    storefrontCustomer: { email: string; password: string } | undefined;
+    storefrontCustomer: StorefrontCustomerOptions | undefined;
 }
 
 export interface ExistingStorefront {
     domain: SalesChannelDomain;
     salesChannel: SalesChannel;
     language: { id: string; translationCode: { id: string; code: string } };
-    customer?: Customer;
 }
 
 export const STOREFRONT_TYPE_ID = "8a243080f92e4c719546314b577cf82b";
@@ -41,8 +43,14 @@ export function validateStorefrontOptions(target: StorefrontTarget, customer: St
     } else if ("url" in target || customer !== undefined) {
         throw new Error("Generated mode does not accept an existing URL or storefrontCustomer.");
     }
-    if (customer !== undefined && (!customer || !customer.email || !customer.password)) {
-        throw new Error("storefrontCustomer requires both email and password.");
+    if (customer !== undefined) {
+        if (customer && "mode" in customer) {
+            if (customer.mode !== "create" || "email" in customer || "password" in customer) {
+                throw new Error("storefrontCustomer create mode cannot include existing customer credentials.");
+            }
+        } else if (!customer || !customer.email || !customer.password) {
+            throw new Error("storefrontCustomer requires both email and password, or mode: create.");
+        }
     }
 }
 
@@ -54,7 +62,7 @@ async function search<T>(api: AdminApiContext, entity: string, data: object): Pr
     return body.data;
 }
 
-export async function resolveExistingStorefront(api: AdminApiContext, url: string, customer?: StorefrontWorkerOptions["storefrontCustomer"]): Promise<ExistingStorefront> {
+export async function resolveExistingStorefront(api: AdminApiContext, url: string): Promise<ExistingStorefront> {
     const normalized = normalizeStorefrontUrl(url);
     const domains = await search<SalesChannelDomain & { salesChannel?: SalesChannel; language?: ExistingStorefront["language"] }>(api, "sales-channel-domain", {
         limit: 2,
@@ -81,31 +89,31 @@ export async function resolveExistingStorefront(api: AdminApiContext, url: strin
     for (const field of ["countryId", "paymentMethodId", "shippingMethodId", "customerGroupId", "navigationCategoryId"] as const) {
         if (!channel[field]) throw new Error("Existing storefront channel has incomplete configuration.");
     }
-    let resolvedCustomer: Customer | undefined;
-    if (customer) {
-        const customers = await search<Customer & { boundSalesChannelId?: string }>(api, "customer", {
-            limit: 2,
-            filter: [
-                { type: "equals", field: "email", value: customer.email },
-                { type: "equals", field: "guest", value: false },
-                { type: "equals", field: "active", value: true },
-                {
-                    type: "multi",
-                    operator: "OR",
-                    queries: [
-                        { type: "equals", field: "boundSalesChannelId", value: null },
-                        { type: "equals", field: "boundSalesChannelId", value: channel.id },
-                    ],
-                },
-            ],
-            associations: { defaultShippingAddress: {}, defaultBillingAddress: {} },
-        });
-        if (customers.length !== 1) throw new Error("storefrontCustomer must match exactly one active, non-guest account eligible for the selected channel.");
-        const account = customers[0];
-        if (!account.id || account.active !== true || account.guest || (account.boundSalesChannelId && account.boundSalesChannelId !== channel.id)) {
-            throw new Error("storefrontCustomer is not eligible for the selected channel.");
-        }
-        resolvedCustomer = { ...account, password: customer.password };
+    return { domain, salesChannel: channel, language: domain.language };
+}
+
+export async function resolveStorefrontCustomer(api: AdminApiContext, channel: SalesChannel, customer: { email: string; password: string }): Promise<Customer> {
+    const customers = await search<Customer & { boundSalesChannelId?: string }>(api, "customer", {
+        limit: 2,
+        filter: [
+            { type: "equals", field: "email", value: customer.email },
+            { type: "equals", field: "guest", value: false },
+            { type: "equals", field: "active", value: true },
+            {
+                type: "multi",
+                operator: "OR",
+                queries: [
+                    { type: "equals", field: "boundSalesChannelId", value: null },
+                    { type: "equals", field: "boundSalesChannelId", value: channel.id },
+                ],
+            },
+        ],
+        associations: { defaultShippingAddress: {}, defaultBillingAddress: {} },
+    });
+    if (customers.length !== 1) throw new Error("storefrontCustomer must match exactly one active, non-guest account eligible for the selected channel.");
+    const account = customers[0];
+    if (!account.id || account.active !== true || account.guest || (account.boundSalesChannelId && account.boundSalesChannelId !== channel.id)) {
+        throw new Error("storefrontCustomer is not eligible for the selected channel.");
     }
-    return { domain, salesChannel: channel, language: domain.language, customer: resolvedCustomer };
+    return { ...account, password: customer.password };
 }

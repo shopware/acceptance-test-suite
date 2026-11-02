@@ -13,7 +13,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ExistingStorefront: [
         async ({ storefrontTarget, storefrontCustomer, AdminApiContext }, use) => {
             validateStorefrontOptions(storefrontTarget, storefrontCustomer);
-            await use(storefrontTarget.mode === "existing" ? await resolveExistingStorefront(AdminApiContext, storefrontTarget.url, storefrontCustomer) : undefined);
+            await use(storefrontTarget.mode === "existing" ? await resolveExistingStorefront(AdminApiContext, storefrontTarget.url) : undefined);
         },
         { scope: "worker" },
     ],
