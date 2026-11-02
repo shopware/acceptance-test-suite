@@ -1,4 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
+import { existsSync } from "node:fs";
+import { loadEnvFile } from "node:process";
+import { fileURLToPath } from "node:url";
+import type { StorefrontWorkerOptions } from "./src/services/StorefrontTarget";
+
+const envFile = fileURLToPath(new URL(".env", import.meta.url));
+if (existsSync(envFile)) loadEnvFile(envFile);
 
 process.env["SHOPWARE_ADMIN_USERNAME"] = process.env["SHOPWARE_ADMIN_USERNAME"] || "admin";
 process.env["SHOPWARE_ADMIN_PASSWORD"] = process.env["SHOPWARE_ADMIN_PASSWORD"] || "shopware";
@@ -28,7 +35,7 @@ if (!process.env["WEBSERVER_COMMAND"]) {
 const envLang = process.env.LANG || process.env.LANGUAGE || process.env.lang || "en-GB";
 const browserLocale = envLang.startsWith("de") ? "de-DE" : "en-GB";
 
-export default defineConfig({
+export default defineConfig<{}, StorefrontWorkerOptions>({
     testDir: "./tests",
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
@@ -57,6 +64,30 @@ export default defineConfig({
         {
             name: "chromium",
             use: { ...devices["Desktop Chrome"] },
+        },
+        {
+            // Select explicitly with --project=existing-storefront. An unfiltered run runs both projects.
+            name: "existing-storefront",
+            testMatch: [
+                "**/CustomMatchers.spec.ts",
+                "**/ThemeTest.spec.ts",
+                "**/Mailpit.spec.ts",
+                // Credentials reuse an account; without them a worker-owned customer is created.
+                "**/PageObjects/StorefrontPageObjects.spec.ts",
+            ],
+            fullyParallel: false,
+            workers: 1,
+            retries: 0,
+            use: {
+                ...devices["Desktop Chrome"],
+                storefrontTarget: {
+                    mode: "existing",
+                    url: process.env["SHOPWARE_STOREFRONT_URL"] || process.env["APP_URL"]!,
+                },
+                trace: "off",
+                video: "off",
+                screenshot: "off",
+            },
         },
     ],
 });

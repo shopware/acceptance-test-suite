@@ -11,11 +11,11 @@ export interface StorefrontCustomerFixtures {
 export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     StorefrontCustomer: [
         async ({ ExistingStorefront, storefrontCustomer, AdminApiContext, IdProvider, SalesChannelBaseConfig }, use) => {
-            if (!ExistingStorefront || !storefrontCustomer) {
+            if (!ExistingStorefront) {
                 await use(undefined);
                 return;
             }
-            if (!("mode" in storefrontCustomer)) {
+            if (storefrontCustomer) {
                 await use(await resolveStorefrontCustomer(AdminApiContext, ExistingStorefront.salesChannel, storefrontCustomer));
                 return;
             }

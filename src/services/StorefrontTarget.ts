@@ -3,8 +3,17 @@ import type { Customer, SalesChannel, SalesChannelDomain } from "../types/Shopwa
 
 export type StorefrontTarget = { mode: "generated" } | { mode: "existing"; url: string };
 
-/** Reuse a supplied account, or explicitly create and clean up one account per worker. */
-export type StorefrontCustomerOptions = { email: string; password: string } | { mode: "create" };
+/** Reuse a supplied account; when absent, create and clean up one account per worker. */
+export type StorefrontCustomerOptions = { email: string; password: string };
+
+export function getStorefrontCustomerCredentials(env: NodeJS.ProcessEnv = process.env): StorefrontCustomerOptions | undefined {
+    const email = env["SMOKE_CUSTOMER_EMAIL"];
+    const password = env["SMOKE_CUSTOMER_PASSWORD"];
+    if (Boolean(email) !== Boolean(password)) {
+        throw new Error("Set both SMOKE_CUSTOMER_EMAIL and SMOKE_CUSTOMER_PASSWORD, or omit both to create a worker customer.");
+    }
+    return email && password ? { email, password } : undefined;
+}
 
 export interface StorefrontWorkerOptions {
     storefrontTarget: StorefrontTarget;
@@ -44,12 +53,8 @@ export function validateStorefrontOptions(target: StorefrontTarget, customer: St
         throw new Error("Generated mode does not accept an existing URL or storefrontCustomer.");
     }
     if (customer !== undefined) {
-        if (customer && "mode" in customer) {
-            if (customer.mode !== "create" || "email" in customer || "password" in customer) {
-                throw new Error("storefrontCustomer create mode cannot include existing customer credentials.");
-            }
-        } else if (!customer || !customer.email || !customer.password) {
-            throw new Error("storefrontCustomer requires both email and password, or mode: create.");
+        if (!customer || "mode" in customer || typeof customer.email !== "string" || !customer.email || typeof customer.password !== "string" || !customer.password) {
+            throw new Error("storefrontCustomer requires both email and password. Omit credentials to create a worker customer.");
         }
     }
 }
