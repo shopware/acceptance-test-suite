@@ -1,4 +1,4 @@
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig, devices, type Project, type PlaywrightTestOptions, type PlaywrightWorkerOptions } from "@playwright/test";
 import { existsSync } from "node:fs";
 import { loadEnvFile } from "node:process";
 import { fileURLToPath } from "node:url";
@@ -6,6 +6,7 @@ import type { StorefrontWorkerOptions } from "./src/services/StorefrontTarget";
 
 const envFile = fileURLToPath(new URL(".env", import.meta.url));
 if (existsSync(envFile)) loadEnvFile(envFile);
+const storefrontUrl = process.env["SHOPWARE_STOREFRONT_URL"];
 
 process.env["SHOPWARE_ADMIN_USERNAME"] = process.env["SHOPWARE_ADMIN_USERNAME"] || "admin";
 process.env["SHOPWARE_ADMIN_PASSWORD"] = process.env["SHOPWARE_ADMIN_PASSWORD"] || "shopware";
@@ -65,29 +66,33 @@ export default defineConfig<{}, StorefrontWorkerOptions>({
             name: "chromium",
             use: { ...devices["Desktop Chrome"] },
         },
-        {
-            // Select explicitly with --project=existing-storefront. An unfiltered run runs both projects.
-            name: "existing-storefront",
-            testMatch: [
-                "**/CustomMatchers.spec.ts",
-                "**/ThemeTest.spec.ts",
-                "**/Mailpit.spec.ts",
-                // Credentials reuse an account; without them a worker-owned customer is created.
-                "**/PageObjects/StorefrontPageObjects.spec.ts",
-            ],
-            fullyParallel: false,
-            workers: 1,
-            retries: 0,
-            use: {
-                ...devices["Desktop Chrome"],
-                storefrontTarget: {
-                    mode: "existing",
-                    url: process.env["SHOPWARE_STOREFRONT_URL"] || process.env["APP_URL"]!,
-                },
-                trace: "off",
-                video: "off",
-                screenshot: "off",
-            },
-        },
+        ...(storefrontUrl
+            ? [
+                  {
+                      // Only include existing-channel coverage when a storefront URL is explicitly configured.
+                      name: "existing-storefront",
+                      testMatch: [
+                          "**/CustomMatchers.spec.ts",
+                          "**/ThemeTest.spec.ts",
+                          "**/Mailpit.spec.ts",
+                          // Credentials reuse an account; without them a worker-owned customer is created.
+                          "**/PageObjects/StorefrontPageObjects.spec.ts",
+                      ],
+                      fullyParallel: false,
+                      workers: 1,
+                      retries: 0,
+                      use: {
+                          ...devices["Desktop Chrome"],
+                          storefrontTarget: {
+                              mode: "existing",
+                              url: storefrontUrl,
+                          },
+                          trace: "off",
+                          video: "off",
+                          screenshot: "off",
+                      },
+                  } satisfies Project<PlaywrightTestOptions, PlaywrightWorkerOptions & StorefrontWorkerOptions>,
+              ]
+            : []),
     ],
 });
