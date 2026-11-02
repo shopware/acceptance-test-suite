@@ -28,7 +28,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     StoreApiContext: [
         async ({ DefaultSalesChannel, ExistingStorefront }, use) => {
             const options = {
-                app_url: process.env["APP_URL"],
+                app_url: ExistingStorefront?.domain.url ?? process.env["APP_URL"],
                 "sw-access-key": DefaultSalesChannel.salesChannel.accessKey,
                 ignoreHTTPSErrors: true,
                 "sw-language-id": ExistingStorefront?.domain.languageId,
