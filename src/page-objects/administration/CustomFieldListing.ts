@@ -9,7 +9,9 @@ export class CustomFieldListing implements PageObject {
 
     constructor(page: Page) {
         this.page = page;
-        this.addNewSetButton = page.getByText(translate("administration:customField:listing.addNewSet"));
+        const smartBarActions = page.locator(".smart-bar__actions");
+        const addNewSetName = translate("administration:customField:listing.addNewSet");
+        this.addNewSetButton = smartBarActions.getByText(addNewSetName);
         this.customFieldRows = page.getByRole("row");
     }
 
