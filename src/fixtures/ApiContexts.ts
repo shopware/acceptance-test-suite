@@ -26,13 +26,14 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     StoreApiContext: [
-        async ({ DefaultSalesChannel, ExistingStorefront }, use) => {
+        async ({ DefaultSalesChannel, ExistingStorefront }, use, workerInfo) => {
             const options = {
                 app_url: ExistingStorefront?.domain.url ?? process.env["APP_URL"],
                 "sw-access-key": DefaultSalesChannel.salesChannel.accessKey,
                 ignoreHTTPSErrors: true,
                 "sw-language-id": ExistingStorefront?.domain.languageId,
                 currencyId: ExistingStorefront?.domain.currencyId,
+                ...(ExistingStorefront ? { httpCredentials: workerInfo.project.use.httpCredentials, userAgent: workerInfo.project.use.userAgent } : {}),
             };
 
             const storeApiContext = await StoreApiContext.create(options);

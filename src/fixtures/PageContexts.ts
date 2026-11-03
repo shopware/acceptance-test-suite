@@ -109,6 +109,7 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
     ) => {
         const { url, salesChannel } = DefaultSalesChannel;
         const locale = ExistingStorefront?.language.translationCode.code ?? getLocale();
+        if (ExistingStorefront) LanguageHelper.assertSupportedLanguage(locale, CustomTranslationResources);
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({

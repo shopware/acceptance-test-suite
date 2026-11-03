@@ -41,7 +41,7 @@ export class Dashboard implements PageObject {
     constructor(page: Page) {
         this.page = page;
         this.adminMenuView = page.locator(".sw-admin-menu");
-        this.adminMenuOffCanvasToggle = page.getByRole("button", { name: translate("administration:dashboard:userMenu.offCanvasToggle") });
+        this.adminMenuOffCanvasToggle = page.getByRole("button", { name: translate("administration:dashboard:userMenu.offCanvasToggle")});
         this.contentView = page.locator(".sw-desktop__content");
         this.adminMenuCatalog = page.locator(".sw-catalogue");
         this.adminMenuOrder = page.locator(".sw-order");

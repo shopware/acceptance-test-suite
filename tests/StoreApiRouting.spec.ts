@@ -6,22 +6,40 @@ import type { Customer, SalesChannel, SalesChannelDomain } from "../src";
 // Exercise the real API fixture without contacting a Shopware installation.
 const routingTest = base.extend<{}, { routingServer: { appUrl: string; storefrontUrl: string } }>({
     routingServer: [
-        async ({}, use) => {
+        async ({}, use, workerInfo) => {
             const server = createServer((request, response) => {
+                const expectedAuth = `Basic ${Buffer.from("routing-user:routing-password").toString("base64")}`;
+                if (request.headers.host?.startsWith("localhost:") && request.headers.authorization !== expectedAuth) {
+                    response.writeHead(401, { "WWW-Authenticate": 'Basic realm="storefront"' });
+                    response.end();
+                    return;
+                }
                 response.setHeader("Content-Type", "application/json");
                 response.setHeader("sw-context-token", "routing-test-token");
                 response.end(
-                    JSON.stringify({ url: request.url, host: request.headers.host, language: request.headers["sw-language-id"], token: request.headers["sw-context-token"] })
+                    JSON.stringify({
+                        url: request.url,
+                        host: request.headers.host,
+                        language: request.headers["sw-language-id"],
+                        token: request.headers["sw-context-token"],
+                        userAgent: request.headers["user-agent"],
+                    })
                 );
             });
             await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
             const { port } = server.address() as AddressInfo;
             const appUrl = `http://127.0.0.1:${port}/`;
             const previousAppUrl = process.env["APP_URL"];
+            const previousCredentials = workerInfo.project.use.httpCredentials;
+            const previousUserAgent = workerInfo.project.use.userAgent;
+            workerInfo.project.use.httpCredentials = { username: "routing-user", password: "routing-password" };
+            workerInfo.project.use.userAgent = "ATS-routing-regression";
             process.env["APP_URL"] = appUrl;
             try {
                 await use({ appUrl, storefrontUrl: `http://localhost:${port}/de/` });
             } finally {
+                workerInfo.project.use.httpCredentials = previousCredentials;
+                workerInfo.project.use.userAgent = previousUserAgent;
                 if (previousAppUrl === undefined) delete process.env["APP_URL"];
                 else process.env["APP_URL"] = previousAppUrl;
                 await new Promise<void>((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())));
@@ -67,7 +85,7 @@ for (const mode of ["generated", "existing"] as const) {
         const expected = {
             url: `${target.pathname}store-api/context`,
             host: target.host,
-            ...(mode === "existing" ? { language: "domain-language", token: "routing-test-token" } : {}),
+            ...(mode === "existing" ? { language: "domain-language", token: "routing-test-token", userAgent: "ATS-routing-regression" } : { userAgent: expect.any(String) }),
         };
         const beforeLogin = await StoreApiContext.get("context");
         expect(beforeLogin.ok()).toBe(true);

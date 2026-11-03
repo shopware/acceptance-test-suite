@@ -153,13 +153,11 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     Tax: [
         async ({ AdminApiContext, ExistingStorefront }, use) => {
             if (ExistingStorefront) {
-                const response = await AdminApiContext.post("search/tax", { data: { limit: 1 } });
-                if (!response.ok()) throw new Error(`Tax lookup failed (HTTP ${response.status()}).`);
-                const { data } = (await response.json()) as { data: { id: string }[] };
+                const taxId = await getTaxId(AdminApiContext, { allowMissing: true });
                 await use({
                     get id(): string {
-                        if (!data?.[0]?.id) throw new Error("No tax is available for test data creation. Override the Tax fixture.");
-                        return data[0].id;
+                        if (!taxId) throw new Error("No tax is available for test data creation. Override the Tax fixture.");
+                        return taxId;
                     },
                 });
                 return;

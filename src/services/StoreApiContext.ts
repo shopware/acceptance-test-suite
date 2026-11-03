@@ -20,6 +20,8 @@ export interface StoreApiContextOptions {
     "sw-language-id"?: string;
     currencyId?: string;
     ignoreHTTPSErrors?: boolean;
+    httpCredentials?: NonNullable<Parameters<typeof request.newContext>[0]>["httpCredentials"];
+    userAgent?: string;
 }
 
 export class StoreApiContext {
@@ -78,6 +80,8 @@ export class StoreApiContext {
             baseURL: `${options["app_url"]?.replace(/\/+$/, "")}/store-api/`,
             ignoreHTTPSErrors: options.ignoreHTTPSErrors,
             extraHTTPHeaders,
+            httpCredentials: options.httpCredentials,
+            userAgent: options.userAgent,
         });
     }
 
@@ -91,8 +95,10 @@ export class StoreApiContext {
 
         const responseHeaders = loginResponse.headers();
 
-        if (!responseHeaders["sw-context-token"]) {
-            throw new Error(`Failed to login with user: ${user.email}`);
+        if (!loginResponse.ok() || !responseHeaders["sw-context-token"]) {
+            throw new Error(
+                `Store API customer login failed (HTTP ${loginResponse.status()}). Check storefrontCustomer credentials or SHOPWARE_STOREFRONT_CUSTOMER_EMAIL / SHOPWARE_STOREFRONT_CUSTOMER_PASSWORD.`
+            );
         }
 
         this.options["sw-context-token"] = responseHeaders["sw-context-token"];

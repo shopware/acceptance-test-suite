@@ -1,6 +1,6 @@
 import { test as base } from "@playwright/test";
 import type { FixtureTypes } from "../types/FixtureTypes";
-import { getStorefrontCustomerCredentials, resolveExistingStorefront, validateStorefrontOptions } from "../services/StorefrontTarget";
+import { getStorefrontCustomerCredentials, resolveExistingStorefront } from "../services/StorefrontTarget";
 import type { ExistingStorefront } from "../services/StorefrontTarget";
 
 export interface StorefrontTargetFixtures {
@@ -16,8 +16,7 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
         { option: true, scope: "worker" },
     ],
     ExistingStorefront: [
-        async ({ storefrontTarget, storefrontCustomer, AdminApiContext }, use) => {
-            validateStorefrontOptions(storefrontTarget, storefrontCustomer);
+        async ({ storefrontTarget, AdminApiContext }, use) => {
             await use(storefrontTarget.mode === "existing" ? await resolveExistingStorefront(AdminApiContext, storefrontTarget.url) : undefined);
         },
         { scope: "worker" },

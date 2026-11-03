@@ -57,7 +57,7 @@ export class Actor {
         });
     }
 
-    async selectsRadioButton(radioGroup: Locator, inputLabel: string, strictMatch?: boolean) {
+    async selectsRadioButton(radioGroup: Locator, inputLabel: string, strictMatch?: boolean ) {
         const stepTitle = `${this.name} selects radio button ${inputLabel}`;
 
         await test.step(stepTitle, async () => {

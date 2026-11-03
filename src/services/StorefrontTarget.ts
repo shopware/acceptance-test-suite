@@ -7,10 +7,13 @@ export type StorefrontTarget = { mode: "generated" } | { mode: "existing"; url: 
 export type StorefrontCustomerOptions = { email: string; password: string };
 
 export function getStorefrontCustomerCredentials(env: NodeJS.ProcessEnv = process.env): StorefrontCustomerOptions | undefined {
-    const email = env["SMOKE_CUSTOMER_EMAIL"];
-    const password = env["SMOKE_CUSTOMER_PASSWORD"];
+    const primary = [env["SHOPWARE_STOREFRONT_CUSTOMER_EMAIL"], env["SHOPWARE_STOREFRONT_CUSTOMER_PASSWORD"]];
+    const legacy = [env["SMOKE_CUSTOMER_EMAIL"], env["SMOKE_CUSTOMER_PASSWORD"]];
+    const [email, password] = primary.some(Boolean) ? primary : legacy;
     if (Boolean(email) !== Boolean(password)) {
-        throw new Error("Set both SMOKE_CUSTOMER_EMAIL and SMOKE_CUSTOMER_PASSWORD, or omit both to create a worker customer.");
+        throw new Error(
+            "Set both SHOPWARE_STOREFRONT_CUSTOMER_EMAIL and SHOPWARE_STOREFRONT_CUSTOMER_PASSWORD (or both legacy SMOKE_CUSTOMER_EMAIL and SMOKE_CUSTOMER_PASSWORD), or omit both to create a worker customer."
+        );
     }
     return email && password ? { email, password } : undefined;
 }

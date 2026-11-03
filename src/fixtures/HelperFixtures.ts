@@ -101,14 +101,16 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
 
     Translate: [
         async ({ CustomTranslationResources }, use) => {
-            const { LanguageHelper, setCurrentContext } = await import("../services/LanguageHelper");
+            const { LanguageHelper, getCurrentContext, setCurrentContext } = await import("../services/LanguageHelper");
             const languageCode = getLanguageCode(getLocale());
             const languageHelper = await LanguageHelper.createInstance(languageCode.split("-")[0], CustomTranslationResources);
 
             setCurrentContext({ languageHelper });
 
             const contextualTranslate: TranslateFn = (key: TranslationKey, options?: Record<string, unknown>): string => {
-                return languageHelper.translate(key, options);
+                const context = getCurrentContext();
+                const pageTranslator = context ? LanguageHelper.getFromContext(context) : undefined;
+                return (pageTranslator ?? languageHelper).translate(key, options);
             };
 
             await use(contextualTranslate);

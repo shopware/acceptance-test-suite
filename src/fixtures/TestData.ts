@@ -10,9 +10,10 @@ export interface TestDataFixtureTypes {
 }
 
 export const test = base.extend<FixtureTypes>({
-    TestDataService: async ({ AdminApiContext, IdProvider, DefaultSalesChannel, SalesChannelBaseConfig }, use) => {
+    TestDataService: async ({ AdminApiContext, IdProvider, DefaultSalesChannel, SalesChannelBaseConfig, ExistingStorefront }, use) => {
         const DataService = new TestDataService(AdminApiContext, IdProvider, {
             defaultSalesChannel: DefaultSalesChannel.salesChannel,
+            borrowedSalesChannel: Boolean(ExistingStorefront),
             defaultTaxId: SalesChannelBaseConfig.taxId,
             defaultCurrencyId: SalesChannelBaseConfig.defaultCurrencyId,
             defaultCategoryId: DefaultSalesChannel.salesChannel.navigationCategoryId,
