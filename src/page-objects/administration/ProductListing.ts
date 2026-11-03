@@ -28,6 +28,7 @@ export class ProductListing implements PageObject {
     /**
      * Row actions and deletion
      */
+    public readonly duplicateContextMenuItem: Locator;
     public readonly deleteContextMenuItem: Locator;
     public readonly deleteConfirmationModal: Locator;
     public readonly confirmDeleteButton: Locator;
@@ -46,6 +47,9 @@ export class ProductListing implements PageObject {
         this.bulkEditButton = page.getByRole("button", {
             name: translate("administration:product:listing.bulkEdit"),
         });
+
+        // Matched by class, because context menu items render as a div instead of a button before 6.7.
+        this.duplicateContextMenuItem = page.locator(".sw-product-list-grid__duplicate-action");
 
         // The listing renders one "Delete" entry per row menu and another one in the confirmation
         // modal, so the row entry is matched by its class and the confirmation is modal scoped.
