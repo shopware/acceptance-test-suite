@@ -25,7 +25,17 @@ dist
 /playwright/.cache/
 
 # Backup files
+# Local ticket-analysis evidence snapshots
+/.agents/local/github-ticket-analysis/
+
 *.backup
 *.bak
 *~
 *.orig
+
+# Local tools and documentation
+/.playwright-mcp/
+/docs/*
+!/docs/existing-storefront.md
+/.codex/skills/
+/AGENTS.md

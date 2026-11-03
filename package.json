@@ -17,7 +17,8 @@
         "url": "git+https://github.com/shopware/acceptance-test-suite.git"
     },
     "files": [
-        "dist"
+        "dist",
+        "docs/existing-storefront.md"
     ],
     "type": "module",
     "module": "./dist/index.mjs",
