@@ -128,6 +128,7 @@ export class TestDataService {
         "customer",
         "acl_user_role",
         "category",
+        "promotion",
     ];
 
     /**
@@ -2224,9 +2225,12 @@ export class TestDataService {
 
         await this.clearCaches();
 
-        return this.AdminApiClient.post("_action/sync", {
+        const deleteOperationsResponse = await this.AdminApiClient.post("_action/sync", {
             data: deleteOperations,
         });
+        expect(deleteOperationsResponse.ok(), await deleteOperationsResponse.text()).toBeTruthy();
+
+        return deleteOperationsResponse;
     }
 
     /**
