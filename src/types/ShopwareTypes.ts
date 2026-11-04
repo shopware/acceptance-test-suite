@@ -208,6 +208,20 @@ export type Order = Omit<components["schemas"]["Order"], "deliveries" | "price">
     deliveries: Record<string, unknown>[];
 };
 
+export type OrderWithAddresses = {
+    id: string;
+    billingAddressId: string;
+    billingAddress: {
+        street: string;
+    };
+    deliveries: {
+        shippingOrderAddressId: string;
+        shippingOrderAddress: {
+            street: string;
+        };
+    }[];
+};
+
 export type ShippingMethod = components["schemas"]["ShippingMethod"] & {
     id: string;
 };

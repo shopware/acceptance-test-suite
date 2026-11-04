@@ -6,6 +6,9 @@ import { satisfies } from "compare-versions";
 
 export class CustomerDetail implements PageObject {
     public readonly editButton: Locator;
+    public readonly addAddressButton: Locator;
+    public readonly contextMenu: Locator;
+    public readonly duplicateMenuButton: Locator;
     public readonly generalTab: Locator;
     public readonly addressesTab: Locator;
     public readonly ordersTab: Locator;
@@ -27,6 +30,9 @@ export class CustomerDetail implements PageObject {
         this.page = page;
         this.instanceMeta = instanceMeta;
         this.editButton = page.getByRole("button", { name: translate("administration:customer:detail.edit") });
+        this.addAddressButton = page.getByRole("button", { name: translate("administration:customer:detail.addAddress") });
+        this.contextMenu = page.locator(".sw-context-menu");
+        this.duplicateMenuButton = this.contextMenu.getByRole("button", { name: translate("administration:customer:detail.duplicate") });
         this.generalTab = page.getByRole("tab", { name: translate("administration:customer:detail.general") });
         this.addressesTab = page.getByRole("tab", { name: translate("administration:customer:detail.addresses") });
         this.ordersTab = page.getByRole("tab", { name: translate("administration:customer:detail.orders") });
@@ -99,5 +105,19 @@ export class CustomerDetail implements PageObject {
 
     url(customerId: string) {
         return `#/sw/customer/detail/${customerId}/base`;
+    }
+
+    addressesUrl(customerId: string) {
+        return `#/sw/customer/detail/${customerId}/addresses`;
+    }
+
+    addressRows(street: string): Locator {
+        return this.page.getByRole("row").filter({ hasText: street });
+    }
+
+    actionsMenuButton(street: string): Locator {
+        return this.addressRows(street)
+            .first()
+            .getByRole("button", { name: translate("administration:customer:detail.openActionsMenu") });
     }
 }

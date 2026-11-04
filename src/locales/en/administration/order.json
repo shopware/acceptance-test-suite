@@ -2,7 +2,9 @@
     "detail": {
         "items": "Items",
         "sendDocument": "Send document",
-        "openActionsMenu": "Open actions menu"
+        "openActionsMenu": "Open actions menu",
+        "shippingAddress": "Shipping address",
+        "addNewAddress": "Add new address"
     },
     "contextMenu": {
         "sendDocument": "Send document",

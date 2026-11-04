@@ -17,6 +17,9 @@ import { DeactivateShopwareServices } from "./shop-admin/ShopwareServices/Deacti
 import { CheckVisibilityOfServicesBanner } from "./shop-admin/ShopwareServices/CheckVisibilityOfServicesBanner";
 import { CheckAccessToShopwareServices } from "./shop-admin/ShopwareServices/CheckAccessToShopwareServices";
 import { SelectExtensionCategory } from "./shop-admin/FRW/SelectExtensionCategory";
+import { DuplicateCustomerAddress } from "./shop-admin/Customers/DuplicateCustomerAddress";
+import { ChangeOrderShippingAddress } from "./shop-admin/Order/ChangeOrderShippingAddress";
+import { DuplicatePromotion } from "./shop-admin/Promotion/DuplicatePromotion";
 
 export const test = mergeTests(
     SaveProduct,
@@ -35,5 +38,8 @@ export const test = mergeTests(
     CheckAccessToShopwareServices,
     CheckVisibilityOfServicesBanner,
     DeactivateShopwareServices,
-    SelectExtensionCategory
+    SelectExtensionCategory,
+    DuplicateCustomerAddress,
+    ChangeOrderShippingAddress,
+    DuplicatePromotion
 );

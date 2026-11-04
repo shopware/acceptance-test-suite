@@ -2,7 +2,9 @@
     "detail": {
         "items": "Positionen",
         "sendDocument": "Dokument senden",
-        "openActionsMenu": "Aktionsmenü öffnen"
+        "openActionsMenu": "Aktionsmenü öffnen",
+        "shippingAddress": "Lieferadresse",
+        "addNewAddress": "Neue Adresse hinzufügen"
     },
     "contextMenu": {
         "sendDocument": "Dokument senden",
