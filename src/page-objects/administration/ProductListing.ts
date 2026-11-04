@@ -48,7 +48,6 @@ export class ProductListing implements PageObject {
             name: translate("administration:product:listing.bulkEdit"),
         });
 
-        // Matched by class, because context menu items render as a div instead of a button before 6.7.
         this.duplicateContextMenuItem = page.locator(".sw-product-list-grid__duplicate-action");
 
         // The listing renders one "Delete" entry per row menu and another one in the confirmation
