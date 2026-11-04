@@ -149,6 +149,19 @@ export class ProductDetail implements PageObject {
     public readonly lengthInput: Locator;
     public readonly weightInput: Locator;
 
+    // Documents card
+    public readonly documentsCard: Locator;
+    public readonly uploadDocumentButton: Locator;
+    public readonly documentUploadError: Locator;
+    public readonly documentTitles: Locator;
+    public readonly documentInheritanceSwitch: Locator;
+    public readonly documentLink: (documentName: string) => Locator;
+    public readonly documentRow: (documentName: string) => Locator;
+    public readonly documentTitleInput: (documentName: string) => Locator;
+    public readonly documentDragHandle: (documentName: string) => Locator;
+    public readonly documentReplaceButton: (documentName: string) => Locator;
+    public readonly documentDeleteButton: (documentName: string) => Locator;
+
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
@@ -318,6 +331,21 @@ export class ProductDetail implements PageObject {
         this.heightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.height"), exact: true });
         this.lengthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.length"), exact: true });
         this.weightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.weight"), exact: true });
+
+        // Documents card
+        // TODO(#21966/#21967/#21968): replace every selector below with the real one once the
+        // Administration documents card is implemented.
+        this.documentsCard = page.locator("[data-product-documents-card]");
+        this.uploadDocumentButton = this.documentsCard.locator("[data-product-documents-upload-button]");
+        this.documentUploadError = this.documentsCard.locator("[data-product-documents-error]");
+        this.documentTitles = this.documentsCard.locator("[data-product-documents-title]");
+        this.documentInheritanceSwitch = this.documentsCard.locator("[data-product-documents-inheritance-switch]");
+        this.documentLink = (documentName: string) => this.documentsCard.locator("[data-product-documents-title]", { hasText: documentName });
+        this.documentRow = (documentName: string) => this.documentsCard.locator("[data-product-documents-row]", { hasText: documentName });
+        this.documentTitleInput = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-title-input]");
+        this.documentDragHandle = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-drag-handle]");
+        this.documentReplaceButton = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-replace]");
+        this.documentDeleteButton = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-delete]");
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
