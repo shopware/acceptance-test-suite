@@ -2224,9 +2224,22 @@ export class TestDataService {
 
         await this.clearCaches();
 
-        return this.AdminApiClient.post("_action/sync", {
-            data: deleteOperations,
+        // Rules are referenced by entities that restrict their deletion (e.g. promotion persona rules).
+        // The sync API checks restrictions before executing any operation, so rules need their own sync after the others.
+        const { "delete-rule": deleteRuleOperation, ...otherDeleteOperations } = deleteOperations;
+        const deleteOperationsResponse = await this.AdminApiClient.post("_action/sync", {
+            data: otherDeleteOperations,
         });
+        expect(deleteOperationsResponse.ok(), await deleteOperationsResponse.text()).toBeTruthy();
+
+        if (deleteRuleOperation) {
+            const deleteRulesResponse = await this.AdminApiClient.post("_action/sync", {
+                data: { "delete-rule": deleteRuleOperation },
+            });
+            expect(deleteRulesResponse.ok(), await deleteRulesResponse.text()).toBeTruthy();
+        }
+
+        return deleteOperationsResponse;
     }
 
     /**
