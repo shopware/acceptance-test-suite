@@ -14,6 +14,9 @@ const THEME_SETUP_SAFETY_MARGIN = 15_000;
 /** Attempts for the theme assign request while the shop answers with a server error. */
 const THEME_ASSIGN_MAX_ATTEMPTS = 5;
 
+/** Attempts for the admin user creation while the shop answers with a server error. */
+const USER_CREATE_MAX_ATTEMPTS = 5;
+
 export interface AdminSession {
     context: BrowserContext;
     user: User;
@@ -47,11 +50,18 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
                 admin: true,
             };
 
-            const response = await AdminApiContext.post("user", {
-                data: adminUser,
-            });
+            // Creating a user revokes its refresh tokens, and on MariaDB that delete can fail (HTTP 500, error 1020)
+            // while other workers log in. The conflict rolls back the insert, so retry server errors with a short backoff.
+            let response = await AdminApiContext.post("user", { data: adminUser });
+            for (let attempt = 1; attempt < USER_CREATE_MAX_ATTEMPTS && response.status() >= 500; attempt++) {
+                console.warn(`[Warning] Creating admin user ${adminUser.username} failed with HTTP ${response.status()} (attempt ${attempt}), retrying: ${(await response.text()).slice(0, 500)}`);
+                await new Promise((resolve) => setTimeout(resolve, 250 * 2 ** (attempt - 1)));
+                response = await AdminApiContext.post("user", { data: adminUser });
+            }
 
-            expect(response.ok()).toBeTruthy();
+            if (!response.ok()) {
+                throw new Error(`Creating admin user ${adminUser.username} failed with HTTP ${response.status()}: ${(await response.text()).slice(0, 500)}`);
+            }
 
             // Log in through the UI once per worker. Tests get fresh pages within this
             // authenticated context instead of repeating the expensive admin login.
