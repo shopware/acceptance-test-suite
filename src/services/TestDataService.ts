@@ -128,7 +128,6 @@ export class TestDataService {
         "customer",
         "acl_user_role",
         "category",
-        "promotion",
     ];
 
     /**
@@ -2225,8 +2224,10 @@ export class TestDataService {
 
         await this.clearCaches();
 
+        // Rules are referenced by entities that restrict their deletion (e.g. promotion persona rules), so they are deleted last.
+        const { "delete-rule": deleteRuleOperation, ...otherDeleteOperations } = deleteOperations;
         const deleteOperationsResponse = await this.AdminApiClient.post("_action/sync", {
-            data: deleteOperations,
+            data: deleteRuleOperation ? { ...otherDeleteOperations, "delete-rule": deleteRuleOperation } : otherDeleteOperations,
         });
         expect(deleteOperationsResponse.ok(), await deleteOperationsResponse.text()).toBeTruthy();
 
