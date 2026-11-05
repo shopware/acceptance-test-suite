@@ -1,3 +1,6 @@
+import type { StorefrontWorkerOptions } from "../services/StorefrontTarget";
+import type { StorefrontTargetFixtures } from "../fixtures/StorefrontTarget";
+import type { StorefrontCustomerFixtures } from "../fixtures/StorefrontCustomer";
 import type { ApiContextTypes } from "../fixtures/ApiContexts";
 import type { PageContextTypes } from "../fixtures/PageContexts";
 import type { ActorFixtureTypes } from "../fixtures/Actors";
@@ -12,6 +15,9 @@ import type { FeatureFixtureTypes } from "../fixtures/Feature";
 
 export interface FixtureTypes
     extends
+        StorefrontWorkerOptions,
+        StorefrontTargetFixtures,
+        StorefrontCustomerFixtures,
         ApiContextTypes,
         PageContextTypes,
         ActorFixtureTypes,

@@ -28,11 +28,13 @@ export interface PageContextTypes {
     context: BrowserContext;
 }
 
-type PageContextWorkerFixtures = Pick<FixtureTypes, "AdminSession" | "IdProvider" | "AdminApiContext" | "SalesChannelBaseConfig">;
+type PageContextWorkerFixtures = Pick<FixtureTypes, "AdminSession" | "IdProvider" | "AdminApiContext" | "SalesChannelBaseConfig" | "storefrontTarget">;
 
 export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextWorkerFixtures>({
     AdminSession: [
-        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser }, use) => {
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, browser, storefrontTarget }, use) => {
+            if (storefrontTarget.mode === "existing")
+                throw new Error("AdminSession provisions an Admin user and is unavailable in existing storefront mode. Use a separate generated project for Administration tests.");
             const { id, uuid } = IdProvider.getIdPair();
 
             const adminUser: User = {
@@ -90,15 +92,31 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         setCurrentContext(null);
     },
 
-    StorefrontPage: async ({ DefaultSalesChannel, SalesChannelBaseConfig, browser, AdminApiContext, StoreApiContext, CustomTranslationResources }, use) => {
+    StorefrontPage: async (
+        {
+            DefaultSalesChannel,
+            SalesChannelBaseConfig,
+            browser,
+            AdminApiContext,
+            StoreApiContext,
+            ExistingStorefront,
+            CustomTranslationResources,
+            contextOptions,
+            httpCredentials,
+            userAgent,
+        },
+        use
+    ) => {
         const { url, salesChannel } = DefaultSalesChannel;
-        const locale = getLocale();
+        const locale = ExistingStorefront?.language.translationCode.code ?? getLocale();
+        if (ExistingStorefront) LanguageHelper.assertSupportedLanguage(locale, CustomTranslationResources);
         const languageHelper = await LanguageHelper.createInstance(locale, CustomTranslationResources);
 
         const context = await browser.newContext({
+            ...(ExistingStorefront ? { ...contextOptions, httpCredentials, userAgent } : {}),
             baseURL: url,
             locale,
-            extraHTTPHeaders: { "Accept-Language": locale },
+            extraHTTPHeaders: { ...(ExistingStorefront ? contextOptions.extraHTTPHeaders : {}), "Accept-Language": locale },
         });
 
         LanguageHelper.setForContext(context as unknown as Record<string, unknown>, languageHelper);
@@ -106,54 +124,58 @@ export const test = base.extend<Omit<FixtureTypes, "AdminSession">, PageContextW
         // Set context for this execution thread
         setCurrentContext(context as unknown as Record<string, unknown>);
 
-        let page;
-        if (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-            base.slow();
+        try {
+            let page;
+            if (!ExistingStorefront && !(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
+                base.slow();
 
-            // One deadline for assigning and compiling the theme, inside the (tripled) test timeout.
-            const deadline = Date.now() + (base.info().timeout || 180_000) - THEME_SETUP_SAFETY_MARGIN;
-            const assignUrl = `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`;
+                // One deadline for assigning and compiling the theme, inside the (tripled) test timeout.
+                const deadline = Date.now() + (base.info().timeout || 180_000) - THEME_SETUP_SAFETY_MARGIN;
+                const assignUrl = `./_action/theme/${SalesChannelBaseConfig.defaultThemeId}/assign/${salesChannel.id}`;
 
-            // Parallel workers assigning the same theme can make the shop fail the assign transaction (HTTP 500).
-            // The conflict is transient, so retry server errors with a short backoff while time is left.
-            let response = await AdminApiContext.post(assignUrl);
-            for (let attempt = 1; attempt < THEME_ASSIGN_MAX_ATTEMPTS && response.status() >= 500 && Date.now() < deadline; attempt++) {
-                console.warn(
-                    `[Warning] Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()} (attempt ${attempt}), retrying: ${(await response.text()).slice(0, 500)}`
-                );
-                await new Promise((resolve) => setTimeout(resolve, 2_000 * attempt));
-                response = await AdminApiContext.post(assignUrl);
-            }
-
-            // A failed assign used to be ignored; the test then ran without storefront CSS and JavaScript.
-            if (!response.ok()) {
-                throw new Error(`Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()}: ${(await response.text()).slice(0, 500)}`);
-            }
-
-            await clearDelayedCache(AdminApiContext);
-
-            page = await context.newPage();
-
-            // Compiled files can appear after the assign response (background compilation on SaaS, delayed cache).
-            while (!(await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url))) {
-                if (Date.now() > deadline) {
-                    throw new Error(`Theme for sales channel ${salesChannel.id} is still not compiled within the test timeout (${DefaultSalesChannel.url}).`);
+                // Parallel workers can cause transient server errors during theme assignment.
+                let response = await AdminApiContext.post(assignUrl);
+                for (let attempt = 1; attempt < THEME_ASSIGN_MAX_ATTEMPTS && response.status() >= 500 && Date.now() < deadline; attempt++) {
+                    console.warn(
+                        `[Warning] Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()} (attempt ${attempt}), retrying: ${(await response.text()).slice(0, 500)}`
+                    );
+                    await new Promise((resolve) => setTimeout(resolve, 2_000 * attempt));
+                    response = await AdminApiContext.post(assignUrl);
                 }
-
+                if (!response.ok()) {
+                    throw new Error(`Theme assign for sales channel ${salesChannel.id} failed with HTTP ${response.status()}: ${(await response.text()).slice(0, 500)}`);
+                }
                 await clearDelayedCache(AdminApiContext);
-                await page.waitForTimeout(4000);
+                page = await context.newPage();
+
+                // Compilation may finish after assignment on any deployment type.
+                await expect
+                    .poll(
+                        async () => {
+                            const compiled = await isThemeCompiled(StoreApiContext, DefaultSalesChannel.url);
+                            if (!compiled) await clearDelayedCache(AdminApiContext);
+                            return compiled;
+                        },
+                        {
+                            intervals: [4000],
+                            timeout: Math.max(1, deadline - Date.now()),
+                            message: `Theme for sales channel ${salesChannel.id} is still not compiled within the test timeout (${DefaultSalesChannel.url}).`,
+                        }
+                    )
+                    .toBe(true);
+            } else {
+                page = await context.newPage();
             }
-        } else {
-            page = await context.newPage();
+
+            await page.goto("./", { waitUntil: "load" });
+
+            await use(page);
+
+            await page.close();
+        } finally {
+            setCurrentContext(null);
+            await context.close();
         }
-
-        await page.goto("./", { waitUntil: "load" });
-
-        await use(page);
-
-        await page.close();
-        setCurrentContext(null);
-        await context.close();
     },
 
     InstallPage: async ({ browser, CustomTranslationResources }, use) => {

@@ -66,6 +66,20 @@ The environment variables a typical project needs (the shipped code reads a few 
 
 Integration credentials are preferred over an admin user: they are faster and unaffected by admin session behavior.
 
+## Testing an existing storefront
+
+For deployed-shop smoke coverage, configure the exported worker option in the consumer project's `use`: `storefrontTarget: { mode: 'existing', url: process.env.SHOPWARE_STOREFRONT_URL! }`. Setting that environment variable alone does not change the npm package's generated-channel default. Select compatible storefront specs with the project's `testMatch` or `grep`; ATS does not rewrite their explicit product/order/customer setup.
+
+Use `SHOPWARE_STOREFRONT_CUSTOMER_EMAIL` and `SHOPWARE_STOREFRONT_CUSTOMER_PASSWORD` (legacy `SMOKE_CUSTOMER_*` aliases remain supported), or explicitly configure `storefrontCustomer: { email, password }`. A supplied account is resolved and verified through a Store API login, and is never deleted by the fixture. Without credentials, ATS creates and deletes one owned customer per worker. Override the worker `StorefrontCustomer` fixture for anonymous browsing or a project-owned account. Only one configured credential fails; it never triggers fallback creation.
+
+Existing mode uses the resolved channel/domain and its locale, skips theme assignment and routes both browser and Store API requests to the domain host/path. Browser setup rejects unsupported translation languages with guidance to supply `CustomTranslationResources`. Project-level `use.httpCredentials` and `use.userAgent` are forwarded to Store API requests too; test-level overrides cannot reconfigure an existing worker API context.
+
+Keep `AdminSession`, `AdminPage`, ATS `page` and `context` in generated projects: they provision Admin sessions and throw in existing mode. Set `workers: 1` for tests that mutate shared channel state or share customer carts/orders, and avoid concurrent conflicting projects. Independent read-only cases can use deliberate parallelism.
+
+Existing mode is not read-only: customer creation, credential-verification logins, explicit `TestDataService.create*` calls and test actions still happen. Borrowed-channel `setSystemConfig`, analytics overwrites and field-reset cleanup registration fail rather than discard existing values; cleanup cannot delete the borrowed channel. Cleaning explicitly created records can flush delayed caches. Generated mode retains its original browser-option handling; existing mode also forwards `contextOptions`.
+
+Read [Test an existing storefront](../../docs/existing-storefront.md) for the typed project example, authentication and customer lifecycle, selection guidance, remaining writes and CI checks.
+
 ## Set up the test workspace
 
 Install ATS first, then read its peer range from disk. Do not guess the Playwright version.

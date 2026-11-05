@@ -47,10 +47,14 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
                 defaultLanguageId: "2fbb5fe2e29a4d70aa5854ce7ce3e20b",
                 invoicePaymentMethodId: PaymentMethod.id,
                 defaultShippingMethod: ShippingMethod.id,
-                taxId: Tax.id,
+                get taxId() {
+                    return Tax.id;
+                },
                 currentCountryId: Country.id,
                 currentSnippetSetId: SnippetSet.id,
-                defaultThemeId: Theme.id,
+                get defaultThemeId() {
+                    return Theme.id;
+                },
                 appUrl: process.env["APP_URL"],
                 adminUrl: process.env["ADMIN_URL"] || `${process.env["APP_URL"]}admin/`,
             });
@@ -59,7 +63,21 @@ export const test = base.extend<NonNullable<unknown>, FixtureTypes>({
     ],
 
     DefaultSalesChannel: [
-        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig }, use) => {
+        async ({ IdProvider, AdminApiContext, SalesChannelBaseConfig, ExistingStorefront, StorefrontCustomer }, use) => {
+            if (ExistingStorefront) {
+                await use({
+                    salesChannel: ExistingStorefront.salesChannel,
+                    url: ExistingStorefront.domain.url.replace(/\/+$/, "") + "/",
+                    get customer() {
+                        if (!StorefrontCustomer)
+                            throw new Error(
+                                "This existing storefront has no customer. Configure storefrontCustomer, override StorefrontCustomer, or supply a customer explicitly."
+                            );
+                        return StorefrontCustomer;
+                    },
+                });
+                return;
+            }
             // thread id seems to be random
 
             const { id, uuid } = IdProvider.getWorkerDerivedStableId("salesChannel");
