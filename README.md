@@ -8,6 +8,6 @@ This repository remains the source code for the test suite but all guides, examp
 
 Using an AI coding agent in your project? `npx skills add shopware/acceptance-test-suite` installs a skill for writing tests against this package.
 
-For the opt-in existing-sales-channel mode, see [Test an existing storefront](docs/existing-storefront.md).
+For the opt-in existing-sales-channel mode, see [existing-storefront documentation PR](https://github.com/shopware/docs/pull/2697).
 
 Feel free to open [issues](https://github.com/shopware/acceptance-test-suite/issues) or [pull requests](https://github.com/shopware/acceptance-test-suite/pulls) for bugs or improvements related to the test suite code itself.
