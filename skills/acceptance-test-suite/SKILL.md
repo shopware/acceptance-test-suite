@@ -78,7 +78,7 @@ Keep `AdminSession`, `AdminPage`, ATS `page` and `context` in generated projects
 
 Existing mode is not read-only: customer creation, credential-verification logins, explicit `TestDataService.create*` calls and test actions still happen. Borrowed-channel `setSystemConfig`, analytics overwrites and field-reset cleanup registration fail rather than discard existing values; cleanup cannot delete the borrowed channel. Cleaning explicitly created records can flush delayed caches. Generated mode retains its original browser-option handling; existing mode also forwards `contextOptions`.
 
-Read [existing-storefront documentation PR](https://github.com/shopware/docs/pull/2697) for the typed project example, authentication and customer lifecycle, selection guidance, remaining writes and CI checks.
+Read [Test an existing storefront](https://developer.shopware.com/docs/guides/development/testing/e2e-playwright/existing-storefront.html) for the typed project example, authentication and customer lifecycle, selection guidance, remaining writes and CI checks.
 
 ## Set up the test workspace
 
