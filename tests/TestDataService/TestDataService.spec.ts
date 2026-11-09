@@ -237,7 +237,6 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
     expect(cleanUpDeleteOperations["notFound"].length).toBe(0);
     expect(cleanUpDeleteOperations["deleted"]["media"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["payment_method"]).toBeDefined();
-    expect(cleanUpDeleteOperations["deleted"]["rule"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["currency"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["country"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["customer_group"]).toBeDefined();
@@ -247,4 +246,8 @@ test("Data Service", async ({ TestDataService, AdminApiContext }) => {
     expect(cleanUpDeleteOperations["deleted"]["cms_page"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["sales_channel_analytics"]).toBeDefined();
     expect(cleanUpDeleteOperations["deleted"]["tax"]).toBeDefined();
+
+    // Rules are deleted in a separate sync after the other entities.
+    const deletedRuleResponse = await AdminApiContext.get(`./rule/${rule.id}`);
+    expect(deletedRuleResponse.status()).toBe(404);
 });

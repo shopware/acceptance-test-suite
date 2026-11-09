@@ -2,6 +2,7 @@ import { mergeTests } from "@playwright/test";
 
 import { SaveProduct } from "./shop-admin/Product/SaveProduct";
 import { SaveAndDuplicateProduct } from "./shop-admin/Product/SaveAndDuplicateProduct";
+import { DuplicateProduct } from "./shop-admin/Product/DuplicateProduct";
 import { FillProductBaseData } from "./shop-admin/Product/FillProductBaseData";
 import { UploadProductDownloadFile } from "./shop-admin/Product/UploadProductDownloadFile";
 import { DeleteProduct } from "./shop-admin/Product/DeleteProduct";
@@ -20,6 +21,7 @@ import { SelectExtensionCategory } from "./shop-admin/FRW/SelectExtensionCategor
 export const test = mergeTests(
     SaveProduct,
     SaveAndDuplicateProduct,
+    DuplicateProduct,
     FillProductBaseData,
     UploadProductDownloadFile,
     DeleteProduct,

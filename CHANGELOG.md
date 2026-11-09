@@ -1,5 +1,18 @@
 # Changelog
 
+## [12.26.0](https://github.com/shopware/acceptance-test-suite/compare/v12.25.0...v12.26.0) (2026-11-05)
+
+
+### Features
+
+* add duplicate product listing locator and task ([#744](https://github.com/shopware/acceptance-test-suite/issues/744)) ([04a8a91](https://github.com/shopware/acceptance-test-suite/commit/04a8a91b4a6e0ad497ded50814e4e9ee428c9aaa))
+
+
+### Bug Fixes
+
+* delete rules in a separate cleanup sync and assert the final sync ([#745](https://github.com/shopware/acceptance-test-suite/issues/745)) ([86147d9](https://github.com/shopware/acceptance-test-suite/commit/86147d9e5d51f67e7a124d393f0000e14657a6b0))
+* **page-objects:** disambiguate custom field creation action ([#742](https://github.com/shopware/acceptance-test-suite/issues/742)) ([1bf9f1a](https://github.com/shopware/acceptance-test-suite/commit/1bf9f1a140d82f9864be790a27f8a62f582be46b))
+
 ## [12.25.0](https://github.com/shopware/acceptance-test-suite/compare/v12.24.1...v12.25.0) (2026-10-22)
 
 
