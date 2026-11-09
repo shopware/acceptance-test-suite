@@ -5,7 +5,7 @@ import type { SalesChannel } from "../../src";
 
 function makeService(borrowedSalesChannel: boolean) {
     const calls: { method: string; path: string; data?: unknown }[] = [];
-    const response = { ok: () => true, json: async () => ({ data: {} }) };
+    const response = { ok: () => true, json: async () => ({ data: {} }), text: async () => "" };
     const api = Object.fromEntries(
         ["post", "patch", "delete"].map((method) => [
             method,
