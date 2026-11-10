@@ -65,6 +65,14 @@ export class LanguageHelper {
         return fallbackTranslate(key, this.resources, options);
     }
 
+    static assertSupportedLanguage(rawLanguage: string, customResources?: typeof BUNDLED_RESOURCES): void {
+        const language = normalizeLanguage(rawLanguage);
+        const resources = customResources || BUNDLED_RESOURCES;
+        if (!Object.keys(resources[language as keyof typeof resources] || {}).length) {
+            throw new Error(`Storefront domain locale ${rawLanguage} has no translation resources. Override CustomTranslationResources for this language.`);
+        }
+    }
+
     static async createInstance(rawLanguage: string, customResources?: typeof BUNDLED_RESOURCES): Promise<LanguageHelper> {
         const lng = normalizeLanguage(rawLanguage);
         const resources = customResources || BUNDLED_RESOURCES;

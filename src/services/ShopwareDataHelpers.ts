@@ -168,15 +168,16 @@ export const getCurrency = async (adminApiContext: AdminApiContext, isoCode?: st
     return result.data[0];
 };
 
-export const getTaxId = async (adminApiContext: AdminApiContext): Promise<string> => {
-    const resp = await adminApiContext.post("search/tax", {
-        data: { limit: 1 },
-    });
-
-    const result = (await resp.json()) as { data: { id: string }[]; total: number };
-
-    return result.data[0].id;
-};
+export function getTaxId(adminApiContext: AdminApiContext): Promise<string>;
+export function getTaxId(adminApiContext: AdminApiContext, options: { allowMissing: true }): Promise<string | undefined>;
+export async function getTaxId(adminApiContext: AdminApiContext, options?: { allowMissing: boolean }): Promise<string | undefined> {
+    const response = await adminApiContext.post("search/tax", { data: { limit: 1 } });
+    if (!response.ok()) throw new Error(`Tax lookup failed (HTTP ${response.status()}).`);
+    const result = (await response.json()) as { data: { id: string }[] };
+    const id = result.data?.[0]?.id;
+    if (!id && !options?.allowMissing) throw new Error("No tax is available for test data creation. Override the Tax fixture.");
+    return id;
+}
 
 export const getPaymentMethodId = async (adminApiContext: AdminApiContext, handlerId?: string): Promise<string> => {
     const handler = handlerId || "Shopware\\Core\\Checkout\\Payment\\Cart\\PaymentHandler\\InvoicePayment";

@@ -70,6 +70,8 @@ export interface SyncApiOperation {
 }
 
 export interface DataServiceOptions {
+    /** Protect a channel resolved from the project rather than owned by this service. */
+    borrowedSalesChannel?: boolean;
     namePrefix?: string;
     nameSuffix?: string;
     defaultSalesChannel: SalesChannel;
@@ -137,6 +139,8 @@ export class TestDataService {
      */
     private createdRecords: CreatedRecord[] = [];
 
+    private readonly borrowedSalesChannel: boolean;
+
     private restoreSystemConfig: Record<string, unknown> = {};
 
     /**
@@ -151,6 +155,7 @@ export class TestDataService {
         this.IdProvider = IdProvider;
 
         this.defaultSalesChannel = options.defaultSalesChannel;
+        this.borrowedSalesChannel = options.borrowedSalesChannel ?? false;
 
         this.defaultTaxId = options.defaultTaxId;
         this.defaultCurrencyId = options.defaultCurrencyId;
@@ -1141,6 +1146,8 @@ export class TestDataService {
      * @param configs - Key value pairs to set
      */
     async setSystemConfig(configs: Record<string, unknown>): Promise<void> {
+        if (this.borrowedSalesChannel)
+            throw new Error("setSystemConfig cannot modify a borrowed sales channel: cleanup would discard its existing configuration. Use a generated channel for this test.");
         const response = await this.AdminApiClient.post(`_action/system-config?_response=detail&salesChannelId=${this.defaultSalesChannel.id}`, {
             data: configs,
         });
@@ -1485,6 +1492,7 @@ export class TestDataService {
      * @param salesChannelAnalyticsId - The uuid of the sales channel analytics entity.
      */
     async assignSalesChannelAnalytics(salesChannelId: string, salesChannelAnalyticsId: string) {
+        this.assertOwnedSalesChannel(salesChannelId);
         const syncSalesChannelResponse = await this.AdminApiClient.post("./_action/sync", {
             data: {
                 "write-sales-channel-analytics": {
@@ -2108,6 +2116,12 @@ export class TestDataService {
         }
     }
 
+    private assertOwnedSalesChannel(salesChannelId: string): void {
+        if (this.borrowedSalesChannel && salesChannelId === this.defaultSalesChannel.id) {
+            throw new Error("Cannot register or overwrite a borrowed sales channel for cleanup. Use a generated channel for this test.");
+        }
+    }
+
     /**
      * Adds a sales channel related property to the registry of created sales channel records.
      * The property added to the registry will be overridden with null value by the cleanup call.
@@ -2116,6 +2130,7 @@ export class TestDataService {
      * @param field - The database field which has to be overridden
      */
     addCreatedSalesChannelRecord(salesChannelId: string, field: string) {
+        this.assertOwnedSalesChannel(salesChannelId);
         this.createdSalesChannelRecords.push({
             salesChannelId: salesChannelId,
             field: field,
@@ -2140,6 +2155,9 @@ export class TestDataService {
             return null;
         }
 
+        if (this.borrowedSalesChannel && this.createdRecords.length === 0 && this.createdSalesChannelRecords.length === 0 && Object.keys(this.restoreSystemConfig).length === 0)
+            return null;
+
         const deleteUserIds: string[] = [];
         const deleteAclRolesIds: string[] = [];
         const deleteOperations: Record<string, SyncApiOperation> = {};
@@ -2160,6 +2178,7 @@ export class TestDataService {
         await this.deleteOrderDocuments(createdOrderIds);
 
         this.createdRecords.forEach((record) => {
+            if (record.resource === "sales_channel") this.assertOwnedSalesChannel(record.payload.id);
             if (record.resource === "user") {
                 if (!deleteUserIds.includes(record.payload.id)) {
                     deleteUserIds.push(record.payload.id);
