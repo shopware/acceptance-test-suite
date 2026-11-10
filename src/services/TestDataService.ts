@@ -387,6 +387,7 @@ export class TestDataService {
         expect(productReviewResponse.ok()).toBeTruthy();
 
         const { data: review } = (await productReviewResponse.json()) as { data: ProductReview };
+
         return review;
     }
 
@@ -528,6 +529,8 @@ export class TestDataService {
         expect(mediaResponse.ok()).toBeTruthy();
 
         const { data: media } = (await mediaResponse.json()) as { data: Media };
+
+        this.addCreatedRecord("media", media.id);
 
         return media;
     }
