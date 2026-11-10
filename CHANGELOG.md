@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.27.0](https://github.com/shopware/acceptance-test-suite/compare/v12.26.0...v12.27.0) (2026-11-10)
+
+
+### Features
+
+* support existing storefront sales channels ([#741](https://github.com/shopware/acceptance-test-suite/issues/741)) ([7dda091](https://github.com/shopware/acceptance-test-suite/commit/7dda09197978a1aebb0b8fb8ca624b776bd90377))
+
 ## [12.26.0](https://github.com/shopware/acceptance-test-suite/compare/v12.25.0...v12.26.0) (2026-11-05)
 
 
