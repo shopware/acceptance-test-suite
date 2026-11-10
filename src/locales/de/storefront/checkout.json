@@ -10,7 +10,8 @@
         "express": "Express",
         "grandTotal": "Gesamtsumme",
         "plusVat": "zzgl.",
-        "vatSuffix": " % MwSt."
+        "vatSuffix": " % MwSt.",
+        "excludeVat": "exkl. MwSt."
     },
     "cart": {
         "shoppingCart": "Warenkorb",
