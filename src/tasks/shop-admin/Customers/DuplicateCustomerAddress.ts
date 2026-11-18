@@ -6,15 +6,18 @@ import type { FixtureTypes } from "../../../types/FixtureTypes";
  * Duplicates the first customer address whose row contains the given street.
  *
  * The customer address tab must already be open. The clone is registered for cleanup.
+ * The clone request finishes before the address list shows the copy, so the task waits for the new row.
  */
 export const DuplicateCustomerAddress = base.extend<{ DuplicateCustomerAddress: Task }, FixtureTypes>({
     DuplicateCustomerAddress: async ({ ShopAdmin, AdminCustomerDetail, TestDataService }, use) => {
         const task = (street: string) => {
             return async function DuplicateCustomerAddress() {
                 const page = AdminCustomerDetail.page;
+                const addressRows = AdminCustomerDetail.addressRows(street);
 
                 await AdminCustomerDetail.editButton.click();
                 await ShopAdmin.expects(AdminCustomerDetail.addAddressButton).toBeEnabled();
+                const addressCount = await addressRows.count();
                 await AdminCustomerDetail.actionsMenuButton(street).click();
 
                 const cloneRequest = page.waitForResponse((response) => response.url().includes("/api/_action/clone/customer-address/") && response.request().method() === "POST");
@@ -25,6 +28,8 @@ export const DuplicateCustomerAddress = base.extend<{ DuplicateCustomerAddress: 
 
                 const { id: cloneId } = (await cloneResponse.json()) as { id: string };
                 TestDataService.addCreatedRecord("customer_address", cloneId);
+
+                await ShopAdmin.expects(addressRows).toHaveCount(addressCount + 1);
             };
         };
 
