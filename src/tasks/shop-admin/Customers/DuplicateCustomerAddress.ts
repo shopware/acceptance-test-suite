@@ -6,7 +6,7 @@ import type { FixtureTypes } from "../../../types/FixtureTypes";
  * Duplicates the first customer address whose row contains the given street.
  *
  * The customer address tab must already be open. The clone is registered for cleanup.
- * The clone request finishes before the address list shows the copy, so the task waits for the new row.
+ * The address grid keeps the customer already in memory, so the task reloads the page and then waits for the new row.
  */
 export const DuplicateCustomerAddress = base.extend<{ DuplicateCustomerAddress: Task }, FixtureTypes>({
     DuplicateCustomerAddress: async ({ ShopAdmin, AdminCustomerDetail, TestDataService }, use) => {
@@ -29,7 +29,10 @@ export const DuplicateCustomerAddress = base.extend<{ DuplicateCustomerAddress: 
                 const { id: cloneId } = (await cloneResponse.json()) as { id: string };
                 TestDataService.addCreatedRecord("customer_address", cloneId);
 
-                await ShopAdmin.expects(addressRows).toHaveCount(addressCount + 1);
+                await page.reload();
+                await page.waitForURL(/\/addresses/, { timeout: 15_000 });
+                await expect(page.locator(".sw-skeleton")).toHaveCount(0, { timeout: 15_000 });
+                await ShopAdmin.expects(addressRows).toHaveCount(addressCount + 1, { timeout: 15_000 });
             };
         };
 
