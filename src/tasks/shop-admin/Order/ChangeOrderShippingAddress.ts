@@ -11,7 +11,7 @@ import { waitForOrderAddressUpdate, waitForOrderVersionMerge } from "../../../he
  */
 export const ChangeOrderShippingAddress = base.extend<{ ChangeOrderShippingAddress: Task }, FixtureTypes>({
     ChangeOrderShippingAddress: async ({ ShopAdmin, AdminOrderDetail }, use) => {
-        const task = (orderId: string, street: string) => {
+        const task = (orderId: string, versionId: string, street: string) => {
             return async function ChangeOrderShippingAddress() {
                 const page = AdminOrderDetail.page;
 
@@ -22,7 +22,7 @@ export const ChangeOrderShippingAddress = base.extend<{ ChangeOrderShippingAddre
                 await ShopAdmin.expects(AdminOrderDetail.shippingAddressSelectionText).toContainText(street);
 
                 const addressUpdate = waitForOrderAddressUpdate(page, orderId);
-                const versionMerge = waitForOrderVersionMerge(page);
+                const versionMerge = waitForOrderVersionMerge(page, versionId);
                 await AdminOrderDetail.saveButton.click();
 
                 expect((await addressUpdate).ok()).toBeTruthy();

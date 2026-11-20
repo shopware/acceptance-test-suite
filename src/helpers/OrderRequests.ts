@@ -18,8 +18,8 @@ export function waitForOrderAddressUpdate(page: Page, orderId: string): Promise<
 
 /**
  * Waits for the order draft to be merged back into the live order.
- * Register this before saving the order.
+ * The merge URL carries the draft version id. Register this before saving the order.
  */
-export function waitForOrderVersionMerge(page: Page): Promise<Response> {
-    return page.waitForResponse((response) => response.url().includes("/_action/version/merge/order/") && response.request().method() === "POST");
+export function waitForOrderVersionMerge(page: Page, versionId: string): Promise<Response> {
+    return page.waitForResponse((response) => response.url().includes(`/_action/version/merge/order/${versionId}`) && response.request().method() === "POST");
 }
