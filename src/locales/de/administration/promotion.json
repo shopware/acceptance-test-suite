@@ -22,6 +22,7 @@
         "edit": "Bearbeiten",
         "delete": "Löschen",
         "duplicate": "Duplizieren",
+        "copy": "Kopie",
         "addDiscount": "Rabatt hinzufügen"
     },
     "fields": {

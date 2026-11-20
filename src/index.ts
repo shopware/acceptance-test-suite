@@ -44,8 +44,9 @@ export * from "./services/AdminLoginHelper";
 
 export { StorefrontPageObjects } from "./page-objects/StorefrontPages";
 export { AdminPageObjects } from "./page-objects/AdministrationPages";
-export { uploadRandomPngMedia } from './helpers/UploadMedia';
-export type { UploadMediaTarget } from './helpers/UploadMedia';
+export { uploadRandomPngMedia } from "./helpers/UploadMedia";
+export type { UploadMediaTarget } from "./helpers/UploadMedia";
+export { waitForOrderAddressUpdate, waitForOrderVersion, waitForOrderVersionMerge } from "./helpers/OrderRequests";
 
 export type { FixtureTypes } from "./types/FixtureTypes";
 export type { Task } from "./types/Task";

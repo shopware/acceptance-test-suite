@@ -37,6 +37,12 @@ export class OrderDetail implements PageObject {
     public readonly generalTabLink: Locator;
     public readonly detailsTabLink: Locator;
     public readonly documentsTabLink: Locator;
+    public readonly shippingAddressCard: Locator;
+    public readonly shippingAddressSelection: Locator;
+    public readonly shippingAddressSelectionText: Locator;
+    public readonly shippingAddressInput: Locator;
+    public readonly addressResults: Locator;
+    public readonly addNewAddressOption: Locator;
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
 
@@ -74,6 +80,18 @@ export class OrderDetail implements PageObject {
         this.generalTabLink = page.getByRole("tab", { name: translate("administration:order:tabs.general") });
         this.detailsTabLink = page.getByRole("tab", { name: translate("administration:order:tabs.details") });
         this.documentsTabLink = page.getByRole("tab", { name: translate("administration:order:tabs.documents") });
+
+        this.shippingAddressCard = page.locator(".sw-order-detail-details__shipping-address");
+        this.shippingAddressSelection = this.shippingAddressCard.locator(".sw-single-select__selection");
+        this.shippingAddressSelectionText = this.shippingAddressCard.locator(".sw-single-select__selection-text");
+        this.shippingAddressInput = this.shippingAddressCard.getByLabel(translate("administration:order:detail.shippingAddress"));
+        // The result list is teleported outside the address card.
+        this.addressResults = page.locator(".sw-select-result-list__content");
+        this.addNewAddressOption = this.addressResults.getByText(translate("administration:order:detail.addNewAddress"));
+    }
+
+    shippingAddressOption(street: string): Locator {
+        return this.addressResults.getByText(street, { exact: true });
     }
 
     url(orderId: string, tabName = "general") {

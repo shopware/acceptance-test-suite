@@ -9,6 +9,9 @@
     },
     "detail": {
         "edit": "Bearbeiten",
+        "addAddress": "Adresse anlegen",
+        "duplicate": "Duplizieren",
+        "openActionsMenu": "Aktionsmenü öffnen",
         "general": "Allgemein",
         "addresses": "Adressen",
         "orders": "Bestellungen",

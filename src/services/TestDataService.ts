@@ -24,6 +24,7 @@ import type {
     Order,
     OrderDelivery,
     OrderLineItem,
+    OrderWithAddresses,
     PaymentMethod,
     Product,
     ProductCrossSelling,
@@ -1924,6 +1925,28 @@ export class TestDataService {
         const { data: result } = await response.json();
 
         return result[0];
+    }
+
+    /**
+     * Loads one order with its billing address and delivery shipping addresses.
+     *
+     * @param orderId - The uuid of the order.
+     */
+    async getOrderWithAddresses(orderId: string): Promise<OrderWithAddresses> {
+        const response = await this.AdminApiClient.post("search/order", {
+            data: {
+                ids: [orderId],
+                associations: {
+                    billingAddress: {},
+                    deliveries: { associations: { shippingOrderAddress: {} } },
+                },
+            },
+        });
+        expect(response.ok()).toBeTruthy();
+
+        const { data } = (await response.json()) as { data: OrderWithAddresses[] };
+
+        return data[0];
     }
 
     /**
