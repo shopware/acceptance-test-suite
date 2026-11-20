@@ -10,6 +10,8 @@ export class CheckoutConfirm implements PageObject {
     public readonly immediateAccessToDigitalProductCheckbox: Locator;
     public readonly grandTotalPrice: Locator;
     public readonly taxPrice: Locator;
+    public readonly summaryTaxLabel: Locator;
+    public readonly summaryTaxPrice: Locator;
     public readonly submitOrderButton: Locator;
     public readonly termsAutoConfirmedText: Locator;
     public readonly legalGuaranteeNoticeLink: Locator;
@@ -47,6 +49,8 @@ export class CheckoutConfirm implements PageObject {
         this.immediateAccessToDigitalProductCheckbox = page.getByLabel(translate("storefront:checkout:confirm.immediateAccessToDigitalProduct"));
         this.grandTotalPrice = page.locator(`dt:has-text('${translate("storefront:checkout:common.grandTotal")}') + dd`);
         this.taxPrice = page.locator(`dt:text-matches("${translate("storefront:checkout:common.plusVat")} [0-9]\\+\\?${translate("storefront:checkout:common.vatSuffix")}") + dd`);
+        this.summaryTaxLabel = page.locator("dt.summary-tax");
+        this.summaryTaxPrice = page.locator("dd.summary-tax");
         this.submitOrderButton = page.getByRole("button", { name: translate("storefront:checkout:confirm.submitOrder") });
 
         this.paymentMethodRadioGroup = page.locator(".checkout-card", { hasText: translate("storefront:checkout:common.paymentMethod") });
@@ -73,11 +77,13 @@ export class CheckoutConfirm implements PageObject {
         const productLineItem = this.confirmProductTable.locator(".line-item-product", { hasText: productName });
         const productNameLabel = productLineItem.locator(".line-item-label");
         const productTotalPrice = productLineItem.locator(".line-item-total-price-value");
+        const taxPrice = productLineItem.locator(".line-item-tax-price");
 
         return {
             productLineItem: productLineItem,
             productNameLabel: productNameLabel,
             productTotalPrice: productTotalPrice,
+            taxPrice: taxPrice,
         };
     }
 
@@ -90,6 +96,32 @@ export class CheckoutConfirm implements PageObject {
             promotionLineItem: promotionLineItem,
             promotionNameLabel: promotionNameLabel,
             promotionTotalPrice: promotionTotalPrice,
+        };
+    }
+
+    /**
+     * Returns the checkout summary label for a VAT rate, for example "plus 19% VAT".
+     */
+    vatLabel(rate: number): string {
+        return `${translate("storefront:checkout:common.plusVat")} ${rate}${translate("storefront:checkout:common.vatSuffix")}`;
+    }
+
+    /**
+     * Returns the line-item tax text when prices exclude VAT, for example "excl. VAT £0.00".
+     */
+    excludedVatText(price: string): string {
+        return `${translate("storefront:checkout:common.excludeVat")} ${price}`;
+    }
+
+    /**
+     * Returns the VAT summary label and amount for a tax rate, for example 19.
+     */
+    getTaxSummary(rate: number): { label: Locator; price: Locator } {
+        const label = this.summaryTaxLabel.filter({ hasText: this.vatLabel(rate) });
+
+        return {
+            label,
+            price: this.summaryTaxPrice.and(label.locator("+ dd")),
         };
     }
 
