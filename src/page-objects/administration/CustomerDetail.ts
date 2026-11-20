@@ -32,7 +32,13 @@ export class CustomerDetail implements PageObject {
         this.editButton = page.getByRole("button", { name: translate("administration:customer:detail.edit") });
         this.addAddressButton = page.getByRole("button", { name: translate("administration:customer:detail.addAddress") });
         this.contextMenu = page.locator(".sw-context-menu");
-        this.duplicateMenuButton = this.contextMenu.getByRole("button", { name: translate("administration:customer:detail.duplicate") });
+        if (satisfies(instanceMeta.version, "<6.7")) {
+            this.duplicateMenuButton = this.contextMenu.locator(".sw-context-menu-item", {
+                hasText: translate("administration:customer:detail.duplicate"),
+            });
+        } else {
+            this.duplicateMenuButton = this.contextMenu.getByRole("button", { name: translate("administration:customer:detail.duplicate") });
+        }
         this.generalTab = page.getByRole("tab", { name: translate("administration:customer:detail.general") });
         this.addressesTab = page.getByRole("tab", { name: translate("administration:customer:detail.addresses") });
         this.ordersTab = page.getByRole("tab", { name: translate("administration:customer:detail.orders") });
