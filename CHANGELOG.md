@@ -1,5 +1,19 @@
 # Changelog
 
+## [12.27.0](https://github.com/shopware/acceptance-test-suite/compare/v12.26.0...v12.27.0) (2026-11-20)
+
+
+### Features
+
+* support existing storefront sales channels ([#741](https://github.com/shopware/acceptance-test-suite/issues/741)) ([7dda091](https://github.com/shopware/acceptance-test-suite/commit/7dda09197978a1aebb0b8fb8ca624b776bd90377))
+
+
+### Bug Fixes
+
+* assert locators are visible before proceeding with Checkout tasks ([#748](https://github.com/shopware/acceptance-test-suite/issues/748)) ([89f1468](https://github.com/shopware/acceptance-test-suite/commit/89f146847db7fb0de5e2e758f09ea5ef548ab7e9))
+* **fixtures:** give each shard its own worker-derived ids ([#740](https://github.com/shopware/acceptance-test-suite/issues/740)) ([7804984](https://github.com/shopware/acceptance-test-suite/commit/78049849f3f406813f60cc2b300e5f7b61947a83))
+* retry the admin user creation in AdminSession on server errors ([#739](https://github.com/shopware/acceptance-test-suite/issues/739)) ([0c34340](https://github.com/shopware/acceptance-test-suite/commit/0c343406dac1fde9fa7c93767289d50a065dbb4f))
+
 ## [12.26.0](https://github.com/shopware/acceptance-test-suite/compare/v12.25.0...v12.26.0) (2026-11-05)
 
 
