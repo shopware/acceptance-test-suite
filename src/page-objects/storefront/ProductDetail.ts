@@ -70,7 +70,6 @@ export class ProductDetail implements PageObject {
     public readonly documentsTab: Locator;
     public readonly documentsList: Locator;
     public readonly documentLink: (documentName: string) => Locator;
-    public readonly documentFormat: (documentName: string) => Locator;
 
     public readonly page: Page;
 
@@ -142,14 +141,11 @@ export class ProductDetail implements PageObject {
         this.reviewSubmitMessage = this.page.getByText(translate("storefront:product:review.submitMessage"));
         this.reviewTabLoadingIcon = this.page.locator(".element-loader-backdrop").locator(".loader");
 
-        // Documents Tab
-        // TODO(#21970/#21971): replace placeholder selectors once the storefront documents tab is
-        // implemented. The tab will likely be a getByRole("tab", { name: translate(...) }) like reviewsTab.
-        this.documentsTab = this.page.locator("[data-product-documents-tab]");
-        this.documentsList = this.page.locator("[data-product-documents-list]");
+        // Documents live in a Bootstrap tab pane, hidden until the "Documents" tab is opened. The tab
+        // link's `documents-tab` class is stable and language-independent.
+        this.documentsTab = this.page.locator("a.documents-tab").first();
+        this.documentsList = this.page.locator(".product-detail-documents-list");
         this.documentLink = (documentName: string) => this.documentsList.getByRole("link", { name: documentName });
-        this.documentFormat = (documentName: string) =>
-            this.documentsList.locator("[data-product-documents-item]", { hasText: documentName }).locator("[data-product-documents-format]");
     }
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {

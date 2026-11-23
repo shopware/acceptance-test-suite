@@ -149,18 +149,39 @@ export class ProductDetail implements PageObject {
     public readonly lengthInput: Locator;
     public readonly weightInput: Locator;
 
+    // Smart bar - content language switch (existing sw-language-switch component)
+    public readonly languageSwitch: Locator;
+    public readonly languageSwitchInput: Locator;
+    public readonly languageSwitchOption: (languageName: string) => Locator;
+
     // Documents card
     public readonly documentsCard: Locator;
-    public readonly uploadDocumentButton: Locator;
+    public readonly documentsCardInheritanceSwitch: Locator;
+    public readonly addDocumentsButton: Locator;
     public readonly documentUploadError: Locator;
     public readonly documentTitles: Locator;
-    public readonly documentInheritanceSwitch: Locator;
     public readonly documentLink: (documentName: string) => Locator;
     public readonly documentRow: (documentName: string) => Locator;
-    public readonly documentTitleInput: (documentName: string) => Locator;
-    public readonly documentDragHandle: (documentName: string) => Locator;
-    public readonly documentReplaceButton: (documentName: string) => Locator;
-    public readonly documentDeleteButton: (documentName: string) => Locator;
+    public readonly documentMoveUpButton: (documentName: string) => Locator;
+    public readonly documentMoveDownButton: (documentName: string) => Locator;
+    public readonly documentRowMenuButton: (documentName: string) => Locator;
+    // Documents card - row context menu (Edit / Remove)
+    public readonly documentRowMenuEdit: Locator;
+    public readonly documentRowMenuRemove: Locator;
+    // In a non-default language the menu offers "Add <language> version" instead of "Edit".
+    public readonly documentRowMenuAddLanguageVersion: (languageEnglishName: string) => Locator;
+    // Documents card - "Add documents" modal
+    public readonly addDocumentsModal: Locator;
+    public readonly addDocumentsModalCloseButton: Locator;
+    public readonly addDocumentsUploadFileButton: Locator;
+    // Documents card - "Edit document" modal
+    public readonly editDocumentModal: Locator;
+    public readonly editDocumentNameInput: Locator;
+    public readonly editDocumentRemoveFileButton: Locator;
+    public readonly editDocumentUploadFileButton: Locator;
+    public readonly editDocumentApplyButton: Locator;
+    // Documents card - "Remove document" confirmation modal
+    public readonly removeDocumentConfirmButton: Locator;
 
     public readonly page: Page;
     public readonly instanceMeta: HelperFixtureTypes["InstanceMeta"];
@@ -332,20 +353,64 @@ export class ProductDetail implements PageObject {
         this.lengthInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.length"), exact: true });
         this.weightInput = this.measurementCard.getByRole("textbox", { name: translate("administration:product:detail.weight"), exact: true });
 
-        // Documents card
-        // TODO(#21966/#21967/#21968): replace every selector below with the real one once the
-        // Administration documents card is implemented.
-        this.documentsCard = page.locator("[data-product-documents-card]");
-        this.uploadDocumentButton = this.documentsCard.locator("[data-product-documents-upload-button]");
-        this.documentUploadError = this.documentsCard.locator("[data-product-documents-error]");
-        this.documentTitles = this.documentsCard.locator("[data-product-documents-title]");
-        this.documentInheritanceSwitch = this.documentsCard.locator("[data-product-documents-inheritance-switch]");
-        this.documentLink = (documentName: string) => this.documentsCard.locator("[data-product-documents-title]", { hasText: documentName });
-        this.documentRow = (documentName: string) => this.documentsCard.locator("[data-product-documents-row]", { hasText: documentName });
-        this.documentTitleInput = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-title-input]");
-        this.documentDragHandle = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-drag-handle]");
-        this.documentReplaceButton = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-replace]");
-        this.documentDeleteButton = (documentName: string) => this.documentRow(documentName).locator("[data-product-documents-delete]");
+        // Smart-bar content-language switch: a searchable sw-entity-single-select (options are
+        // li.sw-select-result in a popover, not `option` roles).
+        this.languageSwitch = page.locator(".sw-language-switch");
+        this.languageSwitchInput = this.languageSwitch.locator("input");
+        // Match the list item whose whole text equals the name, anchored so "Deutsch" does not also
+        // match "Deutsch (Schweiz)" (filter-highlight spans rule out getByText(exact)). The name is
+        // used as a regex, so keep LANGUAGE_LABELS to plain text.
+        this.languageSwitchOption = (languageName: string) =>
+            page.locator(".sw-select-result-list__item-list li.sw-select-result").filter({ hasText: new RegExp(`^\\s*${languageName}\\s*$`) });
+
+        // Documents card (sw-product-document-form). Its labels are product-document snippets not in this
+        // suite's locale bundle, so they are matched by their English accessible name; admin flows run in
+        // the default language.
+        this.documentsCard = page.locator(".sw-product-document-form");
+        // On a variant the card sits inside an inheritance switch (absent on the parent product).
+        this.documentsCardInheritanceSwitch = this.documentsCard.locator(".sw-inheritance-switch").first();
+        // Opens the "Add documents" modal (disabled while a variant inherits the parent's documents).
+        this.addDocumentsButton = this.documentsCard.getByRole("button", { name: "Add documents" });
+        // Upload validation (wrong type / too large) surfaces as a Shopware error notification/toast.
+        this.documentUploadError = page.locator(".sw-alert--error, .mt-banner--critical, .mt-toast--critical, .mt-toast--error").first();
+        this.documentTitles = this.documentsCard.locator(".sw-data-grid__cell--title .mt-link");
+        this.documentLink = (documentName: string) => this.documentsCard.locator(".sw-data-grid__cell--title").getByRole("link", { name: documentName });
+        this.documentRow = (documentName: string) => this.documentsCard.locator(".sw-data-grid__row", { hasText: documentName });
+        // Position column reorder buttons.
+        this.documentMoveUpButton = (documentName: string) => this.documentRow(documentName).getByRole("button", { name: "Move up" });
+        this.documentMoveDownButton = (documentName: string) => this.documentRow(documentName).getByRole("button", { name: "Move down" });
+        this.documentRowMenuButton = (documentName: string) => this.documentRow(documentName).locator(".sw-data-grid__actions-menu");
+
+        // Row context menu items (rendered in a popover at the page root).
+        this.documentRowMenuEdit = page.locator(".sw-context-menu-item", { hasText: "Edit" });
+        this.documentRowMenuRemove = page.locator(".sw-context-menu-item.sw-context-menu-item--danger");
+        // In a non-default language the row menu offers "Add <language> version" instead of "Edit".
+        this.documentRowMenuAddLanguageVersion = (languageEnglishName: string) => page.locator(".sw-context-menu-item", { hasText: `Add ${languageEnglishName} version` });
+
+        // "Add documents" modal (an mt-modal holding an sw-media-upload-v2 dropzone).
+        this.addDocumentsModal = page
+            .locator(".mt-modal")
+            .filter({ has: page.locator(".sw-media-upload-v2") })
+            .first();
+        // Header close button; dismisses a modal left open by a rejected upload (validation case).
+        this.addDocumentsModalCloseButton = this.addDocumentsModal.locator(".mt-modal__close-button");
+        this.addDocumentsUploadFileButton = this.addDocumentsModal.locator(".sw-media-upload-v2").getByRole("button", { name: "Upload file" });
+
+        // "Edit document" modal (rename, file replace, or a per-language override); distinguished by its Name text field.
+        this.editDocumentModal = page
+            .locator(".mt-modal")
+            .filter({ has: page.locator(".mt-text-field") })
+            .first();
+        this.editDocumentNameInput = this.editDocumentModal.locator(".mt-text-field input").first();
+        this.editDocumentRemoveFileButton = this.editDocumentModal.locator(".sw-media-upload-v2__remove-icon");
+        this.editDocumentUploadFileButton = this.editDocumentModal.locator(".sw-media-upload-v2").getByRole("button", { name: "Upload file" });
+        this.editDocumentApplyButton = this.editDocumentModal.getByRole("button", { name: "Apply", exact: true });
+
+        // Removing a document opens a confirmation modal with a critical (danger) "Remove" button.
+        this.removeDocumentConfirmButton = page
+            .locator(".mt-modal")
+            .filter({ has: page.locator(".mt-button--critical") })
+            .getByRole("button", { name: "Remove", exact: true });
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {

@@ -1,4 +1,5 @@
 import { createRandomImage, createSolidColorImage, encodeImage } from "./ImageHelper";
+import { createPdfDocument } from "./DocumentHelper";
 import { getCountryAddressData, getLanguageData, getPromotionWithDiscount, getSnippetSetId, updateAdminUser } from "./ShopwareDataHelpers";
 import type { AdminApiContext } from "./AdminApiContext";
 import type { IdProvider } from "./IdProvider";
@@ -28,6 +29,7 @@ import type {
     PaymentMethod,
     Product,
     ProductCrossSelling,
+    ProductDocument,
     ProductReview,
     Promotion,
     PromotionWithConditionRuleOptions,
@@ -392,6 +394,79 @@ export class TestDataService {
     }
 
     /**
+     * Creates a product document with a freshly generated public PDF as its file. `title` and
+     * `mediaId` are translated, so the document is seeded for the given `locale` only.
+     *
+     * @param productId - The uuid of the product the document belongs to.
+     * @param title - The display title of the document in the given language.
+     * @param locale - ISO locale the title/file are set for. Defaults to `en-GB`.
+     * @param overrides - Overrides applied to the product_document payload.
+     */
+    async createProductDocument(productId: string, title: string, locale = "en-GB", overrides: Partial<ProductDocument> = {}): Promise<ProductDocument> {
+        const media = await this.createMediaPDF();
+
+        const response = await this.AdminApiClient.post("product-document?_response=detail", {
+            data: {
+                productId: productId,
+                translations: { [locale]: { title: title, mediaId: media.id } },
+                ...overrides,
+            },
+        });
+        expect(response.ok(), `product document create failed: ${await response.text()}`).toBeTruthy();
+
+        const { data: productDocument } = (await response.json()) as { data: ProductDocument };
+
+        this.addCreatedRecord("product_document", productDocument.id);
+
+        return productDocument;
+    }
+
+    /**
+     * Creates one product document with a per-language title and its own file for each given locale
+     * (a document lives in the default language; others override its name/file). Returns the document
+     * and each locale's uploaded byte size, so a language-specific download can be asserted.
+     *
+     * @param productId - The uuid of the product the document belongs to.
+     * @param titlesByLocale - Map of ISO locale to the document title; include the default language.
+     * @param overrides - Overrides applied to the product_document payload.
+     */
+    async createProductDocumentWithTranslations(
+        productId: string,
+        titlesByLocale: Record<string, string>,
+        overrides: Partial<ProductDocument> = {}
+    ): Promise<{ document: ProductDocument; sizeByLocale: Record<string, number> }> {
+        const translations: Record<string, { title: string; mediaId: string }> = {};
+        const sizeByLocale: Record<string, number> = {};
+        let extraPadding = 0;
+
+        for (const [locale, title] of Object.entries(titlesByLocale)) {
+            // Give each language a distinctly sized PDF, so a language-specific download can be told
+            // apart by its byte size (the base generator produces byte-identical files otherwise).
+            const sizeInBytes = 4096 + extraPadding;
+            const media = await this.createMediaPDF(sizeInBytes);
+            translations[locale] = { title: title, mediaId: media.id };
+            // createPdfDocument is deterministic for a given size, so this is the exact uploaded length.
+            sizeByLocale[locale] = createPdfDocument(sizeInBytes).buffer.length;
+            extraPadding += 4096;
+        }
+
+        const response = await this.AdminApiClient.post("product-document?_response=detail", {
+            data: {
+                productId: productId,
+                translations: translations,
+                ...overrides,
+            },
+        });
+        expect(response.ok(), `product document create failed: ${await response.text()}`).toBeTruthy();
+
+        const { data: productDocument } = (await response.json()) as { data: ProductDocument };
+
+        this.addCreatedRecord("product_document", productDocument.id);
+
+        return { document: productDocument, sizeByLocale };
+    }
+
+    /**
      * Creates a basic manufacturer without images or other special configuration.
      *
      * @param overrides - Specific data overrides that will be applied to the manufacturer data struct.
@@ -506,6 +581,26 @@ export class TestDataService {
             headers: { "content-type": "application/octet-stream" },
         });
         expect(response.ok()).toBeTruthy();
+
+        this.addCreatedRecord("media", media.id);
+
+        return media;
+    }
+
+    /**
+     * Creates a new public media resource containing a small, valid PDF file.
+     * Suitable as the file of a product document (pdf is an allowed type).
+     */
+    async createMediaPDF(sizeInBytes?: number): Promise<Media> {
+        const media = await this.createMediaResource();
+        const filename = `${this.namePrefix}Media-${media.id}${this.nameSuffix}`;
+        const pdf = createPdfDocument(sizeInBytes);
+
+        const response = await this.AdminApiClient.post(`_action/media/${media.id}/upload?extension=pdf&fileName=${filename}`, {
+            data: pdf.buffer,
+            headers: { "content-type": pdf.mimeType },
+        });
+        expect(response.ok(), `media upload failed: ${await response.text()}`).toBeTruthy();
 
         this.addCreatedRecord("media", media.id);
 
