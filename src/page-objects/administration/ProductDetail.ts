@@ -406,11 +406,9 @@ export class ProductDetail implements PageObject {
         this.editDocumentUploadFileButton = this.editDocumentModal.locator(".sw-media-upload-v2").getByRole("button", { name: "Upload file" });
         this.editDocumentApplyButton = this.editDocumentModal.getByRole("button", { name: "Apply", exact: true });
 
-        // Removing a document opens a confirmation modal with a critical (danger) "Remove" button.
-        this.removeDocumentConfirmButton = page
-            .locator(".mt-modal")
-            .filter({ has: page.locator(".mt-button--critical") })
-            .getByRole("button", { name: "Remove", exact: true });
+        // The remove confirmation modal's confirm button keeps this class whether it renders as
+        // critical (default language) or primary (a non-default-language version).
+        this.removeDocumentConfirmButton = page.locator(".sw-product-document-form__confirm-remove");
     }
 
     async getCustomFieldSetCardContentByName(customFieldSetName: string): Promise<Record<string, Locator>> {
