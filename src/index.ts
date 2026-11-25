@@ -31,6 +31,7 @@ export type { APIResponse, Page, Locator, BrowserContext, APIRequestContext, Req
 export * from "./services/ShopwareDataHelpers";
 export * from "./services/ShopInfo";
 export * from "./services/ImageHelper";
+export * from "./services/DocumentHelper";
 export * from "./types/ShopwareTypes";
 export * from "./services/TestDataService";
 export * from "./services/VisualTestHelpers";

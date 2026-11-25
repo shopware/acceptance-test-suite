@@ -66,6 +66,11 @@ export class ProductDetail implements PageObject {
     public readonly productReviewsLink: Locator;
     public readonly productReviewRating: Locator;
 
+    // Documents Tab
+    public readonly documentsTab: Locator;
+    public readonly documentsList: Locator;
+    public readonly documentLink: (documentName: string) => Locator;
+
     public readonly page: Page;
 
     constructor(page: Page) {
@@ -135,6 +140,12 @@ export class ProductDetail implements PageObject {
         this.reviewItemContent = this.page.locator(".product-detail-review-item-content");
         this.reviewSubmitMessage = this.page.getByText(translate("storefront:product:review.submitMessage"));
         this.reviewTabLoadingIcon = this.page.locator(".element-loader-backdrop").locator(".loader");
+
+        // Documents live in a Bootstrap tab pane, hidden until the "Documents" tab is opened. The tab
+        // link's `documents-tab` class is stable and language-independent.
+        this.documentsTab = this.page.locator("a.documents-tab").first();
+        this.documentsList = this.page.locator(".product-detail-documents-list");
+        this.documentLink = (documentName: string) => this.documentsList.getByRole("link", { name: documentName });
     }
 
     async getReviewFilterRowOptionsByName(filterOptionName: string) {

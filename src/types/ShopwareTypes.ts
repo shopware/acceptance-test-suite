@@ -113,6 +113,19 @@ export type ProductReview = components["schemas"]["ProductReview"] & {
     points: number;
 };
 
+/**
+ * Product document (manual, datasheet, certificate …). Not in the generated OpenAPI schema yet, so
+ * this is a minimal standalone type; `title` and `mediaId` are translated.
+ */
+export type ProductDocument = {
+    id: string;
+    productId: string;
+    position?: number;
+    title?: string;
+    mediaId?: string;
+    translations?: Record<string, { title?: string; mediaId?: string }>;
+};
+
 export type OrderDelivery = Omit<components["schemas"]["OrderDelivery"], "shippingOrderAddress" | "shippingCosts"> & {
     id: string;
     shippingOrderAddress: Partial<components["schemas"]["OrderAddress"]>;
