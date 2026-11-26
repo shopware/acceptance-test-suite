@@ -19,6 +19,9 @@ export type SalesChannelDomain = components["schemas"]["SalesChannelDomain"] & {
 export type Customer = Omit<components["schemas"]["Customer"], "defaultShippingAddress" | "defaultBillingAddress"> & {
     id: string;
     password: string;
+    accountType?: "private" | "business";
+    company?: string | null;
+    vatIds?: string[] | null;
     defaultShippingAddress: {
         firstName: string;
         lastName: string;
@@ -64,6 +67,7 @@ export interface Address {
     city: string;
     zipcode: string;
     country: string;
+    countryId?: string;
     state: string;
 }
 
@@ -172,8 +176,16 @@ export type Currency = components["schemas"]["Currency"] & {
     id: string;
 };
 
+export interface CompanyTax {
+    enabled: boolean;
+    currencyId: string;
+    amount: number;
+}
+
 export type Country = Omit<components["schemas"]["Country"], "states"> & {
     id: string;
+    companyTax: CompanyTax;
+    checkVatIdPattern: boolean;
     states: [
         {
             name: string;
@@ -181,6 +193,8 @@ export type Country = Omit<components["schemas"]["Country"], "states"> & {
         },
     ];
 };
+
+export type CountryRecord = Pick<Country, "id" | "companyTax" | "checkVatIdPattern">;
 
 export type SystemConfig = components["schemas"]["SystemConfig"] & {
     id: string;
