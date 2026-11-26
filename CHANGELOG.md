@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.28.0](https://github.com/shopware/acceptance-test-suite/compare/v12.27.0...v12.28.0) (2026-11-25)
+
+
+### Features
+
+* add product document support for acceptance tests ([#751](https://github.com/shopware/acceptance-test-suite/issues/751)) ([115fa6a](https://github.com/shopware/acceptance-test-suite/commit/115fa6a8969a89e79582c0ed971e494f2e9e9297))
+
 ## [12.27.0](https://github.com/shopware/acceptance-test-suite/compare/v12.26.0...v12.27.0) (2026-11-20)
 
 
